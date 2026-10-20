@@ -86,8 +86,14 @@ public sealed class OccurrenceCompositionStudy
     }
 
     public static OccurrenceCompositionStudy Build()
+        => Build(OccurrenceCompositionCases.Build(), includeScaling: true);
+
+    public static OccurrenceCompositionStudy BuildLandmarks()
+        => Build(new(LandmarkCompositionCases.Build().Cases), includeScaling: false);
+
+    private static OccurrenceCompositionStudy Build(OccurrenceCompositionCases cases, bool includeScaling)
     {
-        var cases = OccurrenceCompositionCases.Build(); var episodes = new List<Episode>();
+        var episodes = new List<Episode>();
         foreach (var example in cases.Cases)
         {
             var reads = example.Queries.Select(question =>
@@ -109,13 +115,29 @@ public sealed class OccurrenceCompositionStudy
         var first = cases.Cases[0]; var question = first.Queries.Last();
         var unsearched = new QualitativeMotifInduction(first.Source.Observation, maxCycleEdges: 4,
             proposalCapacity: 0, maxWalkEdges: 3, retainedCapacity: 1024);
-        Control[] controls = [
+        var controls = new List<Control> {
             new("No joint-search budget", "A complete motif inventory is insufficient if the compound assignments have not been searched.",
                 new(first.Source.Induction, question, assignmentCapacity: 0)),
             new("No motif-search budget", "Missing a motif in an unsearched inventory cannot establish absence.",
                 new(unsearched, question))
-        ];
-        return new(cases, episodes, controls, ScaleReads());
+        };
+        if (!includeScaling)
+        {
+            controls.Add(new("No correspondence-search budget",
+                "A whole-motif match does not establish which actual sites fill the selected pattern landmarks.",
+                new(first.Source.Induction, question, correspondenceCapacity: 0)));
+            var roles = question.Roles;
+            if (roles.Count < 2 || !CommunicationShape.TryRead(roles[1].PatternSurface, out var shape))
+                throw new InvalidOperationException("The landmark control requires two valid source-free role patterns.");
+            var open = new OccurrenceComposition.SiteSelection(roles[0], StructuralConstraint.Open());
+            var other = OccurrenceComposition.Select(roles[1], shape.Sites);
+            var incomplete = new OccurrenceComposition.Question("An unfinished landmark publication", roles,
+                sharedSelectedSites: S(OccurrenceComposition.Pair(open, other)));
+            controls.Add(new("Landmark selection not yet published",
+                "The selected site scope is open. Its missing detail is not an empty selection or a negative answer.",
+                new(first.Source.Induction, incomplete)));
+        }
+        return new(cases, episodes, controls, includeScaling ? ScaleReads() : []);
     }
 
     private static IReadOnlyList<Scale> ScaleReads()

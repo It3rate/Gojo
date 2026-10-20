@@ -1,0 +1,702 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gojo · Motifs and their connections</title><style>
+:root{--ink:#25434b;--muted:#657178;--paper:#f4f0e4;--line:#c7cbd0;--accent:#9c5739}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 system-ui,sans-serif}main{max-width:1400px;margin:auto;padding:35px 28px 70px}h1,h2,h3{font-family:Georgia,serif;font-weight:500;line-height:1.2}h1{font-size:44px;margin:12px 0}h2{font-size:30px}h3{font-size:23px;margin:10px 0}p{max-width:1000px}a{color:#27626e}button,select{font:inherit}button{padding:9px 14px;border:1px solid #8c9c93;border-radius:5px;background:#fffaf0;color:var(--ink);cursor:pointer}button[aria-pressed=true]{background:#25434b;color:white}button:hover{border-color:var(--accent)}.eyebrow{letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-size:13px}.intro{font-size:20px}.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0}.rule{border-top:3px solid #9c5739;padding:12px 15px;background:#fffaf0}.rule strong{display:block}.rule p{font-size:15px;margin:7px 0}.example{margin:40px 0;padding:24px;background:#fffdf5;border:1px solid var(--line);border-radius:8px;scroll-margin-top:15px}.example h2{margin:4px 0 12px}.purpose{color:var(--muted)}.steps{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}.steps button{font-size:15px}.question{border-left:4px solid #536d87;background:#eef1f4;padding:16px 20px;font-size:20px;min-height:110px}.question p{margin:3px 0}.question small{font-size:14px;color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0}.candidate{padding:17px;border:2px solid var(--line);background:#fffdf8;border-radius:5px;min-width:0}.candidate.only-retained{border-color:#496d95;border-top-width:5px}.candidate.retained{border-color:#758aa1}.candidate.excluded{border-style:dashed;border-color:#93989e}.candidate.unresolved{border-style:dotted;border-color:#93989e}.candidate .badge{display:inline-block;padding:5px 9px;margin-bottom:10px;border-radius:3px;background:#eef0f2;color:#414f5b;font-size:12px;letter-spacing:.045em;font-weight:700}.candidate.only-retained .badge,.candidate.retained .badge{background:#e5edf6;color:#294f76}.candidate.excluded .badge{background:repeating-linear-gradient(135deg,#edf0f2,#edf0f2 5px,#e3e7ea 5px,#e3e7ea 7px)}.candidate img{display:block;width:100%;height:auto;margin:14px 0}.candidate-answer{font-weight:650;margin:8px 0}.candidate-status{font-size:15px;margin:8px 0}.reason{font-size:14px;color:#46525c;margin:10px 0}.answer-history{table-layout:fixed;font-size:13px;margin:16px 0 5px}.answer-history caption{text-align:left;font-weight:650;padding-bottom:5px}.answer-history th,.answer-history td{padding:6px 4px;overflow-wrap:anywhere}.answer-history thead th{background:#f0f2f4;font-size:12px;font-weight:600}.answer-history tbody th{background:transparent}.answer-history th:first-child{width:12%}.answer-history th:nth-child(2),.answer-history th:nth-child(3){width:24%}.answer-history th:nth-child(4){width:40%}.answer-history .current{background:#f0f4f8}.history-difference{font-weight:700}.answer-scope{font-size:13px;color:var(--muted);margin:4px 0}.vocabulary{font-size:14px;color:var(--muted);padding-top:12px;border-top:1px solid var(--line);margin-top:15px}.source{padding:12px 18px;background:#f0eee4;border:1px dashed var(--line)}.source img{display:block;max-width:560px;width:100%;margin:12px auto}.finding{border-left:4px solid var(--accent);padding:7px 16px;color:#654a3b}.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.control{border:1px dashed #ad8d52;background:#f8f0de;padding:20px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:15px}th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line)}th{background:#e8e8da}.status{font-size:14px;color:var(--muted)}details{margin:15px 0}summary{cursor:pointer}code{overflow-wrap:anywhere}.limits li{margin:8px 0}footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:var(--muted);font-size:15px}
+@media(max-width:1000px){.rules{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:640px){main{padding:22px 14px 45px}h1{font-size:34px}.example{padding:15px}.rules,.cards,.controls{grid-template-columns:1fr}.question{padding:13px;font-size:18px}.steps button{max-width:100%;text-align:left}h2{font-size:26px}}
+</style></head><body><main>
+<div class="eyebrow">Gojo · pre-numeric structural experiments</div><h1 id="heading">A motif is only the beginning</h1>
+<p class="intro" id="intro">Can the same small motif vocabulary describe <em>copies and their relationships</em>? These cases separate a loop's existence from its multiplicity, shared corners, shared edges and path contacts.</p>
+<p id="mechanism">The engine reads native segments, shared-site identities and coarse directions. Questions request the illustrated motifs with their heading patterns, rather than every possible polygon or rotation. These are local analysis tests over exposed inventories; the pictures are illustrations made afterwards. Matching receives no pixels, screen coordinates or construction history.</p>
+<div class="rules" id="rules"><div class="rule"><strong>1 · Bind a role</strong><p>Find an actual occurrence of a supplied native motif.</p></div><div class="rule"><strong>2 · Keep copies distinct</strong><p>Different starts or reverse readings of one loop still use the same actual edges.</p></div><div class="rule"><strong>3 · Ask about sharing</strong><p>Require a shared site or edge, or require that selected roles stay disjoint.</p></div><div class="rule"><strong>4 · Preserve an open read</strong><p>Without enough search or the right evidence, do not turn “not found” into “No”.</p></div></div>
+<p><strong>Two separate reads:</strong> <em>Answer to this question</em> is the candidate's Yes, No or Open. The badge above each drawing says whether that candidate is <em>retained after all replies so far</em>. Blue emphasizes retained candidates; a dashed outline marks an exclusion. Answer values have no status colour. Each card shows the observed and candidate answers side by side, including any earlier difference. Solid copper dots mark actual joins; paired hollow purple dots mark separate identities at the same displayed position.</p>
+<div id="cases"></div>
+<h2>Incomplete-read controls</h2><p>These control reads should stay Open. Completing one stage does not supply unfinished assignments, correspondences or an unpublished selection.</p><div id="controls" class="controls"></div>
+<section id="scaling-section"><h2>Small scaling check</h2><p>These inputs contain separate identical triangle loops. Finding a pair can finish early. Proving that no pair shares a site needs more assignments. A small joint budget stops that search with an Open answer.</p>
+<p class="status">Each row is one local diagnostic run, after a warm-up. “Attempts” counts attempted role extensions, including rejected partial assignments. The budget does not bound motif induction or preparation. Timings exclude drawing and archive work; they are not a throughput benchmark.</p>
+<div class="table-wrap"><table id="scaling"><thead><tr><th>Loops</th><th>Question</th><th>Budget</th><th>Answer</th><th>Attempts</th><th>Inventory ms</th><th>Joint read ms</th></tr></thead><tbody></tbody></table></div></section>
+<h2>What this establishes—and what stays open</h2><ul id="limits" class="limits"></ul>
+<details><summary>Native archive and reproduction</summary><p id="native"></p><p><a id="archive-link" href="composition.gojo.json.gz">Full native study archive</a> · <a href="diagnostics.json">Derived report data</a> · <a id="documentation-link" href="../../../../Gojo/docs/GojoOccurrenceCompositionExperiments.md">Experiment explanation</a></p><p><code id="command">dotnet run --project experiments/QualitativeFrieze -c Release -- --occurrence-composition</code></p></details>
+<footer><a id="previous-link" href="../structural-evidence/gallery.html">Earlier single-motif question experiments</a> · No new kernel primitive, model fitting or cloud computation in this run.</footer>
+</main><script type="application/json" id="data">{
+  "schema": "landmark-composition-v1",
+  "presentation": {
+    "kind": "landmarks",
+    "title": "Gojo \u00B7 Connections at selected landmarks",
+    "heading": "Where do the parts meet?",
+    "intro": "Whole motifs can touch while their endpoints remain free. These cases refine the same contact question by selecting sites inside each native motif: an endpoint, an internal vertex, or a particular corner.",
+    "mechanism": "The selection contains actual site roles from a source-free pattern. Certified correspondences bind those roles to observed sites; explicit sharing constraints compare the selected identities. No measured coordinates, angle values or endpoint noun tags enter the matching law.",
+    "rules": [
+      {
+        "title": "1 \u00B7 Recognize the part",
+        "text": "Bind an actual occurrence of the supplied motif, preserving the valid whole-part read."
+      },
+      {
+        "title": "2 \u00B7 Select its landmarks",
+        "text": "Choose actual site roles within its native pattern, rather than a textual endpoint or corner label."
+      },
+      {
+        "title": "3 \u00B7 Compare actual sites",
+        "text": "Use the correspondence to test shared or disjoint selected identities. Equal screen positions do not join."
+      },
+      {
+        "title": "4 \u00B7 Preserve alternatives",
+        "text": "Search possible correspondences within an explicit budget; unfinished or unexposed detail remains Open."
+      }
+    ],
+    "archiveName": "composition.gojo.json.gz",
+    "documentation": "../../../../Gojo/docs/GojoLandmarkCompositionExperiments.md",
+    "command": "dotnet run --project experiments/QualitativeFrieze -c Release -- --landmark-composition",
+    "previousLink": "../occurrence-composition/gallery.html",
+    "previousLabel": "Earlier whole-motif composition experiments",
+    "scalingIntro": null
+  },
+  "cases": [
+    {
+      "id": "L01",
+      "name": "Contact somewhere is not endpoint contact",
+      "description": "A path can join a triangle at its internal site or at an endpoint. The whole-motif contact question accepts both. Selecting the endpoint placeholders in the same reusable path pattern rejects the middle-contact alternative. Coincident unjoined sites remain separate.",
+      "questionPurpose": "First read whole-motif contact, then refine the contact to the path\u0027s actual endpoint roles.",
+      "expectedAmbiguity": false,
+      "source": {
+        "name": "Loop joined at a path endpoint",
+        "image": "L01-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Loop joined at the path\u0027s internal site",
+          "image": "L01-candidate-0.svg",
+          "sites": 5,
+          "edges": 5,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 1,
+          "name": "Loop joined at a path endpoint",
+          "image": "L01-candidate-1.svg",
+          "sites": 5,
+          "edges": 5,
+          "earlierVocabulary": "Agrees"
+        },
+        {
+          "index": 2,
+          "name": "Coincident endpoint remains unjoined",
+          "image": "L01-candidate-2.svg",
+          "sites": 6,
+          "edges": 5,
+          "earlierVocabulary": "Differs"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1,
+            2
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Does a separate two-edge straight path share any site with a three-edge loop?",
+          "sourceAnswer": "Yes",
+          "attempts": 2,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 0,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "question": "Does an endpoint of that two-edge straight path join the three-edge loop?",
+          "sourceAnswer": "Yes",
+          "attempts": 2,
+          "correspondenceAttempts": 8,
+          "compatible": [
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 1,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 0,
+              "oppositions": 2,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L02",
+      "name": "A bridge must contact through both ends",
+      "description": "Both connected alternatives let a two-edge path touch two site-disjoint loops. One uses its internal site and one endpoint; the other uses both endpoints. Requiring the two separately selected endpoint roles to contact different loops distinguishes these structures in one joint assignment.",
+      "questionPurpose": "Keep the coarse three-role contact claim, then require each particular endpoint to join a different loop.",
+      "expectedAmbiguity": false,
+      "source": {
+        "name": "Two loops joined through both path endpoints, equal formal subdivision",
+        "image": "L02-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Two loops contacted by a path\u0027s middle and endpoint",
+          "image": "L02-candidate-0.svg",
+          "sites": 7,
+          "edges": 8,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 1,
+          "name": "Two loops joined through both path endpoints, equal formal subdivision",
+          "image": "L02-candidate-1.svg",
+          "sites": 7,
+          "edges": 8,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Does a two-edge path share a site with each of two site-disjoint three-edge loops?",
+          "sourceAnswer": "Yes",
+          "attempts": 4,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "question": "Does each different endpoint of that path join a different one of the two loops?",
+          "sourceAnswer": "Yes",
+          "attempts": 4,
+          "correspondenceAttempts": 26,
+          "compatible": [
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 1,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L03",
+      "name": "A corner can be specified without a coordinate",
+      "description": "The closed loop supplies four corner roles. The question selects the role where the loop\u0027s incident sides extend along the rightward and upward frame faces. Both alternatives have an endpoint join, but at different corners. The selected corner is a connected incidence-and-heading read, not a coordinate or corner-name tag.",
+      "questionPurpose": "Refine contact to one oriented corner using its actual pattern participant and local heading faces.",
+      "expectedAmbiguity": false,
+      "source": {
+        "name": "Path endpoint joins the rightward/upward loop corner",
+        "image": "L03-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Path endpoint joins the rightward/downward loop corner",
+          "image": "L03-candidate-0.svg",
+          "sites": 6,
+          "edges": 6,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 1,
+          "name": "Path endpoint joins the rightward/upward loop corner",
+          "image": "L03-candidate-1.svg",
+          "sites": 6,
+          "edges": 6,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Does the diagonal two-edge path share any site with a four-edge loop?",
+          "sourceAnswer": "Yes",
+          "attempts": 2,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "question": "Does a path endpoint join the loop corner whose two sides continue rightward and upward?",
+          "sourceAnswer": "Yes",
+          "attempts": 2,
+          "correspondenceAttempts": 10,
+          "compatible": [
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 1,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L04",
+      "name": "An internal site is not a measured midpoint",
+      "description": "These bridges use the same two endpoint joins. One divides its uncalibrated path reach into equal formal words; the other uses different formal words on its two edges. The advertised observations omit reach and calibration, so both answer the endpoint questions alike. The internal site is between the endpoints topologically; this vocabulary cannot certify that it is halfway between them.",
+      "questionPurpose": "Preserve endpoint agreement while leaving equal subdivision and measured midpoint undecided.",
+      "expectedAmbiguity": true,
+      "source": {
+        "name": "Two loops joined through both path endpoints, equal formal subdivision",
+        "image": "L04-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Two loops joined through both path endpoints, unequal formal subdivision",
+          "image": "L04-candidate-0.svg",
+          "sites": 7,
+          "edges": 8,
+          "earlierVocabulary": "Agrees"
+        },
+        {
+          "index": 1,
+          "name": "Two loops joined through both path endpoints, equal formal subdivision",
+          "image": "L04-candidate-1.svg",
+          "sites": 7,
+          "edges": 8,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Does a two-edge path share a site with each of two site-disjoint three-edge loops?",
+          "sourceAnswer": "Yes",
+          "attempts": 4,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "question": "Does each different endpoint of that path join a different one of the two loops?",
+          "sourceAnswer": "Yes",
+          "attempts": 4,
+          "correspondenceAttempts": 26,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "name": "No joint-search budget",
+      "purpose": "A complete motif inventory is insufficient if the compound assignments have not been searched.",
+      "answer": "Open",
+      "attempts": 0,
+      "correspondenceAttempts": 8,
+      "open": 1,
+      "blocked": 0
+    },
+    {
+      "name": "No motif-search budget",
+      "purpose": "Missing a motif in an unsearched inventory cannot establish absence.",
+      "answer": "Open",
+      "attempts": 0,
+      "correspondenceAttempts": 0,
+      "open": 1,
+      "blocked": 0
+    },
+    {
+      "name": "No correspondence-search budget",
+      "purpose": "A whole-motif match does not establish which actual sites fill the selected pattern landmarks.",
+      "answer": "Open",
+      "attempts": 0,
+      "correspondenceAttempts": 0,
+      "open": 1,
+      "blocked": 0
+    },
+    {
+      "name": "Landmark selection not yet published",
+      "purpose": "The selected site scope is open. Its missing detail is not an empty selection or a negative answer.",
+      "answer": "Open",
+      "attempts": 0,
+      "correspondenceAttempts": 0,
+      "open": 1,
+      "blocked": 0
+    }
+  ],
+  "scaling": [],
+  "nativeElements": 928776,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "buildMilliseconds": 858.2684,
+  "limits": [
+    "Questions are composed from supplied native motif definitions. This run does not learn new motifs, select questions statistically, or recognize pixels.",
+    "The reader observes an explicitly exposed local inventory. It does not implement a new private supplier/reply protocol; complete source assessments belong to this local analysis and audit fixture.",
+    "Distinct means different actual edge footprints. Multiple traversal starts or reverse readings of the same loop are not additional copies.",
+    "Two/three roles establish an existential lower bound, not an exact global count. A disjoint pair does not prove that the entire graph is disconnected.",
+    "Sharing uses actual site or edge identity. Coincident illustrative positions do not join, merge or duplicate participants.",
+    "Selected landmarks name native pattern site roles and resolve through certified correspondences. An internal path vertex is not necessarily a measured halfway point.",
+    "Selected-site sharing asks whether the two selected sets have at least one common site. Requiring both endpoints needs two singleton constraints in one assignment; an endpoint belongs to the selected path, not necessarily to the whole observation.",
+    "Each question independently searches occurrence assignments. Shared role slots across questions do not preserve a prior witness binding; simultaneous identity requirements belong in one compound question.",
+    "Correspondence enumeration has a separate native budget from role assignment. Exhaustion cannot certify absence; matching and inventory construction still require additional work.",
+    "A negative answer requires complete motif search within its supported grammar and exhausted compound assignments. An exhausted budget remains Open.",
+    "Connectivity and qualitative headings do not determine spacing, calibrated shape, an infinite repetition law, empty interiors or construction ancestry.",
+    "The assignment budget bounds attempted role extensions. Inventory induction, option construction, matching and allocation still incur work outside that budget. Timings are small local diagnostics, not throughput forecasts.",
+    "This is one layer of composition over motif occurrences, not arbitrary recursive concept discovery. No new kernel primitive or numeric geometric measurement is introduced."
+  ]
+}</script><script>
+'use strict'; const model=JSON.parse(document.getElementById('data').textContent);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const presentation=model.presentation||{};
+for(const [key,id] of [['heading','heading'],['intro','intro'],['mechanism','mechanism'],['command','command']])if(presentation[key])document.getElementById(id).textContent=presentation[key];
+if(presentation.title)document.title=presentation.title;
+if(presentation.rules)document.getElementById('rules').innerHTML=presentation.rules.map(r=>`<div class="rule"><strong>${esc(r.title)}</strong><p>${esc(r.text)}</p></div>`).join('');
+for(const [key,id] of [['archiveName','archive-link'],['documentation','documentation-link'],['previousLink','previous-link']])if(presentation[key])document.getElementById(id).setAttribute('href',presentation[key]);
+if(presentation.previousLabel)document.getElementById('previous-link').textContent=presentation.previousLabel;
+if(!(model.scaling||[]).length)document.getElementById('scaling-section').hidden=true;
+const findings={C01:'Existence alone loses multiplicity. Two distinct roles establish at least two loops; a third role can test the next lower bound. None of these claims gives an exact global count.',C02:'Two closed contours can remain distinct while sharing a corner. Sharing a site and reusing an edge are separate questions.',C03:'A shared edge is one actual participant reused by both loops. Two overlapping but separately drawn edges do not satisfy that question.',C04:'These examples differ at the path’s endpoint joins. The current query checks shared sites anywhere in each motif; it does not specifically require endpoints. A middle vertex could satisfy contact too.',C05:'The near and far arrangements remain possible. Spacing was removed from the exposed observation, so this reader has no evidence to prefer either.'};
+function render(example,index){const stage=example.stages[index],article=document.querySelector(`[data-case="${example.id}"]`);article.dataset.stage=index;
+ article.querySelectorAll('[data-step]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.step)===index)));
+ const work=stage.correspondenceAttempts>0?`${stage.attempts} role assignments and ${stage.correspondenceAttempts} landmark correspondence steps in the source read.`:`${stage.attempts} attempted role extensions in the source read.`;
+ const q=article.querySelector('.question');q.innerHTML=index===0?'<p><strong>Start: no compound questions yet</strong></p><p>No observed facts have been requested. All supplied alternatives are untested.</p>':`<p><strong>Current question: ${esc(stage.question)}</strong></p><p>Observed answer: <strong>${esc(stage.sourceAnswer)}</strong></p><p class="answer-scope">After all ${index} repl${index===1?'y':'ies'}: ${stage.compatible.length} candidate${stage.compatible.length===1?' is':'s are'} retained.</p><small>${work} Earlier replies remain part of the comparison.</small>`;
+ article.querySelector('.cards').innerHTML=example.candidates.map(candidate=>{
+  const read=stage.reads.find(r=>r.index===candidate.index),resolved=index>0&&stage.compatible.length===1&&read.isSettled&&read.isCompatible;
+  const earlier=example.stages.slice(1,index+1);
+  const mismatch=earlier.find(s=>{const a=s.reads.find(r=>r.index===candidate.index).answer;return ['Yes','No'].includes(a)&&['Yes','No'].includes(s.sourceAnswer)&&a!==s.sourceAnswer});
+  const cls=index===0?'untested':!read.isCompatible?'excluded':!read.isSettled?'unresolved':resolved?'only-retained':'retained';
+  const badge=index===0?'UNTESTED':!read.isCompatible?`EXCLUDED${mismatch?` AT STEP ${mismatch.index}`:''}`:!read.isSettled?'UNRESOLVED':resolved?'ONLY RETAINED CANDIDATE':'RETAINED';
+  const status=index===0?'No replies compared yet.':!read.isCompatible?'An earlier or current reply excludes this candidate.':!read.isSettled?'Retained provisionally; some evidence remains open.':resolved?'Agrees with all replies received; no alternative remains.':'Agrees with all replies received.';
+  const currentAgrees=index>0&&['Yes','No'].includes(read.answer)&&read.answer===stage.sourceAnswer;
+  const reason=mismatch?`<p class="reason">Step ${mismatch.index} excludes it: observed <strong>${esc(mismatch.sourceAnswer)}</strong>, candidate <strong>${esc(mismatch.reads.find(r=>r.index===candidate.index).answer)}</strong>.${mismatch.index<index&&currentAgrees?' Its answer agrees at this step; the earlier difference still excludes it.':''}</p>`:'';
+  const history=earlier.length?`<table class="answer-history"><caption>Replies compared so far</caption><thead><tr><th scope="col">Step</th><th scope="col">Observed</th><th scope="col">Candidate</th><th scope="col">Comparison</th></tr></thead><tbody>${earlier.map(s=>{const a=s.reads.find(r=>r.index===candidate.index).answer;const known=['Yes','No'].includes(a)&&['Yes','No'].includes(s.sourceAnswer),same=known&&a===s.sourceAnswer;return `<tr class="${s.index===index?'current ':''}${known&&!same?'history-difference':''}" data-history-step="${s.index}"><th scope="row" title="${esc(s.question)}">${s.index}</th><td>${esc(s.sourceAnswer)}</td><td>${esc(a)}</td><td>${known?(same?'Agrees':'Differs'):'Open'}</td></tr>`}).join('')}</tbody></table>`:'';
+  const label=candidate.name;
+  return `<div class="candidate ${cls}" data-candidate="${candidate.index}" data-status="${cls}"><div class="badge">${esc(badge)}</div><h3>${candidate.index+1}. ${esc(label)}</h3><img src="${esc(candidate.image)}" alt="${esc(label)}"><p class="candidate-answer">Answer to this question: <strong>${index===0?'Not yet asked':esc(read.answer)}</strong></p><p class="candidate-status">${esc(status)}</p>${reason}${history}<div class="vocabulary">Earlier existential motif vocabulary: <strong>${esc(candidate.earlierVocabulary)}</strong>.<br>This compares presence of local motif types, not how many copies exist.</div></div>`}).join('');
+ article.querySelector('.finding').textContent=index===example.stages.length-1?(example.finding||findings[example.id]||example.questionPurpose):'Step through the questions to inspect which distinctions become justified.';}
+document.getElementById('cases').innerHTML=model.cases.map(example=>`<article class="example" data-case="${esc(example.id)}"><div class="eyebrow">${esc(example.id)} · ${example.expectedAmbiguity?'expected ambiguity':'structural distinction'}</div><h2>${esc(example.name)}</h2><p>${esc(example.description)}</p><p class="purpose">${esc(example.questionPurpose)}</p><div class="steps">${example.stages.map((s,i)=>`<button data-step="${i}" aria-pressed="false">${i===0?'0 · Start':`${i} · ${esc(s.question)}`}</button>`).join('')}</div><div class="question" aria-live="polite"></div><div class="cards"></div><p class="finding"></p><details class="source"><summary>Inspect the source after the read</summary><p>${esc(example.source.name)}. This independently executed sample supplied the source answers.</p><img src="${esc(example.source.image)}" alt="${esc(example.source.name)}"></details></article>`).join('');
+for(const example of model.cases){const article=document.querySelector(`[data-case="${example.id}"]`);article.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>render(example,Number(b.dataset.step)));render(example,example.stages.length-1);}
+document.getElementById('controls').innerHTML=model.controls.map(c=>`<article class="control"><h3>${esc(c.name)}</h3><p>Answer: <strong>${esc(c.answer)}</strong> · ${c.attempts} role extensions${c.correspondenceAttempts>0?` · ${c.correspondenceAttempts} correspondence steps`:''}</p><p>${esc(c.purpose)}</p></article>`).join('');
+document.querySelector('#scaling tbody').innerHTML=model.scaling.map(r=>`<tr><td>${r.copies}</td><td>${esc(r.question)}</td><td>${r.assignmentCapacity}</td><td>${esc(r.answer)}</td><td>${r.attempts}</td><td>${r.inductionMilliseconds.toFixed(3)}</td><td>${r.jointMilliseconds.toFixed(3)}</td></tr>`).join('');
+document.getElementById('limits').innerHTML=model.limits.map(s=>`<li>${esc(s)}</li>`).join('');document.getElementById('native').textContent=`${model.nativeElements.toLocaleString()} native participants, ${model.nativeNumericElements} measured numeric participants; complete archive restored. Study build ${model.buildMilliseconds.toFixed(1)} ms, including execution, inventory reads, comparisons and scaling diagnostics; excludes presentation and archive.`;
+const requested=new URLSearchParams(location.search).get('case');if(requested){const target=[...document.querySelectorAll('[data-case]')].find(e=>e.dataset.case===requested);if(target)target.scrollIntoView();}
+</script></body></html>

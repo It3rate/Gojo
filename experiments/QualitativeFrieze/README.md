@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [landmark-composition gallery](results/landmark-composition/gallery.html)
+refines whole-motif contact into endpoint and selected-corner contact, while
+keeping an internal vertex distinct from an equal-distance midpoint. Both
+composition galleries show plain answers and separate retention badges with a
+per-question comparison history. Read the
+[landmark study](../../Gojo/docs/GojoLandmarkCompositionExperiments.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --landmark-composition
+node experiments/QualitativeFrieze/tools/check-occurrence-composition.cjs experiments/QualitativeFrieze/results/landmark-composition/gallery.html
+```
+
 The [occurrence-composition gallery](results/occurrence-composition/gallery.html)
 tests the next layer above individual motifs: distinct loop footprints, shared
 corners and edges, and a separate path contacting two contours. It also

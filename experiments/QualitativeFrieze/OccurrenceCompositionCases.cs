@@ -39,7 +39,7 @@ public sealed class OccurrenceCompositionCases
 
     public IReadOnlyList<Case> Cases { get; }
     public Relation Surface { get; }
-    private OccurrenceCompositionCases(IReadOnlyList<Case> cases)
+    internal OccurrenceCompositionCases(IReadOnlyList<Case> cases)
     { Cases = cases; Surface = S(cases.Select(item => (IElement)item.Surface).ToArray()); }
 
     public static OccurrenceCompositionCases Build()
@@ -124,7 +124,9 @@ public sealed class OccurrenceCompositionCases
         if (count < 1 || gap < 3) throw new ArgumentOutOfRangeException(nameof(count));
         var author = new LatticeLadderAuthor();
         var paths = Enumerable.Range(0, count).Select(index => TrianglePath(author, index * gap)).ToArray();
-        return Execute($"{count} separate triangle contours", author, paths, paths, []);
+        var caption = count switch { 1 => "One triangle contour", 2 => "Two separate triangle contours",
+            3 => "Three separate triangle contours", _ => $"{count} separate triangle contours" };
+        return Execute(caption, author, paths, paths, []);
     }
 
     /// <summary>Coincident placement remains separate identity: no join is

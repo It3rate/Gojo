@@ -1,0 +1,650 @@
+{
+  "schema": "landmark-composition-v1",
+  "presentation": {
+    "kind": "landmarks",
+    "title": "Gojo \u00B7 Connections at selected landmarks",
+    "heading": "Where do the parts meet?",
+    "intro": "Whole motifs can touch while their endpoints remain free. These cases refine the same contact question by selecting sites inside each native motif: an endpoint, an internal vertex, or a particular corner.",
+    "mechanism": "The selection contains actual site roles from a source-free pattern. Certified correspondences bind those roles to observed sites; explicit sharing constraints compare the selected identities. No measured coordinates, angle values or endpoint noun tags enter the matching law.",
+    "rules": [
+      {
+        "title": "1 \u00B7 Recognize the part",
+        "text": "Bind an actual occurrence of the supplied motif, preserving the valid whole-part read."
+      },
+      {
+        "title": "2 \u00B7 Select its landmarks",
+        "text": "Choose actual site roles within its native pattern, rather than a textual endpoint or corner label."
+      },
+      {
+        "title": "3 \u00B7 Compare actual sites",
+        "text": "Use the correspondence to test shared or disjoint selected identities. Equal screen positions do not join."
+      },
+      {
+        "title": "4 \u00B7 Preserve alternatives",
+        "text": "Search possible correspondences within an explicit budget; unfinished or unexposed detail remains Open."
+      }
+    ],
+    "archiveName": "composition.gojo.json.gz",
+    "documentation": "../../../../Gojo/docs/GojoLandmarkCompositionExperiments.md",
+    "command": "dotnet run --project experiments/QualitativeFrieze -c Release -- --landmark-composition",
+    "previousLink": "../occurrence-composition/gallery.html",
+    "previousLabel": "Earlier whole-motif composition experiments",
+    "scalingIntro": null
+  },
+  "cases": [
+    {
+      "id": "L01",
+      "name": "Contact somewhere is not endpoint contact",
+      "description": "A path can join a triangle at its internal site or at an endpoint. The whole-motif contact question accepts both. Selecting the endpoint placeholders in the same reusable path pattern rejects the middle-contact alternative. Coincident unjoined sites remain separate.",
+      "questionPurpose": "First read whole-motif contact, then refine the contact to the path\u0027s actual endpoint roles.",
+      "expectedAmbiguity": false,
+      "source": {
+        "name": "Loop joined at a path endpoint",
+        "image": "L01-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Loop joined at the path\u0027s internal site",
+          "image": "L01-candidate-0.svg",
+          "sites": 5,
+          "edges": 5,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 1,
+          "name": "Loop joined at a path endpoint",
+          "image": "L01-candidate-1.svg",
+          "sites": 5,
+          "edges": 5,
+          "earlierVocabulary": "Agrees"
+        },
+        {
+          "index": 2,
+          "name": "Coincident endpoint remains unjoined",
+          "image": "L01-candidate-2.svg",
+          "sites": 6,
+          "edges": 5,
+          "earlierVocabulary": "Differs"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1,
+            2
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Does a separate two-edge straight path share any site with a three-edge loop?",
+          "sourceAnswer": "Yes",
+          "attempts": 2,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 0,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "question": "Does an endpoint of that two-edge straight path join the three-edge loop?",
+          "sourceAnswer": "Yes",
+          "attempts": 2,
+          "correspondenceAttempts": 8,
+          "compatible": [
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 1,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 0,
+              "oppositions": 2,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L02",
+      "name": "A bridge must contact through both ends",
+      "description": "Both connected alternatives let a two-edge path touch two site-disjoint loops. One uses its internal site and one endpoint; the other uses both endpoints. Requiring the two separately selected endpoint roles to contact different loops distinguishes these structures in one joint assignment.",
+      "questionPurpose": "Keep the coarse three-role contact claim, then require each particular endpoint to join a different loop.",
+      "expectedAmbiguity": false,
+      "source": {
+        "name": "Two loops joined through both path endpoints, equal formal subdivision",
+        "image": "L02-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Two loops contacted by a path\u0027s middle and endpoint",
+          "image": "L02-candidate-0.svg",
+          "sites": 7,
+          "edges": 8,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 1,
+          "name": "Two loops joined through both path endpoints, equal formal subdivision",
+          "image": "L02-candidate-1.svg",
+          "sites": 7,
+          "edges": 8,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Does a two-edge path share a site with each of two site-disjoint three-edge loops?",
+          "sourceAnswer": "Yes",
+          "attempts": 4,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "question": "Does each different endpoint of that path join a different one of the two loops?",
+          "sourceAnswer": "Yes",
+          "attempts": 4,
+          "correspondenceAttempts": 26,
+          "compatible": [
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 1,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L03",
+      "name": "A corner can be specified without a coordinate",
+      "description": "The closed loop supplies four corner roles. The question selects the role where the loop\u0027s incident sides extend along the rightward and upward frame faces. Both alternatives have an endpoint join, but at different corners. The selected corner is a connected incidence-and-heading read, not a coordinate or corner-name tag.",
+      "questionPurpose": "Refine contact to one oriented corner using its actual pattern participant and local heading faces.",
+      "expectedAmbiguity": false,
+      "source": {
+        "name": "Path endpoint joins the rightward/upward loop corner",
+        "image": "L03-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Path endpoint joins the rightward/downward loop corner",
+          "image": "L03-candidate-0.svg",
+          "sites": 6,
+          "edges": 6,
+          "earlierVocabulary": "Differs"
+        },
+        {
+          "index": 1,
+          "name": "Path endpoint joins the rightward/upward loop corner",
+          "image": "L03-candidate-1.svg",
+          "sites": 6,
+          "edges": 6,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Does the diagonal two-edge path share any site with a four-edge loop?",
+          "sourceAnswer": "Yes",
+          "attempts": 2,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "question": "Does a path endpoint join the loop corner whose two sides continue rightward and upward?",
+          "sourceAnswer": "Yes",
+          "attempts": 2,
+          "correspondenceAttempts": 10,
+          "compatible": [
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": false,
+              "isSettled": false,
+              "answer": "No",
+              "agreements": 1,
+              "oppositions": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L04",
+      "name": "An internal site is not a measured midpoint",
+      "description": "These bridges use the same two endpoint joins. One divides its uncalibrated path reach into equal formal words; the other uses different formal words on its two edges. The advertised observations omit reach and calibration, so both answer the endpoint questions alike. The internal site is between the endpoints topologically; this vocabulary cannot certify that it is halfway between them.",
+      "questionPurpose": "Preserve endpoint agreement while leaving equal subdivision and measured midpoint undecided.",
+      "expectedAmbiguity": true,
+      "source": {
+        "name": "Two loops joined through both path endpoints, equal formal subdivision",
+        "image": "L04-source.svg"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Two loops joined through both path endpoints, unequal formal subdivision",
+          "image": "L04-candidate-0.svg",
+          "sites": 7,
+          "edges": 8,
+          "earlierVocabulary": "Agrees"
+        },
+        {
+          "index": 1,
+          "name": "Two loops joined through both path endpoints, equal formal subdivision",
+          "image": "L04-candidate-1.svg",
+          "sites": 7,
+          "edges": 8,
+          "earlierVocabulary": "Agrees"
+        }
+      ],
+      "stages": [
+        {
+          "index": 0,
+          "question": null,
+          "sourceAnswer": null,
+          "attempts": 0,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": null,
+              "agreements": 0,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "question": "Does a two-edge path share a site with each of two site-disjoint three-edge loops?",
+          "sourceAnswer": "Yes",
+          "attempts": 4,
+          "correspondenceAttempts": 0,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 1,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "question": "Does each different endpoint of that path join a different one of the two loops?",
+          "sourceAnswer": "Yes",
+          "attempts": 4,
+          "correspondenceAttempts": 26,
+          "compatible": [
+            0,
+            1
+          ],
+          "reads": [
+            {
+              "index": 0,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "isCompatible": true,
+              "isSettled": true,
+              "answer": "Yes",
+              "agreements": 2,
+              "oppositions": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "name": "No joint-search budget",
+      "purpose": "A complete motif inventory is insufficient if the compound assignments have not been searched.",
+      "answer": "Open",
+      "attempts": 0,
+      "correspondenceAttempts": 8,
+      "open": 1,
+      "blocked": 0
+    },
+    {
+      "name": "No motif-search budget",
+      "purpose": "Missing a motif in an unsearched inventory cannot establish absence.",
+      "answer": "Open",
+      "attempts": 0,
+      "correspondenceAttempts": 0,
+      "open": 1,
+      "blocked": 0
+    },
+    {
+      "name": "No correspondence-search budget",
+      "purpose": "A whole-motif match does not establish which actual sites fill the selected pattern landmarks.",
+      "answer": "Open",
+      "attempts": 0,
+      "correspondenceAttempts": 0,
+      "open": 1,
+      "blocked": 0
+    },
+    {
+      "name": "Landmark selection not yet published",
+      "purpose": "The selected site scope is open. Its missing detail is not an empty selection or a negative answer.",
+      "answer": "Open",
+      "attempts": 0,
+      "correspondenceAttempts": 0,
+      "open": 1,
+      "blocked": 0
+    }
+  ],
+  "scaling": [],
+  "nativeElements": 928776,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "buildMilliseconds": 858.2684,
+  "limits": [
+    "Questions are composed from supplied native motif definitions. This run does not learn new motifs, select questions statistically, or recognize pixels.",
+    "The reader observes an explicitly exposed local inventory. It does not implement a new private supplier/reply protocol; complete source assessments belong to this local analysis and audit fixture.",
+    "Distinct means different actual edge footprints. Multiple traversal starts or reverse readings of the same loop are not additional copies.",
+    "Two/three roles establish an existential lower bound, not an exact global count. A disjoint pair does not prove that the entire graph is disconnected.",
+    "Sharing uses actual site or edge identity. Coincident illustrative positions do not join, merge or duplicate participants.",
+    "Selected landmarks name native pattern site roles and resolve through certified correspondences. An internal path vertex is not necessarily a measured halfway point.",
+    "Selected-site sharing asks whether the two selected sets have at least one common site. Requiring both endpoints needs two singleton constraints in one assignment; an endpoint belongs to the selected path, not necessarily to the whole observation.",
+    "Each question independently searches occurrence assignments. Shared role slots across questions do not preserve a prior witness binding; simultaneous identity requirements belong in one compound question.",
+    "Correspondence enumeration has a separate native budget from role assignment. Exhaustion cannot certify absence; matching and inventory construction still require additional work.",
+    "A negative answer requires complete motif search within its supported grammar and exhausted compound assignments. An exhausted budget remains Open.",
+    "Connectivity and qualitative headings do not determine spacing, calibrated shape, an infinite repetition law, empty interiors or construction ancestry.",
+    "The assignment budget bounds attempted role extensions. Inventory induction, option construction, matching and allocation still incur work outside that budget. Timings are small local diagnostics, not throughput forecasts.",
+    "This is one layer of composition over motif occurrences, not arbitrary recursive concept discovery. No new kernel primitive or numeric geometric measurement is introduced."
+  ]
+}

@@ -1,5 +1,6 @@
 {
   "schema": "occurrence-composition-v1",
+  "presentation": null,
   "cases": [
     {
       "id": "C01",
@@ -8,13 +9,13 @@
       "questionPurpose": "Confirm the motif, require two distinct footprints, then test the three-occurrence alternative.",
       "expectedAmbiguity": false,
       "source": {
-        "name": "2 separate triangle contours",
+        "name": "Two separate triangle contours",
         "image": "C01-source.svg"
       },
       "candidates": [
         {
           "index": 0,
-          "name": "1 separate triangle contours",
+          "name": "One triangle contour",
           "image": "C01-candidate-0.svg",
           "sites": 3,
           "edges": 3,
@@ -22,7 +23,7 @@
         },
         {
           "index": 1,
-          "name": "2 separate triangle contours",
+          "name": "Two separate triangle contours",
           "image": "C01-candidate-1.svg",
           "sites": 6,
           "edges": 6,
@@ -30,7 +31,7 @@
         },
         {
           "index": 2,
-          "name": "3 separate triangle contours",
+          "name": "Three separate triangle contours",
           "image": "C01-candidate-2.svg",
           "sites": 9,
           "edges": 9,
@@ -43,6 +44,7 @@
           "question": null,
           "sourceAnswer": null,
           "attempts": 0,
+          "correspondenceAttempts": 0,
           "compatible": [
             0,
             1,
@@ -86,6 +88,7 @@
           "question": "Does a closed three-edge loop exist?",
           "sourceAnswer": "Yes",
           "attempts": 1,
+          "correspondenceAttempts": 0,
           "compatible": [
             0,
             1,
@@ -129,6 +132,7 @@
           "question": "Are there at least two distinct closed three-edge loops?",
           "sourceAnswer": "Yes",
           "attempts": 3,
+          "correspondenceAttempts": 0,
           "compatible": [
             1,
             2
@@ -171,6 +175,7 @@
           "question": "Are there at least three distinct closed three-edge loops?",
           "sourceAnswer": "No",
           "attempts": 10,
+          "correspondenceAttempts": 0,
           "compatible": [
             1
           ],
@@ -251,6 +256,7 @@
           "question": null,
           "sourceAnswer": null,
           "attempts": 0,
+          "correspondenceAttempts": 0,
           "compatible": [
             0,
             1,
@@ -294,6 +300,7 @@
           "question": "Do two distinct four-edge loops share a site without sharing an edge?",
           "sourceAnswer": "Yes",
           "attempts": 3,
+          "correspondenceAttempts": 0,
           "compatible": [
             2
           ],
@@ -374,6 +381,7 @@
           "question": null,
           "sourceAnswer": null,
           "attempts": 0,
+          "correspondenceAttempts": 0,
           "compatible": [
             0,
             1,
@@ -417,6 +425,7 @@
           "question": "Do two distinct four-edge loops share an actual edge?",
           "sourceAnswer": "Yes",
           "attempts": 3,
+          "correspondenceAttempts": 0,
           "compatible": [
             2
           ],
@@ -489,6 +498,7 @@
           "question": null,
           "sourceAnswer": null,
           "attempts": 0,
+          "correspondenceAttempts": 0,
           "compatible": [
             0,
             1
@@ -521,6 +531,7 @@
           "question": "Does a separate two-edge path share a site with each of two site-disjoint four-edge loops?",
           "sourceAnswer": "Yes",
           "attempts": 5,
+          "correspondenceAttempts": 0,
           "compatible": [
             1
           ],
@@ -556,13 +567,13 @@
       "questionPurpose": "Keep the coarse two-motif read and preserve the unasked arrangement ambiguity.",
       "expectedAmbiguity": true,
       "source": {
-        "name": "2 separate triangle contours",
+        "name": "Two separate triangle contours",
         "image": "C05-source.svg"
       },
       "candidates": [
         {
           "index": 0,
-          "name": "2 separate triangle contours",
+          "name": "Two separate triangle contours",
           "image": "C05-candidate-0.svg",
           "sites": 6,
           "edges": 6,
@@ -570,7 +581,7 @@
         },
         {
           "index": 1,
-          "name": "2 separate triangle contours",
+          "name": "Two separate triangle contours",
           "image": "C05-candidate-1.svg",
           "sites": 6,
           "edges": 6,
@@ -583,6 +594,7 @@
           "question": null,
           "sourceAnswer": null,
           "attempts": 0,
+          "correspondenceAttempts": 0,
           "compatible": [
             0,
             1
@@ -615,6 +627,7 @@
           "question": "Are two distinct three-edge loops site-disjoint?",
           "sourceAnswer": "Yes",
           "attempts": 3,
+          "correspondenceAttempts": 0,
           "compatible": [
             0,
             1
@@ -651,6 +664,7 @@
       "purpose": "A complete motif inventory is insufficient if the compound assignments have not been searched.",
       "answer": "Open",
       "attempts": 0,
+      "correspondenceAttempts": 0,
       "open": 1,
       "blocked": 0
     },
@@ -659,6 +673,7 @@
       "purpose": "Missing a motif in an unsearched inventory cannot establish absence.",
       "answer": "Open",
       "attempts": 0,
+      "correspondenceAttempts": 0,
       "open": 1,
       "blocked": 0
     }
@@ -672,8 +687,8 @@
       "assignmentCapacity": 8,
       "answer": "No",
       "attempts": 2,
-      "inductionMilliseconds": 0.5968,
-      "jointMilliseconds": 0.6503
+      "inductionMilliseconds": 0.4184,
+      "jointMilliseconds": 0.5262
     },
     {
       "copies": 1,
@@ -683,8 +698,8 @@
       "assignmentCapacity": 4096,
       "answer": "No",
       "attempts": 2,
-      "inductionMilliseconds": 0.5968,
-      "jointMilliseconds": 0.9319
+      "inductionMilliseconds": 0.4184,
+      "jointMilliseconds": 0.6802
     },
     {
       "copies": 1,
@@ -694,8 +709,8 @@
       "assignmentCapacity": 8,
       "answer": "No",
       "attempts": 2,
-      "inductionMilliseconds": 0.5968,
-      "jointMilliseconds": 0.856
+      "inductionMilliseconds": 0.4184,
+      "jointMilliseconds": 0.4098
     },
     {
       "copies": 1,
@@ -705,8 +720,8 @@
       "assignmentCapacity": 4096,
       "answer": "No",
       "attempts": 2,
-      "inductionMilliseconds": 0.5968,
-      "jointMilliseconds": 1.1285
+      "inductionMilliseconds": 0.4184,
+      "jointMilliseconds": 0.6102
     },
     {
       "copies": 2,
@@ -716,8 +731,8 @@
       "assignmentCapacity": 8,
       "answer": "Yes",
       "attempts": 3,
-      "inductionMilliseconds": 0.5999,
-      "jointMilliseconds": 0.7172
+      "inductionMilliseconds": 0.5066,
+      "jointMilliseconds": 0.5737
     },
     {
       "copies": 2,
@@ -727,8 +742,8 @@
       "assignmentCapacity": 4096,
       "answer": "Yes",
       "attempts": 3,
-      "inductionMilliseconds": 0.5999,
-      "jointMilliseconds": 0.8932
+      "inductionMilliseconds": 0.5066,
+      "jointMilliseconds": 0.7167
     },
     {
       "copies": 2,
@@ -738,8 +753,8 @@
       "assignmentCapacity": 8,
       "answer": "No",
       "attempts": 6,
-      "inductionMilliseconds": 0.5999,
-      "jointMilliseconds": 0.548
+      "inductionMilliseconds": 0.5066,
+      "jointMilliseconds": 0.5076
     },
     {
       "copies": 2,
@@ -749,8 +764,8 @@
       "assignmentCapacity": 4096,
       "answer": "No",
       "attempts": 6,
-      "inductionMilliseconds": 0.5999,
-      "jointMilliseconds": 0.8197
+      "inductionMilliseconds": 0.5066,
+      "jointMilliseconds": 0.7235
     },
     {
       "copies": 4,
@@ -760,8 +775,8 @@
       "assignmentCapacity": 8,
       "answer": "Yes",
       "attempts": 3,
-      "inductionMilliseconds": 0.9413,
-      "jointMilliseconds": 0.7269
+      "inductionMilliseconds": 0.6562,
+      "jointMilliseconds": 0.7741
     },
     {
       "copies": 4,
@@ -771,8 +786,8 @@
       "assignmentCapacity": 4096,
       "answer": "Yes",
       "attempts": 3,
-      "inductionMilliseconds": 0.9413,
-      "jointMilliseconds": 0.8765
+      "inductionMilliseconds": 0.6562,
+      "jointMilliseconds": 0.9835
     },
     {
       "copies": 4,
@@ -782,8 +797,8 @@
       "assignmentCapacity": 8,
       "answer": "Open",
       "attempts": 8,
-      "inductionMilliseconds": 0.9413,
-      "jointMilliseconds": 3.6643
+      "inductionMilliseconds": 0.6562,
+      "jointMilliseconds": 5.0216
     },
     {
       "copies": 4,
@@ -793,8 +808,8 @@
       "assignmentCapacity": 4096,
       "answer": "No",
       "attempts": 20,
-      "inductionMilliseconds": 0.9413,
-      "jointMilliseconds": 0.9275
+      "inductionMilliseconds": 0.6562,
+      "jointMilliseconds": 1.0947
     },
     {
       "copies": 8,
@@ -804,8 +819,8 @@
       "assignmentCapacity": 8,
       "answer": "Yes",
       "attempts": 3,
-      "inductionMilliseconds": 0.9899,
-      "jointMilliseconds": 1.7238
+      "inductionMilliseconds": 2.2142,
+      "jointMilliseconds": 2.7042
     },
     {
       "copies": 8,
@@ -815,8 +830,8 @@
       "assignmentCapacity": 4096,
       "answer": "Yes",
       "attempts": 3,
-      "inductionMilliseconds": 0.9899,
-      "jointMilliseconds": 1.4778
+      "inductionMilliseconds": 2.2142,
+      "jointMilliseconds": 7.801
     },
     {
       "copies": 8,
@@ -826,8 +841,8 @@
       "assignmentCapacity": 8,
       "answer": "Open",
       "attempts": 8,
-      "inductionMilliseconds": 0.9899,
-      "jointMilliseconds": 4.4187
+      "inductionMilliseconds": 2.2142,
+      "jointMilliseconds": 3.7686
     },
     {
       "copies": 8,
@@ -837,8 +852,8 @@
       "assignmentCapacity": 4096,
       "answer": "No",
       "attempts": 72,
-      "inductionMilliseconds": 0.9899,
-      "jointMilliseconds": 2.4149
+      "inductionMilliseconds": 2.2142,
+      "jointMilliseconds": 3.6369
     },
     {
       "copies": 16,
@@ -848,8 +863,8 @@
       "assignmentCapacity": 8,
       "answer": "Yes",
       "attempts": 3,
-      "inductionMilliseconds": 2.8733,
-      "jointMilliseconds": 4.34
+      "inductionMilliseconds": 2.3216,
+      "jointMilliseconds": 4.9447
     },
     {
       "copies": 16,
@@ -859,8 +874,8 @@
       "assignmentCapacity": 4096,
       "answer": "Yes",
       "attempts": 3,
-      "inductionMilliseconds": 2.8733,
-      "jointMilliseconds": 1.5954
+      "inductionMilliseconds": 2.3216,
+      "jointMilliseconds": 1.403
     },
     {
       "copies": 16,
@@ -870,8 +885,8 @@
       "assignmentCapacity": 8,
       "answer": "Open",
       "attempts": 8,
-      "inductionMilliseconds": 2.8733,
-      "jointMilliseconds": 2.3192
+      "inductionMilliseconds": 2.3216,
+      "jointMilliseconds": 2.3323
     },
     {
       "copies": 16,
@@ -881,20 +896,24 @@
       "assignmentCapacity": 4096,
       "answer": "No",
       "attempts": 272,
-      "inductionMilliseconds": 2.8733,
-      "jointMilliseconds": 4.8159
+      "inductionMilliseconds": 2.3216,
+      "jointMilliseconds": 3.8951
     }
   ],
-  "nativeElements": 841295,
+  "nativeElements": 841606,
   "nativeNumericElements": 0,
   "archiveRoundTrip": true,
-  "buildMilliseconds": 1192.3093,
+  "buildMilliseconds": 1383.0451,
   "limits": [
     "Questions are composed from supplied native motif definitions. This run does not learn new motifs, select questions statistically, or recognize pixels.",
     "The reader observes an explicitly exposed local inventory. It does not implement a new private supplier/reply protocol; complete source assessments belong to this local analysis and audit fixture.",
     "Distinct means different actual edge footprints. Multiple traversal starts or reverse readings of the same loop are not additional copies.",
     "Two/three roles establish an existential lower bound, not an exact global count. A disjoint pair does not prove that the entire graph is disconnected.",
     "Sharing uses actual site or edge identity. Coincident illustrative positions do not join, merge or duplicate participants.",
+    "The original questions compare whole-motif footprints. Endpoint-specific attachments require the separate landmark extension.",
+    "Repeating a role or query does not itself establish an independent physical occurrence.",
+    "Each question independently searches occurrence assignments. Shared role slots across questions do not preserve a prior witness binding; simultaneous identity requirements belong in one compound question.",
+    "Original questions retain their whole-footprint matching path and do not spend landmark correspondence budget.",
     "A negative answer requires complete motif search within its supported grammar and exhausted compound assignments. An exhausted budget remains Open.",
     "Connectivity and qualitative headings do not determine spacing, calibrated shape, an infinite repetition law, empty interiors or construction ancestry.",
     "The assignment budget bounds attempted role extensions. Inventory induction, option construction, matching and allocation still incur work outside that budget. Timings are small local diagnostics, not throughput forecasts.",

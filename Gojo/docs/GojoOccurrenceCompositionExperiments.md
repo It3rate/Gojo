@@ -110,8 +110,9 @@ for multiplicity. No training or learned question-selection policy runs here.
 
 ## Bounded work and local measurements
 
-The saved run builds the cases, reads and scaling diagnostics in approximately
-1.19 seconds. This includes generation and comparative reads, but excludes SVG
+The first checkpoint built the cases, reads and scaling diagnostics in approximately
+1.19 seconds. Updated timings are retained in the gallery's diagnostic JSON;
+these figures include generation and comparative reads, but exclude SVG
 generation, JSON serialization, compression and archive verification. This is
 one local run, not a throughput or training-infrastructure forecast.
 
@@ -182,12 +183,17 @@ aliases, copied/coincident sites, shared edge reuse, three-role bridges,
 incomplete inventories, unsupported grammar, malformed constraints, positive
 evidence under unfinished search, bounded assignment and candidate comparison.
 
-The saved archive restores 841,295 native participants with zero measured
-numeric participants. Its 7,230,931-byte gzip retains complete case executions,
+The current archive restores 841,606 native participants with zero measured
+numeric participants. Its 7,226,654-byte gzip retains complete case executions,
 matching proofs and comparison histories. It is an audit artifact, not the
 minimal size of a concept or a recommended large training-data representation.
 
-Solution verification passed all 4,538 tests across 12 test projects, including
+For the first checkpoint, solution verification passed all 4,538 tests across 12 test projects, including
 the 29 new focused checks. Browser verification covered five cases, all 12
 stages, two controls, 20 scaling rows and 22 local references, with no browser
 errors or horizontal overflow at desktop and mobile widths.
+
+The [landmark follow-up](GojoLandmarkCompositionExperiments.md) implements the
+selected-site refinement above. Whole-footprint questions retain their prior
+answers and assignment counts. Both galleries now use explicit retention badges
+and answer-history tables; the earlier red/green candidate fills are removed.

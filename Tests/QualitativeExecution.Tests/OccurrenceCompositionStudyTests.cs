@@ -6,6 +6,7 @@ namespace Gojo.QualitativeExecution.Tests;
 public sealed class OccurrenceCompositionStudyTests
 {
     private static readonly Lazy<OccurrenceCompositionStudy> Study = new(OccurrenceCompositionStudy.Build);
+    private static readonly Lazy<OccurrenceCompositionStudy> Landmarks = new(OccurrenceCompositionStudy.BuildLandmarks);
 
     [Fact]
     public void Stronger_role_questions_refine_the_same_candidate_library()
@@ -61,5 +62,51 @@ public sealed class OccurrenceCompositionStudyTests
         Assert.Equal("No", large.Single(row => row.AssignmentCapacity == 4096).Answer);
         Assert.All(scaling.Where(row => row.Copies >= 2 && row.Question == "Two site-disjoint loops"),
             row => Assert.Equal("Yes", row.Answer));
+    }
+
+    [Fact]
+    public void Landmark_questions_refine_existing_contact_without_replacing_parts_or_observation()
+    {
+        var study = Landmarks.Value;
+        Assert.Equal(new[] { 1, 1, 1, 2 }, study.Episodes.Select(episode => episode.Stages[^1].Compatible.Count));
+        Assert.Equal(new[] { 3, 2, 1 }, study.Episodes[0].Stages.Select(stage => stage.Compatible.Count));
+        foreach (var episode in study.Episodes)
+        {
+            var coarse = episode.Reads[0]; var fine = episode.Reads[1];
+            Assert.Equal("Yes", coarse.Source.Answer); Assert.Equal("Yes", fine.Source.Answer);
+            Assert.Same(coarse.Source.Output.Observation, fine.Source.Output.Observation);
+            foreach (var role in coarse.Question.Roles)
+                Assert.Contains(fine.Question.Roles, candidate => ReferenceEquals(candidate.Slot, role.Slot));
+            Assert.NotEmpty(fine.Source.Witnesses);
+            Assert.NotEmpty(FiniteLaw.Entries(fine.Source.Witnesses[0].SelectedSites));
+        }
+    }
+
+    [Fact]
+    public void Landmark_controls_separate_inventory_assignment_correspondence_and_open_selection()
+    {
+        var controls = Landmarks.Value.Controls;
+        Assert.Equal(4, controls.Count);
+        Assert.All(controls, control => {
+            Assert.Equal("Open", control.Read.Answer);
+            Assert.Empty(FiniteLaw.Entries(control.Read.Refuted));
+            Assert.Empty(FiniteLaw.Entries(control.Read.Blocked));
+        });
+        Assert.Empty(FiniteLaw.Entries(controls[2].Read.CorrespondenceBudget));
+        Assert.NotEmpty(FiniteLaw.Entries(controls[3].Read.Question.Unresolved));
+    }
+
+    [Fact]
+    public void Landmark_correspondences_have_a_separate_accounted_budget()
+    {
+        foreach (var episode in Landmarks.Value.Episodes)
+        {
+            var coarse = episode.Reads[0].Source; var fine = episode.Reads[1].Source;
+            Assert.Empty(FiniteLaw.Entries(coarse.CorrespondenceBudget));
+            Assert.NotEmpty(FiniteLaw.Entries(fine.CorrespondenceConsumed));
+            Assert.Equal(FiniteLaw.Entries(fine.CorrespondenceBudget).Length,
+                FiniteLaw.Entries(fine.CorrespondenceConsumed).Length + FiniteLaw.Entries(fine.CorrespondenceRemaining).Length);
+        }
+        Assert.Empty(Landmarks.Value.Scaling);
     }
 }
