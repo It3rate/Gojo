@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [structural-evidence gallery](results/structural-evidence/gallery.html)
+expands inquiry beyond rectangles into closure, shared joints, headings and
+path continuity. It shows all alternatives, successive replies and an expected
+construction-recipe ambiguity. Read the
+[experiment explanation](../../Gojo/docs/GojoStructuralEvidenceExperiments.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --structural-evidence
+node experiments/QualitativeFrieze/tools/check-structural-evidence.cjs
+```
+
 The [evidence-selection gallery](results/evidence-selection/gallery.html) trains
 a small CPU policy to choose an informative exposed read, with held-out layout
 families and open, conflicting and capability-limited controls. Compare the

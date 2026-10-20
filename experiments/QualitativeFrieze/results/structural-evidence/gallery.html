@@ -1,0 +1,4311 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Beyond rectangles · Gojo structural inquiry</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eeeee2;color:#27454a;font:16px/1.6 system-ui,sans-serif}main{max-width:1500px;margin:auto;padding:35px 25px 70px}header{max-width:1120px}h1,h2{font-family:Georgia,serif;font-weight:400;line-height:1.2}h1{font-size:clamp(34px,4vw,52px);margin:12px 0 20px}h2{font-size:30px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:#a96640;font-weight:700}.lede{font-size:19px}a{color:#246a70;text-underline-offset:3px}.nav{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.nav a{padding:6px 13px;border:1px solid #d5d5c6;border-radius:20px;background:#fbf8ef;text-decoration:none;font-size:14px}.note,.legend{background:#e1e6d9;border-left:3px solid #849465;padding:15px 20px;margin:24px 0}.legend{background:#e8e5f0;border-color:#805b91}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#b76b45}.hollow{display:inline-block;width:11px;height:11px;border:2px solid #718780;border-radius:50%}.separate{display:inline-block;color:#805b91;font-weight:bold;letter-spacing:-5px;margin-right:5px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:9px 12px;border-bottom:1px solid #d5d5c6;text-align:left;vertical-align:top}th{font-weight:650}section{margin:35px 0}.case{background:#fbf8ef;border:1px solid #d5d5c6;padding:24px;margin:35px 0;scroll-margin-top:20px}.meta{font-size:14px;color:#617269}.context{padding:10px 15px;background:#efeddf;border-left:3px solid #a8a580}.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0}select,button{font:inherit;color:inherit;border:1px solid #bac8bd;background:#fbf8ef;border-radius:5px;padding:7px 12px}button{cursor:pointer;font-size:14px}button.current{background:#28616a;color:white;border-color:#28616a}.stages{display:flex;gap:7px;flex-wrap:wrap}.evidence{padding:14px 18px;background:#e7ece3;border-left:3px solid #718780;margin:18px 0;min-height:95px}.evidence strong{display:block}.evidence.open{background:#f2e8d7;border-color:#b9803f}.candidates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.candidates.four{grid-template-columns:repeat(4,minmax(0,1fr))}.candidate{border:2px solid #d5d5c6;padding:14px;min-width:0;background:#fbf8ef;transition:border-color .15s}.candidate h3{font-size:16px;line-height:1.4;margin:0 0 8px;min-height:44px}.candidate img{width:100%;height:auto;display:block}.candidate.kept{border-color:#638068;background:#edf1e5}.candidate.rejected{border-color:#bd8d83;background:#f3e9e2}.candidate.rejected img{opacity:.45}.candidate.blocked{border-style:dashed;border-color:#b9803f}.badge{font-size:13px;line-height:1.4;margin:10px 0 3px}.source{display:grid;grid-template-columns:minmax(180px,420px) 1fr;gap:20px;align-items:center}.source img{width:100%;height:auto}.status{padding:12px 15px;border-left:3px solid #638068;background:#e6eddf;margin:18px 0}.status.open{background:#f1e6d5;border-color:#b9803f}details{border-top:1px solid #d5d5c6;padding:13px 0;margin-top:16px}summary{cursor:pointer;font-size:14px}.small{font-size:14px}.footer{font-size:14px;border-top:1px solid #d5d5c6;margin-top:30px;padding-top:20px}.control-case{border-left:4px solid #b9803f}@media(max-width:1100px){.candidates.four{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:750px){main{padding:25px 14px}.case{padding:17px}.candidates,.candidates.four{grid-template-columns:1fr}.source{grid-template-columns:1fr}.candidate img{max-height:230px;object-fit:contain}.candidate h3{min-height:0}th,td{padding:8px}}
+</style></head><body><main><header><span class="eyebrow">Gojo · beyond span changes</span><h1>Which structure is possible?<br>Which question would distinguish it?</h1><p class="lede">Six small cases replace square-to-rectangle changes with closure, actual joins, headings and continuity. An unchanged policy learned on span evidence chooses questions about these new structures.</p><nav class="nav"><a href="diagnostics.json">All captured results</a><a href="inquiries.gojo.json.gz">Native inquiries and private audit archive</a><a href="../evidence-selection/gallery.html">Earlier span-selection study</a><a href="../equivalence-revision/gallery.html">Earlier expectation revisions</a></nav></header>
+<div class="note"><strong>How to read this experiment</strong><ol><li>The receiver starts with a small library of possible constructions. These pictures show those alternatives, not a sequence of shape morphs.</li><li>It asks a supplier one structural question. The supplier publishes <em>yes</em>, <em>no</em> or <em>open</em> with a scoped witness.</li><li>Compatible alternatives remain. A separate private evaluator later checks their bounded motif vocabulary against the source.</li></ol><p>This is closer to twenty questions than general shape recognition. A useful outcome can be one supported construction, several unresolved interpretations, or a visible conflict.</p></div>
+<div class="legend"><strong>Diagram legend:</strong> <span class="dot"></span> shared native site · <span class="hollow"></span> free endpoint · <span class="separate">○○</span> separate identities at one displayed position · dashed purple circle: a declared nonjoining crossing, with over/under unspecified.<p class="small">All coordinates and proportions are illustrative. In particular, overlapping screen locations do not create a joint. The receiver reads native relations, not these SVGs.</p></div>
+<section><h2>Unchanged policy, different kinds of evidence</h2><p>The five coefficients are reproduced from the earlier 48 span-training episodes. There is no structural retraining here. Each policy receives the same alternatives and questions.</p><div class="table-wrap"><table><thead><tr><th>Question strategy</th><th>Uniquely resolved / 6</th><th>Open / 6</th><th>Mean requests</th></tr></thead><tbody id="summary"></tbody></table></div><p class="small">One open case is expected: the same square topology has two different recipes. The fixed strategy encounters a valid but nondiscriminating broader question first in the other five cases. These six authored cases are mechanics checks, not a statistical recognition benchmark.</p></section>
+<section><h2>Inspect the alternatives and replies</h2><p>Use the numbered stages to compare before and after evidence. Switch strategy to inspect which question it asked first. The private source is collapsed beneath each case.</p><div id="cases"></div></section>
+<section><h2>Three ways a question can remain unsettled</h2><div id="controls"></div></section>
+<details><summary>What this establishes, and what it does not</summary><ul id="limits"></ul></details><footer class="footer"><p id="native"></p><p>Source-side motif induction is currently eager. This run tests selective communication and hypothesis filtering; it does not yet demonstrate avoided source-side computation.</p></footer>
+<script id="data" type="application/json">{
+  "schema": "structural-evidence-v1",
+  "cases": [
+    {
+      "id": "S01",
+      "name": "A triangle needs closure",
+      "description": "Two rising and falling strokes do not establish a closed triangular contour. A source can expose one actual three-edge cycle without specifying angles or lengths.",
+      "questionPurpose": "Ask whether a three-edge cycle actually exists.",
+      "humanReading": "A pointed outline; the base has not been reported.",
+      "expectedAmbiguity": false,
+      "sourceImage": "S01-source.svg",
+      "sourceName": "Closed triangle",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Open chevron",
+          "image": "S01-candidate-0.svg",
+          "sites": 3,
+          "edges": 2,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 1,
+          "name": "Open three-edge turn",
+          "image": "S01-candidate-1.svg",
+          "sites": 4,
+          "edges": 3,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 2,
+          "name": "One closed turning path",
+          "image": "S01-candidate-2.svg",
+          "sites": 4,
+          "edges": 4,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 3,
+          "name": "Closed triangle",
+          "image": "S01-candidate-3.svg",
+          "sites": 3,
+          "edges": 3,
+          "declaredCrossings": 0
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "name": "Crossing does not establish a junction",
+      "description": "The unjoined source has two continuous strokes with a declared crossing. The alternative has four arms sharing one actual site. Equal screen positions never create a shared site.",
+      "questionPurpose": "Ask for actual four-arm incidence; a negative answer rejects the joined interpretation.",
+      "humanReading": "Horizontal and vertical participation meet in the drawing.",
+      "expectedAmbiguity": false,
+      "sourceImage": "S02-source.svg",
+      "sourceName": "Two crossing continuous lines",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "One joined four-arm cross",
+          "image": "S02-candidate-0.svg",
+          "sites": 5,
+          "edges": 4,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 1,
+          "name": "Axial T junction",
+          "image": "S02-candidate-1.svg",
+          "sites": 4,
+          "edges": 3,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 2,
+          "name": "Two crossing continuous lines",
+          "image": "S02-candidate-2.svg",
+          "sites": 4,
+          "edges": 2,
+          "declaredCrossings": 1
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "name": "A T and a Y offer different routes",
+      "description": "Both candidates have a three-arm shared site. Their actual outgoing heading participation distinguishes an axial cap from a diagonal fork without assigning calibrated angles.",
+      "questionPurpose": "Ask which three-arm heading pattern is present.",
+      "humanReading": "One stem meets two arms at a common site.",
+      "expectedAmbiguity": false,
+      "sourceImage": "S03-source.svg",
+      "sourceName": "Diagonal Y junction",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Axial T junction",
+          "image": "S03-candidate-0.svg",
+          "sites": 4,
+          "edges": 3,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 1,
+          "name": "One joined four-arm cross",
+          "image": "S03-candidate-1.svg",
+          "sites": 5,
+          "edges": 4,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 2,
+          "name": "Diagonal Y junction",
+          "image": "S03-candidate-2.svg",
+          "sites": 4,
+          "edges": 3,
+          "declaredCrossings": 0
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "name": "Alternating directions need not form a path",
+      "description": "Separate strokes can have the same placement and headings as a connected zigzag. A three-edge walk query tests the intermediate shared-site relations.",
+      "questionPurpose": "Ask whether three consecutive diagonal edges are actually connected.",
+      "humanReading": "The visible headings alternate up-right and down-right.",
+      "expectedAmbiguity": false,
+      "sourceImage": "S04-source.svg",
+      "sourceName": "Connected zigzag",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Four separate alternating strokes",
+          "image": "S04-candidate-0.svg",
+          "sites": 8,
+          "edges": 4,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 1,
+          "name": "Separated-axis square wave",
+          "image": "S04-candidate-1.svg",
+          "sites": 9,
+          "edges": 8,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 2,
+          "name": "Connected zigzag",
+          "image": "S04-candidate-2.svg",
+          "sites": 5,
+          "edges": 4,
+          "declaredCrossings": 0
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "name": "Simultaneous and separated motion differ",
+      "description": "A zigzag combines horizontal and vertical participation within each edge. A square wave separates them into alternating axial edges. The question distinguishes the native walk, rather than a rendered bend style.",
+      "questionPurpose": "Ask whether an axial horizontal/vertical three-edge walk is present.",
+      "humanReading": "The path advances while alternately rising and falling.",
+      "expectedAmbiguity": false,
+      "sourceImage": "S05-source.svg",
+      "sourceName": "Separated-axis square wave",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "Connected zigzag",
+          "image": "S05-candidate-0.svg",
+          "sites": 5,
+          "edges": 4,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 1,
+          "name": "Four separate alternating strokes",
+          "image": "S05-candidate-1.svg",
+          "sites": 8,
+          "edges": 4,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 2,
+          "name": "Separated-axis square wave",
+          "image": "S05-candidate-2.svg",
+          "sites": 9,
+          "edges": 8,
+          "declaredCrossings": 0
+        }
+      ]
+    },
+    {
+      "id": "S06",
+      "name": "The same outline cannot reveal its recipe",
+      "description": "One sample is a single turning path; the other is four separate sides joined through actual public ports. Their exposed incidence and headings agree. Without a provenance service, the reader must retain both construction hypotheses.",
+      "questionPurpose": "Confirm the contour, then retain the recipe ambiguity; the source does not advertise ancestry.",
+      "humanReading": "A closed four-sided axial outline.",
+      "expectedAmbiguity": true,
+      "sourceImage": "S06-source.svg",
+      "sourceName": "Four independently drawn joined sides",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "One closed turning path",
+          "image": "S06-candidate-0.svg",
+          "sites": 4,
+          "edges": 4,
+          "declaredCrossings": 0
+        },
+        {
+          "index": 1,
+          "name": "Four independently drawn joined sides",
+          "image": "S06-candidate-1.svg",
+          "sites": 4,
+          "edges": 4,
+          "declaredCrossings": 0
+        }
+      ]
+    }
+  ],
+  "episodes": [
+    {
+      "id": "S01-fixed",
+      "caseId": "S01",
+      "policy": "fixed",
+      "control": null,
+      "requests": 2,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Do four arms share a site? (broader check)",
+          "answer": "No",
+          "features": [
+            1,
+            0,
+            0,
+            0.5,
+            0
+          ],
+          "prediction": -0.0038086895408989685,
+          "eligible": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 Yes",
+          "question": "Is there a three-edge cycle?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.5,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": 0.44441209061813375,
+          "eligible": [
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 13,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 20,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 3,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S02-fixed",
+      "caseId": "S02",
+      "policy": "fixed",
+      "control": null,
+      "requests": 3,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Is there a four-edge closed contour? (broader check)",
+          "answer": "No",
+          "features": [
+            1,
+            0,
+            0,
+            0.5,
+            0
+          ],
+          "prediction": -0.0038086895408989685,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 No",
+          "question": "Do four arms share one site?",
+          "answer": "No",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "3 \u00B7 No",
+          "question": "Is there a three-arm axial T?",
+          "answer": "No",
+          "features": [
+            1,
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.954779730360493,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 2,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 2,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 3,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 8,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 6,
+          "refuted": 5,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 8,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S03-fixed",
+      "caseId": "S03",
+      "policy": "fixed",
+      "control": null,
+      "requests": 3,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Is there a four-edge closed contour? (broader check)",
+          "answer": "No",
+          "features": [
+            1,
+            0,
+            0,
+            0.5,
+            0
+          ],
+          "prediction": -0.0038086895408989685,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 No",
+          "question": "Is the junction an axial T?",
+          "answer": "No",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "3 \u00B7 Yes",
+          "question": "Is the junction a diagonal Y?",
+          "answer": "Yes",
+          "features": [
+            1,
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.954779730360493,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 2,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 2,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 3,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 2,
+          "refuted": 12,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 2,
+          "refuted": 16,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S04-fixed",
+      "caseId": "S04",
+      "policy": "fixed",
+      "control": null,
+      "requests": 2,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Is there a four-edge closed contour? (broader check)",
+          "answer": "No",
+          "features": [
+            1,
+            0,
+            0,
+            0.5,
+            0
+          ],
+          "prediction": -0.0038086895408989685,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 Yes",
+          "question": "Is there a connected three-edge diagonal walk?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.6666666666666666,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": 0.6076294305785505,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 8,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 22,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 16,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S05-fixed",
+      "caseId": "S05",
+      "policy": "fixed",
+      "control": null,
+      "requests": 2,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Is there a four-edge closed contour? (broader check)",
+          "answer": "No",
+          "features": [
+            1,
+            0,
+            0,
+            0.5,
+            0
+          ],
+          "prediction": -0.0038086895408989685,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 Yes",
+          "question": "Is there a three-edge axial stepped walk?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 22,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 18,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 28,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S06-fixed",
+      "caseId": "S06",
+      "policy": "fixed",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": false,
+      "correctAmbiguity": true,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "Both recipes remain possible. The exposed output does not reveal how it was constructed.",
+      "expectedAmbiguity": true,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a four-edge cycle?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": -0.04523992926311666,
+          "eligible": [
+            0,
+            1
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": true,
+          "supported": 26,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": true,
+          "supported": 26,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S01-random",
+      "caseId": "S01",
+      "policy": "random",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a three-edge cycle?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.5,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": 0.44441209061813375,
+          "eligible": [
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 13,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 20,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 3,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S02-random",
+      "caseId": "S02",
+      "policy": "random",
+      "control": null,
+      "requests": 3,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Is there a four-edge closed contour? (broader check)",
+          "answer": "No",
+          "features": [
+            1,
+            0,
+            0,
+            0.5,
+            0
+          ],
+          "prediction": -0.0038086895408989685,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 No",
+          "question": "Is there a three-arm axial T?",
+          "answer": "No",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            0,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "3 \u00B7 No",
+          "question": "Do four arms share one site?",
+          "answer": "No",
+          "features": [
+            1,
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.954779730360493,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 2,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 2,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 3,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 8,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 6,
+          "refuted": 5,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 8,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S03-random",
+      "caseId": "S03",
+      "policy": "random",
+      "control": null,
+      "requests": 2,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Is the junction an axial T?",
+          "answer": "No",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 Yes",
+          "question": "Is the junction a diagonal Y?",
+          "answer": "Yes",
+          "features": [
+            1,
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.954779730360493,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 2,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 2,
+          "refuted": 12,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 2,
+          "refuted": 16,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S04-random",
+      "caseId": "S04",
+      "policy": "random",
+      "control": null,
+      "requests": 2,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Is there a four-edge closed contour? (broader check)",
+          "answer": "No",
+          "features": [
+            1,
+            0,
+            0,
+            0.5,
+            0
+          ],
+          "prediction": -0.0038086895408989685,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 Yes",
+          "question": "Is there a connected three-edge diagonal walk?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.6666666666666666,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": 0.6076294305785505,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 8,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 22,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 16,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S05-random",
+      "caseId": "S05",
+      "policy": "random",
+      "control": null,
+      "requests": 3,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Is there a three-edge diagonal zigzag?",
+          "answer": "No",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 No",
+          "question": "Is there a four-edge closed contour? (broader check)",
+          "answer": "No",
+          "features": [
+            1,
+            0,
+            0,
+            0.5,
+            0
+          ],
+          "prediction": -0.0038086895408989685,
+          "eligible": [
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "3 \u00B7 Yes",
+          "question": "Is there a three-edge axial stepped walk?",
+          "answer": "Yes",
+          "features": [
+            1,
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.954779730360493,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 2,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 2,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 3,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 22,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 18,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 28,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S06-random",
+      "caseId": "S06",
+      "policy": "random",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": false,
+      "correctAmbiguity": true,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "Both recipes remain possible. The exposed output does not reveal how it was constructed.",
+      "expectedAmbiguity": true,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a four-edge cycle?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": -0.04523992926311666,
+          "eligible": [
+            0,
+            1
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": true,
+          "supported": 26,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": true,
+          "supported": 26,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S01-disagreement",
+      "caseId": "S01",
+      "policy": "disagreement",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a three-edge cycle?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.5,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": 0.44441209061813375,
+          "eligible": [
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 13,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 20,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 3,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S02-disagreement",
+      "caseId": "S02",
+      "policy": "disagreement",
+      "control": null,
+      "requests": 2,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Do four arms share one site?",
+          "answer": "No",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 No",
+          "question": "Is there a three-arm axial T?",
+          "answer": "No",
+          "features": [
+            1,
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.954779730360493,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 8,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 6,
+          "refuted": 5,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 8,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S03-disagreement",
+      "caseId": "S03",
+      "policy": "disagreement",
+      "control": null,
+      "requests": 2,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Is the junction an axial T?",
+          "answer": "No",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 Yes",
+          "question": "Is the junction a diagonal Y?",
+          "answer": "Yes",
+          "features": [
+            1,
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.954779730360493,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 2,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 2,
+          "refuted": 12,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 2,
+          "refuted": 16,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S04-disagreement",
+      "caseId": "S04",
+      "policy": "disagreement",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a connected three-edge diagonal walk?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.6666666666666666,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": 0.6076294305785505,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 8,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 22,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 16,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S05-disagreement",
+      "caseId": "S05",
+      "policy": "disagreement",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a three-edge axial stepped walk?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 22,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 18,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 28,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S06-disagreement",
+      "caseId": "S06",
+      "policy": "disagreement",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": false,
+      "correctAmbiguity": true,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "Both recipes remain possible. The exposed output does not reveal how it was constructed.",
+      "expectedAmbiguity": true,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a four-edge cycle?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": -0.04523992926311666,
+          "eligible": [
+            0,
+            1
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": true,
+          "supported": 26,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": true,
+          "supported": 26,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S01-transferred",
+      "caseId": "S01",
+      "policy": "transferred",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a three-edge cycle?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.5,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": 0.44441209061813375,
+          "eligible": [
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 13,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 20,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 3,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S02-transferred",
+      "caseId": "S02",
+      "policy": "transferred",
+      "control": null,
+      "requests": 2,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Do four arms share one site?",
+          "answer": "No",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 No",
+          "question": "Is there a three-arm axial T?",
+          "answer": "No",
+          "features": [
+            1,
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.954779730360493,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 8,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 6,
+          "refuted": 5,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 8,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S03-transferred",
+      "caseId": "S03",
+      "policy": "transferred",
+      "control": null,
+      "requests": 2,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 No",
+          "question": "Is the junction an axial T?",
+          "answer": "No",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 Yes",
+          "question": "Is the junction a diagonal Y?",
+          "answer": "Yes",
+          "features": [
+            1,
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.954779730360493,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 2,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 2,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 2,
+          "refuted": 12,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 2,
+          "refuted": 16,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S04-transferred",
+      "caseId": "S04",
+      "policy": "transferred",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a connected three-edge diagonal walk?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.6666666666666666,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": 0.6076294305785505,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 8,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 22,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 16,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S05-transferred",
+      "caseId": "S05",
+      "policy": "transferred",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": true,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "One candidate remains and independently agrees with the source at the tested motif vocabulary.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a three-edge axial stepped walk?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.6666666666666666,
+            0.5,
+            0.5,
+            0
+          ],
+          "prediction": 0.6283450504396594,
+          "eligible": [
+            2
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 22,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 18,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": true,
+          "supported": 28,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S06-transferred",
+      "caseId": "S06",
+      "policy": "transferred",
+      "control": null,
+      "requests": 1,
+      "correctAtVocabulary": false,
+      "correctAmbiguity": true,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "Both recipes remain possible. The exposed output does not reveal how it was constructed.",
+      "expectedAmbiguity": true,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a four-edge cycle?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": -0.04523992926311666,
+          "eligible": [
+            0,
+            1
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": true,
+          "supported": 26,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": true,
+          "supported": 26,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S01-transferred-unsearched",
+      "caseId": "S01",
+      "policy": "transferred",
+      "control": "unsearched",
+      "requests": 2,
+      "correctAtVocabulary": false,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": false,
+      "status": "The available questions did not resolve the alternatives. Unknown evidence stays open.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Open",
+          "question": "Is there a three-edge cycle?",
+          "answer": "Open",
+          "features": [
+            1,
+            0.5,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": 0.44441209061813375,
+          "eligible": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 1,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 1,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 1,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 0,
+              "refuted": 0,
+              "open": 1,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 Open",
+          "question": "Do four arms share a site? (broader check)",
+          "answer": "Open",
+          "features": [
+            1,
+            0,
+            0,
+            0.5,
+            0
+          ],
+          "prediction": -0.0038086895408989685,
+          "eligible": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 2,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 2,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 2,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 0,
+              "refuted": 0,
+              "open": 2,
+              "blocked": 0
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 13,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 20,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 3,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S01-transferred-conflict",
+      "caseId": "S01",
+      "policy": "transferred",
+      "control": "conflict",
+      "requests": 2,
+      "correctAtVocabulary": false,
+      "correctAmbiguity": false,
+      "hasConflict": true,
+      "hasBlocked": true,
+      "status": "Contradictory same-event replies remain visible; no candidate is certified.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "1 \u00B7 Yes",
+          "question": "Is there a three-edge cycle?",
+          "answer": "Yes",
+          "features": [
+            1,
+            0.5,
+            1,
+            0.5,
+            0
+          ],
+          "prediction": 0.44441209061813375,
+          "eligible": [
+            3
+          ],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 0
+            },
+            {
+              "index": 3,
+              "supported": 1,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 0
+            }
+          ]
+        },
+        {
+          "name": "2 \u00B7 No",
+          "question": "Is there a three-edge cycle?",
+          "answer": "No",
+          "features": [
+            1,
+            0,
+            1,
+            0.5,
+            1
+          ],
+          "prediction": 0.041809847028286155,
+          "eligible": [],
+          "conflicts": 1,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 1
+            },
+            {
+              "index": 1,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 1
+            },
+            {
+              "index": 2,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 1
+            },
+            {
+              "index": 3,
+              "supported": 1,
+              "refuted": 1,
+              "open": 0,
+              "blocked": 1
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 13,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 20,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 3,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    },
+    {
+      "id": "S01-transferred-incapable",
+      "caseId": "S01",
+      "policy": "transferred",
+      "control": "incapable",
+      "requests": 0,
+      "correctAtVocabulary": false,
+      "correctAmbiguity": false,
+      "hasConflict": false,
+      "hasBlocked": true,
+      "status": "The receiver has no admitted output capability for this request.",
+      "expectedAmbiguity": false,
+      "stages": [
+        {
+          "name": "0 \u00B7 Alternatives before any reply",
+          "question": null,
+          "answer": null,
+          "features": null,
+          "prediction": null,
+          "eligible": [],
+          "conflicts": 0,
+          "reads": [
+            {
+              "index": 0,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 1
+            },
+            {
+              "index": 1,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 1
+            },
+            {
+              "index": 2,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 1
+            },
+            {
+              "index": 3,
+              "supported": 0,
+              "refuted": 0,
+              "open": 0,
+              "blocked": 1
+            }
+          ]
+        }
+      ],
+      "evaluations": [
+        {
+          "index": 0,
+          "compatible": false,
+          "supported": 4,
+          "refuted": 7,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 1,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 13,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 2,
+          "compatible": false,
+          "supported": 0,
+          "refuted": 20,
+          "open": 0,
+          "blocked": 0
+        },
+        {
+          "index": 3,
+          "compatible": true,
+          "supported": 14,
+          "refuted": 0,
+          "open": 0,
+          "blocked": 0
+        }
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "policy": "fixed",
+      "episodes": 6,
+      "resolved": 5,
+      "open": 1,
+      "conflicted": 0,
+      "blocked": 0,
+      "requests": 13,
+      "meanRequests": 2.1666666666666665
+    },
+    {
+      "policy": "random",
+      "episodes": 6,
+      "resolved": 5,
+      "open": 1,
+      "conflicted": 0,
+      "blocked": 0,
+      "requests": 12,
+      "meanRequests": 2
+    },
+    {
+      "policy": "disagreement",
+      "episodes": 6,
+      "resolved": 5,
+      "open": 1,
+      "conflicted": 0,
+      "blocked": 0,
+      "requests": 8,
+      "meanRequests": 1.3333333333333333
+    },
+    {
+      "policy": "transferred",
+      "episodes": 6,
+      "resolved": 5,
+      "open": 1,
+      "conflicted": 0,
+      "blocked": 0,
+      "requests": 8,
+      "meanRequests": 1.3333333333333333
+    }
+  ],
+  "policy": {
+    "origin": "Earlier span-acquisition training only",
+    "trainingRows": 142,
+    "coefficients": [
+      -0.017220859981733304,
+      0.9793040397625008,
+      -0.04143123972221769,
+      0.02682434088166867,
+      0.08704977629140281
+    ],
+    "structuralTrainingEpisodes": 0
+  },
+  "nativeElements": 2360754,
+  "nativeNumericElements": 0,
+  "archiveRoundTrip": true,
+  "elapsedStudyMilliseconds": 1945.1682,
+  "limits": [
+    "The candidates are supplied executable constructions. This is selective inquiry among known possibilities, not open-ended shape discovery or pixel recognition.",
+    "The earlier five ranking coefficients are reused unchanged. No new topology, join or heading examples train them in this run.",
+    "The source, supplier audit and post-run vocabulary comparison are separate from receiver inputs. The caption suggesting a coarse human reading is explanatory text, not a transmitted native hint.",
+    "Queries ask whether actual bounded incidence/heading patterns exist. Negative answers require completed search within the declared grammar. Incomplete or unsupported searches return open.",
+    "A valid broader question is placed first for every policy in the five distinguishing cases. It cannot separate those candidate libraries; its purpose is to check that the ranking reads actual discrimination rather than list order.",
+    "The source supplier eagerly induces its bounded motif inventory before answering. Fewer requests demonstrate selective communication; this does not yet demonstrate avoided source-side search computation.",
+    "Independent validation compares both bounded existential motif vocabularies. Agreement does not prove graph isomorphism, motif counts, translation cadence, global arrangement or construction ancestry.",
+    "The crossing case rejects a shared junction among the supplied alternatives. It does not discover the crossing position or choose over/under. The source separately carries an explicit crossing declaration.",
+    "The square recipe case intentionally keeps two alternatives. A provenance service would be needed to distinguish their generating constructions.",
+    "One existential answer publishes one matching occurrence. Other source components and occurrences stay private; the complete proof is retained only on the supplier audit surface.",
+    "Screen coordinates and angles are illustrative realizations. Solid dots indicate actual shared sites; paired hollow markers indicate different actual sites at one projected location. Rendering creates no native connections."
+  ]
+}</script><script>
+'use strict';const model=JSON.parse(document.querySelector('#data').textContent),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const names={fixed:'Fixed question order',random:'Seeded random',disagreement:'Candidate disagreement',transferred:'Transferred span-trained policy'};
+document.querySelector('#summary').innerHTML=model.summaries.map(s=>`<tr><td>${esc(names[s.policy])}</td><td>${s.resolved}</td><td>${s.open}</td><td>${s.meanRequests.toFixed(2)}</td></tr>`).join('');
+function article(example,control=null){const runs=model.episodes.filter(e=>e.caseId===example.id&&e.control===control),node=document.createElement('article');node.className='case'+(control?' control-case':'');node.dataset.case=example.id;if(control)node.dataset.control=control;
+const controlTitles={unsearched:'Search budget exhausted',conflict:'Two reports contradict each other',incapable:'No admitted output capability'};
+node.innerHTML=`<h2>${esc(control?controlTitles[control]:example.id+' · '+example.name)}</h2><p>${esc(example.description)}</p><p class="context"><strong>What matters:</strong> ${esc(example.questionPurpose)}<br><span class="small">Human reading cue: ${esc(example.humanReading)} This cue explains the example; it is not an extra native message to the receiver.</span></p><div class="controls"><label>Strategy <select aria-label="Question strategy for ${esc(example.id)}">${runs.map(e=>`<option value="${esc(e.id)}">${esc(names[e.policy])}</option>`).join('')}</select></label><span class="meta">Choose a stage below</span></div><div class="stages"></div><div class="evidence" aria-live="polite"></div><div class="candidates ${example.candidates.length===4?'four':''}">${example.candidates.map(c=>`<div class="candidate" data-candidate="${c.index}"><h3>${c.index+1}. ${esc(c.name)}</h3><a href="${esc(c.image)}"><img src="${esc(c.image)}" alt="${esc(c.name)}"></a><p class="badge"></p></div>`).join('')}</div><div class="status"></div><details class="source-details"><summary>Reveal the private source and independent evaluation</summary><div class="source"><img src="${esc(example.sourceImage)}" alt="Private source: ${esc(example.sourceName)}"><p><strong>Source:</strong> ${esc(example.sourceName)}<br>The receiver never receives this complete source image or its generating program. This panel is for inspection after the run.</p></div><div class="evaluation"></div></details>`;
+const select=node.querySelector('select');select.value=(runs.find(e=>e.policy==='transferred')||runs[0]).id;let stageIndex=0;
+function show(index){const run=runs.find(e=>e.id===select.value),stage=run.stages[index];stageIndex=index;node.dataset.episode=run.id;node.dataset.stage=String(index);
+node.querySelector('.stages').innerHTML=run.stages.map((s,i)=>`<button class="${i===index?'current':''}" data-step="${i}" aria-pressed="${i===index}">${esc(s.name)}</button>`).join('');node.querySelectorAll('[data-step]').forEach(button=>button.onclick=()=>show(Number(button.dataset.step)));
+const evidence=node.querySelector('.evidence');evidence.classList.toggle('open',stage.answer==='Open'||stage.conflicts>0);evidence.innerHTML=index===0?'<strong>No replies have been imported.</strong>Every admitted candidate remains an alternative; none is a recognized answer.':`<strong>Asked: ${esc(stage.question)}</strong>Supplier answer: <b>${esc(stage.answer)}</b> · ${stage.eligible.length} compatible candidates remain.${stage.conflicts?` ${stage.conflicts} literal conflict witness retained.`:''}`;
+for(const card of node.querySelectorAll('[data-candidate]')){const i=Number(card.dataset.candidate),read=stage.reads.find(r=>r.index===i),kept=stage.eligible.includes(i);card.classList.toggle('kept',kept&&index>0);card.classList.toggle('rejected',!kept);card.classList.toggle('blocked',read.blocked>0);card.querySelector('.badge').textContent=index===0?(kept?'Admitted alternative; not yet distinguished':'Unavailable to this receiver'):read.blocked>0?'Blocked; capability or conflict is still visible':!kept?'Rejected by imported evidence':read.open>0?'Still possible; some evidence is open':'Compatible with the imported replies';}
+const status=node.querySelector('.status');status.textContent=index===run.stages.length-1?run.status:`After this stage: ${stage.eligible.length} alternatives remain. Continue to inspect later evidence.`;status.classList.toggle('open',!run.correctAtVocabulary);
+node.querySelector('.evaluation').innerHTML=`<p class="small">Independent evaluation tests both complete bounded motif inventories. It does not establish exact geometry, multiplicity, global arrangement or ancestry.</p><div class="table-wrap"><table><thead><tr><th>Candidate</th><th>Vocabulary agreement</th><th>Opposed claims</th><th>Open</th></tr></thead><tbody>${run.evaluations.map(e=>`<tr><td>${esc(example.candidates[e.index].name)}</td><td>${e.compatible?'Agrees':'Does not certify'}</td><td>${e.refuted}</td><td>${e.open}</td></tr>`).join('')}</tbody></table></div>`;
+}select.onchange=()=>{const run=runs.find(e=>e.id===select.value);show(Math.min(stageIndex,run.stages.length-1));};show((runs.find(e=>e.id===select.value)).stages.length-1);return node;}
+for(const example of model.cases)document.querySelector('#cases').append(article(example));for(const control of ['unsearched','conflict','incapable']){const run=model.episodes.find(e=>e.control===control);document.querySelector('#controls').append(article(model.cases.find(c=>c.id===run.caseId),control));}
+document.querySelector('#limits').innerHTML=model.limits.map(s=>`<li>${esc(s)}</li>`).join('');document.querySelector('#native').textContent=`${model.cases.length} cases · ${model.episodes.length} episodes · ${model.nativeElements.toLocaleString()} retained native participants · ${model.nativeNumericElements} measured numeric participants · native archive restoration verified.`;const requested=new URLSearchParams(location.search).get('case');if(requested)document.querySelector(`[data-case="${CSS.escape(requested)}"]`)?.scrollIntoView();
+</script></main></body></html>
