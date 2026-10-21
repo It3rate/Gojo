@@ -8,6 +8,14 @@ For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.
 
+The [native interior discovery study](Gojo/docs/GojoNativeInteriorDiscovery.md)
+finds local enclosures in lattice passages through native word order and cyclic
+ray walks, then reads side structure, notches and zigzags with explicit evidence.
+Its [gallery](experiments/QualitativeFrieze/results/native-interiors/gallery.html)
+separates observed boundaries from proposed gap closures; the
+[overview](experiments/QualitativeFrieze/results/native-interiors/overview.html)
+compares twenty source patches.
+
 The [native lattice evidence study](Gojo/docs/GojoNativeLatticeEvidence.md)
 connects executed ornament graphs to query-directed geometric evidence through
 published ports. Its [gallery](experiments/QualitativeFrieze/results/native-lattice-evidence/gallery.html)

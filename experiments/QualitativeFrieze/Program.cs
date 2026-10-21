@@ -8,6 +8,7 @@ using Gojo.Experiments.QualitativeExecution;
 using Gojo.Experiments.QualitativeFrieze;
 
 if (args.Contains("--learn")) return FriezeLearningExperiment.Run(args.Where(argument => argument != "--learn").ToArray());
+if (args.Contains("--native-interiors")) return NativeInteriorExperiment.Run(args.Where(argument => argument != "--native-interiors").ToArray());
 if (args.Contains("--shape")) return PatternShapingExperiment.Run(args.Where(argument => argument != "--shape").ToArray());
 if (args.Contains("--layers")) return PatternLayerExperiment.Run(args.Where(argument => argument != "--layers").ToArray());
 if (args.Contains("--rhythms")) return RhythmPatternExperiment.Run(args.Where(argument => argument != "--rhythms").ToArray());

@@ -1,0 +1,918 @@
+{
+  "Sources": 20,
+  "FaceCapacity": 128,
+  "ClosureCapacity": 4,
+  "PortTransportChecks": 20,
+  "ObservedBoundaries": 118,
+  "ConditionalBoundaries": 1,
+  "SourcesWithEmbeddingUnknown": 6,
+  "SourcesWithCuts": 0,
+  "Results": [
+    {
+      "Id": "I01",
+      "Name": "Unjoined crossing grid",
+      "SourceStrokes": 6,
+      "Edges": 24,
+      "Boundaries": 4,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 4
+        },
+        "Elementary": {
+          "Supported": 4
+        },
+        "Triangle": {
+          "Refuted": 4
+        },
+        "Four-sided": {
+          "Supported": 4
+        },
+        "Hexagon": {
+          "Refuted": 4
+        },
+        "Rectangle": {
+          "Supported": 4
+        },
+        "Equal-sided": {
+          "Supported": 4
+        },
+        "Square": {
+          "Supported": 4
+        },
+        "Contains concavity": {
+          "Refuted": 4
+        },
+        "Contains notch": {
+          "Refuted": 4
+        },
+        "Contains zigzag": {
+          "Refuted": 4
+        },
+        "Star-like": {
+          "Refuted": 4
+        }
+      }
+    },
+    {
+      "Id": "I02",
+      "Name": "Unjoined crossing grid with wider columns",
+      "SourceStrokes": 6,
+      "Edges": 24,
+      "Boundaries": 4,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 4
+        },
+        "Elementary": {
+          "Supported": 4
+        },
+        "Triangle": {
+          "Refuted": 4
+        },
+        "Four-sided": {
+          "Supported": 4
+        },
+        "Hexagon": {
+          "Refuted": 4
+        },
+        "Rectangle": {
+          "Supported": 4
+        },
+        "Equal-sided": {
+          "Refuted": 4
+        },
+        "Square": {
+          "Refuted": 4
+        },
+        "Contains concavity": {
+          "Refuted": 4
+        },
+        "Contains notch": {
+          "Refuted": 4
+        },
+        "Contains zigzag": {
+          "Refuted": 4
+        },
+        "Star-like": {
+          "Refuted": 4
+        }
+      }
+    },
+    {
+      "Id": "I03",
+      "Name": "B01 \u00B7 Running brick bond",
+      "SourceStrokes": 24,
+      "Edges": 24,
+      "Boundaries": 3,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 3
+        },
+        "Elementary": {
+          "Supported": 3
+        },
+        "Triangle": {
+          "Refuted": 3
+        },
+        "Four-sided": {
+          "Supported": 3
+        },
+        "Hexagon": {
+          "Refuted": 3
+        },
+        "Rectangle": {
+          "Supported": 3
+        },
+        "Equal-sided": {
+          "Refuted": 3
+        },
+        "Square": {
+          "Refuted": 3
+        },
+        "Contains concavity": {
+          "Refuted": 3
+        },
+        "Contains notch": {
+          "Refuted": 3
+        },
+        "Contains zigzag": {
+          "Refuted": 3
+        },
+        "Star-like": {
+          "Refuted": 3
+        }
+      }
+    },
+    {
+      "Id": "I04",
+      "Name": "B03 \u00B7 Squares meet diamonds",
+      "SourceStrokes": 96,
+      "Edges": 96,
+      "Boundaries": 25,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 25
+        },
+        "Elementary": {
+          "Open": 25
+        },
+        "Triangle": {
+          "Refuted": 25
+        },
+        "Four-sided": {
+          "Supported": 16,
+          "Refuted": 9
+        },
+        "Hexagon": {
+          "Refuted": 16,
+          "Supported": 9
+        },
+        "Rectangle": {
+          "Supported": 16,
+          "Refuted": 9
+        },
+        "Equal-sided": {
+          "Supported": 16,
+          "Open": 9
+        },
+        "Square": {
+          "Supported": 16,
+          "Refuted": 9
+        },
+        "Contains concavity": {
+          "Refuted": 16,
+          "Supported": 9
+        },
+        "Contains notch": {
+          "Refuted": 25
+        },
+        "Contains zigzag": {
+          "Refuted": 16,
+          "Supported": 9
+        },
+        "Star-like": {
+          "Refuted": 25
+        }
+      }
+    },
+    {
+      "Id": "I05",
+      "Name": "B04 \u00B7 Honeycomb from three reused contours",
+      "SourceStrokes": 72,
+      "Edges": 51,
+      "Boundaries": 12,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 12
+        },
+        "Elementary": {
+          "Supported": 12
+        },
+        "Triangle": {
+          "Refuted": 12
+        },
+        "Four-sided": {
+          "Refuted": 12
+        },
+        "Hexagon": {
+          "Supported": 12
+        },
+        "Rectangle": {
+          "Refuted": 12
+        },
+        "Equal-sided": {
+          "Open": 12
+        },
+        "Square": {
+          "Refuted": 12
+        },
+        "Contains concavity": {
+          "Refuted": 12
+        },
+        "Contains notch": {
+          "Refuted": 12
+        },
+        "Contains zigzag": {
+          "Refuted": 12
+        },
+        "Star-like": {
+          "Refuted": 12
+        }
+      }
+    },
+    {
+      "Id": "I06",
+      "Name": "B05 \u00B7 Hexagons with triangular interstices",
+      "SourceStrokes": 24,
+      "Edges": 24,
+      "Boundaries": 6,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 6
+        },
+        "Elementary": {
+          "Open": 6
+        },
+        "Triangle": {
+          "Refuted": 4,
+          "Supported": 2
+        },
+        "Four-sided": {
+          "Refuted": 6
+        },
+        "Hexagon": {
+          "Supported": 4,
+          "Refuted": 2
+        },
+        "Rectangle": {
+          "Refuted": 6
+        },
+        "Equal-sided": {
+          "Open": 6
+        },
+        "Square": {
+          "Refuted": 6
+        },
+        "Contains concavity": {
+          "Refuted": 6
+        },
+        "Contains notch": {
+          "Refuted": 6
+        },
+        "Contains zigzag": {
+          "Refuted": 6
+        },
+        "Star-like": {
+          "Refuted": 6
+        }
+      }
+    },
+    {
+      "Id": "I07",
+      "Name": "B06.B \u00B7 Octagons with upright square gaps",
+      "SourceStrokes": 32,
+      "Edges": 28,
+      "Boundaries": 5,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 5
+        },
+        "Elementary": {
+          "Supported": 5
+        },
+        "Triangle": {
+          "Refuted": 5
+        },
+        "Four-sided": {
+          "Refuted": 4,
+          "Supported": 1
+        },
+        "Hexagon": {
+          "Refuted": 5
+        },
+        "Rectangle": {
+          "Refuted": 4,
+          "Supported": 1
+        },
+        "Equal-sided": {
+          "Open": 4,
+          "Supported": 1
+        },
+        "Square": {
+          "Refuted": 4,
+          "Supported": 1
+        },
+        "Contains concavity": {
+          "Refuted": 5
+        },
+        "Contains notch": {
+          "Refuted": 5
+        },
+        "Contains zigzag": {
+          "Refuted": 5
+        },
+        "Star-like": {
+          "Refuted": 5
+        }
+      }
+    },
+    {
+      "Id": "I08",
+      "Name": "B07 \u00B7 Alternating-width orthogonal bands",
+      "SourceStrokes": 32,
+      "Edges": 32,
+      "Boundaries": 9,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 9
+        },
+        "Elementary": {
+          "Supported": 9
+        },
+        "Triangle": {
+          "Refuted": 9
+        },
+        "Four-sided": {
+          "Supported": 9
+        },
+        "Hexagon": {
+          "Refuted": 9
+        },
+        "Rectangle": {
+          "Supported": 9
+        },
+        "Equal-sided": {
+          "Supported": 5,
+          "Refuted": 4
+        },
+        "Square": {
+          "Supported": 5,
+          "Refuted": 4
+        },
+        "Contains concavity": {
+          "Refuted": 9
+        },
+        "Contains notch": {
+          "Refuted": 9
+        },
+        "Contains zigzag": {
+          "Refuted": 9
+        },
+        "Star-like": {
+          "Refuted": 9
+        }
+      }
+    },
+    {
+      "Id": "I09",
+      "Name": "B10 \u00B7 Direct bent-cross compartments",
+      "SourceStrokes": 32,
+      "Edges": 28,
+      "Boundaries": 2,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 2
+        },
+        "Elementary": {
+          "Open": 2
+        },
+        "Triangle": {
+          "Refuted": 2
+        },
+        "Four-sided": {
+          "Refuted": 2
+        },
+        "Hexagon": {
+          "Refuted": 2
+        },
+        "Rectangle": {
+          "Refuted": 2
+        },
+        "Equal-sided": {
+          "Open": 2
+        },
+        "Square": {
+          "Refuted": 2
+        },
+        "Contains concavity": {
+          "Supported": 2
+        },
+        "Contains notch": {
+          "Supported": 2
+        },
+        "Contains zigzag": {
+          "Supported": 2
+        },
+        "Star-like": {
+          "Refuted": 2
+        }
+      }
+    },
+    {
+      "Id": "I10",
+      "Name": "B12 \u00B7 Closed stepped-arm compartments",
+      "SourceStrokes": 64,
+      "Edges": 52,
+      "Boundaries": 4,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 4
+        },
+        "Elementary": {
+          "Open": 4
+        },
+        "Triangle": {
+          "Refuted": 4
+        },
+        "Four-sided": {
+          "Refuted": 4
+        },
+        "Hexagon": {
+          "Refuted": 4
+        },
+        "Rectangle": {
+          "Refuted": 4
+        },
+        "Equal-sided": {
+          "Open": 2,
+          "Refuted": 2
+        },
+        "Square": {
+          "Refuted": 4
+        },
+        "Contains concavity": {
+          "Supported": 4
+        },
+        "Contains notch": {
+          "Refuted": 4
+        },
+        "Contains zigzag": {
+          "Supported": 4
+        },
+        "Star-like": {
+          "Supported": 2,
+          "Refuted": 2
+        }
+      }
+    },
+    {
+      "Id": "I11",
+      "Name": "B13 \u00B7 Interlocking serif-I compartments",
+      "SourceStrokes": 112,
+      "Edges": 84,
+      "Boundaries": 4,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 4
+        },
+        "Elementary": {
+          "Supported": 4
+        },
+        "Triangle": {
+          "Refuted": 4
+        },
+        "Four-sided": {
+          "Refuted": 4
+        },
+        "Hexagon": {
+          "Refuted": 4
+        },
+        "Rectangle": {
+          "Refuted": 4
+        },
+        "Equal-sided": {
+          "Refuted": 4
+        },
+        "Square": {
+          "Refuted": 4
+        },
+        "Contains concavity": {
+          "Supported": 4
+        },
+        "Contains notch": {
+          "Refuted": 4
+        },
+        "Contains zigzag": {
+          "Supported": 4
+        },
+        "Star-like": {
+          "Supported": 4
+        }
+      }
+    },
+    {
+      "Id": "I12",
+      "Name": "B17 \u00B7 Rectangle mesh with diagonal ties",
+      "SourceStrokes": 32,
+      "Edges": 28,
+      "Boundaries": 16,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 16
+        },
+        "Elementary": {
+          "Supported": 16
+        },
+        "Triangle": {
+          "Supported": 16
+        },
+        "Four-sided": {
+          "Refuted": 16
+        },
+        "Hexagon": {
+          "Refuted": 16
+        },
+        "Rectangle": {
+          "Refuted": 16
+        },
+        "Equal-sided": {
+          "Open": 16
+        },
+        "Square": {
+          "Refuted": 16
+        },
+        "Contains concavity": {
+          "Refuted": 16
+        },
+        "Contains notch": {
+          "Refuted": 16
+        },
+        "Contains zigzag": {
+          "Refuted": 16
+        },
+        "Star-like": {
+          "Refuted": 16
+        }
+      }
+    },
+    {
+      "Id": "I13",
+      "Name": "B18 \u00B7 Square mesh with diagonal ties",
+      "SourceStrokes": 32,
+      "Edges": 28,
+      "Boundaries": 16,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 16
+        },
+        "Elementary": {
+          "Supported": 16
+        },
+        "Triangle": {
+          "Supported": 16
+        },
+        "Four-sided": {
+          "Refuted": 16
+        },
+        "Hexagon": {
+          "Refuted": 16
+        },
+        "Rectangle": {
+          "Refuted": 16
+        },
+        "Equal-sided": {
+          "Open": 16
+        },
+        "Square": {
+          "Refuted": 16
+        },
+        "Contains concavity": {
+          "Refuted": 16
+        },
+        "Contains notch": {
+          "Refuted": 16
+        },
+        "Contains zigzag": {
+          "Refuted": 16
+        },
+        "Star-like": {
+          "Refuted": 16
+        }
+      }
+    },
+    {
+      "Id": "I14",
+      "Name": "B32 \u00B7 Interrupted diagonal returns and valley joins",
+      "SourceStrokes": 64,
+      "Edges": 58,
+      "Boundaries": 1,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 1
+        },
+        "Elementary": {
+          "Open": 1
+        },
+        "Triangle": {
+          "Refuted": 1
+        },
+        "Four-sided": {
+          "Supported": 1
+        },
+        "Hexagon": {
+          "Refuted": 1
+        },
+        "Rectangle": {
+          "Supported": 1
+        },
+        "Equal-sided": {
+          "Open": 1
+        },
+        "Square": {
+          "Open": 1
+        },
+        "Contains concavity": {
+          "Refuted": 1
+        },
+        "Contains notch": {
+          "Refuted": 1
+        },
+        "Contains zigzag": {
+          "Refuted": 1
+        },
+        "Star-like": {
+          "Refuted": 1
+        }
+      }
+    },
+    {
+      "Id": "I15",
+      "Name": "Open three-sided enclosure",
+      "SourceStrokes": 3,
+      "Edges": 3,
+      "Boundaries": 0,
+      "Conditional": 1,
+      "Features": {}
+    },
+    {
+      "Id": "I16",
+      "Name": "A closed outline with an actual bisector",
+      "SourceStrokes": 7,
+      "Edges": 7,
+      "Boundaries": 2,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 2
+        },
+        "Elementary": {
+          "Supported": 2
+        },
+        "Triangle": {
+          "Refuted": 2
+        },
+        "Four-sided": {
+          "Supported": 2
+        },
+        "Hexagon": {
+          "Refuted": 2
+        },
+        "Rectangle": {
+          "Supported": 2
+        },
+        "Equal-sided": {
+          "Refuted": 2
+        },
+        "Square": {
+          "Refuted": 2
+        },
+        "Contains concavity": {
+          "Refuted": 2
+        },
+        "Contains notch": {
+          "Refuted": 2
+        },
+        "Contains zigzag": {
+          "Refuted": 2
+        },
+        "Star-like": {
+          "Refuted": 2
+        }
+      }
+    },
+    {
+      "Id": "I17",
+      "Name": "A closed outline with one inward notch",
+      "SourceStrokes": 8,
+      "Edges": 8,
+      "Boundaries": 1,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 1
+        },
+        "Elementary": {
+          "Supported": 1
+        },
+        "Triangle": {
+          "Refuted": 1
+        },
+        "Four-sided": {
+          "Refuted": 1
+        },
+        "Hexagon": {
+          "Refuted": 1
+        },
+        "Rectangle": {
+          "Refuted": 1
+        },
+        "Equal-sided": {
+          "Refuted": 1
+        },
+        "Square": {
+          "Refuted": 1
+        },
+        "Contains concavity": {
+          "Supported": 1
+        },
+        "Contains notch": {
+          "Supported": 1
+        },
+        "Contains zigzag": {
+          "Refuted": 1
+        },
+        "Star-like": {
+          "Refuted": 1
+        }
+      }
+    },
+    {
+      "Id": "I18",
+      "Name": "A closed outline with a sawtooth side",
+      "SourceStrokes": 9,
+      "Edges": 9,
+      "Boundaries": 1,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 1
+        },
+        "Elementary": {
+          "Supported": 1
+        },
+        "Triangle": {
+          "Refuted": 1
+        },
+        "Four-sided": {
+          "Refuted": 1
+        },
+        "Hexagon": {
+          "Refuted": 1
+        },
+        "Rectangle": {
+          "Refuted": 1
+        },
+        "Equal-sided": {
+          "Refuted": 1
+        },
+        "Square": {
+          "Refuted": 1
+        },
+        "Contains concavity": {
+          "Supported": 1
+        },
+        "Contains notch": {
+          "Refuted": 1
+        },
+        "Contains zigzag": {
+          "Supported": 1
+        },
+        "Star-like": {
+          "Refuted": 1
+        }
+      }
+    },
+    {
+      "Id": "I19",
+      "Name": "Two closed contours with diagonal sides",
+      "SourceStrokes": 7,
+      "Edges": 7,
+      "Boundaries": 2,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 2
+        },
+        "Elementary": {
+          "Supported": 2
+        },
+        "Triangle": {
+          "Supported": 1,
+          "Refuted": 1
+        },
+        "Four-sided": {
+          "Refuted": 1,
+          "Supported": 1
+        },
+        "Hexagon": {
+          "Refuted": 2
+        },
+        "Rectangle": {
+          "Refuted": 1,
+          "Supported": 1
+        },
+        "Equal-sided": {
+          "Open": 1,
+          "Supported": 1
+        },
+        "Square": {
+          "Refuted": 1,
+          "Supported": 1
+        },
+        "Contains concavity": {
+          "Refuted": 2
+        },
+        "Contains notch": {
+          "Refuted": 2
+        },
+        "Contains zigzag": {
+          "Refuted": 2
+        },
+        "Star-like": {
+          "Refuted": 2
+        }
+      }
+    },
+    {
+      "Id": "I20",
+      "Name": "A closed contour with distributed outward points",
+      "SourceStrokes": 8,
+      "Edges": 8,
+      "Boundaries": 1,
+      "Conditional": 0,
+      "Features": {
+        "Closed": {
+          "Supported": 1
+        },
+        "Elementary": {
+          "Open": 1
+        },
+        "Triangle": {
+          "Refuted": 1
+        },
+        "Four-sided": {
+          "Refuted": 1
+        },
+        "Hexagon": {
+          "Refuted": 1
+        },
+        "Rectangle": {
+          "Refuted": 1
+        },
+        "Equal-sided": {
+          "Open": 1
+        },
+        "Square": {
+          "Refuted": 1
+        },
+        "Contains concavity": {
+          "Supported": 1
+        },
+        "Contains notch": {
+          "Refuted": 1
+        },
+        "Contains zigzag": {
+          "Supported": 1
+        },
+        "Star-like": {
+          "Supported": 1
+        }
+      }
+    }
+  ],
+  "SecondsBeforeArchive": 10.3992275
+}

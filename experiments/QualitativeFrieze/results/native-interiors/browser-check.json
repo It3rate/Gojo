@@ -1,0 +1,17 @@
+{
+  "sources": 20,
+  "boundaries": 119,
+  "conditional": 1,
+  "claims": 1428,
+  "statusCounts": {
+    "Supported": 446,
+    "Refuted": 866,
+    "Open": 110,
+    "Possible": 6
+  },
+  "svgFiles": 159,
+  "browserStates": 130,
+  "localReferences": 184,
+  "screenshots": "C:\\Users\\Robin\\source\\repos\\Gojo\\artifacts\\native-interiors-qa",
+  "errors": 0
+}

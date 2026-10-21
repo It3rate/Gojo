@@ -172,6 +172,10 @@ from another endpoint and an offered displacement word. Open means unresolved
 by the current exposed read and derivation rules, rather than a proof that no
 further native calculation could answer the question.
 
+The follow-up [native interior discovery study](GojoNativeInteriorDiscovery.md)
+finds local boundary walks and shape-feature evidence from these exposed native
+passages, with separate obstruction reads and conditional gap closures.
+
 ## Reproduce
 
 ```powershell

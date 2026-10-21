@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [native interior gallery](results/native-interiors/gallery.html) discovers
+local boundary candidates directly from exposed lattice passages. Twenty
+sources exercise elementary cells, shape features and explicit one-gap closure
+hypotheses. See the [overview](results/native-interiors/overview.html) and
+[methods and limits](../../Gojo/docs/GojoNativeInteriorDiscovery.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --native-interiors
+node experiments/QualitativeFrieze/tools/check-native-interiors.cjs
+```
+
 The [native lattice evidence gallery](results/native-lattice-evidence/gallery.html)
 derives line-family premises from thirteen executed native sources, including
 four existing Bourgoin programs. It keeps published geometry separate from
