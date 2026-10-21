@@ -8,6 +8,12 @@ For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.
 
+The [structural potential study](Gojo/docs/GojoStructuralPotential.md) connects
+partial evidence to query-directed relational completions. Its
+[gallery](experiments/QualitativeFrieze/results/structural-potential/gallery.html)
+keeps supporting-line possibilities, finite support, and introduced assumptions
+separate from the original source.
+
 The [reusable rule-pack study](Gojo/docs/GojoReusableRulePacks.md) applies the same
 native contracts to ornaments, glyphs and path networks, then connects defaults
 to provisional generation and revision. Its

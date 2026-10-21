@@ -1,0 +1,742 @@
+{
+  "Cases": 12,
+  "SourceReads": 72,
+  "TransportChecks": 72,
+  "SourceAnswers": {
+    "Yes": 22,
+    "Open": 29,
+    "No": 17,
+    "Conflict": 4
+  },
+  "CompletionAttempts": 36,
+  "CompletionAnswers": {
+    "Yes": 14,
+    "Open": 10,
+    "No": 10,
+    "Conflict": 2
+  },
+  "BoundarySamples": 14,
+  "Seconds": 0.3013302,
+  "Reads": [
+    {
+      "Case": "P01",
+      "Question": "Supporting-line boundary potential",
+      "Source": "Yes",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P01",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "Open",
+      "Visited": 7,
+      "Missing": 1,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P01",
+      "Question": "Supporting-line square potential",
+      "Source": "Open",
+      "Visited": 9,
+      "Missing": 2,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P01",
+      "Question": "Finite four-sided boundary",
+      "Source": "Open",
+      "Visited": 10,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P01",
+      "Question": "Finite rectangle",
+      "Source": "Open",
+      "Visited": 12,
+      "Missing": 5,
+      "Unasked": 0,
+      "Completion": "Open",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P01",
+      "Question": "Finite square",
+      "Source": "Open",
+      "Visited": 14,
+      "Missing": 6,
+      "Unasked": 0,
+      "Completion": "Open",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P02",
+      "Question": "Supporting-line boundary potential",
+      "Source": "Yes",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P02",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "Yes",
+      "Visited": 7,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P02",
+      "Question": "Supporting-line square potential",
+      "Source": "Open",
+      "Visited": 9,
+      "Missing": 1,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P02",
+      "Question": "Finite four-sided boundary",
+      "Source": "Open",
+      "Visited": 10,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P02",
+      "Question": "Finite rectangle",
+      "Source": "Open",
+      "Visited": 12,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P02",
+      "Question": "Finite square",
+      "Source": "Open",
+      "Visited": 14,
+      "Missing": 5,
+      "Unasked": 0,
+      "Completion": "Open",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P03",
+      "Question": "Supporting-line boundary potential",
+      "Source": "Yes",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P03",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "Yes",
+      "Visited": 7,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P03",
+      "Question": "Supporting-line square potential",
+      "Source": "Yes",
+      "Visited": 9,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P03",
+      "Question": "Finite four-sided boundary",
+      "Source": "Open",
+      "Visited": 10,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P03",
+      "Question": "Finite rectangle",
+      "Source": "Open",
+      "Visited": 12,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P03",
+      "Question": "Finite square",
+      "Source": "Open",
+      "Visited": 14,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P04",
+      "Question": "Supporting-line boundary potential",
+      "Source": "Yes",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P04",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "Yes",
+      "Visited": 7,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P04",
+      "Question": "Supporting-line square potential",
+      "Source": "No",
+      "Visited": 2,
+      "Missing": 0,
+      "Unasked": 1,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P04",
+      "Question": "Finite four-sided boundary",
+      "Source": "Yes",
+      "Visited": 10,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P04",
+      "Question": "Finite rectangle",
+      "Source": "Yes",
+      "Visited": 12,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P04",
+      "Question": "Finite square",
+      "Source": "No",
+      "Visited": 2,
+      "Missing": 0,
+      "Unasked": 1,
+      "Completion": "No",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P05",
+      "Question": "Supporting-line boundary potential",
+      "Source": "Yes",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P05",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "Yes",
+      "Visited": 7,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P05",
+      "Question": "Supporting-line square potential",
+      "Source": "Yes",
+      "Visited": 9,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P05",
+      "Question": "Finite four-sided boundary",
+      "Source": "No",
+      "Visited": 7,
+      "Missing": 0,
+      "Unasked": 3,
+      "Completion": "No",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P05",
+      "Question": "Finite rectangle",
+      "Source": "No",
+      "Visited": 9,
+      "Missing": 0,
+      "Unasked": 3,
+      "Completion": "No",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P05",
+      "Question": "Finite square",
+      "Source": "No",
+      "Visited": 11,
+      "Missing": 0,
+      "Unasked": 3,
+      "Completion": "No",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P06",
+      "Question": "Supporting-line boundary potential",
+      "Source": "Yes",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P06",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "Conflict",
+      "Visited": 2,
+      "Missing": 0,
+      "Unasked": 1,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P06",
+      "Question": "Supporting-line square potential",
+      "Source": "Conflict",
+      "Visited": 4,
+      "Missing": 0,
+      "Unasked": 1,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P06",
+      "Question": "Finite four-sided boundary",
+      "Source": "Yes",
+      "Visited": 10,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P06",
+      "Question": "Finite rectangle",
+      "Source": "Conflict",
+      "Visited": 2,
+      "Missing": 0,
+      "Unasked": 1,
+      "Completion": "Conflict",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P06",
+      "Question": "Finite square",
+      "Source": "Conflict",
+      "Visited": 4,
+      "Missing": 0,
+      "Unasked": 1,
+      "Completion": "Conflict",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P07",
+      "Question": "Supporting-line boundary potential",
+      "Source": "No",
+      "Visited": 3,
+      "Missing": 0,
+      "Unasked": 2,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P07",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "No",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 2,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P07",
+      "Question": "Supporting-line square potential",
+      "Source": "No",
+      "Visited": 7,
+      "Missing": 1,
+      "Unasked": 2,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P07",
+      "Question": "Finite four-sided boundary",
+      "Source": "No",
+      "Visited": 4,
+      "Missing": 0,
+      "Unasked": 6,
+      "Completion": "No",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P07",
+      "Question": "Finite rectangle",
+      "Source": "No",
+      "Visited": 6,
+      "Missing": 0,
+      "Unasked": 6,
+      "Completion": "No",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P07",
+      "Question": "Finite square",
+      "Source": "No",
+      "Visited": 8,
+      "Missing": 1,
+      "Unasked": 6,
+      "Completion": "No",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P08",
+      "Question": "Supporting-line boundary potential",
+      "Source": "Yes",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P08",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "Yes",
+      "Visited": 7,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P08",
+      "Question": "Supporting-line square potential",
+      "Source": "Open",
+      "Visited": 9,
+      "Missing": 1,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P08",
+      "Question": "Finite four-sided boundary",
+      "Source": "Open",
+      "Visited": 10,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P08",
+      "Question": "Finite rectangle",
+      "Source": "Open",
+      "Visited": 12,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P08",
+      "Question": "Finite square",
+      "Source": "Open",
+      "Visited": 14,
+      "Missing": 5,
+      "Unasked": 0,
+      "Completion": "Open",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P09",
+      "Question": "Supporting-line boundary potential",
+      "Source": "Open",
+      "Visited": 5,
+      "Missing": 1,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P09",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "Open",
+      "Visited": 7,
+      "Missing": 1,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P09",
+      "Question": "Supporting-line square potential",
+      "Source": "Open",
+      "Visited": 9,
+      "Missing": 2,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P09",
+      "Question": "Finite four-sided boundary",
+      "Source": "Open",
+      "Visited": 10,
+      "Missing": 5,
+      "Unasked": 0,
+      "Completion": "Open",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P09",
+      "Question": "Finite rectangle",
+      "Source": "Open",
+      "Visited": 12,
+      "Missing": 5,
+      "Unasked": 0,
+      "Completion": "Open",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P09",
+      "Question": "Finite square",
+      "Source": "Open",
+      "Visited": 14,
+      "Missing": 6,
+      "Unasked": 0,
+      "Completion": "Open",
+      "Assumptions": 4
+    },
+    {
+      "Case": "P10",
+      "Question": "Supporting-line boundary potential",
+      "Source": "Yes",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P10",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "Open",
+      "Visited": 7,
+      "Missing": 1,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P10",
+      "Question": "Supporting-line square potential",
+      "Source": "Open",
+      "Visited": 9,
+      "Missing": 2,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P10",
+      "Question": "Finite four-sided boundary",
+      "Source": "Yes",
+      "Visited": 10,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P10",
+      "Question": "Finite rectangle",
+      "Source": "Open",
+      "Visited": 12,
+      "Missing": 1,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 1
+    },
+    {
+      "Case": "P10",
+      "Question": "Finite square",
+      "Source": "Open",
+      "Visited": 14,
+      "Missing": 2,
+      "Unasked": 0,
+      "Completion": "Yes",
+      "Assumptions": 2
+    },
+    {
+      "Case": "P11",
+      "Question": "Supporting-line boundary potential",
+      "Source": "Yes",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P11",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "Yes",
+      "Visited": 7,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P11",
+      "Question": "Supporting-line square potential",
+      "Source": "Yes",
+      "Visited": 9,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P11",
+      "Question": "Finite four-sided boundary",
+      "Source": "Open",
+      "Visited": 10,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Open",
+      "Assumptions": 3
+    },
+    {
+      "Case": "P11",
+      "Question": "Finite rectangle",
+      "Source": "Open",
+      "Visited": 12,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Open",
+      "Assumptions": 3
+    },
+    {
+      "Case": "P11",
+      "Question": "Finite square",
+      "Source": "Open",
+      "Visited": 14,
+      "Missing": 4,
+      "Unasked": 0,
+      "Completion": "Open",
+      "Assumptions": 3
+    },
+    {
+      "Case": "P12",
+      "Question": "Supporting-line boundary potential",
+      "Source": "No",
+      "Visited": 5,
+      "Missing": 0,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P12",
+      "Question": "Supporting-line rectangle potential",
+      "Source": "No",
+      "Visited": 7,
+      "Missing": 1,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P12",
+      "Question": "Supporting-line square potential",
+      "Source": "No",
+      "Visited": 9,
+      "Missing": 2,
+      "Unasked": 0,
+      "Completion": null,
+      "Assumptions": 0
+    },
+    {
+      "Case": "P12",
+      "Question": "Finite four-sided boundary",
+      "Source": "No",
+      "Visited": 6,
+      "Missing": 0,
+      "Unasked": 4,
+      "Completion": "No",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P12",
+      "Question": "Finite rectangle",
+      "Source": "No",
+      "Visited": 8,
+      "Missing": 1,
+      "Unasked": 4,
+      "Completion": "No",
+      "Assumptions": 0
+    },
+    {
+      "Case": "P12",
+      "Question": "Finite square",
+      "Source": "No",
+      "Visited": 10,
+      "Missing": 2,
+      "Unasked": 4,
+      "Completion": "No",
+      "Assumptions": 0
+    }
+  ]
+}

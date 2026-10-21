@@ -1,5 +1,15 @@
 # Qualitative frieze generators
 
+The [structural potential gallery](results/structural-potential/gallery.html)
+connects partial line-family evidence to query-directed boundary completions.
+It separates supporting-line possibilities, finite support, and assumptions
+introduced only for a sampled observational boundary. See the
+[methods and limits](../../Gojo/docs/GojoStructuralPotential.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --structural-potential
+```
+
 The [rule-pack transfer gallery](results/rule-pack-transfer/gallery.html) applies
 three reusable native packs across 54 ornaments, glyphs and path networks.
 Three symbolic templates then share one generation prior through 24 stages of
