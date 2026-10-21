@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [ornament concept gallery](results/ornament-concepts/gallery.html) compares
+38 native constructions under declared branch-and-route, every-site and prior
+question-vocabulary contracts. It includes visually different fans and windows
+that preserve a rosette's coarse arrangement, alongside near misses that do not.
+See the [construction atlas](results/ornament-concepts/overview.html) and
+[methods and findings](../../Gojo/docs/GojoOrnamentConceptEquivalence.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-concepts
+```
+
 The [ornament reconstruction gallery](results/ornament-reconstruction/gallery.html)
 compares visible motifs, joint occurrences, mechanical paths and read focus
 across 416 executed specifications from 26 families. It includes compact

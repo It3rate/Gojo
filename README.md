@@ -8,6 +8,13 @@ For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.
 
+The [ornament concept-equivalence study](Gojo/docs/GojoOrnamentConceptEquivalence.md)
+compares 38 native designs under explicit whole-arrangement questions. Its
+[interactive gallery](experiments/QualitativeFrieze/results/ornament-concepts/gallery.html)
+shows how a rosette, fan and branching window can share one route concept while
+remaining visually different, and exposes designs that agree with earlier local
+questions but violate the requested whole arrangement.
+
 ## Quick Start
 
 Work directly on `master` and commit completed, verified checkpoints locally.
