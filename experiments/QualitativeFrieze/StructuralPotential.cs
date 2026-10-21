@@ -24,7 +24,7 @@ public static class StructuralPotential
 
     public sealed class Frame
     {
-        public QualitativeMotionFrame Motion { get; } = new();
+        public QualitativeMotionFrame Motion { get; }
         public QualitativeRecognitionObservation SourceObservation { get; }
         public Relation Source { get; }
         public Relation FamilyA { get; }
@@ -55,15 +55,22 @@ public static class StructuralPotential
         public Relation Encounters { get; }
         public Relation Boundary { get; }
 
-        public Frame()
+        public Frame() : this(DefaultObservation()) { }
+
+        private Frame(QualitativeRecognitionObservation observation) : this(observation,
+            Items(observation.Segments).Cast<Relation>().ToArray()) { }
+
+        /// <summary>Bind the same candidate obligations to actual exposed
+        /// passages. The source can contain other strokes; this read selects
+        /// only these four, without copying or joining their endpoint sites.</summary>
+        public Frame(QualitativeRecognitionObservation observation, IReadOnlyList<Relation> supports)
         {
-            var endpoints = Enumerable.Range(0, 8).Select(_ => new Placeholder()).ToArray();
-            Supports = Enumerable.Range(0, 4).Select(i => new Relation(new Placeholder(),
-                new Relation(new Relation(endpoints[2 * i], endpoints[2 * i + 1]),
-                    S(i < 2 ? Motion.Right : Motion.Up)))).ToArray();
-            // These are coarse directional passages, not a straightness proof.
-            // Unpublished crossing observations remain open, rather than absent.
-            SourceObservation = new(Motion, S(endpoints), S(Supports.Cast<IElement>().ToArray()), crossings: StructuralConstraint.Open());
+            if (supports.Count != 4 || supports.Distinct<Relation>(ReferenceEqualityComparer.Instance).Count() != 4 ||
+                supports.Any(support => !observation.TryReadSegment(support, out _, out _, out _, out _)))
+                throw new ArgumentException("A candidate selects four actual distinct published passages.", nameof(supports));
+            Motion = observation.Frame; SourceObservation = observation; Supports = supports.ToArray();
+            var endpoints = Supports.SelectMany(support => {
+                observation.TryReadSegment(support, out _, out var from, out var to, out _); return new[] { from, to }; }).ToArray();
             GapA = new(new Placeholder(), new Placeholder());
             GapB = new(new Placeholder(), new Placeholder());
             FamilyA = new(Motion.Horizontal, new Relation(GapA, S(Supports[0], Supports[1])));
@@ -125,8 +132,22 @@ public static class StructuralPotential
 
             Relation Encounter(int a, int b, int corner) => new(new Relation(Supports[a], Supports[b]), CornerRoles[corner]);
             Relation Edge(int from, int to, int support) => new(new Relation(CornerRoles[from], CornerRoles[to]), Supports[support]);
-            Relation Coverage(int support, int first, int second) => new(Supports[support],
-                S(endpoints[2 * support], CornerRoles[first], CornerRoles[second], endpoints[2 * support + 1]));
+            Relation Coverage(int support, int first, int second)
+            {
+                observation.TryReadSegment(Supports[support], out _, out _, out _, out var heading);
+                var reverse = Items(heading).Any(direction => ReferenceEquals(direction, support < 2 ? Motion.Left : Motion.Down));
+                return new(Supports[support], S(endpoints[2 * support], CornerRoles[reverse ? second : first],
+                    CornerRoles[reverse ? first : second], endpoints[2 * support + 1]));
+            }
+        }
+
+        private static QualitativeRecognitionObservation DefaultObservation()
+        {
+            var motion = new QualitativeMotionFrame();
+            var endpoints = Enumerable.Range(0, 8).Select(_ => new Placeholder()).ToArray();
+            var supports = Enumerable.Range(0, 4).Select(i => new Relation(new Placeholder(),
+                new Relation(new Relation(endpoints[2 * i], endpoints[2 * i + 1]), S(i < 2 ? motion.Right : motion.Up)))).ToArray();
+            return new(motion, S(endpoints), S(supports.Cast<IElement>().ToArray()), crossings: StructuralConstraint.Open());
         }
 
         /// <summary>Publishes explicit geometric premises. This fixture does not

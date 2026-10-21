@@ -138,6 +138,62 @@ public static class StructuralEvidenceRules
         { var read = TryRead(surface, out publication); witness = new(surface, publication.Blocked); return read; }
     }
 
+    /// <summary>An explicitly exposed observational service. The callback
+    /// reads this public predicate contract; it is not an inferred capability
+    /// or an instruction to inspect another system's private state. Capacity
+    /// slots are allocated independently in each explicit Read application.</summary>
+    public sealed class Service
+    {
+        // service = source -> (port -> (revision -> (predicates -> capacity)))
+        public Relation Source { get; }
+        public Relation Port { get; }
+        public IElement Revision { get; }
+        public Relation Predicates { get; }
+        public Relation Capacity { get; }
+        public Relation Surface { get; }
+        public Relation Blocked { get; }
+        public bool IsValid => Empty(Blocked);
+        internal Func<Request, Reply> Handler { get; }
+
+        public Service(Relation source, Relation port, IElement revision, Relation predicates,
+            int capacity, Func<Request, Reply> handler)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegative(capacity);
+            ArgumentNullException.ThrowIfNull(handler);
+            Source = source; Port = port; Revision = revision; Predicates = predicates; Handler = handler;
+            Capacity = S(Enumerable.Range(0, capacity).Select(_ => (IElement)new Placeholder()).ToArray());
+            Surface = new(source, new Relation(port, new Relation(revision, new Relation(predicates, Capacity))));
+            Blocked = Closed(predicates, out var values) && values.All(value => value is Relation) &&
+                values.Distinct<IElement>(ReferenceEqualityComparer.Instance).Count() == values.Length
+                ? S() : S(predicates);
+        }
+    }
+
+    public sealed class Request
+    {
+        // request = context -> ((source -> port) -> (revision -> predicate))
+        public Relation Source { get; }
+        public Relation Port { get; }
+        public IElement Revision { get; }
+        public Relation Predicate { get; }
+        public Relation Context { get; }
+        public Relation Surface { get; }
+
+        public Request(Relation source, Relation port, IElement revision, Relation predicate, Relation context)
+        {
+            Source = source; Port = port; Revision = revision; Predicate = predicate; Context = context;
+            Surface = new(context, new Relation(new Relation(source, port), new Relation(revision, predicate)));
+        }
+    }
+
+    public sealed class Reply
+    {
+        // reply = actual request surface -> actual evidence surface
+        public Relation Surface { get; }
+        public Reply(Request request, D.Evidence evidence) : this(new(request.Surface, evidence.Surface)) { }
+        public Reply(Relation surface) => Surface = surface;
+    }
+
     public sealed class Receipt
     {
         public Relation Goal { get; }
@@ -155,6 +211,13 @@ public static class StructuralEvidenceRules
         public Relation Consumed { get; }
         public Relation BudgetCuts { get; }
         public Relation Open { get; }
+        public Publication ObservedPublication { get; }
+        public Relation ServiceClaims { get; }
+        public Relation ServiceRequests { get; }
+        public Relation ServiceAccepted { get; }
+        public Relation ServiceBlocked { get; }
+        public Relation ServiceOpen { get; }
+        public Relation ServiceConsumed { get; }
         public Relation Surface { get; }
 
         /// <summary>Publishes this selected read for an explicit downstream
@@ -175,17 +238,26 @@ public static class StructuralEvidenceRules
 
         internal Receipt(Program program, Publication source, Relation goal, Node root,
             IReadOnlyList<Relation> visited, IReadOnlyList<Relation> unasked,
-            Relation budget, Relation consumed)
+            Relation budget, Relation consumed, Publication observed, Relation serviceClaims,
+            Relation serviceRequests, Relation serviceAccepted, Relation serviceBlocked, Relation serviceOpen,
+            Relation serviceConsumed)
         {
             Goal = goal; Source = source; Program = program; Answer = root.Answer;
             Supported = root.Supported; Refuted = root.Refuted; Conflicts = root.Conflicts;
             Missing = root.Missing; Blocked = root.Blocked; Visited = S(visited.Cast<IElement>().ToArray());
             Unasked = S(unasked.Distinct<Relation>(ReferenceEqualityComparer.Instance).Cast<IElement>().ToArray());
             Budget = budget; Consumed = consumed; BudgetCuts = root.BudgetCuts; Open = root.Open;
+            ObservedPublication = observed; ServiceClaims = serviceClaims; ServiceRequests = serviceRequests;
+            ServiceAccepted = serviceAccepted; ServiceBlocked = serviceBlocked; ServiceOpen = serviceOpen;
+            ServiceConsumed = serviceConsumed;
+            var services = new Relation(serviceClaims, new Relation(serviceRequests, new Relation(serviceAccepted,
+                new Relation(serviceBlocked, new Relation(serviceOpen, serviceConsumed)))));
+            var tail = new Relation(Budget, new Relation(Consumed, new Relation(BudgetCuts,
+                new Relation(Open, new Relation(observed.Surface, services)))));
             Surface = new(new Relation(new Relation(program.Surface, source.Surface), goal),
                 new Relation(root.Surface, new Relation(Supported, new Relation(Refuted, new Relation(Conflicts,
                     new Relation(Missing, new Relation(Visited, new Relation(Unasked, new Relation(Blocked,
-                        new Relation(Budget, new Relation(Consumed, new Relation(BudgetCuts, Open))))))))))));
+                        tail)))))))));
         }
     }
 
@@ -193,18 +265,36 @@ public static class StructuralEvidenceRules
     /// Explicit premise order controls refinement. A decisive negative,
     /// contradiction or blocked read leaves later premises unasked. Unknown
     /// facts and finite query cuts remain Open; no default fact is supplied.</summary>
-    public static Receipt Read(Program program, Publication source, Relation goal, int queryCapacity = 64)
+    public static Receipt Read(Program program, Publication source, Relation goal, int queryCapacity = 64) =>
+        ReadCore(program, source, goal, null, queryCapacity);
+
+    /// <summary>Queries only reached leaves that have no source account.
+    /// Existing Open, conflicting or negative accounts are never overwritten
+    /// by a service reply. Derived conclusions remain owned by their rules.</summary>
+    public static Receipt Read(Program program, Publication source, Relation goal, Service service, int queryCapacity = 64) =>
+        ReadCore(program, source, goal, service, queryCapacity);
+
+    private static Receipt ReadCore(Program program, Publication source, Relation goal, Service? service, int queryCapacity)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(queryCapacity);
         var cache = new Dictionary<Relation, Node>(ReferenceEqualityComparer.Instance);
         var visited = new List<Relation>(); var unasked = new List<Relation>(); var consumed = new List<IElement>();
         var budget = S(Enumerable.Range(0, queryCapacity).Select(_ => (IElement)new Placeholder()).ToArray());
         var slots = E(budget);
+        var observedFacts = source.Evidence.ToList();
+        var requests = new List<IElement>(); var accepted = new List<IElement>(); var refused = new List<IElement>();
+        var serviceOpen = new List<IElement>(); var serviceConsumed = new List<IElement>();
+        var serviceSlots = service is null ? [] : E(service.Capacity);
+        var context = new Relation(new Relation(program.Surface, source.Surface),
+            new Relation(goal, service?.Surface ?? S()));
         var root = !program.IsValid || !source.IsValid
             ? new Node(goal, S(), S(), [], S(), S(), S(), S(), S(),
                 S(E(program.Blocked).Concat(E(source.Blocked)).ToArray()))
             : Visit(goal);
-        return new(program, source, goal, root, visited, unasked, budget, S(consumed.ToArray()));
+        var observed = service is null || !source.IsValid ? source : new Publication(source.Source, observedFacts);
+        return new(program, source, goal, root, visited, unasked, budget, S(consumed.ToArray()), observed,
+            service is null ? S() : S(service.Surface), S(requests.ToArray()), S(accepted.ToArray()),
+            S(refused.ToArray()), S(serviceOpen.ToArray()), S(serviceConsumed.ToArray()));
 
         Node Visit(Relation predicate)
         {
@@ -216,13 +306,19 @@ public static class StructuralEvidenceRules
                     S(), S(predicate), S(), S(predicate), S(new Relation(predicate, budget)));
             }
             consumed.Add(new Relation(slots[visited.Count], predicate)); visited.Add(predicate);
-            var facts = source.Evidence.Where(fact => ReferenceEquals(fact.Predicate, predicate)).ToArray();
+            var rule = program.Rules.SingleOrDefault(rule => ReferenceEquals(rule.Conclusion, predicate));
+            var facts = observedFacts.Where(fact => ReferenceEquals(fact.Predicate, predicate)).ToArray();
+            var rejectedService = S();
+            if (rule is null && facts.Length == 0 && service is not null)
+            {
+                rejectedService = QueryService(predicate);
+                facts = observedFacts.Where(fact => ReferenceEquals(fact.Predicate, predicate)).ToArray();
+            }
             var factScope = S(facts.Select(fact => (IElement)fact.Surface).ToArray());
             var sourceYes = facts.SelectMany(fact => E(fact.Supported)).ToArray();
             var sourceNo = facts.SelectMany(fact => E(fact.Refuted)).ToArray();
             var sourceOpen = facts.SelectMany(fact => E(fact.Open)).ToArray();
             var sourceBlocked = facts.SelectMany(fact => E(fact.Blocked)).ToArray();
-            var rule = program.Rules.SingleOrDefault(rule => ReferenceEquals(rule.Conclusion, predicate));
             var children = new List<Node>(); var pending = new List<IElement>(); var skipped = new List<IElement>();
             if (rule is not null)
                 for (var index = 0; index < rule.Premises.Count; index++)
@@ -242,7 +338,7 @@ public static class StructuralEvidenceRules
             var sourceConflict = sourceYes.Length != 0 && sourceNo.Length != 0;
             var yes = sourceYes.Length != 0 && (sourceOpen.Length == 0 || sourceConflict) || derived == "Yes";
             var no = sourceNo.Length != 0 && (sourceOpen.Length == 0 || sourceConflict) || derived == "No";
-            var blocked = sourceBlocked.Length != 0 || derived == "Blocked";
+            var blocked = sourceBlocked.Length != 0 || derived == "Blocked" || !Empty(rejectedService);
             var conflict = sourceConflict || yes && no || derived == "Conflict";
             // A supplied open assessment is not completed by a concurrent
             // positive/negative assessment. A proved construction can discharge
@@ -254,8 +350,48 @@ public static class StructuralEvidenceRules
             var node = new Node(predicate, factScope, rule is null ? S() : S(rule.Surface), children,
                 yes ? S(basis) : S(), no ? S(basis) : S(), conflict ? S(basis) : S(),
                 S(pending.Distinct<IElement>(ReferenceEqualityComparer.Instance).ToArray()),
-                S(skipped.ToArray()), blocked ? S(basis) : S(), cuts, open ? S(basis) : S());
+                S(skipped.ToArray()), blocked ? S(new Relation(basis, rejectedService)) : S(), cuts, open ? S(basis) : S());
             cache.Add(predicate, node); return node;
+        }
+
+        Relation QueryService(Relation predicate)
+        {
+            var request = new Request(service!.Source, service.Port, service.Revision, predicate, context);
+            requests.Add(request.Surface);
+            if (!service.IsValid || !ReferenceEquals(source.Source, service.Source))
+                return Reject(new Relation(request.Surface, new Relation(source.Surface, service.Surface)));
+            if (!E(service.Predicates).Any(actual => ReferenceEquals(actual, predicate)))
+            {
+                serviceOpen.Add(new Relation(request.Surface, service.Predicates)); return S();
+            }
+            if (serviceConsumed.Count == serviceSlots.Length)
+            {
+                serviceOpen.Add(new Relation(request.Surface, new Relation(service.Capacity, S(serviceConsumed.ToArray()))));
+                return S();
+            }
+            var allocation = new Relation(serviceSlots[serviceConsumed.Count], request.Surface);
+            serviceConsumed.Add(allocation);
+            var reply = service.Handler(request);
+            if (reply is null)
+                return Reject(new Relation(request.Surface, new Relation(allocation, StructuralConstraint.Open())));
+            if (reply.Surface is not { Left: var actualRequest, Right: Relation raw } ||
+                !ReferenceEquals(actualRequest, request.Surface))
+                return Reject(new Relation(request.Surface, new Relation(allocation, reply.Surface)));
+            var evidence = new D.Evidence(raw);
+            if (!ReferenceEquals(evidence.Predicate, predicate))
+                return Reject(new Relation(request.Surface, new Relation(allocation, reply.Surface)));
+            var receipt = new Relation(request.Surface, new Relation(allocation, reply.Surface));
+            // A reusable observation retains its actual admission route even
+            // when separated from this evaluation receipt. The provider's raw
+            // evidence and complete request remain nested in that route.
+            var admitted = new D.Evidence(predicate, Through(evidence.Supported), Through(evidence.Refuted),
+                Through(evidence.Open), Through(evidence.Blocked));
+            observedFacts.Add(admitted); accepted.Add(receipt);
+            if (evidence.Answer == "Open") serviceOpen.Add(receipt);
+            return S();
+
+            Relation Through(Relation scope) => S(E(scope).Select(proof => (IElement)new Relation(receipt, proof)).ToArray());
+            Relation Reject(Relation witness) { refused.Add(witness); return S(witness); }
         }
     }
 

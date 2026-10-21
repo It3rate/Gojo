@@ -1,0 +1,455 @@
+{
+  "Cases": 13,
+  "CandidateCapacity": 32,
+  "SourceReads": 1254,
+  "TransportChecks": 1254,
+  "CasesWithCuts": 4,
+  "Results": [
+    {
+      "Id": "N01",
+      "Name": "Three by three support families",
+      "OriginalStrokes": 6,
+      "SupportStrokes": 6,
+      "Candidates": 9,
+      "UnsearchedSelections": 0,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 9
+        },
+        "Supporting-line rectangle potential": {
+          "Open": 9
+        },
+        "Supporting-line square potential": {
+          "Open": 5,
+          "No": 4
+        },
+        "Finite four-sided boundary": {
+          "Yes": 9
+        },
+        "Finite rectangle": {
+          "Open": 9
+        },
+        "Finite square": {
+          "Open": 5,
+          "No": 4
+        }
+      },
+      "ServiceRequests": 322,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N02",
+      "Name": "The same source with a selected turn model",
+      "OriginalStrokes": 6,
+      "SupportStrokes": 6,
+      "Candidates": 9,
+      "UnsearchedSelections": 0,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 9
+        },
+        "Supporting-line rectangle potential": {
+          "Yes": 9
+        },
+        "Supporting-line square potential": {
+          "Yes": 5,
+          "No": 4
+        },
+        "Finite four-sided boundary": {
+          "Yes": 9
+        },
+        "Finite rectangle": {
+          "Yes": 9
+        },
+        "Finite square": {
+          "Yes": 5,
+          "No": 4
+        }
+      },
+      "ServiceRequests": 322,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N03",
+      "Name": "Unequal intervals on the two families",
+      "OriginalStrokes": 6,
+      "SupportStrokes": 6,
+      "Candidates": 9,
+      "UnsearchedSelections": 0,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 9
+        },
+        "Supporting-line rectangle potential": {
+          "Yes": 9
+        },
+        "Supporting-line square potential": {
+          "No": 7,
+          "Yes": 2
+        },
+        "Finite four-sided boundary": {
+          "Yes": 9
+        },
+        "Finite rectangle": {
+          "Yes": 9
+        },
+        "Finite square": {
+          "No": 7,
+          "Yes": 2
+        }
+      },
+      "ServiceRequests": 280,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N04",
+      "Name": "One finite horizontal passage is clipped",
+      "OriginalStrokes": 6,
+      "SupportStrokes": 6,
+      "Candidates": 9,
+      "UnsearchedSelections": 0,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 9
+        },
+        "Supporting-line rectangle potential": {
+          "Yes": 9
+        },
+        "Supporting-line square potential": {
+          "Yes": 5,
+          "No": 4
+        },
+        "Finite four-sided boundary": {
+          "Yes": 5,
+          "No": 4
+        },
+        "Finite rectangle": {
+          "Yes": 5,
+          "No": 4
+        },
+        "Finite square": {
+          "Yes": 3,
+          "No": 6
+        }
+      },
+      "ServiceRequests": 292,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N05",
+      "Name": "One endpoint word is withheld",
+      "OriginalStrokes": 6,
+      "SupportStrokes": 6,
+      "Candidates": 9,
+      "UnsearchedSelections": 0,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Open": 6,
+          "Yes": 3
+        },
+        "Supporting-line rectangle potential": {
+          "Open": 6,
+          "Yes": 3
+        },
+        "Supporting-line square potential": {
+          "Open": 6,
+          "Yes": 2,
+          "No": 1
+        },
+        "Finite four-sided boundary": {
+          "Open": 6,
+          "Yes": 3
+        },
+        "Finite rectangle": {
+          "Open": 6,
+          "Yes": 3
+        },
+        "Finite square": {
+          "Open": 6,
+          "Yes": 2,
+          "No": 1
+        }
+      },
+      "ServiceRequests": 364,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N06",
+      "Name": "Distinct supports at coincident transverse positions",
+      "OriginalStrokes": 6,
+      "SupportStrokes": 6,
+      "Candidates": 9,
+      "UnsearchedSelections": 0,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 6,
+          "No": 3
+        },
+        "Supporting-line rectangle potential": {
+          "Yes": 6,
+          "No": 3
+        },
+        "Supporting-line square potential": {
+          "Yes": 4,
+          "No": 5
+        },
+        "Finite four-sided boundary": {
+          "Yes": 6,
+          "No": 3
+        },
+        "Finite rectangle": {
+          "Yes": 6,
+          "No": 3
+        },
+        "Finite square": {
+          "Yes": 4,
+          "No": 5
+        }
+      },
+      "ServiceRequests": 272,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N07",
+      "Name": "Interpolation intentionally unspecified",
+      "OriginalStrokes": 6,
+      "SupportStrokes": 6,
+      "Candidates": 9,
+      "UnsearchedSelections": 0,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Open": 9
+        },
+        "Supporting-line rectangle potential": {
+          "Open": 9
+        },
+        "Supporting-line square potential": {
+          "Open": 5,
+          "No": 4
+        },
+        "Finite four-sided boundary": {
+          "Open": 9
+        },
+        "Finite rectangle": {
+          "Open": 9
+        },
+        "Finite square": {
+          "Open": 5,
+          "No": 4
+        }
+      },
+      "ServiceRequests": 322,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N08",
+      "Name": "B01 \u00B7 Running brick bond",
+      "OriginalStrokes": 24,
+      "SupportStrokes": 12,
+      "Candidates": 32,
+      "UnsearchedSelections": 136,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 27,
+          "No": 5
+        },
+        "Supporting-line rectangle potential": {
+          "Open": 27,
+          "No": 5
+        },
+        "Supporting-line square potential": {
+          "Open": 13,
+          "No": 19
+        },
+        "Finite four-sided boundary": {
+          "No": 31,
+          "Yes": 1
+        },
+        "Finite rectangle": {
+          "No": 31,
+          "Open": 1
+        },
+        "Finite square": {
+          "No": 32
+        }
+      },
+      "ServiceRequests": 971,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N09",
+      "Name": "B07 \u00B7 Alternating-width orthogonal bands",
+      "OriginalStrokes": 32,
+      "SupportStrokes": 8,
+      "Candidates": 32,
+      "UnsearchedSelections": 4,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 32
+        },
+        "Supporting-line rectangle potential": {
+          "Open": 32
+        },
+        "Supporting-line square potential": {
+          "Open": 9,
+          "No": 23
+        },
+        "Finite four-sided boundary": {
+          "Yes": 32
+        },
+        "Finite rectangle": {
+          "Open": 32
+        },
+        "Finite square": {
+          "Open": 9,
+          "No": 23
+        }
+      },
+      "ServiceRequests": 1022,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N10",
+      "Name": "B17 \u00B7 Rectangle mesh with diagonal ties",
+      "OriginalStrokes": 32,
+      "SupportStrokes": 22,
+      "Candidates": 9,
+      "UnsearchedSelections": 0,
+      "UnsupportedPassages": 16,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 9
+        },
+        "Supporting-line rectangle potential": {
+          "Open": 9
+        },
+        "Supporting-line square potential": {
+          "No": 7,
+          "Open": 2
+        },
+        "Finite four-sided boundary": {
+          "Yes": 9
+        },
+        "Finite rectangle": {
+          "Open": 9
+        },
+        "Finite square": {
+          "No": 7,
+          "Open": 2
+        }
+      },
+      "ServiceRequests": 280,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N11",
+      "Name": "B18 \u00B7 Square mesh with diagonal ties",
+      "OriginalStrokes": 32,
+      "SupportStrokes": 22,
+      "Candidates": 9,
+      "UnsearchedSelections": 0,
+      "UnsupportedPassages": 16,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 9
+        },
+        "Supporting-line rectangle potential": {
+          "Open": 9
+        },
+        "Supporting-line square potential": {
+          "Open": 5,
+          "No": 4
+        },
+        "Finite four-sided boundary": {
+          "Yes": 9
+        },
+        "Finite rectangle": {
+          "Open": 9
+        },
+        "Finite square": {
+          "Open": 5,
+          "No": 4
+        }
+      },
+      "ServiceRequests": 322,
+      "MaximumRequestsPerRead": 10
+    },
+    {
+      "Id": "N12",
+      "Name": "One passage is replaced by a notched route",
+      "OriginalStrokes": 10,
+      "SupportStrokes": 10,
+      "Candidates": 32,
+      "UnsearchedSelections": 68,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 17,
+          "No": 15
+        },
+        "Supporting-line rectangle potential": {
+          "Yes": 17,
+          "No": 15
+        },
+        "Supporting-line square potential": {
+          "No": 23,
+          "Yes": 9
+        },
+        "Finite four-sided boundary": {
+          "No": 32
+        },
+        "Finite rectangle": {
+          "No": 32
+        },
+        "Finite square": {
+          "No": 32
+        }
+      },
+      "ServiceRequests": 685,
+      "MaximumRequestsPerRead": 7
+    },
+    {
+      "Id": "N13",
+      "Name": "B07 with a selected native turn model",
+      "OriginalStrokes": 32,
+      "SupportStrokes": 8,
+      "Candidates": 32,
+      "UnsearchedSelections": 4,
+      "UnsupportedPassages": 0,
+      "Outcomes": {
+        "Supporting-line boundary potential": {
+          "Yes": 32
+        },
+        "Supporting-line rectangle potential": {
+          "Yes": 32
+        },
+        "Supporting-line square potential": {
+          "Yes": 9,
+          "No": 23
+        },
+        "Finite four-sided boundary": {
+          "Yes": 32
+        },
+        "Finite rectangle": {
+          "Yes": 32
+        },
+        "Finite square": {
+          "Yes": 9,
+          "No": 23
+        }
+      },
+      "ServiceRequests": 1022,
+      "MaximumRequestsPerRead": 10
+    }
+  ],
+  "SecondsBeforeArchive": 5.7563316
+}

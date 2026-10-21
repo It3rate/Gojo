@@ -183,6 +183,11 @@ ornament, instead of the directly authored premise ports in this study. Broader
 sampling can then compare several candidate constructions while preserving the
 same source evidence and query boundaries.
 
+The follow-up [native lattice evidence study](GojoNativeLatticeEvidence.md)
+implements that supplier for two directional families, including executed
+Bourgoin graphs, bounded candidate discovery and public-port transport. Its
+conditional geometric model and unsupported cases remain explicit.
+
 ## Run
 
 ```powershell

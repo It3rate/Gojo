@@ -8,6 +8,12 @@ For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.
 
+The [native lattice evidence study](Gojo/docs/GojoNativeLatticeEvidence.md)
+connects executed ornament graphs to query-directed geometric evidence through
+published ports. Its [gallery](experiments/QualitativeFrieze/results/native-lattice-evidence/gallery.html)
+compares actual source supports, requested premises and derived boundary views,
+including missing geometry and bounded searches.
+
 The [structural potential study](Gojo/docs/GojoStructuralPotential.md) connects
 partial evidence to query-directed relational completions. Its
 [gallery](experiments/QualitativeFrieze/results/structural-potential/gallery.html)

@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [native lattice evidence gallery](results/native-lattice-evidence/gallery.html)
+derives line-family premises from thirteen executed native sources, including
+four existing Bourgoin programs. It keeps published geometry separate from
+private construction history, and compares source reads after port-only
+transport. See the [whole sheet](results/native-lattice-evidence/overview.html)
+and [methods and limits](../../Gojo/docs/GojoNativeLatticeEvidence.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --native-lattice-evidence
+node experiments/QualitativeFrieze/tools/check-native-lattice-evidence.cjs
+```
+
 The [structural potential gallery](results/structural-potential/gallery.html)
 connects partial line-family evidence to query-directed boundary completions.
 It separates supporting-line possibilities, finite support, and assumptions
