@@ -8,6 +8,12 @@ For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.
 
+The [ornament default study](Gojo/docs/GojoOrnamentDefaults.md) separates required
+structure, revisable defaults and deliberately unused cues across 72 native
+drawings. Its [interactive gallery](experiments/QualitativeFrieze/results/ornament-defaults/gallery.html)
+shows which alternatives survive changes to count, symmetry, overlap and
+proportion expectations, with counterexamples and missing evidence retained.
+
 The [ornament concept-equivalence study](Gojo/docs/GojoOrnamentConceptEquivalence.md)
 compares 38 native designs under explicit whole-arrangement questions. Its
 [interactive gallery](experiments/QualitativeFrieze/results/ornament-concepts/gallery.html)

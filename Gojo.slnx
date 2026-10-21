@@ -42,6 +42,7 @@
     <File Path="Gojo/docs/GojoRetainedMatchExperiments.md" />
     <File Path="Gojo/docs/GojoOrnamentReconstructionExperiments.md" />
     <File Path="Gojo/docs/GojoOrnamentConceptEquivalence.md" />
+    <File Path="Gojo/docs/GojoOrnamentDefaults.md" />
     <File Path="Gojo/docs/GojoLocalExperimentCosts.md" />
     <File Path="Gojo/docs/GojoColouredOrnamentStudy.md" />
     <File Path="Gojo/docs/GojoOrnamentDesignCollection.md" />

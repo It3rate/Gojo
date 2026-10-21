@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [ornament defaults gallery](results/ornament-defaults/gallery.html) separates
+required claims, strong defaults, weak preferences, unused cues and exact-rule
+exceptions across 72 native constructions. It includes single-rule interventions
+and finite minimal-description searches, with facts and policy decisions shown
+separately. See the [overview](results/ornament-defaults/overview.html) and
+[methods and findings](../../Gojo/docs/GojoOrnamentDefaults.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-defaults
+node experiments/QualitativeFrieze/tools/check-ornament-defaults.cjs
+```
+
 The [ornament concept gallery](results/ornament-concepts/gallery.html) compares
 38 native constructions under declared branch-and-route, every-site and prior
 question-vocabulary contracts. It includes visually different fans and windows
