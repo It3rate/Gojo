@@ -1,0 +1,14 @@
+{
+  "evaluatedRows": 512,
+  "manifestRows": 1536,
+  "inspectedCases": 12,
+  "prototypes": 154,
+  "fragments": 677,
+  "svgFiles": 85,
+  "modelNodes": 85054,
+  "receiverEpisodeNodes": 176033,
+  "browserStates": 28,
+  "localReferences": 101,
+  "screenshots": "C:\\Users\\Robin\\source\\repos\\Gojo\\artifacts\\ornament-learning-family-qa",
+  "errors": 0
+}

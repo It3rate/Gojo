@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [ornament learning pilot](results/ornament-learning/gallery.html) trains a
+portable native boundary-route memory from a streamed program curriculum,
+then tests partial evidence, conflicting streams and held-out constructions.
+It separates remembered prototypes from novel compositional learning. See the
+[overview](results/ornament-learning/overview.html) and
+[protocol and limits](../../Gojo/docs/GojoOrnamentLearningPilot.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-learning --count 4096
+node experiments/QualitativeFrieze/tools/check-ornament-learning.cjs
+```
+
 The [native interior gallery](results/native-interiors/gallery.html) discovers
 local boundary candidates directly from exposed lattice passages. Twenty
 sources exercise elementary cells, shape features and explicit one-gap closure

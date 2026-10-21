@@ -1,0 +1,80 @@
+[
+  {
+    "id": "B01",
+    "name": "Running brick bond",
+    "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n274/mode/1up",
+    "passages": 24,
+    "discoveredBoundaries": 3,
+    "usableBoundaries": 3,
+    "localExactDictionaryCoverage": 3,
+    "localCoarseDictionaryCoverage": 3,
+    "wholeSceneCandidates": 128,
+    "wholeSceneQueries": 18,
+    "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+  },
+  {
+    "id": "B04",
+    "name": "Honeycomb from three reused contours",
+    "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n277/mode/1up",
+    "passages": 72,
+    "discoveredBoundaries": 12,
+    "usableBoundaries": 12,
+    "localExactDictionaryCoverage": 0,
+    "localCoarseDictionaryCoverage": 0,
+    "wholeSceneCandidates": 0,
+    "wholeSceneQueries": 54,
+    "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+  },
+  {
+    "id": "B06.B",
+    "name": "Octagons with upright square gaps",
+    "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n278/mode/1up",
+    "passages": 32,
+    "discoveredBoundaries": 5,
+    "usableBoundaries": 5,
+    "localExactDictionaryCoverage": 1,
+    "localCoarseDictionaryCoverage": 1,
+    "wholeSceneCandidates": 0,
+    "wholeSceneQueries": 16,
+    "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+  },
+  {
+    "id": "B13",
+    "name": "Interlocking serif-I compartments",
+    "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n418/mode/1up",
+    "passages": 448,
+    "discoveredBoundaries": 16,
+    "usableBoundaries": 16,
+    "localExactDictionaryCoverage": 0,
+    "localCoarseDictionaryCoverage": 0,
+    "wholeSceneCandidates": 0,
+    "wholeSceneQueries": 128,
+    "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+  },
+  {
+    "id": "B17",
+    "name": "Rectangle mesh with diagonal ties",
+    "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n272/mode/1up",
+    "passages": 32,
+    "discoveredBoundaries": 16,
+    "usableBoundaries": 16,
+    "localExactDictionaryCoverage": 0,
+    "localCoarseDictionaryCoverage": 16,
+    "wholeSceneCandidates": 48,
+    "wholeSceneQueries": 32,
+    "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+  },
+  {
+    "id": "B32",
+    "name": "Interrupted diagonal returns and valley joins",
+    "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n430/mode/1up",
+    "passages": 64,
+    "discoveredBoundaries": 1,
+    "usableBoundaries": 1,
+    "localExactDictionaryCoverage": 0,
+    "localCoarseDictionaryCoverage": 1,
+    "wholeSceneCandidates": 3,
+    "wholeSceneQueries": 34,
+    "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+  }
+]

@@ -1,0 +1,258 @@
+{
+  "schema": "ornament-learning-pilot-v1",
+  "corpus": "ornament-learning-corpus-v1",
+  "count": 1536,
+  "seed": 1729,
+  "splitProtocol": "whole-family-held-out",
+  "partitionIsolation": true,
+  "trainingProvenanceVerified": true,
+  "frozenBeforeValidation": true,
+  "checkpointLoaded": false,
+  "requestedTrainRows": 1024,
+  "materializedTrainRows": 1024,
+  "usableTrainRows": 824,
+  "trainBoundaries": 1552,
+  "modelEpisodes": 824,
+  "prototypes": 154,
+  "coarseRouteTypes": 16,
+  "fragments": 677,
+  "auditWitnessesRetained": 32,
+  "detailedAuditLimit": 32,
+  "partitions": [
+    {
+      "split": "validation",
+      "rows": 256,
+      "groups": 2,
+      "withTeacherBoundary": 176,
+      "seenExact": 32,
+      "seenShape": 32,
+      "conflicting": 96,
+      "conflictAbstentions": 96,
+      "abstentions": 168,
+      "meaningsProposed": 1600,
+      "firstStreamMeaningsProposed": 4608,
+      "exactTop1": 0,
+      "shapeTop1": 0,
+      "shapeTop3": 0,
+      "firstStreamShapeTop1": 1,
+      "uniformShapeTop1": 0,
+      "frequencyShapeTop1": 0,
+      "randomShapeTop1": 0,
+      "unseenShapeRows": 144,
+      "unseenShapeTop1": 0,
+      "generatedClosed": 88,
+      "generatedWithOpenClaims": 57,
+      "milliseconds": 12219.267000000002,
+      "cleanFamiliarRows": 20,
+      "cleanFamiliarAdmitted": 0,
+      "cleanFamiliarTop1": 0,
+      "singleBoundaryFamiliarRows": 5,
+      "singleBoundaryFamiliarAdmitted": 0
+    },
+    {
+      "split": "test",
+      "rows": 256,
+      "groups": 2,
+      "withTeacherBoundary": 192,
+      "seenExact": 32,
+      "seenShape": 32,
+      "conflicting": 96,
+      "conflictAbstentions": 96,
+      "abstentions": 169,
+      "meaningsProposed": 6501,
+      "firstStreamMeaningsProposed": 11902,
+      "exactTop1": 2,
+      "shapeTop1": 2,
+      "shapeTop3": 2,
+      "firstStreamShapeTop1": 5,
+      "uniformShapeTop1": 0,
+      "frequencyShapeTop1": 2,
+      "randomShapeTop1": 0,
+      "unseenShapeRows": 160,
+      "unseenShapeTop1": 0,
+      "generatedClosed": 87,
+      "generatedWithOpenClaims": 18,
+      "milliseconds": 26346.24049999999,
+      "cleanFamiliarRows": 20,
+      "cleanFamiliarAdmitted": 2,
+      "cleanFamiliarTop1": 2,
+      "singleBoundaryFamiliarRows": 0,
+      "singleBoundaryFamiliarAdmitted": 0
+    }
+  ],
+  "replayChecks": 24,
+  "modelGzipBytes": 700437,
+  "modelSha256": "e600de556203eb8cb95740b33de5b6f6bce8fe14395bc894498b2e207de87832",
+  "trainSeconds": 10.3076002,
+  "totalSecondsBeforeGallery": 79.8330536,
+  "peakWorkingSetMiB": 1064.8125,
+  "repairProbes": [
+    {
+      "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0;2:0,2:0,2:0,2:0,2:0;4:0,4:0,4:0,4:0,4:0,4:0,4:0,4:0;6:0,6:0,6:0,6:0,6:0",
+      "beforeSides": 4,
+      "afterBoundaries": 1,
+      "containsNotch": true,
+      "closed": true,
+      "preservedParent": true,
+      "unchangedOtherChords": true,
+      "netEndpointsPreserved": true,
+      "afterShapeKeys": [
+        "C|0;2;0;6;0;2;4;6"
+      ]
+    },
+    {
+      "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0;2:0,2:0,2:0,2:0,2:0;4:0,4:0;6:0;4:0,4:0,4:0,4:0;2:0;4:0,4:0;6:0,6:0,6:0,6:0,6:0",
+      "beforeSides": 8,
+      "afterBoundaries": 1,
+      "containsNotch": true,
+      "closed": true,
+      "preservedParent": true,
+      "unchangedOtherChords": true,
+      "netEndpointsPreserved": true,
+      "afterShapeKeys": [
+        "C|0;2;0;6;0;2;4;6;4;2;4;6"
+      ]
+    },
+    {
+      "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0;2:0,2:0,2:0,2:0,2:0;4:0,4:0;6:0;4:0,4:0,4:0,4:0;2:0;4:0,4:0;6:0;4:0;6:0,6:0,6:0;0:0;6:0",
+      "beforeSides": 12,
+      "afterBoundaries": 1,
+      "containsNotch": true,
+      "closed": true,
+      "preservedParent": true,
+      "unchangedOtherChords": true,
+      "netEndpointsPreserved": true,
+      "afterShapeKeys": [
+        "C|0;2;0;2;4;2;0;2;4;6;0;6;4;6;0;6"
+      ]
+    },
+    {
+      "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0;2:0,2:0,2:0,2:0;4:0,4:0,4:0,4:0,4:0,4:0,4:0,4:0;6:0,6:0,6:0,6:0",
+      "beforeSides": 4,
+      "afterBoundaries": 1,
+      "containsNotch": true,
+      "closed": true,
+      "preservedParent": true,
+      "unchangedOtherChords": true,
+      "netEndpointsPreserved": true,
+      "afterShapeKeys": [
+        "C|0;2;0;6;0;2;4;6"
+      ]
+    },
+    {
+      "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0;2:0,2:0,2:0,2:0;4:0,4:0;6:0;4:0,4:0,4:0,4:0;2:0;4:0,4:0;6:0,6:0,6:0,6:0",
+      "beforeSides": 8,
+      "afterBoundaries": 1,
+      "containsNotch": true,
+      "closed": true,
+      "preservedParent": true,
+      "unchangedOtherChords": true,
+      "netEndpointsPreserved": true,
+      "afterShapeKeys": [
+        "C|0;2;0;6;0;2;4;6;4;2;4;6"
+      ]
+    },
+    {
+      "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0;2:0,2:0,2:0,2:0;4:0,4:0;6:0;4:0,4:0,4:0,4:0;2:0;4:0,4:0;6:0;4:0;6:0,6:0;0:0;6:0",
+      "beforeSides": 12,
+      "afterBoundaries": 1,
+      "containsNotch": true,
+      "closed": true,
+      "preservedParent": true,
+      "unchangedOtherChords": true,
+      "netEndpointsPreserved": true,
+      "afterShapeKeys": [
+        "C|0;2;0;2;4;2;0;2;4;6;0;6;4;6;0;6"
+      ]
+    }
+  ],
+  "transferProbes": [
+    {
+      "id": "B01",
+      "name": "Running brick bond",
+      "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n274/mode/1up",
+      "passages": 24,
+      "discoveredBoundaries": 3,
+      "usableBoundaries": 3,
+      "localExactDictionaryCoverage": 3,
+      "localCoarseDictionaryCoverage": 3,
+      "wholeSceneCandidates": 128,
+      "wholeSceneQueries": 18,
+      "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+    },
+    {
+      "id": "B04",
+      "name": "Honeycomb from three reused contours",
+      "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n277/mode/1up",
+      "passages": 72,
+      "discoveredBoundaries": 12,
+      "usableBoundaries": 12,
+      "localExactDictionaryCoverage": 0,
+      "localCoarseDictionaryCoverage": 0,
+      "wholeSceneCandidates": 0,
+      "wholeSceneQueries": 54,
+      "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+    },
+    {
+      "id": "B06.B",
+      "name": "Octagons with upright square gaps",
+      "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n278/mode/1up",
+      "passages": 32,
+      "discoveredBoundaries": 5,
+      "usableBoundaries": 5,
+      "localExactDictionaryCoverage": 1,
+      "localCoarseDictionaryCoverage": 1,
+      "wholeSceneCandidates": 0,
+      "wholeSceneQueries": 16,
+      "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+    },
+    {
+      "id": "B13",
+      "name": "Interlocking serif-I compartments",
+      "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n418/mode/1up",
+      "passages": 448,
+      "discoveredBoundaries": 16,
+      "usableBoundaries": 16,
+      "localExactDictionaryCoverage": 0,
+      "localCoarseDictionaryCoverage": 0,
+      "wholeSceneCandidates": 0,
+      "wholeSceneQueries": 128,
+      "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+    },
+    {
+      "id": "B17",
+      "name": "Rectangle mesh with diagonal ties",
+      "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n272/mode/1up",
+      "passages": 32,
+      "discoveredBoundaries": 16,
+      "usableBoundaries": 16,
+      "localExactDictionaryCoverage": 0,
+      "localCoarseDictionaryCoverage": 16,
+      "wholeSceneCandidates": 48,
+      "wholeSceneQueries": 32,
+      "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+    },
+    {
+      "id": "B32",
+      "name": "Interrupted diagonal returns and valley joins",
+      "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n430/mode/1up",
+      "passages": 64,
+      "discoveredBoundaries": 1,
+      "usableBoundaries": 1,
+      "localExactDictionaryCoverage": 0,
+      "localCoarseDictionaryCoverage": 1,
+      "wholeSceneCandidates": 3,
+      "wholeSceneQueries": 34,
+      "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+    }
+  ],
+  "learningScope": "Native cyclic-route recall and recurrent subroute mining. No shape names supervise memory. No novel whole-route composition, learned edit policy, learned defaults, or learned layout grammar yet.",
+  "evidenceScope": "Joint heading/actual-site consistency under one shared turn/reflection; lost calibration, reach extents, figure/ground and source ownership remain explicit unresolved projection. Admissible is not full metric reconstruction.",
+  "baselines": "Same admissible learned dictionary: canonical uniform ordering; exposure frequency alone; deterministic random ordering. Multi-stream and first-stream use the same frozen model. Test target agreement is a teacher preference, not correctness of every alternative.",
+  "budget": "128 observed route slots; 128 topology faces; 512 joint-binding search states. Search cuts remain Open. Dataset is streamed; at most 32 detailed training audits retained.",
+  "machine": {
+    "processorCount": 16,
+    "runtime": "10.0.12",
+    "processArchitecture": "X64"
+  }
+}

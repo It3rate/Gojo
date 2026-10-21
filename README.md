@@ -8,6 +8,14 @@ For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.
 
+The [ornament learning pilot](Gojo/docs/GojoOrnamentLearningPilot.md) trains a
+portable native route dictionary from a streamed curriculum and tests partial
+evidence, conflicts and held-out constructions. Its
+[gallery](experiments/QualitativeFrieze/results/ornament-learning/gallery.html)
+keeps teacher observations, open correspondence and generated hypotheses
+separate; [whole-family holdout](experiments/QualitativeFrieze/results/ornament-learning-family/gallery.html)
+exposes the limits of route recall without compositional learning.
+
 The [native interior discovery study](Gojo/docs/GojoNativeInteriorDiscovery.md)
 finds local enclosures in lattice passages through native word order and cyclic
 ray walks, then reads side structure, notches and zigzags with explicit evidence.

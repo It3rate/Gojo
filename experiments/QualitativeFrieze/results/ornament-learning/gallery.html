@@ -1,0 +1,1998 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Native ornament learning</title><style>*{box-sizing:border-box}body{margin:0;background:#f5f2e8;color:#203b46;font:16px/1.55 system-ui,sans-serif}header,main,.chooser{max-width:1400px;margin:auto;padding:24px 28px}header{padding-bottom:12px}h1{font:500 clamp(28px,4vw,45px)/1.2 Georgia,serif;margin:8px 0 18px}h2{font:500 25px/1.3 Georgia,serif;margin:8px 0 12px}p{max-width:100ch}.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#62716e}nav{display:flex;gap:24px;flex-wrap:wrap}a{color:#245968}section{margin:20px 0 42px}.chooser{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}select{font:inherit;max-width:100%;min-width:0;padding:10px;border:1px solid #a3b0a7;border-radius:5px;background:#fffdf7;color:inherit}.grid,.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:20px}.grid{align-items:start}article,figure,.tile{margin:0;min-width:0}article,.tile{background:#fffdf7;padding:16px;border:1px solid #d3d7ca;border-radius:6px}figure{background:#faf8ef}img{display:block;width:100%;height:auto;min-height:100px}figcaption{padding:9px 12px;font-size:14px;color:#526b6c}article p{font-size:14px;margin:12px 0 0}.candidate.compatible{border-top:5px solid #3b6a83}.candidate.conflicting{border-top:5px solid #b7863f}.badge{display:inline-block;font-weight:650;font-size:13px;padding:3px 8px;background:#e6edf0;border-radius:3px;margin:0 0 12px}.conflicting .badge{background:#f2e5ce}.muted{color:#667570}.note,aside{padding:15px 18px;background:#e8ede6;border-left:4px solid #7c9891}.teacher{padding:22px;background:#ebe8db;border-radius:6px}code{overflow-wrap:anywhere;font-size:12px}details{margin-top:14px}summary{cursor:pointer;font-size:13px}.tile{text-decoration:none}.tile h2{font-size:20px}.tile p{font-size:14px}.tile:hover{border-color:#5c8589}.run-summary{max-width:1344px;width:calc(100% - 56px);margin:24px auto;padding:22px;background:#eeeee2;border:1px solid #d7dbce;border-radius:6px}.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px;margin:20px 0}.metrics div{padding:12px;background:#fffdf5}.metrics dt{font-size:12px;color:#526b6c}.metrics dd{margin:5px 0 0;font-size:25px}.table-scroll{max-width:100%;overflow:auto;margin:18px 0}table{border-collapse:collapse;font-size:13px;width:100%}caption{text-align:left;font-weight:650;padding:8px 0}th,td{padding:9px 12px;text-align:left;border-bottom:1px solid #cdd3c8;white-space:nowrap}thead{background:#e1e7dd}[hidden]{display:none!important}@media(max-width:600px){header,main,.chooser{padding:18px 14px}.teacher{padding:14px}.grid,.tiles{gap:14px}.chooser{display:block}.chooser label,.chooser span{display:block;margin:6px 0}select{width:100%}.run-summary{width:calc(100% - 28px);padding:14px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}</style></head><body><header><p class="eyebrow">Gojo · experimental native grammar</p><h1>Learning from ornamental structure</h1>
+<p>Partial streams enter the receiver. Complete teacher units are withheld until assessment. Learned candidates remain proposals; the final image executes a stored native route through the drawing engine.</p>
+<nav><a href="overview.html">All inspected cases</a><a href="summary.json">Run measurements</a><a href="gallery-data.json">Gallery data</a></nav></header>
+<section class='run-summary'><h2>Run measurements</h2><dl class='metrics'><div><dt>Generated descriptors</dt><dd>4096</dd></div><div><dt>Requested training rows</dt><dd>2859</dd></div><div><dt>Rows with a usable training boundary</dt><dd>2263</dd></div><div><dt>Discovered training boundaries</dt><dd>3744</dd></div><div><dt>Learned native routes</dt><dd>175</dd></div><div><dt>Coarse heading types</dt><dd>25</dd></div><div><dt>Mined subroutes</dt><dd>896</dd></div></dl><p class='muted'>Partition protocol: recipe-edit-group-held-out. Teacher agreement measures the held-back target preference; another compatible proposal can still be valid.</p><div class='table-scroll'><table><caption>Agreement counts / evaluated rows containing a closed teacher boundary</caption><thead><tr><th>Partition</th><th>Evaluated rows</th><th>Closed teacher rows</th><th>Learned top 1</th><th>Learned top 3</th><th>First stream top 1</th><th>Uniform top 1</th><th>Frequency top 1</th><th>Random top 1</th></tr></thead><tbody><tr><th>validation</th><td>809</td><td>596</td><td>142 / 596</td><td>150 / 596</td><td>202 / 596</td><td>49 / 596</td><td>142 / 596</td><td>53 / 596</td></tr><tr><th>test</th><td>428</td><td>316</td><td>70 / 316</td><td>79 / 316</td><td>103 / 316</td><td>30 / 316</td><td>70 / 316</td><td>33 / 316</td></tr></tbody></table></div><div class='table-scroll'><table><caption>Uncertainty, conflicting observations and vocabulary coverage</caption><thead><tr><th>Partition</th><th>Abstentions / all rows</th><th>Conflict abstentions / conflicting rows</th><th>Unseen teacher heading rows</th><th>Unseen heading top 1 / unseen rows</th><th>Generated closed routes / all rows</th></tr></thead><tbody><tr><th>validation</th><td>300 / 809</td><td>228 / 228</td><td>213</td><td>0 / 213</td><td>509 / 809</td></tr><tr><th>test</th><td>163 / 428</td><td>120 / 120</td><td>43</td><td>0 / 43</td><td>265 / 428</td></tr></tbody></table></div><details><summary>What this run does and does not learn</summary><p>Native cyclic-route recall and recurrent subroute mining. No shape names supervise memory. No novel whole-route composition, learned edit policy, learned defaults, or learned layout grammar yet.</p><p>Joint heading/actual-site consistency under one shared turn/reflection; lost calibration, reach extents, figure/ground and source ownership remain explicit unresolved projection. Admissible is not full metric reconstruction.</p><p>Same admissible learned dictionary: canonical uniform ordering; exposure frequency alone; deterministic random ordering. Multi-stream and first-stream use the same frozen model. Test target agreement is a teacher preference, not correctness of every alternative.</p><p>128 observed route slots; 128 topology faces; 512 joint-binding search states. Search cuts remain Open. Dataset is streamed; at most 32 detailed training audits retained.</p></details></section>
+<section class="chooser"><label for="case">Inspected case</label><select id="case"></select><span id="partition"></span></section>
+<main id="content"></main>
+<script>
+globalThis.ORNAMENT_LEARNING = {
+  "schema": "ornament-learning-gallery-v1",
+  "summary": {
+    "schema": "ornament-learning-pilot-v1",
+    "corpus": "ornament-learning-corpus-v1",
+    "count": 4096,
+    "seed": 1729,
+    "splitProtocol": "recipe-edit-group-held-out",
+    "partitionIsolation": true,
+    "trainingProvenanceVerified": true,
+    "frozenBeforeValidation": true,
+    "checkpointLoaded": false,
+    "requestedTrainRows": 2859,
+    "materializedTrainRows": 2859,
+    "usableTrainRows": 2263,
+    "trainBoundaries": 3744,
+    "modelEpisodes": 2263,
+    "prototypes": 175,
+    "coarseRouteTypes": 25,
+    "fragments": 896,
+    "auditWitnessesRetained": 32,
+    "detailedAuditLimit": 32,
+    "partitions": [
+      {
+        "split": "validation",
+        "rows": 809,
+        "groups": 19,
+        "withTeacherBoundary": 596,
+        "seenExact": 367,
+        "seenShape": 383,
+        "conflicting": 228,
+        "conflictAbstentions": 228,
+        "abstentions": 300,
+        "meaningsProposed": 46144,
+        "firstStreamMeaningsProposed": 69450,
+        "exactTop1": 18,
+        "shapeTop1": 142,
+        "shapeTop3": 150,
+        "firstStreamShapeTop1": 202,
+        "uniformShapeTop1": 49,
+        "frequencyShapeTop1": 142,
+        "randomShapeTop1": 53,
+        "unseenShapeRows": 213,
+        "unseenShapeTop1": 0,
+        "generatedClosed": 509,
+        "generatedWithOpenClaims": 148,
+        "milliseconds": 73173.58949999999,
+        "cleanFamiliarRows": 275,
+        "cleanFamiliarAdmitted": 194,
+        "cleanFamiliarTop1": 142,
+        "singleBoundaryFamiliarRows": 110,
+        "singleBoundaryFamiliarAdmitted": 88
+      },
+      {
+        "split": "test",
+        "rows": 428,
+        "groups": 10,
+        "withTeacherBoundary": 316,
+        "seenExact": 198,
+        "seenShape": 273,
+        "conflicting": 120,
+        "conflictAbstentions": 120,
+        "abstentions": 163,
+        "meaningsProposed": 19819,
+        "firstStreamMeaningsProposed": 31035,
+        "exactTop1": 56,
+        "shapeTop1": 70,
+        "shapeTop3": 79,
+        "firstStreamShapeTop1": 103,
+        "uniformShapeTop1": 30,
+        "frequencyShapeTop1": 70,
+        "randomShapeTop1": 33,
+        "unseenShapeRows": 43,
+        "unseenShapeTop1": 0,
+        "generatedClosed": 265,
+        "generatedWithOpenClaims": 93,
+        "milliseconds": 38683.21640000001,
+        "cleanFamiliarRows": 197,
+        "cleanFamiliarAdmitted": 147,
+        "cleanFamiliarTop1": 70,
+        "singleBoundaryFamiliarRows": 49,
+        "singleBoundaryFamiliarAdmitted": 47
+      }
+    ],
+    "replayChecks": 24,
+    "modelGzipBytes": 951736,
+    "modelSha256": "06c010c9351b4fcb015b9977977a84d4ac5678cc57e1e40e29dbfaf8ff2bf623",
+    "trainSeconds": 29.7163843,
+    "totalSecondsBeforeGallery": 171.2593789,
+    "peakWorkingSetMiB": 1037.08203125,
+    "repairProbes": [
+      {
+        "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,2:0,2:0,2:0,2:0,2:0;4:0,4:0,4:0,4:0,4:0;2:0,2:0,2:0,2:0,2:0;4:0,4:0,4:0,4:0,4:0;6:0,6:0,6:0,6:0,6:0;4:0,4:0,4:0,4:0,4:0;6:0,6:0,6:0,6:0,6:0",
+        "beforeSides": 7,
+        "afterBoundaries": 1,
+        "containsNotch": true,
+        "closed": true,
+        "preservedParent": true,
+        "unchangedOtherChords": true,
+        "netEndpointsPreserved": true,
+        "afterShapeKeys": [
+          "C|0;2;0;2;0;6;0;3;6;0;6"
+        ]
+      },
+      {
+        "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,2:0,2:0,2:0,2:0;4:0,4:0,4:0,4:0;2:0,2:0,2:0,2:0;4:0,4:0,4:0,4:0;6:0,6:0,6:0,6:0;4:0,4:0,4:0,4:0;6:0,6:0,6:0,6:0",
+        "beforeSides": 7,
+        "afterBoundaries": 1,
+        "containsNotch": true,
+        "closed": true,
+        "preservedParent": true,
+        "unchangedOtherChords": true,
+        "netEndpointsPreserved": true,
+        "afterShapeKeys": [
+          "C|0;2;0;2;0;6;0;3;6;0;6"
+        ]
+      },
+      {
+        "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0;2:0,4:0,4:0,4:0,4:0;2:0,2:0,2:0,2:0,4:0;4:0,6:0,6:0,6:0,6:0;4:0,4:0,4:0,4:0,6:0",
+        "beforeSides": 5,
+        "afterBoundaries": 1,
+        "containsNotch": false,
+        "closed": true,
+        "preservedParent": true,
+        "unchangedOtherChords": true,
+        "netEndpointsPreserved": true,
+        "afterShapeKeys": [
+          "C|0;3;5"
+        ]
+      },
+      {
+        "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0,2:0,2:0,2:0;4:0,4:0,4:0;2:0,2:0,2:0;4:0,4:0,4:0;6:0,6:0,6:0;4:0,4:0,4:0;6:0,6:0,6:0",
+        "beforeSides": 7,
+        "afterBoundaries": 1,
+        "containsNotch": true,
+        "closed": true,
+        "preservedParent": true,
+        "unchangedOtherChords": true,
+        "netEndpointsPreserved": true,
+        "afterShapeKeys": [
+          "C|0;2;0;2;0;6;0;3;6;0;6"
+        ]
+      },
+      {
+        "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0;2:0,2:0,2:0,2:0,2:0;4:0,4:0,4:0,4:0,4:0,4:0,4:0,4:0;6:0,6:0,6:0,6:0,6:0",
+        "beforeSides": 4,
+        "afterBoundaries": 1,
+        "containsNotch": true,
+        "closed": true,
+        "preservedParent": true,
+        "unchangedOtherChords": true,
+        "netEndpointsPreserved": true,
+        "afterShapeKeys": [
+          "C|0;2;0;6;0;2;4;6"
+        ]
+      },
+      {
+        "key": "C|0:0,0:0,0:0,0:0,0:0,0:0,0:0,0:0;2:0,2:0,2:0,2:0,2:0;4:0,4:0;6:0;4:0,4:0,4:0,4:0;2:0;4:0,4:0;6:0,6:0,6:0,6:0,6:0",
+        "beforeSides": 8,
+        "afterBoundaries": 1,
+        "containsNotch": true,
+        "closed": true,
+        "preservedParent": true,
+        "unchangedOtherChords": true,
+        "netEndpointsPreserved": true,
+        "afterShapeKeys": [
+          "C|0;2;0;6;0;2;4;6;4;2;4;6"
+        ]
+      }
+    ],
+    "transferProbes": [
+      {
+        "id": "B01",
+        "name": "Running brick bond",
+        "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n274/mode/1up",
+        "passages": 24,
+        "discoveredBoundaries": 3,
+        "usableBoundaries": 3,
+        "localExactDictionaryCoverage": 3,
+        "localCoarseDictionaryCoverage": 3,
+        "wholeSceneCandidates": 139,
+        "wholeSceneQueries": 18,
+        "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+      },
+      {
+        "id": "B04",
+        "name": "Honeycomb from three reused contours",
+        "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n277/mode/1up",
+        "passages": 72,
+        "discoveredBoundaries": 12,
+        "usableBoundaries": 12,
+        "localExactDictionaryCoverage": 0,
+        "localCoarseDictionaryCoverage": 0,
+        "wholeSceneCandidates": 0,
+        "wholeSceneQueries": 54,
+        "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+      },
+      {
+        "id": "B06.B",
+        "name": "Octagons with upright square gaps",
+        "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n278/mode/1up",
+        "passages": 32,
+        "discoveredBoundaries": 5,
+        "usableBoundaries": 5,
+        "localExactDictionaryCoverage": 1,
+        "localCoarseDictionaryCoverage": 1,
+        "wholeSceneCandidates": 3,
+        "wholeSceneQueries": 16,
+        "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+      },
+      {
+        "id": "B13",
+        "name": "Interlocking serif-I compartments",
+        "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n418/mode/1up",
+        "passages": 448,
+        "discoveredBoundaries": 16,
+        "usableBoundaries": 16,
+        "localExactDictionaryCoverage": 0,
+        "localCoarseDictionaryCoverage": 0,
+        "wholeSceneCandidates": 0,
+        "wholeSceneQueries": 128,
+        "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+      },
+      {
+        "id": "B17",
+        "name": "Rectangle mesh with diagonal ties",
+        "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n272/mode/1up",
+        "passages": 32,
+        "discoveredBoundaries": 16,
+        "usableBoundaries": 16,
+        "localExactDictionaryCoverage": 0,
+        "localCoarseDictionaryCoverage": 16,
+        "wholeSceneCandidates": 84,
+        "wholeSceneQueries": 32,
+        "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+      },
+      {
+        "id": "B32",
+        "name": "Interrupted diagonal returns and valley joins",
+        "sourceUrl": "https://archive.org/details/thoriedelorneme01bourgoog/page/n430/mode/1up",
+        "passages": 64,
+        "discoveredBoundaries": 1,
+        "usableBoundaries": 1,
+        "localExactDictionaryCoverage": 0,
+        "localCoarseDictionaryCoverage": 1,
+        "wholeSceneCandidates": 3,
+        "wholeSceneQueries": 34,
+        "readScope": "Local coverage uses independent native face discovery; it is not learned scene recognition. Whole-scene candidates still contain only one learned boundary. Neither pass trains the model."
+      }
+    ],
+    "learningScope": "Native cyclic-route recall and recurrent subroute mining. No shape names supervise memory. No novel whole-route composition, learned edit policy, learned defaults, or learned layout grammar yet.",
+    "evidenceScope": "Joint heading/actual-site consistency under one shared turn/reflection; lost calibration, reach extents, figure/ground and source ownership remain explicit unresolved projection. Admissible is not full metric reconstruction.",
+    "baselines": "Same admissible learned dictionary: canonical uniform ordering; exposure frequency alone; deterministic random ordering. Multi-stream and first-stream use the same frozen model. Test target agreement is a teacher preference, not correctness of every alternative.",
+    "budget": "128 observed route slots; 128 topology faces; 512 joint-binding search states. Search cuts remain Open. Dataset is streamed; at most 32 detailed training audits retained.",
+    "machine": {
+      "processorCount": 16,
+      "runtime": "10.0.12",
+      "processArchitecture": "X64"
+    }
+  },
+  "examples": [
+    {
+      "id": "L00289",
+      "split": "validation",
+      "note": "Native landmark observations conflict. Frequency must not overrule that evidence.",
+      "group": "recipe-01-edit-00",
+      "variant": 1840,
+      "teacher": "patterns/L00289-teacher.svg",
+      "pattern": "patterns/L00289-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00289-stream-0.svg",
+          "passages": 1,
+          "bindings": 4,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00289-stream-1.svg",
+          "passages": 1,
+          "bindings": 2,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        },
+        {
+          "name": "competing landmark",
+          "image": "patterns/L00289-stream-2.svg",
+          "passages": 0,
+          "bindings": 2,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00289-candidate-0.svg",
+          "score": 8.063785208687609,
+          "share": 0.14219297520636381,
+          "compatible": false,
+          "support": 429,
+          "sides": 4,
+          "matched": 2,
+          "contradicted": 2,
+          "open": 2,
+          "shapeKey": "C|0;2;4;6"
+        }
+      ],
+      "generated": null,
+      "candidateCount": 1,
+      "compatibleCount": 0
+    },
+    {
+      "id": "L00001",
+      "split": "validation",
+      "note": "A coarse teacher boundary recurs among the learned proposals. Exact dimensions and source construction are separate questions.",
+      "group": "recipe-01-edit-00",
+      "variant": 1729,
+      "teacher": "patterns/L00001-teacher.svg",
+      "pattern": "patterns/L00001-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00001-stream-0.svg",
+          "passages": 1,
+          "bindings": 4,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00001-stream-1.svg",
+          "passages": 2,
+          "bindings": 1,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00001-candidate-0.svg",
+          "score": 9.072763586231991,
+          "share": 0.15995824693113653,
+          "compatible": true,
+          "support": 429,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00001-candidate-1.svg",
+          "score": 7.506723069204266,
+          "share": 0.03341056968217202,
+          "compatible": true,
+          "support": 89,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00001-candidate-2.svg",
+          "score": 7.269270682675305,
+          "share": 0.02634872590169874,
+          "compatible": true,
+          "support": 70,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00001-candidate-3.svg",
+          "score": 2.394449154672439,
+          "share": 0.00020121091211539627,
+          "compatible": false,
+          "support": 80,
+          "sides": 3,
+          "matched": 1,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;3;5"
+        }
+      ],
+      "generated": "patterns/L00001-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00027",
+      "split": "validation",
+      "note": "The teacher boundary has an unseen coarse route; retrieval alone cannot invent it.",
+      "group": "recipe-03-edit-02",
+      "variant": 1729,
+      "teacher": "patterns/L00027-teacher.svg",
+      "pattern": "patterns/L00027-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00027-stream-0.svg",
+          "passages": 5,
+          "bindings": 8,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00027-stream-1.svg",
+          "passages": 5,
+          "bindings": 2,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00027-candidate-0.svg",
+          "score": 6.007300158348361,
+          "share": 0.06813885413138031,
+          "compatible": false,
+          "support": 6,
+          "sides": 10,
+          "matched": 4,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;1;2;3;5;6;0;6;4;6"
+        }
+      ],
+      "generated": null,
+      "candidateCount": 1,
+      "compatibleCount": 0
+    },
+    {
+      "id": "L00007",
+      "split": "test",
+      "note": "An admissible completion differs from the teacher. Partial evidence need not determine the intended boundary.",
+      "group": "recipe-07-edit-00",
+      "variant": 1729,
+      "teacher": "patterns/L00007-teacher.svg",
+      "pattern": "patterns/L00007-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00007-stream-0.svg",
+          "passages": 6,
+          "bindings": 9,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00007-stream-1.svg",
+          "passages": 5,
+          "bindings": 3,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00007-candidate-0.svg",
+          "score": 13.929963299963426,
+          "share": 0.14466489064654228,
+          "compatible": true,
+          "support": 16,
+          "sides": 17,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;0;2;4;7;5;7;5;7;5;0;6"
+        },
+        {
+          "image": "patterns/L00007-candidate-1.svg",
+          "score": 13.904210268056087,
+          "share": 0.140986894156409,
+          "compatible": true,
+          "support": 16,
+          "sides": 13,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;6;0;2;5;3;5;3;5;3;6"
+        },
+        {
+          "image": "patterns/L00007-candidate-2.svg",
+          "score": 13.8439242140918,
+          "share": 0.13273848081674622,
+          "compatible": true,
+          "support": 15,
+          "sides": 13,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;6;0;2;5;3;5;3;5;3;6"
+        },
+        {
+          "image": "patterns/L00007-candidate-3.svg",
+          "score": 1.3944491546724391,
+          "share": 5.203056260848715E-07,
+          "compatible": false,
+          "support": 80,
+          "sides": 3,
+          "matched": 3,
+          "contradicted": 2,
+          "open": 1,
+          "shapeKey": "C|0;3;5"
+        }
+      ],
+      "generated": "patterns/L00007-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00014",
+      "split": "validation",
+      "note": "No usable closed teacher boundary. Absence of a training target is not a negative shape label.",
+      "group": "recipe-02-edit-01",
+      "variant": 1729,
+      "teacher": "patterns/L00014-teacher.svg",
+      "pattern": "patterns/L00014-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00014-stream-0.svg",
+          "passages": 2,
+          "bindings": 3,
+          "passageInventory": "closed inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00014-stream-1.svg",
+          "passages": 1,
+          "bindings": 1,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00014-candidate-0.svg",
+          "score": 7.400120364901216,
+          "share": 0.10484226880925518,
+          "compatible": true,
+          "support": 80,
+          "sides": 3,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;3;5"
+        },
+        {
+          "image": "patterns/L00014-candidate-1.svg",
+          "score": 7.3230728750384815,
+          "share": 0.09706778307442036,
+          "compatible": true,
+          "support": 74,
+          "sides": 3,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;3;5"
+        },
+        {
+          "image": "patterns/L00014-candidate-2.svg",
+          "score": 7.116226308978665,
+          "share": 0.07893012465122116,
+          "compatible": true,
+          "support": 60,
+          "sides": 3,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;3;5"
+        },
+        {
+          "image": "patterns/L00014-candidate-3.svg",
+          "score": 4.063785208687608,
+          "share": 0.0037289319892321892,
+          "compatible": false,
+          "support": 429,
+          "sides": 4,
+          "matched": 1,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        }
+      ],
+      "generated": "patterns/L00014-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00004",
+      "split": "validation",
+      "note": "A coarse teacher boundary recurs among the learned proposals. Exact dimensions and source construction are separate questions.",
+      "group": "recipe-04-edit-00",
+      "variant": 1729,
+      "teacher": "patterns/L00004-teacher.svg",
+      "pattern": "patterns/L00004-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00004-stream-0.svg",
+          "passages": 3,
+          "bindings": 6,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00004-stream-1.svg",
+          "passages": 4,
+          "bindings": 1,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00004-candidate-0.svg",
+          "score": 9.578556318170175,
+          "share": 0.06539801399381344,
+          "compatible": true,
+          "support": 12,
+          "sides": 6,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;1;3;4;5;7"
+        },
+        {
+          "image": "patterns/L00004-candidate-1.svg",
+          "score": 9.498227794613221,
+          "share": 0.06035014603718859,
+          "compatible": true,
+          "support": 11,
+          "sides": 6,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;1;3;4;5;7"
+        },
+        {
+          "image": "patterns/L00004-candidate-2.svg",
+          "score": 9.410903905535907,
+          "share": 0.055303681430950255,
+          "compatible": true,
+          "support": 10,
+          "sides": 6,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;1;3;4;5;7"
+        },
+        {
+          "image": "patterns/L00004-candidate-3.svg",
+          "score": 4.261732806479095,
+          "share": 0.0003209943938147824,
+          "compatible": false,
+          "support": 25,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;1;4;6"
+        }
+      ],
+      "generated": "patterns/L00004-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00011",
+      "split": "validation",
+      "note": "A coarse teacher boundary recurs among the learned proposals. Exact dimensions and source construction are separate questions.",
+      "group": "recipe-11-edit-00",
+      "variant": 1729,
+      "teacher": "patterns/L00011-teacher.svg",
+      "pattern": "patterns/L00011-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00011-stream-0.svg",
+          "passages": 3,
+          "bindings": 12,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00011-stream-1.svg",
+          "passages": 4,
+          "bindings": 5,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00011-candidate-0.svg",
+          "score": 13.063785208687609,
+          "share": 0.14219576719576163,
+          "compatible": true,
+          "support": 429,
+          "sides": 4,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00011-candidate-1.svg",
+          "score": 11.499809670330265,
+          "share": 0.02976190476190358,
+          "compatible": true,
+          "support": 89,
+          "sides": 4,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00011-candidate-2.svg",
+          "score": 11.39444915467244,
+          "share": 0.026785714285713257,
+          "compatible": true,
+          "support": 80,
+          "sides": 3,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;3;5"
+        },
+        {
+          "image": "patterns/L00011-candidate-3.svg",
+          "score": -17.50349243853352,
+          "share": 7.545476307176506E-15,
+          "compatible": false,
+          "support": 32,
+          "sides": 4,
+          "matched": 0,
+          "contradicted": 7,
+          "open": 1,
+          "shapeKey": "C|1;3;5;7"
+        }
+      ],
+      "generated": "patterns/L00011-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00017",
+      "split": "validation",
+      "note": "No usable closed teacher boundary. Absence of a training target is not a negative shape label.",
+      "group": "recipe-05-edit-01",
+      "variant": 1729,
+      "teacher": "patterns/L00017-teacher.svg",
+      "pattern": "patterns/L00017-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00017-stream-0.svg",
+          "passages": 2,
+          "bindings": 6,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00017-stream-1.svg",
+          "passages": 3,
+          "bindings": 1,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00017-candidate-0.svg",
+          "score": 11.081741963776373,
+          "share": 0.1589582100050889,
+          "compatible": true,
+          "support": 429,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00017-candidate-1.svg",
+          "score": 9.513636468078268,
+          "share": 0.033133201357735634,
+          "compatible": true,
+          "support": 89,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00017-candidate-2.svg",
+          "score": 9.275861488309294,
+          "share": 0.02612155569194438,
+          "compatible": true,
+          "support": 70,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00017-candidate-3.svg",
+          "score": -0.6055508453275609,
+          "share": 1.3352303281177914E-06,
+          "compatible": false,
+          "support": 80,
+          "sides": 3,
+          "matched": 1,
+          "contradicted": 2,
+          "open": 1,
+          "shapeKey": "C|0;3;5"
+        }
+      ],
+      "generated": "patterns/L00017-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00020",
+      "split": "test",
+      "note": "No usable closed teacher boundary. Absence of a training target is not a negative shape label.",
+      "group": "recipe-08-edit-01",
+      "variant": 1729,
+      "teacher": "patterns/L00020-teacher.svg",
+      "pattern": "patterns/L00020-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00020-stream-0.svg",
+          "passages": 4,
+          "bindings": 8,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00020-stream-1.svg",
+          "passages": 5,
+          "bindings": 2,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00020-candidate-0.svg",
+          "score": 12.52171402385487,
+          "share": 0.14673089884800053,
+          "compatible": true,
+          "support": 32,
+          "sides": 8,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|1;1;3;3;5;5;7;7"
+        },
+        {
+          "image": "patterns/L00020-candidate-1.svg",
+          "score": 12.425985331571924,
+          "share": 0.13333591180381565,
+          "compatible": true,
+          "support": 29,
+          "sides": 8,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|1;1;3;3;5;5;7;7"
+        },
+        {
+          "image": "patterns/L00020-candidate-2.svg",
+          "score": 12.242803396603763,
+          "share": 0.11101770152692152,
+          "compatible": true,
+          "support": 24,
+          "sides": 8,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|1;1;3;3;5;5;7;7"
+        },
+        {
+          "image": "patterns/L00020-candidate-3.svg",
+          "score": 2.394449154672439,
+          "share": 5.865517414111835E-06,
+          "compatible": false,
+          "support": 80,
+          "sides": 3,
+          "matched": 4,
+          "contradicted": 2,
+          "open": 1,
+          "shapeKey": "C|0;3;5"
+        }
+      ],
+      "generated": "patterns/L00020-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00030",
+      "split": "validation",
+      "note": "The teacher boundary has an unseen coarse route; retrieval alone cannot invent it.",
+      "group": "recipe-06-edit-02",
+      "variant": 1729,
+      "teacher": "patterns/L00030-teacher.svg",
+      "pattern": "patterns/L00030-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00030-stream-0.svg",
+          "passages": 9,
+          "bindings": 12,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00030-stream-1.svg",
+          "passages": 7,
+          "bindings": 5,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00030-candidate-0.svg",
+          "score": 17.641158752048504,
+          "share": 0.07493534449125781,
+          "compatible": true,
+          "support": 31,
+          "sides": 8,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;6;0;2;4;6"
+        },
+        {
+          "image": "patterns/L00030-candidate-1.svg",
+          "score": 17.61750195482281,
+          "share": 0.07318341842526131,
+          "compatible": true,
+          "support": 30,
+          "sides": 8,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;6;0;2;4;6"
+        },
+        {
+          "image": "patterns/L00030-candidate-2.svg",
+          "score": 17.3487271998228,
+          "share": 0.05593521332322935,
+          "compatible": true,
+          "support": 23,
+          "sides": 8,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;6;0;2;4;6"
+        },
+        {
+          "image": "patterns/L00030-candidate-3.svg",
+          "score": 8.92051844395724,
+          "share": 1.2228149612325659E-05,
+          "compatible": false,
+          "support": 48,
+          "sides": 12,
+          "matched": 4,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;2;0;2;4;2;4;6;4;6;0;6"
+        }
+      ],
+      "generated": "patterns/L00030-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00033",
+      "split": "test",
+      "note": "The teacher boundary has an unseen coarse route; retrieval alone cannot invent it.",
+      "group": "recipe-09-edit-02",
+      "variant": 1729,
+      "teacher": "patterns/L00033-teacher.svg",
+      "pattern": "patterns/L00033-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00033-stream-0.svg",
+          "passages": 11,
+          "bindings": 16,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00033-stream-1.svg",
+          "passages": 7,
+          "bindings": 8,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00033-candidate-0.svg",
+          "score": 19.95520063591738,
+          "share": 0.1619614606713844,
+          "compatible": true,
+          "support": 48,
+          "sides": 12,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;4;6;4;6;0;6"
+        },
+        {
+          "image": "patterns/L00033-candidate-1.svg",
+          "score": 19.869716058942764,
+          "share": 0.14869152127842972,
+          "compatible": true,
+          "support": 44,
+          "sides": 12,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;4;6;4;6;0;6"
+        },
+        {
+          "image": "patterns/L00033-candidate-2.svg",
+          "score": 19.67243571249911,
+          "share": 0.12206985787888706,
+          "compatible": true,
+          "support": 36,
+          "sides": 12,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;4;6;4;6;0;6"
+        },
+        {
+          "image": "patterns/L00033-candidate-3.svg",
+          "score": 10.565113746174806,
+          "share": 1.353158793199238E-05,
+          "compatible": false,
+          "support": 31,
+          "sides": 8,
+          "matched": 6,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;2;0;6;0;2;4;6"
+        }
+      ],
+      "generated": "patterns/L00033-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00036",
+      "split": "test",
+      "note": "An admissible completion differs from the teacher. Partial evidence need not determine the intended boundary.",
+      "group": "recipe-00-edit-03",
+      "variant": 1729,
+      "teacher": "patterns/L00036-teacher.svg",
+      "pattern": "patterns/L00036-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00036-stream-0.svg",
+          "passages": 2,
+          "bindings": 6,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00036-stream-1.svg",
+          "passages": 3,
+          "bindings": 1,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00036-candidate-0.svg",
+          "score": 11.0901210821668,
+          "share": 0.1672152811728339,
+          "compatible": true,
+          "support": 429,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00036-candidate-1.svg",
+          "score": 9.525355878552466,
+          "share": 0.03497092099460616,
+          "compatible": true,
+          "support": 89,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00036-candidate-2.svg",
+          "score": 9.287055868058584,
+          "share": 0.027555905736860193,
+          "compatible": true,
+          "support": 70,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00036-candidate-3.svg",
+          "score": 1.8506687163314632,
+          "share": 1.624174864619917E-05,
+          "compatible": false,
+          "support": 16,
+          "sides": 11,
+          "matched": 1,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;1;1;3;3;5;5;0;6;0;6"
+        }
+      ],
+      "generated": "patterns/L00036-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00046",
+      "split": "test",
+      "note": "An admissible completion differs from the teacher. Partial evidence need not determine the intended boundary.",
+      "group": "recipe-10-edit-03",
+      "variant": 1729,
+      "teacher": "patterns/L00046-teacher.svg",
+      "pattern": "patterns/L00046-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00046-stream-0.svg",
+          "passages": 6,
+          "bindings": 10,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00046-stream-1.svg",
+          "passages": 5,
+          "bindings": 4,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00046-candidate-0.svg",
+          "score": 14.31358204006777,
+          "share": 0.047706611908944506,
+          "compatible": true,
+          "support": 25,
+          "sides": 4,
+          "matched": 6,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;1;4;6"
+        },
+        {
+          "image": "patterns/L00046-candidate-1.svg",
+          "score": 14.230341770627334,
+          "share": 0.043896286796961684,
+          "compatible": true,
+          "support": 23,
+          "sides": 4,
+          "matched": 6,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;1;4;6"
+        },
+        {
+          "image": "patterns/L00046-candidate-2.svg",
+          "score": 13.948232793111938,
+          "share": 0.033106205951003324,
+          "compatible": true,
+          "support": 16,
+          "sides": 17,
+          "matched": 6,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;0;2;4;7;5;7;5;7;5;0;6"
+        },
+        {
+          "image": "patterns/L00046-candidate-3.svg",
+          "score": 13.107478578101606,
+          "share": 0.014281522098547533,
+          "compatible": false,
+          "support": 429,
+          "sides": 4,
+          "matched": 5,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        }
+      ],
+      "generated": "patterns/L00046-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00049",
+      "split": "test",
+      "note": "A coarse teacher boundary recurs among the learned proposals. Exact dimensions and source construction are separate questions.",
+      "group": "recipe-01-edit-04",
+      "variant": 1729,
+      "teacher": "patterns/L00049-teacher.svg",
+      "pattern": "patterns/L00049-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00049-stream-0.svg",
+          "passages": 5,
+          "bindings": 8,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00049-stream-1.svg",
+          "passages": 5,
+          "bindings": 2,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00049-candidate-0.svg",
+          "score": 16.107478578101606,
+          "share": 0.16532116250997,
+          "compatible": true,
+          "support": 429,
+          "sides": 4,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00049-candidate-1.svg",
+          "score": 14.543988687900667,
+          "share": 0.034618912310250737,
+          "compatible": true,
+          "support": 89,
+          "sides": 4,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00049-candidate-2.svg",
+          "score": 14.304841053441862,
+          "share": 0.027255422628033998,
+          "compatible": true,
+          "support": 70,
+          "sides": 4,
+          "matched": 5,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00049-candidate-3.svg",
+          "score": 0.8506687163314632,
+          "share": 3.911831288950825E-08,
+          "compatible": false,
+          "support": 16,
+          "sides": 11,
+          "matched": 3,
+          "contradicted": 2,
+          "open": 1,
+          "shapeKey": "C|0;1;1;3;3;5;5;0;6;0;6"
+        }
+      ],
+      "generated": "patterns/L00049-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00062",
+      "split": "test",
+      "note": "No one learned boundary accommodates these streams together. A multi-part scene can exceed the current one-boundary hypothesis.",
+      "group": "recipe-02-edit-05",
+      "variant": 1729,
+      "teacher": "patterns/L00062-teacher.svg",
+      "pattern": "patterns/L00062-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00062-stream-0.svg",
+          "passages": 8,
+          "bindings": 11,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00062-stream-1.svg",
+          "passages": 6,
+          "bindings": 5,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00062-candidate-0.svg",
+          "score": 6.886440612227769,
+          "share": 0.060380682401121655,
+          "compatible": false,
+          "support": 16,
+          "sides": 17,
+          "matched": 4,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;2;0;2;4;2;0;2;4;7;5;7;5;7;5;0;6"
+        }
+      ],
+      "generated": null,
+      "candidateCount": 1,
+      "compatibleCount": 0
+    },
+    {
+      "id": "L00072",
+      "split": "validation",
+      "note": "A coarse teacher boundary recurs among the learned proposals. Exact dimensions and source construction are separate questions.",
+      "group": "recipe-00-edit-06",
+      "variant": 1729,
+      "teacher": "patterns/L00072-teacher.svg",
+      "pattern": "patterns/L00072-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00072-stream-0.svg",
+          "passages": 2,
+          "bindings": 6,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00072-stream-1.svg",
+          "passages": 3,
+          "bindings": 1,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00072-candidate-0.svg",
+          "score": 11.0901210821668,
+          "share": 0.1672152811728339,
+          "compatible": true,
+          "support": 429,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00072-candidate-1.svg",
+          "score": 9.525355878552466,
+          "share": 0.03497092099460616,
+          "compatible": true,
+          "support": 89,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00072-candidate-2.svg",
+          "score": 9.287055868058584,
+          "share": 0.027555905736860193,
+          "compatible": true,
+          "support": 70,
+          "sides": 4,
+          "matched": 3,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        },
+        {
+          "image": "patterns/L00072-candidate-3.svg",
+          "score": 1.8506687163314632,
+          "share": 1.624174864619917E-05,
+          "compatible": false,
+          "support": 16,
+          "sides": 11,
+          "matched": 1,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;1;1;3;3;5;5;0;6;0;6"
+        }
+      ],
+      "generated": "patterns/L00072-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00085",
+      "split": "validation",
+      "note": "No usable closed teacher boundary. Absence of a training target is not a negative shape label.",
+      "group": "recipe-01-edit-07",
+      "variant": 1729,
+      "teacher": "patterns/L00085-teacher.svg",
+      "pattern": "patterns/L00085-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00085-stream-0.svg",
+          "passages": 4,
+          "bindings": 8,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00085-stream-1.svg",
+          "passages": 5,
+          "bindings": 2,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00085-candidate-0.svg",
+          "score": 12.913806708292014,
+          "share": 0.03968753388616717,
+          "compatible": true,
+          "support": 48,
+          "sides": 12,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;0;2;4;2;4;6;4;6;0;6"
+        },
+        {
+          "image": "patterns/L00085-candidate-1.svg",
+          "score": 12.828552379507268,
+          "share": 0.0364442174197533,
+          "compatible": true,
+          "support": 44,
+          "sides": 12,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;0;2;4;2;4;6;4;6;0;6"
+        },
+        {
+          "image": "patterns/L00085-candidate-2.svg",
+          "score": 12.632299656392062,
+          "share": 0.02995002258278232,
+          "compatible": true,
+          "support": 36,
+          "sides": 12,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 1,
+          "shapeKey": "C|0;2;0;2;4;2;4;6;4;6;0;6"
+        },
+        {
+          "image": "patterns/L00085-candidate-3.svg",
+          "score": 9.072763586231991,
+          "share": 0.0008521386832914439,
+          "compatible": false,
+          "support": 429,
+          "sides": 4,
+          "matched": 5,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        }
+      ],
+      "generated": "patterns/L00085-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00040",
+      "split": "validation",
+      "note": "The teacher boundary has an unseen coarse route; retrieval alone cannot invent it.",
+      "group": "recipe-04-edit-03",
+      "variant": 1729,
+      "teacher": "patterns/L00040-teacher.svg",
+      "pattern": "patterns/L00040-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00040-stream-0.svg",
+          "passages": 4,
+          "bindings": 8,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00040-stream-1.svg",
+          "passages": 5,
+          "bindings": 2,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00040-candidate-0.svg",
+          "score": 11.578556318170175,
+          "share": 0.06539821476926574,
+          "compatible": true,
+          "support": 12,
+          "sides": 6,
+          "matched": 6,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;1;3;4;5;7"
+        },
+        {
+          "image": "patterns/L00040-candidate-1.svg",
+          "score": 11.49822779461322,
+          "share": 0.060350331315412196,
+          "compatible": true,
+          "support": 11,
+          "sides": 6,
+          "matched": 6,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;1;3;4;5;7"
+        },
+        {
+          "image": "patterns/L00040-candidate-2.svg",
+          "score": 11.410903905535905,
+          "share": 0.05530385121625364,
+          "compatible": true,
+          "support": 10,
+          "sides": 6,
+          "matched": 6,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;1;3;4;5;7"
+        },
+        {
+          "image": "patterns/L00040-candidate-3.svg",
+          "score": 6.261732806479095,
+          "share": 0.0003209953792849927,
+          "compatible": false,
+          "support": 25,
+          "sides": 4,
+          "matched": 5,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;1;4;6"
+        }
+      ],
+      "generated": "patterns/L00040-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00043",
+      "split": "validation",
+      "note": "No usable closed teacher boundary. Absence of a training target is not a negative shape label.",
+      "group": "recipe-07-edit-03",
+      "variant": 1729,
+      "teacher": "patterns/L00043-teacher.svg",
+      "pattern": "patterns/L00043-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00043-stream-0.svg",
+          "passages": 7,
+          "bindings": 11,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00043-stream-1.svg",
+          "passages": 5,
+          "bindings": 5,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00043-candidate-0.svg",
+          "score": 14.929963299963426,
+          "share": 0.14466489126562468,
+          "compatible": true,
+          "support": 16,
+          "sides": 17,
+          "matched": 6,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;0;2;4;7;5;7;5;7;5;0;6"
+        },
+        {
+          "image": "patterns/L00043-candidate-1.svg",
+          "score": 14.904210268056087,
+          "share": 0.14098689475975168,
+          "compatible": true,
+          "support": 16,
+          "sides": 13,
+          "matched": 6,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;6;0;2;5;3;5;3;5;3;6"
+        },
+        {
+          "image": "patterns/L00043-candidate-2.svg",
+          "score": 14.8439242140918,
+          "share": 0.13273848138479044,
+          "compatible": true,
+          "support": 15,
+          "sides": 13,
+          "matched": 6,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;6;0;2;5;3;5;3;5;3;6"
+        },
+        {
+          "image": "patterns/L00043-candidate-3.svg",
+          "score": 2.394449154672439,
+          "share": 5.203056283114799E-07,
+          "compatible": false,
+          "support": 80,
+          "sides": 3,
+          "matched": 4,
+          "contradicted": 2,
+          "open": 1,
+          "shapeKey": "C|0;3;5"
+        }
+      ],
+      "generated": "patterns/L00043-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00053",
+      "split": "validation",
+      "note": "No one learned boundary accommodates these streams together. A multi-part scene can exceed the current one-boundary hypothesis.",
+      "group": "recipe-05-edit-04",
+      "variant": 1729,
+      "teacher": "patterns/L00053-teacher.svg",
+      "pattern": "patterns/L00053-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00053-stream-0.svg",
+          "passages": 7,
+          "bindings": 10,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00053-stream-1.svg",
+          "passages": 5,
+          "bindings": 4,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00053-candidate-0.svg",
+          "score": 12.0901210821668,
+          "share": 0.35263032569764474,
+          "compatible": false,
+          "support": 429,
+          "sides": 4,
+          "matched": 5,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        }
+      ],
+      "generated": null,
+      "candidateCount": 1,
+      "compatibleCount": 0
+    },
+    {
+      "id": "L00056",
+      "split": "validation",
+      "note": "No one learned boundary accommodates these streams together. A multi-part scene can exceed the current one-boundary hypothesis.",
+      "group": "recipe-08-edit-04",
+      "variant": 1729,
+      "teacher": "patterns/L00056-teacher.svg",
+      "pattern": "patterns/L00056-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00056-stream-0.svg",
+          "passages": 9,
+          "bindings": 12,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00056-stream-1.svg",
+          "passages": 7,
+          "bindings": 5,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00056-candidate-0.svg",
+          "score": 2.894657737182099,
+          "share": 0.18535076346594168,
+          "compatible": false,
+          "support": 16,
+          "sides": 11,
+          "matched": 6,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;1;1;3;3;5;5;0;6;0;6"
+        }
+      ],
+      "generated": null,
+      "candidateCount": 1,
+      "compatibleCount": 0
+    },
+    {
+      "id": "L00059",
+      "split": "test",
+      "note": "No one learned boundary accommodates these streams together. A multi-part scene can exceed the current one-boundary hypothesis.",
+      "group": "recipe-11-edit-04",
+      "variant": 1729,
+      "teacher": "patterns/L00059-teacher.svg",
+      "pattern": "patterns/L00059-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00059-stream-0.svg",
+          "passages": 7,
+          "bindings": 16,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00059-stream-1.svg",
+          "passages": 5,
+          "bindings": 8,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00059-candidate-0.svg",
+          "score": 18.081142704622415,
+          "share": 0.35214244746403256,
+          "compatible": false,
+          "support": 429,
+          "sides": 4,
+          "matched": 9,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;2;4;6"
+        }
+      ],
+      "generated": null,
+      "candidateCount": 1,
+      "compatibleCount": 0
+    },
+    {
+      "id": "L00066",
+      "split": "validation",
+      "note": "The teacher boundary has an unseen coarse route; retrieval alone cannot invent it.",
+      "group": "recipe-06-edit-05",
+      "variant": 1729,
+      "teacher": "patterns/L00066-teacher.svg",
+      "pattern": "patterns/L00066-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00066-stream-0.svg",
+          "passages": 11,
+          "bindings": 16,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00066-stream-1.svg",
+          "passages": 7,
+          "bindings": 8,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00066-candidate-0.svg",
+          "score": 19.21019653446242,
+          "share": 0.10453003879083246,
+          "compatible": true,
+          "support": 19,
+          "sides": 12,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;0;2;4;6;0;6"
+        },
+        {
+          "image": "patterns/L00066-candidate-1.svg",
+          "score": 19.172392888394796,
+          "share": 0.1006521825674542,
+          "compatible": true,
+          "support": 18,
+          "sides": 12,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;0;2;4;6;0;6"
+        },
+        {
+          "image": "patterns/L00066-candidate-2.svg",
+          "score": 19.02113825604045,
+          "share": 0.08652351305458833,
+          "compatible": true,
+          "support": 16,
+          "sides": 17,
+          "matched": 7,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;0;2;4;7;5;7;5;7;5;0;6"
+        },
+        {
+          "image": "patterns/L00066-candidate-3.svg",
+          "score": 10.92141222491842,
+          "share": 2.6270468881201573E-05,
+          "compatible": false,
+          "support": 48,
+          "sides": 12,
+          "matched": 6,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;2;0;2;4;2;4;6;4;6;0;6"
+        }
+      ],
+      "generated": "patterns/L00066-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    },
+    {
+      "id": "L00069",
+      "split": "validation",
+      "note": "The teacher boundary has an unseen coarse route; retrieval alone cannot invent it.",
+      "group": "recipe-09-edit-05",
+      "variant": 1729,
+      "teacher": "patterns/L00069-teacher.svg",
+      "pattern": "patterns/L00069-pattern.svg",
+      "streams": [
+        {
+          "name": "passages",
+          "image": "patterns/L00069-stream-0.svg",
+          "passages": 12,
+          "bindings": 20,
+          "passageInventory": "open inventory",
+          "bindingInventory": "closed inventory"
+        },
+        {
+          "name": "landmarks",
+          "image": "patterns/L00069-stream-1.svg",
+          "passages": 8,
+          "bindings": 10,
+          "passageInventory": "open inventory",
+          "bindingInventory": "open inventory"
+        }
+      ],
+      "candidates": [
+        {
+          "image": "patterns/L00069-candidate-0.svg",
+          "score": 21.228418590037258,
+          "share": 0.10454784449571222,
+          "compatible": true,
+          "support": 19,
+          "sides": 12,
+          "matched": 8,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;0;2;4;6;0;6"
+        },
+        {
+          "image": "patterns/L00069-candidate-1.svg",
+          "score": 21.190416618071957,
+          "share": 0.10064936436105318,
+          "compatible": true,
+          "support": 18,
+          "sides": 12,
+          "matched": 8,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;0;2;4;6;0;6"
+        },
+        {
+          "image": "patterns/L00069-candidate-2.svg",
+          "score": 21.0371201032469,
+          "share": 0.0863446047881317,
+          "compatible": true,
+          "support": 16,
+          "sides": 17,
+          "matched": 8,
+          "contradicted": 0,
+          "open": 2,
+          "shapeKey": "C|0;2;0;2;4;2;0;2;4;7;5;7;5;7;5;0;6"
+        },
+        {
+          "image": "patterns/L00069-candidate-3.svg",
+          "score": 12.928123960583648,
+          "share": 2.5974244690051447E-05,
+          "compatible": false,
+          "support": 48,
+          "sides": 12,
+          "matched": 7,
+          "contradicted": 1,
+          "open": 1,
+          "shapeKey": "C|0;2;0;2;4;2;4;6;4;6;0;6"
+        }
+      ],
+      "generated": "patterns/L00069-generated.svg",
+      "candidateCount": 4,
+      "compatibleCount": 3
+    }
+  ]
+};
+const data=globalThis.ORNAMENT_LEARNING, choice=document.querySelector('#case'), content=document.querySelector('#content');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const picture=(src,caption)=>`<figure><img src="${esc(src)}" alt="${esc(caption)}"><figcaption>${esc(caption)}</figcaption></figure>`;
+for(const row of data.examples){const option=document.createElement('option');option.value=row.id;option.textContent=`${row.id} · ${row.split} · ${row.group}`;choice.append(option);}
+function show(){const row=data.examples.find(x=>x.id===choice.value)??data.examples[0];if(!row){content.innerHTML='<p>No inspected cases in this run.</p>';return;}
+ choice.value=row.id;document.querySelector('#partition').textContent=`${row.split} · variant ${row.variant}`;
+ const url=new URL(location.href);url.searchParams.set('id',row.id);history.replaceState(null,'',url);
+ content.innerHTML=`<h2>${esc(row.id)}</h2><p class="note">${esc(row.note)}</p>
+ <section><h2>What the receiver receives</h2><p>These are native passage and landmark streams. Open inventories withhold participation; absent strokes are not claims that no stroke exists. Equal site identities permit evidence to meet across streams. Routes without an exposed position anchor use a local schematic origin in the preview; their placement remains open.</p><div class="grid">${row.streams.map(x=>`<article>${picture(x.image,x.name)}<p>${x.passages} offered passages · ${x.bindings} binding replies</p><p class="muted">${esc(x.passageInventory)} · ${esc(x.bindingInventory)}</p></article>`).join('')}</div></section>
+ <section><h2>Learned alternatives</h2><p>${row.candidateCount} candidates retained for this inspection: up to three compatible proposals and one conflicting proposal. This is a display subset of the ranked vocabulary. Scores and ranking shares are selection heuristics, not calibrated probabilities. Shared hints may support several concepts.</p><div class="grid">${row.candidates.length?row.candidates.map((x,i)=>`<article class="candidate ${x.compatible?'compatible':'conflicting'}"><span class="badge">${x.compatible?'Compatible proposal':'Conflict retained'}</span>${picture(x.image,`Candidate ${i+1} · ${x.sides} native sides`)}<p>Score ${Number(x.score).toFixed(3)} · ranking share ${Number(x.share).toFixed(3)}</p><p>${x.support} training episodes · ${x.matched} matched route accounts · ${x.contradicted} contradictions · ${x.open} open accounts</p><details><summary>Coarse native heading key</summary><code>${esc(x.shapeKey)}</code></details></article>`).join(''):'<p>No retained candidate at the requested capacity.</p>'}</div></section>
+ <section><h2>A native sample of a proposal</h2><p>The selected stored chord words run through the existing native drawing engine. This adds specifics to the incomplete communication. It does not turn the completion into an observed fact.</p>${row.generated?picture(row.generated,'Executed learned route'):'<p>No admissible generated example was retained.</p>'}</section>
+ <section class="teacher"><h2>Teacher comparison · withheld from the receiver</h2><p>The teacher has the original complete unit and its repeated disposition. Matching is structural rather than pixel-to-pixel; a valid alternative may have different proportions. This first learner learns local boundary routes, not the entire arrangement.</p><div class="grid">${picture(row.teacher,'Complete teacher unit')}${picture(row.pattern,'Repeated teacher arrangement')}</div></section>
+ <aside><strong>Display convention.</strong> All exposed uncalibrated reaches use one visual step here. Geometry, colour and these numeric display coordinates are never recognition evidence. Coarse heading matching deliberately leaves dimensions and face ownership unresolved.</aside>`;
+}
+choice.addEventListener('change',show);const requested=new URL(location.href).searchParams.get('id');choice.value=data.examples.some(x=>x.id===requested)?requested:(data.examples[0]?.id??'');show();
+</script></body></html>
