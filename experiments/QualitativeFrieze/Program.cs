@@ -35,6 +35,7 @@ if (args.Contains("--retained-match")) return RetainedMatchExperiment.Run(args.W
 if (args.Contains("--ornament-reconstruction")) return OrnamentReconstructionExperiment.Run(args.Where(argument => argument != "--ornament-reconstruction").ToArray());
 if (args.Contains("--ornament-concepts")) return OrnamentConceptExperiment.Run(args.Where(argument => argument != "--ornament-concepts").ToArray());
 if (args.Contains("--ornament-defaults")) return OrnamentDefaultsExperiment.Run(args.Where(argument => argument != "--ornament-defaults").ToArray());
+if (args.Contains("--rule-pack-transfer")) return RulePackTransferExperiment.Run(args.Where(argument => argument != "--rule-pack-transfer").ToArray());
 if (args.Contains("--bourgoin-colour")) return BourgoinColourExperiment.Run(args.Where(argument => argument != "--bourgoin-colour").ToArray());
 if (args.Contains("--ornament-designs")) return BourgoinColourExperiment.RunDesigns(args.Where(argument => argument != "--ornament-designs").ToArray());
 if (args.Contains("--ornament-details")) return BourgoinColourExperiment.RunDetails(args.Where(argument => argument != "--ornament-details").ToArray());

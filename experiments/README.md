@@ -16,6 +16,7 @@ prediction and control, grounded in these experiments.
 
 | Study | Source and documentation | Retained results / review |
 | --- | --- | --- |
+| Reusable rule packs and revisable generation | [Methods and findings](../Gojo/docs/GojoReusableRulePacks.md), [portable pack](QualitativeFrieze/StructuralRulePack.cs), [generation engine](QualitativeFrieze/RevisableRuleGeneration.cs) | [Transfer and revision gallery](QualitativeFrieze/results/rule-pack-transfer/gallery.html), [whole sheet](QualitativeFrieze/results/rule-pack-transfer/overview.html) |
 | Ornament requirements, defaults and deliberate omissions | [Methods and findings](../Gojo/docs/GojoOrnamentDefaults.md), [native policy reader](QualitativeFrieze/OrnamentDefaultsPolicy.cs) | [72 constructions and rule interventions](QualitativeFrieze/results/ornament-defaults/gallery.html), [whole sheet](QualitativeFrieze/results/ornament-defaults/overview.html) |
 | Phototaxis swimmers, compact backend and cognitive trials | [Simulation](Phototaxis/README.md), [browser launcher](Phototaxis.Browser/Start-Preview.ps1), [headless runner](Phototaxis.Runner/Program.cs) | [Earlier runs](../artifacts/phototaxis) |
 | Sampling into primitive distinctions | [Sampling emergence](SamplingEmergence/README.md) | [Review](../artifacts/sampling-emergence) |

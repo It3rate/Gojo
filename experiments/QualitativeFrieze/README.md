@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [rule-pack transfer gallery](results/rule-pack-transfer/gallery.html) applies
+three reusable native packs across 54 ornaments, glyphs and path networks.
+Three symbolic templates then share one generation prior through 24 stages of
+partial evidence, assumption withdrawal, conflicts and explicit context changes.
+See the [overview](results/rule-pack-transfer/overview.html) and
+[methods and limits](../../Gojo/docs/GojoReusableRulePacks.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --rule-pack-transfer
+node experiments/QualitativeFrieze/tools/check-rule-pack-transfer.cjs
+```
+
 The [ornament defaults gallery](results/ornament-defaults/gallery.html) separates
 required claims, strong defaults, weak preferences, unused cues and exact-rule
 exceptions across 72 native constructions. It includes single-rule interventions

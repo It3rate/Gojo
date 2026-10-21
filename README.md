@@ -8,6 +8,12 @@ For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.
 
+The [reusable rule-pack study](Gojo/docs/GojoReusableRulePacks.md) applies the same
+native contracts to ornaments, glyphs and path networks, then connects defaults
+to provisional generation and revision. Its
+[interactive gallery](experiments/QualitativeFrieze/results/rule-pack-transfer/gallery.html)
+keeps source evidence, construction assumptions and actual output checks separate.
+
 The [ornament default study](Gojo/docs/GojoOrnamentDefaults.md) separates required
 structure, revisable defaults and deliberately unused cues across 72 native
 drawings. Its [interactive gallery](experiments/QualitativeFrieze/results/ornament-defaults/gallery.html)
