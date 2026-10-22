@@ -52,6 +52,7 @@
     <File Path="Gojo/docs/GojoRelationalShapeStudy.md" />
     <File Path="Gojo/docs/GojoEvidenceCalculationFixture.md" />
     <File Path="Gojo/docs/GojoWeightedShapeEvidence.md" />
+    <File Path="Gojo/docs/GojoQualitativeCurveEvidence.md" />
     <File Path="Gojo/docs/GojoLocalExperimentCosts.md" />
     <File Path="Gojo/docs/GojoColouredOrnamentStudy.md" />
     <File Path="Gojo/docs/GojoOrnamentDesignCollection.md" />

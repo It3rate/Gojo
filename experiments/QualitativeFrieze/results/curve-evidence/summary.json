@@ -1,0 +1,1244 @@
+{
+  "schema": "curve-evidence-study-v1",
+  "cases": 24,
+  "candidateRealizations": 72,
+  "sourceSmoothJoins": 36,
+  "sourceCusps": 1,
+  "sourceCorners": 38,
+  "sourceInflectedSections": 3,
+  "mixedLineCurveCases": 7,
+  "openSourceCases": 13,
+  "tiedChoices": 12,
+  "nativeRoundTrips": 24,
+  "secondsBeforeGallery": 3.3225002,
+  "scope": "Native polynomial curve mechanics and authored reconstruction on supplied anonymous endpoints; no dataset import, bitmap recognition, learned likelihood or measured curve parameters.",
+  "dependence": "One pooled estimated compatibility event per source; macro envelope, tangent, bend, join and micro reads are not independent copies of the source evidence.",
+  "archive": "Separate evaluator source/correspondence branch and public receiver branch. Private handles are retained for audit, never supplied to reconstruction or assessment.",
+  "interior": "Explicit oriented-boundary premise; closure does not imply convexity or establish interior.",
+  "results": [
+    {
+      "id": "C001",
+      "name": "Straight despite a flowing context",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 4,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 4,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 0,
+          "conflicts": 4,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/5",
+        "2/5",
+        "2/5"
+      ],
+      "posteriors": [
+        "15/47",
+        "30/47",
+        "2/47"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C002",
+      "name": "A bow without a measured bulge",
+      "selected": 2,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 0,
+          "conflicts": 1,
+          "unresolved": 3
+        },
+        {
+          "matches": 1,
+          "conflicts": 0,
+          "unresolved": 3
+        },
+        {
+          "matches": 1,
+          "conflicts": 0,
+          "unresolved": 3
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "25/103",
+        "39/103",
+        "39/103"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C003",
+      "name": "Endpoints alone leave line and curve open",
+      "selected": 1,
+      "ties": 3,
+      "admitted": false,
+      "candidateChecks": [
+        {
+          "matches": 0,
+          "conflicts": 0,
+          "unresolved": 4
+        },
+        {
+          "matches": 0,
+          "conflicts": 0,
+          "unresolved": 4
+        },
+        {
+          "matches": 0,
+          "conflicts": 0,
+          "unresolved": 4
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 0
+    },
+    {
+      "id": "C004",
+      "name": "An inward curved notch",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 24,
+          "conflicts": 4,
+          "unresolved": 0
+        },
+        {
+          "matches": 28,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 8,
+          "conflicts": 20,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "13/33",
+        "5/11",
+        "5/33"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C005",
+      "name": "Four smooth bows make an oval",
+      "selected": 2,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 4,
+          "conflicts": 24,
+          "unresolved": 0
+        },
+        {
+          "matches": 28,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 28,
+          "conflicts": 0,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "1/11",
+        "5/11",
+        "5/11"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": true,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C006",
+      "name": "Capsule: straight runs and curved ends",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 12,
+          "conflicts": 16,
+          "unresolved": 0
+        },
+        {
+          "matches": 28,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 12,
+          "conflicts": 16,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "7/29",
+        "15/29",
+        "7/29"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C007",
+      "name": "Rounded rectangle",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 24,
+          "conflicts": 32,
+          "unresolved": 0
+        },
+        {
+          "matches": 56,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 20,
+          "conflicts": 30,
+          "unresolved": 6
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "28/115",
+        "12/23",
+        "27/115"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": true,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C008",
+      "name": "Pointed lens: corners at curved tips",
+      "selected": 2,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 2,
+          "conflicts": 12,
+          "unresolved": 0
+        },
+        {
+          "matches": 14,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 14,
+          "conflicts": 0,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "1/11",
+        "5/11",
+        "5/11"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C009",
+      "name": "A true tangent-reversal cusp",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 11,
+          "conflicts": 10,
+          "unresolved": 0
+        },
+        {
+          "matches": 21,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 17,
+          "conflicts": 4,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "25/107",
+        "45/107",
+        "37/107"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C010",
+      "name": "S connection with an inflection",
+      "selected": 2,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 0,
+          "conflicts": 4,
+          "unresolved": 0
+        },
+        {
+          "matches": 4,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 4,
+          "conflicts": 0,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "1/31",
+        "15/31",
+        "15/31"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C011",
+      "name": "Arch meeting a straight base",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 6,
+          "conflicts": 8,
+          "unresolved": 0
+        },
+        {
+          "matches": 14,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 10,
+          "conflicts": 4,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "7/33",
+        "5/11",
+        "1/3"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C012",
+      "name": "Two curves share a forward tangent",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 3,
+          "conflicts": 8,
+          "unresolved": 0
+        },
+        {
+          "matches": 11,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 9,
+          "conflicts": 0,
+          "unresolved": 2
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "53/369",
+        "55/123",
+        "151/369"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C013",
+      "name": "Same middle site, different tangent",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 4,
+          "conflicts": 7,
+          "unresolved": 0
+        },
+        {
+          "matches": 11,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 10,
+          "conflicts": 0,
+          "unresolved": 1
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "67/390",
+        "11/26",
+        "79/195"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C014",
+      "name": "An observed gap remains open",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 3,
+          "conflicts": 22,
+          "unresolved": 0
+        },
+        {
+          "matches": 25,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 24,
+          "conflicts": 0,
+          "unresolved": 1
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "67/810",
+        "25/54",
+        "184/405"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        1
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": true,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C015",
+      "name": "A requested closed-parent reading",
+      "selected": 3,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 3,
+          "conflicts": 22,
+          "unresolved": 0
+        },
+        {
+          "matches": 25,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 24,
+          "conflicts": 0,
+          "unresolved": 1
+        }
+      ],
+      "priors": [
+        "1/5",
+        "1/5",
+        "3/5"
+      ],
+      "posteriors": [
+        "67/1546",
+        "375/1546",
+        "552/773"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        1
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": true,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C016",
+      "name": "Coincident endpoints are separate sites",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 5,
+          "conflicts": 6,
+          "unresolved": 0
+        },
+        {
+          "matches": 11,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 7,
+          "conflicts": 4,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "81/355",
+        "33/71",
+        "109/355"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C017",
+      "name": "Crossing paths without a joint",
+      "selected": 1,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 8,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 8,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 0,
+          "conflicts": 8,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "15/31",
+        "15/31",
+        "1/31"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C018",
+      "name": "Closed, with interior orientation withheld",
+      "selected": 2,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 4,
+          "conflicts": 24,
+          "unresolved": 0
+        },
+        {
+          "matches": 28,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 28,
+          "conflicts": 0,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "1/11",
+        "5/11",
+        "5/11"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": true,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C019",
+      "name": "A vanishing first handle",
+      "selected": 2,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 0,
+          "conflicts": 4,
+          "unresolved": 0
+        },
+        {
+          "matches": 4,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 4,
+          "conflicts": 0,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "1/31",
+        "15/31",
+        "15/31"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C020",
+      "name": "Collinear support can still retrace",
+      "selected": 1,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 4,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 4,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 0,
+          "conflicts": 4,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "15/31",
+        "15/31",
+        "1/31"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C021",
+      "name": "Mirrored bows and interior side",
+      "selected": 2,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 4,
+          "conflicts": 24,
+          "unresolved": 0
+        },
+        {
+          "matches": 28,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 28,
+          "conflicts": 0,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "1/11",
+        "5/11",
+        "5/11"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": true,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C022",
+      "name": "Reversed traversal, same oval boundary",
+      "selected": 2,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 4,
+          "conflicts": 24,
+          "unresolved": 0
+        },
+        {
+          "matches": 28,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 28,
+          "conflicts": 0,
+          "unresolved": 0
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "1/11",
+        "5/11",
+        "5/11"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": true,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C023",
+      "name": "R095: diamond envelope with stepped detail",
+      "selected": 1,
+      "ties": 2,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 168,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 168,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 40,
+          "conflicts": 104,
+          "unresolved": 24
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "45/106",
+        "45/106",
+        "8/53"
+      ],
+      "sourceClosed": true,
+      "candidateClosures": [
+        true,
+        true,
+        true
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": true,
+        "complete": true,
+        "notches": 8
+      },
+      "statisticalEvents": 1
+    },
+    {
+      "id": "C024",
+      "name": "Mixed flowing stem and angular lobe",
+      "selected": 2,
+      "ties": 1,
+      "admitted": true,
+      "candidateChecks": [
+        {
+          "matches": 17,
+          "conflicts": 8,
+          "unresolved": 0
+        },
+        {
+          "matches": 25,
+          "conflicts": 0,
+          "unresolved": 0
+        },
+        {
+          "matches": 17,
+          "conflicts": 6,
+          "unresolved": 2
+        }
+      ],
+      "priors": [
+        "1/3",
+        "1/3",
+        "1/3"
+      ],
+      "posteriors": [
+        "263/915",
+        "25/61",
+        "277/915"
+      ],
+      "sourceClosed": false,
+      "candidateClosures": [
+        false,
+        false,
+        false
+      ],
+      "assumedSections": [
+        0,
+        0,
+        0
+      ],
+      "outerRead": {
+        "offered": false,
+        "complete": false,
+        "notches": 0
+      },
+      "statisticalEvents": 1
+    }
+  ]
+}

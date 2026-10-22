@@ -46,6 +46,14 @@ corpus. It compares ordinal selection and several statistical estimates over
 one frozen proposal pool, separating ranking, proposal coverage and teacher
 audits before a larger training regimen.
 
+The [mixed curve study](../Gojo/docs/GojoQualitativeCurveEvidence.md) adds native
+interpolation structure, conservative tangent and bend reads, and explicit
+interior-side premises. Its
+[24-case gallery](QualitativeFrieze/results/curve-evidence/gallery.html) compares
+receiver completions on anonymous endpoint scaffolds with private controls
+withheld. Whole-shape tip cycles and local notches remain connected but do not
+count as independent evidence.
+
 ## Reading order
 
 | Order | Recorded period | Work |

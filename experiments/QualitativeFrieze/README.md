@@ -1,5 +1,18 @@
 # Qualitative frieze generators
 
+The [mixed curve gallery](results/curve-evidence/gallery.html) compares 24
+native sources and three receiver constructions for each supplied anonymous
+endpoint scaffold. Straightness, tangent/corner/cusp joins, bend direction,
+unknown interiors and assumed closing spans remain separate. Private source
+handles are withheld; this is scaffold completion, not blind sketch parsing.
+See the [whole sheet](results/curve-evidence/overview.html) and
+[encoding, findings and limits](../../Gojo/docs/GojoQualitativeCurveEvidence.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --curve-evidence
+node experiments/QualitativeFrieze/tools/check-curve-evidence.cjs
+```
+
 The [weighted shape gallery](results/weighted-shapes/gallery.html) compares the
 same frozen candidate pools for 100 sources under estimated statistical
 channels, a compactness prior and a neutral control. The

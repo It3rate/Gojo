@@ -20,6 +20,13 @@ proposals under estimated likelihoods and revisable priors. Its
 [gallery](experiments/QualitativeFrieze/results/weighted-shapes/gallery.html)
 keeps source audits separate from conditional selection weights.
 
+The [mixed curve study](Gojo/docs/GojoQualitativeCurveEvidence.md) adds native
+straight, quadratic and cubic constructions, tangent/corner/cusp reads, and
+explicit interior and gap-completion premises. Its
+[gallery](experiments/QualitativeFrieze/results/curve-evidence/gallery.html)
+compares 24 sources and 72 receiver constructions on supplied anonymous endpoint
+scaffolds, including a weak whole-shape diamond read alongside local notches.
+
 The [relational shape study](Gojo/docs/GojoRelationalShapeStudy.md) reconstructs
 100 sources with separate pairwise spatial cues, length and angle equivalence,
 and qualitative support and opposition. Its

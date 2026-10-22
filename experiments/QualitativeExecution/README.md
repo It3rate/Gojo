@@ -63,6 +63,14 @@ interpretation, not acquired support. The
 [100-shape weighting experiment](../../Gojo/docs/GojoWeightedShapeEvidence.md)
 tests this adapter against the earlier ordinal ranking on fixed pools.
 
+[QualitativeCurve](QualitativeCurve.cs) adds an above-kernel native polynomial
+construction over unmeasured motion words, one bounded shared parameter and
+actual interpolation dependencies. Its local readers distinguish tangent,
+corner and cusp joins, signed bending, conservative inflection and regularity
+certificates, and convexity conditional on an explicit oriented interior.
+The [mixed curve study](../../Gojo/docs/GojoQualitativeCurveEvidence.md) exposes
+sparse evidence and compares receiver completions without private source handles.
+
 Run tests and the diagnostic benchmark from the repository root:
 
 ```powershell
