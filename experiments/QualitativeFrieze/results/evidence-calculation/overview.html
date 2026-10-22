@@ -1,0 +1,1104 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gojo · evidence calculation</title><style>
+:root{color-scheme:light;--paper:#f5f2e8;--ink:#223f48;--muted:#59696b;--line:#c8cbc1;--accent:#9b652d}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,sans-serif}header,main,footer,.metrics,.chooser{max-width:1500px;margin:auto;padding:24px 32px}header{padding-top:44px}h1{font:600 clamp(28px,4vw,46px)/1.15 Georgia,serif;margin:.2em 0 .5em}h2{font:600 28px/1.25 Georgia,serif;margin:.2em 0 .6em}h3{font-size:18px;margin:0 0 12px}p{margin:.6em 0}.eyebrow{text-transform:uppercase;font-size:12px;letter-spacing:.12em;color:var(--muted)}nav{display:flex;gap:12px 22px;flex-wrap:wrap;margin-top:22px}a{color:#305f79;text-underline-offset:3px}.metrics{border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;gap:20px;flex-wrap:wrap;padding-top:15px;padding-bottom:15px}.metrics strong{font-size:23px}.chooser{display:block}select{font:inherit;color:inherit;border:1px solid #91a3a1;background:#fffdf5;border-radius:5px;padding:9px 12px;max-width:100%;margin-left:12px}.case{border:1px solid var(--line);background:#fffdf7;border-radius:8px;padding:26px;margin:0 0 26px}.question{font-size:19px}.premise{padding:12px 16px;border-left:3px solid #9caeac;background:#eef0e9}.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:20px;margin-top:24px}.step{min-width:0;border:1px solid #d9d9ce;border-radius:5px;padding:16px;background:#faf9f2}.step img{display:block;width:100%;height:180px;background:#f2f0e6;border-radius:4px}.step p{min-height:48px}.table-scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;border-bottom:1px solid #d3d7cd;padding:8px 7px;vertical-align:top}thead th{font-size:12px;font-weight:600;color:var(--muted)}tbody th{font-weight:500}.finding{border-top:1px solid var(--line);padding-top:15px;font-weight:550}.checks{font-size:14px;color:var(--muted)}summary{cursor:pointer;padding:6px 0}li{margin:9px 0}footer{color:var(--muted);font-size:14px}.overview .case{margin-bottom:36px}@media(max-width:650px){header,main,footer,.metrics,.chooser{padding-left:16px;padding-right:16px}.case{padding:16px}.step{padding:12px}h2{font-size:24px}select{display:block;margin:8px 0 0;width:100%}.steps{gap:12px}.step p{min-height:0}}
+</style></head><body><header><p class="eyebrow">Gojo · evidence arithmetic fixtures</p><h1>What should change our belief?</h1>
+<p>These small cases test calculation laws before larger recognition experiments. Every likelihood and independence premise is supplied explicitly. The drawings explain the questions; no answer is extracted from the drawings.</p>
+<nav><a href="gallery.html">Inspect one case</a><a href="overview.html">All cases</a><a href="gallery-data.json">Calculation data</a><a href="receipts.gojo.json.gz">Native receipts</a></nav></header><section class='metrics'><span><strong>16</strong> cases</span><span><strong>53</strong> checked laws</span><span>Exact rational reads · explicit premises</span></section><main id='content' class='overview'></main><footer><p>Probabilities describe this selected comparison. An open likelihood remains unresolved; zero weight retains its candidate and reason. A failed modeled scope does not become certainty about an unmodeled explanation. Native receipts retain premises, updates and alternatives.</p></footer><script>
+globalThis.EVIDENCE_CALCULATION={
+  "schema": "evidence-calculation-v1",
+  "summary": {
+    "schema": "evidence-calculation-v1",
+    "cases": 16,
+    "lawChecks": 53,
+    "passedChecks": 53,
+    "seconds": 2.9718987,
+    "scope": "Supplied statistical premises and native exact calculation receipts. No pattern recognition, learned likelihoods, measured geometry or automatic structural-prior mutation.",
+    "interpretation": "These are declared candidate-selection partitions. Two valid descriptions need not be mutually exclusive outside that selected question. A posterior is conditional on the supplied scope, priors, likelihoods and dependency premises."
+  },
+  "cases": [
+    {
+      "id": "E01",
+      "name": "Orientation is separate from the answer",
+      "question": "What does affirming or opposing an inverted question contribute?",
+      "premises": "Equal candidate priors. Positive-claim likelihoods are 99/100 and 1/100. Four independent fixture worlds use four oriented readings.",
+      "finding": "Keep \u002B affirm and discard \u002B oppose produce the same weight. Inverting only the question or only the answer complements the evidence.",
+      "steps": [
+        {
+          "name": "Ask keep \u00B7 answer affirm",
+          "explanation": "The likelihood port describes the positive claim. The oriented answer selects that likelihood or its complement; reversing both question and answer preserves the contribution.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "99/100",
+              "posterior": "99/100",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1/100",
+              "posterior": "1/100",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e01-1.svg"
+        },
+        {
+          "name": "Ask keep \u00B7 answer oppose",
+          "explanation": "The likelihood port describes the positive claim. The oriented answer selects that likelihood or its complement; reversing both question and answer preserves the contribution.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "1/100",
+              "posterior": "1/100",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "99/100",
+              "posterior": "99/100",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e01-2.svg"
+        },
+        {
+          "name": "Ask discard \u00B7 answer affirm",
+          "explanation": "The likelihood port describes the positive claim. The oriented answer selects that likelihood or its complement; reversing both question and answer preserves the contribution.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "1/100",
+              "posterior": "1/100",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "99/100",
+              "posterior": "99/100",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e01-3.svg"
+        },
+        {
+          "name": "Ask discard \u00B7 answer oppose",
+          "explanation": "The likelihood port describes the positive claim. The oriented answer selects that likelihood or its complement; reversing both question and answer preserves the contribution.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "99/100",
+              "posterior": "99/100",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1/100",
+              "posterior": "1/100",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e01-4.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Ask keep \u00B7 answer affirm",
+          "passed": true,
+          "detail": "The response is interpreted relative to its actual question frame."
+        },
+        {
+          "law": "Ask keep \u00B7 answer oppose",
+          "passed": true,
+          "detail": "The response is interpreted relative to its actual question frame."
+        },
+        {
+          "law": "Ask discard \u00B7 answer affirm",
+          "passed": true,
+          "detail": "The response is interpreted relative to its actual question frame."
+        },
+        {
+          "law": "Ask discard \u00B7 answer oppose",
+          "passed": true,
+          "detail": "The response is interpreted relative to its actual question frame."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E02",
+      "name": "One hundred square checks do not identify the recipe",
+      "question": "Which construction made this square?",
+      "premises": "Every supplied square check has likelihood 1 under both recipes, conditional on all preceding reports. No independence between the checks is asserted.",
+      "finding": "The reports fit both constructions equally. They leave recipe-selection odds tied; they do not establish a unique cause.",
+      "steps": [
+        {
+          "name": "Initial candidate partition",
+          "explanation": "This is an explicitly selected comparison between two hypotheses. They could both remain valid descriptions outside this selection question.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "\u2014",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "\u2014",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e02-1.svg"
+        },
+        {
+          "name": "After 100 compatible reports",
+          "explanation": "Right angles, equal sides and parallelism can all be compatible with both mechanisms. Only differences in their report predictions can distinguish them.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "1 for each report",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1 for each report",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e02-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "No discrimination from equal likelihoods",
+          "passed": true,
+          "detail": "Both exact normalized weights remain 1/2."
+        },
+        {
+          "law": "All declared reports remain inspectable",
+          "passed": true,
+          "detail": "The event history contains 100 accepted reports; the count does not become posterior precision."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E03",
+      "name": "A single discriminating report can dominate",
+      "question": "Does a rectangle continuation favour one square construction?",
+      "premises": "The continuation is explicitly modeled as 99/100 likely under the parallel-line recipe and 1/100 under the fixed equal-partition circular recipe. These numbers are test inputs, not measurements or learned estimates.",
+      "finding": "The 100 preceding shared checks cancel from relative preference. The new report produces 99:1 odds rather than a 101-versus-100 test score.",
+      "steps": [
+        {
+          "name": "Shared square evidence",
+          "explanation": "Both candidates begin this step with the same conditional weight.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "Shared reports",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "Shared reports",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e03-1.svg"
+        },
+        {
+          "name": "Noisy rectangle report",
+          "explanation": "The report has a nonzero error channel, so neither recipe is logically excluded.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "99/100",
+              "posterior": "99/100",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1/100",
+              "posterior": "1/100",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e03-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Likelihood-ratio update",
+          "passed": true,
+          "detail": "Equal prior odds multiplied by 99:1 report odds yield 99/100 and 1/100."
+        },
+        {
+          "law": "Low-weight alternative is retained",
+          "passed": true,
+          "detail": "No automatic pruning follows from a small posterior weight."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E04",
+      "name": "An exact incompatibility is not a small score penalty",
+      "question": "Can a fixed true circle with four equal partitions yield a non-square rectangle?",
+      "premises": "Within the supplied strict construction promises, the report likelihoods are 1 and 0. A reliable proof is being tested, not inferred from this illustration.",
+      "finding": "The exact zero excludes this particular recipe under these retained premises. Its native candidate and reason remain available for revision or another question.",
+      "steps": [
+        {
+          "name": "Compatible square",
+          "explanation": "Both candidates pass the initial shape checks.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "1",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e04-1.svg"
+        },
+        {
+          "name": "Exact rectangle witness",
+          "explanation": "A zero is a strong premise. If the observation or geometric contract is uncertain, the likelihood should not silently be zero.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "1",
+              "posterior": "1/1",
+              "status": "Candidate retained, including zero weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "0",
+              "posterior": "0/1",
+              "status": "Candidate retained, including zero weight"
+            }
+          ],
+          "image": "diagrams/e04-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Necessary-promise conflict",
+          "passed": true,
+          "detail": "The observed contract yields exact conditional weights 1 and 0."
+        },
+        {
+          "law": "Exclusion does not erase structure",
+          "passed": true,
+          "detail": "The zero-weight candidate is still present in the native partition."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E05",
+      "name": "The permitted change determines the informative evidence",
+      "question": "What if the observed continuation changes the circular partition count?",
+      "premises": "This fixture now permits the radial construction to alter its partition count. A pentagon report has supplied likelihoods 1/100 and 99/100. This differs from a fixed four-partition promise.",
+      "finding": "The same initial square now favours the radial mechanism. Preference depends on the actual exposed possibilities and constraints.",
+      "steps": [
+        {
+          "name": "Same square starting point",
+          "explanation": "Visual agreement alone does not decide which construction context is most useful.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "1",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e05-1.svg"
+        },
+        {
+          "name": "Allowed partition-count change",
+          "explanation": "The likelihood port records the changed modeling premise. The drawing is explanatory only.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "1/100",
+              "posterior": "1/100",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "99/100",
+              "posterior": "99/100",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e05-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Context-sensitive Bayes factor",
+          "passed": true,
+          "detail": "Swapping the supplied predictions swaps the resulting preference."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E06",
+      "name": "Another route is not another observation",
+      "question": "Does importing the same observation twice increase support?",
+      "premises": "Both imports preserve the same event identity. The second import is a repeated route to the first event.",
+      "finding": "The event is acknowledged as a duplicate and does not multiply its likelihood again.",
+      "steps": [
+        {
+          "name": "First import",
+          "explanation": "A declared discriminating observation changes the odds once.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "9/10",
+              "posterior": "9/10",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1/10",
+              "posterior": "1/10",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e06-1.svg"
+        },
+        {
+          "name": "Same event imported again",
+          "explanation": "The evidence ledger identifies the previously accepted event before requesting new dependency coverage.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "9/10",
+              "likelihood": "Already accounted",
+              "posterior": "9/10",
+              "status": "Duplicate; no new update"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/10",
+              "likelihood": "Already accounted",
+              "posterior": "1/10",
+              "status": "Duplicate; no new update"
+            }
+          ],
+          "image": "diagrams/e06-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Shared event is idempotent",
+          "passed": true,
+          "detail": "The second import retains 9/10 rather than producing 81/82."
+        },
+        {
+          "law": "No duplicate history participation",
+          "passed": true,
+          "detail": "One event remains one event across repeated imports."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E07",
+      "name": "Unknown is not a half, zero or negative answer",
+      "question": "Can the update settle while one likelihood is unavailable?",
+      "premises": "One candidate likelihood is an open slot. The other is 1/2. No default value is supplied for the open slot.",
+      "finding": "The update remains open. The last accepted state stays available; it is not presented as a newly calculated posterior.",
+      "steps": [
+        {
+          "name": "Open report model",
+          "explanation": "The missing report likelihood is preserved rather than invented.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "Open",
+              "posterior": "Unresolved",
+              "status": "Last accepted weight remains 1/2"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1/2",
+              "posterior": "Unresolved",
+              "status": "Last accepted weight remains 1/2"
+            }
+          ],
+          "image": "diagrams/e07-1.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Missing likelihood blocks this calculation",
+          "passed": true,
+          "detail": "There is no complete normalized posterior for this offer."
+        },
+        {
+          "law": "No fabricated evidence",
+          "passed": true,
+          "detail": "No report is accepted and no open slot becomes a numeric default."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E08",
+      "name": "When every modeled candidate fails, keep the scope failure",
+      "question": "What if the report is impossible under all current candidates?",
+      "premises": "Both supplied likelihoods are exactly zero. The candidate scope is finite and explicitly selected; it need not contain the true explanation.",
+      "finding": "There is no normalized posterior. The contradiction concerns the proposed modeled scope and its premises; it does not justify selecting a winner or manufacturing a new explanation.",
+      "steps": [
+        {
+          "name": "All-zero report likelihood",
+          "explanation": "The earlier accepted state is retained alongside the failed update receipt.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "0",
+              "posterior": "No posterior",
+              "status": "Modeled scope contradicted"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "0",
+              "posterior": "No posterior",
+              "status": "Modeled scope contradicted"
+            }
+          ],
+          "image": "diagrams/e08-1.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Zero normalizer is visible",
+          "passed": true,
+          "detail": "An all-zero product cannot be normalized."
+        },
+        {
+          "law": "Failed proposal does not overwrite prior",
+          "passed": true,
+          "detail": "The accepted state is retained with its separate failure witness."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E09",
+      "name": "An unreduced display denominator is not evidence strength",
+      "question": "Does 50/100 establish a more certain balance than 1/2?",
+      "premises": "These are two probability expressions with equivalent value and different retained partition expressions. Neither contains empirical trial history.",
+      "finding": "Both reads give 1/2. Evidence strength needs its own justified acquisition/support structure; it cannot be inferred from a denominator alone.",
+      "steps": [
+        {
+          "name": "Coarse expression",
+          "explanation": "The ratio states a balance within the selected candidate partition.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "No observation",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "No observation",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e09-1.svg"
+        },
+        {
+          "name": "Finer expression",
+          "explanation": "The input expression is 50/100 for each candidate. Exact normalization reduces the displayed probability without claiming more acquired evidence.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "No observation",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "No observation",
+              "posterior": "1/2",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e09-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Ratio equivalence",
+          "passed": true,
+          "detail": "Equal dimensionless weights produce equal normalized beliefs."
+        },
+        {
+          "law": "Resolution does not manufacture trials",
+          "passed": true,
+          "detail": "No acquisition history is inferred from 100 displayed parts."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E10",
+      "name": "Declared conditional independence permits reordering",
+      "question": "Can independent reports be accounted in either order?",
+      "premises": "The two report channels are explicitly asserted conditionally independent given each model. Their likelihoods are (9/10,1/10) and (1/5,4/5). Independence is an authored premise.",
+      "finding": "Both orders produce 9/13 versus 4/13. The numerical agreement does not prove that the independence premise is appropriate in a real application.",
+      "steps": [
+        {
+          "name": "Report X then report Y",
+          "explanation": "The second offer names the first event in its independent-event surface.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "(9/10) \u00D7 (1/5)",
+              "posterior": "9/13",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "(1/10) \u00D7 (4/5)",
+              "posterior": "4/13",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e10-1.svg"
+        },
+        {
+          "name": "Report Y then report X",
+          "explanation": "The reversed calculation records the same declared conditional-independence relationship.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "(1/5) \u00D7 (9/10)",
+              "posterior": "9/13",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "(4/5) \u00D7 (1/10)",
+              "posterior": "4/13",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e10-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Order invariance under stated premises",
+          "passed": true,
+          "detail": "Exact multiplication yields equal posterior ratios in both declared orders."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E11",
+      "name": "Unstated dependencies remain open",
+      "question": "May we multiply another likelihood without accounting for previous events?",
+      "premises": "A previous report is already accepted. The next offer neither conditions on that event nor names it in its conditional-independence surface.",
+      "finding": "The new calculation remains unresolved. Distinct event identities do not by themselves justify independent evidence.",
+      "steps": [
+        {
+          "name": "Unaccounted prior report",
+          "explanation": "The previous accepted state remains available while the missing relationship is exposed.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "9/10",
+              "likelihood": "Dependency open",
+              "posterior": "9/10",
+              "status": "Update unresolved; previous state retained"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/10",
+              "likelihood": "Dependency open",
+              "posterior": "1/10",
+              "status": "Update unresolved; previous state retained"
+            }
+          ],
+          "image": "diagrams/e11-1.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "No implicit independence",
+          "passed": true,
+          "detail": "The unqualified report does not multiply the existing odds."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E12",
+      "name": "Retaining a zero-weight candidate is not automatic resurrection",
+      "question": "Can later soft evidence revive a candidate assigned an exact zero?",
+      "premises": "The earlier exact exclusion and its construction promises remain unchanged. The later report has finite nonzero likelihood under both recipes.",
+      "finding": "The zero remains zero within this model. Revising the proof, observation model or structural prior requires an explicit new context; it is not accomplished by silently adding a small number.",
+      "steps": [
+        {
+          "name": "Exact exclusion retained",
+          "explanation": "The strict circular recipe remains present, with zero weight and its reason.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "1",
+              "posterior": "1/1",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "0",
+              "posterior": "0/1",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e12-1.svg"
+        },
+        {
+          "name": "Later soft preference for circular recipe",
+          "explanation": "A finite likelihood ratio cannot undo an exact zero under unchanged premises.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/1",
+              "likelihood": "1/100",
+              "posterior": "1/1",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "0/1",
+              "likelihood": "99/100",
+              "posterior": "0/1",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e12-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Exact zero is absorbing under unchanged model",
+          "passed": true,
+          "detail": "A structural revision must explicitly change the earlier model or premise."
+        },
+        {
+          "law": "Zero candidate is still inspectable",
+          "passed": true,
+          "detail": "Retention and positive posterior participation are different reads."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E13",
+      "name": "Selected output resolution retains the same underlying belief",
+      "question": "What does a coarse read of a one-third probability promise?",
+      "premises": "The exact state is 1/3 versus 2/3. A separate requested read exposes two partitions or 100 partitions. These partitions describe output resolution, not acquired evidence.",
+      "finding": "The two-part read encloses 1/3 between 0 and 1/2. The 100-part read encloses it between 33/100 and 34/100. Neither changes the state or creates a new report.",
+      "steps": [
+        {
+          "name": "Two-part output read",
+          "explanation": "Displayed bounds retain what this resolution cannot distinguish.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/3",
+              "likelihood": "No new report",
+              "posterior": "[0/1, 1/2]",
+              "status": "Resolution enclosure"
+            }
+          ],
+          "image": "diagrams/e13-1.svg"
+        },
+        {
+          "name": "100-part output read",
+          "explanation": "A finer read narrows presentation bounds while retaining the exact source promise.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/3",
+              "likelihood": "No new report",
+              "posterior": "[33/100, 17/50]",
+              "status": "Resolution enclosure"
+            }
+          ],
+          "image": "diagrams/e13-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Coarse enclosure",
+          "passed": true,
+          "detail": "The coarse read retains a conservative bound rather than rounding to false certainty."
+        },
+        {
+          "law": "Fine enclosure",
+          "passed": true,
+          "detail": "The fine upper bound 34/100 is exactly 17/50."
+        },
+        {
+          "law": "Observation resolution is not mutation",
+          "passed": true,
+          "detail": "Requesting refinement adds no acquisition event and changes no underlying probability."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E14",
+      "name": "Balance and acquired support are separate reads",
+      "question": "How can two half-and-half beliefs respond differently to new evidence?",
+      "premises": "A separately selected empirical Beta/Bernoulli law has prior support 1:1. One channel has no observations. The other has 49 positive and 49 opposed events under an explicit common-rate, conditionally independent acquisition contract. Those premises are supplied rather than inferred.",
+      "finding": "Both conditional mean estimates are 1/2, but their support and rate dispersion differ. The next binary outcome remains equally uncertain in both channels. One new positive event yields 2/3 in the lightly supported channel and 51/101 in the historical channel. This is a distinct empirical law, not a reinterpretation of a probability denominator.",
+      "steps": [
+        {
+          "name": "Same mean, different acquisition histories",
+          "explanation": "Rate dispersion belongs to the selected model, not a guaranteed physical error bar or proof of source reliability. One next-outcome variance remains 1/4 in both cases.",
+          "candidates": [
+            {
+              "candidate": "No acquired reports",
+              "prior": "Beta support 1:1",
+              "likelihood": "0 events",
+              "posterior": "1/2",
+              "status": "Variance 1/12"
+            },
+            {
+              "candidate": "Balanced acquired history",
+              "prior": "Beta support 1:1",
+              "likelihood": "49 positive \u002B 49 opposed",
+              "posterior": "1/2",
+              "status": "Variance 1/404"
+            }
+          ],
+          "image": "diagrams/e14-1.svg"
+        },
+        {
+          "name": "One further positive report",
+          "explanation": "The same one-event contribution has less influence on a rate estimate backed by the explicitly selected acquisition history.",
+          "candidates": [
+            {
+              "candidate": "Lightly supported channel",
+              "prior": "1/2",
+              "likelihood": "One positive event",
+              "posterior": "2/3",
+              "status": "Support 2:1"
+            },
+            {
+              "candidate": "Historical channel",
+              "prior": "1/2",
+              "likelihood": "One positive event",
+              "posterior": "51/101",
+              "status": "Support 51:50"
+            }
+          ],
+          "image": "diagrams/e14-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Equal balance does not imply equal support",
+          "passed": true,
+          "detail": "The native acquisition history distinguishes no reports from 98 reports despite equal means."
+        },
+        {
+          "law": "Both selected empirical histories are complete",
+          "passed": true,
+          "detail": "The displayed empirical calculations account for every submitted report under their declared acquisition contracts."
+        },
+        {
+          "law": "Dispersion follows the selected empirical law",
+          "passed": true,
+          "detail": "These are exact conditional Beta variances, not confidence levels or hard bounds."
+        },
+        {
+          "law": "Rate uncertainty and outcome uncertainty differ",
+          "passed": true,
+          "detail": "Additional balanced history narrows the rate estimate without making a single binary outcome predictable."
+        },
+        {
+          "law": "New event influence depends on acquired support",
+          "passed": true,
+          "detail": "The two rate estimates respond differently without changing output resolution."
+        },
+        {
+          "law": "Empirical support survives native transport",
+          "passed": true,
+          "detail": "The reconstructed native state preserves the common-rate contract and all 98 distinct events."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E15",
+      "name": "Prior revision is explicit and preserves the earlier calculation",
+      "question": "What changes when the prior selection weights are deliberately revised?",
+      "premises": "The same 101 accepted report factors are retained. An explicit revision replaces equal prior weights with 1/100 for the parallel-line recipe and 99/100 for the circular recipe. This fixture changes prior weights; it does not automatically mutate a geometric recipe.",
+      "finding": "The revised prior exactly balances the rectangle report\u0027s 99:1 likelihood ratio, giving a 1/2 posterior. The previous 99/100 result remains valid under its earlier premise and is retained in the revision receipt.",
+      "steps": [
+        {
+          "name": "Original declared prior",
+          "explanation": "Equal prior weights and the discriminating rectangle report yield the earlier preference.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "99/100",
+              "posterior": "99/100",
+              "status": "Conditional selection weight"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1/100",
+              "posterior": "1/100",
+              "status": "Conditional selection weight"
+            }
+          ],
+          "image": "diagrams/e15-1.svg"
+        },
+        {
+          "name": "Explicitly revised prior",
+          "explanation": "The retained likelihood factors are reevaluated against the new prior. No additional observation is counted.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/100",
+              "likelihood": "99/100",
+              "posterior": "1/2",
+              "status": "New prior context"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "99/100",
+              "likelihood": "1/100",
+              "posterior": "1/2",
+              "status": "New prior context"
+            }
+          ],
+          "image": "diagrams/e15-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Revised prior is accounted explicitly",
+          "passed": true,
+          "detail": "Prior odds 1:99 balance the retained 99:1 report factor."
+        },
+        {
+          "law": "Revision is not another acquisition",
+          "passed": true,
+          "detail": "All accepted report identities survive without adding an event."
+        },
+        {
+          "law": "Earlier premise and result remain available",
+          "passed": true,
+          "detail": "The revision receipt retains the previous state instead of silently rewriting its history."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    },
+    {
+      "id": "E16",
+      "name": "A balanced comparison can still fit the report poorly",
+      "question": "Does a half-and-half posterior mean the current candidate set explains the observation well?",
+      "premises": "Two separate fixture worlds start from equal candidate priors. In one world, each candidate assigns the observed report probability 1/100. In the other, each assigns it probability 1. The report models and candidate scope are supplied explicitly.",
+      "finding": "Both relative comparisons remain tied at 1/2, but their marginal report probabilities are 1/100 and 1. Relative preference alone cannot reveal that the whole modeled scope was surprised. A low marginal probability is a reason to inspect the model; it is not automatic proof that an unmodeled alternative is better.",
+      "steps": [
+        {
+          "name": "Equally poor report predictions",
+          "explanation": "The same illustrated report still has nonzero probability and the update is valid. Marginal report probability: 1/100.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "1/100",
+              "posterior": "1/2",
+              "status": "Scope report probability 1/100"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1/100",
+              "posterior": "1/2",
+              "status": "Scope report probability 1/100"
+            }
+          ],
+          "image": "diagrams/e16-1.svg"
+        },
+        {
+          "name": "Equally expected report predictions",
+          "explanation": "The candidates make the same relative predictions but a different joint prediction. Marginal report probability: 1/1.",
+          "candidates": [
+            {
+              "candidate": "Parallel-line recipe",
+              "prior": "1/2",
+              "likelihood": "1",
+              "posterior": "1/2",
+              "status": "Scope report probability 1/1"
+            },
+            {
+              "candidate": "Equal-partition circular recipe",
+              "prior": "1/2",
+              "likelihood": "1",
+              "posterior": "1/2",
+              "status": "Scope report probability 1/1"
+            }
+          ],
+          "image": "diagrams/e16-2.svg"
+        }
+      ],
+      "checks": [
+        {
+          "law": "Equal likelihoods preserve relative weights",
+          "passed": true,
+          "detail": "Normalization preserves the relative tie in both supplied worlds."
+        },
+        {
+          "law": "Marginal evidence preserves the scope prediction",
+          "passed": true,
+          "detail": "The normalized relative posterior is accompanied by the exact report probability under the selected prior and model scope."
+        },
+        {
+          "law": "Standalone native transport",
+          "passed": true,
+          "detail": "Frame, candidate aliases, likelihood products and retained event history survive a fresh compact-JSON reconstruction."
+        }
+      ]
+    }
+  ]
+};
+const data=globalThis.EVIDENCE_CALCULATION;
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function card(row){return `<article class="case" data-case="${esc(row.id)}"><p class="eyebrow">${esc(row.id)}</p><h2>${esc(row.name)}</h2><p class="question">${esc(row.question)}</p><p class="premise"><strong>Supplied premises.</strong> ${esc(row.premises)}</p><div class="steps">${row.steps.map((s,i)=>`<section class="step"><h3>${i+1} · ${esc(s.name)}</h3><img src="${esc(s.image)}" alt="${esc(s.name)}"><p>${esc(s.explanation)}</p><div class="table-scroll"><table><thead><tr><th>Candidate</th><th>Prior / basis</th><th>Report input</th><th>Calculated read</th><th>Qualification</th></tr></thead><tbody>${s.candidates.map(c=>`<tr><th>${esc(c.candidate)}</th><td>${esc(c.prior)}</td><td>${esc(c.likelihood)}</td><td>${esc(c.posterior)}</td><td>${esc(c.status)}</td></tr>`).join('')}</tbody></table></div></section>`).join('')}</div><p class="finding">${esc(row.finding)}</p><details class="checks"><summary>${row.checks.filter(c=>c.passed).length}/${row.checks.length} calculation laws verified</summary><ul>${row.checks.map(c=>`<li><strong>${esc(c.law)}</strong> — ${esc(c.detail)}</li>`).join('')}</ul></details></article>`;}
+const select=document.querySelector('#case');
+if(select){for(const row of data.cases){const o=document.createElement('option');o.value=row.id;o.textContent=`${row.id} · ${row.name}`;select.append(o);}const show=()=>{const row=data.cases.find(x=>x.id===select.value)??data.cases[0];select.value=row.id;document.querySelector('#content').innerHTML=card(row);const u=new URL(location.href);u.searchParams.set('case',row.id);history.replaceState(null,'',u);};select.value=new URL(location.href).searchParams.get('case')??data.cases[0].id;select.addEventListener('change',show);show();}
+else document.querySelector('#content').innerHTML=data.cases.map(card).join('');
+</script></body></html>

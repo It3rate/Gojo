@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [evidence calculation gallery](results/evidence-calculation/gallery.html)
+tests statistical update laws with supplied square/rectangle/polygon premises.
+It separates construction compatibility, conditional candidate weights,
+empirical acquisition support and requested output resolution; it does not
+learn geometric likelihoods. See the
+[mathematical contract](../../Gojo/docs/GojoEvidenceCalculationFixture.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --evidence-calculation
+```
+
 The [relational shape gallery](results/relational-shapes/gallery.html) explores
 100 independently constructed sources using anonymous local joints, pairwise
 spatial comparisons and separate length/angle equivalence. Four contexts test

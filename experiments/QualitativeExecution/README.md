@@ -46,6 +46,15 @@ The [qualitative frieze experiment](../QualitativeFrieze/README.md) then exercis
 these mechanics with independent and triggered motions, unmeasured reaches,
 explicit sample grouping and separate measured drawings.
 
+The [evidence calculation fixture](../../Gojo/docs/GojoEvidenceCalculationFixture.md)
+adds selected finite statistical interpretations over native unmeasured
+partitions: conditional model weights, question/response inversion, explicit
+dependence, and separate empirical rate support. Exact fractions are derived
+diagnostics. The canonical state retains the input partitions and event
+correspondences. See [StatisticalEvidence](StatisticalEvidence.cs),
+[EvidenceSupport](EvidenceSupport.cs), and the
+[inspectable calculations](../QualitativeFrieze/results/evidence-calculation/gallery.html).
+
 Run tests and the diagnostic benchmark from the repository root:
 
 ```powershell

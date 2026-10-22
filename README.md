@@ -8,6 +8,12 @@ For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.
 
+The [evidence calculation fixture](Gojo/docs/GojoEvidenceCalculationFixture.md)
+tests finite Bayesian conditioning, question orientation, evidence dependence
+and empirical support using native unmeasured partitions. Its
+[gallery](experiments/QualitativeFrieze/results/evidence-calculation/gallery.html)
+uses square continuations to check calculation laws, with supplied likelihoods.
+
 The [relational shape study](Gojo/docs/GojoRelationalShapeStudy.md) reconstructs
 100 sources with separate pairwise spatial cues, length and angle equivalence,
 and qualitative support and opposition. Its

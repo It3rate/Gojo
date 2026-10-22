@@ -34,6 +34,12 @@ separate equivalence and symmetry streams. Its
 preserves open and conflicting reads; a local extent-feedback follow-up tests
 whether those relations can guide revision as well as assess a finished sample.
 
+The [evidence calculation fixture](../Gojo/docs/GojoEvidenceCalculationFixture.md)
+then separates compatibility, conditional model comparison, empirical support
+and output resolution. Its
+[square-continuation examples](QualitativeFrieze/results/evidence-calculation/gallery.html)
+test supplied statistical laws rather than learning construction mechanisms.
+
 ## Reading order
 
 | Order | Recorded period | Work |

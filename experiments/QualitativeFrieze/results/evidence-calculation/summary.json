@@ -1,0 +1,9 @@
+{
+  "schema": "evidence-calculation-v1",
+  "cases": 16,
+  "lawChecks": 53,
+  "passedChecks": 53,
+  "seconds": 2.9718987,
+  "scope": "Supplied statistical premises and native exact calculation receipts. No pattern recognition, learned likelihoods, measured geometry or automatic structural-prior mutation.",
+  "interpretation": "These are declared candidate-selection partitions. Two valid descriptions need not be mutually exclusive outside that selected question. A posterior is conditional on the supplied scope, priors, likelihoods and dependency premises."
+}
