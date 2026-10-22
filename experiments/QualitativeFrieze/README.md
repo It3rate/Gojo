@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [joint reconstruction gallery](results/joint-reconstruction/gallery.html)
+builds three native attempts from anonymous joint, ordinal position and separate
+symmetry streams. Original edge pairings stay in a separate teacher audit;
+assumed closure and conflicting context remain visible. These construction
+policies are authored, not trained. See the [source sheet](results/joint-reconstruction/overview.html)
+and [design, measurements and limits](../../Gojo/docs/GojoJointCompositionReconstruction.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --joint-reconstruction
+node experiments/QualitativeFrieze/tools/check-joint-reconstruction.cjs
+```
+
 The [ornament learning pilot](results/ornament-learning/gallery.html) trains a
 portable native boundary-route memory from a streamed program curriculum,
 then tests partial evidence, conflicting streams and held-out constructions.

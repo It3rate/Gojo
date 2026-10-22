@@ -16,6 +16,7 @@ prediction and control, grounded in these experiments.
 
 | Study | Source and documentation | Retained results / review |
 | --- | --- | --- |
+| Anonymous joint-stream composition | [Design and limits](../Gojo/docs/GojoJointCompositionReconstruction.md), [independent message](QualitativeFrieze/Composition/JointShapeDescription.cs), [native reconstruction](QualitativeFrieze/Composition/JointShapeReconstruction.cs) | [Three attempts per source](QualitativeFrieze/results/joint-reconstruction/gallery.html), [source sheet](QualitativeFrieze/results/joint-reconstruction/overview.html) |
 | Persistent native ornament learning | [Protocol and limits](../Gojo/docs/GojoOrnamentLearningPilot.md), [streamed corpus](QualitativeFrieze/Learning/OrnamentLearningCorpus.cs), [native learned memory](QualitativeFrieze/Learning/OrnamentLearningMemory.cs) | [Partial-evidence gallery](QualitativeFrieze/results/ornament-learning/gallery.html), [whole-family holdout](QualitativeFrieze/results/ornament-learning-family/gallery.html) |
 | Native interior discovery and conditional closure | [Methods and limits](../Gojo/docs/GojoNativeInteriorDiscovery.md), [native boundary discovery](QualitativeFrieze/NativeInteriorTopology.cs), [feature reads](QualitativeFrieze/NativeInteriorFeatures.cs) | [Twenty lattice sources](QualitativeFrieze/results/native-interiors/gallery.html), [whole sheet](QualitativeFrieze/results/native-interiors/overview.html) |
 | Native lattice sources and derived query evidence | [Methods and limits](../Gojo/docs/GojoNativeLatticeEvidence.md), [calculated supplier](QualitativeFrieze/NativeLineSupplier.cs), [publication boundary](QualitativeFrieze/NativeLinePublication.cs) | [Thirteen sources and selected boundaries](QualitativeFrieze/results/native-lattice-evidence/gallery.html), [whole sheet](QualitativeFrieze/results/native-lattice-evidence/overview.html) |
@@ -74,6 +75,8 @@ does not expand those claims.
 ## Run the latest study or swimming demo
 
 ```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --joint-reconstruction
+
 dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-learning --count 4096
 dotnet run --project experiments/QualitativeFrieze -c Release -- --recognition-firmness
 dotnet run --project experiments/QualitativeFrieze -c Release -- --hierarchical-recognition

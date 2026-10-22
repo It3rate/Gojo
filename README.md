@@ -8,6 +8,12 @@ For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.
 
+The [joint composition study](Gojo/docs/GojoJointCompositionReconstruction.md)
+reconstructs native shapes from anonymous joints, ordinal positions and separate
+symmetry evidence. Its [gallery](experiments/QualitativeFrieze/results/joint-reconstruction/gallery.html)
+compares three authored policies, retained assumptions and message-only feedback;
+this composition round does not train a model.
+
 The [ornament learning pilot](Gojo/docs/GojoOrnamentLearningPilot.md) trains a
 portable native route dictionary from a streamed curriculum and tests partial
 evidence, conflicts and held-out constructions. Its
