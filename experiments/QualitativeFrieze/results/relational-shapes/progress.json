@@ -1,0 +1,9 @@
+{
+  "completed": 100,
+  "total": 100,
+  "requested": 25600,
+  "evaluated": 22201,
+  "blocked": 3399,
+  "seconds": 471.1725679,
+  "last": "R100"
+}

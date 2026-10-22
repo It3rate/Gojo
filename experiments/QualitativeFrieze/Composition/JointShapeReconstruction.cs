@@ -77,7 +77,14 @@ public static class JointShapeReconstruction
     public static Candidate Best(IReadOnlyList<Candidate> attempts) => attempts.OrderByDescending(attempt => attempt.Assessment.Quality)
         .ThenBy(attempt => E(attempt.AssumedStrokes).Length).ThenBy(attempt => E(attempt.Unresolved).Length).First();
 
-    public static Candidate Propose(JointShapeDescription.Message message, int mode, Feedback? previous = null)
+    // Construction proposal = position bindings -> (preferred ray pairings ->
+    //   ((closure goal -> permitted goals) -> justification)). These bindings
+    // and pairings are hypotheses; they are not imported source observations.
+    public static Relation Construction(JointShapeDescription.Message message, Relation positions,
+        Relation preferredPairs, Relation permittedClosure, IElement justification) =>
+        new(positions, new Relation(preferredPairs, new Relation(new Relation(message.ClosureDefault, permittedClosure), justification)));
+
+    public static Candidate Propose(JointShapeDescription.Message message, int mode, Feedback? previous = null, Relation? construction = null)
     {
         if (mode is < 0 or > 2) throw new ArgumentOutOfRangeException(nameof(mode));
         var frame = message.Frame; var roles = E(message.Roles);
@@ -93,6 +100,17 @@ public static class JointShapeReconstruction
             .Select((pair, index) => new Ray(index, pair.row.Left, pair.joint.Role, (Relation)pair.row.Right)).ToArray();
         var pending = new List<IElement>(); var paired = new List<IElement>(); var edges = new List<IElement>();
         var assumed = new List<IElement>(); var policy = new List<IElement>();
+        var preferredPairs = S(); var allowClosure = true; Relation? suppliedPositions = null;
+        if (construction is not null)
+        {
+            if (construction is not { Left: Relation placement, Right: Relation { Left: Relation preferred,
+                    Right: Relation { Left: Relation permission } } } || !ReferenceEquals(permission.Left, message.ClosureDefault) ||
+                permission.Right is not Relation permit || !Closed(permit) || E(permit).Any(item => !ReferenceEquals(item, message.ClosureDefault)) ||
+                !Closed(preferred)) throw new ArgumentException("Expected a native construction proposal in this message frame.");
+            suppliedPositions = placement; preferredPairs = preferred;
+            allowClosure = E(permit).Length != 0;
+            policy.Add(construction);
+        }
         var feedbackDemand = previous?.Claims.Where(claim => claim.State != "Supported").Select(claim => (IElement)claim.Witness).ToArray() ?? [];
         var repair = mode > 0 && feedbackDemand.Length != 0;
         var bendRepair = mode == 2 && previous is not null && E(previous.Violations).OfType<Relation>().Any(witness =>
@@ -121,6 +139,15 @@ public static class JointShapeReconstruction
                 positions[role] = S(Gaps(frame.Right, h[role], E((Relation)message.Horizontal.Right).Length, mode == 1 ? 2 : 1)
                     .Concat(Gaps(frame.Up, v[role], E((Relation)message.Vertical.Right).Length, 1)).ToArray());
         else pending.Add(new Relation(message.Horizontal, message.Vertical));
+        if (suppliedPositions is not null && Closed(suppliedPositions))
+        {
+            var rows = E(suppliedPositions).OfType<Relation>().ToArray();
+            if (rows.Length != roles.Length || rows.Select(row => row.Left).Distinct<IElement>(ReferenceEqualityComparer.Instance).Count() != roles.Length ||
+                rows.Any(row => !sites.ContainsKey(row.Left) || row.Right is not Relation word || !Closed(word) ||
+                    E(word).Any(item => item is not Relation move || !frame.Direction(move, out _, out _, out _))))
+                throw new ArgumentException("A sampled placement must bind every advertised role to native moves exactly once.");
+            positions.Clear(); foreach (var row in rows) positions.Add(row.Left, (Relation)row.Right);
+        }
         var used = new HashSet<int>();
         if (validOrder)
         {
@@ -130,6 +157,10 @@ public static class JointShapeReconstruction
             {
                 var first = rayList.Where(ray => !used.Contains(ray.Index)).OrderBy(ray => eligible[ray.Index].Count(index => !used.Contains(index))).ThenBy(ray => ray.Index).First();
                 var choices = eligible[first.Index].Where(index => !used.Contains(index)).Select(index => rayList[index]).Where(other => CanPair(first, other)).ToArray();
+                var preferredChoices = choices.Where(other => E(preferredPairs).OfType<Relation>().Any(pair =>
+                    ReferenceEquals(pair.Left, first.Slot) && ReferenceEquals(pair.Right, other.Slot) ||
+                    ReferenceEquals(pair.Right, first.Slot) && ReferenceEquals(pair.Left, other.Slot))).ToArray();
+                if (preferredChoices.Length != 0) choices = preferredChoices;
                 if (repair || mode == 2)
                     choices = choices.OrderBy(other => Penalty(first, other)).ThenBy(other => other.Index).ToArray();
                 if (choices.Length == 0) { used.Add(first.Index); pending.Add(new Relation(first.Slot, first.Heading)); continue; }
@@ -141,7 +172,7 @@ public static class JointShapeReconstruction
             }
             // Close only a two-ended observed component. The added passage is
             // a proposal in its own scope, never inserted into source evidence.
-            foreach (var component in Components(roles, edges.Cast<Relation>().ToArray(), sites))
+            foreach (var component in allowClosure ? Components(roles, edges.Cast<Relation>().ToArray(), sites) : [])
             {
                 var ends = component.Where(role => Degree(role) == 1).ToArray();
                 if (ends.Length == 2 && component.Count >= 3)

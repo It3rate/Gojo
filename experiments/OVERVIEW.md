@@ -27,6 +27,13 @@ windows without an authoring factory. Its
 [source comparison gallery](QualitativeFrieze/results/bourgoin-patterns/gallery.html)
 states reconstruction limits alongside each example.
 
+The [relational shape study](../Gojo/docs/GojoRelationalShapeStudy.md) tests
+100 sources reconstructed from anonymous joints, spatial comparisons and
+separate equivalence and symmetry streams. Its
+[four-context gallery](QualitativeFrieze/results/relational-shapes/gallery.html)
+preserves open and conflicting reads; a local extent-feedback follow-up tests
+whether those relations can guide revision as well as assess a finished sample.
+
 ## Reading order
 
 | Order | Recorded period | Work |

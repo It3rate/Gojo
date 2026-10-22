@@ -8,6 +8,13 @@ For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.
 
+The [relational shape study](Gojo/docs/GojoRelationalShapeStudy.md) reconstructs
+100 sources with separate pairwise spatial cues, length and angle equivalence,
+and qualitative support and opposition. Its
+[gallery](experiments/QualitativeFrieze/results/relational-shapes/gallery.html)
+compares observation, requested completion, sparse evidence and a control
+withholding equivalence. Layout and closure remain revisable hypotheses.
+
 The [joint composition study](Gojo/docs/GojoJointCompositionReconstruction.md)
 reconstructs native shapes from anonymous joints, ordinal positions and separate
 symmetry evidence. Its [gallery](experiments/QualitativeFrieze/results/joint-reconstruction/gallery.html)

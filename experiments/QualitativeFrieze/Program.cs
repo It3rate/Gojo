@@ -9,6 +9,7 @@ using Gojo.Experiments.QualitativeFrieze;
 using Gojo.Experiments.QualitativeFrieze.Learning;
 using Gojo.Experiments.QualitativeFrieze.Composition;
 
+if (args.Contains("--relational-shapes")) return RelationalShapeExperiment.Run(args.Where(argument => argument != "--relational-shapes").ToArray());
 if (args.Contains("--joint-reconstruction")) return JointReconstructionExperiment.Run(args.Where(argument => argument != "--joint-reconstruction").ToArray());
 if (args.Contains("--ornament-learning")) return OrnamentLearningExperiment.Run(args.Where(argument => argument != "--ornament-learning").ToArray());
 if (args.Contains("--learn")) return FriezeLearningExperiment.Run(args.Where(argument => argument != "--learn").ToArray());

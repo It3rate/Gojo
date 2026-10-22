@@ -1,5 +1,19 @@
 # Qualitative frieze generators
 
+The [relational shape gallery](results/relational-shapes/gallery.html) explores
+100 independently constructed sources using anonymous local joints, pairwise
+spatial comparisons and separate length/angle equivalence. Four contexts test
+observed structure, requested completion, sparse relations and withheld
+equivalence. Separate contexts distinguish observations, hypotheses, defaults
+and goals; ordinal ladders retain support and opposition. The
+[extent-feedback follow-up](results/relational-shapes/extent-repair/gallery.html)
+lets equal-length groups revise receiver samples. See the [whole sheet](results/relational-shapes/overview.html)
+and [design and recorded findings](../../Gojo/docs/GojoRelationalShapeStudy.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --relational-shapes
+```
+
 The [joint reconstruction gallery](results/joint-reconstruction/gallery.html)
 builds three native attempts from anonymous joint, ordinal position and separate
 symmetry streams. Original edge pairings stay in a separate teacher audit;

@@ -92,7 +92,15 @@ select.addEventListener('change',show);const requested=new URL(location.href).se
         // entry instead of truncating that still-mapped file in place.
         var pending = path + ".pending";
         File.WriteAllText(pending, text);
-        File.Move(pending, path, overwrite: true);
+        for (var attempt = 0; ; attempt++)
+        {
+            try { File.Move(pending, path, overwrite: true); return; }
+            // File watchers and Windows previews can briefly hold a directory
+            // entry without delete sharing. Keep the complete pending content
+            // and retry the replacement instead of truncating the live file.
+            catch (Exception error) when (attempt < 8 && error is IOException or UnauthorizedAccessException)
+            { Thread.Sleep(25 * (attempt + 1)); }
+        }
     }
 
     private static string Summary(JsonElement summary)
@@ -106,7 +114,7 @@ select.addEventListener('change',show);const requested=new URL(location.href).se
         return text.Append("<p>Scores compare retained structural evidence under a bounded policy. They are not calibrated probabilities. The three policies are general construction experiments, not learned ornament recipes.</p></details></section>").ToString();
     }
 
-    private static string Svg(NativeLatticeSources.SourceCase source, IReadOnlyList<string> labels, Relation assumed, string title)
+    internal static string Svg(NativeLatticeSources.SourceCase source, IReadOnlyList<string> labels, Relation assumed, string title)
     {
         var frame = source.Graph.Frame; var sites = E(source.Graph.Sites);
         var positions = new Dictionary<IElement, Point>(ReferenceEqualityComparer.Instance);
