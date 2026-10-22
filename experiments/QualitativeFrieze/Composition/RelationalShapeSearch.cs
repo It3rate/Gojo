@@ -67,7 +67,8 @@ public static class RelationalShapeSearch
     public sealed record Result(Focus Focus, IReadOnlyList<Trial> Retained, Trial Best, int Requested,
         int Evaluated, int Blocked, int Improved, int DistinctSamples, Relation CapacityRemainder, Relation Surface);
 
-    public static Result Run(JointShapeDescription.Message message, Focus focus, int budget, bool extentRepair = false)
+    public static Result Run(JointShapeDescription.Message message, Focus focus, int budget, bool extentRepair = false,
+        Action<Trial>? observeTrial = null)
     {
         if (budget < 3) throw new ArgumentOutOfRangeException(nameof(budget));
         var retained = new List<Trial>(); var seen = new HashSet<string>(StringComparer.Ordinal);
@@ -118,6 +119,7 @@ public static class RelationalShapeSearch
             var construction = JointShapeReconstruction.Construction(layout, positions, pairs, permission, justification);
             var candidate = JointShapeReconstruction.Propose(layout, attempt % 3, construction: construction);
             var trial = new Trial(attempt + 1, message, focus, candidate, pairs, inferred.Witness, h, v); evaluated++;
+            observeTrial?.Invoke(trial);
             seen.Add(Signature(message, candidate));
             if (best is null || trial.Rank.CompareTo(best.Rank) < 0)
             { if (best is not null) improved++; best = trial; }
@@ -139,6 +141,7 @@ public static class RelationalShapeSearch
             var empty = JointShapeReconstruction.Construction(message, StructuralConstraint.Open(), S(), S(), focus.Surface);
             var candidate = JointShapeReconstruction.Propose(message, 0, construction: empty);
             best = new Trial(0, message, focus, candidate, S(), S(blockedReads.ToArray()), [], []);
+            observeTrial?.Invoke(best);
             retained.Add(best);
         }
         var chosen = retained.OrderBy(item => ReferenceEquals(item, best) ? 0 : 1).ThenBy(item => item.Rank)

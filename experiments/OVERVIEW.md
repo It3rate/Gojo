@@ -40,6 +40,12 @@ and output resolution. Its
 [square-continuation examples](QualitativeFrieze/results/evidence-calculation/gallery.html)
 test supplied statistical laws rather than learning construction mechanisms.
 
+The [weighted shape experiment](../Gojo/docs/GojoWeightedShapeEvidence.md)
+then applies a declared noisy compatibility channel to the same 100-shape
+corpus. It compares ordinal selection and several statistical estimates over
+one frozen proposal pool, separating ranking, proposal coverage and teacher
+audits before a larger training regimen.
+
 ## Reading order
 
 | Order | Recorded period | Work |

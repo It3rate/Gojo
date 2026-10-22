@@ -55,6 +55,14 @@ correspondences. See [StatisticalEvidence](StatisticalEvidence.cs),
 [EvidenceSupport](EvidenceSupport.cs), and the
 [inspectable calculations](../QualitativeFrieze/results/evidence-calculation/gallery.html).
 
+[CompatibilityEvidence](CompatibilityEvidence.cs) adds an explicit aggregate
+channel over native supported, contradicted and unresolved checks. It averages
+one uniformly selected distinct witness; repeated routes add no weight and a
+classification conflict remains unresolved. This is a supplied likelihood
+interpretation, not acquired support. The
+[100-shape weighting experiment](../../Gojo/docs/GojoWeightedShapeEvidence.md)
+tests this adapter against the earlier ordinal ranking on fixed pools.
+
 Run tests and the diagnostic benchmark from the repository root:
 
 ```powershell

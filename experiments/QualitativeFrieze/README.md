@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [weighted shape gallery](results/weighted-shapes/gallery.html) compares the
+same frozen candidate pools for 100 sources under estimated statistical
+channels, a compactness prior and a neutral control. The
+[whole sheet](results/weighted-shapes/overview.html) and
+[model, results and training protocol](../../Gojo/docs/GojoWeightedShapeEvidence.md)
+separate native evidence, conditional selection shares and teacher audits.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --weighted-shapes
+```
+
 The [evidence calculation gallery](results/evidence-calculation/gallery.html)
 tests statistical update laws with supplied square/rectangle/polygon premises.
 It separates construction compatibility, conditional candidate weights,

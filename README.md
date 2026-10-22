@@ -14,6 +14,12 @@ and empirical support using native unmeasured partitions. Its
 [gallery](experiments/QualitativeFrieze/results/evidence-calculation/gallery.html)
 uses square continuations to check calculation laws, with supplied likelihoods.
 
+The [weighted shape experiment](Gojo/docs/GojoWeightedShapeEvidence.md) applies
+those laws to the 100-shape corpus, comparing the same frozen receiver
+proposals under estimated likelihoods and revisable priors. Its
+[gallery](experiments/QualitativeFrieze/results/weighted-shapes/gallery.html)
+keeps source audits separate from conditional selection weights.
+
 The [relational shape study](Gojo/docs/GojoRelationalShapeStudy.md) reconstructs
 100 sources with separate pairwise spatial cues, length and angle equivalence,
 and qualitative support and opposition. Its

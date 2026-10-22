@@ -9,6 +9,7 @@ using Gojo.Experiments.QualitativeFrieze;
 using Gojo.Experiments.QualitativeFrieze.Learning;
 using Gojo.Experiments.QualitativeFrieze.Composition;
 
+if (args.Contains("--weighted-shapes")) return WeightedShapeExperiment.Run(args.Where(argument => argument != "--weighted-shapes").ToArray());
 if (args.Contains("--evidence-calculation")) return EvidenceCalculationExperiment.Run(args.Where(argument => argument != "--evidence-calculation").ToArray());
 if (args.Contains("--relational-shapes")) return RelationalShapeExperiment.Run(args.Where(argument => argument != "--relational-shapes").ToArray());
 if (args.Contains("--joint-reconstruction")) return JointReconstructionExperiment.Run(args.Where(argument => argument != "--joint-reconstruction").ToArray());

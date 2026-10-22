@@ -67,6 +67,14 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+# Reproduce the full weighted-shape receipts locally; retain five review cases.
+/experiments/QualitativeFrieze/results/weighted-shapes/*.gojo.json.gz
+!/experiments/QualitativeFrieze/results/weighted-shapes/r006.gojo.json.gz
+!/experiments/QualitativeFrieze/results/weighted-shapes/r042.gojo.json.gz
+!/experiments/QualitativeFrieze/results/weighted-shapes/r052.gojo.json.gz
+!/experiments/QualitativeFrieze/results/weighted-shapes/r056.gojo.json.gz
+!/experiments/QualitativeFrieze/results/weighted-shapes/r059.gojo.json.gz
+
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
