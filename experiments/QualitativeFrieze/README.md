@@ -1,5 +1,18 @@
 # Qualitative frieze generators
 
+The [curve refinement gallery](results/curve-refinement/gallery.html) expands
+the curve fixture to 112 sources with detached finite profile bands, relative
+fullness references, tangent balance, provisional interiors and centreline
+focuses. It compares the same candidate programs with and without profile
+questions, retaining source audits and weak default assumptions. See the
+[whole sheet](results/curve-refinement/overview.html) and
+[model, research and findings](../../Gojo/docs/GojoCurveRefinementStudy.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --curve-refinement
+node experiments/QualitativeFrieze/tools/check-curve-evidence.cjs experiments/QualitativeFrieze/results/curve-refinement/gallery.html
+```
+
 The [mixed curve gallery](results/curve-evidence/gallery.html) compares 24
 native sources and three receiver constructions for each supplied anonymous
 endpoint scaffold. Straightness, tangent/corner/cusp joins, bend direction,

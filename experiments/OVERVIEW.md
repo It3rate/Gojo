@@ -54,6 +54,15 @@ receiver completions on anonymous endpoint scaffolds with private controls
 withheld. Whole-shape tip cycles and local notches remain connected but do not
 count as independent evidence.
 
+The [curve refinement study](../Gojo/docs/GojoCurveRefinementStudy.md) expands
+that fixture to 112 sources. Its
+[comparison gallery](QualitativeFrieze/results/curve-refinement/gallery.html)
+uses detached profile bands to distinguish fuller/thinner passages, stronger
+inflections, equal-axis directions and local tangent curvature balance.
+Provisional chord-parent interiors and centre/enclosure focuses stay separate
+from observations. A frozen-pool question ablation tests selection behavior;
+the construction policies and perceptual default weights remain authored.
+
 ## Reading order
 
 | Order | Recorded period | Work |

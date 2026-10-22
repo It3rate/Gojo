@@ -71,6 +71,13 @@ certificates, and convexity conditional on an explicit oriented interior.
 The [mixed curve study](../../Gojo/docs/GojoQualitativeCurveEvidence.md) exposes
 sparse evidence and compares receiver completions without private source handles.
 
+[CurveShapeQualities](CurveShapeQualities.cs) adds an explicitly selected
+similarity premise, equal-axis directional participation, signed excursion
+samples, local squared-curvature balance and conservative retracing witnesses.
+Metric reads remain open without their premise; sample strength is not a global
+curvature maximum. The [refinement study](../../Gojo/docs/GojoCurveRefinementStudy.md)
+publishes detached coarser bands rather than private curve-quality ancestry.
+
 Run tests and the diagnostic benchmark from the repository root:
 
 ```powershell

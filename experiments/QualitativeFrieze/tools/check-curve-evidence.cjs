@@ -44,7 +44,7 @@ function add(a, b) { return { n: a.n * b.d + b.n * a.d, d: a.d * b.d }; }
   for (const row of data.examples) {
     assert.ok(row.id && row.name && row.note && row.diagnostics);
     image(row.sourceImage, row.source); image(row.coarseImage, row.coarse);
-    assert.ok(row.candidates.length >= 2);
+    assert.ok(row.candidates.length >= 1);
     assert.equal(new Set(row.candidates.map(candidate => candidate.id)).size, row.candidates.length);
     if (row.selectedId !== null) assert.ok(row.candidates.some(candidate => candidate.id === row.selectedId));
     let prior = { n: 0n, d: 1n }, posterior = { n: 0n, d: 1n }, complete = true;
@@ -81,7 +81,7 @@ function add(a, b) { return { n: a.n * b.d + b.n * a.d, d: a.d * b.d }; }
   assert.ok(joinKinds.has('Tangent') && joinKinds.has('Cusp') && joinKinds.has('Open') && joinKinds.has('Unresolved'),
     'distinguish smooth, cusp, open and unresolved local readings');
   const archives = [];
-  for (const file of (await fs.readdir(directory)).filter(file => file.endsWith('.gojo.json.gz'))) {
+  for (const file of (await fs.readdir(directory, { recursive: true })).filter(file => file.endsWith('.gojo.json.gz'))) {
     const graph = JSON.parse(zlib.gunzipSync(await fs.readFile(path.join(directory, file))).toString('utf8'));
     assert.equal(graph.version, 3, file);
     assert.ok(graph.sourceId && graph.nodes.length > 0, file);
@@ -109,7 +109,7 @@ function add(a, b) { return { n: a.n * b.d + b.n * a.d, d: a.d * b.d }; }
 
   const { chromium } = require(process.env.GOJO_PLAYWRIGHT_MODULE || 'C:/Users/Robin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
   const browser = await chromium.launch({ headless: true, executablePath: process.env.GOJO_BROWSER || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe' });
-  const screenshots = path.resolve(__dirname, '../../../artifacts/curve-evidence-qa');
+  const screenshots = path.resolve(__dirname, '../../../artifacts/' + path.basename(directory) + '-qa');
   await fs.mkdir(screenshots, { recursive: true });
   const errors = [], references = new Set(); let states = 0;
   try {
@@ -132,7 +132,7 @@ function add(a, b) { return { n: a.n * b.d + b.n * a.d, d: a.d * b.d }; }
     await page.goto(pathToFileURL(gallery).href);
     await page.waitForFunction(() => globalThis.CURVE_EVIDENCE && document.querySelector('#case')?.options.length);
     assert.deepEqual(await page.evaluate(() => globalThis.CURVE_EVIDENCE), data);
-    const capture = new Set([0, 1, 5, 7, 8, 9, Math.floor(data.examples.length / 2),
+    const capture = new Set([0, 1, 5, 7, 8, 9, 17, 27, 66, 67, 78, 91, 95, Math.floor(data.examples.length / 2),
       data.examples.length - 2, data.examples.length - 1]);
     for (const [index, row] of data.examples.entries()) {
       await page.selectOption('#case', row.id);

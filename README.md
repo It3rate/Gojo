@@ -27,6 +27,13 @@ explicit interior and gap-completion premises. Its
 compares 24 sources and 72 receiver constructions on supplied anonymous endpoint
 scaffolds, including a weak whole-shape diamond read alongside local notches.
 
+The [curve refinement study](Gojo/docs/GojoCurveRefinementStudy.md) adds relative
+fullness, directional and tangent-curvature balance, provisional interiors and
+centre/enclosure contexts. Its
+[112-case gallery](experiments/QualitativeFrieze/results/curve-refinement/gallery.html)
+compares native cue bands, local receiver fitting and revisable completion
+defaults while retaining contrary evidence and unresolved interpretations.
+
 The [relational shape study](Gojo/docs/GojoRelationalShapeStudy.md) reconstructs
 100 sources with separate pairwise spatial cues, length and angle equivalence,
 and qualitative support and opposition. Its

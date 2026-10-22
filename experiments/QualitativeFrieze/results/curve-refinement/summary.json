@@ -1,0 +1,2596 @@
+{
+  "schema": "curve-refinement-study-v1",
+  "cases": 112,
+  "candidateRealizations": 722,
+  "changedSelections": 79,
+  "reducedExposedConflicts": 79,
+  "increasedExposedConflicts": 0,
+  "unchangedExposedConflicts": 33,
+  "provisionalInteriorCases": 17,
+  "tiedChoices": 13,
+  "nativeRoundTrips": 112,
+  "secondsBeforeGallery": 28.9362199,
+  "scope": "Profile and join refinement on supplied endpoint scaffolds. Authored sources, receiver recipes and weak defaults; no imported drawings or trained likelihoods.",
+  "dependence": "One pooled compatibility event per informative source. Coarse interior/defaults are prior context and never independent copies of their source evidence.",
+  "metric": "Fullness, equal-axis diagonals and squared curvature are conditional on an explicit equal-reach right-angle similarity premise. Omitted premise leaves those reads open.",
+  "reference": "5/9-handle circle-like quarter-turn exemplar; finite signed excursions, not exact circles or global curvature maxima.",
+  "control": "Frozen-pool ranking with profile questions withheld, retaining the same prior. Adaptive proposal construction already uses public profile hints.",
+  "results": [
+    {
+      "id": "C001",
+      "name": "Straight despite a flowing context",
+      "candidates": 1,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C002",
+      "name": "A bow without a measured bulge",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 1,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/32"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/64"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C003",
+      "name": "Endpoints alone leave line and curve open",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 7,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "25/96"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "25/96"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": false,
+      "similarity": true,
+      "events": 0
+    },
+    {
+      "id": "C004",
+      "name": "An inward curved notch",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 5,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/128"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C005",
+      "name": "Four smooth bows make an oval",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C006",
+      "name": "Capsule: straight runs and curved ends",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 6,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C007",
+      "name": "Rounded rectangle",
+      "candidates": 3,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 20,
+      "fullConflicts": 12,
+      "legacyProfileError": {
+        "samples": 24,
+        "meanAbsoluteExcursionDifference": "5/96"
+      },
+      "selectedProfileError": {
+        "samples": 24,
+        "meanAbsoluteExcursionDifference": "5/192"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C008",
+      "name": "Pointed lens: corners at curved tips",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 6,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C009",
+      "name": "A true tangent-reversal cusp",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 3,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 9,
+        "meanAbsoluteExcursionDifference": "1/160"
+      },
+      "selectedProfileError": {
+        "samples": 9,
+        "meanAbsoluteExcursionDifference": "1/160"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C010",
+      "name": "S connection with an inflection",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 4,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/16"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/64"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C011",
+      "name": "Arch meeting a straight base",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C012",
+      "name": "Two curves share a forward tangent",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 6,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/208"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/416"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C013",
+      "name": "Same middle site, different tangent",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 6,
+      "fullConflicts": 1,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/104"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/416"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C014",
+      "name": "An observed gap remains open",
+      "candidates": 9,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 2,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "185/2176"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C015",
+      "name": "A requested closed-parent reading",
+      "candidates": 9,
+      "baseSelected": 8,
+      "fullSelected": 8,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "185/2176"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C016",
+      "name": "Coincident endpoints are separate sites",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C017",
+      "name": "Crossing paths without a joint",
+      "candidates": 1,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C018",
+      "name": "Closed, with interior orientation withheld",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C019",
+      "name": "A vanishing first handle",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 1,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/32"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/64"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C020",
+      "name": "Collinear support can still retrace",
+      "candidates": 2,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 1,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C021",
+      "name": "Mirrored bows and interior side",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C022",
+      "name": "Reversed traversal, same oval boundary",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C023",
+      "name": "R095: diamond envelope with stepped detail",
+      "candidates": 1,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 72,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 72,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C024",
+      "name": "Mixed flowing stem and angular lobe",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 1,
+      "legacyProfileError": {
+        "samples": 8,
+        "meanAbsoluteExcursionDifference": "69/1952"
+      },
+      "selectedProfileError": {
+        "samples": 8,
+        "meanAbsoluteExcursionDifference": "3/976"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C025",
+      "name": "Inside the reference-like bow: balanced",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 1,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C026",
+      "name": "Inside the reference-like bow: longer exit handle",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C027",
+      "name": "Inside the reference-like bow: longer entrance handle",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C028",
+      "name": "Reference-like quarter bow: balanced",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C029",
+      "name": "Reference-like quarter bow: longer exit handle",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 3,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C030",
+      "name": "Reference-like quarter bow: longer entrance handle",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 4,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C031",
+      "name": "Outside the reference-like bow: balanced",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 2,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "25/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C032",
+      "name": "Outside the reference-like bow: longer exit handle",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "25/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C033",
+      "name": "Outside the reference-like bow: longer entrance handle",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "25/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C034",
+      "name": "Inside the reference-like bow: balanced, reflected",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 1,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C035",
+      "name": "Inside the reference-like bow: longer exit handle, reflected",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C036",
+      "name": "Inside the reference-like bow: longer entrance handle, reflected",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C037",
+      "name": "Reference-like quarter bow: balanced, reflected",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C038",
+      "name": "Reference-like quarter bow: longer exit handle, reflected",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 3,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C039",
+      "name": "Reference-like quarter bow: longer entrance handle, reflected",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 4,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C040",
+      "name": "Outside the reference-like bow: balanced, reflected",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 2,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "25/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C041",
+      "name": "Outside the reference-like bow: longer exit handle, reflected",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "25/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C042",
+      "name": "Outside the reference-like bow: longer entrance handle, reflected",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "25/144"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C043",
+      "name": "Round four-bow boundary, under-filled",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 4,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/144"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C044",
+      "name": "Elongated four-bow boundary, under-filled",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 4,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "1/24"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "1/144"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C045",
+      "name": "Round four-bow boundary, reference-like",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C046",
+      "name": "Elongated four-bow boundary, reference-like",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "7/72"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C047",
+      "name": "Round four-bow boundary, full",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 2,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "25/144"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C048",
+      "name": "Elongated four-bow boundary, full",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 4,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "11/72"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "1/144"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C049",
+      "name": "Capsule with short straight runs, under-filled ends",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 4,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "5/216"
+      },
+      "selectedProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C050",
+      "name": "Capsule with long straight runs, under-filled ends",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 4,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "5/216"
+      },
+      "selectedProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C051",
+      "name": "Capsule with short straight runs, reference-like ends",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "5/72"
+      },
+      "selectedProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C052",
+      "name": "Capsule with long straight runs, reference-like ends",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "5/72"
+      },
+      "selectedProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C053",
+      "name": "Capsule with short straight runs, full ends",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 2,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "25/216"
+      },
+      "selectedProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C054",
+      "name": "Capsule with long straight runs, full ends",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 2,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "25/216"
+      },
+      "selectedProfileError": {
+        "samples": 18,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C055",
+      "name": "S connection: weak, alternating bow",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 2,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C056",
+      "name": "S connection: weak, opposed alternating bow",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 2,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C057",
+      "name": "S connection: weak, equal-axis endpoint tangents",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 2,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C058",
+      "name": "S connection: weak, vertical-biased endpoint tangents",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 4,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/48"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/48"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C059",
+      "name": "S connection: middle force, alternating bow",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/32"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C060",
+      "name": "S connection: middle force, opposed alternating bow",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/32"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C061",
+      "name": "S connection: middle force, equal-axis endpoint tangents",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/32"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C062",
+      "name": "S connection: middle force, vertical-biased endpoint tangents",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 2,
+      "ties": 2,
+      "baseConflicts": 4,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/12"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C063",
+      "name": "S connection: strong, alternating bow",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 4,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "7/96"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/96"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C064",
+      "name": "S connection: strong, opposed alternating bow",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 4,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "7/96"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/96"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C065",
+      "name": "S connection: strong, equal-axis endpoint tangents",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "7/96"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/96"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C066",
+      "name": "S connection: strong, vertical-biased endpoint tangents",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 4,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/6"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "1/96"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C067",
+      "name": "horizontal tangent join: balanced neighbours",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 6,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C068",
+      "name": "horizontal tangent join: exit-heavy neighbours",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "25/288"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C069",
+      "name": "horizontal tangent join: entrance-heavy neighbours",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "25/288"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C070",
+      "name": "equal-axis tangent join: balanced neighbours",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 6,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C071",
+      "name": "equal-axis tangent join: exit-heavy neighbours",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 1,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "25/288"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C072",
+      "name": "equal-axis tangent join: entrance-heavy neighbours",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 1,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "25/288"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/288"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C073",
+      "name": "finite-angle corner: balanced neighbours",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 6,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C074",
+      "name": "finite-angle corner: exit-heavy neighbours",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "25/288"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C075",
+      "name": "finite-angle corner: entrance-heavy neighbours",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "25/288"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C076",
+      "name": "tangent reversal cusp: balanced neighbours",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 5,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "13/192"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C077",
+      "name": "tangent reversal cusp: exit-heavy neighbours",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 2,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "5/192"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "1/192"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C078",
+      "name": "tangent reversal cusp: entrance-heavy neighbours",
+      "candidates": 7,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "25/288"
+      },
+      "selectedProfileError": {
+        "samples": 6,
+        "meanAbsoluteExcursionDifference": "1/192"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C079",
+      "name": "Open parent boundary: small gap, aligned continuation",
+      "candidates": 8,
+      "baseSelected": 7,
+      "fullSelected": 7,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "519/5200"
+      },
+      "selectedProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "9/5200"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C080",
+      "name": "Open parent boundary: small gap, descending entrance",
+      "candidates": 8,
+      "baseSelected": 7,
+      "fullSelected": 7,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "519/5200"
+      },
+      "selectedProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C081",
+      "name": "Open parent boundary: small gap, ascending entrance",
+      "candidates": 8,
+      "baseSelected": 7,
+      "fullSelected": 7,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "519/5200"
+      },
+      "selectedProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "3/5200"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C082",
+      "name": "Open parent boundary: small gap, opposed exit direction",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 9,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "1621/20800"
+      },
+      "selectedProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "9/5200"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C083",
+      "name": "Open parent boundary: middle gap, aligned continuation",
+      "candidates": 8,
+      "baseSelected": 7,
+      "fullSelected": 7,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "545/6208"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C084",
+      "name": "Open parent boundary: middle gap, descending entrance",
+      "candidates": 8,
+      "baseSelected": 7,
+      "fullSelected": 7,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "545/6208"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C085",
+      "name": "Open parent boundary: middle gap, ascending entrance",
+      "candidates": 8,
+      "baseSelected": 7,
+      "fullSelected": 7,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "545/6208"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C086",
+      "name": "Open parent boundary: middle gap, opposed exit direction",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 11,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "2591/37248"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C087",
+      "name": "Open parent boundary: large gap, aligned continuation",
+      "candidates": 8,
+      "baseSelected": 7,
+      "fullSelected": 7,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "39/410"
+      },
+      "selectedProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "9/3280"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C088",
+      "name": "Open parent boundary: large gap, descending entrance",
+      "candidates": 8,
+      "baseSelected": 7,
+      "fullSelected": 7,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "39/410"
+      },
+      "selectedProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "9/6560"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C089",
+      "name": "Open parent boundary: large gap, ascending entrance",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 2,
+      "baseConflicts": 10,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "39/410"
+      },
+      "selectedProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "3/3280"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C090",
+      "name": "Open parent boundary: large gap, opposed exit direction",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 5,
+      "ties": 1,
+      "baseConflicts": 9,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "961/13120"
+      },
+      "selectedProfileError": {
+        "samples": 10,
+        "meanAbsoluteExcursionDifference": "9/3280"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C091",
+      "name": "square as enclosed area",
+      "candidates": 1,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C092",
+      "name": "square as thick centre structure",
+      "candidates": 1,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": true,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C093",
+      "name": "Rounded square as enclosed area",
+      "candidates": 5,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 24,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 24,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C094",
+      "name": "Rounded square as thick centre structure",
+      "candidates": 5,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 24,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 24,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": true,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C095",
+      "name": "rectangle as enclosed area",
+      "candidates": 1,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C096",
+      "name": "rectangle as thick centre structure",
+      "candidates": 1,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": true,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C097",
+      "name": "Rounded rectangle as enclosed area",
+      "candidates": 5,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 24,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 24,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C098",
+      "name": "Rounded rectangle as thick centre structure",
+      "candidates": 5,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 24,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 24,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": true,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C099",
+      "name": "Closed outline with shallow inward bow",
+      "candidates": 7,
+      "baseSelected": 2,
+      "fullSelected": 2,
+      "ties": 1,
+      "baseConflicts": 1,
+      "fullConflicts": 1,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/576"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C100",
+      "name": "Closed outline with middle inward bow",
+      "candidates": 7,
+      "baseSelected": 2,
+      "fullSelected": 2,
+      "ties": 4,
+      "baseConflicts": 3,
+      "fullConflicts": 3,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/192"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "25/576"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C101",
+      "name": "Closed outline with deep inward bow",
+      "candidates": 8,
+      "baseSelected": 3,
+      "fullSelected": 3,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 3,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/96"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/96"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C102",
+      "name": "Closed outline with an outward bow",
+      "candidates": 8,
+      "baseSelected": 0,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 3,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/144"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": 1,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C103",
+      "name": "Collinear interior retracing",
+      "candidates": 2,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 1,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C104",
+      "name": "Reversed control edge, forward trace",
+      "candidates": 1,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C105",
+      "name": "Vanishing handles, monotone support",
+      "candidates": 1,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C106",
+      "name": "Collinear overshoots at both ends",
+      "candidates": 2,
+      "baseSelected": 1,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "selectedProfileError": {
+        "samples": 3,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C107",
+      "name": "Control: oval without profile publication",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 5,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": false,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C108",
+      "name": "Control: oval without similarity premise",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 5,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 0,
+        "meanAbsoluteExcursionDifference": "Open"
+      },
+      "selectedProfileError": {
+        "samples": 0,
+        "meanAbsoluteExcursionDifference": "Open"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": false,
+      "events": 1
+    },
+    {
+      "id": "C109",
+      "name": "Control: oval without profiles or similarity",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 5,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 0,
+        "meanAbsoluteExcursionDifference": "Open"
+      },
+      "selectedProfileError": {
+        "samples": 0,
+        "meanAbsoluteExcursionDifference": "Open"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": false,
+      "similarity": false,
+      "events": 1
+    },
+    {
+      "id": "C110",
+      "name": "Control: profile with tangent evidence withheld",
+      "candidates": 8,
+      "baseSelected": 1,
+      "fullSelected": 6,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 4,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/16"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "1/96"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    },
+    {
+      "id": "C111",
+      "name": "Control: endpoints alone",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 0,
+      "ties": 6,
+      "baseConflicts": 0,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 0,
+        "meanAbsoluteExcursionDifference": "Open"
+      },
+      "selectedProfileError": {
+        "samples": 0,
+        "meanAbsoluteExcursionDifference": "Open"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": false,
+      "similarity": false,
+      "events": 0
+    },
+    {
+      "id": "C112",
+      "name": "Control: profile and tangent, without bend or trace type",
+      "candidates": 6,
+      "baseSelected": 0,
+      "fullSelected": 1,
+      "ties": 1,
+      "baseConflicts": 12,
+      "fullConflicts": 0,
+      "legacyProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "5/48"
+      },
+      "selectedProfileError": {
+        "samples": 12,
+        "meanAbsoluteExcursionDifference": "0/1"
+      },
+      "provisionalInterior": null,
+      "ridgeFocus": false,
+      "profiles": true,
+      "similarity": true,
+      "events": 1
+    }
+  ]
+}
