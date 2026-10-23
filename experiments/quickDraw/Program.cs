@@ -3,6 +3,8 @@ using System.Text.Json;
 using Gojo.Encoding.Structures;
 using Gojo.Experiments.QuickDraw;
 
+if (args.Length > 0 && args[0] == "--reconstruct") return ReconstructionRunner.Run(args);
+
 if (args.Length != 4 || args[0] != "--input" || args[2] != "--output")
 {
     Console.Error.WriteLine("Usage: dotnet run --project experiments/quickDraw -- --input <selected.ndjson> --output <directory>");

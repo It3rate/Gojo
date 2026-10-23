@@ -1,5 +1,5 @@
 {
-  "status": "reviewed_by_agent; user review pending",
+  "status": "approved_by_user on 2026-10-23; sample selection accepted, structural interpretations remain provisional",
   "reviewer": "Two Codex agents reviewed the overview and enlarged category sheets; replacement octagons inspected at larger scale.",
   "selection_goal": "Ten useful structural pilot examples per requested prompt, with tracing irregularity, gaps, overlaps, aspect variation and multiple strokes; plain undecorated crescents only for moon.",
   "selection_bias": "Curated positive examples from a bounded first-2,000-record prefix and 48 hash-selected candidates per category; not a prevalence estimate or statistical population sample. Prompt/recognized are context metadata, never structural ground truth.",

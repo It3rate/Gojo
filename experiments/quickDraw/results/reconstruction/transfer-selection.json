@@ -1,0 +1,759 @@
+{
+  "schema": "quickdraw-deferred-transfer-selection/1",
+  "status": "visually reviewed evaluation fixture; deferred until core reconstruction works",
+  "scope": "five additional categories, five simple instances each; curated, not representative",
+  "category_role": "audit-only sampling stratum, never a learner feature or ideal target",
+  "selection_policy": "encoding-valid deterministic candidates, visual review before any fitting",
+  "selected_ndjson_sha256": "74649e394eddd4ea9f4c928eebcf7cd1bc6f08e30b9cdd3a9ae0325c868938b3",
+  "drawings_only_sha256": "cf467aa2b471ff2eefb51d0fd9cac198983724215375e93e6d4124925a9a4cff",
+  "source_inventory": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\candidates\\inventory.json",
+  "chronology": "exact source stroke/sample order and time arrays retained; never sort by timestamp",
+  "samples": [
+    {
+      "record_index": 0,
+      "category": "house",
+      "source_line": 1616,
+      "byte_offset": 5257445,
+      "byte_length": 1478,
+      "record_sha256": "b7612c2e8fc634d683961a8d8b166a2337d956bc53962fdf0782b429099ff7c5",
+      "selection_hash": "00eb0da7cf24b12576c1394f31ee81a0e4b285e824156fd928095d78d043bab6",
+      "metrics": {
+        "stroke_count": 3,
+        "point_count": 107,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          110,
+          26,
+          347,
+          386
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 7,
+      "key_id": "4658428846800896",
+      "visual_review_note": "Plain roof and body; three strokes, slight roof/body gap and near-horizontal edge.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\house.ndjson"
+    },
+    {
+      "record_index": 1,
+      "category": "house",
+      "source_line": 1965,
+      "byte_offset": 6367610,
+      "byte_length": 7476,
+      "record_sha256": "2bec4b8323fd727d584cbfd73349b1ef6e42cc49eb94407227d02a02ba9f4813",
+      "selection_hash": "00f0ad7f9151e0ac0efee85f991606870e1d915c49c5473e8240c8ac6ca28b7b",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 274,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          451,
+          11.900001525878906,
+          861,
+          564.9000015258789
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 8,
+      "key_id": "5029217295138816",
+      "visual_review_note": "One-stroke roof and body with bowed edges; retained retracing and construction order.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\house.ndjson"
+    },
+    {
+      "record_index": 2,
+      "category": "house",
+      "source_line": 1846,
+      "byte_offset": 6008863,
+      "byte_length": 2633,
+      "record_sha256": "0c07fb700c75e472851efb858fb3a5a409897bd6f4b471bebe0f24b322482914",
+      "selection_hash": "03002d6841581c0859b329b51e1db9a1f7c997bc1b06200fa622ef2e9001bd7e",
+      "metrics": {
+        "stroke_count": 3,
+        "point_count": 197,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          317,
+          -29,
+          839,
+          523
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 20,
+      "key_id": "5868815621554176",
+      "visual_review_note": "Plain roof/body with a visible peak gap; do not silently close it.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\house.ndjson"
+    },
+    {
+      "record_index": 3,
+      "category": "house",
+      "source_line": 612,
+      "byte_offset": 1914891,
+      "byte_length": 2855,
+      "record_sha256": "c7956cac0efec07a4cdac10ca5e7e8a609164dfdbe17618450e6f62e7d289bea",
+      "selection_hash": "0440c28e98c06fe9f82ba4547493bcf0d51be6e1ad3a6f1d426766ddc3639d6a",
+      "metrics": {
+        "stroke_count": 4,
+        "point_count": 211,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          622,
+          157,
+          840,
+          542
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 26,
+      "key_id": "6123086950694912",
+      "visual_review_note": "Roof/body plus one small window; separates enclosing support from a later detail.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\house.ndjson"
+    },
+    {
+      "record_index": 4,
+      "category": "house",
+      "source_line": 1340,
+      "byte_offset": 4353037,
+      "byte_length": 1769,
+      "record_sha256": "b6fbe7ae18924dcf315d9e506321cec95c5b43b1a41fbb4f6749562d2fb97494",
+      "selection_hash": "04dbb02631e457f840fa4692644b9edd95cc3b5e8bb873aaaefacdc84b7acb1a",
+      "metrics": {
+        "stroke_count": 3,
+        "point_count": 130,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          489,
+          0,
+          971,
+          494
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 30,
+      "key_id": "4572978828279808",
+      "visual_review_note": "Wide roof/body with a door; open joins and skew remain part of the drawing.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\house.ndjson"
+    },
+    {
+      "record_index": 5,
+      "category": "star",
+      "source_line": 1665,
+      "byte_offset": 4223130,
+      "byte_length": 1303,
+      "record_sha256": "3af7e966df66d4e59773fd7a647efbb4f72e2fa6fdee58463fd719ee0dbab354",
+      "selection_hash": "013a1fa0aa45b1a2feab581f2316cbc65656f89fc081d25b6c9ee9e227e62060",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 94,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          189,
+          97,
+          727,
+          439
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 8,
+      "key_id": "5152841154953216",
+      "visual_review_note": "Wide crossing pentagram route; one stroke with modest asymmetry.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\star.ndjson"
+    },
+    {
+      "record_index": 6,
+      "category": "star",
+      "source_line": 638,
+      "byte_offset": 1668619,
+      "byte_length": 1935,
+      "record_sha256": "d1c92373924d434983d28a4b0c6295eb5d9b94c519947082f38353e775479d73",
+      "selection_hash": "01f69f0fcadbbaa2e0efb7cc4e7bf7a8ef8900a6f5bf1a4c5cc060f30c4fbfb6",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 140,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          606,
+          127,
+          854,
+          393
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 15,
+      "key_id": "6116169515794432",
+      "visual_review_note": "Single outline with rounded bends; no internal crossing implied by category.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\star.ndjson"
+    },
+    {
+      "record_index": 7,
+      "category": "star",
+      "source_line": 175,
+      "byte_offset": 453064,
+      "byte_length": 4124,
+      "record_sha256": "a79e12eed0853e4c1d3fc98ccf7f90a8d1a721cc2e8605c1515c10f043db2fd2",
+      "selection_hash": "0226b23ae950dcfe1ba4073390780c5177338b36f532e6f29a0fa92fe2af7e48",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 98,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          137.58299255371094,
+          197.12899780273438,
+          478.2179870605469,
+          508.6810302734375
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 19,
+      "key_id": "5378647596728320",
+      "visual_review_note": "Tall crossing route with a short open tail; acquired overlap is not a welded junction.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\star.ndjson"
+    },
+    {
+      "record_index": 8,
+      "category": "star",
+      "source_line": 1106,
+      "byte_offset": 2837811,
+      "byte_length": 2119,
+      "record_sha256": "9ae25318afd723015bcc96b76451a48d62394c09858bb0be4beb08898dd24573",
+      "selection_hash": "03049c0f987c4073563cde5d2796afdf1f1db601c1e7722ec9bdab64ffbcc03b",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 153,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          519,
+          111,
+          1226,
+          664
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 23,
+      "key_id": "4683734626336768",
+      "visual_review_note": "Outline with a gap near the upper-left valley; preserves missing support.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\star.ndjson"
+    },
+    {
+      "record_index": 9,
+      "category": "star",
+      "source_line": 1780,
+      "byte_offset": 4504949,
+      "byte_length": 992,
+      "record_sha256": "c06fda81dc887c04143e0a0ca8bb36d092c00a77e22439cb700c4acb7460a1a9",
+      "selection_hash": "03bd6a779825e4f8401f794a398106d00c88b012df416a208398a5d9422c12b0",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 66,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          547,
+          307,
+          654,
+          405
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 28,
+      "key_id": "6334666367827968",
+      "visual_review_note": "Bowed asymmetric outline with a visible break; a different topology from pentagrams.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\star.ndjson"
+    },
+    {
+      "record_index": 10,
+      "category": "fish",
+      "source_line": 984,
+      "byte_offset": 2826423,
+      "byte_length": 1601,
+      "record_sha256": "71b58afe4faaaa2998ab9a43d32b1686f303f7903a0a3c6d3a87d721bde34637",
+      "selection_hash": "001110d19727f02a7b4313f039b59d754d92fc45be0e107947470f964d483ade",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 114,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          537,
+          299,
+          842,
+          474
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 1,
+      "key_id": "6162644367048704",
+      "visual_review_note": "One-stroke rounded body and crossed tail, facing right; no eye or extra decoration.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\fish.ndjson"
+    },
+    {
+      "record_index": 11,
+      "category": "fish",
+      "source_line": 833,
+      "byte_offset": 2378740,
+      "byte_length": 1371,
+      "record_sha256": "93c1d3a1c73a30256f7552e2cac5b91718134bafce96ab852572500aa72483dc",
+      "selection_hash": "013e61cc25e2b281a4964d9eabb026cc86a38e8effbebbe78872b2f846724a04",
+      "metrics": {
+        "stroke_count": 3,
+        "point_count": 97,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          497,
+          327,
+          744,
+          399
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 12,
+      "key_id": "5637798658834432",
+      "visual_review_note": "Long narrow body, left tail and small eye; includes modest detail without clutter.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\fish.ndjson"
+    },
+    {
+      "record_index": 12,
+      "category": "fish",
+      "source_line": 287,
+      "byte_offset": 821147,
+      "byte_length": 1200,
+      "record_sha256": "59677f7bd983abff778dbe9217e72037a8d48a0ca80e27ccb2aa6882e71b22e5",
+      "selection_hash": "0160960900aae4b7de2859d127a6e30fd64bab371f6ff035348368954d654d93",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 86,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          137,
+          106,
+          711,
+          419
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 14,
+      "key_id": "5891285699264512",
+      "visual_review_note": "Compact body with right tail, facing left; opposite orientation retained.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\fish.ndjson"
+    },
+    {
+      "record_index": 13,
+      "category": "fish",
+      "source_line": 487,
+      "byte_offset": 1406266,
+      "byte_length": 2182,
+      "record_sha256": "49c19bfb7e09893e563564285fedd39f1e34890482b014e844a69e5eb5f192f5",
+      "selection_hash": "01bbfdb441aa3851ddaa99b1be3f8efb3219357965a5d0b7880f46fd95e7fe5f",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 160,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          527,
+          135,
+          875,
+          429
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 16,
+      "key_id": "5187178223108096",
+      "visual_review_note": "Angular tail joined to curved body and small mouth; one acquired stroke.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\fish.ndjson"
+    },
+    {
+      "record_index": 14,
+      "category": "fish",
+      "source_line": 1137,
+      "byte_offset": 3230926,
+      "byte_length": 1538,
+      "record_sha256": "2e041475c363d6ba7453d8ff1cb1c5adac3916db98e2dd1e5569c898262996d0",
+      "selection_hash": "02d2bf6fae1145b9d84b6075a939a26be34409a261f835308733eda4d71f11e4",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 111,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          158,
+          106,
+          921,
+          551
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 2,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 28,
+      "key_id": "5016110665564160",
+      "visual_review_note": "Two-stroke body/tail construction; apparent contact does not merge acquisition identities.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\fish.ndjson"
+    },
+    {
+      "record_index": 15,
+      "category": "envelope",
+      "source_line": 846,
+      "byte_offset": 2829665,
+      "byte_length": 4181,
+      "record_sha256": "65182547062ce208e9c6b714630041c7a885e3f9e9f6761b4674487c20de4469",
+      "selection_hash": "00a8a34ffa7f5db98956bb508e26b355e339eaf972b50ead09f70d938899279c",
+      "metrics": {
+        "stroke_count": 3,
+        "point_count": 97,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          99.79199981689453,
+          91.01199340820312,
+          315.54901123046875,
+          255.16400146484375
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 7,
+      "key_id": "5663065016107008",
+      "visual_review_note": "Skewed outer boundary and flap with gaps/overshoot; three strokes.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\envelope.ndjson"
+    },
+    {
+      "record_index": 16,
+      "category": "envelope",
+      "source_line": 1942,
+      "byte_offset": 6368035,
+      "byte_length": 1365,
+      "record_sha256": "7c31e0fe93be4fcb15e2bd566f5e23ac3ec5c2f51181a057f27d5051b918c082",
+      "selection_hash": "0125c7bd78df07498b5a9e12b85c21f6f3cd95b83c6e1fa3226e8d13e5937803",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 98,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          415,
+          173,
+          672,
+          404
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 9,
+      "key_id": "6205068275613696",
+      "visual_review_note": "One-stroke box and diagonal flap route; narrow tall aspect and corner overshoot.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\envelope.ndjson"
+    },
+    {
+      "record_index": 17,
+      "category": "envelope",
+      "source_line": 1167,
+      "byte_offset": 3836673,
+      "byte_length": 2748,
+      "record_sha256": "9b5e370ca8b416d1d323e7e054188b10fc4fb9e0ec9c799bed6c8ae49470a503",
+      "selection_hash": "025ba3844862ecf9500f52a0010a905c2708b6fc9145128ac128295a60c78053",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 64,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          73.06300354003906,
+          95.28300476074219,
+          268.62701416015625,
+          254.65798950195312
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 15,
+      "key_id": "6086480957014016",
+      "visual_review_note": "Sparse one-stroke open border and shallow flap; gaps are visible source evidence.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\envelope.ndjson"
+    },
+    {
+      "record_index": 18,
+      "category": "envelope",
+      "source_line": 451,
+      "byte_offset": 1472397,
+      "byte_length": 1032,
+      "record_sha256": "7fe7d86c9a6a3763e604cc4dfe31cebc2dc3e861f772938f0c996b8c30facea8",
+      "selection_hash": "03109513c46f3e425c24ac63a314a49dcfea4d053c88348de7b7d7fc374795c6",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 72,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          88,
+          246,
+          287,
+          325
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 23,
+      "key_id": "6668369770053632",
+      "visual_review_note": "Very wide shallow border and low flap; preserves aspect rather than template proportions.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\envelope.ndjson"
+    },
+    {
+      "record_index": 19,
+      "category": "envelope",
+      "source_line": 1078,
+      "byte_offset": 3573303,
+      "byte_length": 2919,
+      "record_sha256": "f0e724896f2477e108e45bc74d9e88d4530f4c66ed2489173e434677b0b9d20b",
+      "selection_hash": "03dd3201e061c491b041a8501e4f58726416d646588eee3d57ef510829a2d9a6",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 214,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          602,
+          176,
+          1004,
+          474
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 29,
+      "key_id": "6121321849159680",
+      "visual_review_note": "Bowed border and curved asymmetric flap; one stroke and nonideal edges retained.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\envelope.ndjson"
+    },
+    {
+      "record_index": 20,
+      "category": "umbrella",
+      "source_line": 805,
+      "byte_offset": 2631764,
+      "byte_length": 1191,
+      "record_sha256": "c8a11ec33fe4ede84747e0adf34065554d68eb20473e219c36d1346ff5df71dd",
+      "selection_hash": "0027f6435890777cdde1a38db034d9d25713b15c99f14695bae896b5b38f8135",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 86,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          75,
+          67,
+          323,
+          399
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 2,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 1,
+      "key_id": "5867500203933696",
+      "visual_review_note": "Scalloped canopy and separate large curved handle; uneven lobes and contact gap.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\umbrella.ndjson"
+    },
+    {
+      "record_index": 21,
+      "category": "umbrella",
+      "source_line": 1765,
+      "byte_offset": 5641143,
+      "byte_length": 1332,
+      "record_sha256": "a9842b6a48ff1553418aa4ae7dd55c779c7e87dce0534a9455c24065dbf8fa83",
+      "selection_hash": "01777ef8488b3b94fe9c956561728e4eebc1b259e9b8e426f9e20cdeabe46bfd",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 92,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          427,
+          112,
+          646,
+          490
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 10,
+      "key_id": "6295189305950208",
+      "visual_review_note": "Simple asymmetric dome, near-horizontal base and straight stem; no hooked-handle template.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\umbrella.ndjson"
+    },
+    {
+      "record_index": 22,
+      "category": "umbrella",
+      "source_line": 183,
+      "byte_offset": 575733,
+      "byte_length": 1287,
+      "record_sha256": "e32a28d67c39966a38f398361819a83ea52bd1c89c26da3095b0b39f538aedf6",
+      "selection_hash": "01f682f7bcb65879d663ff6a654bbb88482252b1e36cce95bd324448ba8afc58",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 91,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          379,
+          123,
+          576,
+          420
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 14,
+      "key_id": "4622689484406784",
+      "visual_review_note": "Two-stroke domed canopy and hooked handle; tilted baseline and bowed stem.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\umbrella.ndjson"
+    },
+    {
+      "record_index": 23,
+      "category": "umbrella",
+      "source_line": 1941,
+      "byte_offset": 6156361,
+      "byte_length": 1528,
+      "record_sha256": "3ca36b2c49e8f4d1590dd9180615c11863c336c2d557d16edef0c8b4df93e37c",
+      "selection_hash": "023f1327bea8c2a6619e229008aaf4990c335fab8bea883ce5558ade1d4083ca",
+      "metrics": {
+        "stroke_count": 3,
+        "point_count": 108,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          563,
+          184,
+          941,
+          522
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 17,
+      "key_id": "6004716511166464",
+      "visual_review_note": "Slanted canopy/stem with one short interior line; orientation and isolated detail retained.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\umbrella.ndjson"
+    },
+    {
+      "record_index": 24,
+      "category": "umbrella",
+      "source_line": 1442,
+      "byte_offset": 4650650,
+      "byte_length": 2173,
+      "record_sha256": "c5464a6ff1ac15fd9e588d872969fda7f95875dd622bfaf12c2901253f60daf7",
+      "selection_hash": "0290cd08b585609cc7626fa21b6300bab6cb4e76083714faee9db1c0e62aeabf",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 161,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          271,
+          37,
+          763,
+          418
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 19,
+      "key_id": "5468440313724928",
+      "visual_review_note": "Wide scalloped canopy and curved handle; gap at left edge and unequal repeated curves.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\umbrella.ndjson"
+    }
+  ]
+}

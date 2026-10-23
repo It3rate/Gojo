@@ -1,0 +1,2043 @@
+{
+  "schema": "gojo.quickdraw.native-review.v1",
+  "nativePackets": 200,
+  "integerModelParityVerified": true,
+  "summary": [
+    {
+      "budget": 3,
+      "drawings": 50,
+      "mean_orderedArcRms": 0.034055255920299,
+      "mean_symmetricSampleRms": 0.02517575644095127,
+      "maximumSampleDistance": 0.14205030015549577,
+      "maximumEndpointError": 0.000661011875282675
+    },
+    {
+      "budget": 6,
+      "drawings": 50,
+      "mean_orderedArcRms": 0.009193225312944754,
+      "mean_symmetricSampleRms": 0.006596390050986016,
+      "maximumSampleDistance": 0.08825722099263479,
+      "maximumEndpointError": 0.000661011875282675
+    },
+    {
+      "budget": 12,
+      "drawings": 50,
+      "mean_orderedArcRms": 0.005012806507870414,
+      "mean_symmetricSampleRms": 0.0033434952393176435,
+      "maximumSampleDistance": 0.015967233272233542,
+      "maximumEndpointError": 0.000661011875282675
+    },
+    {
+      "budget": 20,
+      "drawings": 50,
+      "mean_orderedArcRms": 0.0059277137310585915,
+      "mean_symmetricSampleRms": 0.003037551135639908,
+      "maximumSampleDistance": 0.010650565992199441,
+      "maximumEndpointError": 0.000661011875282675
+    }
+  ],
+  "metric": "129 equally spaced arclength samples per nonempty stroke; each stroke equally weighted; native cubics approximated by 64 segments; no spatial alignment",
+  "limitations": "Sampled distances, not certified bounds; geometry metric is blind to within-stroke traversal; orderedArcRms preserves traversal but not time/speed; original sample events remain in audit.",
+  "rows": [
+    {
+      "id": "5428667574386688-b3",
+      "category": "square",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.040946157355346714,
+      "symmetricSampleRms": 0.022528900627177946,
+      "maximumSampleDistance": 0.1021436917184244,
+      "maximumEndpointError": 0.0002628222789368695
+    },
+    {
+      "id": "5428667574386688-b6",
+      "category": "square",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.0047095073740501875,
+      "symmetricSampleRms": 0.00459937716370699,
+      "maximumSampleDistance": 0.010768542698861672,
+      "maximumEndpointError": 0.0002628222789368695
+    },
+    {
+      "id": "5428667574386688-b12",
+      "category": "square",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.003414157655263721,
+      "symmetricSampleRms": 0.0031706888344855844,
+      "maximumSampleDistance": 0.008591676264678532,
+      "maximumEndpointError": 0.0002628222789368695
+    },
+    {
+      "id": "5428667574386688-b20",
+      "category": "square",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.003169312071029889,
+      "symmetricSampleRms": 0.0028869520736349184,
+      "maximumSampleDistance": 0.006684986581274383,
+      "maximumEndpointError": 0.0002628222789368695
+    },
+    {
+      "id": "5307155987038208-b3",
+      "category": "square",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03697297495685587,
+      "symmetricSampleRms": 0.0295215035371438,
+      "maximumSampleDistance": 0.09223566065196434,
+      "maximumEndpointError": 0.0003117367114050157
+    },
+    {
+      "id": "5307155987038208-b6",
+      "category": "square",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.006130803817234742,
+      "symmetricSampleRms": 0.006045998218160362,
+      "maximumSampleDistance": 0.01564458241104064,
+      "maximumEndpointError": 0.0003117367114050157
+    },
+    {
+      "id": "5307155987038208-b12",
+      "category": "square",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.003544064993963961,
+      "symmetricSampleRms": 0.0030155928839370127,
+      "maximumSampleDistance": 0.006720460214883238,
+      "maximumEndpointError": 0.0003117367114050157
+    },
+    {
+      "id": "5307155987038208-b20",
+      "category": "square",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0038884739888423014,
+      "symmetricSampleRms": 0.0029852043065392965,
+      "maximumSampleDistance": 0.007566413341637856,
+      "maximumEndpointError": 0.0003117367114050157
+    },
+    {
+      "id": "5330093125664768-b3",
+      "category": "square",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03789437402586472,
+      "symmetricSampleRms": 0.022315561877648257,
+      "maximumSampleDistance": 0.11884837953447192,
+      "maximumEndpointError": 0.0004352927095232655
+    },
+    {
+      "id": "5330093125664768-b6",
+      "category": "square",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.010800081007333975,
+      "symmetricSampleRms": 0.005057121725802378,
+      "maximumSampleDistance": 0.039580457688835516,
+      "maximumEndpointError": 0.0004352927095232655
+    },
+    {
+      "id": "5330093125664768-b12",
+      "category": "square",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.00474143836060373,
+      "symmetricSampleRms": 0.002532335491214565,
+      "maximumSampleDistance": 0.007940891602581084,
+      "maximumEndpointError": 0.0004352927095232655
+    },
+    {
+      "id": "5330093125664768-b20",
+      "category": "square",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.007621403079926073,
+      "symmetricSampleRms": 0.003561375846523784,
+      "maximumSampleDistance": 0.00781767633090307,
+      "maximumEndpointError": 0.0004352927095232655
+    },
+    {
+      "id": "4643920342417408-b3",
+      "category": "square",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03709352677393793,
+      "symmetricSampleRms": 0.028808726229619473,
+      "maximumSampleDistance": 0.09577287015753361,
+      "maximumEndpointError": 0.0004868061827943829
+    },
+    {
+      "id": "4643920342417408-b6",
+      "category": "square",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.005025945260832581,
+      "symmetricSampleRms": 0.004312371071679628,
+      "maximumSampleDistance": 0.009942791230892154,
+      "maximumEndpointError": 0.0004868061827943829
+    },
+    {
+      "id": "4643920342417408-b12",
+      "category": "square",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0042278888171752484,
+      "symmetricSampleRms": 0.002923978393464027,
+      "maximumSampleDistance": 0.007956980012917711,
+      "maximumEndpointError": 0.0004868061827943829
+    },
+    {
+      "id": "4643920342417408-b20",
+      "category": "square",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0036171218438223233,
+      "symmetricSampleRms": 0.0027399116479204467,
+      "maximumSampleDistance": 0.008632235047007105,
+      "maximumEndpointError": 0.0004868061827943829
+    },
+    {
+      "id": "4885473531002880-b3",
+      "category": "square",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.045203235321594606,
+      "symmetricSampleRms": 0.032740813502611626,
+      "maximumSampleDistance": 0.13897976995239814,
+      "maximumEndpointError": 0.0004683468675805705
+    },
+    {
+      "id": "4885473531002880-b6",
+      "category": "square",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.012580602671329686,
+      "symmetricSampleRms": 0.0068032808283888,
+      "maximumSampleDistance": 0.040332700170948005,
+      "maximumEndpointError": 0.0004683468675805705
+    },
+    {
+      "id": "4885473531002880-b12",
+      "category": "square",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0034345599359019486,
+      "symmetricSampleRms": 0.0032570512806432547,
+      "maximumSampleDistance": 0.008619719855294444,
+      "maximumEndpointError": 0.0004683468675805705
+    },
+    {
+      "id": "4885473531002880-b20",
+      "category": "square",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0035494577874530518,
+      "symmetricSampleRms": 0.003245097799666871,
+      "maximumSampleDistance": 0.007742113337177781,
+      "maximumEndpointError": 0.0004683468675805705
+    },
+    {
+      "id": "5391295218450432-b3",
+      "category": "square",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.040514758150749224,
+      "symmetricSampleRms": 0.02559779885369659,
+      "maximumSampleDistance": 0.10984475074671615,
+      "maximumEndpointError": 0.0003450671189376697
+    },
+    {
+      "id": "5391295218450432-b6",
+      "category": "square",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.004897814777094174,
+      "symmetricSampleRms": 0.004617790743320171,
+      "maximumSampleDistance": 0.009987597904643326,
+      "maximumEndpointError": 0.0003450671189376697
+    },
+    {
+      "id": "5391295218450432-b12",
+      "category": "square",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005352472158493909,
+      "symmetricSampleRms": 0.0035439741662898422,
+      "maximumSampleDistance": 0.008287682420996902,
+      "maximumEndpointError": 0.0003450671189376697
+    },
+    {
+      "id": "5391295218450432-b20",
+      "category": "square",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006600823500977136,
+      "symmetricSampleRms": 0.0034322060224718162,
+      "maximumSampleDistance": 0.00884540582023142,
+      "maximumEndpointError": 0.0003450671189376697
+    },
+    {
+      "id": "5489350835961856-b3",
+      "category": "square",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.04710155646774469,
+      "symmetricSampleRms": 0.04113692131040514,
+      "maximumSampleDistance": 0.1235898240203498,
+      "maximumEndpointError": 0.000661011875282675
+    },
+    {
+      "id": "5489350835961856-b6",
+      "category": "square",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.021968829024425394,
+      "symmetricSampleRms": 0.01362639212874158,
+      "maximumSampleDistance": 0.08825722099263479,
+      "maximumEndpointError": 0.000661011875282675
+    },
+    {
+      "id": "5489350835961856-b12",
+      "category": "square",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.003975891822982726,
+      "symmetricSampleRms": 0.0031703273135260212,
+      "maximumSampleDistance": 0.008402282374279757,
+      "maximumEndpointError": 0.000661011875282675
+    },
+    {
+      "id": "5489350835961856-b20",
+      "category": "square",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0038319219578094635,
+      "symmetricSampleRms": 0.0025915095484530383,
+      "maximumSampleDistance": 0.007679389013472284,
+      "maximumEndpointError": 0.000661011875282675
+    },
+    {
+      "id": "6224764945301504-b3",
+      "category": "square",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.04744022922665843,
+      "symmetricSampleRms": 0.030376293501441186,
+      "maximumSampleDistance": 0.12210691479902533,
+      "maximumEndpointError": 0.0002454188481675404
+    },
+    {
+      "id": "6224764945301504-b6",
+      "category": "square",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.0056882827033143055,
+      "symmetricSampleRms": 0.005020003280310747,
+      "maximumSampleDistance": 0.01474228095076121,
+      "maximumEndpointError": 0.0002454188481675404
+    },
+    {
+      "id": "6224764945301504-b12",
+      "category": "square",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.010663657262358928,
+      "symmetricSampleRms": 0.004337037696186834,
+      "maximumSampleDistance": 0.01145865862492996,
+      "maximumEndpointError": 0.0002454188481675404
+    },
+    {
+      "id": "6224764945301504-b20",
+      "category": "square",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.008864289166799193,
+      "symmetricSampleRms": 0.0033166649500987106,
+      "maximumSampleDistance": 0.008821896964835537,
+      "maximumEndpointError": 0.0002454188481675404
+    },
+    {
+      "id": "6582382767374336-b3",
+      "category": "square",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03960423557604815,
+      "symmetricSampleRms": 0.02972666512576393,
+      "maximumSampleDistance": 0.10189953532939093,
+      "maximumEndpointError": 0.0003861269291636948
+    },
+    {
+      "id": "6582382767374336-b6",
+      "category": "square",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.004276496905530513,
+      "symmetricSampleRms": 0.004056913339438741,
+      "maximumSampleDistance": 0.01020973241672312,
+      "maximumEndpointError": 0.0003861269291636948
+    },
+    {
+      "id": "6582382767374336-b12",
+      "category": "square",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.00543446705011486,
+      "symmetricSampleRms": 0.003089735528370622,
+      "maximumSampleDistance": 0.008103158149825217,
+      "maximumEndpointError": 0.0003861269291636948
+    },
+    {
+      "id": "6582382767374336-b20",
+      "category": "square",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004908835449100197,
+      "symmetricSampleRms": 0.0034213798448768772,
+      "maximumSampleDistance": 0.007244873983026803,
+      "maximumEndpointError": 0.0003861269291636948
+    },
+    {
+      "id": "5208405562097664-b3",
+      "category": "square",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.04499452339583369,
+      "symmetricSampleRms": 0.029770323409247363,
+      "maximumSampleDistance": 0.1157307166173426,
+      "maximumEndpointError": 0.0004588852086831894
+    },
+    {
+      "id": "5208405562097664-b6",
+      "category": "square",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.007389450882394423,
+      "symmetricSampleRms": 0.007137750937770909,
+      "maximumSampleDistance": 0.01659878720546315,
+      "maximumEndpointError": 0.0004588852086831894
+    },
+    {
+      "id": "5208405562097664-b12",
+      "category": "square",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004374591568848557,
+      "symmetricSampleRms": 0.00395759014717023,
+      "maximumSampleDistance": 0.009957347990429733,
+      "maximumEndpointError": 0.0004588852086831894
+    },
+    {
+      "id": "5208405562097664-b20",
+      "category": "square",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004027050946817545,
+      "symmetricSampleRms": 0.0034781328745548544,
+      "maximumSampleDistance": 0.010650565992199441,
+      "maximumEndpointError": 0.0004588852086831894
+    },
+    {
+      "id": "4939537643995136-b3",
+      "category": "circle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.05006182918554733,
+      "symmetricSampleRms": 0.03228102284308691,
+      "maximumSampleDistance": 0.0808941046555245,
+      "maximumEndpointError": 0.00039065404599030487
+    },
+    {
+      "id": "4939537643995136-b6",
+      "category": "circle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.006752857590651352,
+      "symmetricSampleRms": 0.006059834548003504,
+      "maximumSampleDistance": 0.015160264006428678,
+      "maximumEndpointError": 0.00039065404599030487
+    },
+    {
+      "id": "4939537643995136-b12",
+      "category": "circle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004298882368130097,
+      "symmetricSampleRms": 0.0031458885608359535,
+      "maximumSampleDistance": 0.009406762896647127,
+      "maximumEndpointError": 0.00039065404599030487
+    },
+    {
+      "id": "4939537643995136-b20",
+      "category": "circle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006491773356948145,
+      "symmetricSampleRms": 0.003484535596862062,
+      "maximumSampleDistance": 0.00968027986326584,
+      "maximumEndpointError": 0.00039065404599030487
+    },
+    {
+      "id": "5465612832735232-b3",
+      "category": "circle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.04382094783530087,
+      "symmetricSampleRms": 0.034812219475983716,
+      "maximumSampleDistance": 0.10678032521403832,
+      "maximumEndpointError": 0.00042113434578923387
+    },
+    {
+      "id": "5465612832735232-b6",
+      "category": "circle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.008887164722401293,
+      "symmetricSampleRms": 0.007946240807096414,
+      "maximumSampleDistance": 0.024828533798740577,
+      "maximumEndpointError": 0.00042113434578923387
+    },
+    {
+      "id": "5465612832735232-b12",
+      "category": "circle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0038899754805358203,
+      "symmetricSampleRms": 0.0033249634074518533,
+      "maximumSampleDistance": 0.010054203293099124,
+      "maximumEndpointError": 0.00042113434578923387
+    },
+    {
+      "id": "5465612832735232-b20",
+      "category": "circle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0048736729425233345,
+      "symmetricSampleRms": 0.002684321723346981,
+      "maximumSampleDistance": 0.006275417451589831,
+      "maximumEndpointError": 0.00042113434578923387
+    },
+    {
+      "id": "6695613674553344-b3",
+      "category": "circle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03885507274302608,
+      "symmetricSampleRms": 0.030985446753161647,
+      "maximumSampleDistance": 0.07503521245983359,
+      "maximumEndpointError": 0.00046035597733500494
+    },
+    {
+      "id": "6695613674553344-b6",
+      "category": "circle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.006619721815334706,
+      "symmetricSampleRms": 0.0054933324809988545,
+      "maximumSampleDistance": 0.01256095129544715,
+      "maximumEndpointError": 0.00046035597733500494
+    },
+    {
+      "id": "6695613674553344-b12",
+      "category": "circle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.007121099384491711,
+      "symmetricSampleRms": 0.0033467423334992055,
+      "maximumSampleDistance": 0.007754083041477639,
+      "maximumEndpointError": 0.00046035597733500494
+    },
+    {
+      "id": "6695613674553344-b20",
+      "category": "circle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.008462066987408725,
+      "symmetricSampleRms": 0.0024494322870719726,
+      "maximumSampleDistance": 0.007740094486590601,
+      "maximumEndpointError": 0.00046035597733500494
+    },
+    {
+      "id": "6483629100236800-b3",
+      "category": "circle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.026924911481223175,
+      "symmetricSampleRms": 0.02151394838264807,
+      "maximumSampleDistance": 0.046577419974841584,
+      "maximumEndpointError": 0.00046035597733502456
+    },
+    {
+      "id": "6483629100236800-b6",
+      "category": "circle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.008908294591530802,
+      "symmetricSampleRms": 0.007445206440230403,
+      "maximumSampleDistance": 0.022309792629209967,
+      "maximumEndpointError": 0.00046035597733502456
+    },
+    {
+      "id": "6483629100236800-b12",
+      "category": "circle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0039543820653189865,
+      "symmetricSampleRms": 0.0036685437287871624,
+      "maximumSampleDistance": 0.009064334933373067,
+      "maximumEndpointError": 0.00046035597733502456
+    },
+    {
+      "id": "6483629100236800-b20",
+      "category": "circle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006084454326448387,
+      "symmetricSampleRms": 0.0037278682374728054,
+      "maximumSampleDistance": 0.009088050743356588,
+      "maximumEndpointError": 0.00046035597733502456
+    },
+    {
+      "id": "6581566752948224-b3",
+      "category": "circle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.030107150751522805,
+      "symmetricSampleRms": 0.02558070802208906,
+      "maximumSampleDistance": 0.06062516629583711,
+      "maximumEndpointError": 0.00025755009027061656
+    },
+    {
+      "id": "6581566752948224-b6",
+      "category": "circle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.008038606276949186,
+      "symmetricSampleRms": 0.007347976293741336,
+      "maximumSampleDistance": 0.020277831402778015,
+      "maximumEndpointError": 0.00025755009027061656
+    },
+    {
+      "id": "6581566752948224-b12",
+      "category": "circle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0027663622411718916,
+      "symmetricSampleRms": 0.002653991252688905,
+      "maximumSampleDistance": 0.006730420306187479,
+      "maximumEndpointError": 0.00025755009027061656
+    },
+    {
+      "id": "6581566752948224-b20",
+      "category": "circle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.00802764590865483,
+      "symmetricSampleRms": 0.0028373950740445664,
+      "maximumSampleDistance": 0.007411474400494454,
+      "maximumEndpointError": 0.00025755009027061656
+    },
+    {
+      "id": "5800136628240384-b3",
+      "category": "circle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.031750376428823626,
+      "symmetricSampleRms": 0.025534038152020364,
+      "maximumSampleDistance": 0.07514706002165912,
+      "maximumEndpointError": 9.49940905611984e-05
+    },
+    {
+      "id": "5800136628240384-b6",
+      "category": "circle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.00867169793368504,
+      "symmetricSampleRms": 0.0067977836702828864,
+      "maximumSampleDistance": 0.01769863594664466,
+      "maximumEndpointError": 9.49940905611984e-05
+    },
+    {
+      "id": "5800136628240384-b12",
+      "category": "circle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005322615261470942,
+      "symmetricSampleRms": 0.003634399049378617,
+      "maximumSampleDistance": 0.011864372631629897,
+      "maximumEndpointError": 9.49940905611984e-05
+    },
+    {
+      "id": "5800136628240384-b20",
+      "category": "circle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0049708699107671,
+      "symmetricSampleRms": 0.0029305290029607157,
+      "maximumSampleDistance": 0.008620334354261742,
+      "maximumEndpointError": 9.49940905611984e-05
+    },
+    {
+      "id": "5040738494578688-b3",
+      "category": "circle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.029887111773400792,
+      "symmetricSampleRms": 0.023071097795390787,
+      "maximumSampleDistance": 0.06846533220882531,
+      "maximumEndpointError": 0.00036299041842814575
+    },
+    {
+      "id": "5040738494578688-b6",
+      "category": "circle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.009789083669581205,
+      "symmetricSampleRms": 0.008056675945212045,
+      "maximumSampleDistance": 0.02018908443671465,
+      "maximumEndpointError": 0.00036299041842814575
+    },
+    {
+      "id": "5040738494578688-b12",
+      "category": "circle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0040875499356193366,
+      "symmetricSampleRms": 0.0036242256876656926,
+      "maximumSampleDistance": 0.011830513032721635,
+      "maximumEndpointError": 0.00036299041842814575
+    },
+    {
+      "id": "5040738494578688-b20",
+      "category": "circle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005399979789040137,
+      "symmetricSampleRms": 0.003114056197239267,
+      "maximumSampleDistance": 0.009100673767400645,
+      "maximumEndpointError": 0.00036299041842814575
+    },
+    {
+      "id": "5295648528138240-b3",
+      "category": "circle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.01739852618331172,
+      "symmetricSampleRms": 0.015320438168509382,
+      "maximumSampleDistance": 0.042838009277860675,
+      "maximumEndpointError": 0.0003401268261885944
+    },
+    {
+      "id": "5295648528138240-b6",
+      "category": "circle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.005700026302378219,
+      "symmetricSampleRms": 0.0040799050449480435,
+      "maximumSampleDistance": 0.013141435426100422,
+      "maximumEndpointError": 0.0003401268261885944
+    },
+    {
+      "id": "5295648528138240-b12",
+      "category": "circle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.003549248733072971,
+      "symmetricSampleRms": 0.0029305002248308804,
+      "maximumSampleDistance": 0.007559865775599772,
+      "maximumEndpointError": 0.0003401268261885944
+    },
+    {
+      "id": "5295648528138240-b20",
+      "category": "circle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005037913539642352,
+      "symmetricSampleRms": 0.0032592846378288547,
+      "maximumSampleDistance": 0.008620178703605689,
+      "maximumEndpointError": 0.0003401268261885944
+    },
+    {
+      "id": "6211699474432000-b3",
+      "category": "circle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03945298479529005,
+      "symmetricSampleRms": 0.029441322115147384,
+      "maximumSampleDistance": 0.0931262526653007,
+      "maximumEndpointError": 0.0004876617792203885
+    },
+    {
+      "id": "6211699474432000-b6",
+      "category": "circle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.00960819523336676,
+      "symmetricSampleRms": 0.008652012500382686,
+      "maximumSampleDistance": 0.023132764377883242,
+      "maximumEndpointError": 0.0004876617792203885
+    },
+    {
+      "id": "6211699474432000-b12",
+      "category": "circle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004108772028202382,
+      "symmetricSampleRms": 0.003526096087766953,
+      "maximumSampleDistance": 0.010052023587164586,
+      "maximumEndpointError": 0.0004876617792203885
+    },
+    {
+      "id": "6211699474432000-b20",
+      "category": "circle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0034835048553994662,
+      "symmetricSampleRms": 0.0031968966510724254,
+      "maximumSampleDistance": 0.010070200088384915,
+      "maximumEndpointError": 0.0004876617792203885
+    },
+    {
+      "id": "6712442564378624-b3",
+      "category": "circle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.036045432178667576,
+      "symmetricSampleRms": 0.028646243823236443,
+      "maximumSampleDistance": 0.09523035879670261,
+      "maximumEndpointError": 0.0005978645575482735
+    },
+    {
+      "id": "6712442564378624-b6",
+      "category": "circle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.005635430606108247,
+      "symmetricSampleRms": 0.00412481046862678,
+      "maximumSampleDistance": 0.010751128403196157,
+      "maximumEndpointError": 0.0005978645575482735
+    },
+    {
+      "id": "6712442564378624-b12",
+      "category": "circle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0042327594632557315,
+      "symmetricSampleRms": 0.0036945879393130124,
+      "maximumSampleDistance": 0.008891742222208166,
+      "maximumEndpointError": 0.0005978645575482735
+    },
+    {
+      "id": "6712442564378624-b20",
+      "category": "circle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006867770267293634,
+      "symmetricSampleRms": 0.0029337670238180303,
+      "maximumSampleDistance": 0.007979873933235201,
+      "maximumEndpointError": 0.0005978645575482735
+    },
+    {
+      "id": "5542274005991424-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.04359601563977859,
+      "symmetricSampleRms": 0.021436577786995134,
+      "maximumSampleDistance": 0.10865861480396848,
+      "maximumEndpointError": 0.00048452427666239987
+    },
+    {
+      "id": "5542274005991424-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.013921959519923232,
+      "symmetricSampleRms": 0.00649244313540445,
+      "maximumSampleDistance": 0.017111329032269678,
+      "maximumEndpointError": 0.00048452427666239987
+    },
+    {
+      "id": "5542274005991424-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005442395730646427,
+      "symmetricSampleRms": 0.004391204745611178,
+      "maximumSampleDistance": 0.011136732758101215,
+      "maximumEndpointError": 0.00048452427666239987
+    },
+    {
+      "id": "5542274005991424-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004494185334724441,
+      "symmetricSampleRms": 0.003163034200592706,
+      "maximumSampleDistance": 0.009612472669839533,
+      "maximumEndpointError": 0.00048452427666239987
+    },
+    {
+      "id": "4972963289890816-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.006059414581692746,
+      "symmetricSampleRms": 0.00561046157736287,
+      "maximumSampleDistance": 0.014753553845107707,
+      "maximumEndpointError": 0.00015211253894081844
+    },
+    {
+      "id": "4972963289890816-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.004584297922935977,
+      "symmetricSampleRms": 0.0030955108262306504,
+      "maximumSampleDistance": 0.00893122539115996,
+      "maximumEndpointError": 0.00015211253894081844
+    },
+    {
+      "id": "4972963289890816-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0032756596783900587,
+      "symmetricSampleRms": 0.0030321777904506637,
+      "maximumSampleDistance": 0.007110158931148181,
+      "maximumEndpointError": 0.00015211253894081844
+    },
+    {
+      "id": "4972963289890816-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0034514288266161946,
+      "symmetricSampleRms": 0.0026463261870209574,
+      "maximumSampleDistance": 0.007338102005004158,
+      "maximumEndpointError": 0.00015211253894081844
+    },
+    {
+      "id": "5707561011511296-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.02627655351373606,
+      "symmetricSampleRms": 0.011719077583872058,
+      "maximumSampleDistance": 0.08378232695168455,
+      "maximumEndpointError": 0.00045817911802964543
+    },
+    {
+      "id": "5707561011511296-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.003655458739195638,
+      "symmetricSampleRms": 0.0022758643601682137,
+      "maximumSampleDistance": 0.006663826331944078,
+      "maximumEndpointError": 0.00045817911802964543
+    },
+    {
+      "id": "5707561011511296-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004890960868167109,
+      "symmetricSampleRms": 0.003296670474065726,
+      "maximumSampleDistance": 0.00739677282394203,
+      "maximumEndpointError": 0.00045817911802964543
+    },
+    {
+      "id": "5707561011511296-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005450268154384843,
+      "symmetricSampleRms": 0.0030988779918078545,
+      "maximumSampleDistance": 0.006488272638295915,
+      "maximumEndpointError": 0.00045817911802964543
+    },
+    {
+      "id": "5813280050249728-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.005729581161882271,
+      "symmetricSampleRms": 0.0054845274369245845,
+      "maximumSampleDistance": 0.014155699649096605,
+      "maximumEndpointError": 0.0005061936955307604
+    },
+    {
+      "id": "5813280050249728-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.003229374522516754,
+      "symmetricSampleRms": 0.003097782568031175,
+      "maximumSampleDistance": 0.0064604975706998875,
+      "maximumEndpointError": 0.0005061936955307604
+    },
+    {
+      "id": "5813280050249728-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005821773383422004,
+      "symmetricSampleRms": 0.0030892513772351866,
+      "maximumSampleDistance": 0.007596436447540918,
+      "maximumEndpointError": 0.0005061936955307604
+    },
+    {
+      "id": "5813280050249728-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.008565855975214,
+      "symmetricSampleRms": 0.0025709980867400133,
+      "maximumSampleDistance": 0.007612739358554873,
+      "maximumEndpointError": 0.0005061936955307604
+    },
+    {
+      "id": "6592719138848768-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.0661008732624027,
+      "symmetricSampleRms": 0.06125760447748921,
+      "maximumSampleDistance": 0.12889073236017892,
+      "maximumEndpointError": 0.0003029323866616017
+    },
+    {
+      "id": "6592719138848768-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.035508707933013035,
+      "symmetricSampleRms": 0.011619804846723874,
+      "maximumSampleDistance": 0.07039755105480999,
+      "maximumEndpointError": 0.0003029323866616017
+    },
+    {
+      "id": "6592719138848768-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004955012297475359,
+      "symmetricSampleRms": 0.0033224462991047637,
+      "maximumSampleDistance": 0.007600306559755392,
+      "maximumEndpointError": 0.0003029323866616017
+    },
+    {
+      "id": "6592719138848768-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005431674484614731,
+      "symmetricSampleRms": 0.003073148897594557,
+      "maximumSampleDistance": 0.009290247848425958,
+      "maximumEndpointError": 0.0003029323866616017
+    },
+    {
+      "id": "4526183582531584-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.052337120267898614,
+      "symmetricSampleRms": 0.044270632635282005,
+      "maximumSampleDistance": 0.11117723516578977,
+      "maximumEndpointError": 0.0004200628470376191
+    },
+    {
+      "id": "4526183582531584-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.027883891154054593,
+      "symmetricSampleRms": 0.014025374066644619,
+      "maximumSampleDistance": 0.06068455892594154,
+      "maximumEndpointError": 0.0004200628470376191
+    },
+    {
+      "id": "4526183582531584-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0033853530708471643,
+      "symmetricSampleRms": 0.002917450491091762,
+      "maximumSampleDistance": 0.007123235664384551,
+      "maximumEndpointError": 0.0004200628470376191
+    },
+    {
+      "id": "4526183582531584-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 17,
+      "orderedArcRms": 0.004126527293982131,
+      "symmetricSampleRms": 0.003056499596721437,
+      "maximumSampleDistance": 0.006940051348446121,
+      "maximumEndpointError": 0.0004200628470376191
+    },
+    {
+      "id": "6537012356055040-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.040024822646047294,
+      "symmetricSampleRms": 0.0311912715090768,
+      "maximumSampleDistance": 0.10342531568748929,
+      "maximumEndpointError": 0.0003594589150861991
+    },
+    {
+      "id": "6537012356055040-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.0037515360271285617,
+      "symmetricSampleRms": 0.003597279929099393,
+      "maximumSampleDistance": 0.01008843326644313,
+      "maximumEndpointError": 0.0003594589150861991
+    },
+    {
+      "id": "6537012356055040-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004550480781100535,
+      "symmetricSampleRms": 0.003956202190145769,
+      "maximumSampleDistance": 0.0076529537301369965,
+      "maximumEndpointError": 0.0003594589150861991
+    },
+    {
+      "id": "6537012356055040-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0036335559836837682,
+      "symmetricSampleRms": 0.0029876566569165004,
+      "maximumSampleDistance": 0.008038293033287005,
+      "maximumEndpointError": 0.0003594589150861991
+    },
+    {
+      "id": "5245428700282880-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.0055017463388701785,
+      "symmetricSampleRms": 0.005312621304743182,
+      "maximumSampleDistance": 0.010860778867239665,
+      "maximumEndpointError": 0.00016108247422680355
+    },
+    {
+      "id": "5245428700282880-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.00541299812567492,
+      "symmetricSampleRms": 0.005218580868047339,
+      "maximumSampleDistance": 0.010860778867239665,
+      "maximumEndpointError": 0.00016108247422680355
+    },
+    {
+      "id": "5245428700282880-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.007640404624784453,
+      "symmetricSampleRms": 0.0026555159158248064,
+      "maximumSampleDistance": 0.007060161893582907,
+      "maximumEndpointError": 0.00016108247422680355
+    },
+    {
+      "id": "5245428700282880-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.009786951083455947,
+      "symmetricSampleRms": 0.002808238765769628,
+      "maximumSampleDistance": 0.007686897994483382,
+      "maximumEndpointError": 0.00016108247422680355
+    },
+    {
+      "id": "6662280412397568-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.008098324021921243,
+      "symmetricSampleRms": 0.007202016505815442,
+      "maximumSampleDistance": 0.018272221929585733,
+      "maximumEndpointError": 0.0006228072431686363
+    },
+    {
+      "id": "6662280412397568-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.0046773644564236765,
+      "symmetricSampleRms": 0.0036810212067110953,
+      "maximumSampleDistance": 0.008990252004835364,
+      "maximumEndpointError": 0.0006228072431686363
+    },
+    {
+      "id": "6662280412397568-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004050828703478539,
+      "symmetricSampleRms": 0.0037310476461087086,
+      "maximumSampleDistance": 0.008228813096426276,
+      "maximumEndpointError": 0.0006228072431686363
+    },
+    {
+      "id": "6662280412397568-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0038174331863330938,
+      "symmetricSampleRms": 0.002699302712220423,
+      "maximumSampleDistance": 0.008228458067745012,
+      "maximumEndpointError": 0.0006228072431686363
+    },
+    {
+      "id": "5655452182380544-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.008638731434426441,
+      "symmetricSampleRms": 0.007732156703985038,
+      "maximumSampleDistance": 0.03608237465860805,
+      "maximumEndpointError": 0.0005030942390276315
+    },
+    {
+      "id": "5655452182380544-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.0027600366053761403,
+      "symmetricSampleRms": 0.002736000340075236,
+      "maximumSampleDistance": 0.007559023169700413,
+      "maximumEndpointError": 0.0005030942390276315
+    },
+    {
+      "id": "5655452182380544-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.003551622855155536,
+      "symmetricSampleRms": 0.003260720030456504,
+      "maximumSampleDistance": 0.006342342369200133,
+      "maximumEndpointError": 0.0005030942390276315
+    },
+    {
+      "id": "5655452182380544-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0032165437773775687,
+      "symmetricSampleRms": 0.0027665268727253937,
+      "maximumSampleDistance": 0.007110254518603323,
+      "maximumEndpointError": 0.0005030942390276315
+    },
+    {
+      "id": "5686472046804992-b3",
+      "category": "octagon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03528768728152491,
+      "symmetricSampleRms": 0.0278484505761065,
+      "maximumSampleDistance": 0.0761002012010324,
+      "maximumEndpointError": 0.0002738375650858257
+    },
+    {
+      "id": "5686472046804992-b6",
+      "category": "octagon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.009864955105145713,
+      "symmetricSampleRms": 0.009322089125610788,
+      "maximumSampleDistance": 0.023344778537759302,
+      "maximumEndpointError": 0.0002738375650858257
+    },
+    {
+      "id": "5686472046804992-b12",
+      "category": "octagon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.009405842890965981,
+      "symmetricSampleRms": 0.003211809938009937,
+      "maximumSampleDistance": 0.008792630847340383,
+      "maximumEndpointError": 0.0002738375650858257
+    },
+    {
+      "id": "5686472046804992-b20",
+      "category": "octagon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006245506815381043,
+      "symmetricSampleRms": 0.002532369848538627,
+      "maximumSampleDistance": 0.006463350825342278,
+      "maximumEndpointError": 0.0002738375650858257
+    },
+    {
+      "id": "5357828535484416-b3",
+      "category": "octagon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03601229475919995,
+      "symmetricSampleRms": 0.02887664330808735,
+      "maximumSampleDistance": 0.07782445932680797,
+      "maximumEndpointError": 0.0004270214019474578
+    },
+    {
+      "id": "5357828535484416-b6",
+      "category": "octagon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.012138403636603162,
+      "symmetricSampleRms": 0.010000430477706313,
+      "maximumSampleDistance": 0.03136107980801254,
+      "maximumEndpointError": 0.0004270214019474578
+    },
+    {
+      "id": "5357828535484416-b12",
+      "category": "octagon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.006738809444420148,
+      "symmetricSampleRms": 0.002869100892334469,
+      "maximumSampleDistance": 0.00877797636858859,
+      "maximumEndpointError": 0.0004270214019474578
+    },
+    {
+      "id": "5357828535484416-b20",
+      "category": "octagon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.01251608939025464,
+      "symmetricSampleRms": 0.0026056010679811727,
+      "maximumSampleDistance": 0.008275739263703783,
+      "maximumEndpointError": 0.0004270214019474578
+    },
+    {
+      "id": "6310676689584128-b3",
+      "category": "octagon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.033347191103738016,
+      "symmetricSampleRms": 0.02579608014281067,
+      "maximumSampleDistance": 0.07875587784425873,
+      "maximumEndpointError": 0.00039378432643022177
+    },
+    {
+      "id": "6310676689584128-b6",
+      "category": "octagon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.010595376409849212,
+      "symmetricSampleRms": 0.009949486125214726,
+      "maximumSampleDistance": 0.030709066589324003,
+      "maximumEndpointError": 0.00039378432643022177
+    },
+    {
+      "id": "6310676689584128-b12",
+      "category": "octagon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0035180384284711212,
+      "symmetricSampleRms": 0.0028224413152441166,
+      "maximumSampleDistance": 0.009774281106600106,
+      "maximumEndpointError": 0.00039378432643022177
+    },
+    {
+      "id": "6310676689584128-b20",
+      "category": "octagon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004026071613258647,
+      "symmetricSampleRms": 0.002793266065885612,
+      "maximumSampleDistance": 0.008090155662961998,
+      "maximumEndpointError": 0.00039378432643022177
+    },
+    {
+      "id": "6205168821469184-b3",
+      "category": "octagon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.04064932958627031,
+      "symmetricSampleRms": 0.031467809671652414,
+      "maximumSampleDistance": 0.10055852317090923,
+      "maximumEndpointError": 0.0004844331719536204
+    },
+    {
+      "id": "6205168821469184-b6",
+      "category": "octagon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.0064544901071495716,
+      "symmetricSampleRms": 0.005695213634258946,
+      "maximumSampleDistance": 0.01908031400751274,
+      "maximumEndpointError": 0.0004844331719536204
+    },
+    {
+      "id": "6205168821469184-b12",
+      "category": "octagon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004370492014309275,
+      "symmetricSampleRms": 0.0033078551018397087,
+      "maximumSampleDistance": 0.012718605006259404,
+      "maximumEndpointError": 0.0004844331719536204
+    },
+    {
+      "id": "6205168821469184-b20",
+      "category": "octagon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.008874401975768893,
+      "symmetricSampleRms": 0.0027400504135937738,
+      "maximumSampleDistance": 0.007229057534972884,
+      "maximumEndpointError": 0.0004844331719536204
+    },
+    {
+      "id": "5411138772664320-b3",
+      "category": "octagon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.0258144457262583,
+      "symmetricSampleRms": 0.020703115114863006,
+      "maximumSampleDistance": 0.05180558364608447,
+      "maximumEndpointError": 0.000517763151536989
+    },
+    {
+      "id": "5411138772664320-b6",
+      "category": "octagon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.01589021785273073,
+      "symmetricSampleRms": 0.007435528866344837,
+      "maximumSampleDistance": 0.021037444553925238,
+      "maximumEndpointError": 0.000517763151536989
+    },
+    {
+      "id": "5411138772664320-b12",
+      "category": "octagon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005088470404033346,
+      "symmetricSampleRms": 0.003494585255647395,
+      "maximumSampleDistance": 0.0095569633666298,
+      "maximumEndpointError": 0.000517763151536989
+    },
+    {
+      "id": "5411138772664320-b20",
+      "category": "octagon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005773602043476204,
+      "symmetricSampleRms": 0.0029526555117366446,
+      "maximumSampleDistance": 0.008130109341454427,
+      "maximumEndpointError": 0.000517763151536989
+    },
+    {
+      "id": "5260559014428672-b3",
+      "category": "octagon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.02096797129807321,
+      "symmetricSampleRms": 0.019176537904312417,
+      "maximumSampleDistance": 0.05287752790911188,
+      "maximumEndpointError": 0.0002560914644762813
+    },
+    {
+      "id": "5260559014428672-b6",
+      "category": "octagon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.01048641916578284,
+      "symmetricSampleRms": 0.008928848626712605,
+      "maximumSampleDistance": 0.02753554271396649,
+      "maximumEndpointError": 0.0002560914644762813
+    },
+    {
+      "id": "5260559014428672-b12",
+      "category": "octagon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004410160614448346,
+      "symmetricSampleRms": 0.003758646011821785,
+      "maximumSampleDistance": 0.009335661168761372,
+      "maximumEndpointError": 0.0002560914644762813
+    },
+    {
+      "id": "5260559014428672-b20",
+      "category": "octagon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.00392477973695418,
+      "symmetricSampleRms": 0.0031642403210391207,
+      "maximumSampleDistance": 0.009303825442767782,
+      "maximumEndpointError": 0.0002560914644762813
+    },
+    {
+      "id": "6321548258443264-b3",
+      "category": "octagon",
+      "budget": 3,
+      "sections": 8,
+      "orderedArcRms": 0.0038031017835091713,
+      "symmetricSampleRms": 0.0036950192061863626,
+      "maximumSampleDistance": 0.00931838705933797,
+      "maximumEndpointError": 0.0005845772319457777
+    },
+    {
+      "id": "6321548258443264-b6",
+      "category": "octagon",
+      "budget": 6,
+      "sections": 8,
+      "orderedArcRms": 0.0038031017835091713,
+      "symmetricSampleRms": 0.0036950192061863626,
+      "maximumSampleDistance": 0.00931838705933797,
+      "maximumEndpointError": 0.0005845772319457777
+    },
+    {
+      "id": "6321548258443264-b12",
+      "category": "octagon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004452513805733988,
+      "symmetricSampleRms": 0.0035598453448273566,
+      "maximumSampleDistance": 0.00931838705933797,
+      "maximumEndpointError": 0.0005845772319457777
+    },
+    {
+      "id": "6321548258443264-b20",
+      "category": "octagon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004620767457743587,
+      "symmetricSampleRms": 0.003316623343352808,
+      "maximumSampleDistance": 0.00931838705933797,
+      "maximumEndpointError": 0.0005845772319457777
+    },
+    {
+      "id": "6746637814726656-b3",
+      "category": "octagon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.025909338754407145,
+      "symmetricSampleRms": 0.022041791557572826,
+      "maximumSampleDistance": 0.05197249491378833,
+      "maximumEndpointError": 0.0005121711684551152
+    },
+    {
+      "id": "6746637814726656-b6",
+      "category": "octagon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.00892667698144365,
+      "symmetricSampleRms": 0.00757114627771737,
+      "maximumSampleDistance": 0.029441308004338536,
+      "maximumEndpointError": 0.0005121711684551152
+    },
+    {
+      "id": "6746637814726656-b12",
+      "category": "octagon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005570543355883018,
+      "symmetricSampleRms": 0.002718084674712427,
+      "maximumSampleDistance": 0.00716944245805559,
+      "maximumEndpointError": 0.0005121711684551152
+    },
+    {
+      "id": "6746637814726656-b20",
+      "category": "octagon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004969701031852187,
+      "symmetricSampleRms": 0.00339034498020791,
+      "maximumSampleDistance": 0.009660940562221634,
+      "maximumEndpointError": 0.0005121711684551152
+    },
+    {
+      "id": "5855580914712576-b3",
+      "category": "octagon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.045394482503472694,
+      "symmetricSampleRms": 0.03467760840986541,
+      "maximumSampleDistance": 0.1030329915171004,
+      "maximumEndpointError": 0.0005813585228238077
+    },
+    {
+      "id": "5855580914712576-b6",
+      "category": "octagon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.02242279404468607,
+      "symmetricSampleRms": 0.011771639334533323,
+      "maximumSampleDistance": 0.037195128996670324,
+      "maximumEndpointError": 0.0005813585228238077
+    },
+    {
+      "id": "5855580914712576-b12",
+      "category": "octagon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.011339800452448624,
+      "symmetricSampleRms": 0.0036494179977992346,
+      "maximumSampleDistance": 0.015967233272233542,
+      "maximumEndpointError": 0.0005813585228238077
+    },
+    {
+      "id": "5855580914712576-b20",
+      "category": "octagon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.003492714731351476,
+      "symmetricSampleRms": 0.0024774653232698413,
+      "maximumSampleDistance": 0.006456690574761331,
+      "maximumEndpointError": 0.0005813585228238077
+    },
+    {
+      "id": "6693335945183232-b3",
+      "category": "octagon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.032249057553232215,
+      "symmetricSampleRms": 0.02373495434003229,
+      "maximumSampleDistance": 0.07305287790263013,
+      "maximumEndpointError": 0.0004982477988151837
+    },
+    {
+      "id": "6693335945183232-b6",
+      "category": "octagon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.010630965027455735,
+      "symmetricSampleRms": 0.008828889447114217,
+      "maximumSampleDistance": 0.030841894594502817,
+      "maximumEndpointError": 0.0004982477988151837
+    },
+    {
+      "id": "6693335945183232-b12",
+      "category": "octagon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004121929890473098,
+      "symmetricSampleRms": 0.003257874018102082,
+      "maximumSampleDistance": 0.007858990200104705,
+      "maximumEndpointError": 0.0004982477988151837
+    },
+    {
+      "id": "6693335945183232-b20",
+      "category": "octagon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.003737293600194353,
+      "symmetricSampleRms": 0.0030914972583195965,
+      "maximumSampleDistance": 0.00799377236975952,
+      "maximumEndpointError": 0.0004982477988151837
+    },
+    {
+      "id": "5414366813880320-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.007431695475808025,
+      "symmetricSampleRms": 0.007158531459855247,
+      "maximumSampleDistance": 0.01905121767108547,
+      "maximumEndpointError": 0.0004508693714114907
+    },
+    {
+      "id": "5414366813880320-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.005617606891919053,
+      "symmetricSampleRms": 0.0038786888408594415,
+      "maximumSampleDistance": 0.010481682150945857,
+      "maximumEndpointError": 0.0004508693714114907
+    },
+    {
+      "id": "5414366813880320-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.006366066420327528,
+      "symmetricSampleRms": 0.002806536048040792,
+      "maximumSampleDistance": 0.006911821792145294,
+      "maximumEndpointError": 0.0004508693714114907
+    },
+    {
+      "id": "5414366813880320-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.012441586171390807,
+      "symmetricSampleRms": 0.0031839757707637292,
+      "maximumSampleDistance": 0.00863642344825009,
+      "maximumEndpointError": 0.0004508693714114907
+    },
+    {
+      "id": "6533189453479936-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.030229730901342514,
+      "symmetricSampleRms": 0.02504767937826228,
+      "maximumSampleDistance": 0.05774849417357938,
+      "maximumEndpointError": 0.0004252296649058951
+    },
+    {
+      "id": "6533189453479936-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.009374937417282726,
+      "symmetricSampleRms": 0.008714123425606655,
+      "maximumSampleDistance": 0.020374452831302133,
+      "maximumEndpointError": 0.0004252296649058951
+    },
+    {
+      "id": "6533189453479936-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.007897567976340596,
+      "symmetricSampleRms": 0.0035141290252601494,
+      "maximumSampleDistance": 0.009850208986901976,
+      "maximumEndpointError": 0.0004252296649058951
+    },
+    {
+      "id": "6533189453479936-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0064817173522521525,
+      "symmetricSampleRms": 0.0033635966866497813,
+      "maximumSampleDistance": 0.009090195307035105,
+      "maximumEndpointError": 0.0004252296649058951
+    },
+    {
+      "id": "6096033018806272-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.010916331349336953,
+      "symmetricSampleRms": 0.010524317243086025,
+      "maximumSampleDistance": 0.023246964999213825,
+      "maximumEndpointError": 0.000456861763801181
+    },
+    {
+      "id": "6096033018806272-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.004418725478759803,
+      "symmetricSampleRms": 0.004138113351036575,
+      "maximumSampleDistance": 0.01269028107257441,
+      "maximumEndpointError": 0.000456861763801181
+    },
+    {
+      "id": "6096033018806272-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005400672702036149,
+      "symmetricSampleRms": 0.0032718276284265384,
+      "maximumSampleDistance": 0.008661038031627119,
+      "maximumEndpointError": 0.000456861763801181
+    },
+    {
+      "id": "6096033018806272-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005377557204870679,
+      "symmetricSampleRms": 0.0026358992314693816,
+      "maximumSampleDistance": 0.008217489252919355,
+      "maximumEndpointError": 0.000456861763801181
+    },
+    {
+      "id": "4842093828636672-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.08088681880422068,
+      "symmetricSampleRms": 0.04948072217495717,
+      "maximumSampleDistance": 0.14205030015549577,
+      "maximumEndpointError": 0.0004123479704070317
+    },
+    {
+      "id": "4842093828636672-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.014793604046016496,
+      "symmetricSampleRms": 0.006703741436562164,
+      "maximumSampleDistance": 0.017160697456893186,
+      "maximumEndpointError": 0.0004123479704070317
+    },
+    {
+      "id": "4842093828636672-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005463364441642283,
+      "symmetricSampleRms": 0.003538350833549899,
+      "maximumSampleDistance": 0.007802879979662775,
+      "maximumEndpointError": 0.0004123479704070317
+    },
+    {
+      "id": "4842093828636672-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.011125429220501385,
+      "symmetricSampleRms": 0.003801258746064106,
+      "maximumSampleDistance": 0.009091645586588105,
+      "maximumEndpointError": 0.0004123479704070317
+    },
+    {
+      "id": "6139875722002432-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.06310177469391011,
+      "symmetricSampleRms": 0.04543548159299961,
+      "maximumSampleDistance": 0.13351585706330255,
+      "maximumEndpointError": 0.0004778888588164337
+    },
+    {
+      "id": "6139875722002432-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.008837045927738145,
+      "symmetricSampleRms": 0.007408983575802535,
+      "maximumSampleDistance": 0.02885623257353574,
+      "maximumEndpointError": 0.0004778888588164337
+    },
+    {
+      "id": "6139875722002432-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.00447226265443593,
+      "symmetricSampleRms": 0.0039448216386946035,
+      "maximumSampleDistance": 0.013833591283971085,
+      "maximumEndpointError": 0.0004778888588164337
+    },
+    {
+      "id": "6139875722002432-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.00672403997084192,
+      "symmetricSampleRms": 0.005329531832213737,
+      "maximumSampleDistance": 0.010552888642887814,
+      "maximumEndpointError": 0.0004778888588164337
+    },
+    {
+      "id": "4973215954763776-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.01755710411514437,
+      "symmetricSampleRms": 0.01605189439361068,
+      "maximumSampleDistance": 0.03914446575294296,
+      "maximumEndpointError": 0.0003008367890995345
+    },
+    {
+      "id": "4973215954763776-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.008152620405131782,
+      "symmetricSampleRms": 0.007341465217303618,
+      "maximumSampleDistance": 0.019449104736596418,
+      "maximumEndpointError": 0.0003008367890995345
+    },
+    {
+      "id": "4973215954763776-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004411479128443317,
+      "symmetricSampleRms": 0.003739572687784164,
+      "maximumSampleDistance": 0.010954863402781916,
+      "maximumEndpointError": 0.0003008367890995345
+    },
+    {
+      "id": "4973215954763776-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.00388930796063424,
+      "symmetricSampleRms": 0.0024016521979347482,
+      "maximumSampleDistance": 0.0057667916937415055,
+      "maximumEndpointError": 0.0003008367890995345
+    },
+    {
+      "id": "5196317561192448-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.06646041999413461,
+      "symmetricSampleRms": 0.03904355483256936,
+      "maximumSampleDistance": 0.12189415402147423,
+      "maximumEndpointError": 0.0004505517563351501
+    },
+    {
+      "id": "5196317561192448-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.010113441288962697,
+      "symmetricSampleRms": 0.008605631396511411,
+      "maximumSampleDistance": 0.019810028973413774,
+      "maximumEndpointError": 0.0004505517563351501
+    },
+    {
+      "id": "5196317561192448-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.00395121446383519,
+      "symmetricSampleRms": 0.0028761099636542926,
+      "maximumSampleDistance": 0.006698837475800828,
+      "maximumEndpointError": 0.0004505517563351501
+    },
+    {
+      "id": "5196317561192448-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.009222288550267639,
+      "symmetricSampleRms": 0.003329886447857631,
+      "maximumSampleDistance": 0.008203011937267727,
+      "maximumEndpointError": 0.0004505517563351501
+    },
+    {
+      "id": "6365392459005952-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.07470553026442549,
+      "symmetricSampleRms": 0.041211176459608395,
+      "maximumSampleDistance": 0.1375129724097408,
+      "maximumEndpointError": 0.0005380032214885696
+    },
+    {
+      "id": "6365392459005952-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.005205366658384813,
+      "symmetricSampleRms": 0.004149417494973824,
+      "maximumSampleDistance": 0.012681510152495114,
+      "maximumEndpointError": 0.0005380032214885696
+    },
+    {
+      "id": "6365392459005952-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0034311015507394985,
+      "symmetricSampleRms": 0.0027962948212434707,
+      "maximumSampleDistance": 0.008857009425475957,
+      "maximumEndpointError": 0.0005380032214885696
+    },
+    {
+      "id": "6365392459005952-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004445511279952003,
+      "symmetricSampleRms": 0.002490265519455371,
+      "maximumSampleDistance": 0.007994915176978321,
+      "maximumEndpointError": 0.0005380032214885696
+    },
+    {
+      "id": "5638051827023872-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.012739850788024334,
+      "symmetricSampleRms": 0.012248932318823982,
+      "maximumSampleDistance": 0.023947330188977028,
+      "maximumEndpointError": 0.0004143335991572766
+    },
+    {
+      "id": "5638051827023872-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.007139606648199983,
+      "symmetricSampleRms": 0.005609740742790978,
+      "maximumSampleDistance": 0.0211079954083568,
+      "maximumEndpointError": 0.0004143335991572766
+    },
+    {
+      "id": "5638051827023872-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004567720267996137,
+      "symmetricSampleRms": 0.0034106734075066013,
+      "maximumSampleDistance": 0.008521814321920571,
+      "maximumEndpointError": 0.0004143335991572766
+    },
+    {
+      "id": "5638051827023872-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.009957317406480107,
+      "symmetricSampleRms": 0.002907498166662939,
+      "maximumSampleDistance": 0.007874631747541444,
+      "maximumEndpointError": 0.0004143335991572766
+    },
+    {
+      "id": "5852246447226880-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.014865541803512957,
+      "symmetricSampleRms": 0.013640580934725892,
+      "maximumSampleDistance": 0.04553181801172228,
+      "maximumEndpointError": 0.0004645049859489207
+    },
+    {
+      "id": "5852246447226880-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.007330392598716999,
+      "symmetricSampleRms": 0.006950866162474689,
+      "maximumSampleDistance": 0.018560796450745275,
+      "maximumEndpointError": 0.0004645049859489207
+    },
+    {
+      "id": "5852246447226880-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005602945906092427,
+      "symmetricSampleRms": 0.004425848393781852,
+      "maximumSampleDistance": 0.01099618769077847,
+      "maximumEndpointError": 0.0004645049859489207
+    },
+    {
+      "id": "5852246447226880-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006787237262413435,
+      "symmetricSampleRms": 0.0022227467344311286,
+      "maximumSampleDistance": 0.009030238710570912,
+      "maximumEndpointError": 0.0004645049859489207
+    }
+  ]
+}

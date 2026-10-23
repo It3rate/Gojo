@@ -1,0 +1,1043 @@
+{
+  "schema": "gojo.quickdraw.native-review.v1",
+  "nativePackets": 100,
+  "integerModelParityVerified": true,
+  "summary": [
+    {
+      "budget": 3,
+      "drawings": 25,
+      "mean_orderedArcRms": 0.07213312840144578,
+      "mean_symmetricSampleRms": 0.03609533820194094,
+      "maximumSampleDistance": 0.2232856745870101,
+      "maximumEndpointError": 0.0006458408324312537
+    },
+    {
+      "budget": 6,
+      "drawings": 25,
+      "mean_orderedArcRms": 0.024888481565406274,
+      "mean_symmetricSampleRms": 0.012694525181043139,
+      "maximumSampleDistance": 0.17182997875059916,
+      "maximumEndpointError": 0.0006458408324312537
+    },
+    {
+      "budget": 12,
+      "drawings": 25,
+      "mean_orderedArcRms": 0.006823554832341861,
+      "mean_symmetricSampleRms": 0.004150508392193645,
+      "maximumSampleDistance": 0.042255014921557955,
+      "maximumEndpointError": 0.0006458408324312537
+    },
+    {
+      "budget": 20,
+      "drawings": 25,
+      "mean_orderedArcRms": 0.005768048212278465,
+      "mean_symmetricSampleRms": 0.003248685187846652,
+      "maximumSampleDistance": 0.01096986454501196,
+      "maximumEndpointError": 0.0006458408324312537
+    }
+  ],
+  "metric": "129 equally spaced arclength samples per nonempty stroke; each stroke equally weighted; native cubics approximated by 64 segments; no spatial alignment",
+  "limitations": "Sampled distances, not certified bounds; geometry metric is blind to within-stroke traversal; orderedArcRms preserves traversal but not time/speed; original sample events remain in audit.",
+  "rows": [
+    {
+      "id": "4658428846800896-b3",
+      "category": "house",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03907755123179764,
+      "symmetricSampleRms": 0.030544123704614845,
+      "maximumSampleDistance": 0.13631992416247932,
+      "maximumEndpointError": 0.00046746222284154543
+    },
+    {
+      "id": "4658428846800896-b6",
+      "category": "house",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.005400549561004446,
+      "symmetricSampleRms": 0.004667434299867277,
+      "maximumSampleDistance": 0.013924744291173421,
+      "maximumEndpointError": 0.00046746222284154543
+    },
+    {
+      "id": "4658428846800896-b12",
+      "category": "house",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005411144690854739,
+      "symmetricSampleRms": 0.0035495567451318696,
+      "maximumSampleDistance": 0.009216338017399309,
+      "maximumEndpointError": 0.00046746222284154543
+    },
+    {
+      "id": "4658428846800896-b20",
+      "category": "house",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006120065261218697,
+      "symmetricSampleRms": 0.003775209456093342,
+      "maximumSampleDistance": 0.009368781161153954,
+      "maximumEndpointError": 0.00046746222284154543
+    },
+    {
+      "id": "5029217295138816-b3",
+      "category": "house",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.06465469296928347,
+      "symmetricSampleRms": 0.035111067850768285,
+      "maximumSampleDistance": 0.1261465645272538,
+      "maximumEndpointError": 0.0005873216829021208
+    },
+    {
+      "id": "5029217295138816-b6",
+      "category": "house",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.010159112909517902,
+      "symmetricSampleRms": 0.007132629181337812,
+      "maximumSampleDistance": 0.031204775683587527,
+      "maximumEndpointError": 0.0005873216829021208
+    },
+    {
+      "id": "5029217295138816-b12",
+      "category": "house",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.009315752542224724,
+      "symmetricSampleRms": 0.004003926124329484,
+      "maximumSampleDistance": 0.00933170724826654,
+      "maximumEndpointError": 0.0005873216829021208
+    },
+    {
+      "id": "5029217295138816-b20",
+      "category": "house",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006205247343516728,
+      "symmetricSampleRms": 0.003252220979655197,
+      "maximumSampleDistance": 0.009252775519446699,
+      "maximumEndpointError": 0.0005873216829021208
+    },
+    {
+      "id": "5868815621554176-b3",
+      "category": "house",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.052253635926751994,
+      "symmetricSampleRms": 0.036102295387070944,
+      "maximumSampleDistance": 0.21184874475923013,
+      "maximumEndpointError": 0.0005327652350746615
+    },
+    {
+      "id": "5868815621554176-b6",
+      "category": "house",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.014454881466081126,
+      "symmetricSampleRms": 0.008827221749194314,
+      "maximumSampleDistance": 0.04992001964397609,
+      "maximumEndpointError": 0.0005327652350746615
+    },
+    {
+      "id": "5868815621554176-b12",
+      "category": "house",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.006551404226981526,
+      "symmetricSampleRms": 0.004331782373289718,
+      "maximumSampleDistance": 0.010263477037402506,
+      "maximumEndpointError": 0.0005327652350746615
+    },
+    {
+      "id": "5868815621554176-b20",
+      "category": "house",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006477559834931956,
+      "symmetricSampleRms": 0.002634584168832371,
+      "maximumSampleDistance": 0.007638305347356946,
+      "maximumEndpointError": 0.0005327652350746615
+    },
+    {
+      "id": "6123086950694912-b3",
+      "category": "house",
+      "budget": 3,
+      "sections": 4,
+      "orderedArcRms": 0.03934669448759973,
+      "symmetricSampleRms": 0.024901962294856674,
+      "maximumSampleDistance": 0.15452772643007098,
+      "maximumEndpointError": 0.00036540063119662214
+    },
+    {
+      "id": "6123086950694912-b6",
+      "category": "house",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.02271695981787628,
+      "symmetricSampleRms": 0.0171051512551126,
+      "maximumSampleDistance": 0.08859581409440535,
+      "maximumEndpointError": 0.00036540063119662214
+    },
+    {
+      "id": "6123086950694912-b12",
+      "category": "house",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.006372525651427397,
+      "symmetricSampleRms": 0.0043641163595501825,
+      "maximumSampleDistance": 0.012149841629161355,
+      "maximumEndpointError": 0.00036540063119662214
+    },
+    {
+      "id": "6123086950694912-b20",
+      "category": "house",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0034599556018503484,
+      "symmetricSampleRms": 0.0029357151295747227,
+      "maximumSampleDistance": 0.010775656729098282,
+      "maximumEndpointError": 0.00036540063119662214
+    },
+    {
+      "id": "4572978828279808-b3",
+      "category": "house",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.05304910506699443,
+      "symmetricSampleRms": 0.03805153649088386,
+      "maximumSampleDistance": 0.20079116968550018,
+      "maximumEndpointError": 0.0005406306553327268
+    },
+    {
+      "id": "4572978828279808-b6",
+      "category": "house",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.030244866965697732,
+      "symmetricSampleRms": 0.019946218190091593,
+      "maximumSampleDistance": 0.10476397373608536,
+      "maximumEndpointError": 0.0005406306553327268
+    },
+    {
+      "id": "4572978828279808-b12",
+      "category": "house",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.008694574880156972,
+      "symmetricSampleRms": 0.005541987027001268,
+      "maximumSampleDistance": 0.02856880310434454,
+      "maximumEndpointError": 0.0005406306553327268
+    },
+    {
+      "id": "4572978828279808-b20",
+      "category": "house",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004465711988052331,
+      "symmetricSampleRms": 0.003096335633818108,
+      "maximumSampleDistance": 0.010521150446702328,
+      "maximumEndpointError": 0.0005406306553327268
+    },
+    {
+      "id": "5152841154953216-b3",
+      "category": "star",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.0944752953003315,
+      "symmetricSampleRms": 0.0395972726969583,
+      "maximumSampleDistance": 0.18478726820700864,
+      "maximumEndpointError": 0.0004751175693826748
+    },
+    {
+      "id": "5152841154953216-b6",
+      "category": "star",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.050853590666083845,
+      "symmetricSampleRms": 0.0169881988222594,
+      "maximumSampleDistance": 0.06713154629631335,
+      "maximumEndpointError": 0.0004751175693826748
+    },
+    {
+      "id": "5152841154953216-b12",
+      "category": "star",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.006759056548626644,
+      "symmetricSampleRms": 0.004159701005879393,
+      "maximumSampleDistance": 0.010878714968368041,
+      "maximumEndpointError": 0.0004751175693826748
+    },
+    {
+      "id": "5152841154953216-b20",
+      "category": "star",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.011589374163328938,
+      "symmetricSampleRms": 0.0030631097161566687,
+      "maximumSampleDistance": 0.009327981712151403,
+      "maximumEndpointError": 0.0004751175693826748
+    },
+    {
+      "id": "6116169515794432-b3",
+      "category": "star",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.15770068093238057,
+      "symmetricSampleRms": 0.05201711502969628,
+      "maximumSampleDistance": 0.1926714999447659,
+      "maximumEndpointError": 0.0004969138955500495
+    },
+    {
+      "id": "6116169515794432-b6",
+      "category": "star",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.032742385511985724,
+      "symmetricSampleRms": 0.019688532776668478,
+      "maximumSampleDistance": 0.06192090947708599,
+      "maximumEndpointError": 0.0004969138955500495
+    },
+    {
+      "id": "6116169515794432-b12",
+      "category": "star",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.00534525844677521,
+      "symmetricSampleRms": 0.004929704907828587,
+      "maximumSampleDistance": 0.012512189447306818,
+      "maximumEndpointError": 0.0004969138955500495
+    },
+    {
+      "id": "6116169515794432-b20",
+      "category": "star",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006526581383022885,
+      "symmetricSampleRms": 0.003182520424320411,
+      "maximumSampleDistance": 0.009239946715858939,
+      "maximumEndpointError": 0.0004969138955500495
+    },
+    {
+      "id": "5378647596728320-b3",
+      "category": "star",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.09639763870749782,
+      "symmetricSampleRms": 0.04795520201108534,
+      "maximumSampleDistance": 0.2061979798016724,
+      "maximumEndpointError": 0.000642526008270011
+    },
+    {
+      "id": "5378647596728320-b6",
+      "category": "star",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.100999385413122,
+      "symmetricSampleRms": 0.02924906631589498,
+      "maximumSampleDistance": 0.17182997875059916,
+      "maximumEndpointError": 0.000642526008270011
+    },
+    {
+      "id": "5378647596728320-b12",
+      "category": "star",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.00697893982779676,
+      "symmetricSampleRms": 0.003516346660167626,
+      "maximumSampleDistance": 0.008125980614277321,
+      "maximumEndpointError": 0.000642526008270011
+    },
+    {
+      "id": "5378647596728320-b20",
+      "category": "star",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004855344393992523,
+      "symmetricSampleRms": 0.0030216618284612576,
+      "maximumSampleDistance": 0.007125987186364776,
+      "maximumEndpointError": 0.000642526008270011
+    },
+    {
+      "id": "4683734626336768-b3",
+      "category": "star",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.13010870548616918,
+      "symmetricSampleRms": 0.06360678526966174,
+      "maximumSampleDistance": 0.21048795441725812,
+      "maximumEndpointError": 0.0006347893659507049
+    },
+    {
+      "id": "4683734626336768-b6",
+      "category": "star",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.07630348893586054,
+      "symmetricSampleRms": 0.020810075153643425,
+      "maximumSampleDistance": 0.07791816308154502,
+      "maximumEndpointError": 0.0006347893659507049
+    },
+    {
+      "id": "4683734626336768-b12",
+      "category": "star",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.03456543149398016,
+      "symmetricSampleRms": 0.009425882332277258,
+      "maximumSampleDistance": 0.042255014921557955,
+      "maximumEndpointError": 0.0006347893659507049
+    },
+    {
+      "id": "4683734626336768-b20",
+      "category": "star",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005017687441343743,
+      "symmetricSampleRms": 0.0034042410563349924,
+      "maximumSampleDistance": 0.01096986454501196,
+      "maximumEndpointError": 0.0006347893659507049
+    },
+    {
+      "id": "6334666367827968-b3",
+      "category": "star",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.19841530286046205,
+      "symmetricSampleRms": 0.06139233344476623,
+      "maximumSampleDistance": 0.19515584425298377,
+      "maximumEndpointError": 0.0004979728703893023
+    },
+    {
+      "id": "6334666367827968-b6",
+      "category": "star",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.028603817882149763,
+      "symmetricSampleRms": 0.011829411873778662,
+      "maximumSampleDistance": 0.04250774737171279,
+      "maximumEndpointError": 0.0004979728703893023
+    },
+    {
+      "id": "6334666367827968-b12",
+      "category": "star",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004754608245710859,
+      "symmetricSampleRms": 0.004263251418700819,
+      "maximumSampleDistance": 0.011777140939153496,
+      "maximumEndpointError": 0.0004979728703893023
+    },
+    {
+      "id": "6334666367827968-b20",
+      "category": "star",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005438319781117718,
+      "symmetricSampleRms": 0.003223309655808543,
+      "maximumSampleDistance": 0.009857757205307396,
+      "maximumEndpointError": 0.0004979728703893023
+    },
+    {
+      "id": "6162644367048704-b3",
+      "category": "fish",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.020465124692408843,
+      "symmetricSampleRms": 0.017835027970410346,
+      "maximumSampleDistance": 0.04901553399016642,
+      "maximumEndpointError": 0.0005607616840471481
+    },
+    {
+      "id": "6162644367048704-b6",
+      "category": "fish",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.01143090073517398,
+      "symmetricSampleRms": 0.00783704811327841,
+      "maximumSampleDistance": 0.0202243418254553,
+      "maximumEndpointError": 0.0005607616840471481
+    },
+    {
+      "id": "6162644367048704-b12",
+      "category": "fish",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004759486061589415,
+      "symmetricSampleRms": 0.0042306973699880205,
+      "maximumSampleDistance": 0.011018664752763243,
+      "maximumEndpointError": 0.0005607616840471481
+    },
+    {
+      "id": "6162644367048704-b20",
+      "category": "fish",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004541778008041072,
+      "symmetricSampleRms": 0.003685008637232576,
+      "maximumSampleDistance": 0.010425458114897599,
+      "maximumEndpointError": 0.0005607616840471481
+    },
+    {
+      "id": "5637798658834432-b3",
+      "category": "fish",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.05222585836314458,
+      "symmetricSampleRms": 0.02979314476117056,
+      "maximumSampleDistance": 0.10286171238395866,
+      "maximumEndpointError": 0.0006156220749141725
+    },
+    {
+      "id": "5637798658834432-b6",
+      "category": "fish",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.010750476880649576,
+      "symmetricSampleRms": 0.005326739170880107,
+      "maximumSampleDistance": 0.018496329749240533,
+      "maximumEndpointError": 0.0006156220749141725
+    },
+    {
+      "id": "5637798658834432-b12",
+      "category": "fish",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.006232584752664397,
+      "symmetricSampleRms": 0.002809937120376047,
+      "maximumSampleDistance": 0.006984776288614199,
+      "maximumEndpointError": 0.0006156220749141725
+    },
+    {
+      "id": "5637798658834432-b20",
+      "category": "fish",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005555146066615571,
+      "symmetricSampleRms": 0.002670848609795827,
+      "maximumSampleDistance": 0.008374691596830906,
+      "maximumEndpointError": 0.0006156220749141725
+    },
+    {
+      "id": "5891285699264512-b3",
+      "category": "fish",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.06348063290377906,
+      "symmetricSampleRms": 0.04644223946473667,
+      "maximumSampleDistance": 0.08819371734299113,
+      "maximumEndpointError": 0.00047775531002850657
+    },
+    {
+      "id": "5891285699264512-b6",
+      "category": "fish",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.03127977360165674,
+      "symmetricSampleRms": 0.016520021878879684,
+      "maximumSampleDistance": 0.049989841855192,
+      "maximumEndpointError": 0.00047775531002850657
+    },
+    {
+      "id": "5891285699264512-b12",
+      "category": "fish",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004642461458390716,
+      "symmetricSampleRms": 0.0034012148510410797,
+      "maximumSampleDistance": 0.009514467766608739,
+      "maximumEndpointError": 0.00047775531002850657
+    },
+    {
+      "id": "5891285699264512-b20",
+      "category": "fish",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005140181584227312,
+      "symmetricSampleRms": 0.0038613020257922373,
+      "maximumSampleDistance": 0.009480447696968597,
+      "maximumEndpointError": 0.00047775531002850657
+    },
+    {
+      "id": "5187178223108096-b3",
+      "category": "fish",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.11757415930641209,
+      "symmetricSampleRms": 0.028319152681272573,
+      "maximumSampleDistance": 0.0826508892222348,
+      "maximumEndpointError": 0.0004489942528735358
+    },
+    {
+      "id": "5187178223108096-b6",
+      "category": "fish",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.018294852326222327,
+      "symmetricSampleRms": 0.009441388732535451,
+      "maximumSampleDistance": 0.031099612646522494,
+      "maximumEndpointError": 0.0004489942528735358
+    },
+    {
+      "id": "5187178223108096-b12",
+      "category": "fish",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.007466407249321459,
+      "symmetricSampleRms": 0.0037463992220903215,
+      "maximumSampleDistance": 0.012129204825600566,
+      "maximumEndpointError": 0.0004489942528735358
+    },
+    {
+      "id": "5187178223108096-b20",
+      "category": "fish",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005202515340461187,
+      "symmetricSampleRms": 0.0029772855441750194,
+      "maximumSampleDistance": 0.007685643762868248,
+      "maximumEndpointError": 0.0004489942528735358
+    },
+    {
+      "id": "5016110665564160-b3",
+      "category": "fish",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03902114163925377,
+      "symmetricSampleRms": 0.028527995123093775,
+      "maximumSampleDistance": 0.08622505647254838,
+      "maximumEndpointError": 0.00044966895689824447
+    },
+    {
+      "id": "5016110665564160-b6",
+      "category": "fish",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.019328245421336463,
+      "symmetricSampleRms": 0.013505572741516892,
+      "maximumSampleDistance": 0.043320548449339025,
+      "maximumEndpointError": 0.00044966895689824447
+    },
+    {
+      "id": "5016110665564160-b12",
+      "category": "fish",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005156691891006746,
+      "symmetricSampleRms": 0.00409935552502292,
+      "maximumSampleDistance": 0.012632351037811965,
+      "maximumEndpointError": 0.00044966895689824447
+    },
+    {
+      "id": "5016110665564160-b20",
+      "category": "fish",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.007675403889498822,
+      "symmetricSampleRms": 0.0036843413607387265,
+      "maximumSampleDistance": 0.009179432438851312,
+      "maximumEndpointError": 0.00044966895689824447
+    },
+    {
+      "id": "5663065016107008-b3",
+      "category": "envelope",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.04156679902214738,
+      "symmetricSampleRms": 0.030317503924782455,
+      "maximumSampleDistance": 0.14243712809075829,
+      "maximumEndpointError": 0.0004942381254263514
+    },
+    {
+      "id": "5663065016107008-b6",
+      "category": "envelope",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.018964722029575557,
+      "symmetricSampleRms": 0.01618978259023919,
+      "maximumSampleDistance": 0.06905884889411125,
+      "maximumEndpointError": 0.0004942381254263514
+    },
+    {
+      "id": "5663065016107008-b12",
+      "category": "envelope",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004299910384555816,
+      "symmetricSampleRms": 0.0036977189587904585,
+      "maximumSampleDistance": 0.011286129511102883,
+      "maximumEndpointError": 0.0004942381254263514
+    },
+    {
+      "id": "5663065016107008-b20",
+      "category": "envelope",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004255882378587627,
+      "symmetricSampleRms": 0.003660582934898245,
+      "maximumSampleDistance": 0.008906427915386364,
+      "maximumEndpointError": 0.0004942381254263514
+    },
+    {
+      "id": "6205068275613696-b3",
+      "category": "envelope",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.06008617727126383,
+      "symmetricSampleRms": 0.045231969304546184,
+      "maximumSampleDistance": 0.1237555378324348,
+      "maximumEndpointError": 0.00019759241245136117
+    },
+    {
+      "id": "6205068275613696-b6",
+      "category": "envelope",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.004624485436881071,
+      "symmetricSampleRms": 0.004488375155271115,
+      "maximumSampleDistance": 0.013758881574567526,
+      "maximumEndpointError": 0.00019759241245136117
+    },
+    {
+      "id": "6205068275613696-b12",
+      "category": "envelope",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0034739418802726685,
+      "symmetricSampleRms": 0.002746178551525866,
+      "maximumSampleDistance": 0.007477633045755606,
+      "maximumEndpointError": 0.00019759241245136117
+    },
+    {
+      "id": "6205068275613696-b20",
+      "category": "envelope",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.005018829167176529,
+      "symmetricSampleRms": 0.0041445644552863545,
+      "maximumSampleDistance": 0.009313849101057092,
+      "maximumEndpointError": 0.00019759241245136117
+    },
+    {
+      "id": "6086480957014016-b3",
+      "category": "envelope",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.0961500794619091,
+      "symmetricSampleRms": 0.03206478426068155,
+      "maximumSampleDistance": 0.12766092621703307,
+      "maximumEndpointError": 0.0003927306912047248
+    },
+    {
+      "id": "6086480957014016-b6",
+      "category": "envelope",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.02461526197394535,
+      "symmetricSampleRms": 0.017971035189241688,
+      "maximumSampleDistance": 0.07087726202843637,
+      "maximumEndpointError": 0.0003927306912047248
+    },
+    {
+      "id": "6086480957014016-b12",
+      "category": "envelope",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004214441741871689,
+      "symmetricSampleRms": 0.004041583163725022,
+      "maximumSampleDistance": 0.012261002109894711,
+      "maximumEndpointError": 0.0003927306912047248
+    },
+    {
+      "id": "6086480957014016-b20",
+      "category": "envelope",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0048854908478358616,
+      "symmetricSampleRms": 0.0037415802779821555,
+      "maximumSampleDistance": 0.008557846470864883,
+      "maximumEndpointError": 0.0003927306912047248
+    },
+    {
+      "id": "6668369770053632-b3",
+      "category": "envelope",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.050658790471786765,
+      "symmetricSampleRms": 0.03951497600284142,
+      "maximumSampleDistance": 0.15132099456653936,
+      "maximumEndpointError": 0.0005482631488863925
+    },
+    {
+      "id": "6668369770053632-b6",
+      "category": "envelope",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.026895079477168977,
+      "symmetricSampleRms": 0.0137577338278973,
+      "maximumSampleDistance": 0.04796046341407461,
+      "maximumEndpointError": 0.0005482631488863925
+    },
+    {
+      "id": "6668369770053632-b12",
+      "category": "envelope",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005084397616452398,
+      "symmetricSampleRms": 0.003849827472180161,
+      "maximumSampleDistance": 0.009105840119210949,
+      "maximumEndpointError": 0.0005482631488863925
+    },
+    {
+      "id": "6668369770053632-b20",
+      "category": "envelope",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.003924341357314061,
+      "symmetricSampleRms": 0.003090724050415723,
+      "maximumSampleDistance": 0.00881259194060367,
+      "maximumEndpointError": 0.0005482631488863925
+    },
+    {
+      "id": "6121321849159680-b3",
+      "category": "envelope",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.047777470843262324,
+      "symmetricSampleRms": 0.04043526506428966,
+      "maximumSampleDistance": 0.10463779959557593,
+      "maximumEndpointError": 0.0004621982273797106
+    },
+    {
+      "id": "6121321849159680-b6",
+      "category": "envelope",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.009575309010277637,
+      "symmetricSampleRms": 0.007162420575561769,
+      "maximumSampleDistance": 0.01624368813500001,
+      "maximumEndpointError": 0.0004621982273797106
+    },
+    {
+      "id": "6121321849159680-b12",
+      "category": "envelope",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.004096034315400165,
+      "symmetricSampleRms": 0.0038152270356375524,
+      "maximumSampleDistance": 0.008936581755019676,
+      "maximumEndpointError": 0.0004621982273797106
+    },
+    {
+      "id": "6121321849159680-b20",
+      "category": "envelope",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.008498535265612655,
+      "symmetricSampleRms": 0.003171258904193308,
+      "maximumSampleDistance": 0.009069152319775276,
+      "maximumEndpointError": 0.0004621982273797106
+    },
+    {
+      "id": "5867500203933696-b3",
+      "category": "umbrella",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.10389368420033525,
+      "symmetricSampleRms": 0.025688968134537762,
+      "maximumSampleDistance": 0.13033877964384885,
+      "maximumEndpointError": 0.00044305747326247224
+    },
+    {
+      "id": "5867500203933696-b6",
+      "category": "umbrella",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.01495706126018013,
+      "symmetricSampleRms": 0.011227903325242336,
+      "maximumSampleDistance": 0.028706259056184555,
+      "maximumEndpointError": 0.00044305747326247224
+    },
+    {
+      "id": "5867500203933696-b12",
+      "category": "umbrella",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0056556702137608205,
+      "symmetricSampleRms": 0.00409769933384224,
+      "maximumSampleDistance": 0.01101830468621337,
+      "maximumEndpointError": 0.00044305747326247224
+    },
+    {
+      "id": "5867500203933696-b20",
+      "category": "umbrella",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0059636532411693425,
+      "symmetricSampleRms": 0.0031475595801883443,
+      "maximumSampleDistance": 0.01056358815909811,
+      "maximumEndpointError": 0.00044305747326247224
+    },
+    {
+      "id": "6295189305950208-b3",
+      "category": "umbrella",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.03418894695715932,
+      "symmetricSampleRms": 0.027129345588182426,
+      "maximumSampleDistance": 0.090011759567539,
+      "maximumEndpointError": 0.0006140906252069167
+    },
+    {
+      "id": "6295189305950208-b6",
+      "category": "umbrella",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.01643745471801449,
+      "symmetricSampleRms": 0.00814309599033169,
+      "maximumSampleDistance": 0.04693812168435545,
+      "maximumEndpointError": 0.0006140906252069167
+    },
+    {
+      "id": "6295189305950208-b12",
+      "category": "umbrella",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.006325595001215363,
+      "symmetricSampleRms": 0.0039441307729806375,
+      "maximumSampleDistance": 0.008386930670007026,
+      "maximumEndpointError": 0.0006140906252069167
+    },
+    {
+      "id": "6295189305950208-b20",
+      "category": "umbrella",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004806149326817486,
+      "symmetricSampleRms": 0.0026424995146992255,
+      "maximumSampleDistance": 0.007717341920537034,
+      "maximumEndpointError": 0.0006140906252069167
+    },
+    {
+      "id": "4622689484406784-b3",
+      "category": "umbrella",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.029198551358112848,
+      "symmetricSampleRms": 0.020305123711144287,
+      "maximumSampleDistance": 0.058012565305880844,
+      "maximumEndpointError": 0.0005327110466929384
+    },
+    {
+      "id": "4622689484406784-b6",
+      "category": "umbrella",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.011962426923136397,
+      "symmetricSampleRms": 0.008930051689690088,
+      "maximumSampleDistance": 0.025886561583712917,
+      "maximumEndpointError": 0.0005327110466929384
+    },
+    {
+      "id": "4622689484406784-b12",
+      "category": "umbrella",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.00322595575398952,
+      "symmetricSampleRms": 0.002930603815404321,
+      "maximumSampleDistance": 0.0068819038799764285,
+      "maximumEndpointError": 0.0005327110466929384
+    },
+    {
+      "id": "4622689484406784-b20",
+      "category": "umbrella",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.00390839004435343,
+      "symmetricSampleRms": 0.0027161445041913837,
+      "maximumSampleDistance": 0.008401649985240603,
+      "maximumEndpointError": 0.0005327110466929384
+    },
+    {
+      "id": "6004716511166464-b3",
+      "category": "umbrella",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.06613961323660218,
+      "symmetricSampleRms": 0.039892728098462185,
+      "maximumSampleDistance": 0.2232856745870101,
+      "maximumEndpointError": 0.0004565708092421883
+    },
+    {
+      "id": "6004716511166464-b6",
+      "category": "umbrella",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.016341199652113354,
+      "symmetricSampleRms": 0.012360582789077904,
+      "maximumSampleDistance": 0.037123176454908625,
+      "maximumEndpointError": 0.0004565708092421883
+    },
+    {
+      "id": "6004716511166464-b12",
+      "category": "umbrella",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005276202407037345,
+      "symmetricSampleRms": 0.004621902599729921,
+      "maximumSampleDistance": 0.012081774224006508,
+      "maximumEndpointError": 0.0004565708092421883
+    },
+    {
+      "id": "6004716511166464-b20",
+      "category": "umbrella",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.006238264867815798,
+      "symmetricSampleRms": 0.003418137855852284,
+      "maximumSampleDistance": 0.00973309956022163,
+      "maximumEndpointError": 0.0004565708092421883
+    },
+    {
+      "id": "5468440313724928-b3",
+      "category": "umbrella",
+      "budget": 3,
+      "sections": 3,
+      "orderedArcRms": 0.05542187733929911,
+      "symmetricSampleRms": 0.021605536778008985,
+      "maximumSampleDistance": 0.08724840315728649,
+      "maximumEndpointError": 0.0006458408324312537
+    },
+    {
+      "id": "5468440313724928-b6",
+      "category": "umbrella",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.01427575055944542,
+      "symmetricSampleRms": 0.00825743813858629,
+      "maximumSampleDistance": 0.029627662888405678,
+      "maximumEndpointError": 0.0006458408324312537
+    },
+    {
+      "id": "5468440313724928-b12",
+      "category": "umbrella",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.005930393526483004,
+      "symmetricSampleRms": 0.0036439790583503683,
+      "maximumSampleDistance": 0.00830378846922384,
+      "maximumEndpointError": 0.0006458408324312537
+    },
+    {
+      "id": "5468440313724928-b20",
+      "category": "umbrella",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.008430796729059001,
+      "symmetricSampleRms": 0.003016383391669282,
+      "maximumSampleDistance": 0.008303827906154249,
+      "maximumEndpointError": 0.0006458408324312537
+    }
+  ]
+}

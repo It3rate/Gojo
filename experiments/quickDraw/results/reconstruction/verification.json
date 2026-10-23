@@ -1,0 +1,147 @@
+{
+  "date": "2026-10-23",
+  "solutionCommand": "dotnet test Gojo.slnx",
+  "solutionExitCode": 0,
+  "solutionPassed": 5343,
+  "solutionSkipped": 0,
+  "projects": [
+    {
+      "project": "PrimitiveForager.Tests.dll",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "852 ms"
+    },
+    {
+      "project": "Gojo.Tests.dll",
+      "passed": 1069,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "4 s"
+    },
+    {
+      "project": "Minds.Tests.dll",
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "7 s"
+    },
+    {
+      "project": "PrimitiveLearning.Tests.dll",
+      "passed": 66,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "14 s"
+    },
+    {
+      "project": "AdaptiveLifecycle.Tests.dll",
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "11 s"
+    },
+    {
+      "project": "Phototaxis.Tests.dll",
+      "passed": 129,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "32 s"
+    },
+    {
+      "project": "GojoCAD.Tests.dll",
+      "passed": 155,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "5 s"
+    },
+    {
+      "project": "UtilityEcology.Tests.dll",
+      "passed": 119,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "33 s"
+    },
+    {
+      "project": "Gojo.GearShapeLadder.Tests.dll",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "1 s"
+    },
+    {
+      "project": "Gojo.Encoding.Tests.dll",
+      "passed": 725,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "13 s"
+    },
+    {
+      "project": "CompositeEmergence.Tests.dll",
+      "passed": 66,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "55 s"
+    },
+    {
+      "project": "QualitativeExecution.Tests.dll",
+      "passed": 2913,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "11 m 18 s"
+    }
+  ],
+  "pythonCommand": "python -m unittest discover -s experiments/quickDraw/tools -p 'test_*.py'",
+  "pythonTestsPassed": 42,
+  "newNativeReconstructionTests": 14,
+  "nativePacketProgramRoundTrips": 348,
+  "nativeIntegerReferenceMatches": 348,
+  "nativeBatches": {
+    "acceptedDevelopment": 200,
+    "hashSelectedTest": 40,
+    "frozenTransfer": 100,
+    "deliberateFailures": 8
+  },
+  "reviewPages": 4,
+  "reviewLocalLinksVerified": true,
+  "reviewJavaScriptSyntaxVerified": true,
+  "visualInspection": "All ten category comparison sheets and both deliberate failure sheets; original orientation and acquired irregularity retained, low-budget mismatches visible",
+  "sourceCorrespondenceScope": "Native public evidence and generated programs; acquisition/span/normalization/cross-budget correspondence remains private JSON audit",
+  "checksums": {
+    "model.json": {
+      "bytes": 1591,
+      "sha256": "944a01020c8b831db7299159d52a8e1ea9e5459b6dbf7ac56c36f7ac65213fb8"
+    },
+    "corpus.ndjson": {
+      "bytes": 4164810,
+      "sha256": "ac80b0718745edccc4acafe35b6253b7b53de8f3b335f9be38a07126e8d7f0c8"
+    },
+    "corpus-manifest.json": {
+      "bytes": 863761,
+      "sha256": "8733a359aadca1d2efb9a1d1944dcfd51e0ddb427b898963ae906f3785cd4605"
+    },
+    "packets.ndjson": {
+      "bytes": 185142,
+      "sha256": "6f1917588338e05bf46470270057d71432446c19e119c0360abdf3bfe8cbd099"
+    },
+    "private-audit.ndjson": {
+      "bytes": 2939451,
+      "sha256": "e1527441d1caa4d3c7d24623d28ba7659a966413e890a6059bf87723d436d30c"
+    },
+    "native/decoded.ndjson": {
+      "bytes": 171846,
+      "sha256": "ee7062239a6bd9f7931612ae1d7b318425373e2f23611ed9934a1327c251ecc3"
+    },
+    "transfer/selected.ndjson": {
+      "bytes": 54332,
+      "sha256": "74649e394eddd4ea9f4c928eebcf7cd1bc6f08e30b9cdd3a9ae0325c868938b3"
+    },
+    "transfer/run/native/decoded.ndjson": {
+      "bytes": 86901,
+      "sha256": "30ae0d28fe64e9fcf6262bad5fbc7986ce00060ee205da667e1c9e269b2b5c87"
+    },
+    "dotnet-test.log": {
+      "bytes": 7484,
+      "sha256": "f86a017a09563c6b75ac875f8c91c449776e03fe28859071d9e59ce72a65c9a6"
+    }
+  }
+}

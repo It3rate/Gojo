@@ -1,0 +1,683 @@
+{
+  "schema": "gojo.quickdraw.faithful-learning-summary.v1",
+  "corpus": {
+    "schema": "gojo.quickdraw.faithful-corpus.v1",
+    "seed": "gojo-faithful-20261023-v1",
+    "sourcePrefixSkippedPerCategory": 2000,
+    "perCategory": 400,
+    "sampling": "next encoding-valid bounded prefix; no recognized/geometry quality filter",
+    "categoryRole": "sampling/review stratum only; absent from features and model",
+    "grouping": "8 arclength samples/stroke on 1/32 extent, original order; near duplicates may escape",
+    "reservedDevelopmentCount": 53,
+    "rejected": {},
+    "splitCounts": {
+      "train": 1418,
+      "validation": 204,
+      "test": 378
+    },
+    "geometryGroupCounts": {
+      "train": 1418,
+      "validation": 204,
+      "test": 378
+    }
+  },
+  "model": {
+    "schema": "gojo.quickdraw.local-profile-prior.v1",
+    "coordinateQuantum": 1024,
+    "coefficientQuantum": 1000000,
+    "weights": [
+      [
+        0,
+        390336,
+        0,
+        2089388,
+        0,
+        717038,
+        0,
+        -1260972,
+        0
+      ],
+      [
+        0,
+        0,
+        390336,
+        0,
+        2089388,
+        0,
+        717038,
+        0,
+        -1260972
+      ],
+      [
+        0,
+        -956807,
+        0,
+        -1163277,
+        0,
+        565501,
+        0,
+        2185086,
+        0
+      ],
+      [
+        0,
+        0,
+        -956807,
+        0,
+        -1163277,
+        0,
+        565501,
+        0,
+        2185086
+      ]
+    ],
+    "trainingCount": 59309,
+    "trainingDrawingCount": 1418,
+    "ridge": 0.01,
+    "profileStep": 16,
+    "features": [
+      "one",
+      "endDx",
+      "endDy",
+      "quarterDx",
+      "quarterDy",
+      "halfDx",
+      "halfDy",
+      "threeQuarterDx",
+      "threeQuarterDy"
+    ],
+    "outputs": [
+      "control1Dx",
+      "control1Dy",
+      "control2Dx",
+      "control2Dy"
+    ],
+    "target": "endpoint-fixed cubic least-squares fit to observed source; no ideal template",
+    "weighting": "each training drawing and budget equal total weight; shared x/y scalar coefficients",
+    "equivariance": "shared scalar coefficients/no intercept/no cross-axis terms is algebraically equivalent to all axis-swap/reflection augmentations",
+    "prediction": "start + integer truncation toward zero of dot(weights, features)/coefficientQuantum",
+    "qualification": "exploratory local cubic proposal; no likelihood, intention, skill, or handedness inference"
+  },
+  "validationCandidates": [
+    {
+      "ridge": 0.0,
+      "validationMeanRms": 0.016845254143659283
+    },
+    {
+      "ridge": 1e-05,
+      "validationMeanRms": 0.01684509510843971
+    },
+    {
+      "ridge": 0.001,
+      "validationMeanRms": 0.016845323067723576
+    },
+    {
+      "ridge": 0.01,
+      "validationMeanRms": 0.01684491950932728
+    },
+    {
+      "ridge": 0.1,
+      "validationMeanRms": 0.01685944545088853
+    },
+    {
+      "ridge": 1.0,
+      "validationMeanRms": 0.017388615533742616
+    }
+  ],
+  "summary": [
+    {
+      "split": "development",
+      "budget": 3,
+      "drawings": 50,
+      "meanSections": 3.1,
+      "strokeFloorOverBudget": 1,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 323.42,
+      "learnedImprovesFixed": 33,
+      "learned": {
+        "meanRms": 0.04132166141705351,
+        "medianRms": 0.04315978265525667,
+        "p90Rms": 0.06493567975235023,
+        "maximumSampleError": 0.23608152053868275
+      },
+      "fixed": {
+        "meanRms": 0.042050314908544086,
+        "medianRms": 0.04390413187953052,
+        "p90Rms": 0.06767123997024711,
+        "maximumSampleError": 0.25477750846380437
+      },
+      "line": {
+        "meanRms": 0.3352357830183507,
+        "medianRms": 0.35942257954319895,
+        "p90Rms": 0.520997723806905,
+        "maximumSampleError": 0.9172853485986601
+      },
+      "privateFit": {
+        "meanRms": 0.03916740915454854,
+        "medianRms": 0.04302805022425616,
+        "p90Rms": 0.06304987707762166,
+        "maximumSampleError": 0.186335179833391
+      }
+    },
+    {
+      "split": "development",
+      "budget": 6,
+      "drawings": 50,
+      "meanSections": 6.04,
+      "strokeFloorOverBudget": 1,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 566.26,
+      "learnedImprovesFixed": 30,
+      "learned": {
+        "meanRms": 0.009654542395052977,
+        "medianRms": 0.008869108547013841,
+        "p90Rms": 0.015443266177162128,
+        "maximumSampleError": 0.08897813413483868
+      },
+      "fixed": {
+        "meanRms": 0.00972252013141305,
+        "medianRms": 0.008908930932518926,
+        "p90Rms": 0.014570571220199406,
+        "maximumSampleError": 0.08699115011262443
+      },
+      "line": {
+        "meanRms": 0.1183729255655598,
+        "medianRms": 0.11621584571867905,
+        "p90Rms": 0.2612220314533321,
+        "maximumSampleError": 0.564137520800164
+      },
+      "privateFit": {
+        "meanRms": 0.007459168312542608,
+        "medianRms": 0.007586042584578179,
+        "p90Rms": 0.012745117170865993,
+        "maximumSampleError": 0.07303615389501951
+      }
+    },
+    {
+      "split": "development",
+      "budget": 12,
+      "drawings": 50,
+      "meanSections": 12.0,
+      "strokeFloorOverBudget": 0,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 1040.64,
+      "learnedImprovesFixed": 39,
+      "learned": {
+        "meanRms": 0.0044074945735526495,
+        "medianRms": 0.004433154646045664,
+        "p90Rms": 0.005176555689606032,
+        "maximumSampleError": 0.016451087104453022
+      },
+      "fixed": {
+        "meanRms": 0.0045102731347629425,
+        "medianRms": 0.004458135140858539,
+        "p90Rms": 0.0052435433831265815,
+        "maximumSampleError": 0.01668134286719789
+      },
+      "line": {
+        "meanRms": 0.01843822002761595,
+        "medianRms": 0.011024503800929715,
+        "p90Rms": 0.04287661951231879,
+        "maximumSampleError": 0.19229493246114676
+      },
+      "privateFit": {
+        "meanRms": 0.0013828045343294592,
+        "medianRms": 0.0012655104298913832,
+        "p90Rms": 0.0023275181987548587,
+        "maximumSampleError": 0.010328362274670034
+      }
+    },
+    {
+      "split": "development",
+      "budget": 20,
+      "drawings": 50,
+      "meanSections": 19.94,
+      "strokeFloorOverBudget": 0,
+      "sampleCapacityReached": 1,
+      "meanHintJsonBytes": 1658.52,
+      "learnedImprovesFixed": 42,
+      "learned": {
+        "meanRms": 0.003913672534539078,
+        "medianRms": 0.003977266222426666,
+        "p90Rms": 0.004504803662165897,
+        "maximumSampleError": 0.011564249927657571
+      },
+      "fixed": {
+        "meanRms": 0.004005691843136404,
+        "medianRms": 0.004077889731453068,
+        "p90Rms": 0.004632432931986267,
+        "maximumSampleError": 0.01169762640245058
+      },
+      "line": {
+        "meanRms": 0.007212332360179152,
+        "medianRms": 0.005691869426866673,
+        "p90Rms": 0.014772518543799133,
+        "maximumSampleError": 0.06374779749718984
+      },
+      "privateFit": {
+        "meanRms": 0.0006008936068915108,
+        "medianRms": 0.0007005065334309487,
+        "p90Rms": 0.0010253925850468642,
+        "maximumSampleError": 0.004660385127127016
+      }
+    },
+    {
+      "split": "test",
+      "budget": 3,
+      "drawings": 378,
+      "meanSections": 3.7142857142857144,
+      "strokeFloorOverBudget": 44,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 382.13227513227514,
+      "learnedImprovesFixed": 215,
+      "learned": {
+        "meanRms": 0.04447784817243356,
+        "medianRms": 0.043356042653248696,
+        "p90Rms": 0.07339532131652303,
+        "maximumSampleError": 1.013334013700095
+      },
+      "fixed": {
+        "meanRms": 0.04477647603537834,
+        "medianRms": 0.04349472103637923,
+        "p90Rms": 0.07355806821962078,
+        "maximumSampleError": 1.0429639529048063
+      },
+      "line": {
+        "meanRms": 0.31912977248195856,
+        "medianRms": 0.32075013377066197,
+        "p90Rms": 0.5173695857679305,
+        "maximumSampleError": 1.0888332741033981
+      },
+      "privateFit": {
+        "meanRms": 0.042130057869402285,
+        "medianRms": 0.04108569816314657,
+        "p90Rms": 0.07020381076190525,
+        "maximumSampleError": 0.6210010837105078
+      }
+    },
+    {
+      "split": "test",
+      "budget": 6,
+      "drawings": 378,
+      "meanSections": 6.431216931216931,
+      "strokeFloorOverBudget": 25,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 606.2962962962963,
+      "learnedImprovesFixed": 209,
+      "learned": {
+        "meanRms": 0.01469419350497142,
+        "medianRms": 0.009049095062922466,
+        "p90Rms": 0.027707220521637117,
+        "maximumSampleError": 1.102359039745956
+      },
+      "fixed": {
+        "meanRms": 0.014780892527696477,
+        "medianRms": 0.009073622181843696,
+        "p90Rms": 0.02781412213046564,
+        "maximumSampleError": 1.1118032699716176
+      },
+      "line": {
+        "meanRms": 0.126847019971165,
+        "medianRms": 0.10992336140459384,
+        "p90Rms": 0.2791317809591537,
+        "maximumSampleError": 1.0888332741033981
+      },
+      "privateFit": {
+        "meanRms": 0.012471828155822182,
+        "medianRms": 0.0074825148007779925,
+        "p90Rms": 0.02490235195374398,
+        "maximumSampleError": 0.6495240735151361
+      }
+    },
+    {
+      "split": "test",
+      "budget": 12,
+      "drawings": 378,
+      "meanSections": 12.164021164021165,
+      "strokeFloorOverBudget": 8,
+      "sampleCapacityReached": 1,
+      "meanHintJsonBytes": 1063.0291005291006,
+      "learnedImprovesFixed": 262,
+      "learned": {
+        "meanRms": 0.006684347565905545,
+        "medianRms": 0.004599807278416881,
+        "p90Rms": 0.006824816283944723,
+        "maximumSampleError": 0.26716831775173583
+      },
+      "fixed": {
+        "meanRms": 0.006761095391137594,
+        "medianRms": 0.004686742705893475,
+        "p90Rms": 0.006939307130833958,
+        "maximumSampleError": 0.2679868792662782
+      },
+      "line": {
+        "meanRms": 0.035254744826041295,
+        "medianRms": 0.017177457063966742,
+        "p90Rms": 0.08835609286654901,
+        "maximumSampleError": 1.0116835704077323
+      },
+      "privateFit": {
+        "meanRms": 0.0037183242182117545,
+        "medianRms": 0.0014173741069441206,
+        "p90Rms": 0.004124377407270452,
+        "maximumSampleError": 0.27853842022875025
+      }
+    },
+    {
+      "split": "test",
+      "budget": 20,
+      "drawings": 378,
+      "meanSections": 20.023809523809526,
+      "strokeFloorOverBudget": 3,
+      "sampleCapacityReached": 1,
+      "meanHintJsonBytes": 1675.2962962962963,
+      "learnedImprovesFixed": 315,
+      "learned": {
+        "meanRms": 0.0049146401379961315,
+        "medianRms": 0.004061969084758885,
+        "p90Rms": 0.004799329693143003,
+        "maximumSampleError": 0.2632688254230997
+      },
+      "fixed": {
+        "meanRms": 0.005000648053594487,
+        "medianRms": 0.004124805285372085,
+        "p90Rms": 0.004928360103734126,
+        "maximumSampleError": 0.26612166964447576
+      },
+      "line": {
+        "meanRms": 0.015785110808409598,
+        "medianRms": 0.007264405914270833,
+        "p90Rms": 0.025379159539745306,
+        "maximumSampleError": 1.0116835704077323
+      },
+      "privateFit": {
+        "meanRms": 0.0016389535434675926,
+        "medianRms": 0.000651188201596716,
+        "p90Rms": 0.001358958226463177,
+        "maximumSampleError": 0.22839221603862536
+      }
+    },
+    {
+      "split": "train",
+      "budget": 3,
+      "drawings": 1418,
+      "meanSections": 3.534555712270804,
+      "strokeFloorOverBudget": 165,
+      "sampleCapacityReached": 1,
+      "meanHintJsonBytes": 366.45204513399153,
+      "learnedImprovesFixed": 848,
+      "learned": {
+        "meanRms": 0.04334663845144515,
+        "medianRms": 0.039422637982912734,
+        "p90Rms": 0.07680513313507588,
+        "maximumSampleError": 1.0074775143830053
+      },
+      "fixed": {
+        "meanRms": 0.043706560306045576,
+        "medianRms": 0.03954149703053603,
+        "p90Rms": 0.07646979496168967,
+        "maximumSampleError": 1.0206389974076118
+      },
+      "line": {
+        "meanRms": 0.30533686068350346,
+        "medianRms": 0.30349065327880453,
+        "p90Rms": 0.5085962324234214,
+        "maximumSampleError": 1.1850918010990052
+      },
+      "privateFit": {
+        "meanRms": 0.040871639845663235,
+        "medianRms": 0.03714714348394747,
+        "p90Rms": 0.07269079107425028,
+        "maximumSampleError": 0.7601507223513247
+      }
+    },
+    {
+      "split": "train",
+      "budget": 6,
+      "drawings": 1418,
+      "meanSections": 6.2503526093088855,
+      "strokeFloorOverBudget": 91,
+      "sampleCapacityReached": 1,
+      "meanHintJsonBytes": 590.0980253878703,
+      "learnedImprovesFixed": 757,
+      "learned": {
+        "meanRms": 0.014695906557168114,
+        "medianRms": 0.00886463122639809,
+        "p90Rms": 0.02532368787831604,
+        "maximumSampleError": 1.0074775143830053
+      },
+      "fixed": {
+        "meanRms": 0.014717992993818657,
+        "medianRms": 0.008816618673451196,
+        "p90Rms": 0.02537131135251903,
+        "maximumSampleError": 1.0206389974076118
+      },
+      "line": {
+        "meanRms": 0.12461635779338961,
+        "medianRms": 0.10829242004793496,
+        "p90Rms": 0.26923484425372685,
+        "maximumSampleError": 1.1094797398436544
+      },
+      "privateFit": {
+        "meanRms": 0.012503769979549922,
+        "medianRms": 0.0071329879278655825,
+        "p90Rms": 0.023189203607046065,
+        "maximumSampleError": 0.7601507223513247
+      }
+    },
+    {
+      "split": "train",
+      "budget": 12,
+      "drawings": 1418,
+      "meanSections": 12.062059238363894,
+      "strokeFloorOverBudget": 15,
+      "sampleCapacityReached": 1,
+      "meanHintJsonBytes": 1053.330042313117,
+      "learnedImprovesFixed": 1051,
+      "learned": {
+        "meanRms": 0.0067311058634210675,
+        "medianRms": 0.00459334684652465,
+        "p90Rms": 0.006066965749040003,
+        "maximumSampleError": 1.0074775143830053
+      },
+      "fixed": {
+        "meanRms": 0.0068305517502919785,
+        "medianRms": 0.004678488379358457,
+        "p90Rms": 0.006124269939129755,
+        "maximumSampleError": 1.0206389974076118
+      },
+      "line": {
+        "meanRms": 0.03271280879874864,
+        "medianRms": 0.01587117089485684,
+        "p90Rms": 0.06974610321590502,
+        "maximumSampleError": 1.1094797398436544
+      },
+      "privateFit": {
+        "meanRms": 0.003714552302149861,
+        "medianRms": 0.0014941331844438444,
+        "p90Rms": 0.0036496174306145084,
+        "maximumSampleError": 0.7601507223513247
+      }
+    },
+    {
+      "split": "train",
+      "budget": 20,
+      "drawings": 1418,
+      "meanSections": 19.978843441466854,
+      "strokeFloorOverBudget": 5,
+      "sampleCapacityReached": 8,
+      "meanHintJsonBytes": 1669.4090267983074,
+      "learnedImprovesFixed": 1217,
+      "learned": {
+        "meanRms": 0.004819031853091041,
+        "medianRms": 0.004029795643410542,
+        "p90Rms": 0.004811794412854828,
+        "maximumSampleError": 0.730066185328664
+      },
+      "fixed": {
+        "meanRms": 0.004911552919156258,
+        "medianRms": 0.004131041620210799,
+        "p90Rms": 0.00492752868229064,
+        "maximumSampleError": 0.7338208778870726
+      },
+      "line": {
+        "meanRms": 0.014444284289594336,
+        "medianRms": 0.006789580120433279,
+        "p90Rms": 0.021050683638966904,
+        "maximumSampleError": 1.0235178508076685
+      },
+      "privateFit": {
+        "meanRms": 0.001620516629156863,
+        "medianRms": 0.000664427068319338,
+        "p90Rms": 0.0013717700081697561,
+        "maximumSampleError": 0.7230001153512591
+      }
+    },
+    {
+      "split": "validation",
+      "budget": 3,
+      "drawings": 204,
+      "meanSections": 3.3529411764705883,
+      "strokeFloorOverBudget": 15,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 349.2598039215686,
+      "learnedImprovesFixed": 112,
+      "learned": {
+        "meanRms": 0.04260905993143938,
+        "medianRms": 0.03916845900806065,
+        "p90Rms": 0.07289846192222244,
+        "maximumSampleError": 0.6883590645153004
+      },
+      "fixed": {
+        "meanRms": 0.042774150438743094,
+        "medianRms": 0.04015420253147287,
+        "p90Rms": 0.07337802733063141,
+        "maximumSampleError": 0.6810557652967371
+      },
+      "line": {
+        "meanRms": 0.3065244438624465,
+        "medianRms": 0.3047938003351505,
+        "p90Rms": 0.5146458283894838,
+        "maximumSampleError": 0.9941150045086932
+      },
+      "privateFit": {
+        "meanRms": 0.03989924512615382,
+        "medianRms": 0.0363813131691871,
+        "p90Rms": 0.06805471078162204,
+        "maximumSampleError": 0.6651542402859677
+      }
+    },
+    {
+      "split": "validation",
+      "budget": 6,
+      "drawings": 204,
+      "meanSections": 6.181372549019608,
+      "strokeFloorOverBudget": 9,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 582.343137254902,
+      "learnedImprovesFixed": 109,
+      "learned": {
+        "meanRms": 0.013252275410202777,
+        "medianRms": 0.008695515362329407,
+        "p90Rms": 0.02167920536704883,
+        "maximumSampleError": 0.6883590645153004
+      },
+      "fixed": {
+        "meanRms": 0.013224811493276237,
+        "medianRms": 0.008578925194918974,
+        "p90Rms": 0.021872499735933134,
+        "maximumSampleError": 0.6810557652967371
+      },
+      "line": {
+        "meanRms": 0.11987622209233474,
+        "medianRms": 0.1024811327582459,
+        "p90Rms": 0.2663731566039478,
+        "maximumSampleError": 0.9500188299721049
+      },
+      "privateFit": {
+        "meanRms": 0.010935832596833029,
+        "medianRms": 0.006882940300598363,
+        "p90Rms": 0.019419158826067862,
+        "maximumSampleError": 0.5024372011618657
+      }
+    },
+    {
+      "split": "validation",
+      "budget": 12,
+      "drawings": 204,
+      "meanSections": 12.044117647058824,
+      "strokeFloorOverBudget": 2,
+      "sampleCapacityReached": 1,
+      "meanHintJsonBytes": 1048.514705882353,
+      "learnedImprovesFixed": 145,
+      "learned": {
+        "meanRms": 0.006498894292883935,
+        "medianRms": 0.004663817287597624,
+        "p90Rms": 0.005685859056412661,
+        "maximumSampleError": 0.4118146166071979
+      },
+      "fixed": {
+        "meanRms": 0.0065622731190344745,
+        "medianRms": 0.004742128737595893,
+        "p90Rms": 0.005681178076934013,
+        "maximumSampleError": 0.40769706038862646
+      },
+      "line": {
+        "meanRms": 0.03367431508925298,
+        "medianRms": 0.017337056243081166,
+        "p90Rms": 0.07104401529698397,
+        "maximumSampleError": 0.9285462975603255
+      },
+      "privateFit": {
+        "meanRms": 0.003439789162469887,
+        "medianRms": 0.001458299644893679,
+        "p90Rms": 0.0031043178452773504,
+        "maximumSampleError": 0.37134145670923235
+      }
+    },
+    {
+      "split": "validation",
+      "budget": 20,
+      "drawings": 204,
+      "meanSections": 19.96078431372549,
+      "strokeFloorOverBudget": 1,
+      "sampleCapacityReached": 1,
+      "meanHintJsonBytes": 1665.5049019607843,
+      "learnedImprovesFixed": 177,
+      "learned": {
+        "meanRms": 0.005019448402783069,
+        "medianRms": 0.004071341416045815,
+        "p90Rms": 0.004800156035612236,
+        "maximumSampleError": 0.37650933130600045
+      },
+      "fixed": {
+        "meanRms": 0.005116837412342415,
+        "medianRms": 0.0041826292084200375,
+        "p90Rms": 0.004895076469790899,
+        "maximumSampleError": 0.3752704808964694
+      },
+      "line": {
+        "meanRms": 0.013870611347619424,
+        "medianRms": 0.007298858101637509,
+        "p90Rms": 0.020240222303554566,
+        "maximumSampleError": 0.9285462975603255
+      },
+      "privateFit": {
+        "meanRms": 0.0016958072576475443,
+        "medianRms": 0.0006464976084747653,
+        "p90Rms": 0.0012756214568241614,
+        "maximumSampleError": 0.3918650738128975
+      }
+    }
+  ],
+  "metric": "drawing-mean RMS distance to source at per-section source arclength parameters, normalized by max source extent",
+  "scope": "bounded five-stratum prefix; uncurated training includes decoration, no intended-category truth",
+  "limitations": [
+    "offline segmentation uses full observed trace",
+    "coarse metric profile hints, not semantic concepts",
+    "sampled error, not global Hausdorff/topology bound",
+    "near-duplicate grouping is incomplete",
+    "no learned uncertainty calibration, drawing skill, handedness, idealization or gap-completion model",
+    "section count is not evidence fact count or compressed byte cost"
+  ]
+}

@@ -1,0 +1,346 @@
+{
+  "schema": "gojo.quickdraw.frozen-input.v1",
+  "mode": "frozen weights, no training",
+  "modelSource": "D:\\_quickDraw\\gojo-reconstruction\\model.json",
+  "modelSha256": "944a01020c8b831db7299159d52a8e1ea9e5459b6dbf7ac56c36f7ac65213fb8",
+  "summary": [
+    {
+      "split": "frozen-input",
+      "budget": 3,
+      "drawings": 25,
+      "meanSections": 3.04,
+      "strokeFloorOverBudget": 1,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 324.8,
+      "learnedImprovesFixed": 17,
+      "learned": {
+        "meanRms": 0.06564460797106839,
+        "medianRms": 0.061852141037235034,
+        "p90Rms": 0.09645818186502744,
+        "maximumSampleError": 0.23872629750183783
+      },
+      "fixed": {
+        "meanRms": 0.06624836826904085,
+        "medianRms": 0.062349929088111586,
+        "p90Rms": 0.0943499437418761,
+        "maximumSampleError": 0.24074152907495402
+      },
+      "line": {
+        "meanRms": 0.36267216031284183,
+        "medianRms": 0.3755355321820093,
+        "p90Rms": 0.518651370947331,
+        "maximumSampleError": 1.0751764622191864
+      },
+      "privateFit": {
+        "meanRms": 0.06173451734245354,
+        "medianRms": 0.0583268785577653,
+        "p90Rms": 0.08584904815353203,
+        "maximumSampleError": 0.26258641083380935
+      }
+    },
+    {
+      "split": "frozen-input",
+      "budget": 6,
+      "drawings": 25,
+      "meanSections": 6.0,
+      "strokeFloorOverBudget": 0,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 575.84,
+      "learnedImprovesFixed": 16,
+      "learned": {
+        "meanRms": 0.019309614066504315,
+        "medianRms": 0.01798134490732818,
+        "p90Rms": 0.03052370914515664,
+        "maximumSampleError": 0.1775393564416566
+      },
+      "fixed": {
+        "meanRms": 0.019473329349684664,
+        "medianRms": 0.018792898164734066,
+        "p90Rms": 0.030763485373084744,
+        "maximumSampleError": 0.17939177162592623
+      },
+      "line": {
+        "meanRms": 0.13905472625378484,
+        "medianRms": 0.1368435756323793,
+        "p90Rms": 0.19725907183348185,
+        "maximumSampleError": 0.8934587458886116
+      },
+      "privateFit": {
+        "meanRms": 0.01758878566186433,
+        "medianRms": 0.015786619632135776,
+        "p90Rms": 0.028880720666178087,
+        "maximumSampleError": 0.15269274577307332
+      }
+    },
+    {
+      "split": "frozen-input",
+      "budget": 12,
+      "drawings": 25,
+      "meanSections": 12.0,
+      "strokeFloorOverBudget": 0,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 1054.2,
+      "learnedImprovesFixed": 16,
+      "learned": {
+        "meanRms": 0.005549501222572251,
+        "medianRms": 0.005073229281581966,
+        "p90Rms": 0.006517975753901185,
+        "maximumSampleError": 0.04818442345143528
+      },
+      "fixed": {
+        "meanRms": 0.0056134143286493635,
+        "medianRms": 0.0052589760564365285,
+        "p90Rms": 0.006740246321584421,
+        "maximumSampleError": 0.04603012009874975
+      },
+      "line": {
+        "meanRms": 0.032762473307682616,
+        "medianRms": 0.023090206363916045,
+        "p90Rms": 0.06861782093142511,
+        "maximumSampleError": 0.205909938342305
+      },
+      "privateFit": {
+        "meanRms": 0.003121142414175659,
+        "medianRms": 0.002481820454331042,
+        "p90Rms": 0.005034954077200167,
+        "maximumSampleError": 0.03464091170454681
+      }
+    },
+    {
+      "split": "frozen-input",
+      "budget": 20,
+      "drawings": 25,
+      "meanSections": 20.0,
+      "strokeFloorOverBudget": 0,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 1671.64,
+      "learnedImprovesFixed": 22,
+      "learned": {
+        "meanRms": 0.004260150441838817,
+        "medianRms": 0.0042331772005266294,
+        "p90Rms": 0.004789374166076712,
+        "maximumSampleError": 0.01231893551899354
+      },
+      "fixed": {
+        "meanRms": 0.004369770978945554,
+        "medianRms": 0.004450915814147181,
+        "p90Rms": 0.004886240038901932,
+        "maximumSampleError": 0.011989512746829255
+      },
+      "line": {
+        "meanRms": 0.013658262148112933,
+        "medianRms": 0.010426139270619696,
+        "p90Rms": 0.028232850523118646,
+        "maximumSampleError": 0.1593107631491261
+      },
+      "privateFit": {
+        "meanRms": 0.0010054877205106791,
+        "medianRms": 0.0009535518380167339,
+        "p90Rms": 0.0015868020428986284,
+        "maximumSampleError": 0.006778086900526447
+      }
+    }
+  ],
+  "sources": [
+    {
+      "key_id": "4658428846800896",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 1,
+      "byteOffset": 0,
+      "byteLength": 1478,
+      "sha256": "b7612c2e8fc634d683961a8d8b166a2337d956bc53962fdf0782b429099ff7c5"
+    },
+    {
+      "key_id": "5029217295138816",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 2,
+      "byteOffset": 1478,
+      "byteLength": 7476,
+      "sha256": "2bec4b8323fd727d584cbfd73349b1ef6e42cc49eb94407227d02a02ba9f4813"
+    },
+    {
+      "key_id": "5868815621554176",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 3,
+      "byteOffset": 8954,
+      "byteLength": 2633,
+      "sha256": "0c07fb700c75e472851efb858fb3a5a409897bd6f4b471bebe0f24b322482914"
+    },
+    {
+      "key_id": "6123086950694912",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 4,
+      "byteOffset": 11587,
+      "byteLength": 2855,
+      "sha256": "c7956cac0efec07a4cdac10ca5e7e8a609164dfdbe17618450e6f62e7d289bea"
+    },
+    {
+      "key_id": "4572978828279808",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 5,
+      "byteOffset": 14442,
+      "byteLength": 1769,
+      "sha256": "b6fbe7ae18924dcf315d9e506321cec95c5b43b1a41fbb4f6749562d2fb97494"
+    },
+    {
+      "key_id": "5152841154953216",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 6,
+      "byteOffset": 16211,
+      "byteLength": 1303,
+      "sha256": "3af7e966df66d4e59773fd7a647efbb4f72e2fa6fdee58463fd719ee0dbab354"
+    },
+    {
+      "key_id": "6116169515794432",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 7,
+      "byteOffset": 17514,
+      "byteLength": 1935,
+      "sha256": "d1c92373924d434983d28a4b0c6295eb5d9b94c519947082f38353e775479d73"
+    },
+    {
+      "key_id": "5378647596728320",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 8,
+      "byteOffset": 19449,
+      "byteLength": 4124,
+      "sha256": "a79e12eed0853e4c1d3fc98ccf7f90a8d1a721cc2e8605c1515c10f043db2fd2"
+    },
+    {
+      "key_id": "4683734626336768",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 9,
+      "byteOffset": 23573,
+      "byteLength": 2119,
+      "sha256": "9ae25318afd723015bcc96b76451a48d62394c09858bb0be4beb08898dd24573"
+    },
+    {
+      "key_id": "6334666367827968",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 10,
+      "byteOffset": 25692,
+      "byteLength": 992,
+      "sha256": "c06fda81dc887c04143e0a0ca8bb36d092c00a77e22439cb700c4acb7460a1a9"
+    },
+    {
+      "key_id": "6162644367048704",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 11,
+      "byteOffset": 26684,
+      "byteLength": 1601,
+      "sha256": "71b58afe4faaaa2998ab9a43d32b1686f303f7903a0a3c6d3a87d721bde34637"
+    },
+    {
+      "key_id": "5637798658834432",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 12,
+      "byteOffset": 28285,
+      "byteLength": 1371,
+      "sha256": "93c1d3a1c73a30256f7552e2cac5b91718134bafce96ab852572500aa72483dc"
+    },
+    {
+      "key_id": "5891285699264512",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 13,
+      "byteOffset": 29656,
+      "byteLength": 1200,
+      "sha256": "59677f7bd983abff778dbe9217e72037a8d48a0ca80e27ccb2aa6882e71b22e5"
+    },
+    {
+      "key_id": "5187178223108096",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 14,
+      "byteOffset": 30856,
+      "byteLength": 2182,
+      "sha256": "49c19bfb7e09893e563564285fedd39f1e34890482b014e844a69e5eb5f192f5"
+    },
+    {
+      "key_id": "5016110665564160",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 15,
+      "byteOffset": 33038,
+      "byteLength": 1538,
+      "sha256": "2e041475c363d6ba7453d8ff1cb1c5adac3916db98e2dd1e5569c898262996d0"
+    },
+    {
+      "key_id": "5663065016107008",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 16,
+      "byteOffset": 34576,
+      "byteLength": 4181,
+      "sha256": "65182547062ce208e9c6b714630041c7a885e3f9e9f6761b4674487c20de4469"
+    },
+    {
+      "key_id": "6205068275613696",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 17,
+      "byteOffset": 38757,
+      "byteLength": 1365,
+      "sha256": "7c31e0fe93be4fcb15e2bd566f5e23ac3ec5c2f51181a057f27d5051b918c082"
+    },
+    {
+      "key_id": "6086480957014016",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 18,
+      "byteOffset": 40122,
+      "byteLength": 2748,
+      "sha256": "9b5e370ca8b416d1d323e7e054188b10fc4fb9e0ec9c799bed6c8ae49470a503"
+    },
+    {
+      "key_id": "6668369770053632",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 19,
+      "byteOffset": 42870,
+      "byteLength": 1032,
+      "sha256": "7fe7d86c9a6a3763e604cc4dfe31cebc2dc3e861f772938f0c996b8c30facea8"
+    },
+    {
+      "key_id": "6121321849159680",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 20,
+      "byteOffset": 43902,
+      "byteLength": 2919,
+      "sha256": "f0e724896f2477e108e45bc74d9e88d4530f4c66ed2489173e434677b0b9d20b"
+    },
+    {
+      "key_id": "5867500203933696",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 21,
+      "byteOffset": 46821,
+      "byteLength": 1191,
+      "sha256": "c8a11ec33fe4ede84747e0adf34065554d68eb20473e219c36d1346ff5df71dd"
+    },
+    {
+      "key_id": "6295189305950208",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 22,
+      "byteOffset": 48012,
+      "byteLength": 1332,
+      "sha256": "a9842b6a48ff1553418aa4ae7dd55c779c7e87dce0534a9455c24065dbf8fa83"
+    },
+    {
+      "key_id": "4622689484406784",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 23,
+      "byteOffset": 49344,
+      "byteLength": 1287,
+      "sha256": "e32a28d67c39966a38f398361819a83ea52bd1c89c26da3095b0b39f538aedf6"
+    },
+    {
+      "key_id": "6004716511166464",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 24,
+      "byteOffset": 50631,
+      "byteLength": 1528,
+      "sha256": "3ca36b2c49e8f4d1590dd9180615c11863c336c2d557d16edef0c8b4df93e37c"
+    },
+    {
+      "key_id": "5468440313724928",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\transfer\\selected.ndjson",
+      "sourceLine": 25,
+      "byteOffset": 52159,
+      "byteLength": 2173,
+      "sha256": "c5464a6ff1ac15fd9e588d872969fda7f95875dd622bfaf12c2901253f60daf7"
+    }
+  ]
+}

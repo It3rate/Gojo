@@ -1,0 +1,77 @@
+{
+  "schema": "gojo.quickdraw.local-profile-prior.v1",
+  "coordinateQuantum": 1024,
+  "coefficientQuantum": 1000000,
+  "weights": [
+    [
+      0,
+      390336,
+      0,
+      2089388,
+      0,
+      717038,
+      0,
+      -1260972,
+      0
+    ],
+    [
+      0,
+      0,
+      390336,
+      0,
+      2089388,
+      0,
+      717038,
+      0,
+      -1260972
+    ],
+    [
+      0,
+      -956807,
+      0,
+      -1163277,
+      0,
+      565501,
+      0,
+      2185086,
+      0
+    ],
+    [
+      0,
+      0,
+      -956807,
+      0,
+      -1163277,
+      0,
+      565501,
+      0,
+      2185086
+    ]
+  ],
+  "trainingCount": 59309,
+  "trainingDrawingCount": 1418,
+  "ridge": 0.01,
+  "profileStep": 16,
+  "features": [
+    "one",
+    "endDx",
+    "endDy",
+    "quarterDx",
+    "quarterDy",
+    "halfDx",
+    "halfDy",
+    "threeQuarterDx",
+    "threeQuarterDy"
+  ],
+  "outputs": [
+    "control1Dx",
+    "control1Dy",
+    "control2Dx",
+    "control2Dy"
+  ],
+  "target": "endpoint-fixed cubic least-squares fit to observed source; no ideal template",
+  "weighting": "each training drawing and budget equal total weight; shared x/y scalar coefficients",
+  "equivariance": "shared scalar coefficients/no intercept/no cross-axis terms is algebraically equivalent to all axis-swap/reflection augmentations",
+  "prediction": "start + integer truncation toward zero of dot(weights, features)/coefficientQuantum",
+  "qualification": "exploratory local cubic proposal; no likelihood, intention, skill, or handedness inference"
+}

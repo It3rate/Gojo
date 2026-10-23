@@ -1,0 +1,132 @@
+{
+  "selection": "Worst held-out sampled RMS case at each budget; unique ID union. Deliberately selected diagnostic failures, not an unbiased evaluation subset.",
+  "source": "../corpus.ndjson",
+  "modelSha256": "944a01020c8b831db7299159d52a8e1ea9e5459b6dbf7ac56c36f7ac65213fb8",
+  "records": 2,
+  "casesByBudget": [
+    {
+      "key_id": "4941781475000320",
+      "category": "triangle",
+      "split": "test",
+      "budget": 3,
+      "sections": 4,
+      "strokeFloor": 4,
+      "sampleCapacityReached": false,
+      "learned": {
+        "rms": 0.26232963949570864,
+        "max": 1.013334013700095,
+        "samples": 296
+      },
+      "fixed": {
+        "rms": 0.26813694298150026,
+        "max": 1.0429639529048063,
+        "samples": 296
+      },
+      "line": {
+        "rms": 0.2932252074208023,
+        "max": 0.7688706595068328,
+        "samples": 296
+      },
+      "privateFit": {
+        "rms": 0.21801407292533262,
+        "max": 0.6210010837105078,
+        "samples": 296
+      },
+      "hintJsonBytes": 429,
+      "uniqueScalarFieldsPerSection": 10
+    },
+    {
+      "key_id": "4941781475000320",
+      "category": "triangle",
+      "split": "test",
+      "budget": 6,
+      "sections": 6,
+      "strokeFloor": 4,
+      "sampleCapacityReached": false,
+      "learned": {
+        "rms": 0.27263368057063603,
+        "max": 1.102359039745956,
+        "samples": 296
+      },
+      "fixed": {
+        "rms": 0.27358379068780375,
+        "max": 1.1118032699716176,
+        "samples": 296
+      },
+      "line": {
+        "rms": 0.3172174706866391,
+        "max": 1.0066550325266077,
+        "samples": 296
+      },
+      "privateFit": {
+        "rms": 0.2053054709643178,
+        "max": 0.6495240735151361,
+        "samples": 296
+      },
+      "hintJsonBytes": 607,
+      "uniqueScalarFieldsPerSection": 10
+    },
+    {
+      "key_id": "6202587260911616",
+      "category": "moon",
+      "split": "test",
+      "budget": 12,
+      "sections": 30,
+      "strokeFloor": 30,
+      "sampleCapacityReached": false,
+      "learned": {
+        "rms": 0.09315143245461795,
+        "max": 0.2632688254230997,
+        "samples": 171
+      },
+      "fixed": {
+        "rms": 0.09317893439615962,
+        "max": 0.26612166964447576,
+        "samples": 171
+      },
+      "line": {
+        "rms": 0.3983746095435907,
+        "max": 1.0116835704077323,
+        "samples": 171
+      },
+      "privateFit": {
+        "rms": 0.09064982098781404,
+        "max": 0.22839221603862536,
+        "samples": 171
+      },
+      "hintJsonBytes": 2672,
+      "uniqueScalarFieldsPerSection": 10
+    },
+    {
+      "key_id": "6202587260911616",
+      "category": "moon",
+      "split": "test",
+      "budget": 20,
+      "sections": 30,
+      "strokeFloor": 30,
+      "sampleCapacityReached": false,
+      "learned": {
+        "rms": 0.09315143245461795,
+        "max": 0.2632688254230997,
+        "samples": 171
+      },
+      "fixed": {
+        "rms": 0.09317893439615962,
+        "max": 0.26612166964447576,
+        "samples": 171
+      },
+      "line": {
+        "rms": 0.3983746095435907,
+        "max": 1.0116835704077323,
+        "samples": 171
+      },
+      "privateFit": {
+        "rms": 0.09064982098781404,
+        "max": 0.22839221603862536,
+        "samples": 171
+      },
+      "hintJsonBytes": 2672,
+      "uniqueScalarFieldsPerSection": 10
+    }
+  ]
+}

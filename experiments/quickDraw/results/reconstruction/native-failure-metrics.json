@@ -1,0 +1,123 @@
+{
+  "schema": "gojo.quickdraw.native-review.v1",
+  "nativePackets": 8,
+  "integerModelParityVerified": true,
+  "summary": [
+    {
+      "budget": 3,
+      "drawings": 2,
+      "mean_orderedArcRms": 0.135742379900128,
+      "mean_symmetricSampleRms": 0.039255554046455615,
+      "maximumSampleDistance": 0.326148771431845,
+      "maximumEndpointError": 0.0006181446385966076
+    },
+    {
+      "budget": 6,
+      "drawings": 2,
+      "mean_orderedArcRms": 0.14768720425220233,
+      "mean_symmetricSampleRms": 0.03144539641028169,
+      "maximumSampleDistance": 0.25995238084809946,
+      "maximumEndpointError": 0.0006181446385966076
+    },
+    {
+      "budget": 12,
+      "drawings": 2,
+      "mean_orderedArcRms": 0.07260099154902246,
+      "mean_symmetricSampleRms": 0.026538227024747153,
+      "maximumSampleDistance": 0.25995238084809946,
+      "maximumEndpointError": 0.0006181446385966076
+    },
+    {
+      "budget": 20,
+      "drawings": 2,
+      "mean_orderedArcRms": 0.04142662545074946,
+      "mean_symmetricSampleRms": 0.014754290275987347,
+      "maximumSampleDistance": 0.25995238084809946,
+      "maximumEndpointError": 0.0006181446385966076
+    }
+  ],
+  "metric": "129 equally spaced arclength samples per nonempty stroke; each stroke equally weighted; native cubics approximated by 64 segments; no spatial alignment",
+  "limitations": "Sampled distances, not certified bounds; geometry metric is blind to within-stroke traversal; orderedArcRms preserves traversal but not time/speed; original sample events remain in audit.",
+  "rows": [
+    {
+      "id": "4941781475000320-b3",
+      "category": "triangle",
+      "budget": 3,
+      "sections": 4,
+      "orderedArcRms": 0.24398397562783364,
+      "symmetricSampleRms": 0.06287967069805747,
+      "maximumSampleDistance": 0.326148771431845,
+      "maximumEndpointError": 0.0006148095712655282
+    },
+    {
+      "id": "4941781475000320-b6",
+      "category": "triangle",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.2678736243319823,
+      "symmetricSampleRms": 0.04725935542570963,
+      "maximumSampleDistance": 0.2309733329930544,
+      "maximumEndpointError": 0.0006148095712655282
+    },
+    {
+      "id": "4941781475000320-b12",
+      "category": "triangle",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.11770119892562259,
+      "symmetricSampleRms": 0.037445016654640555,
+      "maximumSampleDistance": 0.15915124277820047,
+      "maximumEndpointError": 0.0006148095712655282
+    },
+    {
+      "id": "4941781475000320-b20",
+      "category": "triangle",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.05535246672907658,
+      "symmetricSampleRms": 0.013877143157120941,
+      "maximumSampleDistance": 0.06505423282531493,
+      "maximumEndpointError": 0.0006148095712655282
+    },
+    {
+      "id": "6202587260911616-b3",
+      "category": "moon",
+      "budget": 3,
+      "sections": 30,
+      "orderedArcRms": 0.027500784172422337,
+      "symmetricSampleRms": 0.015631437394853752,
+      "maximumSampleDistance": 0.25995238084809946,
+      "maximumEndpointError": 0.0006181446385966076
+    },
+    {
+      "id": "6202587260911616-b6",
+      "category": "moon",
+      "budget": 6,
+      "sections": 30,
+      "orderedArcRms": 0.027500784172422337,
+      "symmetricSampleRms": 0.015631437394853752,
+      "maximumSampleDistance": 0.25995238084809946,
+      "maximumEndpointError": 0.0006181446385966076
+    },
+    {
+      "id": "6202587260911616-b12",
+      "category": "moon",
+      "budget": 12,
+      "sections": 30,
+      "orderedArcRms": 0.027500784172422337,
+      "symmetricSampleRms": 0.015631437394853752,
+      "maximumSampleDistance": 0.25995238084809946,
+      "maximumEndpointError": 0.0006181446385966076
+    },
+    {
+      "id": "6202587260911616-b20",
+      "category": "moon",
+      "budget": 20,
+      "sections": 30,
+      "orderedArcRms": 0.027500784172422337,
+      "symmetricSampleRms": 0.015631437394853752,
+      "maximumSampleDistance": 0.25995238084809946,
+      "maximumEndpointError": 0.0006181446385966076
+    }
+  ]
+}

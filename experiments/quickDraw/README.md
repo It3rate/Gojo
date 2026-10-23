@@ -4,9 +4,14 @@ Status: exploratory experiment, 23 October 2026. Start with the historical
 [handoff](handoff.md); this document records the new acquisition work. The
 [canonical Gojo prompt](../../Gojo/docs/GojoSystemPrompt.md) remains authoritative.
 
+The next checkpoint is [faithful reconstruction from budgeted evidence](Reconstruction.md):
+an actually trained local prior, native sequential hints and generated curves,
+four compression levels, restored-output reviews, and five additional categories.
+
 The first useful result is an **exact native sample-acquisition boundary plus an
 inspectable measured fitting experiment**. The full acquisition-to-concept
-converter is not complete. No prior was trained in this checkpoint.
+converter is not complete. No prior was trained in this initial acquisition
+checkpoint; the linked reconstruction checkpoint adds that work.
 
 ## What the handoff establishes, and what it does not
 
@@ -71,7 +76,8 @@ or a learning benchmark. It includes skew, bowing, retracing, overshoot, pen lif
 and modest gaps. The moons are plain crescents, without cratered disks, landers,
 faces or surrounding objects. Two incomplete octagons and a circle missing a
 large arc are retained separately as completion challenges. The proposed
-selection is ready for user review; it is not user-approved ground truth.
+selection was accepted by the user on 23 October 2026. Acceptance of these
+examples does not turn proposed structural interpretations into ground truth.
 
 ![The fifty curated source drawings](results/selected-overview.png)
 
