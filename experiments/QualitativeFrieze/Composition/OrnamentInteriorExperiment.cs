@@ -57,6 +57,8 @@ public static class OrnamentInteriorExperiment
                 CornerRelativeConstructionFoci = d.Placements.Count(p => !ReferenceEquals(p.AnchorRead, p.Interior.Surface)),
                 ReusedLocalTemplates = d.Placements.Select(p => p.Application.Source.Surface).Distinct(ReferenceEqualityComparer.Instance).Count(),
                 NativePlacementReceipts = d.Placements.Count, NativeGuidePlacements = d.Placements.Count,
+                RecessedOrnamentSpans = E(d.Recessed).Length,
+                GuideOnlyBoundaryStems = d.Placements.Count(p => p.BoundaryBranch is not null),
                 SourceCrossings = d.Previous.Unit.Crossings.Count, OutputCrossings = d.Unit.Crossings.Count,
                 Focus = d.GroundFocus ? "Compartment ground and mesh" : "Interior flower and fan masses", Palette = palette.Name,
                 Limits = "Authored compartment selection and local motifs. No generic face discovery, fill containment, general collision solver, metric circle or trained aesthetic judgement." };
@@ -112,33 +114,35 @@ public static class OrnamentInteriorExperiment
             paths.Add(new(path, Fill: i % 2 == 0 ? palette.Scaffold : palette.Separator, Stroke: "none", StrokeWidth: 0,
                 Opacity: d.GroundFocus ? .30 : .10, Role: "selected-compartment-ground"));
         }
-        paths.AddRange(Mesh(d, palette).Paths);
+        var recessed = new HashSet<IElement>(E(d.Recessed), ReferenceEqualityComparer.Instance);
+        var background = new List<Art.InkPath>(); var foreground = new List<Art.InkPath>();
         foreach (var p in d.Placements)
         {
-            if (p.BoundaryBranch is { } branch)
-                paths.Add(new(Path(Band.ReadEnvelope(f, branch).Sweep.Spine), Stroke: palette.Chain, StrokeWidth: .48, Role: "boundary-rooted-tangent-branch"));
             var roles = p.Roles.Select(r => E(r)).ToArray();
             foreach (var env in p.Application.Output.Envelopes)
             {
+                var behind = recessed.Contains(env); var ink = behind ? background : foreground; var opacity = behind ? .55 : 1;
                 var role = Array.FindIndex(roles, group => group.Any(e => ReferenceEquals(e, env)));
                 var read = Band.ReadEnvelope(f, env).Sweep;
                 var colour = role switch { 1 => palette.Chain, 2 => palette.Motif, _ => palette.Accent };
                 if (read.Collapsed == true)
-                    paths.Add(new(Path(read.Spine), Stroke: colour, StrokeWidth: role == 1 ? .45 : .28, Role: role == 1 ? "compound-scroll-rib" : "compound-inner-detail"));
+                    ink.Add(new(Path(read.Spine), Stroke: colour, StrokeWidth: role == 1 ? .45 : .28, Opacity: opacity, Role: role == 1 ? "compound-scroll-rib" : "compound-inner-detail"));
                 else
                 {
-                    paths.Add(new(Fill(read), Fill: colour, Stroke: palette.Separator, StrokeWidth: .30, Role: "compound-petal-mass"));
-                    paths.Add(new(Fill(read), Stroke: palette.Edge, StrokeWidth: .13, Role: "even-petal-outline"));
+                    ink.Add(new(Fill(read), Fill: colour, Stroke: palette.Separator, StrokeWidth: .30, Opacity: opacity, Role: "compound-petal-mass"));
+                    ink.Add(new(Fill(read), Stroke: palette.Edge, StrokeWidth: .13, Opacity: opacity, Role: "even-petal-outline"));
                 }
             }
         }
+        paths.AddRange(background); paths.AddRange(Mesh(d, palette).Paths); paths.AddRange(foreground);
         return new("Interior ornament · " + palette.Name, paths, d.Note, Bounds(d), palette.Ground);
     }
     public static Art.Panel Construction(Corpus.Design d)
     {
         var f = d.Unit.Template.Frame; var paths = new List<Art.InkPath>();
         foreach (var env in d.Mesh.Template.Envelopes) paths.Add(new(Path(Band.ReadEnvelope(f, env).Sweep.Spine), Stroke: "#73908b", StrokeWidth: .3, Role: "mesh-context", Opacity: .7));
-        foreach (var env in d.Guides.Envelopes) paths.Add(new(Path(Band.ReadEnvelope(f, env).Sweep.Spine), Stroke: "#bd7e38", StrokeWidth: .4, Role: "interior-construction-line", Dash: ".7 .5"));
+        var branches = new HashSet<Relation>(d.Placements.Where(p => p.BoundaryBranch is not null).Select(p => p.BoundaryBranch!), ReferenceEqualityComparer.Instance);
+        foreach (var env in d.Guides.Envelopes.Where(e => !branches.Contains(e))) paths.Add(new(Path(Band.ReadEnvelope(f, env).Sweep.Spine), Stroke: "#bd7e38", StrokeWidth: .4, Role: "interior-construction-line", Dash: ".7 .5"));
         foreach (var p in d.Placements.Where(p => p.BoundaryBranch is not null))
             paths.Add(new(Path(Band.ReadEnvelope(f, p.BoundaryBranch!).Sweep.Spine), Stroke: "#9e4537", StrokeWidth: .5, Role: "boundary-tangent-construction"));
         foreach (var p in d.Placements)

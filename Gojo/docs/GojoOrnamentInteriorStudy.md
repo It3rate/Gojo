@@ -108,6 +108,36 @@ not acquire a calligraphic thick-to-thin appearance.
 
 ## Review and limits
 
+### Optical placement refinement
+
+An endpoint-average or repeat-cell centre is a construction landmark, not
+necessarily the useful visual centre of a curved compartment. The current
+refinement keeps that evidence and adds authored placement adjustments through
+the existing native sum/application receipts. It does not estimate a geometric
+area centroid, discover a weighted centre, or add a hidden numeric area solver.
+The offsets are unmeasured common-reach words in the same local frame.
+
+- **F003:** shorter petals separate neighbouring silhouettes. A native scope
+  selects the ornament as recessed participation; its quieter display is drawn
+  before the indigo mesh so the braid remains the foreground reading.
+- **F007:** lower the fan focus by three native reach participations and apply
+  the compound to all five actual scallop courses. The top row is complete,
+  with clearance between the leaf tips and the arches.
+- **F008/F009:** select boundary stems into the guide template, excluding them
+  from the output unit. Their actual mesh root, tangency, shared site and
+  arithmetic receipts remain inspectable; this is a read selection rather
+  than deletion of the mesh participant.
+- **F010:** move the focus up and left and use a diagonal native substitution.
+  Its two direction images are `(1,1)` and `(-1,1)`. This changes the orientation
+  and scale together; it is not an independently calibrated metric rotation.
+- **F011:** apply the same left/up bias in the shared frame to both triangular
+  orientations. Reversing the motif does not reverse the placement correction.
+- **F012:** move the focus left, retaining the same even outlines and compound.
+
+These are direct, inspectable controls. A future learned optical-focus rule
+could propose the same kinds of adjustments through exposed evidence, but the
+present changes are authored in response to visual review.
+
 Visual review should ask whether each interior has a clear dominant mass,
 several related parts, intelligible reserved ground and a relationship to its
 compartment. Detail should enrich those parts rather than form another array
@@ -123,17 +153,18 @@ adapters over the native construction.
 
 ## Verification and results
 
-The executable pass generates **12 designs with 227 interior compounds**.
-Each reusable compound contains **9–16 native strokes** before its optional
-boundary stem. The palmettes in F002, F005 and F007 have the strongest filled
+The executable pass generates **12 designs with 231 interior compounds**.
+Each reusable compound contains **9–16 native strokes**, with boundary stems
+retained separately as guides. The palmettes in F002, F005 and F007 have the strongest filled
 silhouette in this review. F004/F011 use larger three-part growth fitted to
 oppositely oriented triangles. F006 adds diagonal petals and stronger interior
-colour; F008/F009 add an actual boundary-rooted tangent stem. F012 uses even
-mesh strokes and flat petal masses. These are design judgements, not learned
+colour; F008/F009 retain actual boundary-rooted tangent stems as construction
+guides, outside the finished ornament. F012 uses even mesh strokes and flat
+petal masses. These are design judgements, not learned
 scores or claims of universal preference.
 
-There are **100 actual closed-cycle selections and 127 explicit scaffolds**.
-The equal-partition read supplies 139 exact endpoint-average centres. The
+There are **100 actual closed-cycle selections and 131 explicit scaffolds**.
+The equal-partition read supplies 143 exact endpoint-average centres. The
 remaining cycles keep their closure evidence while leaving the unavailable
 average open. Their ornament uses a declared corner-relative construction
 focus with actual sum receipts. F009 deliberately uses its repeat-corner
@@ -148,16 +179,23 @@ shared sites. Edge-normal/radial alignment in the other motifs is authored in
 their selected local frame rather than discovered by a general geometric
 solver. The selected full boundary and the new compound both remain available.
 
-Generation took **287.5 seconds** in the recorded run while other verification
+Initial generation took **287.5 seconds** in the recorded run while other verification
 was active; this is not a throughput benchmark. The native archives retain the
 previous design, selected mesh, carried earlier decoration, interior reads,
 reusable guide/profile sources and all placements. They occupy about 154 MiB
-compressed across the twelve cases. Display SVGs are derived views.
+compressed across the initial twelve cases. The optical-placement refinement
+generated in **308.9 seconds** with concurrent solution verification and uses
+**155.8 MiB** of compressed native archives. Display SVGs are derived views.
 
 Strict final browser/asset verification passed: **60 SVGs, 12 native archives,
 83 browser states, 89 local references and no browser errors**. All twelve
 designs were reviewed as contact sheets, including the corrected triangular
 placements and constant-width F012 mesh.
+
+The optical-placement refinement also passed all 83 browser states and all
+twelve native archives. Its seven changed case images match the visually
+reviewed preview byte-for-byte; all 20 F007 fans and the F003 background read
+are present in the final files.
 
 Solution verification passed **5,307 tests in twelve assemblies** before the
 last visual and boundary-stem refinements. All **24 focused tests passed on the
@@ -165,3 +203,9 @@ final code** (16 interior-frame tests and 8 corpus tests). The new tests cover e
 identity, closure versus coincidence, signed and cancelled participation,
 unavailable partitions, forged dependencies, native anchor consumption,
 reusable seeds, actual guide-spine reuse and boundary tangent attachment.
+
+After the optical-placement and guide-selection changes, full solution
+verification passed **5,308 tests in twelve assemblies**, including the 24
+interior-frame/corpus tests. The branch test now proves that valid construction
+evidence remains in the guide template while the stem is excluded from the
+output unit and the actual mesh participant remains present.

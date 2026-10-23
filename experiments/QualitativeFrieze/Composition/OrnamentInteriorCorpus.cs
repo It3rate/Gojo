@@ -27,7 +27,7 @@ public static class OrnamentInteriorCorpus
         Parts.Application Application, Parts.Application Guides, Relation[] Roles, Relation? BoundaryBranch, Relation Surface);
     public sealed record Design(string Id, string Name, string Note, Previous.Design Previous,
         Vocabulary.Unit Mesh, Vocabulary.Unit Unit, IReadOnlyList<Placement> Placements,
-        Parts.Template Guides, bool GroundFocus, Relation Surface);
+        Parts.Template Guides, bool GroundFocus, Relation Recessed, Relation Surface);
 
     public static IReadOnlyList<Design> Cases(int limit = int.MaxValue, string? caseId = null) =>
         Previous.Cases(caseId is null ? limit : int.MaxValue, caseId is null ? null : "I" + caseId[1..])
@@ -47,16 +47,16 @@ public static class OrnamentInteriorCorpus
         var notes = new[] {
             "A four-petal flower, inner jewel and diagonal buds occupy each square pocket; straight spokes organise the curved masses.",
             "Large palmette compounds span a two-by-two twill repeat. Five ribs and side scrolls give the interior its own structure.",
-            "Wide diamond rosettes use the two braid directions as a frame. Their petals occupy the opening rather than sitting on the ribbons.",
+            "Separated, quieter diamond rosettes sit behind the indigo braid. The mesh is the foreground reading, with clear gaps between neighbouring leaves.",
             "A three-lobed flower and its straight tripod are fitted to each triangular face. The opposite face reverses the compound.",
             "A five-rib palmette fills each inter-wave chamber. Paired tangent scrolls turn the quiet space into a second pattern.",
             "Horizontal lens fleurons have long petals, short cross petals, enclosing scrolls and a centre jewel.",
-            "Five lobes, a central rib and bowed side branches fill a scallop pocket. The fan and the half-drop share the same repeat frame.",
+            "Lowered five-lobed fans fill every scallop row, including the top course, while leaving clearance beneath each arch.",
             "A centre blossom is held between two tangent scrolls, with edge-normal side buds. The scrolls are construction for a whole chamber.",
             "A four-part whorl combines straight radial guides, broad curling petals and an inner flower. Alternating chamber tones emphasise the negative spaces.",
-            "An ample eight-part garden seal fills the chamber; corner buds and short straight ribs echo the tab shoulders without tracing every tab.",
-            "A curved trefoil answers the bowed triangular cell, with a smaller straight tripod and a three-part centre.",
-            "An oblique lozenge, four broad lobes and internal ribs occupy the cell. Even mesh outlines replace the former calligraphic silhouette." };
+            "A diagonally oriented garden seal occupies the upper-left-biased interior focus, answering the tab and recess rather than the lattice centre.",
+            "A curved trefoil is biased left and upward within each bowed triangular face. The same world-space bias applies to both orientations.",
+            "An oblique lozenge, four broad lobes and internal ribs occupy a left-biased cell focus. Even mesh outlines retain the flat ribbon reading." };
 
         switch (number)
         {
@@ -65,7 +65,7 @@ public static class OrnamentInteriorCorpus
                 for (var r = 0; r < rows - step; r += step) for (var c = 0; c < cols - step; c += step)
                 {
                     var inside = b.Scaffold(c, r, c + step, r + step);
-                    var kind = number == 2 ? 1 : 0; var seed = b.Seed(kind, number == 2 ? 10 : number == 3 ? 9 : 7);
+                    var kind = number == 2 ? 1 : 0; var seed = b.Seed(kind, number == 2 ? 10 : 7);
                     var map = number == 3 ? Vocabulary.Map(f, new(1, 1), new(1, -1)) : Parts.Identity(f);
                     b.Put(inside, seed, map);
                 }
@@ -79,8 +79,12 @@ public static class OrnamentInteriorCorpus
                     // retain its sum receipt, never silently round a centroid.
                     var first = (Relation)E(f.Read(inside.Sections[0]).ControlWords)[0];
                     var reversed = i % 2 != 0;
+                    // This is an authored optical-focus bias, in the shared
+                    // presentation frame, not a computed area centroid. Keep
+                    // the same displacement through both motif orientations.
+                    var bias = number == 11 ? new V(-2, 2) : new V(0, 0);
                     b.Put(inside, b.Seed(2, 9), reversed ? Vocabulary.Half(f) : Parts.Identity(f),
-                        first, reversed ? new(0, 13) : new(12, 7));
+                        first, (reversed ? new V(0, 13) : new V(12, 7)) + bias);
                 }
                 break;
             case 5: case 8:
@@ -99,10 +103,10 @@ public static class OrnamentInteriorCorpus
                 }
                 break;
             case 7:
-                for (var r = 0; r < rows - 1; r++) for (var c = 0; c < cols - 1; c++)
+                for (var r = 0; r < rows; r++) for (var c = 0; c < cols - 1; c++)
                 {
                     var inside = b.Scaffold(c, r, c + 1, r);
-                    b.Put(inside, b.Seed(1, 8), Parts.Identity(f), inside.Centre, new(0, 7));
+                    b.Put(inside, b.Seed(1, 8), Parts.Identity(f), inside.Centre, new(0, 4));
                 }
                 break;
             case 9: case 10: case 12:
@@ -114,9 +118,9 @@ public static class OrnamentInteriorCorpus
                     // the construction centre, rather than averaging tabs.
                     var cornerWords = inside.Sections.SelectMany(e => E(f.Read(e).ControlWords).Take(1)).Cast<Relation>().ToArray();
                     var origin = cornerWords[0];
-                    b.Put(inside, b.Seed(number == 9 ? 3 : number == 10 ? 0 : 5, number == 9 ? 10 : 9),
-                        number == 12 ? Vocabulary.Map(f, new(1, 0), new(0, 1)) : Parts.Identity(f), origin,
-                        number == 12 ? new(21, 12) : new(14, 14));
+                    var orientation = number == 10 ? Vocabulary.Map(f, new(1, 1), new(-1, 1)) : Parts.Identity(f);
+                    var focus = number == 12 ? new V(18, 12) : number == 10 ? new V(12, 16) : new V(14, 14);
+                    b.Put(inside, b.Seed(number == 9 ? 3 : number == 10 ? 0 : 5, number == 9 ? 10 : 9), orientation, origin, focus);
                 }
                 break;
         }
@@ -234,7 +238,9 @@ public static class OrnamentInteriorCorpus
             var surface = new Relation(new Relation(inside.Surface, new Relation(receipt, actual)), new Relation(seed.Unit.Surface, new Relation(app.Surface, new Relation(guide.Surface, branch?.Surface ?? S()))));
             var unit = Vocabulary.Make(app.Output, roles, [], [app.Surface], [], [], S(app.Output.Envelopes.Cast<IElement>().ToArray()), null, null, surface);
             placements.Add(new(inside, actual, (Relation)receipt, app, guide, roles, branch?.Envelope, surface)); units.Add(unit); guides.Add(guide.Output);
-            if (branch is not null) units.Add(branch.Unit);
+            // A useful attachment construction need not be part of the final
+            // decorative read. Retain the actual branch and proof in guides.
+            if (branch is not null) guides.Add(branch.Unit.Template);
         }
         private sealed record Branch(Vocabulary.Unit Unit, Relation Envelope, Relation Surface);
         private Branch BoundaryBranch(Interior.Read inside, Relation anchor)
@@ -260,10 +266,11 @@ public static class OrnamentInteriorCorpus
             var selected = groundFocus ? S(placements.Select(p => (IElement)p.Interior.Surface).ToArray()) : ornament.Highlight;
             var mesh = new HashSet<Relation>(previous.Mesh.Template.Envelopes, ReferenceEqualityComparer.Instance);
             var complement = S(previous.Unit.Template.Envelopes.Where(e => !mesh.Contains(e)).Cast<IElement>().ToArray());
+            var recessed = previous.Source.Id == "S003" ? S(ornament.Template.Envelopes.Cast<IElement>().ToArray()) : S();
             var surface = new Relation(previous.Surface, new Relation(new Relation(previous.Mesh.Surface, complement),
-                new Relation(output.Surface, new Relation(S(placements.Select(p => (IElement)p.Surface).ToArray()), selected))));
+                new Relation(output.Surface, new Relation(S(placements.Select(p => (IElement)p.Surface).ToArray()), new Relation(selected, recessed)))));
             return new("F" + previous.Id[1..], name, note, previous, previous.Mesh, output, placements,
-                Parts.Compose(frame, guides.ToArray()), groundFocus, surface);
+                Parts.Compose(frame, guides.ToArray()), groundFocus, recessed, surface);
         }
     }
 

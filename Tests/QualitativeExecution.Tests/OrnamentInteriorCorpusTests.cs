@@ -107,7 +107,8 @@ public sealed class OrnamentInteriorCorpusTests
         var design = ScrollPanels.Value; var frame = design.Unit.Template.Frame;
         Assert.All(design.Placements, placement => {
             Assert.NotNull(placement.BoundaryBranch);
-            Assert.Contains(design.Unit.Template.Envelopes, e => ReferenceEquals(e, placement.BoundaryBranch));
+            Assert.DoesNotContain(design.Unit.Template.Envelopes, e => ReferenceEquals(e, placement.BoundaryBranch));
+            Assert.Contains(design.Guides.Envelopes, e => ReferenceEquals(e, placement.BoundaryBranch));
             var seedAndApplications = Assert.IsType<Relation>(placement.Surface.Right);
             var applications = Assert.IsType<Relation>(seedAndApplications.Right);
             var guideAndBranch = Assert.IsType<Relation>(applications.Right);
@@ -121,6 +122,7 @@ public sealed class OrnamentInteriorCorpusTests
             Assert.Same(placement.BoundaryBranch, attachment.Motif);
             Assert.Same(placement.Interior.Sections[0], attachment.Port.Section);
             Assert.Contains(design.Mesh.Template.Envelopes, e => ReferenceEquals(e, attachment.Port.Envelope));
+            Assert.Contains(design.Unit.Template.Envelopes, e => ReferenceEquals(e, attachment.Port.Envelope));
             Assert.Same(attachment.Port.Surface, portAndReceipts.Left);
             Assert.Same(attachment.Port.Position, attachment.Root.Position);
             var firstReceipt = Assert.IsType<Relation>(Entries(Assert.IsType<Relation>(receiptsAndAttachment.Left))[0]);
