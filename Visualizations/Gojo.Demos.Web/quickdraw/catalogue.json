@@ -2,6 +2,15 @@
   "schema": "gojo.quickdraw.catalogue.v1",
   "studies": [
     {
+      "id": "construction",
+      "title": "From rough shapes to finished structure",
+      "description": "Follow churches, stars, crescents and organic contours from their first guides to their finished lines. Fade the scaffolds, inspect earlier references and compare parameter variations.",
+      "kind": "Executable construction steps",
+      "detail": "4 families · 12 variants · 56 steps",
+      "route": "/quickdraw/construction/",
+      "scenes": 4
+    },
+    {
       "id": "line-art",
       "title": "Line art evidence",
       "description": "Inspect every capital letter together, then explore church drawings. Hover over lines, joints and boundaries to see shared sites, repeated structure and what remains unknown.",

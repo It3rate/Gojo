@@ -1,0 +1,87 @@
+{
+  "schema": "gojo.quickdraw.website-publication.v1",
+  "route": "/quickdraw/construction/",
+  "source": "experiments/quickDraw/results/construction/public",
+  "scenes": 4,
+  "scope": "Captured study presentation and explicitly selected downloads; no experiment execution during publication.",
+  "files": [
+    {
+      "path": "index.html",
+      "sourceSha256": "955ca1fe7a3cc17b35cb2985dcfda1e948a258fb6ba36fbdcf8970e9d7f98777",
+      "publishedSha256": "7a3afecc72b2e25c12a74165d1310e14eb9f088d5687f3133e6eba68e3e1eb30",
+      "bytes": 68026
+    },
+    {
+      "path": "archives/church-front-balanced.gojo.json.gz",
+      "sourceSha256": "a1dddc90a2140fc81c24d7d259488416a5281c4abbb3f92f0a8f2af5949f25c4",
+      "publishedSha256": "a1dddc90a2140fc81c24d7d259488416a5281c4abbb3f92f0a8f2af5949f25c4",
+      "bytes": 42391
+    },
+    {
+      "path": "archives/church-front-tall.gojo.json.gz",
+      "sourceSha256": "846082064d1e18611525cb3ce85c182e3603b269d1215008798e50830d4f6151",
+      "publishedSha256": "846082064d1e18611525cb3ce85c182e3603b269d1215008798e50830d4f6151",
+      "bytes": 42390
+    },
+    {
+      "path": "archives/church-front-wide.gojo.json.gz",
+      "sourceSha256": "561ab9837673b1423e3709cad456a52093abca08f923fa010b20902de43d44cc",
+      "publishedSha256": "561ab9837673b1423e3709cad456a52093abca08f923fa010b20902de43d44cc",
+      "bytes": 42389
+    },
+    {
+      "path": "archives/church-front-outside-trial.gojo.json.gz",
+      "sourceSha256": "f9469ef3f7624dc2a1fae57d149124098bb5744e856ef0b3014a741e2e12bf9b",
+      "publishedSha256": "f9469ef3f7624dc2a1fae57d149124098bb5744e856ef0b3014a741e2e12bf9b",
+      "bytes": 42391
+    },
+    {
+      "path": "archives/partition-star-5-460.gojo.json.gz",
+      "sourceSha256": "3afbf6b9e9b5aba451d59ded9b2d23b9aca8ddb3fb499c9233c9ed969f505512",
+      "publishedSha256": "3afbf6b9e9b5aba451d59ded9b2d23b9aca8ddb3fb499c9233c9ed969f505512",
+      "bytes": 25077
+    },
+    {
+      "path": "archives/partition-star-7-460.gojo.json.gz",
+      "sourceSha256": "5ee3ff4ef471be47fcf658fd778430ce1ac1265a0e5fffa33f934b42d9a8fb4f",
+      "publishedSha256": "5ee3ff4ef471be47fcf658fd778430ce1ac1265a0e5fffa33f934b42d9a8fb4f",
+      "bytes": 30265
+    },
+    {
+      "path": "archives/partition-star-5-700.gojo.json.gz",
+      "sourceSha256": "90083f83ae36338098b70c9182dc1e23aea47f81a3b5b860ed0db2a3bc712081",
+      "publishedSha256": "90083f83ae36338098b70c9182dc1e23aea47f81a3b5b860ed0db2a3bc712081",
+      "bytes": 25077
+    },
+    {
+      "path": "archives/crescent-left.gojo.json.gz",
+      "sourceSha256": "5b773324b5c8a7f1f0e661d8044ccd513daf9df689d94036cd466f913d51486c",
+      "publishedSha256": "5b773324b5c8a7f1f0e661d8044ccd513daf9df689d94036cd466f913d51486c",
+      "bytes": 15027
+    },
+    {
+      "path": "archives/crescent-right.gojo.json.gz",
+      "sourceSha256": "4cdd23da63e8cfc2e6d9af660541be3226c3cbdbb8e6a4c5b35f9b5eca963792",
+      "publishedSha256": "4cdd23da63e8cfc2e6d9af660541be3226c3cbdbb8e6a4c5b35f9b5eca963792",
+      "bytes": 15025
+    },
+    {
+      "path": "archives/crescent-slender.gojo.json.gz",
+      "sourceSha256": "6aa25ca3a938ffc5ad7db8b11478b3780717cf3620d629ca75e96ec96dcefec9",
+      "publishedSha256": "6aa25ca3a938ffc5ad7db8b11478b3780717cf3620d629ca75e96ec96dcefec9",
+      "bytes": 15026
+    },
+    {
+      "path": "archives/organic-contour-soft.gojo.json.gz",
+      "sourceSha256": "b9db5ce50fddcefee15fba00e350b00ec6bf904790c708a4e74d4d49e39679d4",
+      "publishedSha256": "b9db5ce50fddcefee15fba00e350b00ec6bf904790c708a4e74d4d49e39679d4",
+      "bytes": 16312
+    },
+    {
+      "path": "archives/organic-contour-tall.gojo.json.gz",
+      "sourceSha256": "57dcaab74f3240e711fb63af52ce1aa822930b8a049e0d67941a9e61ea2cf260",
+      "publishedSha256": "57dcaab74f3240e711fb63af52ce1aa822930b8a049e0d67941a9e61ea2cf260",
+      "bytes": 16312
+    }
+  ]
+}

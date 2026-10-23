@@ -117,6 +117,16 @@ Its source is `experiments/quickDraw/results/line-art/public`. That directory's
 `public-files.json` selection lists its entry page and native downloads;
 unselected research files are not copied to the site.
 
+The construction study at `/quickdraw/construction/` uses
+`experiments/quickDraw/results/construction/public`. It contains four authored
+families, twelve parameterized runs and 56 rungs, with every compact executable
+program available for download. The larger execution/witness archives remain in
+the research data folder. The inspector's embedded gzip payload contains only
+captured native reads; the browser neither reconstructs recipes nor invents
+dependencies. Use `tools/check-construction.cjs` for its rung, guide, reference,
+condition and download checks. Its `restored-native-construction` publication
+contract verifies restored/replayed flags and selected archive links before copying.
+
 ~~~powershell
 node Visualizations/Gojo.Demos.Web/tools/build-quickdraw.mjs
 node Visualizations/Gojo.Demos.Web/tools/build-quickdraw.mjs --check
@@ -150,6 +160,13 @@ The 23 October 2026 alphabet publication has 21 category files (912,114 bytes).
 Its complete production bundle is 261,317,702 bytes, leaving 826,298 bytes under
 the last verified 262,144,000-byte allowance. Include future studies in the full
 bundle measurement before publication.
+
+Adding the construction study brings the complete prepared bundle to
+261,718,196 bytes, leaving 425,804 bytes under that allowance. The category has
+two studies, with all 29 selected native downloads retained. The captured
+construction read is compressed inside its standalone HTML; each native
+program is stored once as gzip rather than publishing the larger execution
+witnesses as well.
 
 ## Growing the ornament series
 

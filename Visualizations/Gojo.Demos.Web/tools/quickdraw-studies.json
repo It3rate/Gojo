@@ -1,6 +1,15 @@
 {
   "studies": [
     {
+      "id": "construction",
+      "title": "From rough shapes to finished structure",
+      "kind": "Executable construction steps",
+      "description": "Follow churches, stars, crescents and organic contours from their first guides to their finished lines. Fade the scaffolds, inspect earlier references and compare parameter variations.",
+      "detail": "4 families · 12 variants · 56 steps",
+      "readSurface": "restored-native-construction",
+      "source": "experiments/quickDraw/results/construction/public"
+    },
+    {
       "id": "line-art",
       "title": "Line art evidence",
       "kind": "Authored controls and imported references",

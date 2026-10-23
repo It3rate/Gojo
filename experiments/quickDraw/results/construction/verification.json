@@ -1,0 +1,170 @@
+{
+  "schema": "gojo.construction-source-parity.v1",
+  "passed": true,
+  "checks": 5358,
+  "runs": 12,
+  "families": 4,
+  "rungs": 56,
+  "transitions": 44,
+  "failedTargetTransitions": 2,
+  "sourceSha256": "7c39617f23daa33a5891d739ac75d36fbd46cc29224ae2078e7ed53dfcc65709",
+  "transitionSha256": "6b5ee958a7f4a82233f8c8f10c16cd95a94b649f1a49c73d210c181301bf9756",
+  "contextHasOnlyEarlierSites": true,
+  "trainedModel": false,
+  "finiteRead": "Independent Fraction evaluation; truncate each displacement toward zero.",
+  "scope": "Authored conditional construction transitions; no claim of human stroke order or inferred intent.",
+  "programs": [
+    {
+      "id": "church-front-balanced",
+      "rungs": 6,
+      "sites": 57,
+      "finiteCoordinateRemainders": 49,
+      "finalConditions": [
+        {
+          "label": "Window frame inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Complete window control hull inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "All three window control hulls inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Three windows remain within the wall",
+          "status": "satisfied"
+        }
+      ]
+    },
+    {
+      "id": "church-front-tall",
+      "rungs": 6,
+      "sites": 57,
+      "finiteCoordinateRemainders": 50,
+      "finalConditions": [
+        {
+          "label": "Window frame inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Complete window control hull inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "All three window control hulls inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Three windows remain within the wall",
+          "status": "satisfied"
+        }
+      ]
+    },
+    {
+      "id": "church-front-wide",
+      "rungs": 6,
+      "sites": 57,
+      "finiteCoordinateRemainders": 29,
+      "finalConditions": [
+        {
+          "label": "Window frame inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Complete window control hull inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "All three window control hulls inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Three windows remain within the wall",
+          "status": "satisfied"
+        }
+      ]
+    },
+    {
+      "id": "church-front-outside-trial",
+      "rungs": 6,
+      "sites": 57,
+      "finiteCoordinateRemainders": 49,
+      "finalConditions": [
+        {
+          "label": "Window frame inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Complete window control hull inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "All three window control hulls inside the wall",
+          "status": "failed"
+        },
+        {
+          "label": "Three windows remain within the wall",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "id": "partition-star-5-460",
+      "rungs": 4,
+      "sites": 34,
+      "finiteCoordinateRemainders": 33,
+      "finalConditions": []
+    },
+    {
+      "id": "partition-star-7-460",
+      "rungs": 4,
+      "sites": 40,
+      "finiteCoordinateRemainders": 45,
+      "finalConditions": []
+    },
+    {
+      "id": "partition-star-5-700",
+      "rungs": 4,
+      "sites": 34,
+      "finiteCoordinateRemainders": 32,
+      "finalConditions": []
+    },
+    {
+      "id": "crescent-left",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 18,
+      "finalConditions": []
+    },
+    {
+      "id": "crescent-right",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 18,
+      "finalConditions": []
+    },
+    {
+      "id": "crescent-slender",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 18,
+      "finalConditions": []
+    },
+    {
+      "id": "organic-contour-soft",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 29,
+      "finalConditions": []
+    },
+    {
+      "id": "organic-contour-tall",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 30,
+      "finalConditions": []
+    }
+  ]
+}

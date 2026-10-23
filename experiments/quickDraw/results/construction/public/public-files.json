@@ -1,0 +1,17 @@
+{
+  "files": [
+    "index.html",
+    "archives/church-front-balanced.gojo.json.gz",
+    "archives/church-front-tall.gojo.json.gz",
+    "archives/church-front-wide.gojo.json.gz",
+    "archives/church-front-outside-trial.gojo.json.gz",
+    "archives/partition-star-5-460.gojo.json.gz",
+    "archives/partition-star-7-460.gojo.json.gz",
+    "archives/partition-star-5-700.gojo.json.gz",
+    "archives/crescent-left.gojo.json.gz",
+    "archives/crescent-right.gojo.json.gz",
+    "archives/crescent-slender.gojo.json.gz",
+    "archives/organic-contour-soft.gojo.json.gz",
+    "archives/organic-contour-tall.gojo.json.gz"
+  ]
+}

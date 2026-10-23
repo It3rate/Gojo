@@ -21,6 +21,12 @@ The active diagnostics now include all 26 capital letters on one sheet in place
 of the earlier rope example. The [Quick Draw website category](https://gojo.inklingai.ca/quickdraw/)
 hosts the inspector and provides a catalogue for subsequent studies.
 
+[Construction ladders](ConstructionLadders.md) now add executable rough-to-detailed
+drawing programs: four families, twelve parameterized runs, retained guides,
+causal site references and explicit failed conditions. Compact native programs
+replay after restoration; their authored transitions prepare a later training
+interface without claiming learned intention or nonnumeric reconstruction.
+
 The first useful result is an **exact native sample-acquisition boundary plus an
 inspectable measured fitting experiment**. The full acquisition-to-concept
 converter is not complete. No prior was trained in this initial acquisition

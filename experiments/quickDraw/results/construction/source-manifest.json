@@ -1,0 +1,117 @@
+{
+  "schema": "gojo.drawing-construction-manifest.v1",
+  "families": 4,
+  "runs": 12,
+  "stages": 56,
+  "description": "Authored executable numeric locators, topology and refinement; no final-coordinate oracle or learned inference.",
+  "programs": [
+    {
+      "id": "church-front-balanced",
+      "family": "church-front",
+      "title": "A church from its construction frames",
+      "variant": "Balanced facade",
+      "rungs": 6,
+      "sites": 57,
+      "edges": 48
+    },
+    {
+      "id": "church-front-tall",
+      "family": "church-front",
+      "title": "A church from its construction frames",
+      "variant": "Tall steeple",
+      "rungs": 6,
+      "sites": 57,
+      "edges": 48
+    },
+    {
+      "id": "church-front-wide",
+      "family": "church-front",
+      "title": "A church from its construction frames",
+      "variant": "Broad wall and wider windows",
+      "rungs": 6,
+      "sites": 57,
+      "edges": 48
+    },
+    {
+      "id": "church-front-outside-trial",
+      "family": "church-front",
+      "title": "A church from its construction frames",
+      "variant": "Rejected spacing trial",
+      "rungs": 6,
+      "sites": 57,
+      "edges": 48
+    },
+    {
+      "id": "partition-star-5-460",
+      "family": "partition-star",
+      "title": "A star from a partitioned circular construction",
+      "variant": "5 points \u00b7 inset 0.46",
+      "rungs": 4,
+      "sites": 34,
+      "edges": 34
+    },
+    {
+      "id": "partition-star-7-460",
+      "family": "partition-star",
+      "title": "A star from a partitioned circular construction",
+      "variant": "7 points \u00b7 inset 0.46",
+      "rungs": 4,
+      "sites": 40,
+      "edges": 46
+    },
+    {
+      "id": "partition-star-5-700",
+      "family": "partition-star",
+      "title": "A star from a partitioned circular construction",
+      "variant": "5 points \u00b7 inset 0.7",
+      "rungs": 4,
+      "sites": 34,
+      "edges": 34
+    },
+    {
+      "id": "crescent-left",
+      "family": "crescent",
+      "title": "A crescent from an oval envelope",
+      "variant": "Left-side mass / opening right",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 9
+    },
+    {
+      "id": "crescent-right",
+      "family": "crescent",
+      "title": "A crescent from an oval envelope",
+      "variant": "Right-side mass / opening left",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 9
+    },
+    {
+      "id": "crescent-slender",
+      "family": "crescent",
+      "title": "A crescent from an oval envelope",
+      "variant": "Slender crescent",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 9
+    },
+    {
+      "id": "organic-contour-soft",
+      "family": "organic-contour",
+      "title": "An organic contour from a coarse envelope",
+      "variant": "Soft asymmetric contour",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 15
+    },
+    {
+      "id": "organic-contour-tall",
+      "family": "organic-contour",
+      "title": "An organic contour from a coarse envelope",
+      "variant": "Tall contour \u00b7 stronger bend",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 15
+    }
+  ]
+}

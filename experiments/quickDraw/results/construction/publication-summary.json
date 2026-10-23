@@ -1,0 +1,313 @@
+{
+  "schema": "gojo.construction-publication-summary.v1",
+  "verifiedAtUtc": "2026-10-23T22:47:21.392Z",
+  "passed": true,
+  "categoryUrl": "https://gojo.inklingai.ca/quickdraw/",
+  "studyUrl": "https://gojo.inklingai.ca/quickdraw/construction/",
+  "scope": {
+    "families": 4,
+    "programs": 12,
+    "rungs": 56,
+    "transitionExamples": 44,
+    "failedTargetTransitions": 2,
+    "numeric": true,
+    "authored": true,
+    "trainedModel": false
+  },
+  "tests": {
+    "dotnet": {
+      "projects": 12,
+      "passed": 5374,
+      "failed": 0,
+      "skipped": 0,
+      "focusedConstructionCases": 12,
+      "results": [
+        {
+          "project": "PrimitiveForager.Tests.dll",
+          "passed": 6,
+          "duration": "1 s"
+        },
+        {
+          "project": "Gojo.Tests.dll",
+          "passed": 1069,
+          "duration": "3 s"
+        },
+        {
+          "project": "Minds.Tests.dll",
+          "passed": 49,
+          "duration": "5 s"
+        },
+        {
+          "project": "Gojo.GearShapeLadder.Tests.dll",
+          "passed": 21,
+          "duration": "2 s"
+        },
+        {
+          "project": "PrimitiveLearning.Tests.dll",
+          "passed": 66,
+          "duration": "10 s"
+        },
+        {
+          "project": "AdaptiveLifecycle.Tests.dll",
+          "passed": 25,
+          "duration": "9 s"
+        },
+        {
+          "project": "Phototaxis.Tests.dll",
+          "passed": 129,
+          "duration": "28 s"
+        },
+        {
+          "project": "GojoCAD.Tests.dll",
+          "passed": 155,
+          "duration": "4 s"
+        },
+        {
+          "project": "CompositeEmergence.Tests.dll",
+          "passed": 66,
+          "duration": "45 s"
+        },
+        {
+          "project": "Gojo.Encoding.Tests.dll",
+          "passed": 725,
+          "duration": "12 s"
+        },
+        {
+          "project": "QualitativeExecution.Tests.dll",
+          "passed": 2944,
+          "duration": "9 m 9 s"
+        },
+        {
+          "project": "UtilityEcology.Tests.dll",
+          "passed": 119,
+          "duration": "18 s"
+        }
+      ]
+    },
+    "python": {
+      "passed": 77,
+      "newAdapterCases": 9
+    },
+    "independentSourceAudit": {
+      "passed": true,
+      "assertions": 5358,
+      "sourceSha256": "7c39617f23daa33a5891d739ac75d36fbd46cc29224ae2078e7ed53dfcc65709",
+      "transitionSha256": "6b5ee958a7f4a82233f8c8f10c16cd95a94b649f1a49c73d210c181301bf9756",
+      "contextHasOnlyEarlierSites": true
+    }
+  },
+  "nativeArchives": {
+    "restoredAndReplayedPrograms": 12,
+    "compressedProgramBytes": 327682,
+    "programsContainFutureInstructions": true,
+    "useRestrictedTransitionsForTrainingInputs": true
+  },
+  "liveBrowser": {
+    "base": "https://gojo.inklingai.ca",
+    "passed": true,
+    "families": 4,
+    "variants": 12,
+    "rungReads": 56,
+    "dependencySelections": 12,
+    "verifiedProgramDownloads": 12,
+    "savedNativeJsonVerified": true,
+    "mobile": {
+      "scroll": 390,
+      "client": 390
+    },
+    "scriptErrors": [],
+    "readChecks": [
+      {
+        "id": "church-front-balanced",
+        "rungs": 6,
+        "visibleSpans": 34,
+        "failedConditions": 0
+      },
+      {
+        "id": "church-front-tall",
+        "rungs": 6,
+        "visibleSpans": 34,
+        "failedConditions": 0
+      },
+      {
+        "id": "church-front-wide",
+        "rungs": 6,
+        "visibleSpans": 34,
+        "failedConditions": 0
+      },
+      {
+        "id": "church-front-outside-trial",
+        "rungs": 6,
+        "visibleSpans": 34,
+        "failedConditions": 2
+      },
+      {
+        "id": "partition-star-5-460",
+        "rungs": 4,
+        "visibleSpans": 10,
+        "failedConditions": 0
+      },
+      {
+        "id": "partition-star-7-460",
+        "rungs": 4,
+        "visibleSpans": 14,
+        "failedConditions": 0
+      },
+      {
+        "id": "partition-star-5-700",
+        "rungs": 4,
+        "visibleSpans": 10,
+        "failedConditions": 0
+      },
+      {
+        "id": "crescent-left",
+        "rungs": 4,
+        "visibleSpans": 2,
+        "failedConditions": 0
+      },
+      {
+        "id": "crescent-right",
+        "rungs": 4,
+        "visibleSpans": 2,
+        "failedConditions": 0
+      },
+      {
+        "id": "crescent-slender",
+        "rungs": 4,
+        "visibleSpans": 2,
+        "failedConditions": 0
+      },
+      {
+        "id": "organic-contour-soft",
+        "rungs": 4,
+        "visibleSpans": 5,
+        "failedConditions": 0
+      },
+      {
+        "id": "organic-contour-tall",
+        "rungs": 4,
+        "visibleSpans": 5,
+        "failedConditions": 0
+      }
+    ]
+  },
+  "liveCategoryAndAlphabet": {
+    "base": "https://gojo.inklingai.ca",
+    "studies": 2,
+    "scenes": 17,
+    "letters": 26,
+    "verifiedDownloads": 29,
+    "savedNativeJsonVerified": true
+  },
+  "staging": {
+    "schema": "gojo.staging-preservation-audit.v2",
+    "verifiedAtUtc": "2026-10-23T22:44:10.984Z",
+    "gitHead": "5ce5e50332dad0b04d7cfb7af2c23139172400bd",
+    "files": 2062,
+    "bytes": 261718196,
+    "documentedLimit": 262144000,
+    "remainingUnderDocumentedLimit": 425804,
+    "preservedAssets": 445,
+    "quickdrawFiles": 35,
+    "sourceManifestFiles": 31,
+    "previousQuickdraw": {
+      "files": 21,
+      "preservedLineArtFiles": 19,
+      "intentionallyUpdatedCategoryFiles": 2
+    },
+    "mismatches": [],
+    "passed": true
+  },
+  "productionPreservation": {
+    "schema": "gojo.production-preservation-audit.v2",
+    "base": "https://gojo.inklingai.ca/",
+    "startedUtc": "2026-10-23T22:46:20.879Z",
+    "completedUtc": "2026-10-23T22:47:21.392Z",
+    "frozenPlanCreatedUtc": "2026-10-23T22:44:10.984Z",
+    "priorLineArtGitHead": "5ce5e50332dad0b04d7cfb7af2c23139172400bd",
+    "files": 1412,
+    "sourceBytes": 209396799,
+    "groups": {
+      "preserved-runtime": {
+        "files": 445,
+        "sourceBytes": 156659380,
+        "verified": 445,
+        "receivedBytes": 156659380,
+        "rawHashMatches": 445,
+        "transportDecodedMatches": 0,
+        "archivePayloadMatches": 0
+      },
+      "syntax": {
+        "files": 59,
+        "sourceBytes": 403299,
+        "verified": 59,
+        "receivedBytes": 403299,
+        "rawHashMatches": 59,
+        "transportDecodedMatches": 0,
+        "archivePayloadMatches": 0
+      },
+      "minds": {
+        "files": 208,
+        "sourceBytes": 13542618,
+        "verified": 208,
+        "receivedBytes": 13542618,
+        "rawHashMatches": 208,
+        "transportDecodedMatches": 0,
+        "archivePayloadMatches": 0
+      },
+      "ornaments": {
+        "files": 662,
+        "sourceBytes": 37468180,
+        "verified": 662,
+        "receivedBytes": 37468180,
+        "rawHashMatches": 662,
+        "transportDecodedMatches": 0,
+        "archivePayloadMatches": 0
+      },
+      "landing-assets": {
+        "files": 3,
+        "sourceBytes": 10728,
+        "verified": 3,
+        "receivedBytes": 10728,
+        "rawHashMatches": 3,
+        "transportDecodedMatches": 0,
+        "archivePayloadMatches": 0
+      },
+      "updated-quickdraw-category": {
+        "files": 2,
+        "sourceBytes": 3130,
+        "verified": 2,
+        "receivedBytes": 3130,
+        "rawHashMatches": 2,
+        "transportDecodedMatches": 0,
+        "archivePayloadMatches": 0
+      },
+      "new-construction": {
+        "files": 14,
+        "sourceBytes": 399574,
+        "verified": 14,
+        "receivedBytes": 399574,
+        "rawHashMatches": 14,
+        "transportDecodedMatches": 0,
+        "archivePayloadMatches": 0
+      },
+      "preserved-line-art": {
+        "files": 19,
+        "sourceBytes": 909890,
+        "verified": 19,
+        "receivedBytes": 909890,
+        "rawHashMatches": 19,
+        "transportDecodedMatches": 0,
+        "archivePayloadMatches": 0
+      }
+    },
+    "mismatches": [],
+    "passed": true
+  },
+  "limitations": [
+    "Authored numeric construction examples; no learned completion or semantic prior is claimed.",
+    "Rung selection changes structural detail; coordinate precision is not yet a nonnumeric resolution dial.",
+    "Arbitrary-angle circular XY calibration remains explicit finite input, not an exact native trigonometric construction.",
+    "Containment is a convex control-hull certificate; failed certificates are preserved rather than silently corrected."
+  ]
+}

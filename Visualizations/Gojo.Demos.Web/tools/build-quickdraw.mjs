@@ -67,13 +67,18 @@ async function buildStudy(study){
   const entry=files.get('index.html').toString('utf8');
   let sceneCount=null;
   if(study.readSurface){
-    if(study.readSurface!=='restored-native-inspector')throw new Error('Unknown selected study read surface.');
-    const embedded=entry.match(/<script\b[^>]*id=["']scene-data["'][^>]*>([\s\S]*?)<\/script>/i);
+    const construction=study.readSurface==='restored-native-construction';
+    if(!construction&&study.readSurface!=='restored-native-inspector')throw new Error('Unknown selected study read surface.');
+    const embedded=construction?entry.match(/<script\b[^>]*id=["']construction-data["'][^>]*>([\s\S]*?)<\/script>/i):entry.match(/<script\b[^>]*id=["']scene-data["'][^>]*>([\s\S]*?)<\/script>/i);
     if(!embedded)throw new Error('Entry lacks the captured native scene payload.');
-    const payload=JSON.parse(embedded[1]);
+    let payload=JSON.parse(embedded[1]);
+    if(construction&&payload.encoding==='gzip-base64')payload=JSON.parse(zlib.gunzipSync(Buffer.from(payload.payload,'base64')).toString('utf8'));
+    if(/file:\/{1,3}|\b[A-Za-z]:[\\/](?!\/)/i.test(JSON.stringify(payload)))throw new Error('Machine-local path in captured native payload.');
     if(!Array.isArray(payload.scenes)||payload.scenes.length===0)throw new Error('Entry has no captured scenes.');
-    for(const scene of payload.scenes){
-      if(scene.nativeRestoreVerified!==true)throw new Error('Unverified scene in public entry: '+scene.id);
+    const reads=construction?payload.scenes.flatMap(scene=>scene.variants):payload.scenes;
+    if(reads.length===0)throw new Error('Entry has no captured native reads.');
+    for(const scene of reads){
+      if(scene.nativeRestoreVerified!==true||(construction&&scene.nativeReplayVerified!==true))throw new Error('Unverified scene in public entry: '+scene.id);
       for(const link of [scene.archive,scene.archivePath])
         if(link&&!files.has(link))throw new Error('Unpublished native archive link: '+link);
     }
@@ -108,7 +113,7 @@ const index=Buffer.from(`<!doctype html>
 <body><main><nav aria-label="Gojo navigation" style="margin-bottom:32px"><a href="/" style="color:#076c77;text-decoration:none">← All Gojo demos</a></nav>
 <header class="intro"><p class="eyebrow">Gojo · Drawing studies</p><h1>Quick Draw</h1><p class="summary">Drawings as evidence: explore their structure, preserve their imperfections, and investigate how much can be reconstructed from a few hints.</p><p class="note">Each study distinguishes observed drawings, authored controls and calculated reads.</p></header>
 <section aria-labelledby="studies-heading"><div class="section-heading"><p class="section-number">01</p><h2 id="studies-heading">Studies and inspectors</h2></div><div class="cards">${cards}</div></section>
-<p class="note" style="margin-top:32px">This collection will grow as the acquisition, reconstruction and learning experiments develop. The current line-art study uses clean controls and imported icons; it does not infer drawing intention.</p>
+<p class="note" style="margin-top:32px">This collection will grow as the acquisition, reconstruction and learning experiments develop. Clean line-art controls and authored construction programs remain separate from imperfect observations and learned intention.</p>
 </main></body></html>\n`);
 const publicCatalogue=Buffer.from(JSON.stringify({schema:'gojo.quickdraw.catalogue.v1',studies:studies.map(({id,title,description,kind,detail,route,scenes})=>({id,title,description,kind,detail,route,scenes}))},null,2)+'\n');
 await write(category,'index.html',index);await write(category,'catalogue.json',publicCatalogue);
