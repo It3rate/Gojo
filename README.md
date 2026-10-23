@@ -38,6 +38,12 @@ continuous strands independent of their repeat events. Its
 includes weave, twill, wave/ogee courses and curved interlocking cells, with
 shared local profiles and complete opposite-boundary correspondence.
 
+The [integrated motif pass](Gojo/docs/GojoOrnamentIntegratedStudy.md) adds larger
+rooted leaves and landmark florets while preserving those exact mesh paths.
+Its [before/after gallery](experiments/QualitativeFrieze/results/ornament-integrated/gallery.html)
+exposes native endpoint and straight-interior attachments, tangent reads and
+the carried earlier decoration.
+
 The [path and band study](Gojo/docs/GojoPathBandStudy.md) connects source paths,
 paired sides, selected occupancy, caps/continuation and local crossing order.
 Its [22-case gallery](experiments/QualitativeFrieze/results/path-bands/gallery.html)

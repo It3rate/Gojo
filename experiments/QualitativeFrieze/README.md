@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [integrated ornament pass](results/ornament-integrated/gallery.html) replaces
+small isolated decorations with larger leaves and florets rooted in the exact
+previous mesh. Its before/after views preserve the source, expose motif roots
+and keep incidence, tangent direction and site identity distinct. See the
+[whole sheet](results/ornament-integrated/overview.html) and
+[encoding, design review and limits](../../Gojo/docs/GojoOrnamentIntegratedStudy.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-integrated
+node experiments/QualitativeFrieze/tools/check-ornament-integrated.cjs experiments/QualitativeFrieze/results/ornament-integrated/gallery.html
+```
+
 The [substrate ornament gallery](results/ornament-substrate/gallery.html)
 contains twelve designs in which an independent U/V lattice supplies repeat
 landmarks. Long strands remain continuous through crossing events; curved

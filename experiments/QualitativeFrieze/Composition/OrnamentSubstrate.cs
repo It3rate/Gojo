@@ -230,7 +230,7 @@ public static class OrnamentSubstrate
         return receipt.Left is Relation { Right: Relation inputs } && Same(inputs.Left, before) && Same(inputs.Right, incoming) &&
             frame.Motion.TryReadResult(receipt, out result, out _, out _) && frame.Vector(result, out _);
     }
-    private static Relation Difference(Curve.Frame frame, Relation from, Relation to)
+    internal static Relation Difference(Curve.Frame frame, Relation from, Relation to)
     {
         var inverse = new List<IElement>(); var proofs = new List<IElement>();
         foreach (var item in Items(from))
@@ -244,7 +244,7 @@ public static class OrnamentSubstrate
         var receipt = frame.Motion.Reduce(Entries(from, out _) ? S(inverse) : StructuralConstraint.Open(inverse.ToArray()), to);
         return new(new Relation(from, to), new Relation(S(proofs), receipt));
     }
-    private static bool? ReadDifference(Curve.Frame frame, Relation difference, Relation from, Relation to)
+    internal static bool? ReadDifference(Curve.Frame frame, Relation difference, Relation from, Relation to)
     {
         if (difference is not { Left: Relation pair, Right: Relation { Left: Relation proofs, Right: Relation receipt } } ||
             !Same(pair.Left, from) || !Same(pair.Right, to) || !frame.Vector(from, out _) || !frame.Vector(to, out _) ||

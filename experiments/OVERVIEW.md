@@ -69,6 +69,14 @@ boundaries. Reusable local profiles feed actual landmark-anchored placement
 receipts; independent boundary checks compare every ordered control. These
 finite local checks establish correspondence, not a global tessellation proof.
 
+The [integrated motif pass](../Gojo/docs/GojoOrnamentIntegratedStudy.md) preserves
+those mesh identities while replacing small floating ornaments with larger
+endpoint-rooted leaves, curve-following blades and landmark florets. Its
+[before/after gallery](QualitativeFrieze/results/ornament-integrated/gallery.html)
+separates incidence, forward/opposed tangency and shared sites; a crossing
+attachment leaves warp and weft distinct. Visual review removes overlapping
+paired leaves from the tabbed compartments.
+
 The [path and band study](../Gojo/docs/GojoPathBandStudy.md) adds native
 spine/side correspondence, selected ruled occupancy, caps and continuation,
 plus distinct crossing and depth reads. Its
