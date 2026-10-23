@@ -54,6 +54,12 @@ receiver completions on anonymous endpoint scaffolds with private controls
 withheld. Whole-shape tip cycles and local notches remain connected but do not
 count as independent evidence.
 
+The [path and band study](../Gojo/docs/GojoPathBandStudy.md) adds native
+spine/side correspondence, selected ruled occupancy, caps and continuation,
+plus distinct crossing and depth reads. Its
+[22-case gallery](QualitativeFrieze/results/path-bands/gallery.html) compares
+four views of each construction while preserving source path identity.
+
 The [curve refinement study](../Gojo/docs/GojoCurveRefinementStudy.md) expands
 that fixture to 112 sources. Its
 [comparison gallery](QualitativeFrieze/results/curve-refinement/gallery.html)

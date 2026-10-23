@@ -27,6 +27,11 @@ explicit interior and gap-completion premises. Its
 compares 24 sources and 72 receiver constructions on supplied anonymous endpoint
 scaffolds, including a weak whole-shape diamond read alongside local notches.
 
+The [path and band study](Gojo/docs/GojoPathBandStudy.md) connects source paths,
+paired sides, selected occupancy, caps/continuation and local crossing order.
+Its [22-case gallery](experiments/QualitativeFrieze/results/path-bands/gallery.html)
+shows narrow and broad constructions while retaining the same native paths.
+
 The [curve refinement study](Gojo/docs/GojoCurveRefinementStudy.md) adds relative
 fullness, directional and tangent-curvature balance, provisional interiors and
 centre/enclosure contexts. Its

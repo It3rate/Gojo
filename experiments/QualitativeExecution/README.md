@@ -78,6 +78,13 @@ Metric reads remain open without their premise; sample strength is not a global
 curvature maximum. The [refinement study](../../Gojo/docs/GojoCurveRefinementStudy.md)
 publishes detached coarser bands rather than private curve-quality ancestry.
 
+[QualitativeBand](QualitativeBand.cs) connects the same path to two side curves
+through actual displacement sums and shared interpolation parameters. Ruled
+support, selected occupancy, caps/continuation, projected crossings and depth
+order remain separate. The [path and band study](../../Gojo/docs/GojoPathBandStudy.md)
+exercises narrow/broad versions without claiming exact curved offsets or
+global region simplicity.
+
 Run tests and the diagnostic benchmark from the repository root:
 
 ```powershell

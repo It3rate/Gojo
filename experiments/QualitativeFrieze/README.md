@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [path and band gallery](results/path-bands/gallery.html) follows the same
+source paths through narrow bands, paired boundaries and broad occupied or
+decorated supports. It separates joining, crossing, over/under, visible caps
+and continuation. See the [whole sheet](results/path-bands/overview.html) and
+[native construction and limits](../../Gojo/docs/GojoPathBandStudy.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -- --path-bands
+node experiments/QualitativeFrieze/tools/check-band-evidence.cjs experiments/QualitativeFrieze/results/path-bands/gallery.html
+```
+
 The [curve refinement gallery](results/curve-refinement/gallery.html) expands
 the curve fixture to 112 sources with detached finite profile bands, relative
 fullness references, tangent balance, provisional interiors and centreline
