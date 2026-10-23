@@ -1,0 +1,71 @@
+{
+  "schema": "quickdraw-pilot-measurements/1",
+  "selected_sha256": "f8cc429bfbcc0558aee60de3d2363a53ff365a2c6a14a765b3a65f82ba9419cf",
+  "categories": [
+    {
+      "category": "square",
+      "points": 911,
+      "strokes": 13,
+      "mean_line_sections": 11.8,
+      "mean_mixed_sections": 7.4,
+      "mixed_section_range": [
+        4,
+        11
+      ]
+    },
+    {
+      "category": "circle",
+      "points": 844,
+      "strokes": 10,
+      "mean_line_sections": 20.9,
+      "mean_mixed_sections": 8.6,
+      "mixed_section_range": [
+        6,
+        10
+      ]
+    },
+    {
+      "category": "triangle",
+      "points": 577,
+      "strokes": 15,
+      "mean_line_sections": 10.3,
+      "mean_mixed_sections": 5.7,
+      "mixed_section_range": [
+        3,
+        9
+      ]
+    },
+    {
+      "category": "octagon",
+      "points": 1301,
+      "strokes": 18,
+      "mean_line_sections": 13.8,
+      "mean_mixed_sections": 9.6,
+      "mixed_section_range": [
+        8,
+        14
+      ]
+    },
+    {
+      "category": "moon",
+      "points": 1152,
+      "strokes": 12,
+      "mean_line_sections": 19.5,
+      "mean_mixed_sections": 8.5,
+      "mixed_section_range": [
+        5,
+        12
+      ]
+    }
+  ],
+  "native": {
+    "samples": 4785,
+    "strokes": 68,
+    "recordedEdges": 4717,
+    "acquisitionNodes": 180049,
+    "observationNodes": 58398
+  },
+  "native_artifact_bytes": 51163481,
+  "all_native_restore_verified": true,
+  "duplicate_fitting_samples": 24
+}

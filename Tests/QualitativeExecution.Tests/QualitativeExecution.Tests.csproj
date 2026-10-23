@@ -17,6 +17,7 @@
     <ProjectReference Include="../../experiments/QualitativeExecution/QualitativeExecution.csproj" />
     <ProjectReference Include="../../experiments/RefinementPerformance/RefinementPerformance.csproj" />
     <ProjectReference Include="../../experiments/QualitativeFrieze/QualitativeFrieze.csproj" />
+    <ProjectReference Include="../../experiments/quickDraw/QuickDraw.csproj" />
     <Using Include="Xunit" />
   </ItemGroup>
 </Project>

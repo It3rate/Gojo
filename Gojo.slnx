@@ -168,6 +168,9 @@
   <Folder Name="/Experiments/QualitativeFrieze/">
     <Project Path="experiments/QualitativeFrieze/QualitativeFrieze.csproj" />
   </Folder>
+  <Folder Name="/Experiments/QuickDraw/">
+    <Project Path="experiments/quickDraw/QuickDraw.csproj" />
+  </Folder>
   <Folder Name="/Experiments/Phototaxis/">
     <Project Path="experiments/Phototaxis/Phototaxis.csproj" />
     <Project Path="experiments/Phototaxis.Browser/Phototaxis.Browser.csproj" />

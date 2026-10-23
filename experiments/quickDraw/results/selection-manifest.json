@@ -1,0 +1,1863 @@
+{
+  "schema": "quickdraw-visual-selection/1",
+  "review": {
+    "status": "reviewed_by_agent; user review pending",
+    "reviewer": "Two Codex agents reviewed the overview and enlarged category sheets; replacement octagons inspected at larger scale.",
+    "selection_goal": "Ten useful structural pilot examples per requested prompt, with tracing irregularity, gaps, overlaps, aspect variation and multiple strokes; plain undecorated crescents only for moon.",
+    "selection_bias": "Curated positive examples from a bounded first-2,000-record prefix and 48 hash-selected candidates per category; not a prevalence estimate or statistical population sample. Prompt/recognized are context metadata, never structural ground truth.",
+    "excluded_examples": "Moon full circles, craters, stars, text and extra objects; other obvious multi-object or unrelated scribbles. Rejected data remains in candidate records.",
+    "categories": {
+      "square": [
+        {
+          "key_id": "5428667574386688",
+          "candidate_index": 3,
+          "visual_review_note": "Near-square with start/end gap and corner overshoot."
+        },
+        {
+          "key_id": "5307155987038208",
+          "candidate_index": 5,
+          "visual_review_note": "Four-sided outline with small opening and bowed horizontal sides."
+        },
+        {
+          "key_id": "5330093125664768",
+          "candidate_index": 7,
+          "visual_review_note": "Two-stroke skewed quadrilateral; intended squareness remains a hypothesis."
+        },
+        {
+          "key_id": "4643920342417408",
+          "candidate_index": 9,
+          "visual_review_note": "Slightly trapezoidal outline with upper-left overshoot."
+        },
+        {
+          "key_id": "4885473531002880",
+          "candidate_index": 12,
+          "visual_review_note": "Two-stroke skewed square-like outline with retraced corner."
+        },
+        {
+          "key_id": "5391295218450432",
+          "candidate_index": 15,
+          "visual_review_note": "Near-square with mildly curved edges and lower-right overshoot."
+        },
+        {
+          "key_id": "5489350835961856",
+          "candidate_index": 25,
+          "visual_review_note": "Two-stroke square-like outline with tilted top and lower-left overlap."
+        },
+        {
+          "key_id": "6224764945301504",
+          "candidate_index": 30,
+          "visual_review_note": "Four dominant sides with start/end overshoot and curved lower corners."
+        },
+        {
+          "key_id": "6582382767374336",
+          "candidate_index": 39,
+          "visual_review_note": "Near-square with sharp dominant corners and small tracing irregularities."
+        },
+        {
+          "key_id": "5208405562097664",
+          "candidate_index": 48,
+          "visual_review_note": "Near-square with visibly wavy sides; preserves jitter challenge."
+        }
+      ],
+      "circle": [
+        {
+          "key_id": "4939537643995136",
+          "candidate_index": 2,
+          "visual_review_note": "Oblique oval with a local closing overlap."
+        },
+        {
+          "key_id": "5465612832735232",
+          "candidate_index": 3,
+          "visual_review_note": "Round outline with slight polygonal sampling and endpoint overlap."
+        },
+        {
+          "key_id": "6695613674553344",
+          "candidate_index": 6,
+          "visual_review_note": "Round outline with small closure overlap."
+        },
+        {
+          "key_id": "6483629100236800",
+          "candidate_index": 9,
+          "visual_review_note": "Round outline with clear upper-right gap; observed open."
+        },
+        {
+          "key_id": "6581566752948224",
+          "candidate_index": 19,
+          "visual_review_note": "Near-circular outline with small upper gap."
+        },
+        {
+          "key_id": "5800136628240384",
+          "candidate_index": 21,
+          "visual_review_note": "Vertically elongated round outline; no aspect distortion applied."
+        },
+        {
+          "key_id": "5040738494578688",
+          "candidate_index": 32,
+          "visual_review_note": "Near-circular single-stroke outline."
+        },
+        {
+          "key_id": "5295648528138240",
+          "candidate_index": 38,
+          "visual_review_note": "Round outline with local waviness."
+        },
+        {
+          "key_id": "6211699474432000",
+          "candidate_index": 43,
+          "visual_review_note": "One-stroke round outline with a small lower gap."
+        },
+        {
+          "key_id": "6712442564378624",
+          "candidate_index": 47,
+          "visual_review_note": "One-stroke rounded outline with an upper-right gap; observed open rather than automatically closed."
+        }
+      ],
+      "triangle": [
+        {
+          "key_id": "5542274005991424",
+          "candidate_index": 2,
+          "visual_review_note": "Scalene triangular outline with bowed lower side."
+        },
+        {
+          "key_id": "4972963289890816",
+          "candidate_index": 4,
+          "visual_review_note": "Broad triangular outline with curved sides."
+        },
+        {
+          "key_id": "5707561011511296",
+          "candidate_index": 9,
+          "visual_review_note": "Two-stroke triangular outline with separated endpoints."
+        },
+        {
+          "key_id": "5813280050249728",
+          "candidate_index": 12,
+          "visual_review_note": "Obliquely oriented triangle with upper overshoot."
+        },
+        {
+          "key_id": "6592719138848768",
+          "candidate_index": 15,
+          "visual_review_note": "Near-regular triangle with small lower-left overlap."
+        },
+        {
+          "key_id": "4526183582531584",
+          "candidate_index": 24,
+          "visual_review_note": "Right-triangle-like outline with lower-left gap."
+        },
+        {
+          "key_id": "6537012356055040",
+          "candidate_index": 27,
+          "visual_review_note": "Two-stroke tall triangle with small closing overshoot."
+        },
+        {
+          "key_id": "5245428700282880",
+          "candidate_index": 33,
+          "visual_review_note": "Broad, low triangle with concave sides; game recognized=false despite visible triangular structure."
+        },
+        {
+          "key_id": "6662280412397568",
+          "candidate_index": 41,
+          "visual_review_note": "Three-stroke triangular outline with gaps; no automatic welding."
+        },
+        {
+          "key_id": "5655452182380544",
+          "candidate_index": 48,
+          "visual_review_note": "Two-stroke near-regular triangular outline."
+        }
+      ],
+      "octagon": [
+        {
+          "key_id": "5686472046804992",
+          "candidate_index": 4,
+          "visual_review_note": "Eight dominant sides with rounded lower transitions and a small upper-left opening."
+        },
+        {
+          "key_id": "5357828535484416",
+          "candidate_index": 3,
+          "visual_review_note": "Eight-side-like outline with small lower gap; rounded sampled corners."
+        },
+        {
+          "key_id": "6310676689584128",
+          "candidate_index": 10,
+          "visual_review_note": "Eight dominant sides with upper-left overshoot."
+        },
+        {
+          "key_id": "6205168821469184",
+          "candidate_index": 16,
+          "visual_review_note": "Near-regular eight-sided outline with small upper-left opening."
+        },
+        {
+          "key_id": "5411138772664320",
+          "candidate_index": 22,
+          "visual_review_note": "Two-stroke tall eight-sided outline with left-side gap."
+        },
+        {
+          "key_id": "5260559014428672",
+          "candidate_index": 28,
+          "visual_review_note": "Eight dominant sides with uneven lengths and wavy tracing; all principal sides have visible support."
+        },
+        {
+          "key_id": "6321548258443264",
+          "candidate_index": 34,
+          "visual_review_note": "Eight-stroke octagon-like outline with upper asymmetry and corner overrun; exact side count remains an interpretation."
+        },
+        {
+          "key_id": "6746637814726656",
+          "candidate_index": 38,
+          "visual_review_note": "One-stroke tall eight-sided outline."
+        },
+        {
+          "key_id": "5855580914712576",
+          "candidate_index": 43,
+          "visual_review_note": "Near-regular eight-sided outline with lower-right overshoot."
+        },
+        {
+          "key_id": "6693335945183232",
+          "candidate_index": 47,
+          "visual_review_note": "Eight-sided outline with upper-left overrun and mild edge irregularity."
+        }
+      ],
+      "moon": [
+        {
+          "key_id": "5414366813880320",
+          "candidate_index": 4,
+          "visual_review_note": "Plain narrow right-facing crescent; two tips, no decoration."
+        },
+        {
+          "key_id": "6533189453479936",
+          "candidate_index": 6,
+          "visual_review_note": "Plain broad left crescent with sharp tips; no decoration."
+        },
+        {
+          "key_id": "6096033018806272",
+          "candidate_index": 11,
+          "visual_review_note": "Plain tilted crescent; long outer and inner arcs, no decoration."
+        },
+        {
+          "key_id": "4842093828636672",
+          "candidate_index": 15,
+          "visual_review_note": "Plain broad left crescent with two tips; no decoration."
+        },
+        {
+          "key_id": "6139875722002432",
+          "candidate_index": 19,
+          "visual_review_note": "Plain right crescent drawn with two strokes and a small lower overlap."
+        },
+        {
+          "key_id": "4973215954763776",
+          "candidate_index": 21,
+          "visual_review_note": "Plain left crescent with somewhat angular inner/outer contours."
+        },
+        {
+          "key_id": "5196317561192448",
+          "candidate_index": 24,
+          "visual_review_note": "Plain right crescent with broad band and pointed ends."
+        },
+        {
+          "key_id": "6365392459005952",
+          "candidate_index": 37,
+          "visual_review_note": "Plain right crescent with unequal tip sharpness."
+        },
+        {
+          "key_id": "5638051827023872",
+          "candidate_index": 38,
+          "visual_review_note": "Plain tilted left crescent with a tip gap; observed open."
+        },
+        {
+          "key_id": "5852246447226880",
+          "candidate_index": 42,
+          "visual_review_note": "Plain narrow right crescent in two strokes; no decoration."
+        }
+      ]
+    },
+    "challenges": [
+      {
+        "category": "octagon",
+        "key_id": "6634885554896896",
+        "candidate_index": 2,
+        "visual_review_note": "Six recorded strokes trace an incomplete octagon-like outline with multiple gaps and absent lower-side support; completion is an assumption, not observation."
+      },
+      {
+        "category": "octagon",
+        "key_id": "6007741141221376",
+        "candidate_index": 31,
+        "visual_review_note": "Eight strokes with multiple gaps and unequal side lengths."
+      },
+      {
+        "category": "circle",
+        "key_id": "5502290897141760",
+        "candidate_index": 26,
+        "visual_review_note": "Three-stroke rounded outline with a large missing lower-right arc; retained outside the initial core set for explicit completion challenges."
+      }
+    ]
+  },
+  "source_inventory": "D:\\_quickDraw\\gojo-pilot\\selection-v1\\inventory.json",
+  "samples": [
+    {
+      "category": "square",
+      "source_line": 771,
+      "byte_offset": 1608111,
+      "byte_length": 2285,
+      "record_sha256": "31a4d599c3f5791272ff61e3128bfd4fdf9edbbca046774a037965d94ec5cfc2",
+      "selection_hash": "0071ec34c03d3b0b7fd8259d8900cd616e648550b589734b9901e5631f5e808c",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 167,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          412,
+          192,
+          788,
+          478
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 3,
+      "key_id": "5428667574386688",
+      "review": {
+        "key_id": "5428667574386688",
+        "candidate_index": 3,
+        "visual_review_note": "Near-square with start/end gap and corner overshoot."
+      }
+    },
+    {
+      "category": "square",
+      "source_line": 1612,
+      "byte_offset": 3326130,
+      "byte_length": 2197,
+      "record_sha256": "e1c2170bbcbda95a3d99da72aebf35cf7c4cf8a3bab7305a24a8266f519ea8aa",
+      "selection_hash": "00abff54cd7f0104ed93ece635e969a686c87eaf0e6ab11e83f8ed4c835364b8",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 50,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          395.11700439453125,
+          90.30000305175781,
+          598.6849975585938,
+          239.78399658203125
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 5,
+      "key_id": "5307155987038208",
+      "review": {
+        "key_id": "5307155987038208",
+        "candidate_index": 5,
+        "visual_review_note": "Four-sided outline with small opening and bowed horizontal sides."
+      }
+    },
+    {
+      "category": "square",
+      "source_line": 857,
+      "byte_offset": 1761784,
+      "byte_length": 1128,
+      "record_sha256": "1674c67d8bd8f4427dfbb12a92782d360a921d03e1a12598d12ba113e0fb3d6f",
+      "selection_hash": "00d3da00255a540aaac761920e8f6593925408515d06c3e0f19ee401a5d7ea8e",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 75,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          385,
+          133,
+          1123,
+          672
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 7,
+      "key_id": "5330093125664768",
+      "review": {
+        "key_id": "5330093125664768",
+        "candidate_index": 7,
+        "visual_review_note": "Two-stroke skewed quadrilateral; intended squareness remains a hypothesis."
+      }
+    },
+    {
+      "category": "square",
+      "source_line": 1311,
+      "byte_offset": 2654825,
+      "byte_length": 811,
+      "record_sha256": "9aa7ec482ce65292acfce025f2b696def01dc4a9b4a269afd6a043ef848f5697",
+      "selection_hash": "01196da64f1ae5d1fadf0605143b36b40f4a7cf92c18accc28395360384b2bbb",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 56,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          47,
+          141,
+          283,
+          339
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 9,
+      "key_id": "4643920342417408",
+      "review": {
+        "key_id": "4643920342417408",
+        "candidate_index": 9,
+        "visual_review_note": "Slightly trapezoidal outline with upper-left overshoot."
+      }
+    },
+    {
+      "category": "square",
+      "source_line": 766,
+      "byte_offset": 1601767,
+      "byte_length": 855,
+      "record_sha256": "778741a81e2040dfc01427fedfecd75f37f1ea7237819558d81b52ee6448b418",
+      "selection_hash": "01337b787540e954009c54b6d3d33a3e96cbb9116764642a7d2324b1fca219b7",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 57,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          337,
+          156,
+          634,
+          465
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 12,
+      "key_id": "4885473531002880",
+      "review": {
+        "key_id": "4885473531002880",
+        "candidate_index": 12,
+        "visual_review_note": "Two-stroke skewed square-like outline with retraced corner."
+      }
+    },
+    {
+      "category": "square",
+      "source_line": 1647,
+      "byte_offset": 3394967,
+      "byte_length": 1857,
+      "record_sha256": "8f250d749b3f2342f2e30e8e72f8417a89552fcfe98f6f3984abd653e5cc3a44",
+      "selection_hash": "01c8de4420181d6f84b4ccffcb2bfec7260d6540084025d6881133f52928314e",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 138,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          476,
+          71,
+          909,
+          477
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 15,
+      "key_id": "5391295218450432",
+      "review": {
+        "key_id": "5391295218450432",
+        "candidate_index": 15,
+        "visual_review_note": "Near-square with mildly curved edges and lower-right overshoot."
+      }
+    },
+    {
+      "category": "square",
+      "source_line": 1731,
+      "byte_offset": 3566007,
+      "byte_length": 996,
+      "record_sha256": "695c485581ab77fc3b1488801b1e68775754b8bab38f75090541f6ad49a1a8ca",
+      "selection_hash": "02f94937082421edbf0aab85b2f22c836482877e248054206f33e45ad4135f38",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 68,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          242,
+          216,
+          555,
+          538
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 25,
+      "key_id": "5489350835961856",
+      "review": {
+        "key_id": "5489350835961856",
+        "candidate_index": 25,
+        "visual_review_note": "Two-stroke square-like outline with tilted top and lower-left overlap."
+      }
+    },
+    {
+      "category": "square",
+      "source_line": 1533,
+      "byte_offset": 3173504,
+      "byte_length": 2742,
+      "record_sha256": "3acd96ecdb2c7ff4366c0be94b8c7c83a65c86a544236987c7d7925ef406e666",
+      "selection_hash": "035e95cc00ab73f355fc8b4a9fcca74499314e4d6306d7bc34a72e9fb8d7c5c1",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 98,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          808,
+          282.9000015258789,
+          999,
+          463.9000015258789
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 30,
+      "key_id": "6224764945301504",
+      "review": {
+        "key_id": "6224764945301504",
+        "candidate_index": 30,
+        "visual_review_note": "Four dominant sides with start/end overshoot and curved lower corners."
+      }
+    },
+    {
+      "category": "square",
+      "source_line": 1954,
+      "byte_offset": 3991984,
+      "byte_length": 1098,
+      "record_sha256": "5e9784a1a8358498d070913b2d38d0fa7cf96c3850fde3f64fbb6d44c5b431ad",
+      "selection_hash": "0423d631a4b424bff0fc5a257facf26793fdf2c835561a32428530654d54ef37",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 77,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          358,
+          112,
+          751,
+          490
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 39,
+      "key_id": "6582382767374336",
+      "review": {
+        "key_id": "6582382767374336",
+        "candidate_index": 39,
+        "visual_review_note": "Near-square with sharp dominant corners and small tracing irregularities."
+      }
+    },
+    {
+      "category": "square",
+      "source_line": 460,
+      "byte_offset": 996165,
+      "byte_length": 1722,
+      "record_sha256": "0c50fac7c9b67fa261f1e757e8d0e148499bc3c6f2b4bd2580dbc3fa363646bd",
+      "selection_hash": "061ae04fe6600b12461ae347ece6b80a195d20f9221c4979c1ad7890334b06a3",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 125,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          641,
+          166,
+          874,
+          431
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 48,
+      "key_id": "5208405562097664",
+      "review": {
+        "key_id": "5208405562097664",
+        "candidate_index": 48,
+        "visual_review_note": "Near-square with visibly wavy sides; preserves jitter challenge."
+      }
+    },
+    {
+      "category": "circle",
+      "source_line": 1760,
+      "byte_offset": 3010148,
+      "byte_length": 813,
+      "record_sha256": "db0bceb053f8f540d5ad131d3ad3b1de100cfca7e363dc26440d15784225e4f1",
+      "selection_hash": "0025b844aac75c195c549cbf4bfc5fd33ed6640a2db63c026d7d9307fa48e205",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 58,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          321,
+          45,
+          636,
+          373
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 2,
+      "key_id": "4939537643995136",
+      "review": {
+        "key_id": "4939537643995136",
+        "candidate_index": 2,
+        "visual_review_note": "Oblique oval with a local closing overlap."
+      }
+    },
+    {
+      "category": "circle",
+      "source_line": 180,
+      "byte_offset": 312067,
+      "byte_length": 1544,
+      "record_sha256": "9c0def7ccac76b8e255ea4bd41f5318d72c348604bf3a50dcc2befc634a38c27",
+      "selection_hash": "005337d2515cd3aca1f36c9c4050cc65842aa8509a889cc5e6ac8f31fc3a50af",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 34,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          78.83599853515625,
+          88.32699584960938,
+          233.51400756835938,
+          232.48001098632812
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 3,
+      "key_id": "5465612832735232",
+      "review": {
+        "key_id": "5465612832735232",
+        "candidate_index": 3,
+        "visual_review_note": "Round outline with slight polygonal sampling and endpoint overlap."
+      }
+    },
+    {
+      "category": "circle",
+      "source_line": 1902,
+      "byte_offset": 3268470,
+      "byte_length": 722,
+      "record_sha256": "b5fb8727e595522fc61aca05e2ae72a38378e8f256a9007b1193d2ac4aef649f",
+      "selection_hash": "010a9d0fb993b36f3de7244a03f1921838b8d0e5fbe5df6f209f7771533e8d48",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 49,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          342,
+          88,
+          721,
+          472
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 6,
+      "key_id": "6695613674553344",
+      "review": {
+        "key_id": "6695613674553344",
+        "candidate_index": 6,
+        "visual_review_note": "Round outline with small closure overlap."
+      }
+    },
+    {
+      "category": "circle",
+      "source_line": 1479,
+      "byte_offset": 2465272,
+      "byte_length": 1857,
+      "record_sha256": "df3975a1aa923d0614af2c258e0022f7ea86fd24de476a45f8b2166a0c6a74b3",
+      "selection_hash": "01b8e02d5ae4c4592bc1003f4ce3f8964fa90fcd8676a125d1fc991de3917c3b",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 66,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          494,
+          167.1999969482422,
+          686,
+          329.1999969482422
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 9,
+      "key_id": "6483629100236800",
+      "review": {
+        "key_id": "6483629100236800",
+        "candidate_index": 9,
+        "visual_review_note": "Round outline with clear upper-right gap; observed open."
+      }
+    },
+    {
+      "category": "circle",
+      "source_line": 178,
+      "byte_offset": 309962,
+      "byte_length": 1504,
+      "record_sha256": "f1d9986522c8e4bde13acc69e58a5e2182f008eebef5bbc3160ba8cbec1c7043",
+      "selection_hash": "02cc7afa63df70b592a38551c5e4220245e0435aad3028edfc9a971435685250",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 96,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          437.5,
+          114,
+          735.5,
+          425.5
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 19,
+      "key_id": "6581566752948224",
+      "review": {
+        "key_id": "6581566752948224",
+        "candidate_index": 19,
+        "visual_review_note": "Near-circular outline with small upper gap."
+      }
+    },
+    {
+      "category": "circle",
+      "source_line": 1419,
+      "byte_offset": 2372756,
+      "byte_length": 868,
+      "record_sha256": "fdd426ab468cf050ae8ba3d212249bff7b6fbf5e54e1810d72b8d703f5011054",
+      "selection_hash": "032bd64a0258f5bd790f5107094a02ca04fb8459d9ee8155931a94ea8ab241bd",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 58,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          535,
+          228,
+          706,
+          417
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 21,
+      "key_id": "5800136628240384",
+      "review": {
+        "key_id": "5800136628240384",
+        "candidate_index": 21,
+        "visual_review_note": "Vertically elongated round outline; no aspect distortion applied."
+      }
+    },
+    {
+      "category": "circle",
+      "source_line": 739,
+      "byte_offset": 1211492,
+      "byte_length": 5359,
+      "record_sha256": "be0d9902151b76720c9b4b2671077fa907b326e59c1d444d4d4f3747c72c30fd",
+      "selection_hash": "04f35b4651f6bd9c9bcfe06d8a5cc70c0a586ebc4c8f8444b4ee74e65b281e59",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 131,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          115.31700134277344,
+          179,
+          443.1579895019531,
+          464.56298828125
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 32,
+      "key_id": "5040738494578688",
+      "review": {
+        "key_id": "5040738494578688",
+        "candidate_index": 32,
+        "visual_review_note": "Near-circular single-stroke outline."
+      }
+    },
+    {
+      "category": "circle",
+      "source_line": 415,
+      "byte_offset": 668778,
+      "byte_length": 1859,
+      "record_sha256": "a22746c3fab4d9327dffab131053a099b1d3e4286341b6546bd9c1d2a4c5daf4",
+      "selection_hash": "0647ada4830ad0ef728d61801405a895f7a22a2a34e02c58edc58e3bd65aaae5",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 137,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          397,
+          66,
+          1099,
+          661
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 38,
+      "key_id": "5295648528138240",
+      "review": {
+        "key_id": "5295648528138240",
+        "candidate_index": 38,
+        "visual_review_note": "Round outline with local waviness."
+      }
+    },
+    {
+      "category": "circle",
+      "source_line": 293,
+      "byte_offset": 492554,
+      "byte_length": 4842,
+      "record_sha256": "34f1e9fa95387057e99ca50e332ea7d4139282915871843d5c7347d7152199a2",
+      "selection_hash": "06d6f9a1a98c0ad61d3705fe466dff4282b0d1fcbd0e30699ed0ca09cca2fa28",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 114,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          148.7429962158203,
+          226.15899658203125,
+          423.88299560546875,
+          512.8829956054688
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 43,
+      "key_id": "6211699474432000",
+      "review": {
+        "key_id": "6211699474432000",
+        "candidate_index": 43,
+        "visual_review_note": "One-stroke round outline with a small lower gap."
+      }
+    },
+    {
+      "category": "circle",
+      "source_line": 106,
+      "byte_offset": 186711,
+      "byte_length": 1384,
+      "record_sha256": "220b378e90c86c0ce30c5ea95a0197786b85db02e11703974cdc0fe190012740",
+      "selection_hash": "075aa403e895c4f15748b05af5b6dbae273d80856bebacdfe15baf67a5d564d1",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 101,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          455,
+          18,
+          1446,
+          948
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 47,
+      "key_id": "6712442564378624",
+      "review": {
+        "key_id": "6712442564378624",
+        "candidate_index": 47,
+        "visual_review_note": "One-stroke rounded outline with an upper-right gap; observed open rather than automatically closed."
+      }
+    },
+    {
+      "category": "triangle",
+      "source_line": 1187,
+      "byte_offset": 2021440,
+      "byte_length": 2843,
+      "record_sha256": "f53adf83523c2d632c90f3e61e3f90153a4cdcb6e084d64926c43bbba20e37ed",
+      "selection_hash": "002062b424f5f603da2a71adc8f2187dcd121c39dda098bc1e2f420beac18cd7",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 67,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          280.781005859375,
+          67.63400268554688,
+          683.5250244140625,
+          415.2869873046875
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 2,
+      "key_id": "5542274005991424",
+      "review": {
+        "key_id": "5542274005991424",
+        "candidate_index": 2,
+        "visual_review_note": "Scalene triangular outline with bowed lower side."
+      }
+    },
+    {
+      "category": "triangle",
+      "source_line": 1037,
+      "byte_offset": 1790954,
+      "byte_length": 946,
+      "record_sha256": "d4bb855dbbd8f9784a1b94ece6c2d7f857debe53802d3da77ccd7431601ebf76",
+      "selection_hash": "008b2b29e94523d37574c0f506cd2a8429b9e91f01a8b74d3ffb03324d6d716f",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 64,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          525,
+          225,
+          846,
+          442
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 4,
+      "key_id": "4972963289890816",
+      "review": {
+        "key_id": "4972963289890816",
+        "candidate_index": 4,
+        "visual_review_note": "Broad triangular outline with curved sides."
+      }
+    },
+    {
+      "category": "triangle",
+      "source_line": 50,
+      "byte_offset": 78992,
+      "byte_length": 600,
+      "record_sha256": "bb862f8524c9ebfb8b7a2a5d07147a53e97ffdaa59d67fa2f8ce44261c8b7ad6",
+      "selection_hash": "0120098981d9efd41f538a2b75f16529fa35b7ae4c9bd6cf2929a83a04ee072f",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 36,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          744,
+          215,
+          1127,
+          505
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 2,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 9,
+      "key_id": "5707561011511296",
+      "review": {
+        "key_id": "5707561011511296",
+        "candidate_index": 9,
+        "visual_review_note": "Two-stroke triangular outline with separated endpoints."
+      }
+    },
+    {
+      "category": "triangle",
+      "source_line": 1128,
+      "byte_offset": 1940117,
+      "byte_length": 2630,
+      "record_sha256": "68c20ef5de9521d334e8d21f3e271de05aa07daab342871c18bfef436752b454",
+      "selection_hash": "013783affa2a88eca87d9b3f7e49909e41a42c289408d6036ac3f8f8445409d0",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 62,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          80.36199951171875,
+          66,
+          290.2279968261719,
+          255.6669921875
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 12,
+      "key_id": "5813280050249728",
+      "review": {
+        "key_id": "5813280050249728",
+        "candidate_index": 12,
+        "visual_review_note": "Obliquely oriented triangle with upper overshoot."
+      }
+    },
+    {
+      "category": "triangle",
+      "source_line": 652,
+      "byte_offset": 1124951,
+      "byte_length": 1044,
+      "record_sha256": "9655a9e194891936691fa0f5bd8c848f5d9dbc87d34fe003d7ec325a59c7dcfd",
+      "selection_hash": "015e9795f57a59bfe37635b59b3de06802a99649017f182fe998b187919b3efb",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 75,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          496,
+          113,
+          944,
+          579
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 15,
+      "key_id": "6592719138848768",
+      "review": {
+        "key_id": "6592719138848768",
+        "candidate_index": 15,
+        "visual_review_note": "Near-regular triangle with small lower-left overlap."
+      }
+    },
+    {
+      "category": "triangle",
+      "source_line": 190,
+      "byte_offset": 305291,
+      "byte_length": 881,
+      "record_sha256": "145d98bf664da4b6ae527f1578846f2b7af54d395fdc5476c7dc0c5c2136d919",
+      "selection_hash": "026120a57d74fae13d59693179a1c65b69b087c6f5c0808cfe2d93e9c990792b",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 18,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          93.16100311279297,
+          103.9949951171875,
+          268.1700134277344,
+          277.3699951171875
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 24,
+      "key_id": "4526183582531584",
+      "review": {
+        "key_id": "4526183582531584",
+        "candidate_index": 24,
+        "visual_review_note": "Right-triangle-like outline with lower-left gap."
+      }
+    },
+    {
+      "category": "triangle",
+      "source_line": 1751,
+      "byte_offset": 2958378,
+      "byte_length": 2326,
+      "record_sha256": "a42dc6ecd793345447c9dad74bc8d48efe5b5d729a3018d2863747b814971956",
+      "selection_hash": "02cd965fba5e15669faf28e8c21c0e7b7eba295917836525993979a0a93bf283",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 59,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          91,
+          55,
+          242.5,
+          262
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 27,
+      "key_id": "6537012356055040",
+      "review": {
+        "key_id": "6537012356055040",
+        "candidate_index": 27,
+        "visual_review_note": "Two-stroke tall triangle with small closing overshoot."
+      }
+    },
+    {
+      "category": "triangle",
+      "source_line": 98,
+      "byte_offset": 164627,
+      "byte_length": 1213,
+      "record_sha256": "27ce373562da84e67081ab5250e71deaf571865db13f8c7b468b915579877010",
+      "selection_hash": "03daf3a35bbfa17dbcd841a6b2422ad6751a2b530bdd6dd2b20de365d03bd8b6",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 88,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          443,
+          136,
+          831,
+          350
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 33,
+      "key_id": "5245428700282880",
+      "review": {
+        "key_id": "5245428700282880",
+        "candidate_index": 33,
+        "visual_review_note": "Broad, low triangle with concave sides; game recognized=false despite visible triangular structure."
+      }
+    },
+    {
+      "category": "triangle",
+      "source_line": 1406,
+      "byte_offset": 2383220,
+      "byte_length": 2294,
+      "record_sha256": "68dafc1757feae41c75655ec0a57bff1100b8fa88d3067c24617ff0c07b88725",
+      "selection_hash": "04b142de4773b6eeeff1fc86fd48d31034fd88b59957aa14bf53273ec399df78",
+      "metrics": {
+        "stroke_count": 3,
+        "point_count": 59,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          93.91699981689453,
+          139,
+          289,
+          284
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 41,
+      "key_id": "6662280412397568",
+      "review": {
+        "key_id": "6662280412397568",
+        "candidate_index": 41,
+        "visual_review_note": "Three-stroke triangular outline with gaps; no automatic welding."
+      }
+    },
+    {
+      "category": "triangle",
+      "source_line": 496,
+      "byte_offset": 868046,
+      "byte_length": 738,
+      "record_sha256": "2bf96f11d8025cdaabb1499c6357eeda357db6cf017f00b3f87a3bc2731eda35",
+      "selection_hash": "05e606a427b7d8a28d14ab016cb36800a02a563c369d93f046f766b6ca4879fe",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 49,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          53,
+          114,
+          313,
+          399
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 48,
+      "key_id": "5655452182380544",
+      "review": {
+        "key_id": "5655452182380544",
+        "candidate_index": 48,
+        "visual_review_note": "Two-stroke near-regular triangular outline."
+      }
+    },
+    {
+      "category": "octagon",
+      "source_line": 1902,
+      "byte_offset": 4213220,
+      "byte_length": 4110,
+      "record_sha256": "eecce5a1ad95c91a87c3dbf3f76e1390661f6847b7e5fe3d627f66a2b70755b8",
+      "selection_hash": "0061c92f8702593a208753bf0f2d29d3c479a5d0f8a5ee7f10773dfedd511086",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 98,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          81.14299774169922,
+          82,
+          307.6310119628906,
+          329.0589904785156
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 4,
+      "key_id": "5686472046804992",
+      "review": {
+        "key_id": "5686472046804992",
+        "candidate_index": 4,
+        "visual_review_note": "Eight dominant sides with rounded lower transitions and a small upper-left opening."
+      }
+    },
+    {
+      "category": "octagon",
+      "source_line": 1221,
+      "byte_offset": 2695515,
+      "byte_length": 2778,
+      "record_sha256": "67eb1404f0614a6d77edd2c590d5108716672ed55e2b15b0614c50afffd2cfcf",
+      "selection_hash": "0060aebd946553c4cbed378db4c288cca550b0a30cec33a872f5e3af41359fd5",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 200,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          763,
+          351,
+          1159,
+          708
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 3,
+      "key_id": "5357828535484416",
+      "review": {
+        "key_id": "5357828535484416",
+        "candidate_index": 3,
+        "visual_review_note": "Eight-side-like outline with small lower gap; rounded sampled corners."
+      }
+    },
+    {
+      "category": "octagon",
+      "source_line": 1066,
+      "byte_offset": 2347899,
+      "byte_length": 1586,
+      "record_sha256": "cb5f496436c867be6885bc50b83d94ccb51eac997b08a006dc6511dee2ca441d",
+      "selection_hash": "00eb8183b077c157cdedddf4a7cb30bdddc39e49ef11fe1a3640bd277809e64b",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 115,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          68,
+          102,
+          290,
+          339
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 10,
+      "key_id": "6310676689584128",
+      "review": {
+        "key_id": "6310676689584128",
+        "candidate_index": 10,
+        "visual_review_note": "Eight dominant sides with upper-left overshoot."
+      }
+    },
+    {
+      "category": "octagon",
+      "source_line": 1574,
+      "byte_offset": 3492558,
+      "byte_length": 2535,
+      "record_sha256": "bef16fd82278ae0ee7d61203f6467f84f4699b3446e741fb2134abc52d80a078",
+      "selection_hash": "017309e45def6047503a7a55658b3302cf957fc0855378081262d02d245449b5",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 182,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          809,
+          189,
+          1142,
+          563
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 16,
+      "key_id": "6205168821469184",
+      "review": {
+        "key_id": "6205168821469184",
+        "candidate_index": 16,
+        "visual_review_note": "Near-regular eight-sided outline with small upper-left opening."
+      }
+    },
+    {
+      "category": "octagon",
+      "source_line": 1087,
+      "byte_offset": 2407085,
+      "byte_length": 2474,
+      "record_sha256": "79998861f1a4f35991b8481d2fd0b2f3a44d147f77c1b8b8c81ac2618694b7fc",
+      "selection_hash": "027bf00ef61842cbd0524501bc45bf406504a52825a21fca30a961f2e588266a",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 185,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          300,
+          208,
+          661,
+          653
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 22,
+      "key_id": "5411138772664320",
+      "review": {
+        "key_id": "5411138772664320",
+        "candidate_index": 22,
+        "visual_review_note": "Two-stroke tall eight-sided outline with left-side gap."
+      }
+    },
+    {
+      "category": "octagon",
+      "source_line": 1072,
+      "byte_offset": 2371236,
+      "byte_length": 1262,
+      "record_sha256": "06517248d032a95171d4d65101ef2178bd690f37d26591488fe4fc1992b059db",
+      "selection_hash": "03619a94b083dee1f1f7b39fc4cb635305efddd753ebace938feb754c3fee664",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 86,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          845,
+          292,
+          1050,
+          485
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 28,
+      "key_id": "5260559014428672",
+      "review": {
+        "key_id": "5260559014428672",
+        "candidate_index": 28,
+        "visual_review_note": "Eight dominant sides with uneven lengths and wavy tracing; all principal sides have visible support."
+      }
+    },
+    {
+      "category": "octagon",
+      "source_line": 1090,
+      "byte_offset": 2412571,
+      "byte_length": 2488,
+      "record_sha256": "8d6fa9fc274953755230a69b960034bfb9a133a1309f8f975edaee5d55fe6aab",
+      "selection_hash": "03e9b1ce79b71d2034cea674228aab1f0ea81c7fdf527fdf646bb129463e6bdd",
+      "metrics": {
+        "stroke_count": 8,
+        "point_count": 172,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          673,
+          117,
+          1126,
+          582
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 34,
+      "key_id": "6321548258443264",
+      "review": {
+        "key_id": "6321548258443264",
+        "candidate_index": 34,
+        "visual_review_note": "Eight-stroke octagon-like outline with upper asymmetry and corner overrun; exact side count remains an interpretation."
+      }
+    },
+    {
+      "category": "octagon",
+      "source_line": 1648,
+      "byte_offset": 3647938,
+      "byte_length": 1252,
+      "record_sha256": "d429a4856a36834b388f13c636acc677ae4d50cca57aa4e963be014a8eb79d60",
+      "selection_hash": "0423bda8a18792864b854a73fc6c9aa1244c45bb303ff45788076336ae5e3223",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 87,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          604,
+          151,
+          778,
+          331
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 38,
+      "key_id": "6746637814726656",
+      "review": {
+        "key_id": "6746637814726656",
+        "candidate_index": 38,
+        "visual_review_note": "One-stroke tall eight-sided outline."
+      }
+    },
+    {
+      "category": "octagon",
+      "source_line": 4,
+      "byte_offset": 11137,
+      "byte_length": 1273,
+      "record_sha256": "42f054e6430634e0e7cabc2acd555ccd6dd2499d43f5af0d52200340ca4e9428",
+      "selection_hash": "0504bacda7ab312f24a3088edf08063bc4498ab095e8c8136de87cef6d4cac64",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 88,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          348,
+          100,
+          767,
+          498
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 43,
+      "key_id": "5855580914712576",
+      "review": {
+        "key_id": "5855580914712576",
+        "candidate_index": 43,
+        "visual_review_note": "Near-regular eight-sided outline with lower-right overshoot."
+      }
+    },
+    {
+      "category": "octagon",
+      "source_line": 1700,
+      "byte_offset": 3769524,
+      "byte_length": 1251,
+      "record_sha256": "ddfe290ca70d48cf70fbc8cf1dc5def6fd4fb12d14ddf88ce160ba345479fa52",
+      "selection_hash": "0589b5e7d87cc002cb415b50f4138e2001002080f724647014361688aa6de70b",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 88,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          101,
+          98,
+          297,
+          311
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 47,
+      "key_id": "6693335945183232",
+      "review": {
+        "key_id": "6693335945183232",
+        "candidate_index": 47,
+        "visual_review_note": "Eight-sided outline with upper-left overrun and mild edge irregularity."
+      }
+    },
+    {
+      "category": "moon",
+      "source_line": 818,
+      "byte_offset": 2086010,
+      "byte_length": 1767,
+      "record_sha256": "98029353ff133594703e12a6fb94ae1cd1c7b3fe743df29c8d84a7d3d6ee22b3",
+      "selection_hash": "00b9d52fdd68e3bc76dcf3fbfdb45afb7b33910b1e36e3458d3d687a9be317a9",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 127,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          893,
+          293,
+          1028,
+          652
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 4,
+      "key_id": "5414366813880320",
+      "review": {
+        "key_id": "5414366813880320",
+        "candidate_index": 4,
+        "visual_review_note": "Plain narrow right-facing crescent; two tips, no decoration."
+      }
+    },
+    {
+      "category": "moon",
+      "source_line": 654,
+      "byte_offset": 1679194,
+      "byte_length": 1431,
+      "record_sha256": "f84505e57106e739348f6fbbad212b4e636889588e74647083d60b7fae3aa3a1",
+      "selection_hash": "0111bfa878389dd99725e2c8011751c4614755eabc913210d24ac4ea00e93bbb",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 104,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          80,
+          102,
+          308,
+          363
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 6,
+      "key_id": "6533189453479936",
+      "review": {
+        "key_id": "6533189453479936",
+        "candidate_index": 6,
+        "visual_review_note": "Plain broad left crescent with sharp tips; no decoration."
+      }
+    },
+    {
+      "category": "moon",
+      "source_line": 1478,
+      "byte_offset": 4008686,
+      "byte_length": 1594,
+      "record_sha256": "3a04820df88ca976d4e1830e475ca9933c654f348af820f063caa49aea058cb3",
+      "selection_hash": "01dbb20fe9f49f2d4a6391aeff06fc8c181efe073c0e36bf625f931aeb13cc15",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 116,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          405,
+          91,
+          641,
+          367
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 11,
+      "key_id": "6096033018806272",
+      "review": {
+        "key_id": "6096033018806272",
+        "candidate_index": 11,
+        "visual_review_note": "Plain tilted crescent; long outer and inner arcs, no decoration."
+      }
+    },
+    {
+      "category": "moon",
+      "source_line": 1993,
+      "byte_offset": 5484637,
+      "byte_length": 1022,
+      "record_sha256": "d6e7c894124935798456c0eb6916078d8ebb43a1593216404b5ff2e47b12f4fb",
+      "selection_hash": "028eafd364dbebed21b527163a90de1b065b1d3b4c2bd105900d7e731ad4d9e2",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 73,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          345,
+          91,
+          658,
+          538
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 15,
+      "key_id": "4842093828636672",
+      "review": {
+        "key_id": "4842093828636672",
+        "candidate_index": 15,
+        "visual_review_note": "Plain broad left crescent with two tips; no decoration."
+      }
+    },
+    {
+      "category": "moon",
+      "source_line": 491,
+      "byte_offset": 1271779,
+      "byte_length": 1252,
+      "record_sha256": "3a0723a73a4583699bb677208c2abfc802a58a49d5c420a7b766f67164e8e37a",
+      "selection_hash": "02e17596770cf9db8d2734dd8b07476f91865057e93ea717acc8a4511116a058",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 92,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          43,
+          58,
+          284,
+          321
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 2,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 19,
+      "key_id": "6139875722002432",
+      "review": {
+        "key_id": "6139875722002432",
+        "candidate_index": 19,
+        "visual_review_note": "Plain right crescent drawn with two strokes and a small lower overlap."
+      }
+    },
+    {
+      "category": "moon",
+      "source_line": 1367,
+      "byte_offset": 3645645,
+      "byte_length": 1439,
+      "record_sha256": "133086dd0b5da10767ebb68025cbe2a8e539299833f88c4c9119b869255c484c",
+      "selection_hash": "02f4eb670efd543dfc7a36dca08c2591065f8eca948553ac1d9b31d1cf23871b",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 104,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          119,
+          106,
+          249,
+          317
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 21,
+      "key_id": "4973215954763776",
+      "review": {
+        "key_id": "4973215954763776",
+        "candidate_index": 21,
+        "visual_review_note": "Plain left crescent with somewhat angular inner/outer contours."
+      }
+    },
+    {
+      "category": "moon",
+      "source_line": 1883,
+      "byte_offset": 5156603,
+      "byte_length": 2530,
+      "record_sha256": "b894c22021fd42ee7ab7fd2e1589a1093efb4397c9e94a92c4df85c3bd1398d9",
+      "selection_hash": "0334f67522706fcc73b30d0c7149287e6244727b83767275bb67b39a24aaeda4",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 190,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          822,
+          131,
+          1062,
+          534
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 24,
+      "key_id": "5196317561192448",
+      "review": {
+        "key_id": "5196317561192448",
+        "candidate_index": 24,
+        "visual_review_note": "Plain right crescent with broad band and pointed ends."
+      }
+    },
+    {
+      "category": "moon",
+      "source_line": 1254,
+      "byte_offset": 3339767,
+      "byte_length": 852,
+      "record_sha256": "d5594ec3517843657be4957df67ad76d743333372eef6b635e87eab884e2d869",
+      "selection_hash": "05028db8cca53fb890f98ee341aa0dbdeb5e96118e43921dd09e734b267c99b3",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 59,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          526,
+          148,
+          674,
+          424
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 37,
+      "key_id": "6365392459005952",
+      "review": {
+        "key_id": "6365392459005952",
+        "candidate_index": 37,
+        "visual_review_note": "Plain right crescent with unequal tip sharpness."
+      }
+    },
+    {
+      "category": "moon",
+      "source_line": 1911,
+      "byte_offset": 5231736,
+      "byte_length": 2129,
+      "record_sha256": "e8f8bba481e2c8c04b9fd34eb5ac8706e70ac387a0c51ef8cc10c30335cf3c1c",
+      "selection_hash": "053c63f598941062d4fb27138b059f7266e226845f374261fec2d04d7e2ecac2",
+      "metrics": {
+        "stroke_count": 1,
+        "point_count": 159,
+        "stroke_axis_counts": [
+          3
+        ],
+        "coordinate_bounds": [
+          373,
+          76,
+          825,
+          535
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 0,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 38,
+      "key_id": "5638051827023872",
+      "review": {
+        "key_id": "5638051827023872",
+        "candidate_index": 38,
+        "visual_review_note": "Plain tilted left crescent with a tip gap; observed open."
+      }
+    },
+    {
+      "category": "moon",
+      "source_line": 790,
+      "byte_offset": 2024560,
+      "byte_length": 1716,
+      "record_sha256": "99eed9ba804876b9c0ef37fb216646743ecc635a9fa6bdad4142cd72b2d8d68b",
+      "selection_hash": "060cf5aa45b99d99eda1b1eebac112da26f73da2e7fc882ab304c342965ec15a",
+      "metrics": {
+        "stroke_count": 2,
+        "point_count": 128,
+        "stroke_axis_counts": [
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          474,
+          161,
+          683,
+          622
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 42,
+      "key_id": "5852246447226880",
+      "review": {
+        "key_id": "5852246447226880",
+        "candidate_index": 42,
+        "visual_review_note": "Plain narrow right crescent in two strokes; no decoration."
+      }
+    }
+  ]
+}

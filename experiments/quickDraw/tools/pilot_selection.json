@@ -1,0 +1,289 @@
+{
+  "status": "reviewed_by_agent; user review pending",
+  "reviewer": "Two Codex agents reviewed the overview and enlarged category sheets; replacement octagons inspected at larger scale.",
+  "selection_goal": "Ten useful structural pilot examples per requested prompt, with tracing irregularity, gaps, overlaps, aspect variation and multiple strokes; plain undecorated crescents only for moon.",
+  "selection_bias": "Curated positive examples from a bounded first-2,000-record prefix and 48 hash-selected candidates per category; not a prevalence estimate or statistical population sample. Prompt/recognized are context metadata, never structural ground truth.",
+  "excluded_examples": "Moon full circles, craters, stars, text and extra objects; other obvious multi-object or unrelated scribbles. Rejected data remains in candidate records.",
+  "categories": {
+    "square": [
+      {
+        "key_id": "5428667574386688",
+        "candidate_index": 3,
+        "visual_review_note": "Near-square with start/end gap and corner overshoot."
+      },
+      {
+        "key_id": "5307155987038208",
+        "candidate_index": 5,
+        "visual_review_note": "Four-sided outline with small opening and bowed horizontal sides."
+      },
+      {
+        "key_id": "5330093125664768",
+        "candidate_index": 7,
+        "visual_review_note": "Two-stroke skewed quadrilateral; intended squareness remains a hypothesis."
+      },
+      {
+        "key_id": "4643920342417408",
+        "candidate_index": 9,
+        "visual_review_note": "Slightly trapezoidal outline with upper-left overshoot."
+      },
+      {
+        "key_id": "4885473531002880",
+        "candidate_index": 12,
+        "visual_review_note": "Two-stroke skewed square-like outline with retraced corner."
+      },
+      {
+        "key_id": "5391295218450432",
+        "candidate_index": 15,
+        "visual_review_note": "Near-square with mildly curved edges and lower-right overshoot."
+      },
+      {
+        "key_id": "5489350835961856",
+        "candidate_index": 25,
+        "visual_review_note": "Two-stroke square-like outline with tilted top and lower-left overlap."
+      },
+      {
+        "key_id": "6224764945301504",
+        "candidate_index": 30,
+        "visual_review_note": "Four dominant sides with start/end overshoot and curved lower corners."
+      },
+      {
+        "key_id": "6582382767374336",
+        "candidate_index": 39,
+        "visual_review_note": "Near-square with sharp dominant corners and small tracing irregularities."
+      },
+      {
+        "key_id": "5208405562097664",
+        "candidate_index": 48,
+        "visual_review_note": "Near-square with visibly wavy sides; preserves jitter challenge."
+      }
+    ],
+    "circle": [
+      {
+        "key_id": "4939537643995136",
+        "candidate_index": 2,
+        "visual_review_note": "Oblique oval with a local closing overlap."
+      },
+      {
+        "key_id": "5465612832735232",
+        "candidate_index": 3,
+        "visual_review_note": "Round outline with slight polygonal sampling and endpoint overlap."
+      },
+      {
+        "key_id": "6695613674553344",
+        "candidate_index": 6,
+        "visual_review_note": "Round outline with small closure overlap."
+      },
+      {
+        "key_id": "6483629100236800",
+        "candidate_index": 9,
+        "visual_review_note": "Round outline with clear upper-right gap; observed open."
+      },
+      {
+        "key_id": "6581566752948224",
+        "candidate_index": 19,
+        "visual_review_note": "Near-circular outline with small upper gap."
+      },
+      {
+        "key_id": "5800136628240384",
+        "candidate_index": 21,
+        "visual_review_note": "Vertically elongated round outline; no aspect distortion applied."
+      },
+      {
+        "key_id": "5040738494578688",
+        "candidate_index": 32,
+        "visual_review_note": "Near-circular single-stroke outline."
+      },
+      {
+        "key_id": "5295648528138240",
+        "candidate_index": 38,
+        "visual_review_note": "Round outline with local waviness."
+      },
+      {
+        "key_id": "6211699474432000",
+        "candidate_index": 43,
+        "visual_review_note": "One-stroke round outline with a small lower gap."
+      },
+      {
+        "key_id": "6712442564378624",
+        "candidate_index": 47,
+        "visual_review_note": "One-stroke rounded outline with an upper-right gap; observed open rather than automatically closed."
+      }
+    ],
+    "triangle": [
+      {
+        "key_id": "5542274005991424",
+        "candidate_index": 2,
+        "visual_review_note": "Scalene triangular outline with bowed lower side."
+      },
+      {
+        "key_id": "4972963289890816",
+        "candidate_index": 4,
+        "visual_review_note": "Broad triangular outline with curved sides."
+      },
+      {
+        "key_id": "5707561011511296",
+        "candidate_index": 9,
+        "visual_review_note": "Two-stroke triangular outline with separated endpoints."
+      },
+      {
+        "key_id": "5813280050249728",
+        "candidate_index": 12,
+        "visual_review_note": "Obliquely oriented triangle with upper overshoot."
+      },
+      {
+        "key_id": "6592719138848768",
+        "candidate_index": 15,
+        "visual_review_note": "Near-regular triangle with small lower-left overlap."
+      },
+      {
+        "key_id": "4526183582531584",
+        "candidate_index": 24,
+        "visual_review_note": "Right-triangle-like outline with lower-left gap."
+      },
+      {
+        "key_id": "6537012356055040",
+        "candidate_index": 27,
+        "visual_review_note": "Two-stroke tall triangle with small closing overshoot."
+      },
+      {
+        "key_id": "5245428700282880",
+        "candidate_index": 33,
+        "visual_review_note": "Broad, low triangle with concave sides; game recognized=false despite visible triangular structure."
+      },
+      {
+        "key_id": "6662280412397568",
+        "candidate_index": 41,
+        "visual_review_note": "Three-stroke triangular outline with gaps; no automatic welding."
+      },
+      {
+        "key_id": "5655452182380544",
+        "candidate_index": 48,
+        "visual_review_note": "Two-stroke near-regular triangular outline."
+      }
+    ],
+    "octagon": [
+      {
+        "key_id": "5686472046804992",
+        "candidate_index": 4,
+        "visual_review_note": "Eight dominant sides with rounded lower transitions and a small upper-left opening."
+      },
+      {
+        "key_id": "5357828535484416",
+        "candidate_index": 3,
+        "visual_review_note": "Eight-side-like outline with small lower gap; rounded sampled corners."
+      },
+      {
+        "key_id": "6310676689584128",
+        "candidate_index": 10,
+        "visual_review_note": "Eight dominant sides with upper-left overshoot."
+      },
+      {
+        "key_id": "6205168821469184",
+        "candidate_index": 16,
+        "visual_review_note": "Near-regular eight-sided outline with small upper-left opening."
+      },
+      {
+        "key_id": "5411138772664320",
+        "candidate_index": 22,
+        "visual_review_note": "Two-stroke tall eight-sided outline with left-side gap."
+      },
+      {
+        "key_id": "5260559014428672",
+        "candidate_index": 28,
+        "visual_review_note": "Eight dominant sides with uneven lengths and wavy tracing; all principal sides have visible support."
+      },
+      {
+        "key_id": "6321548258443264",
+        "candidate_index": 34,
+        "visual_review_note": "Eight-stroke octagon-like outline with upper asymmetry and corner overrun; exact side count remains an interpretation."
+      },
+      {
+        "key_id": "6746637814726656",
+        "candidate_index": 38,
+        "visual_review_note": "One-stroke tall eight-sided outline."
+      },
+      {
+        "key_id": "5855580914712576",
+        "candidate_index": 43,
+        "visual_review_note": "Near-regular eight-sided outline with lower-right overshoot."
+      },
+      {
+        "key_id": "6693335945183232",
+        "candidate_index": 47,
+        "visual_review_note": "Eight-sided outline with upper-left overrun and mild edge irregularity."
+      }
+    ],
+    "moon": [
+      {
+        "key_id": "5414366813880320",
+        "candidate_index": 4,
+        "visual_review_note": "Plain narrow right-facing crescent; two tips, no decoration."
+      },
+      {
+        "key_id": "6533189453479936",
+        "candidate_index": 6,
+        "visual_review_note": "Plain broad left crescent with sharp tips; no decoration."
+      },
+      {
+        "key_id": "6096033018806272",
+        "candidate_index": 11,
+        "visual_review_note": "Plain tilted crescent; long outer and inner arcs, no decoration."
+      },
+      {
+        "key_id": "4842093828636672",
+        "candidate_index": 15,
+        "visual_review_note": "Plain broad left crescent with two tips; no decoration."
+      },
+      {
+        "key_id": "6139875722002432",
+        "candidate_index": 19,
+        "visual_review_note": "Plain right crescent drawn with two strokes and a small lower overlap."
+      },
+      {
+        "key_id": "4973215954763776",
+        "candidate_index": 21,
+        "visual_review_note": "Plain left crescent with somewhat angular inner/outer contours."
+      },
+      {
+        "key_id": "5196317561192448",
+        "candidate_index": 24,
+        "visual_review_note": "Plain right crescent with broad band and pointed ends."
+      },
+      {
+        "key_id": "6365392459005952",
+        "candidate_index": 37,
+        "visual_review_note": "Plain right crescent with unequal tip sharpness."
+      },
+      {
+        "key_id": "5638051827023872",
+        "candidate_index": 38,
+        "visual_review_note": "Plain tilted left crescent with a tip gap; observed open."
+      },
+      {
+        "key_id": "5852246447226880",
+        "candidate_index": 42,
+        "visual_review_note": "Plain narrow right crescent in two strokes; no decoration."
+      }
+    ]
+  },
+  "challenges": [
+    {
+      "category": "octagon",
+      "key_id": "6634885554896896",
+      "candidate_index": 2,
+      "visual_review_note": "Six recorded strokes trace an incomplete octagon-like outline with multiple gaps and absent lower-side support; completion is an assumption, not observation."
+    },
+    {
+      "category": "octagon",
+      "key_id": "6007741141221376",
+      "candidate_index": 31,
+      "visual_review_note": "Eight strokes with multiple gaps and unequal side lengths."
+    },
+    {
+      "category": "circle",
+      "key_id": "5502290897141760",
+      "candidate_index": 26,
+      "visual_review_note": "Three-stroke rounded outline with a large missing lower-right arc; retained outside the initial core set for explicit completion challenges."
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+tools/__pycache__/
+bin/
+obj/
+# Source corpora and expanded acquisition audits belong in the external data workspace.
+local-data/

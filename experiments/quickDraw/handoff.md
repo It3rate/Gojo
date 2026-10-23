@@ -1,5 +1,9 @@
 # Ornament evidence and reconstruction: Quick Draw handoff
 
+The subsequent [Quick Draw acquisition pilot](README.md) records the first
+parser, native conversion, curated samples, fitting results and next steps.
+The checkpoint descriptions below remain historical handoff evidence.
+
 ## Scope and current state
 
 This summarizes the conceptual direction, implemented mechanisms, experiments,
