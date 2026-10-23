@@ -1,0 +1,668 @@
+{
+  "schema": "gojo.alphabet-native-analysis.v1",
+  "passed": true,
+  "scene": "diagnostic-alphabet",
+  "checks": 254,
+  "objects": 26,
+  "sites": 118,
+  "edges": 100,
+  "strokes": 100,
+  "closedCounterRegions": 8,
+  "correspondences": 18,
+  "verifiedCorrespondences": 18,
+  "correspondenceKinds": {
+    "mirror": 11,
+    "translation": 7
+  },
+  "independentCycles": 8,
+  "siteKinds": {
+    "I": 20,
+    "K": 3,
+    "L": 23,
+    "T": 11,
+    "X": 2,
+    "Y": 1,
+    "endpoint": 58
+  },
+  "traceKinds": {
+    "curved": 28,
+    "straight": 72
+  },
+  "scopeSeparationVerified": true,
+  "nativeRestoreVerified": true,
+  "archive": "013.annotated.gojo.json",
+  "archiveSha256": "4fa77b7c1c13953591a940e513b293e5afa353914847a2d153c2e09c6e6c0c32",
+  "sourceSha256": "5e4433e81666e6cc4be479a39680b651bc59456da21f258d2b2026a8c987bce1",
+  "nativeInspectorSha256": "26afd50878c74eb712f13756bb0a10ce64c6fdc6058f72c52d9f240cbb7f4cf4",
+  "auditScriptSha256": "5750132583c280d1dff0869f2f46c9b73b5c72588d26f48351db76bcfe1a6868",
+  "letters": [
+    {
+      "letter": "A",
+      "object": "o0",
+      "sites": 5,
+      "edges": 5,
+      "connectedComponents": 1,
+      "cycleRank": 1,
+      "declaredCounters": 1,
+      "counterBoundaryRank": 1,
+      "counterRegions": [
+        "r0"
+      ],
+      "traceKinds": {
+        "straight": 5
+      },
+      "siteKinds": {
+        "L": 1,
+        "T": 2,
+        "endpoint": 2
+      },
+      "junctions": [
+        {
+          "site": "s1",
+          "kind": "T",
+          "degree": 3
+        },
+        {
+          "site": "s3",
+          "kind": "T",
+          "degree": 3
+        }
+      ]
+    },
+    {
+      "letter": "B",
+      "object": "o1",
+      "sites": 3,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 2,
+      "declaredCounters": 2,
+      "counterBoundaryRank": 2,
+      "counterRegions": [
+        "r1",
+        "r2"
+      ],
+      "traceKinds": {
+        "curved": 2,
+        "straight": 2
+      },
+      "siteKinds": {
+        "K": 1,
+        "L": 2
+      },
+      "junctions": [
+        {
+          "site": "s6",
+          "kind": "K",
+          "degree": 4
+        }
+      ]
+    },
+    {
+      "letter": "C",
+      "object": "o2",
+      "sites": 5,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "curved": 4
+      },
+      "siteKinds": {
+        "I": 3,
+        "endpoint": 2
+      },
+      "junctions": []
+    },
+    {
+      "letter": "D",
+      "object": "o3",
+      "sites": 2,
+      "edges": 2,
+      "connectedComponents": 1,
+      "cycleRank": 1,
+      "declaredCounters": 1,
+      "counterBoundaryRank": 1,
+      "counterRegions": [
+        "r3"
+      ],
+      "traceKinds": {
+        "curved": 1,
+        "straight": 1
+      },
+      "siteKinds": {
+        "L": 2
+      },
+      "junctions": []
+    },
+    {
+      "letter": "E",
+      "object": "o4",
+      "sites": 6,
+      "edges": 5,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 5
+      },
+      "siteKinds": {
+        "L": 2,
+        "T": 1,
+        "endpoint": 3
+      },
+      "junctions": [
+        {
+          "site": "s16",
+          "kind": "T",
+          "degree": 3
+        }
+      ]
+    },
+    {
+      "letter": "F",
+      "object": "o5",
+      "sites": 5,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 4
+      },
+      "siteKinds": {
+        "L": 1,
+        "T": 1,
+        "endpoint": 3
+      },
+      "junctions": [
+        {
+          "site": "s22",
+          "kind": "T",
+          "degree": 3
+        }
+      ]
+    },
+    {
+      "letter": "G",
+      "object": "o6",
+      "sites": 6,
+      "edges": 5,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "curved": 4,
+        "straight": 1
+      },
+      "siteKinds": {
+        "I": 3,
+        "L": 1,
+        "endpoint": 2
+      },
+      "junctions": []
+    },
+    {
+      "letter": "H",
+      "object": "o7",
+      "sites": 6,
+      "edges": 5,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 5
+      },
+      "siteKinds": {
+        "T": 2,
+        "endpoint": 4
+      },
+      "junctions": [
+        {
+          "site": "s33",
+          "kind": "T",
+          "degree": 3
+        },
+        {
+          "site": "s36",
+          "kind": "T",
+          "degree": 3
+        }
+      ]
+    },
+    {
+      "letter": "I",
+      "object": "o8",
+      "sites": 6,
+      "edges": 5,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 5
+      },
+      "siteKinds": {
+        "T": 2,
+        "endpoint": 4
+      },
+      "junctions": [
+        {
+          "site": "s39",
+          "kind": "T",
+          "degree": 3
+        },
+        {
+          "site": "s42",
+          "kind": "T",
+          "degree": 3
+        }
+      ]
+    },
+    {
+      "letter": "J",
+      "object": "o9",
+      "sites": 5,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "curved": 1,
+        "straight": 3
+      },
+      "siteKinds": {
+        "I": 1,
+        "T": 1,
+        "endpoint": 3
+      },
+      "junctions": [
+        {
+          "site": "s45",
+          "kind": "T",
+          "degree": 3
+        }
+      ]
+    },
+    {
+      "letter": "K",
+      "object": "o10",
+      "sites": 5,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 4
+      },
+      "siteKinds": {
+        "K": 1,
+        "endpoint": 4
+      },
+      "junctions": [
+        {
+          "site": "s50",
+          "kind": "K",
+          "degree": 4
+        }
+      ]
+    },
+    {
+      "letter": "L",
+      "object": "o11",
+      "sites": 3,
+      "edges": 2,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 2
+      },
+      "siteKinds": {
+        "L": 1,
+        "endpoint": 2
+      },
+      "junctions": []
+    },
+    {
+      "letter": "M",
+      "object": "o12",
+      "sites": 5,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 4
+      },
+      "siteKinds": {
+        "L": 3,
+        "endpoint": 2
+      },
+      "junctions": []
+    },
+    {
+      "letter": "N",
+      "object": "o13",
+      "sites": 4,
+      "edges": 3,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 3
+      },
+      "siteKinds": {
+        "L": 2,
+        "endpoint": 2
+      },
+      "junctions": []
+    },
+    {
+      "letter": "O",
+      "object": "o14",
+      "sites": 4,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 1,
+      "declaredCounters": 1,
+      "counterBoundaryRank": 1,
+      "counterRegions": [
+        "r4"
+      ],
+      "traceKinds": {
+        "curved": 4
+      },
+      "siteKinds": {
+        "I": 4
+      },
+      "junctions": []
+    },
+    {
+      "letter": "P",
+      "object": "o15",
+      "sites": 3,
+      "edges": 3,
+      "connectedComponents": 1,
+      "cycleRank": 1,
+      "declaredCounters": 1,
+      "counterBoundaryRank": 1,
+      "counterRegions": [
+        "r5"
+      ],
+      "traceKinds": {
+        "curved": 1,
+        "straight": 2
+      },
+      "siteKinds": {
+        "L": 1,
+        "T": 1,
+        "endpoint": 1
+      },
+      "junctions": [
+        {
+          "site": "s71",
+          "kind": "T",
+          "degree": 3
+        }
+      ]
+    },
+    {
+      "letter": "Q",
+      "object": "o16",
+      "sites": 7,
+      "edges": 7,
+      "connectedComponents": 1,
+      "cycleRank": 1,
+      "declaredCounters": 1,
+      "counterBoundaryRank": 1,
+      "counterRegions": [
+        "r6"
+      ],
+      "traceKinds": {
+        "curved": 5,
+        "straight": 2
+      },
+      "siteKinds": {
+        "I": 4,
+        "X": 1,
+        "endpoint": 2
+      },
+      "junctions": [
+        {
+          "site": "s77",
+          "kind": "X",
+          "degree": 4
+        }
+      ]
+    },
+    {
+      "letter": "R",
+      "object": "o17",
+      "sites": 4,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 1,
+      "declaredCounters": 1,
+      "counterBoundaryRank": 1,
+      "counterRegions": [
+        "r7"
+      ],
+      "traceKinds": {
+        "curved": 1,
+        "straight": 3
+      },
+      "siteKinds": {
+        "K": 1,
+        "L": 1,
+        "endpoint": 2
+      },
+      "junctions": [
+        {
+          "site": "s81",
+          "kind": "K",
+          "degree": 4
+        }
+      ]
+    },
+    {
+      "letter": "S",
+      "object": "o18",
+      "sites": 5,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "curved": 4
+      },
+      "siteKinds": {
+        "I": 3,
+        "endpoint": 2
+      },
+      "junctions": []
+    },
+    {
+      "letter": "T",
+      "object": "o19",
+      "sites": 4,
+      "edges": 3,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 3
+      },
+      "siteKinds": {
+        "T": 1,
+        "endpoint": 3
+      },
+      "junctions": [
+        {
+          "site": "s90",
+          "kind": "T",
+          "degree": 3
+        }
+      ]
+    },
+    {
+      "letter": "U",
+      "object": "o20",
+      "sites": 4,
+      "edges": 3,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "curved": 1,
+        "straight": 2
+      },
+      "siteKinds": {
+        "I": 2,
+        "endpoint": 2
+      },
+      "junctions": []
+    },
+    {
+      "letter": "V",
+      "object": "o21",
+      "sites": 3,
+      "edges": 2,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 2
+      },
+      "siteKinds": {
+        "L": 1,
+        "endpoint": 2
+      },
+      "junctions": []
+    },
+    {
+      "letter": "W",
+      "object": "o22",
+      "sites": 5,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 4
+      },
+      "siteKinds": {
+        "L": 3,
+        "endpoint": 2
+      },
+      "junctions": []
+    },
+    {
+      "letter": "X",
+      "object": "o23",
+      "sites": 5,
+      "edges": 4,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 4
+      },
+      "siteKinds": {
+        "X": 1,
+        "endpoint": 4
+      },
+      "junctions": [
+        {
+          "site": "s106",
+          "kind": "X",
+          "degree": 4
+        }
+      ]
+    },
+    {
+      "letter": "Y",
+      "object": "o24",
+      "sites": 4,
+      "edges": 3,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 3
+      },
+      "siteKinds": {
+        "Y": 1,
+        "endpoint": 3
+      },
+      "junctions": [
+        {
+          "site": "s111",
+          "kind": "Y",
+          "degree": 3
+        }
+      ]
+    },
+    {
+      "letter": "Z",
+      "object": "o25",
+      "sites": 4,
+      "edges": 3,
+      "connectedComponents": 1,
+      "cycleRank": 0,
+      "declaredCounters": 0,
+      "counterBoundaryRank": 0,
+      "counterRegions": [],
+      "traceKinds": {
+        "straight": 3
+      },
+      "siteKinds": {
+        "L": 2,
+        "endpoint": 2
+      },
+      "junctions": []
+    }
+  ],
+  "limits": [
+    "Letter names address authored fixture objects; no alphabet recognition model is evaluated.",
+    "Joint labels are exact local tangent/incidence reads. K is the declared four-ray, one-opposed-pair display convention.",
+    "Closed counter cycles and void roles are explicit authored claims verified for identity closure and independent cycle participation; geometric interior, filled area, and typographic meaning are not inferred.",
+    "Construction order is authored, not human drawing order."
+  ]
+}

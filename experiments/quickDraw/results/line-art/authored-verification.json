@@ -2,22 +2,22 @@
   "schema": "gojo.authored-native-parity.v1",
   "passed": true,
   "sceneCount": 15,
-  "checks": 7642,
+  "checks": 9894,
   "totals": {
-    "sites": 376,
-    "edges": 380,
-    "strokes": 380,
-    "objects": 23,
-    "groups": 85,
-    "regions": 61,
-    "correspondences": 24,
+    "sites": 488,
+    "edges": 476,
+    "strokes": 476,
+    "objects": 47,
+    "groups": 109,
+    "regions": 69,
+    "correspondences": 42,
     "crossings": 1,
-    "contacts": 1
+    "contacts": 0
   },
-  "sourceSha256": "1c06a09aa0b6cb8d2e15a852b8acd9c61fd8decc7e44c91e0dc03606b6b96151",
-  "nativeInspectorSha256": "ff3a657c64bd416462b73d92cd6bd813c205439d421ab78c3ad0a77c74457afe",
-  "generatorSha256": "fcd215bf26398440d2c6067944de1f3e60640e2deb26177fbd43cc7f6b691625",
-  "auditScriptSha256": "52e3dec01e9c44fc0a9e60f444e4405cf0ecdda6eecbef6e69fdd0b1caf3a796",
+  "sourceSha256": "5e4433e81666e6cc4be479a39680b651bc59456da21f258d2b2026a8c987bce1",
+  "nativeInspectorSha256": "26afd50878c74eb712f13756bb0a10ce64c6fdc6058f72c52d9f240cbb7f4cf4",
+  "generatorSha256": "483f5b5d00649dbd62edbd4c9dc9a703096251a1ba3ffb4903f0559c8c55c442",
+  "auditScriptSha256": "5750132583c280d1dff0869f2f46c9b73b5c72588d26f48351db76bcfe1a6868",
   "verified": [
     "latest source equals generator",
     "no orphan sites",
@@ -27,8 +27,9 @@
     "oriented identity-closed regions and parent/figure/void roles",
     "all authored transform geometry plus shared-site consistency and injectivity",
     "crossing versus actual join",
-    "distinct-site contact, object separation, projected T",
-    "all exported tangent/trace reads"
+    "declared distinct-site contacts without identity welding",
+    "all exported tangent/trace reads",
+    "26 disjoint connected letter scopes; independent counter cycles and declared exact junction cases"
   ],
   "limits": [
     "Native archive deserialization is performed by the runner; this independent script checks the restored exported reads against source.",
@@ -157,14 +158,14 @@
       "archiveSha256": "831e1157b81040c06e72444f43f5910bce05cf78d0d696311f32c749fedebc62"
     },
     {
-      "id": "diagnostic-rope-branch",
-      "checks": 101,
-      "sites": 6,
-      "edges": 4,
-      "regions": 0,
-      "correspondences": 0,
+      "id": "diagnostic-alphabet",
+      "checks": 2099,
+      "sites": 118,
+      "edges": 100,
+      "regions": 8,
+      "correspondences": 18,
       "archive": "013.annotated.gojo.json",
-      "archiveSha256": "006fb6b58b9dafb2a2e4c7d2544b432cc0f5de158427aa87b4c08169c3bfea0b"
+      "archiveSha256": "4fa77b7c1c13953591a940e513b293e5afa353914847a2d153c2e09c6e6c0c32"
     },
     {
       "id": "diagnostic-crossing-join",
@@ -186,5 +187,11 @@
       "archive": "015.annotated.gojo.json",
       "archiveSha256": "cd433084b622e370d1ddcc015f1fc0c5f4d1cc2d772b51894f5000bfeb4ef95f"
     }
-  ]
+  ],
+  "alphabetAnalysis": {
+    "file": "alphabet-analysis.json",
+    "checks": 254,
+    "objects": 26,
+    "independentCycles": 8
+  }
 }

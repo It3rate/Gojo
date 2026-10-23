@@ -1,0 +1,14 @@
+{
+  "schema": "gojo.quickdraw.catalogue.v1",
+  "studies": [
+    {
+      "id": "line-art",
+      "title": "Line art evidence",
+      "description": "Inspect every capital letter together, then explore church drawings. Hover over lines, joints and boundaries to see shared sites, repeated structure and what remains unknown.",
+      "kind": "Authored controls and imported references",
+      "detail": "Alphabet A–Z · Church studies · Native evidence",
+      "route": "/quickdraw/line-art/",
+      "scenes": 17
+    }
+  ]
+}

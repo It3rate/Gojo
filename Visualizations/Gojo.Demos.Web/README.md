@@ -4,6 +4,8 @@ Static landing page for `https://gojo.inklingai.ca/`.
 
 The production bundle mounts the browser applications beneath this page:
 
+- `/quickdraw/` — drawing studies, starting with capital letters and church
+  drawings at `/quickdraw/line-art/`;
 - `/ornaments/` — ornament collections, source comparisons and native downloads;
   start with the [collection publishing guide](ornaments/README.md)
 - `/minds/` — captured Gojo experiments, step viewer, research notes and the
@@ -77,6 +79,7 @@ manifests from the staged bundle, keeping the cache and frozen Core4 archive
 intact. This prevents old application versions from consuming the hosting quota.
 It also overlays Minds and the ornament collections, so subsequent publications
 retain `/minds/` and `/ornaments/`.
+It retains the Quick Draw study category and its selected downloads at `/quickdraw/`.
 It writes a backup and a public-asset hash manifest to the OS temporary folder.
 The cached smooth, performance and six-rung variants were not deployed when
 this gallery was added; their runtime endpoints return 404. The preparation
@@ -101,6 +104,52 @@ home page.
 
 The same exclusion applies to `/minds/*`. Verify the Minds index, roadmap,
 five viewer selections and downloadable observations after publishing.
+
+## Quick Draw studies
+
+The `/quickdraw/` category links to studies through the ordered catalogue in
+`tools/quickdraw-studies.json`. Each entry has a stable child route, title,
+description and explicitly prepared public source directory. Add further
+studies to that catalogue without changing existing URLs or the homepage link.
+
+The alphabet and church inspector starts the category at `/quickdraw/line-art/`.
+Its source is `experiments/quickDraw/results/line-art/public`. That directory's
+`public-files.json` selection lists its entry page and native downloads;
+unselected research files are not copied to the site.
+
+~~~powershell
+node Visualizations/Gojo.Demos.Web/tools/build-quickdraw.mjs
+node Visualizations/Gojo.Demos.Web/tools/build-quickdraw.mjs --check
+node Visualizations/Gojo.Demos.Web/tools/check-quickdraw.cjs
+~~~
+
+Use `--dry-run` to validate the selection and report its size without writing.
+The builder checks restored-scene flags, local-path leakage, archive links and
+gzip integrity, then records source and published hashes in `publication.json`.
+Its only study HTML adaptation is a `/quickdraw/<id>/` base URL so the route works with or
+without a trailing slash. Geometry and native archives are retained unchanged.
+Standalone `.json.gz` downloads do not require an uncompressed counterpart.
+The inspector's download button saves decoded `.gojo.json` bytes, handling both
+ordinary gzip files and Azure's automatic HTTP gzip decoding. Browser checks
+verify the actual saved filename and contents as well as all stored archives.
+The optional `readSurface: "restored-native-inspector"` catalogue entry enables
+native scene/archive checks; future static studies can use their own captured
+presentation without pretending to contain this inspector format. The browser
+check uses the existing `GOJO_PLAYWRIGHT_MODULE`, `GOJO_BROWSER` and
+`GOJO_BASE_URL` overrides to verify local or production navigation, alphabet
+reads, archive hashes and phone layout.
+Set `GOJO_WEB_ROOT` to the prepared bundle directory to check the assembled
+deployment locally before uploading it.
+
+Run the shared preparation and production deployment above after the inspector
+checks pass. Verify the alphabet, hover reads and native downloads on the live
+route, along with the previous application routes. `/quickdraw/*` is excluded
+from the homepage fallback so a missing download returns a real 404.
+
+The 23 October 2026 alphabet publication has 21 category files (912,114 bytes).
+Its complete production bundle is 261,317,702 bytes, leaving 826,298 bytes under
+the last verified 262,144,000-byte allowance. Include future studies in the full
+bundle measurement before publication.
 
 ## Growing the ornament series
 

@@ -1,0 +1,22 @@
+{
+  "files": [
+    "index.html",
+    "archives/church-01.gojo.json.gz",
+    "archives/church-02.gojo.json.gz",
+    "archives/church-03.gojo.json.gz",
+    "archives/church-04.gojo.json.gz",
+    "archives/church-05.gojo.json.gz",
+    "archives/church-06.gojo.json.gz",
+    "archives/church-07.gojo.json.gz",
+    "archives/church-08.gojo.json.gz",
+    "archives/church-09.gojo.json.gz",
+    "archives/church-10.gojo.json.gz",
+    "archives/church-11.gojo.json.gz",
+    "archives/church-12.gojo.json.gz",
+    "archives/diagnostic-alphabet.gojo.json.gz",
+    "archives/diagnostic-crossing-join.gojo.json.gz",
+    "archives/diagnostic-joint-atlas.gojo.json.gz",
+    "archives/lucide-church.gojo.json.gz",
+    "archives/tabler-church.gojo.json.gz"
+  ]
+}

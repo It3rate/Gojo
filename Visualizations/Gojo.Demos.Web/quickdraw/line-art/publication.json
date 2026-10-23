@@ -1,0 +1,117 @@
+{
+  "schema": "gojo.quickdraw.website-publication.v1",
+  "route": "/quickdraw/line-art/",
+  "source": "experiments/quickDraw/results/line-art/public",
+  "scenes": 17,
+  "scope": "Captured study presentation and explicitly selected downloads; no experiment execution during publication.",
+  "files": [
+    {
+      "path": "index.html",
+      "sourceSha256": "cb5ad691ffa47c45e2078a97084f4b17936f2f834376ef585b2b78e5f97b47e7",
+      "publishedSha256": "d93742413072ed746ae236049cb16bd5a31291566ad3d58ab11b7f71056137bc",
+      "bytes": 415781
+    },
+    {
+      "path": "archives/church-01.gojo.json.gz",
+      "sourceSha256": "32859d0fdc15f699fd6683687795204400070730b768463871211842d1bf6f5f",
+      "publishedSha256": "32859d0fdc15f699fd6683687795204400070730b768463871211842d1bf6f5f",
+      "bytes": 26149
+    },
+    {
+      "path": "archives/church-02.gojo.json.gz",
+      "sourceSha256": "0a4c31806f6f456872eb5dacb4211b83083d1b6fa46cad4d48be787f860f7c0b",
+      "publishedSha256": "0a4c31806f6f456872eb5dacb4211b83083d1b6fa46cad4d48be787f860f7c0b",
+      "bytes": 26082
+    },
+    {
+      "path": "archives/church-03.gojo.json.gz",
+      "sourceSha256": "802592115b5436f3be30a105d1cd8da023aeef2bb544b8dd3e5cda25b2e63b09",
+      "publishedSha256": "802592115b5436f3be30a105d1cd8da023aeef2bb544b8dd3e5cda25b2e63b09",
+      "bytes": 24873
+    },
+    {
+      "path": "archives/church-04.gojo.json.gz",
+      "sourceSha256": "f1ca4c947d55927d92620c6f0dc5df526f01c6c14aa89a1bbc1762dee4ff498e",
+      "publishedSha256": "f1ca4c947d55927d92620c6f0dc5df526f01c6c14aa89a1bbc1762dee4ff498e",
+      "bytes": 32694
+    },
+    {
+      "path": "archives/church-05.gojo.json.gz",
+      "sourceSha256": "504d70d80fa1499fd1aba1f9e1eb293320234c1c91d3d4774ba3f52faf01cf31",
+      "publishedSha256": "504d70d80fa1499fd1aba1f9e1eb293320234c1c91d3d4774ba3f52faf01cf31",
+      "bytes": 30419
+    },
+    {
+      "path": "archives/church-06.gojo.json.gz",
+      "sourceSha256": "e646667e600e8ae570822e64aeea74a4fa2ea3046559dc0b020309b1e694811d",
+      "publishedSha256": "e646667e600e8ae570822e64aeea74a4fa2ea3046559dc0b020309b1e694811d",
+      "bytes": 35105
+    },
+    {
+      "path": "archives/church-07.gojo.json.gz",
+      "sourceSha256": "94b9ffc53202faf32733d5a8a52d621e86dab93299f7555d82f8ed258d4466e6",
+      "publishedSha256": "94b9ffc53202faf32733d5a8a52d621e86dab93299f7555d82f8ed258d4466e6",
+      "bytes": 25659
+    },
+    {
+      "path": "archives/church-08.gojo.json.gz",
+      "sourceSha256": "b99b67271bfa27e5425a1a4ba8d95c755d4a70ae47e63367914c0f02287721c8",
+      "publishedSha256": "b99b67271bfa27e5425a1a4ba8d95c755d4a70ae47e63367914c0f02287721c8",
+      "bytes": 29079
+    },
+    {
+      "path": "archives/church-09.gojo.json.gz",
+      "sourceSha256": "4940aebe071a70517bf147e34ab0ed38b68763253ea1d9a1494c4dbbeb30d170",
+      "publishedSha256": "4940aebe071a70517bf147e34ab0ed38b68763253ea1d9a1494c4dbbeb30d170",
+      "bytes": 24242
+    },
+    {
+      "path": "archives/church-10.gojo.json.gz",
+      "sourceSha256": "a3ea0e8a509167e37a172508ed2384da2f64da9f08e7a29114f130274cecf41b",
+      "publishedSha256": "a3ea0e8a509167e37a172508ed2384da2f64da9f08e7a29114f130274cecf41b",
+      "bytes": 22043
+    },
+    {
+      "path": "archives/church-11.gojo.json.gz",
+      "sourceSha256": "1a61baff027dec610c9a0f36b8f93d558b421aec90fe91adbec3a6d73c55225f",
+      "publishedSha256": "1a61baff027dec610c9a0f36b8f93d558b421aec90fe91adbec3a6d73c55225f",
+      "bytes": 25409
+    },
+    {
+      "path": "archives/church-12.gojo.json.gz",
+      "sourceSha256": "5957bd4f4e6f7e9a06cc51fa05c45e13732adc58ce29b4f2941cee0039c51147",
+      "publishedSha256": "5957bd4f4e6f7e9a06cc51fa05c45e13732adc58ce29b4f2941cee0039c51147",
+      "bytes": 18283
+    },
+    {
+      "path": "archives/diagnostic-alphabet.gojo.json.gz",
+      "sourceSha256": "dccc4d310f4944610d0b7fd4c88728385f4f05d44ca5cb031bd22a753463c4e3",
+      "publishedSha256": "dccc4d310f4944610d0b7fd4c88728385f4f05d44ca5cb031bd22a753463c4e3",
+      "bytes": 114069
+    },
+    {
+      "path": "archives/diagnostic-crossing-join.gojo.json.gz",
+      "sourceSha256": "e965440561f0c3339f6c88424ad7f0a994ff4579a9e72e02de608524416a0065",
+      "publishedSha256": "e965440561f0c3339f6c88424ad7f0a994ff4579a9e72e02de608524416a0065",
+      "bytes": 5861
+    },
+    {
+      "path": "archives/diagnostic-joint-atlas.gojo.json.gz",
+      "sourceSha256": "8e9e5005bd9c827a6b5d0a548be76687863a900975be48c3a262c3bac7f3e8b4",
+      "publishedSha256": "8e9e5005bd9c827a6b5d0a548be76687863a900975be48c3a262c3bac7f3e8b4",
+      "bytes": 18231
+    },
+    {
+      "path": "archives/lucide-church.gojo.json.gz",
+      "sourceSha256": "25aa1392ae6e166fff269e3fb06ab5630ad5bc6212b758bdbbac5044e6645c4c",
+      "publishedSha256": "25aa1392ae6e166fff269e3fb06ab5630ad5bc6212b758bdbbac5044e6645c4c",
+      "bytes": 20932
+    },
+    {
+      "path": "archives/tabler-church.gojo.json.gz",
+      "sourceSha256": "846db3e332c64461678cd6447f1eb97219ec0a7397a6b0296a65e04501cec1bb",
+      "publishedSha256": "846db3e332c64461678cd6447f1eb97219ec0a7397a6b0296a65e04501cec1bb",
+      "bytes": 9860
+    }
+  ]
+}

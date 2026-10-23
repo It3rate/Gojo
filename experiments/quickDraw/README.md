@@ -17,6 +17,9 @@ topology diagnostics, two licensed SVG imports, a native relation round trip,
 and an offline hover inspector. Broad biological/man-made/natural prior families
 remain deferred. Authored annotations are kept separate from calculated checks
 and from future interpretation of imperfect Quick Draw observations.
+The active diagnostics now include all 26 capital letters on one sheet in place
+of the earlier rope example. The [Quick Draw website category](https://gojo.inklingai.ca/quickdraw/)
+hosts the inspector and provides a catalogue for subsequent studies.
 
 The first useful result is an **exact native sample-acquisition boundary plus an
 inspectable measured fitting experiment**. The full acquisition-to-concept

@@ -5,9 +5,11 @@ performed by AnnotatedLineArtRunner; this script verifies the resulting reads
 against the source independently and records hashes of each retained archive.
 """
 import argparse
+from collections import Counter
 import hashlib
 import json
 from pathlib import Path
+import string
 import authored_line_art as art
 
 parser = argparse.ArgumentParser(description=__doc__)
@@ -29,12 +31,19 @@ def expect(actual, expected, context):
         raise AssertionError(f'{context}: {actual!r} != {expected!r}')
 
 
-def ray(edge, site):
-    controls = edge['controls'] if edge['from'] == site else edge['controls'][::-1]
+def ray(edge, at_start):
+    # A closed edge has two incidences at its shared endpoint. Selecting its
+    # orientation by site equality would incorrectly count the start twice.
+    controls = edge['controls'] if at_start else edge['controls'][::-1]
     for point in controls[1:]:
         if point != controls[0]:
             return [point[d]-controls[0][d] for d in (0, 1)]
     return [0, 0]
+
+
+def site_rays(edges, selected_sites):
+    return [ray(edge, endpoint == 'from') for edge in edges
+            for endpoint in ('from', 'to') if edge[endpoint] in selected_sites]
 
 
 def joint(rays):
@@ -91,7 +100,7 @@ for src,out in zip(source,native):
         inc=incident(a['id'])
         expect(bool(inc),True,f'{sid} no orphan authored site')
         expect(b['incidentEdges'],[maps['edges'][e['id']] for e in inc],f'{sid} site incidence identity')
-        rays=[ray(e,a['id']) for e in inc]
+        rays=site_rays(inc, {a['id']})
         expect(b['degree'],len(rays),f'{sid} degree')
         expect(b['kind'],joint(rays),f'{sid} exact tangent classification')
         expect(b['objectIds'],site_objects(a['id']),f'{sid} incident object scopes')
@@ -104,8 +113,9 @@ for src,out in zip(source,native):
         p,q=a['controls'][0],a['controls'][-1]
         orientation='zero' if p==q else 'horizontal' if p[1]==q[1] else 'vertical' if p[0]==q[0] else 'oblique'
         expect(b['chordOrientation'],orientation,f'{sid} chord orientation')
-        straight=all((c[0]-p[0])*(q[1]-p[1])==(c[1]-p[1])*(q[0]-p[0]) for c in a['controls'])
-        expect(b['kind'],'straight' if straight else 'curved',f'{sid} trace read')
+        direction=next(([c[0]-p[0],c[1]-p[1]] for c in a['controls'][1:] if c != p), None)
+        straight=direction is not None and all((c[0]-p[0])*direction[1]==(c[1]-p[1])*direction[0] for c in a['controls'])
+        expect(b['kind'],'degenerate' if direction is None else 'straight' if straight else 'curved',f'{sid} trace read')
     for a,b in zip(src['strokes'],data['strokes']):
         expect(b['edges'],[maps['edges'][e] for e in a['edges']],f'{sid} construction order')
         continuous=all(edges[x]['to']==edges[y]['from'] for x,y in zip(a['edges'],a['edges'][1:]))
@@ -168,14 +178,147 @@ for src,out in zip(source,native):
         expect(b['sameObject'],bool(set(site_objects(first)) & set(site_objects(second))),f'{sid} contact object separation')
         inc=[e for e in src['edges'] if first in (e['from'],e['to']) or second in (e['from'],e['to'])]
         expect(b['incidentEdges'],[maps['edges'][e['id']] for e in inc],f'{sid} contact projected incidence')
-        rays=[ray(e,first if first in (e['from'],e['to']) else second) for e in inc]
-        expect(b['kind'],joint(rays),f'{sid} contact projection form without welding')
+        rays=site_rays(inc, {first,second})
+        expect(b['kind'],joint(rays) if coincidence else 'unresolved',f'{sid} contact projection form without welding')
     archive=ROOT/'native'/out['archive']
     expect(archive.exists(),True,f'{sid} native archive retained')
     summaries.append({'id':sid,'checks':checks-before,'sites':len(src['sites']),'edges':len(src['edges']),
                       'regions':len(src['regions']),'correspondences':len(src['correspondences']),
                       'archive':out['archive'],'archiveSha256':sha(archive)})
 
+
+def connected_components(edges):
+    adjacency = {}
+    for edge in edges:
+        a, b = edge['from'], edge['to']
+        adjacency.setdefault(a, set()).add(b)
+        adjacency.setdefault(b, set()).add(a)
+    unseen = set(adjacency)
+    components = 0
+    while unseen:
+        components += 1
+        frontier = [unseen.pop()]
+        while frontier:
+            for adjacent in adjacency[frontier.pop()] & unseen:
+                unseen.remove(adjacent)
+                frontier.append(adjacent)
+    return len(adjacency), components
+
+
+def binary_rank(rows):
+    """Rank of boundary edge incidence over GF(2), not a geometric fill read."""
+    pivots = {}
+    for row in rows:
+        while row:
+            pivot = row.bit_length() - 1
+            if pivot not in pivots:
+                pivots[pivot] = row
+                break
+            row ^= pivots[pivot]
+    return len(pivots)
+
+
+def audit_alphabet():
+    src = next((s for s in source if s['id'] == 'diagnostic-alphabet'), None)
+    if src is None:
+        return None
+    before = checks
+    out = next(s for s in native if s['id'] == src['id'])
+    data = out['analysis']
+    expect(len(data['objects']), 26, 'Alphabet has 26 authored object scopes')
+    expect([o['label'] for o in data['objects']], list(string.ascii_uppercase),
+           'Alphabet external display labels address A through Z')
+    expect(len(data['groups']), 26, 'Alphabet has 26 construction groups')
+    expect(all(len(e['objectIds']) == 1 for e in data['edges']), True,
+           'Every alphabet edge belongs to exactly one letter')
+    expect(all(len(s['objectIds']) == 1 for s in data['sites']), True,
+           'No shared site identity merges distinct letters')
+    expect(all(len(e['groupIds']) == 1 for e in data['edges']), True,
+           'Every alphabet edge belongs to exactly one construction group')
+    expected_cycles = {'A': 1, 'B': 2, 'D': 1, 'O': 1, 'P': 1, 'Q': 1, 'R': 1}
+    reports = []
+    covered_regions = set()
+    for obj in data['objects']:
+        letter = obj['label']
+        ids = set(obj['edges'])
+        edges = [edge for edge in data['edges'] if edge['id'] in ids]
+        sites = [site for site in data['sites'] if obj['id'] in site['objectIds']]
+        group_ids = {group for edge in edges for group in edge['groupIds']}
+        expect(len(group_ids), 1, f'Alphabet {letter} owns one construction group')
+        group = next(g for g in data['groups'] if g['id'] in group_ids)
+        expect(set(group['edges']), ids, f'Alphabet {letter} group preserves its object scope')
+        vertex_count, components = connected_components(edges)
+        cycles = len(edges) - vertex_count + components
+        expect(components, 1, f'Alphabet {letter} is one connected object')
+        expect(vertex_count, len(sites), f'Alphabet {letter} site inventory')
+        expect(cycles, expected_cycles.get(letter, 0), f'Alphabet {letter} independent graph cycles')
+        regions = [r for r in data['regions']
+                   if r['boundary'] and all(step['edge'] in ids for step in r['boundary'])]
+        expect(len(regions), cycles, f'Alphabet {letter} declared counter inventory')
+        expect(all(r['closed'] for r in regions), True,
+               f'Alphabet {letter} counters close by endpoint identity')
+        expect(all(r['role'] == 'void' for r in regions), True,
+               f'Alphabet {letter} counter roles are explicit authored voids')
+        edge_bits = {edge['id']: 1 << index for index, edge in enumerate(edges)}
+        boundaries = []
+        for region in regions:
+            row = 0
+            for step in region['boundary']:
+                row ^= edge_bits[step['edge']]
+            boundaries.append(row)
+            covered_regions.add(region['id'])
+        rank = binary_rank(boundaries)
+        expect(rank, cycles, f'Alphabet {letter} counters form an independent cycle basis')
+        reports.append({'letter': letter, 'object': obj['id'], 'sites': vertex_count,
+                        'edges': len(edges), 'connectedComponents': components,
+                        'cycleRank': cycles, 'declaredCounters': len(regions),
+                        'counterBoundaryRank': rank,
+                        'counterRegions': [r['id'] for r in regions],
+                        'traceKinds': dict(sorted(Counter(e['kind'] for e in edges).items())),
+                        'siteKinds': dict(sorted(Counter(s['kind'] for s in sites).items())),
+                        'junctions': [{'site': s['id'], 'kind': s['kind'], 'degree': s['degree']}
+                                      for s in sites if s['degree'] > 2]})
+    expect(covered_regions, {r['id'] for r in data['regions']},
+           'Every alphabet counter belongs wholly to one letter')
+    # These are explicit expectations for this authored fixture. They are not
+    # a recognizer mapping an arbitrary shape or class label to native topology.
+    by_letter = {row['letter']: row for row in reports}
+    for letter, kind, count in [('A', 'T', 2), ('B', 'K', 1), ('H', 'T', 2),
+                                ('I', 'T', 2), ('K', 'K', 1), ('P', 'T', 1),
+                                ('Q', 'X', 1), ('R', 'K', 1),
+                                ('T', 'T', 1), ('X', 'X', 1), ('Y', 'Y', 1)]:
+        expect(by_letter[letter]['siteKinds'].get(kind, 0), count,
+               f'Alphabet {letter} exact {kind} junction count')
+    expect(by_letter['O']['siteKinds'], {'I': 4},
+           'O is a closed curve with four continuation seams, not an O joint')
+    expect(any(s['kind'] == 'O' for s in data['sites']), False,
+           'O never appears as a local degree-two classification')
+    report = {'schema': 'gojo.alphabet-native-analysis.v1', 'passed': True,
+              'scene': src['id'], 'checks': checks-before, 'objects': len(reports),
+              'sites': len(data['sites']), 'edges': len(data['edges']),
+              'strokes': len(data['strokes']), 'closedCounterRegions': len(data['regions']),
+              'correspondences': len(data['correspondences']),
+              'verifiedCorrespondences': sum(c['verified'] for c in data['correspondences']),
+              'correspondenceKinds': dict(sorted(Counter(c['kind'] for c in data['correspondences']).items())),
+              'independentCycles': sum(row['cycleRank'] for row in reports),
+              'siteKinds': dict(sorted(Counter(s['kind'] for s in data['sites']).items())),
+              'traceKinds': dict(sorted(Counter(e['kind'] for e in data['edges']).items())),
+              'scopeSeparationVerified': True,
+              'nativeRestoreVerified': out['nativeRestoreVerified'],
+              'archive': out['archive'], 'archiveSha256': sha(ROOT/'native'/out['archive']),
+              'sourceSha256': sha(source_path), 'nativeInspectorSha256': sha(native_path),
+              'auditScriptSha256': sha(Path(__file__)), 'letters': reports,
+              'limits': [
+                  'Letter names address authored fixture objects; no alphabet recognition model is evaluated.',
+                  'Joint labels are exact local tangent/incidence reads. K is the declared four-ray, one-opposed-pair display convention.',
+                  'Closed counter cycles and void roles are explicit authored claims verified for identity closure and independent cycle participation; geometric interior, filled area, and typographic meaning are not inferred.',
+                  'Construction order is authored, not human drawing order.'
+              ]}
+    (ROOT/'alphabet-analysis.json').write_text(json.dumps(report, indent=2)+'\n', encoding='utf-8')
+    return report
+
+
+alphabet_report = audit_alphabet()
 result={'schema':'gojo.authored-native-parity.v1','passed':True,'sceneCount':len(source),'checks':checks,
         'totals':{key:sum(len(s[key]) for s in source) for key in ('sites','edges','strokes','objects','groups','regions','correspondences','crossings','contacts')},
         'sourceSha256':sha(source_path),'nativeInspectorSha256':sha(native_path),
@@ -184,9 +327,14 @@ result={'schema':'gojo.authored-native-parity.v1','passed':True,'sceneCount':len
         'verified':['latest source equals generator','no orphan sites','all native controls and site identities','ordered construction steps',
                     'object and template/detail scopes','oriented identity-closed regions and parent/figure/void roles',
                     'all authored transform geometry plus shared-site consistency and injectivity','crossing versus actual join',
-                    'distinct-site contact, object separation, projected T','all exported tangent/trace reads'],
+                    'declared distinct-site contacts without identity welding','all exported tangent/trace reads'],
         'limits':['Native archive deserialization is performed by the runner; this independent script checks the restored exported reads against source.',
                   'Region simple interiors, occupied fill, semantic object truth and mechanical attachment are not established by this parity audit.',
                   'This is authored construction order, not human drawing order.'],'scenes':summaries}
+if alphabet_report is not None:
+    result['alphabetAnalysis'] = {'file': 'alphabet-analysis.json', 'checks': alphabet_report['checks'],
+                                  'objects': alphabet_report['objects'],
+                                  'independentCycles': alphabet_report['independentCycles']}
+    result['verified'].append('26 disjoint connected letter scopes; independent counter cycles and declared exact junction cases')
 (ROOT/'verification.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
 print(json.dumps({'passed':True,'scenes':len(source),'checks':checks,'totals':result['totals'],'output':str(ROOT/'verification.json')}))

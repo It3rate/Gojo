@@ -14,8 +14,8 @@ from pathlib import Path
 
 
 class Scene:
-    def __init__(self, key, title, note=""):
-        self.data = {"id": key, "title": title, "viewBox": [0, 0, 512, 512], "coordinateQuantum": 1,
+    def __init__(self, key, title, note="", view_box=(0, 0, 512, 512)):
+        self.data = {"id": key, "title": title, "viewBox": list(view_box), "coordinateQuantum": 1,
                      "status": "authored construction fixture", "notes": note,
                      "drawOrder": "ordered authored primitive construction; not recorded human pen order",
                      "source": {"kind": "new analytic vector artwork", "generator": "authored_line_art.py",
@@ -128,7 +128,8 @@ class Scene:
                     break
         if source:
             self.data["correspondences"].append({"id": key, "kind": "mirror", "source": source, "target": target,
-                "axis": [[center, 0], [center, 512]], "reversed": reversed_flags,
+                "axis": [[center, self.data["viewBox"][1]],
+                         [center, self.data["viewBox"][1]+self.data["viewBox"][3]]], "reversed": reversed_flags,
                 "status": "authored axis; exact correspondence calculated from authored controls",
                 "scope": "paired edge participations only; unmatched edges remain outside this claim",
                 "unmatched": [e for e in selected if e not in used]})
@@ -297,8 +298,8 @@ def church_scenes():
     return scenes
 
 
-def diagnostics():
-    scenes = []
+def rope_branch_diagnostic():
+    """Retired from the active collection; retained as a contact regression."""
     s = Scene("diagnostic-rope-branch", "A rope attached to a branch", "A T-shaped image combines distinct branch and rope objects. Their contact does not weld their sites or imply one object.")
     a = s.site("branch-left", 74, 140); b = s.site("branch-contact", 256, 140); c = s.site("branch-right", 438, 140)
     s.edge("branch-left-piece", a, b, obj="branch", group="branch", role="template")
@@ -309,7 +310,140 @@ def diagnostics():
     s.edge("hanging-rope", r, bottom, [(256, 228), (282, 328)], obj="rope", group="rope", role="template")
     s.data["contacts"].append({"sites": [b, r], "status": "authored attachment; no load-bearing mechanics"})
     s.data["expectedJointForms"].append({"site": b, "form": "straight-through", "qualification": "T is only a projected composite; the rope owns a distinct contact site"})
-    scenes.append(s.finish())
+    return s.finish()
+
+
+def alphabet_scene():
+    """One page of 26 separately identified, explicitly constructed letters.
+
+    Font outlines are not used. These are local paths and actual shared sites;
+    object labels address fixtures but do not supply their native topology.
+    """
+    s = Scene("diagnostic-alphabet", "Uppercase alphabet: A-Z",
+              "All 26 capitals share one inspection scene. Each letter has its own object and focus scope; joints, curves and eight counter cycles remain explicit. This is an authored monoline alphabet, not font recognition.",
+              (0, 0, 1200, 1000))
+    s.data["presentationStrokeWidth"] = 4
+    origins, glyph_edges = {}, {}
+
+    def add(letter, points, segments, loops=()):
+        ordinal = ord(letter)-ord('A')
+        col, row = ordinal % 6, ordinal // 6
+        if row == 4:
+            col += 2  # Center Y and Z together in the final row.
+        ox, oy = 52+col*200, 40+row*190
+        origins[letter] = (ox, oy)
+        ids = {key: s.site(f"{letter}-{key}", ox+x, oy+y) for key, (x, y) in points.items()}
+        created = []
+        for segment in segments:
+            key, start, end = segment[:3]
+            controls = [(ox+x, oy+y) for x, y in segment[3]] if len(segment) == 4 else ()
+            created.append(s.edge(f"{letter}-{key}", ids[start], ids[end], controls,
+                                  obj=f"glyph-{letter}", group=f"letter-{letter}"))
+        glyph_edges[letter] = created
+        s.objects[f"glyph-{letter}"]["label"] = letter
+        s.groups[f"letter-{letter}"]["label"] = f"Letter {letter}"
+        for index, loop in enumerate(loops, 1):
+            refs = [{"edge": f"{letter}-{key.lstrip('-')}", "forward": not key.startswith('-')} for key in loop]
+            s.region(f"{letter}-counter-{index}", refs, False)
+
+    add('A', {'foot-left':(0,128),'bar-left':(24,64),'apex':(48,0),'bar-right':(72,64),'foot-right':(96,128)},
+        [('leg-left-low','foot-left','bar-left'),('leg-left-high','bar-left','apex'),
+         ('leg-right-high','apex','bar-right'),('leg-right-low','bar-right','foot-right'),('bar','bar-left','bar-right')],
+        [('leg-left-high','leg-right-high','-bar')])
+    add('B', {'top':(0,0),'waist':(0,64),'bottom':(0,128)},
+        [('spine-upper','top','waist'),('spine-lower','waist','bottom'),
+         ('bowl-upper','top','waist',[(128,0),(112,56)]),('bowl-lower','waist','bottom',[(112,72),(128,128)])],
+        [('spine-upper','-bowl-upper'),('spine-lower','-bowl-lower')])
+    add('C', {'entry':(96,16),'top':(48,0),'left':(0,64),'bottom':(48,128),'exit':(96,112)},
+        [('cap-upper','entry','top',[(80,0)]),('curve-upper','top','left',[(16,0),(0,16)]),
+         ('curve-lower','left','bottom',[(0,112),(16,128)]),('cap-lower','bottom','exit',[(80,128)])])
+    add('D', {'top':(0,0),'bottom':(0,128)},
+        [('spine','top','bottom'),('bowl','top','bottom',[(128,0),(128,128)])], [('spine','-bowl')])
+    add('E', {'top':(0,0),'middle':(0,64),'bottom':(0,128),'top-end':(96,0),'middle-end':(80,64),'bottom-end':(96,128)},
+        [('spine-upper','top','middle'),('spine-lower','middle','bottom'),('bar-top','top','top-end'),
+         ('bar-middle','middle','middle-end'),('bar-bottom','bottom','bottom-end')])
+    add('F', {'top':(0,0),'middle':(0,64),'bottom':(0,128),'top-end':(96,0),'middle-end':(80,64)},
+        [('spine-upper','top','middle'),('spine-lower','middle','bottom'),('bar-top','top','top-end'),('bar-middle','middle','middle-end')])
+    add('G', {'entry':(96,16),'top':(48,0),'left':(0,64),'bottom':(48,128),'right':(96,72),'bar-end':(58,72)},
+        [('cap-upper','entry','top',[(80,0)]),('curve-upper','top','left',[(16,0),(0,16)]),
+         ('curve-lower','left','bottom',[(0,112),(16,128)]),('curve-right','bottom','right',[(88,128),(96,104)]),
+         ('bar','right','bar-end')])
+    add('H', {'left-top':(0,0),'left-middle':(0,64),'left-bottom':(0,128),
+              'right-top':(96,0),'right-middle':(96,64),'right-bottom':(96,128)},
+        [('left-upper','left-top','left-middle'),('left-lower','left-middle','left-bottom'),
+         ('right-upper','right-top','right-middle'),('right-lower','right-middle','right-bottom'),('bar','left-middle','right-middle')])
+    add('I', {'top-left':(0,0),'top-middle':(48,0),'top-right':(96,0),
+              'bottom-left':(0,128),'bottom-middle':(48,128),'bottom-right':(96,128)},
+        [('top-left-bar','top-left','top-middle'),('top-right-bar','top-middle','top-right'),
+         ('stem','top-middle','bottom-middle'),('bottom-left-bar','bottom-left','bottom-middle'),('bottom-right-bar','bottom-middle','bottom-right')])
+    add('J', {'top-left':(0,0),'top-stem':(80,0),'top-right':(96,0),'lower-stem':(80,80),'hook-end':(0,80)},
+        [('top-left-bar','top-left','top-stem'),('top-right-bar','top-stem','top-right'),
+         ('stem','top-stem','lower-stem'),('hook','lower-stem','hook-end',[(80,144),(0,144)])])
+    add('K', {'top':(0,0),'joint':(0,64),'bottom':(0,128),'arm-top':(96,0),'arm-bottom':(96,128)},
+        [('spine-upper','top','joint'),('spine-lower','joint','bottom'),('arm-upper','joint','arm-top'),('arm-lower','joint','arm-bottom')])
+    add('L', {'top':(0,0),'corner':(0,128),'end':(96,128)}, [('stem','top','corner'),('foot','corner','end')])
+    add('M', {'left-foot':(0,128),'left-top':(0,0),'valley':(48,64),'right-top':(96,0),'right-foot':(96,128)},
+        [('left-stem','left-foot','left-top'),('left-diagonal','left-top','valley'),
+         ('right-diagonal','valley','right-top'),('right-stem','right-top','right-foot')])
+    add('N', {'left-foot':(0,128),'left-top':(0,0),'right-foot':(96,128),'right-top':(96,0)},
+        [('left-stem','left-foot','left-top'),('diagonal','left-top','right-foot'),('right-stem','right-foot','right-top')])
+    oval_points = {'top':(48,0),'right':(96,64),'bottom':(48,128),'left':(0,64)}
+    oval_edges = [('upper-right','top','right',[(80,0),(96,32)]),('lower-right','right','bottom',[(96,96),(80,128)]),
+                  ('lower-left','bottom','left',[(16,128),(0,96)]),('upper-left','left','top',[(0,32),(16,0)])]
+    add('O', oval_points, oval_edges, [('upper-right','lower-right','lower-left','upper-left')])
+    p_points = {'top':(0,0),'middle':(0,64),'bottom':(0,128)}
+    p_edges = [('spine-upper','top','middle'),('spine-lower','middle','bottom'),('bowl','top','middle',[(128,0),(128,64)])]
+    add('P', p_points, p_edges, [('spine-upper','-bowl')])
+    # The lower-right O arc is subdivided exactly at t=1/2. Both child curves
+    # and the two tail segments share Q-tail-joint as an actual site identity.
+    add('Q', {**oval_points,'tail-joint':(84,108),'tail-inner':(64,88),'tail-outer':(108,132)},
+        [oval_edges[0],('lower-right-before','right','tail-joint',[(96,80),(92,96)]),
+         ('lower-right-after','tail-joint','bottom',[(76,120),(64,128)]),oval_edges[2],oval_edges[3],
+         ('tail-inner','tail-inner','tail-joint'),('tail-outer','tail-joint','tail-outer')],
+        [('upper-right','lower-right-before','lower-right-after','lower-left','upper-left')])
+    add('R', {**p_points,'leg-end':(96,128)}, p_edges+[('leg','middle','leg-end')], [('spine-upper','-bowl')])
+    add('S', {'entry':(96,16),'top':(48,0),'middle':(48,64),'bottom':(48,128),'exit':(0,112)},
+        [('cap-upper','entry','top',[(80,0)]),('curve-upper','top','middle',[(-16,0),(-16,56)]),
+         ('curve-lower','middle','bottom',[(112,72),(112,128)]),('cap-lower','bottom','exit',[(16,128)])])
+    add('T', {'left':(0,0),'joint':(48,0),'right':(96,0),'bottom':(48,128)},
+        [('bar-left','left','joint'),('bar-right','joint','right'),('stem','joint','bottom')])
+    add('U', {'left-top':(0,0),'left-low':(0,80),'right-low':(96,80),'right-top':(96,0)},
+        [('left-stem','left-top','left-low'),('bottom-curve','left-low','right-low',[(0,144),(96,144)]),('right-stem','right-top','right-low')])
+    add('V', {'left-top':(0,0),'bottom':(48,128),'right-top':(96,0)},
+        [('left-diagonal','left-top','bottom'),('right-diagonal','bottom','right-top')])
+    add('W', {'left-top':(0,0),'left-bottom':(24,128),'middle':(48,64),'right-bottom':(72,128),'right-top':(96,0)},
+        [('left-outer','left-top','left-bottom'),('left-inner','left-bottom','middle'),
+         ('right-inner','middle','right-bottom'),('right-outer','right-bottom','right-top')])
+    add('X', {'top-left':(0,0),'joint':(48,64),'bottom-right':(96,128),'bottom-left':(0,128),'top-right':(96,0)},
+        [('descending-upper','top-left','joint'),('descending-lower','joint','bottom-right'),
+         ('ascending-lower','bottom-left','joint'),('ascending-upper','joint','top-right')])
+    add('Y', {'top-left':(0,0),'joint':(48,64),'top-right':(96,0),'bottom':(48,128)},
+        [('left-arm','top-left','joint'),('right-arm','top-right','joint'),('stem','joint','bottom')])
+    add('Z', {'top-left':(0,0),'top-right':(96,0),'bottom-left':(0,128),'bottom-right':(96,128)},
+        [('top-bar','top-left','top-right'),('diagonal','top-right','bottom-left'),('bottom-bar','bottom-left','bottom-right')])
+
+    for letter in 'AHIMOTUVWXY':
+        s.mirror(f'{letter}-mirror', origins[letter][0]+48, glyph_edges[letter])
+    s.repeat('E-equal-bars', ['E-bar-top'], ['E-bar-bottom'], 0, 128)
+    s.repeat('H-equal-uprights', ['H-left-upper','H-left-lower'], ['H-right-upper','H-right-lower'], 96, 0)
+    s.repeat('I-equal-bars', ['I-top-left-bar','I-top-right-bar'], ['I-bottom-left-bar','I-bottom-right-bar'], 0, 128)
+    s.repeat('U-equal-uprights', ['U-left-stem'], ['U-right-stem'], 96, 0)
+    s.repeat('Z-equal-bars', ['Z-top-bar'], ['Z-bottom-bar'], 0, 128)
+    for source, target, shared in [('E','F',['spine-upper','spine-lower','bar-top','bar-middle']),
+                                    ('P','R',['spine-upper','spine-lower','bowl'])]:
+        dx, dy = (origins[target][d]-origins[source][d] for d in (0,1))
+        s.repeat(f'{source}-{target}-shared-parts', [f'{source}-{e}' for e in shared], [f'{target}-{e}' for e in shared], dx, dy)
+        s.data['correspondences'][-1]['scope'] = 'selected matching parts only; remaining letter parts stay distinct'
+    for site, form in [('A-bar-left','T'),('A-bar-right','T'),('B-waist','K'),('H-left-middle','T'),
+                       ('H-right-middle','T'),('I-top-middle','T'),('I-bottom-middle','T'),('K-joint','K'),
+                       ('P-middle','T'),('Q-tail-joint','X'),('R-middle','K'),('T-joint','T'),('X-joint','X'),('Y-joint','Y')]:
+        s.data['expectedJointForms'].append({'site':site,'form':form,'status':'authored fixture expectation; calculate from actual tangent incidence'})
+    s.data['expectedJointForms'].append({'region':'O-counter-1','form':'O','status':'explicit closed loop; seams are smooth I sites'})
+    return s.finish()
+
+
+def diagnostics():
+    scenes = [alphabet_scene()]
 
     s = Scene("diagnostic-crossing-join", "Crossing and joined X", "Equal projected X shapes have different topology: two independent paths on the left, one shared four-ray site on the right.")
     _, a = s.poly("left-path-a", [(76, 188), (204, 316)], False, "wire-a")
@@ -347,6 +481,9 @@ def validate(scene):
             raise ValueError(f"Duplicate {name} identity")
         return result
     sites, edges = indexed(scene["sites"], "site"), indexed(scene["edges"], "edge")
+    x0, y0, width, height = scene["viewBox"]
+    if any(isinstance(v, bool) or not isinstance(v, int) for v in scene["viewBox"]) or width <= 0 or height <= 0:
+        raise ValueError("Fixture viewport must have positive integer extents")
     for edge in edges.values():
         controls = edge["controls"]
         if not 2 <= len(controls) <= 4:
@@ -355,7 +492,8 @@ def validate(scene):
             site = sites[edge[key]]
             if point != [site["x"], site["y"]]:
                 raise ValueError("Control endpoint disagrees with declared site")
-        if any(not isinstance(v, int) or isinstance(v, bool) or not 0 <= v <= 512 for p in controls for v in p):
+        if any(not isinstance(v, int) or isinstance(v, bool) or not (x0 if d == 0 else y0) <= v <= (x0+width if d == 0 else y0+height)
+               for p in controls for d, v in enumerate(p)):
             raise ValueError("Fixture control outside declared integer viewport")
     for scope in ("objects", "groups"):
         indexed(scene[scope], scope)
@@ -413,9 +551,11 @@ def svg_path(controls):
 
 def svg(scene):
     paths = "".join(f'<path id="{html.escape(e["id"], quote=True)}" d="{svg_path(e["controls"])}"/>' for e in scene["edges"])
-    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img">'
+    view_box = " ".join(str(v) for v in scene["viewBox"])
+    stroke_width = scene.get("presentationStrokeWidth", 3)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{view_box}" role="img">'
             f'<title>{html.escape(scene["title"])}</title>'
-            '<g fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'
+            f'<g fill="none" stroke="#000" stroke-width="{stroke_width}" stroke-linecap="round" stroke-linejoin="round">'
             + paths + '</g></svg>')
 
 
@@ -429,13 +569,30 @@ def render_overview(scenes, path, columns=3):
     font = ImageFont.truetype("C:/Windows/Fonts/arial.ttf", 16*factor)
     for i, scene in enumerate(scenes):
         left, top = (i % columns)*width, (i//columns)*height
+        x0, y0, scene_width, scene_height = scene["viewBox"]
+        scale = min(320/scene_width, 320/scene_height)
+        inset_x, inset_y = (320-scene_width*scale)/2, (320-scene_height*scale)/2
         for edge in scene["edges"]:
             points = [bezier(edge["controls"], j/64) for j in range(65)]
-            screen = [((left+20+x*.625)*factor, (top+20+y*.625)*factor) for x, y in points]
+            screen = [((left+20+inset_x+(x-x0)*scale)*factor, (top+20+inset_y+(y-y0)*scale)*factor) for x, y in points]
             draw.line(screen, fill="black", width=2*factor)
         draw.text(((left+16)*factor, (top+352)*factor), scene["title"], fill="#17212b", font=font)
         draw.line(((left+4)*factor, (top+height-1)*factor, (left+width-4)*factor, (top+height-1)*factor), fill="#dce0e5", width=factor)
     image.resize((width*columns, height*rows), Image.Resampling.LANCZOS).save(path)
+
+
+def render_scene(scene, path):
+    from PIL import Image, ImageDraw
+    from fit_pilot import bezier
+    x0, y0, width, height = scene["viewBox"]
+    factor = 2
+    image = Image.new("RGB", (width*factor, height*factor), "white")
+    draw = ImageDraw.Draw(image)
+    for edge in scene["edges"]:
+        points = [bezier(edge["controls"], j/96) for j in range(97)]
+        draw.line([((x-x0)*factor, (y-y0)*factor) for x, y in points], fill="black",
+                  width=scene.get("presentationStrokeWidth", 3)*factor)
+    image.resize((width, height), Image.Resampling.LANCZOS).save(path)
 
 
 def run(output):
@@ -447,6 +604,7 @@ def run(output):
             (output / f'{scene["id"]}.svg').write_text(svg(scene), encoding="utf-8")
     manifest = {"schema": "gojo.authored-line-art.v1", "status": "authored fixtures, no model training",
                 "churches": 12, "diagnostics": 3, "drawOrder": "authored construction order, not human acquisition",
+                "alphabetGlyphs": 26, "retiredScenes": ["diagnostic-rope-branch"],
                 "counts": [{"id": s["id"], "sites": len(s["sites"]), "edges": len(s["edges"]),
                             "regions": len(s["regions"]), "correspondences": len(s["correspondences"])} for s in scenes]}
     (output / "manifest.json").write_text(json.dumps(manifest, indent=2)+"\n", encoding="utf-8")
@@ -457,6 +615,7 @@ def run(output):
     (output / "source-review.html").write_text(page, encoding="utf-8")
     render_overview(scenes[:12], output / "church-overview.png")
     render_overview(scenes[12:], output / "diagnostic-overview.png")
+    render_scene(scenes[12], output / "alphabet-overview.png")
     print(json.dumps({"scenes": len(scenes), "edges": sum(len(s["edges"]) for s in scenes), "output": str(output)}))
 
 

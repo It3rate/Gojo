@@ -14,6 +14,12 @@ An embedded copy is retained at [results/line-art/review.html](results/line-art/
 its drawing inspector is portable, while links to full native archives refer
 to the local data folder.
 
+The website category is [Quick Draw](https://gojo.inklingai.ca/quickdraw/), with
+this study at [line art evidence](https://gojo.inklingai.ca/quickdraw/line-art/#diagnostic-alphabet).
+The category catalogue admits additional studies at stable child routes.
+The public inspector packages all seventeen native archives as compressed
+downloads, retains source licences, and omits machine-local paths.
+
 ## Why keep clean controls alongside imperfect observations?
 
 The hand-drawn source remains the reconstruction target in the earlier
@@ -40,12 +46,28 @@ without coloured regions or raster tracing.
 
 ![Twelve authored church drawings](results/line-art/church-overview.png)
 
-The diagnostics separate:
+The active diagnostics separate:
 
-- a rope meeting a branch, with distinct object and site identities connected
-  through an explicit contact;
+- all **26 uppercase letters on one inspection sheet**, with separate object
+  scopes and a per-letter comparison table;
 - two projected crossing lines from a shared-site four-arm joint;
 - L/I/T/Y/X/K local ray arrangements and a closed O contour with smooth seams.
+
+![The authored uppercase alphabet](results/line-art/alphabet-overview.png)
+
+The alphabet replaces the rope-and-branch scene in the active collection. Its
+26 letter forms contain 118 sites and 100 spans: 72 straight and 28 curved.
+Every letter is a separate connected scope. Eight independent counter cycles
+belong to A, B (two), D, O, P, Q and R; eighteen exact correspondences comprise
+eleven mirrors and seven translations. The inspector derives the comparison
+table from restored object members, incident sites, boundary walks and maps.
+Labels A–Z name these authored forms; they are not an OCR result.
+
+Letter names and local joint codes describe different things. This B, K and R
+each contain a K-shaped local junction. Q's explicitly joined tail reads as X;
+O's four smooth seams read as I. The letter O also has a closed counter boundary.
+These are properties of the supplied monoline constructions, not universal
+claims about every typographic or handwritten version of those letters.
 
 The references contain one church icon from each of three official collections:
 
@@ -110,9 +132,9 @@ This is still measured geometry. Retaining precise controls is useful for
 checking the transport and for later selective publication. It does not establish
 qualitative-only reconstruction or solve the separate resolution dial.
 
-For the fifteen authored fixtures, the source adapters occupy 134,619 bytes;
-the full native JSON archives occupy 4,789,206 bytes (349,312 bytes when each is
-gzip-compressed), and the restored inspector reads occupy 240,704 bytes. These
+For the fifteen current authored fixtures, the source adapters occupy 165,951 bytes;
+the full native JSON archives occupy 6,311,724 bytes (458,198 bytes when each is
+gzip-compressed), and the restored inspector reads occupy 304,396 bytes. These
 are measured fixture costs, not a corpus-scale storage estimate. Native archives
 are the inspectable structural record; SVG and inspector JSON are derived read
 surfaces. Future storage optimization must preserve distinct identities and
@@ -141,10 +163,11 @@ an explicit display convention for this experiment, not a previously established
 universal Gojo junction class. O denotes closure, not a degree-two joint. A T
 appearance does not itself establish occlusion or mechanical attachment.
 
-The rope fixture illustrates the difference: branch and rope keep independent
+The retained historical rope regression illustrates the difference: branch and rope keep independent
 sites and object memberships. The contact relation selects their coincident
 sites; the aggregate incident rays read as T. The inspector calls this a
-**contact appearance**, distinct from a single shared-site T joint. No
+**contact appearance**, distinct from a single shared-site T joint. This fixture
+is no longer in the active inspector or website. No
 load-bearing constraint or physical coupling law is supplied by the contact.
 
 Region tint is an optional display aid. Only verified closed walks receive a
@@ -182,19 +205,23 @@ sites or explicitly earlier construction scaffolds.
 
 ## Reproduction
 
-Checkpoint verification passed: **5,362 .NET tests across twelve projects**,
-including nineteen new native annotation cases, plus **60 Python tests**.
-The independent authored parity audit checks 7,642 assertions across fifteen
+The alphabet checkpoint passes **5,362 .NET tests across twelve projects**,
+including nineteen native annotation cases, and **68 Python tests**.
+The independent authored parity audit checks 9,894 assertions across fifteen
 fixtures. The two imported icons separately preserve all 45 sites, 33 edges
 and twelve subpath orders. Browser inspection passes on all seventeen scenes,
 including pointer hover, pinning, layer controls, mobile layout and an injected
 open/unselected boundary that must not become a filled figure.
 
-The combined inspector contains **421 sites, 413 spans, 61 declared closed
-boundary walks and 24 verified scoped correspondences**. These counts describe
+The combined inspector contains **533 sites, 509 spans, 69 declared closed
+boundary walks and 42 verified scoped correspondences**. These counts describe
 the fixture, not recognition accuracy on unknown drawings. See the retained
-[verification summary](results/line-art/checkpoint-summary.json) and the detailed
-source-parity and browser reports beside it.
+[alphabet analysis](results/line-art/alphabet-analysis.json), the historical
+[first-checkpoint summary](results/line-art/checkpoint-summary.json), and the detailed
+source-parity and browser reports beside it. The current
+[alphabet publication summary](results/line-art/alphabet-publication-summary.json)
+records the full test run, live browser/download checks and preservation of the
+previous website content.
 
 From the repository root, with the existing Python/Pillow and .NET environment:
 
@@ -204,7 +231,7 @@ python experiments/quickDraw/tools/fetch_line_art_references.py --output D:\_qui
 python experiments/quickDraw/tools/import_line_art_svg.py --references D:\_quickDraw\gojo-line-art\references
 dotnet run --project experiments/quickDraw -- --annotate --input D:\_quickDraw\gojo-line-art\scenes.ndjson --output D:\_quickDraw\gojo-line-art\native
 dotnet run --project experiments/quickDraw -- --annotate --input D:\_quickDraw\gojo-line-art\references\imported-scenes.ndjson --output D:\_quickDraw\gojo-line-art\references\native
-python experiments/quickDraw/tools/inspect_line_art.py --input D:\_quickDraw\gojo-line-art\native D:\_quickDraw\gojo-line-art\references\native --references D:\_quickDraw\gojo-line-art\references\manifest.json --output D:\_quickDraw\gojo-line-art\review.html
+python experiments/quickDraw/tools/inspect_line_art.py --input D:\_quickDraw\gojo-line-art\native D:\_quickDraw\gojo-line-art\references\native --references D:\_quickDraw\gojo-line-art\references\manifest.json --default-scene diagnostic-alphabet --output D:\_quickDraw\gojo-line-art\review.html
 python experiments/quickDraw/tools/verify_authored_line_art.py --root D:\_quickDraw\gojo-line-art
 python -m unittest discover -s experiments/quickDraw/tools -p "test_*.py"
 dotnet test Gojo.slnx
@@ -213,6 +240,25 @@ dotnet test Gojo.slnx
 Full sources, native archives and local review outputs remain in the authorized
 data folder. Compact manifests, verification summaries and overview images live
 under `results/line-art` in the repository.
+
+Prepare the portable website selection and its category without rerunning ML:
+
+```powershell
+python experiments/quickDraw/tools/inspect_line_art.py --input D:\_quickDraw\gojo-line-art\native D:\_quickDraw\gojo-line-art\references\native --references D:\_quickDraw\gojo-line-art\references\manifest.json --default-scene diagnostic-alphabet --public --output experiments/quickDraw/results/line-art/public/index.html
+node Visualizations/Gojo.Demos.Web/tools/build-quickdraw.mjs
+node Visualizations/Gojo.Demos.Web/tools/build-quickdraw.mjs --check
+```
+
+`public/public-files.json` explicitly selects the published HTML and compressed
+native downloads. `Visualizations/Gojo.Demos.Web/tools/quickdraw-studies.json`
+selects category entries. Follow the [website publication workflow](../../Visualizations/Gojo.Demos.Web/README.md)
+to preserve the existing applications and all other categories in the complete
+deployment. Publishing only the Quick Draw directory would remove other routes.
+
+The download button saves a native `.gojo.json` file. Compressed bytes remain
+stored on the website; the button handles both ordinary static hosting and
+Azure's automatic gzip HTTP decoding, checks the JSON, and preserves the decoded
+archive bytes. Browser verification checks the saved filename and full contents.
 
 ## Next bounded experiment
 

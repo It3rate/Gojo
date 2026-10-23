@@ -149,6 +149,10 @@ for(const file of await walk(path.join(web,'minds')))
 await fs.access(path.join(web,'ornaments','index.html'));
 for(const file of await walk(path.join(web,'ornaments')))
   await write(path.relative(web,file),await fs.readFile(file));
+// Preserve the Quick Draw study catalogue, inspectors and selected downloads.
+await fs.access(path.join(web,'quickdraw','index.html'));
+for(const file of await walk(path.join(web,'quickdraw')))
+  await write(path.relative(web,file),await fs.readFile(file));
 for(const file of await walk(path.join(web,'core4')))
   await write(path.relative(web,file),await fs.readFile(file));
 console.log('Prepared static overlays. Preserved '+baseline.size+' existing public assets.');

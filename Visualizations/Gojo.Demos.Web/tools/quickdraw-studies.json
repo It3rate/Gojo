@@ -1,0 +1,13 @@
+{
+  "studies": [
+    {
+      "id": "line-art",
+      "title": "Line art evidence",
+      "kind": "Authored controls and imported references",
+      "description": "Inspect every capital letter together, then explore church drawings. Hover over lines, joints and boundaries to see shared sites, repeated structure and what remains unknown.",
+      "detail": "Alphabet A–Z · Church studies · Native evidence",
+      "readSurface": "restored-native-inspector",
+      "source": "experiments/quickDraw/results/line-art/public"
+    }
+  ]
+}

@@ -4,6 +4,10 @@
   "churches": 12,
   "diagnostics": 3,
   "drawOrder": "authored construction order, not human acquisition",
+  "alphabetGlyphs": 26,
+  "retiredScenes": [
+    "diagnostic-rope-branch"
+  ],
   "counts": [
     {
       "id": "church-01",
@@ -90,11 +94,11 @@
       "correspondences": 2
     },
     {
-      "id": "diagnostic-rope-branch",
-      "sites": 6,
-      "edges": 4,
-      "regions": 0,
-      "correspondences": 0
+      "id": "diagnostic-alphabet",
+      "sites": 118,
+      "edges": 100,
+      "regions": 8,
+      "correspondences": 18
     },
     {
       "id": "diagnostic-crossing-join",

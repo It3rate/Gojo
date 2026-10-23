@@ -1,0 +1,218 @@
+{
+  "schema": "gojo.alphabet-publication-checkpoint.v1",
+  "verifiedAtUtc": "2026-10-23T21:17:26.921769+00:00",
+  "status": "verified",
+  "category": "https://gojo.inklingai.ca/quickdraw/",
+  "study": "https://gojo.inklingai.ca/quickdraw/line-art/#diagnostic-alphabet",
+  "deployment": {
+    "environment": "production",
+    "service": "Azure Static Web Apps",
+    "cliExitCode": 0
+  },
+  "activeCollection": {
+    "authoredChurches": 12,
+    "authoredDiagnostics": 3,
+    "importedReferences": 2,
+    "scenes": 17,
+    "ropeBranchReplacedBy": "diagnostic-alphabet",
+    "sites": 533,
+    "spans": 509,
+    "closedBoundaryWalks": 69,
+    "verifiedCorrespondences": 42
+  },
+  "alphabet": {
+    "objects": 26,
+    "sites": 118,
+    "edges": 100,
+    "closedCounterRegions": 8,
+    "correspondences": 18,
+    "independentCycles": 8,
+    "siteKinds": {
+      "I": 20,
+      "K": 3,
+      "L": 23,
+      "T": 11,
+      "X": 2,
+      "Y": 1,
+      "endpoint": 58
+    },
+    "traceKinds": {
+      "curved": 28,
+      "straight": 72
+    },
+    "scopeSeparationVerified": true,
+    "nativeRestoreVerified": true,
+    "checks": 254,
+    "archiveSha256": "4fa77b7c1c13953591a940e513b293e5afa353914847a2d153c2e09c6e6c0c32"
+  },
+  "dotnet": {
+    "command": "dotnet test Gojo.slnx",
+    "passed": 5362,
+    "failed": 0,
+    "skipped": 0,
+    "projects": [
+      {
+        "project": "Gojo.Tests.dll",
+        "passed": 1069,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "3 s"
+      },
+      {
+        "project": "Gojo.GearShapeLadder.Tests.dll",
+        "passed": 21,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "3 s"
+      },
+      {
+        "project": "GojoCAD.Tests.dll",
+        "passed": 155,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "6 s"
+      },
+      {
+        "project": "PrimitiveLearning.Tests.dll",
+        "passed": 66,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "14 s"
+      },
+      {
+        "project": "PrimitiveForager.Tests.dll",
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "929 ms"
+      },
+      {
+        "project": "Gojo.Encoding.Tests.dll",
+        "passed": 725,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "18 s"
+      },
+      {
+        "project": "AdaptiveLifecycle.Tests.dll",
+        "passed": 25,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "11 s"
+      },
+      {
+        "project": "Phototaxis.Tests.dll",
+        "passed": 129,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "35 s"
+      },
+      {
+        "project": "Minds.Tests.dll",
+        "passed": 49,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "4 s"
+      },
+      {
+        "project": "UtilityEcology.Tests.dll",
+        "passed": 119,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "30 s"
+      },
+      {
+        "project": "CompositeEmergence.Tests.dll",
+        "passed": 66,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "54 s"
+      },
+      {
+        "project": "QualitativeExecution.Tests.dll",
+        "passed": 2932,
+        "failed": 0,
+        "skipped": 0,
+        "duration": "11 m 49 s"
+      }
+    ]
+  },
+  "python": {
+    "command": "python -m unittest discover -s experiments/quickDraw/tools -p \"test_*.py\"",
+    "passed": 68,
+    "failed": 0
+  },
+  "nativeAuthoredParityAssertions": 9894,
+  "liveBrowser": {
+    "base": "https://gojo.inklingai.ca",
+    "studies": 1,
+    "scenes": 17,
+    "letters": 26,
+    "verifiedDownloads": 17,
+    "savedNativeJsonVerified": true
+  },
+  "liveChecks": [
+    "Homepage and category navigation",
+    "All 26 capital letters together",
+    "All 17 scenes render",
+    "Pointer and keyboard evidence reads, pinning and layer controls",
+    "Mobile layout without horizontal page overflow",
+    "All 17 native archive bodies match retained source bytes",
+    "Alphabet download saves exact decoded JSON with .gojo.json filename",
+    "Missing study assets return 404"
+  ],
+  "archiveDelivery": "Stored gzip bytes; download adapter handles both raw gzip and HTTP-decoded JSON without changing decoded archive bytes.",
+  "publication": {
+    "files": 2048,
+    "bytes": 261317702,
+    "quickdrawFiles": 21,
+    "documentedLimit": 262144000,
+    "remainingUnderDocumentedLimit": 826298,
+    "quickdrawEntrySha256": "d93742413072ed746ae236049cb16bd5a31291566ad3d58ab11b7f71056137bc"
+  },
+  "preservedProductionContent": {
+    "startedUtc": "2026-10-23T21:16:07.005Z",
+    "completedUtc": "2026-10-23T21:17:05.507Z",
+    "files": 1377,
+    "sourceBytes": 208084191,
+    "groups": {
+      "preserved-runtime": {
+        "files": 445,
+        "sourceBytes": 156659380,
+        "verified": 445,
+        "receivedBytes": 156659380
+      },
+      "syntax": {
+        "files": 59,
+        "sourceBytes": 403299,
+        "verified": 59,
+        "receivedBytes": 403299
+      },
+      "minds": {
+        "files": 208,
+        "sourceBytes": 13542618,
+        "verified": 208,
+        "receivedBytes": 13542618
+      },
+      "ornaments": {
+        "files": 662,
+        "sourceBytes": 37468180,
+        "verified": 662,
+        "receivedBytes": 37468180
+      },
+      "landing-assets": {
+        "files": 3,
+        "sourceBytes": 10714,
+        "verified": 3,
+        "receivedBytes": 10714
+      }
+    },
+    "mismatches": [],
+    "passed": true
+  },
+  "limits": [
+    "Authored controls and imported references, not recognition accuracy on unknown drawings.",
+    "Authored construction and imported path order are not human stroke timing.",
+    "No learned intent, gap repair or broad shape-prior taxonomy introduced."
+  ]
+}
