@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [interior ornament pass](results/ornament-interior/gallery.html) develops
+compound rosettes, fans and scrolls inside selected mesh spaces. Native
+boundary/port reads supply construction foci; reusable compounds consume actual
+guide spines and anchor words. Compare the [whole sheet](results/ornament-interior/overview.html)
+or the [new designs alone](results/ornament-interior/designs.html), and see the
+[historical sources, encoding and limits](../../Gojo/docs/GojoOrnamentInteriorStudy.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-interior
+node experiments/QualitativeFrieze/tools/check-ornament-interior.cjs experiments/QualitativeFrieze/results/ornament-interior/gallery.html
+```
+
 The [integrated ornament pass](results/ornament-integrated/gallery.html) replaces
 small isolated decorations with larger leaves and florets rooted in the exact
 previous mesh. Its before/after views preserve the source, expose motif roots

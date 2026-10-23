@@ -44,6 +44,12 @@ Its [before/after gallery](experiments/QualitativeFrieze/results/ornament-integr
 exposes native endpoint and straight-interior attachments, tangent reads and
 the carried earlier decoration.
 
+The [interior ornament pass](Gojo/docs/GojoOrnamentInteriorStudy.md) develops
+multi-part flowers, fans and scrolls within mesh compartments, with native
+interior construction landmarks and reusable guide-derived petal profiles.
+See the [before/after inspector](experiments/QualitativeFrieze/results/ornament-interior/gallery.html)
+and [all new designs](experiments/QualitativeFrieze/results/ornament-interior/designs.html).
+
 The [path and band study](Gojo/docs/GojoPathBandStudy.md) connects source paths,
 paired sides, selected occupancy, caps/continuation and local crossing order.
 Its [22-case gallery](experiments/QualitativeFrieze/results/path-bands/gallery.html)
