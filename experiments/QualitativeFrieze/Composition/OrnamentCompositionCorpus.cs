@@ -205,7 +205,7 @@ public static class OrnamentCompositionCorpus
     public static QualitativePatternTransform Half(Curve.Frame f) => Map(f, new(-1, 0), new(0, -1));
     public static QualitativePatternTransform MirrorX(Curve.Frame f) => Map(f, new(-1, 0), new(0, 1));
 
-    private static Unit Leaf(Curve.Frame f, int length)
+    public static Unit Leaf(Curve.Frame f, int length)
     {
         var a = new Author(f);
         a.Chain(2, [([new V(0, 0), new V(2, length / 3), new V(2, 2 * length / 3), new V(0, length)],
@@ -214,7 +214,7 @@ public static class OrnamentCompositionCorpus
             [new V(0, 0), new V(0, 0), new V(0, 0), new V(0, 0)])]);
         return a.Finish();
     }
-    private static Unit Flower(Curve.Frame f, int reach)
+    public static Unit Flower(Curve.Frame f, int reach)
     {
         var a = new Author(f); var width = reach < 6 ? 1 : 2;
         a.Chain(2, [([new V(0, 0), new V(0, reach / 3), new V(0, 2 * reach / 3), new V(0, reach)],
@@ -271,7 +271,7 @@ public static class OrnamentCompositionCorpus
             merged.Repetitions.Append(run.Surface).Distinct<Relation>(ReferenceEqualityComparer.Instance).ToArray(),
             merged.Seams.Concat(seams).ToArray(), units[0].Highlight, units[0].Entry, units[^1].Exit, new Relation(merged.Surface, run.Surface));
     }
-    private static Unit Merge(params Unit[] children)
+    public static Unit Merge(params Unit[] children)
     {
         var frame = children[0].Template.Frame; var template = Parts.Compose(frame, children.Select(c => c.Template).ToArray());
         return Make(template, Enumerable.Range(0, 4).Select(r => S(children.SelectMany(c => E(c.Roles[r])).ToArray())).ToArray(),
@@ -309,7 +309,7 @@ public static class OrnamentCompositionCorpus
         return Make(source.Template, source.Roles, crossings, source.Applications, source.Repetitions, source.Seams,
             source.Highlight, source.Entry, source.Exit, new Relation(source.Surface, new Relation(controller, S(witnesses.ToArray()))));
     }
-    private static Unit Make(Parts.Template template, Relation[] roles, IReadOnlyList<Crossing> crosses,
+    public static Unit Make(Parts.Template template, Relation[] roles, IReadOnlyList<Crossing> crosses,
         IReadOnlyList<Relation> applications, IReadOnlyList<Relation> repeats, IReadOnlyList<Relation> seams,
         Relation highlight, Relation? entry, Relation? exit, IElement provenance)
     {

@@ -1,5 +1,19 @@
 # Qualitative frieze generators
 
+The [substrate ornament gallery](results/ornament-substrate/gallery.html)
+contains twelve designs in which an independent U/V lattice supplies repeat
+landmarks. Long strands remain continuous through crossing events; curved
+profiles generate ogees, scales and interlocking cells with paired opposite
+boundaries. Four views expose the substrate, strand continuity, boundary
+correspondence and finished design. See the
+[whole sheet](results/ornament-substrate/overview.html) and
+[native grammar, primary sources and limits](../../Gojo/docs/GojoOrnamentSubstrateStudy.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-substrate
+node experiments/QualitativeFrieze/tools/check-ornament-substrate.cjs experiments/QualitativeFrieze/results/ornament-substrate/gallery.html
+```
+
 The [compound ornament gallery](results/ornament-composition/gallery.html)
 contains sixteen curved-band designs, with frame views, highlighted repeated
 units and two colour readings each. Whole compounds retain prototype/transform

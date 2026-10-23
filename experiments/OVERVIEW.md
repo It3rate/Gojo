@@ -61,6 +61,14 @@ and assesses explicit colour intentions. The
 [gallery](QualitativeFrieze/results/ornament-composition/gallery.html) compares
 construction frames, selected units and two colour readings of each field.
 
+The [substrate ornament study](../Gojo/docs/GojoOrnamentSubstrateStudy.md) then
+separates continuous strand identity from repeat-event landmarks. Its
+[12-design gallery](QualitativeFrieze/results/ornament-substrate/gallery.html)
+includes full-length weaves, curved wave/scale courses, and shared curved cell
+boundaries. Reusable local profiles feed actual landmark-anchored placement
+receipts; independent boundary checks compare every ordered control. These
+finite local checks establish correspondence, not a global tessellation proof.
+
 The [path and band study](../Gojo/docs/GojoPathBandStudy.md) adds native
 spine/side correspondence, selected ruled occupancy, caps and continuation,
 plus distinct crossing and depth reads. Its

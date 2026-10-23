@@ -32,6 +32,12 @@ curved bands into shared motifs, mirrored placements, feedback orbits and
 two-dimensional fields. Its [16-design gallery](experiments/QualitativeFrieze/results/ornament-composition/gallery.html)
 retains frames, repeat correspondence and separately assessed colour intentions.
 
+The [substrate ornament study](Gojo/docs/GojoOrnamentSubstrateStudy.md) keeps
+continuous strands independent of their repeat events. Its
+[12-design gallery](experiments/QualitativeFrieze/results/ornament-substrate/gallery.html)
+includes weave, twill, wave/ogee courses and curved interlocking cells, with
+shared local profiles and complete opposite-boundary correspondence.
+
 The [path and band study](Gojo/docs/GojoPathBandStudy.md) connects source paths,
 paired sides, selected occupancy, caps/continuation and local crossing order.
 Its [22-case gallery](experiments/QualitativeFrieze/results/path-bands/gallery.html)
