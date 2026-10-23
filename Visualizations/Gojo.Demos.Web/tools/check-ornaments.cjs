@@ -31,6 +31,12 @@ async function walk(dir) {
     browser = await chromium.launch({headless:true,executablePath:process.env.GOJO_BROWSER});
     const context = await browser.newContext({viewport:{width:1440,height:1100},reducedMotion:'reduce'});
     const page = await context.newPage(), errors = [];
+    async function loadImages() {
+      await page.evaluate(async () => {
+        for (const image of document.images) image.loading='eager';
+        await Promise.all([...document.images].map(image=>image.decode()));
+      });
+    }
     page.on('pageerror', e => errors.push(e.message));
     page.on('response', r => { if(r.status() >= 400 && r.url().startsWith(base)) errors.push(r.status() + ' ' + r.url()); });
     const {collections} = JSON.parse(await fs.readFile(path.join(__dirname,'ornament-collections.json'),'utf8'));
@@ -69,10 +75,16 @@ async function walk(dir) {
     for (const c of collections) {
       for (const suffix of ['', '/', '/index.html', '/gallery.html']) {
         await page.goto(base+'/ornaments/'+c.id+suffix);
+        if (suffix === '/gallery.html') await page.waitForURL(base+'/ornaments/'+c.id+'/');
         assert.equal(await page.locator('.ornament-navigation').count(),1);
         const anchors = await page.locator('a[href^="#"]').evaluateAll(as => as.map(a => a.getAttribute('href').slice(1)));
         assert.deepEqual(await page.evaluate(ids => ids.filter(id => !document.getElementById(id)),anchors),[]);
       }
+      const legacy = await fs.readFile(path.join(web,'ornaments',c.id,'gallery.html'),'utf8');
+      assert.ok(Buffer.byteLength(legacy)<2048,'Gallery alias duplicates its canonical page: '+c.id);
+      await page.goto(base+'/ornaments/'+c.id+'/gallery.html?alias-check=1#alias-check');
+      await page.waitForURL(base+'/ornaments/'+c.id+'/?alias-check=1#alias-check');
+      assert.equal(await page.locator('.ornament-navigation').count(),1);
       if(c.presentation === 'refined-compact') {
         const manifest = JSON.parse(await fs.readFile(path.join(web,'ornaments',c.id,'publication.json'),'utf8'));
         assert.equal(manifest.count,108);
@@ -100,6 +112,7 @@ async function walk(dir) {
         }
         for (const suffix of ['', '/', '/index.html', '/gallery.html']) {
           await page.goto(base+'/ornaments/'+c.id+suffix);
+          if (suffix === '/gallery.html') await page.waitForURL(base+'/ornaments/'+c.id+'/');
           for (const mode of ['field','detail','motif']) {
             await page.selectOption('#global-mode',mode);
             await checkSelected(mode,false);
@@ -120,6 +133,41 @@ async function walk(dir) {
         assert.equal(await page.locator('tbody tr').count(),36);
         await page.goto(base+'/ornaments/'+c.id+'/');
         await page.screenshot({path:path.join(screenshots,c.id+'-desktop.png')});
+      } else if(c.presentation === 'interior-ornament-compact') {
+        const manifest=JSON.parse(await fs.readFile(path.join(web,'ornaments',c.id,'publication.json'),'utf8'));
+        assert.equal(manifest.count,12);
+        assert.equal(manifest.files.filter(f=>/\/patterns\/F\d{3}-[24]\.svg$/.test(f.source)).length,24);
+        assert.equal(manifest.files.filter(f=>/\.gz$|gallery-data\.json$/.test(f.source)).length,0);
+        assert.equal(await page.locator('.publication-scope').count(),1);
+        assert.equal(await page.locator('.card').count(),12);
+        const cases=JSON.parse(await page.locator('#data').textContent());
+        assert.equal(cases.length,12);
+        assert.ok(cases.every(e=>!e.panels&&!e.drawing&&!e.nativePacket));
+        for(const item of cases) {
+          await page.selectOption('#design',item.id);
+          assert.equal(await page.locator('#title').textContent(),item.id+' · '+item.name);
+          for(const view of ['design','mesh']) {
+            await page.locator('[data-view="'+view+'"]').click();
+            assert.equal(await page.locator('[data-view="'+view+'"]').getAttribute('aria-pressed'),'true');
+            const image=new URL(await page.locator('#field').getAttribute('src'),base+'/ornaments/'+c.id+'/').pathname;
+            assert.equal(image,'/ornaments/'+c.id+'/'+item[view]);
+            assert.equal(await page.locator('#original').getAttribute('href'),item[view]);
+          }
+        }
+        await page.goto(base+'/ornaments/'+c.id+'/gallery.html?case=F011');
+        await page.waitForURL(base+'/ornaments/'+c.id+'/?case=F011');
+        assert.equal(await page.locator('#design').inputValue(),'F011');
+        await page.locator('#next').click();assert.equal(await page.locator('#design').inputValue(),'F012');
+        await page.locator('#previous').click();assert.equal(await page.locator('#design').inputValue(),'F011');
+        await page.goto(base+'/ornaments/'+c.id+'/designs.html');
+        assert.equal(await page.locator('.design-tile').count(),12);
+        assert.equal(await page.locator('.design-tile img').count(),12);
+        await loadImages();
+        await page.screenshot({path:path.join(screenshots,c.id+'-sheet.png'),fullPage:true});
+        await page.goto(base+'/ornaments/'+c.id+'/');
+        await loadImages();
+        await page.screenshot({path:path.join(screenshots,c.id+'-desktop.png'),fullPage:true});
+        console.log('Verified all twelve interior ornament designs, retained mesh views, case selection, captured scope and whole design sheet.');
       } else if(c.presentation === 'interiors-compact') {
         const manifest = JSON.parse(await fs.readFile(path.join(web,'ornaments',c.id,'publication.json'),'utf8'));
         assert.equal(manifest.count,100);
@@ -215,9 +263,10 @@ async function walk(dir) {
       }
     }
     await page.setViewportSize({width:390,height:844});
-    for(const route of ['/ornaments/',...collections.flatMap(c => ['/ornaments/'+c.id+'/',...(c.presentation==='interiors-compact'?['/ornaments/'+c.id+'/overview.html','/ornaments/'+c.id+'/rules.html']:[])])]) {
+    for(const route of ['/ornaments/',...collections.flatMap(c => ['/ornaments/'+c.id+'/',...(c.presentation==='interiors-compact'?['/ornaments/'+c.id+'/overview.html','/ornaments/'+c.id+'/rules.html']:[]),...(c.presentation==='interior-ornament-compact'?['/ornaments/'+c.id+'/designs.html']:[])])]) {
       await page.goto(base+route);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth+1),'Mobile overflow: '+route);
+      await loadImages();
       await page.screenshot({path:path.join(screenshots,route.split('/').filter(Boolean).join('-')+'-mobile.png')});
     }
     const missing = await context.request.get(base+'/ornaments/no-such-collection/absent.json');

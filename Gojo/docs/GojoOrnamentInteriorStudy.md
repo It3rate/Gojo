@@ -130,8 +130,10 @@ The offsets are unmeasured common-reach words in the same local frame.
 - **F010:** move the focus up and left and use a diagonal native substitution.
   Its two direction images are `(1,1)` and `(-1,1)`. This changes the orientation
   and scale together; it is not an independently calibrated metric rotation.
-- **F011:** apply the same left/up bias in the shared frame to both triangular
-  orientations. Reversing the motif does not reverse the placement correction.
+- **F011:** retain the leftward bias but lower the flower in the darker face
+  phase and raise it in the lighter phase. The motif foci form a new alternating
+  disposition over the original horizontal landmark courses. Both the old
+  substrate correspondence and the phase-specific anchor sums remain available.
 - **F012:** move the focus left, retaining the same even outlines and compound.
 
 These are direct, inspectable controls. A future learned optical-focus rule

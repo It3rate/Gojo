@@ -1,5 +1,15 @@
 # Ornament collections
 
+`/ornaments/interior-ornament/` presents twelve compound interior designs:
+flowers, fans and scrolls within woven, bowed and interlocking meshes. The
+bounded edition includes all twelve final SVGs, all twelve even-outline mesh
+views, an inspector, an all-design sheet, captured summaries and the study
+notes. Earlier comparisons, guide overlays, full display-path records and native
+archives remain in the linked research checkout. The adapter in
+`tools/interior-ornament-publication.mjs` only projects the captured presentation;
+it does not execute geometry or alter the SVGs. Its source is
+`experiments/QualitativeFrieze/results/ornament-interior`.
+
 `/ornaments/lattice-interiors/` adds all 100 recorded interior-first lattices.
 Its bounded website edition retains the 100 coloured and 100 outline SVGs,
 captured cell and repeat summaries, family/search controls, local ratings with
@@ -66,6 +76,9 @@ records source paths and SHA-256 hashes after this newline normalization, before
 HTML navigation and link adaptation. Native JSON data and SVG geometry are not
 recomputed.
 `gallery.html` remains a working alias for the collection's directory index.
+Its small redirect preserves the query and fragment, including selected cases,
+instead of duplicating the potentially large complete gallery HTML. Without
+JavaScript, its collection link remains usable.
 An explicit base URL preserves relative image URLs constructed by the original
 gallery controls, including at the directory's no-trailing-slash alias.
 Study notes are retained as Markdown downloads.

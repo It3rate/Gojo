@@ -55,7 +55,7 @@ public static class OrnamentInteriorCorpus
             "A centre blossom is held between two tangent scrolls, with edge-normal side buds. The scrolls are construction for a whole chamber.",
             "A four-part whorl combines straight radial guides, broad curling petals and an inner flower. Alternating chamber tones emphasise the negative spaces.",
             "A diagonally oriented garden seal occupies the upper-left-biased interior focus, answering the tab and recess rather than the lattice centre.",
-            "A curved trefoil is biased left and upward within each bowed triangular face. The same world-space bias applies to both orientations.",
+            "Curved trefoils alternate lower in the darker face phase and higher in the lighter phase. Their new staggered motif disposition remains connected to the original horizontal mesh landmarks.",
             "An oblique lozenge, four broad lobes and internal ribs occupy a left-biased cell focus. Even mesh outlines retain the flat ribbon reading." };
 
         switch (number)
@@ -79,10 +79,11 @@ public static class OrnamentInteriorCorpus
                     // retain its sum receipt, never silently round a centroid.
                     var first = (Relation)E(f.Read(inside.Sections[0]).ControlWords)[0];
                     var reversed = i % 2 != 0;
-                    // This is an authored optical-focus bias, in the shared
-                    // presentation frame, not a computed area centroid. Keep
-                    // the same displacement through both motif orientations.
-                    var bias = number == 11 ? new V(-2, 2) : new V(0, 0);
+                    // The curve phases use different optical foci. Keep the
+                    // leftward read, but stagger the flower disposition below
+                    // the former focus in one phase and above it in the other.
+                    // These are native anchor sums, not SVG displacements.
+                    var bias = number == 11 ? new V(-2, reversed ? 4 : 0) : new V(0, 0);
                     b.Put(inside, b.Seed(2, 9), reversed ? Vocabulary.Half(f) : Parts.Identity(f),
                         first, (reversed ? new V(0, 13) : new V(12, 7)) + bias);
                 }

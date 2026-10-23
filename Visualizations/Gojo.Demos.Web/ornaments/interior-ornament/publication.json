@@ -1,0 +1,150 @@
+{
+  "collection": "interior-ornament",
+  "sourceGallery": "experiments/QualitativeFrieze/results/ornament-interior/gallery.html",
+  "textNewlines": "LF",
+  "count": 12,
+  "presentation": "interior-ornament-compact",
+  "omittedLinks": [],
+  "files": [
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/designs.html",
+      "url": "/ornaments/interior-ornament/designs.html",
+      "sha256": "0928b64934320dc36047b847d491ada659a98c7de1e851a1a5a75b596da6873e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/gallery.html",
+      "url": "/ornaments/interior-ornament/gallery.html",
+      "sha256": "045080cae87d41b8b97a24da9f964d73f96c7441244579a50e5840d1a831a390"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F001-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F001-2.svg",
+      "sha256": "3d7019036a3e05a6d8572b960baf7accc56864bed43c14076e74938e639531c1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F001-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F001-4.svg",
+      "sha256": "15269ee6ceca60deb6d72ccdf551f1dcd55e2094b94f0f964e137ed11498e646"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F002-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F002-2.svg",
+      "sha256": "84899feba60818e9b59f489bff31b52d843144cd6c9d13e74ae3ca15f3958310"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F002-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F002-4.svg",
+      "sha256": "6acde59e0f402d188a1f6755661894e85b2a4dc486d7ef1805f649b37506aeb3"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F003-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F003-2.svg",
+      "sha256": "e63c3e7d8b76f0d525b467caff58ab08a77685cbc5e5d309c562ada2649aab05"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F003-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F003-4.svg",
+      "sha256": "f9257c39a3c1a8ad615bccd6f609e16fb03edc332e6c8c3495fbc0af2f7671e1"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F004-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F004-2.svg",
+      "sha256": "bccb5e92b7a9af31526951b12a8c2c38cee5fdff648605a110d31c74e860a423"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F004-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F004-4.svg",
+      "sha256": "6bfafe799cfe7757772eb6db8d01c732838d628a118f3e0457b04432d1458157"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F005-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F005-2.svg",
+      "sha256": "24c6657ec6d64cb6ec73bc2f3896237c2630d2561a66791ffae59e6d79592bbb"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F005-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F005-4.svg",
+      "sha256": "41aeca7b5341861645df29714810b6f08e8610be53b418b827728a5857e08cda"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F006-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F006-2.svg",
+      "sha256": "6bb4a25de550c8967da847245b6f048f5ed79d4f0d679ad7caac068dcfa7b002"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F006-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F006-4.svg",
+      "sha256": "70b4b2c05561e8ebbdd156c37678d728b01a217f3aaa6d68126370df6b0089d0"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F007-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F007-2.svg",
+      "sha256": "110f4c42a66c6f2365b8f5185c0dc9004a3e52fb32f69e13470a8f619613392e"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F007-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F007-4.svg",
+      "sha256": "2edde20c9977ba89ba3ad1d100c119d456f14d7335c5ab83b4629c1ad07b5fa5"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F008-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F008-2.svg",
+      "sha256": "33bcf0223dc722ad5da50d69bc87d6d8f21dbaed9520421878aedea9a33faf75"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F008-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F008-4.svg",
+      "sha256": "4e0b6df0270f69c842927d24be0c25924222f8d3ff614a14e97feb2782fd580b"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F009-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F009-2.svg",
+      "sha256": "89cabe2e141ff998643b333ef022b842956a33574e7ed5de4175811831ee8447"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F009-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F009-4.svg",
+      "sha256": "7fd700cd6ac71cd6ca91cdd2c7fc788d84d04180895960ff5ede60d3d5e535af"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F010-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F010-2.svg",
+      "sha256": "d918fec07cc5850184fd1cbfe577cecead1fd0f7f7517cd770660a2bd4b86ad2"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F010-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F010-4.svg",
+      "sha256": "1b3dc4a26b412fe42e7e8926f2244e36007705fdc9ba1a6b65391ba802c2c4c9"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F011-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F011-2.svg",
+      "sha256": "60f6446e4fed3f64a02baf74d676d513bd4666c1f7b72815de345328f6eea07d"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F011-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F011-4.svg",
+      "sha256": "7cd3d92f8af1a79a63282d7f30f124ab83e22e541f38afc4c2e685d082c8cc94"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F012-2.svg",
+      "url": "/ornaments/interior-ornament/patterns/F012-2.svg",
+      "sha256": "eb9226e1541a14d3a88f070bd6d547c634a1dd2086e1dc44c1379a73b6e15145"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/patterns/F012-4.svg",
+      "url": "/ornaments/interior-ornament/patterns/F012-4.svg",
+      "sha256": "7107fc728fdcee3beb1baccbe348258cd3dd4ff0fb02bc8c5b1e2bfd1f9d1202"
+    },
+    {
+      "source": "experiments/QualitativeFrieze/results/ornament-interior/summary.json",
+      "url": "/ornaments/interior-ornament/summary.json",
+      "sha256": "336421f683e308e3a562bcd5d4e7e41f08e78057af5c50e8fbdb41db2d77a94a"
+    },
+    {
+      "source": "Gojo/docs/GojoOrnamentInteriorStudy.md",
+      "url": "/ornaments/interior-ornament/notes/interior-study.md",
+      "sha256": "b61878d9ef377e10582e1c218e5c70e80a48204685eb854419508d180905ecb9"
+    }
+  ]
+}

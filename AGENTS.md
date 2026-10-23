@@ -31,8 +31,10 @@ default branch.
 
 Per the user's current workflow, work directly on `master` and commit completed,
 verified checkpoints as experiments progress. Create a separate feature branch
-only when the user requests one. Do not infer permission to push from a request
-to check in locally.
+only when the user requests one. The user has authorized ongoing GitHub pushes
+for completed, verified updates to this repository (23 October 2026). Push such
+checkpoints to the existing GitHub remote as part of the workflow. Publication
+to other services still follows the authorization for that task.
 
 ## Verification Entry Point
 

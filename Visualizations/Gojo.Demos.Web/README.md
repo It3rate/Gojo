@@ -134,3 +134,17 @@ the larger construction/native archives in the research checkout. The selected
 collection adds about 3.9 MB. The complete production bundle must still be
 measured on each publication; its remaining capacity is now below 1 MB under
 the last verified allowance. No hosting-plan change is needed for this edition.
+
+The twelve compound interior ornament designs join the catalogue at
+`/ornaments/interior-ornament/`, with a finished-design sheet and a retained-mesh
+view for every design. This bounded publication keeps large history and native
+archives in the linked research checkout. Existing `gallery.html` aliases now
+redirect to their canonical collection pages while preserving query and fragment;
+this avoids storing duplicate large gallery pages. All previous collection
+routes, downloads and browser applications remain included. Measure the whole
+prepared bundle before every deployment; the documented 250 MiB allowance still
+applies.
+
+The complete prepared bundle for this publication is 260,405,197 bytes,
+leaving 1,738,803 bytes under that allowance. The alias reduction retains the
+previous URLs and makes this edition smaller than the preceding deployment.

@@ -1,6 +1,31 @@
 {
   "collections": [
     {
+      "id": "interior-ornament",
+      "title": "Ornament within the spaces",
+      "subtitle": "Flowers, fans and scrolls · 12 designs",
+      "description": "Compound flowers and flowing scrolls fill the spaces within woven, curved and interlocking meshes. Explore the finished designs, their retained lattices and an all-design sheet.",
+      "source": "experiments/QualitativeFrieze/results/ornament-interior",
+      "gallery": "gallery.html",
+      "catalog": "gallery-data.json",
+      "countProperty": "examples",
+      "countLabel": "designs",
+      "presentation": "interior-ornament-compact",
+      "includeFiles": [
+        "^(?:gallery|designs)\\.html$",
+        "^summary\\.json$",
+        "^patterns/F[0-9]{3}-[24]\\.svg$"
+      ],
+      "previews": [
+        { "file": "patterns/F002-2.svg", "alt": "Pomegranate fans filling a woven twill field" },
+        { "file": "patterns/F007-2.svg", "alt": "Peacock flowers within scalloped arches" },
+        { "file": "patterns/F011-2.svg", "alt": "Alternating flowers within a bowed triangular lattice" }
+      ],
+      "documents": [
+        { "source": "Gojo/docs/GojoOrnamentInteriorStudy.md", "destination": "notes/interior-study.md" }
+      ]
+    },
+    {
       "id": "lattice-interiors",
       "title": "Shape the spaces",
       "subtitle": "Interior-first lattices · 100 constructions",

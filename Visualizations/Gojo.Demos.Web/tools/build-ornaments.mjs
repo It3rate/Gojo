@@ -4,6 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { interiorsPublication } from './interiors-publication.mjs';
+import { interiorOrnamentPublication } from './interior-ornament-publication.mjs';
 const web = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repo = path.resolve(web, '../..');
 const output = path.join(web, 'ornaments');
@@ -15,6 +16,12 @@ const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', 
 const slash = value => value.replaceAll(path.sep, '/');
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const key = value => path.resolve(value).toLowerCase();
+function galleryAlias(route, title) {
+  // Keep historical gallery.html URLs without duplicating a large captured page.
+  // Both the selected case and fragment survive the move to the canonical route.
+  const target = JSON.stringify(route).replaceAll('<', '\\u003c');
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(title)} · Gojo</title><script>location.replace(${target}+location.search+location.hash)</script></head><body><p><a href="${escape(route)}">Open ${escape(title)}</a>.</p><noscript><p>JavaScript is needed to forward your selected case automatically. The collection link above opens the complete gallery.</p></noscript></body></html>\n`;
+}
 function inside(root, relative) {
   const resolved = path.resolve(root, relative);
   if (!resolved.startsWith(root + path.sep)) throw new Error('Path leaves publication scope: ' + relative);
@@ -74,6 +81,7 @@ for (const { collection, root, route, sources, gallery } of selections) {
   const omitted = (collection.omitLinks || []).map(pattern => new RegExp(pattern));
   function adapt(html, source) {
     if (collection.presentation === 'interiors-compact') html = interiorsPublication(html, source, catalogue);
+    if (collection.presentation === 'interior-ornament-compact') html = interiorOrnamentPublication(html, source, catalogue);
     // A compact publication is a declared presentation subset. Omitted controls
     // and downloads must disappear together; no missing asset is silently mapped
     // to a different design or an HTML fallback.
@@ -123,8 +131,10 @@ for (const { collection, root, route, sources, gallery } of selections) {
     const bytes = textFile ? Buffer.from(original.toString('utf8').replace(/\r\n/g, '\n')) : original;
     provenance.push({ source: slash(path.relative(repo, source)), url, sha256: hash(bytes) });
     const published = source.endsWith('.html') ? adapt(bytes.toString('utf8'), source) : bytes;
-    emit(url.slice('/ornaments/'.length), published);
-    if (key(source) === key(gallery)) emit(collection.id + '/index.html', published);
+    if (key(source) === key(gallery)) {
+      emit(url.slice('/ornaments/'.length), galleryAlias(route, collection.title));
+      emit(collection.id + '/index.html', published);
+    } else emit(url.slice('/ornaments/'.length), published);
   }
   const entries = catalogue[collection.countProperty || 'Entries'];
   if (!Array.isArray(entries)) throw new Error('Catalogue count property is not an array: ' + collection.id);
