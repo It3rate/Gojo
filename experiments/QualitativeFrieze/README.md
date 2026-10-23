@@ -1,5 +1,19 @@
 # Qualitative frieze generators
 
+The [compound ornament gallery](results/ornament-composition/gallery.html)
+contains sixteen curved-band designs, with frame views, highlighted repeated
+units and two colour readings each. Whole compounds retain prototype/transform
+correspondence; feedback repeats and fixed-source placement plans are distinct.
+Colour intentions preserve support, opposition and unresolved perceptual reads.
+See the [whole sheet](results/ornament-composition/overview.html),
+[encoding and gaps](../../Gojo/docs/GojoOrnamentCompositionStudy.md), and
+[Jones guidance / colour contract](../../Gojo/docs/GojoOrnamentColourIntent.md).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --ornament-composition
+node experiments/QualitativeFrieze/tools/check-ornament-composition.cjs experiments/QualitativeFrieze/results/ornament-composition/gallery.html
+```
+
 The [path and band gallery](results/path-bands/gallery.html) follows the same
 source paths through narrow bands, paired boundaries and broad occupied or
 decorated supports. It separates joining, crossing, over/under, visible caps

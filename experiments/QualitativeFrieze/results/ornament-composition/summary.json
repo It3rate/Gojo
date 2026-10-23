@@ -1,0 +1,749 @@
+{
+  "designs": 16,
+  "readings": 32,
+  "completeTemplates": 16,
+  "curvedSpans": 360,
+  "occupiedBands": 522,
+  "supportedColourChecks": 80,
+  "opposedColourChecks": 16,
+  "seconds": 66.373,
+  "scope": "Authored native compound ornament generation and ordinal colour-intention checks; no recognition or aesthetic model training.",
+  "results": [
+    {
+      "id": "O001",
+      "name": "Mirrored flowering vine",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 84,
+        "envelopes": 102,
+        "curvedSpines": 30,
+        "curvedBoundaries": 96,
+        "occupiedBands": 42,
+        "collapsedStrokes": 60,
+        "compoundApplications": 12,
+        "repeatControllers": 3,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 1,
+        "coincidentSeams": 1,
+        "tangentSeams": 1,
+        "sameSideSeams": 1,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Ivory, teal and madder",
+        "alternatePalette": "Aubergine and rose",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "3 column placements \u00D7 2 row placements; alternate reflected compound units",
+        "repertoire": "Jones conventional foliage; previous vine-band experiment",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O002",
+      "name": "Ogee damask",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 48,
+        "envelopes": 72,
+        "curvedSpines": 8,
+        "curvedBoundaries": 48,
+        "occupiedBands": 24,
+        "collapsedStrokes": 48,
+        "compoundApplications": 10,
+        "repeatControllers": 3,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Midnight and old gold",
+        "alternatePalette": "Sea green and vermilion",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "2 column placements \u00D7 2 row placements; native output-to-input translation recurrence; alternate half-drop rows",
+        "repertoire": "Moresque diaper and ogival foliage",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O003",
+      "name": "Lotus on a lozenge scaffold",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 48,
+        "envelopes": 66,
+        "curvedSpines": 42,
+        "curvedBoundaries": 66,
+        "occupiedBands": 24,
+        "collapsedStrokes": 42,
+        "compoundApplications": 9,
+        "repeatControllers": 2,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Cobalt and coral",
+        "alternatePalette": "Porcelain blue",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "3 column placements \u00D7 2 row placements; native output-to-input translation recurrence; alternate half-drop rows",
+        "repertoire": "Conventional lotus and diamond diaper",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O004",
+      "name": "Quatrefoil and pearl diaper",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 64,
+        "envelopes": 112,
+        "curvedSpines": 16,
+        "curvedBoundaries": 64,
+        "occupiedBands": 32,
+        "collapsedStrokes": 80,
+        "compoundApplications": 13,
+        "repeatControllers": 4,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 12,
+        "coincidentSeams": 12,
+        "tangentSeams": 0,
+        "sameSideSeams": 12,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Plum and celadon",
+        "alternatePalette": "Garnet and turquoise",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "2 column placements \u00D7 2 row placements; native output-to-input translation recurrence",
+        "repertoire": "Fourfold Gothic and Moresque compartment grammar",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O005",
+      "name": "Palmettes and opposed fans",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 72,
+        "envelopes": 90,
+        "curvedSpines": 60,
+        "curvedBoundaries": 90,
+        "occupiedBands": 36,
+        "collapsedStrokes": 54,
+        "compoundApplications": 10,
+        "repeatControllers": 2,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Copper on charcoal",
+        "alternatePalette": "Ink, gold and jade",
+        "mainChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "3 column placements \u00D7 2 row placements; alternate reflected compound units",
+        "repertoire": "Greek palmette and anthemion border",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O006",
+      "name": "Octagonal flower compartments",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 60,
+        "envelopes": 120,
+        "curvedSpines": 0,
+        "curvedBoundaries": 48,
+        "occupiedBands": 72,
+        "collapsedStrokes": 48,
+        "compoundApplications": 10,
+        "repeatControllers": 3,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Indigo and saffron",
+        "alternatePalette": "Terracotta and mineral blue",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "3 column placements \u00D7 2 row placements; native output-to-input translation recurrence",
+        "repertoire": "B06.B octagon/square skeleton",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O007",
+      "name": "Scalloped leaf courses",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 48,
+        "envelopes": 66,
+        "curvedSpines": 42,
+        "curvedBoundaries": 66,
+        "occupiedBands": 24,
+        "collapsedStrokes": 42,
+        "compoundApplications": 9,
+        "repeatControllers": 2,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Parchment and olive",
+        "alternatePalette": "Deep blue and apricot",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "3 column placements \u00D7 2 row placements; native output-to-input translation recurrence; alternate half-drop rows",
+        "repertoire": "B28/B30 shell and cloud-scale courses",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O008",
+      "name": "Fret ribbons and interior leaves",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 24,
+        "envelopes": 72,
+        "curvedSpines": 12,
+        "curvedBoundaries": 18,
+        "occupiedBands": 42,
+        "collapsedStrokes": 30,
+        "compoundApplications": 6,
+        "repeatControllers": 2,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Aubergine and rose",
+        "alternatePalette": "Verdigris and ochre",
+        "mainChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "3 column placements \u00D7 2 row placements; alternate reflected compound units",
+        "repertoire": "B09 detached S/fret vocabulary",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O009",
+      "name": "Basket and four-petal accents",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 66,
+        "envelopes": 84,
+        "curvedSpines": 0,
+        "curvedBoundaries": 48,
+        "occupiedBands": 36,
+        "collapsedStrokes": 48,
+        "compoundApplications": 11,
+        "repeatControllers": 3,
+        "explicitCrossingOrders": 6,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Sea green and vermilion",
+        "alternatePalette": "Mulberry and pale gold",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "3 column placements \u00D7 2 row placements; native output-to-input translation recurrence",
+        "repertoire": "B02 basket and W012 weave",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O010",
+      "name": "Diagonal vine and star lattice",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 40,
+        "envelopes": 64,
+        "curvedSpines": 0,
+        "curvedBoundaries": 32,
+        "occupiedBands": 32,
+        "collapsedStrokes": 32,
+        "compoundApplications": 9,
+        "repeatControllers": 3,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Porcelain blue",
+        "alternatePalette": "Ivory, teal and madder",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "2 column placements \u00D7 2 row placements; native output-to-input translation recurrence; alternate half-drop rows",
+        "repertoire": "B08 intersecting ribbons, stylised foliate diaper",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O011",
+      "name": "Pomegranate and mirrored tendrils",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 52,
+        "envelopes": 76,
+        "curvedSpines": 8,
+        "curvedBoundaries": 56,
+        "occupiedBands": 28,
+        "collapsedStrokes": 48,
+        "compoundApplications": 10,
+        "repeatControllers": 3,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Garnet and turquoise",
+        "alternatePalette": "Midnight and old gold",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "2 column placements \u00D7 2 row placements; alternate reflected compound units",
+        "repertoire": "Conventional pomegranate and damask repertoire",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O012",
+      "name": "Braided diagonal passages",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 28,
+        "envelopes": 40,
+        "curvedSpines": 16,
+        "curvedBoundaries": 24,
+        "occupiedBands": 16,
+        "collapsedStrokes": 24,
+        "compoundApplications": 6,
+        "repeatControllers": 2,
+        "explicitCrossingOrders": 4,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Ink, gold and jade",
+        "alternatePalette": "Cobalt and coral",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "2 column placements \u00D7 2 row placements; alternate reflected compound units",
+        "repertoire": "Interlaced diagonal bands with foliate infill",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O013",
+      "name": "Eight-leaf medallion lattice",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 100,
+        "envelopes": 112,
+        "curvedSpines": 64,
+        "curvedBoundaries": 128,
+        "occupiedBands": 48,
+        "collapsedStrokes": 64,
+        "compoundApplications": 14,
+        "repeatControllers": 4,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Terracotta and mineral blue",
+        "alternatePalette": "Plum and celadon",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "2 column placements \u00D7 2 row placements; native output-to-input translation recurrence",
+        "repertoire": "Radial floral medallions and geometric diaper",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O014",
+      "name": "Herringbone fronds",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 36,
+        "envelopes": 54,
+        "curvedSpines": 24,
+        "curvedBoundaries": 36,
+        "occupiedBands": 18,
+        "collapsedStrokes": 36,
+        "compoundApplications": 7,
+        "repeatControllers": 2,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Deep blue and apricot",
+        "alternatePalette": "Copper on charcoal",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "3 column placements \u00D7 2 row placements; alternate reflected compound units; alternate half-drop rows",
+        "repertoire": "Herringbone and conventional branching foliage",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O015",
+      "name": "Cloud arches with pendant drops",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 24,
+        "envelopes": 54,
+        "curvedSpines": 30,
+        "curvedBoundaries": 54,
+        "occupiedBands": 24,
+        "collapsedStrokes": 30,
+        "compoundApplications": 7,
+        "repeatControllers": 2,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Verdigris and ochre",
+        "alternatePalette": "Indigo and saffron",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "3 column placements \u00D7 2 row placements; native output-to-input translation recurrence; alternate half-drop rows",
+        "repertoire": "B30 faceted cloud-scale arches, now cubic",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    },
+    {
+      "id": "O016",
+      "name": "Paired S-scroll compartments",
+      "audit": {
+        "templateComplete": true,
+        "nativeThreads": 48,
+        "envelopes": 72,
+        "curvedSpines": 8,
+        "curvedBoundaries": 48,
+        "occupiedBands": 24,
+        "collapsedStrokes": 48,
+        "compoundApplications": 10,
+        "repeatControllers": 3,
+        "explicitCrossingOrders": 0,
+        "currentSeamQuestions": 0,
+        "coincidentSeams": 0,
+        "tangentSeams": 0,
+        "sameSideSeams": 0,
+        "exchangedSideSeams": 0,
+        "joinedSeams": 0,
+        "mainPalette": "Mulberry and pale gold",
+        "alternatePalette": "Parchment and olive",
+        "mainChecks": {
+          "supported": 3,
+          "contradicted": 0,
+          "unresolved": 1,
+          "compatibility": "53/64"
+        },
+        "alternateChecks": {
+          "supported": 2,
+          "contradicted": 1,
+          "unresolved": 1,
+          "compatibility": "39/64"
+        },
+        "flatControl": {
+          "supported": 0,
+          "contradicted": 3,
+          "unresolved": 1
+        },
+        "construction": "2 column placements \u00D7 2 row placements; native output-to-input translation recurrence",
+        "repertoire": "B31 outward arms reinterpreted as continuous curves",
+        "limit": "Authored repertoire adaptation; no facsimile, global no-overlap proof or learned aesthetic verdict.",
+        "colourBasis": "Published ordinal comparisons of squared sRGB code-distance: chain/motif against ground, accent against motif, edge against adjacent fills. A declared display proxy, not perceptual depth or beauty.",
+        "unimplemented": "Global region union/nonintersection; general curved crossing discovery; inverse skeleton inference; learned salience or pigment balance"
+      }
+    }
+  ]
+}

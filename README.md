@@ -27,6 +27,11 @@ explicit interior and gap-completion premises. Its
 compares 24 sources and 72 receiver constructions on supplied anonymous endpoint
 scaffolds, including a weak whole-shape diamond read alongside local notches.
 
+The [compound ornament study](Gojo/docs/GojoOrnamentCompositionStudy.md) composes
+curved bands into shared motifs, mirrored placements, feedback orbits and
+two-dimensional fields. Its [16-design gallery](experiments/QualitativeFrieze/results/ornament-composition/gallery.html)
+retains frames, repeat correspondence and separately assessed colour intentions.
+
 The [path and band study](Gojo/docs/GojoPathBandStudy.md) connects source paths,
 paired sides, selected occupancy, caps/continuation and local crossing order.
 Its [22-case gallery](experiments/QualitativeFrieze/results/path-bands/gallery.html)

@@ -54,6 +54,13 @@ receiver completions on anonymous endpoint scaffolds with private controls
 withheld. Whole-shape tip cycles and local notches remain connected but do not
 count as independent evidence.
 
+The [compound ornament study](../Gojo/docs/GojoOrnamentCompositionStudy.md) builds
+sixteen designs from reusable curved-band compounds. It separates output-feedback
+orbits from fixed-prototype placement plans, preserves role/port correspondence,
+and assesses explicit colour intentions. The
+[gallery](QualitativeFrieze/results/ornament-composition/gallery.html) compares
+construction frames, selected units and two colour readings of each field.
+
 The [path and band study](../Gojo/docs/GojoPathBandStudy.md) adds native
 spine/side correspondence, selected ruled occupancy, caps and continuation,
 plus distinct crossing and depth reads. Its

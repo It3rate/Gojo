@@ -9,6 +9,7 @@ using Gojo.Experiments.QualitativeFrieze;
 using Gojo.Experiments.QualitativeFrieze.Learning;
 using Gojo.Experiments.QualitativeFrieze.Composition;
 
+if (args.Contains("--ornament-composition")) return OrnamentCompositionExperiment.Run(args.Where(argument => argument != "--ornament-composition").ToArray());
 if (args.Contains("--path-bands")) return BandEvidenceExperiment.Run(args.Where(argument => argument != "--path-bands").ToArray());
 if (args.Contains("--curve-refinement")) return CurveRefinementExperiment.RunExperiment(args.Where(argument => argument != "--curve-refinement").ToArray());
 if (args.Contains("--curve-evidence")) return CurveEvidenceExperiment.RunExperiment(args.Where(argument => argument != "--curve-evidence").ToArray());
