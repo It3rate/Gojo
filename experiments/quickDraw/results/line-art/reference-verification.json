@@ -1,0 +1,35 @@
+{
+  "schema": "gojo.line-art.reference-verification.v1",
+  "sourceFilesVerified": 6,
+  "boundedImporterTests": 8,
+  "scenes": [
+    {
+      "id": "lucide-church",
+      "sites": 27,
+      "edges": 22,
+      "strokes": 5,
+      "sourceSha256": "7b27e22b59e5f4a088a9ce16a6451139a2df10fa39fc69334d0b29e916e6189d",
+      "nativeControlParity": true,
+      "nativeSiteIdentityParity": true,
+      "nativeStrokeOrderParity": true,
+      "emptyUndeclaredSemantics": true
+    },
+    {
+      "id": "tabler-church",
+      "sites": 18,
+      "edges": 11,
+      "strokes": 7,
+      "sourceSha256": "94a6e630b1c155dc7aed836a1e3fb985bdbb55c5abb0c871bea5223e5d2f4c1a",
+      "nativeControlParity": true,
+      "nativeSiteIdentityParity": true,
+      "nativeStrokeOrderParity": true,
+      "emptyUndeclaredSemantics": true
+    }
+  ],
+  "limits": [
+    "Arc-to-cubic approximation and one-tick control quantization precede native import.",
+    "Native parity proves preservation of the bounded import, not exact original SVG area/paint equivalence.",
+    "Original SVG document order is preserved; no human drawing time is known.",
+    "No implicit coordinate welding or unknown object/region/occlusion claims."
+  ]
+}

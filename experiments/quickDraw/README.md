@@ -12,6 +12,12 @@ four compression levels, restored-output reviews, and five additional categories
 packet from the proposed qualitative resolution dial, describes contextual
 priors and variable-length claims, and adds the frozen church transfer fixture.
 
+[Annotated line art](LineArt.md) adds twelve clean authored churches, three
+topology diagnostics, two licensed SVG imports, a native relation round trip,
+and an offline hover inspector. Broad biological/man-made/natural prior families
+remain deferred. Authored annotations are kept separate from calculated checks
+and from future interpretation of imperfect Quick Draw observations.
+
 The first useful result is an **exact native sample-acquisition boundary plus an
 inspectable measured fitting experiment**. The full acquisition-to-concept
 converter is not complete. No prior was trained in this initial acquisition

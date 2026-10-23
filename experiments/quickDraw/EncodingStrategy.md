@@ -231,20 +231,12 @@ not an information-equivalent comparison across future contracts. A pairwise
 parallel claim can constrain several spans while one sampled offset controls
 only a small part of a curve.
 
-## Matter, biological and man-made context
+## Broad prior families: deferred
 
-Use these as optional, revisable prior contexts or data strata. For this proposal
-“matter” means naturally occurring nonliving forms; it is not a claim that
-biological and manufactured objects are not matter. These groups need not be
-exclusive, and an unassigned context is valid.
-
-| Example stratum | Suggested context, not geometric truth |
-| --- | --- |
-| Moon | Matter / natural nonliving |
-| Fish | Biological |
-| House, church, envelope, umbrella | Man-made |
-| Square, circle, triangle, octagon | Unassigned abstract geometry |
-| Star | Ambiguous symbol/natural-form context until specified |
+User clarification, 23 October 2026: biological, man-made, natural, and abstract
+geometry are possible future contexts for priors, not categories to encode now.
+No such fields enter the new [line-art fixtures](LineArt.md), native annotation
+format, or decoder. Their possible overlap and scope remain open.
 
 The current decoder has no such input. A future context can select connected
 default structures or adjust prior participation while retaining the actual
@@ -252,12 +244,20 @@ geometry and any opposing evidence. It must not dispatch a noun to a hardcoded
 ideal shape. A rounded church dome and a skewed manufactured roof remain valid
 observations under a man-made context.
 
-Initially compare context-free and explicitly supplied-context conditions with
+If this direction is revisited, compare context-free and explicitly supplied-context conditions with
 identical public geometric evidence. Keep category-derived context marked as
 supplied side information. Inferring context from a drawing is a different
 experiment, with its own uncertainty and possible circularity. Learn these
 priors across multiple categories per group; do not call a fish-versus-church
 distinction a learned universal biological-versus-man-made law.
+
+Basic geometric defaults are a nearer task: horizontal/vertical within a declared
+frame, straight continuation, smooth tangent agreement, perpendicular directions,
+and simple closed constructions. An image's vertical axis is not proof of a
+physical gravity direction; a horizontal edge is not automatically a horizon.
+These must remain conditional reads or defaults with opposing evidence visible.
+The new line-art checkpoint supplies known constructions and exact checks, not
+trained probabilities or a general intention parser.
 
 ## Church transfer fixture
 

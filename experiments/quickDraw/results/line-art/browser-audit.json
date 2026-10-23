@@ -1,0 +1,209 @@
+{
+  "desktop": {
+    "id": 2,
+    "result": {
+      "result": {
+        "type": "object",
+        "value": {
+          "scenes": 17,
+          "results": [
+            {
+              "id": "church-01",
+              "edges": 26,
+              "sites": 25,
+              "featureButtons": 14
+            },
+            {
+              "id": "church-02",
+              "edges": 30,
+              "sites": 29,
+              "featureButtons": 14
+            },
+            {
+              "id": "church-03",
+              "edges": 29,
+              "sites": 28,
+              "featureButtons": 14
+            },
+            {
+              "id": "church-04",
+              "edges": 36,
+              "sites": 35,
+              "featureButtons": 15
+            },
+            {
+              "id": "church-05",
+              "edges": 30,
+              "sites": 29,
+              "featureButtons": 14
+            },
+            {
+              "id": "church-06",
+              "edges": 38,
+              "sites": 37,
+              "featureButtons": 20
+            },
+            {
+              "id": "church-07",
+              "edges": 28,
+              "sites": 27,
+              "featureButtons": 13
+            },
+            {
+              "id": "church-08",
+              "edges": 29,
+              "sites": 28,
+              "featureButtons": 14
+            },
+            {
+              "id": "church-09",
+              "edges": 29,
+              "sites": 28,
+              "featureButtons": 13
+            },
+            {
+              "id": "church-10",
+              "edges": 25,
+              "sites": 22,
+              "featureButtons": 13
+            },
+            {
+              "id": "church-11",
+              "edges": 30,
+              "sites": 29,
+              "featureButtons": 14
+            },
+            {
+              "id": "church-12",
+              "edges": 20,
+              "sites": 19,
+              "featureButtons": 12
+            },
+            {
+              "id": "diagnostic-rope-branch",
+              "edges": 4,
+              "sites": 6,
+              "featureButtons": 5
+            },
+            {
+              "id": "diagnostic-crossing-join",
+              "edges": 6,
+              "sites": 9,
+              "featureButtons": 7
+            },
+            {
+              "id": "diagnostic-joint-atlas",
+              "edges": 20,
+              "sites": 25,
+              "featureButtons": 13
+            },
+            {
+              "id": "lucide-church",
+              "edges": 22,
+              "sites": 27,
+              "featureButtons": 0
+            },
+            {
+              "id": "tabler-church",
+              "edges": 11,
+              "sites": 18,
+              "featureButtons": 0
+            }
+          ],
+          "ropeContacts": [
+            {
+              "title": "T \u00b7 contact appearance",
+              "summary": "The explicit contact relates distinct sites; the combined ray appearance does not weld them.",
+              "rows": [
+                [
+                  "Sites",
+                  "s1, s4"
+                ],
+                [
+                  "Coincident",
+                  "true"
+                ],
+                [
+                  "Shared object membership",
+                  "false"
+                ],
+                [
+                  "Mechanical attachment",
+                  "not established"
+                ]
+              ],
+              "edges": [
+                "e0",
+                "e1",
+                "e3"
+              ],
+              "status": "authored contact between distinct sites; coordinate agreement calculated; no mechanical coupling law"
+            }
+          ],
+          "crossings": [
+            {
+              "title": "Projected crossing \u00b7 unjoined",
+              "summary": "A crossing in the image does not establish object identity or depth.",
+              "rows": [
+                [
+                  "Edges",
+                  "e0, e1"
+                ],
+                [
+                  "Geometric intersection",
+                  "true"
+                ],
+                [
+                  "Joined",
+                  "false"
+                ],
+                [
+                  "Over / under",
+                  "not declared"
+                ]
+              ],
+              "edges": [
+                "e0",
+                "e1"
+              ],
+              "status": "authored passage selection; projected incidence calculated; over-order authored or open"
+            }
+          ],
+          "openUnknownFixture": {
+            "fill": "none",
+            "separateMoves": 2,
+            "summary": "Boundary role remains unselected; no figure or void claim."
+          }
+        }
+      }
+    }
+  },
+  "mobile": {
+    "id": 4,
+    "result": {
+      "result": {
+        "type": "object",
+        "value": {
+          "width": 390,
+          "scrollWidth": 390,
+          "buttons": 17,
+          "selectionWidth": 354
+        }
+      }
+    }
+  },
+  "realPointerChecks": [
+    {
+      "scene": "diagnostic-rope-branch",
+      "marker": "T",
+      "realPointerHover": true,
+      "tooltip": "T \u00b7 contact appearanceThe explicit contact relates distinct sites; the combined ray appearance does not weld them.authored contact between distinct sites; coordinate agreement calculated; no mechanical coupling law \u00b7 click to keep"
+    },
+    {
+      "scene": "diagnostic-crossing-join",
+      "marker": "X",
+      "realPointerHover": true,
+      "tooltip": "X \u00b7 four-arm jointA joint read from actual shared-site incidence.calculated exact tangent incidence \u00b7 click to keep"
+    }
+  ]
+}

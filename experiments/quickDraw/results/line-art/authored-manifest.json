@@ -1,0 +1,114 @@
+{
+  "schema": "gojo.authored-line-art.v1",
+  "status": "authored fixtures, no model training",
+  "churches": 12,
+  "diagnostics": 3,
+  "drawOrder": "authored construction order, not human acquisition",
+  "counts": [
+    {
+      "id": "church-01",
+      "sites": 25,
+      "edges": 26,
+      "regions": 5,
+      "correspondences": 2
+    },
+    {
+      "id": "church-02",
+      "sites": 29,
+      "edges": 30,
+      "regions": 5,
+      "correspondences": 2
+    },
+    {
+      "id": "church-03",
+      "sites": 28,
+      "edges": 29,
+      "regions": 5,
+      "correspondences": 2
+    },
+    {
+      "id": "church-04",
+      "sites": 35,
+      "edges": 36,
+      "regions": 5,
+      "correspondences": 2
+    },
+    {
+      "id": "church-05",
+      "sites": 29,
+      "edges": 30,
+      "regions": 5,
+      "correspondences": 2
+    },
+    {
+      "id": "church-06",
+      "sites": 37,
+      "edges": 38,
+      "regions": 7,
+      "correspondences": 4
+    },
+    {
+      "id": "church-07",
+      "sites": 27,
+      "edges": 28,
+      "regions": 5,
+      "correspondences": 1
+    },
+    {
+      "id": "church-08",
+      "sites": 28,
+      "edges": 29,
+      "regions": 5,
+      "correspondences": 2
+    },
+    {
+      "id": "church-09",
+      "sites": 28,
+      "edges": 29,
+      "regions": 5,
+      "correspondences": 1
+    },
+    {
+      "id": "church-10",
+      "sites": 22,
+      "edges": 25,
+      "regions": 4,
+      "correspondences": 2
+    },
+    {
+      "id": "church-11",
+      "sites": 29,
+      "edges": 30,
+      "regions": 5,
+      "correspondences": 2
+    },
+    {
+      "id": "church-12",
+      "sites": 19,
+      "edges": 20,
+      "regions": 4,
+      "correspondences": 2
+    },
+    {
+      "id": "diagnostic-rope-branch",
+      "sites": 6,
+      "edges": 4,
+      "regions": 0,
+      "correspondences": 0
+    },
+    {
+      "id": "diagnostic-crossing-join",
+      "sites": 9,
+      "edges": 6,
+      "regions": 0,
+      "correspondences": 0
+    },
+    {
+      "id": "diagnostic-joint-atlas",
+      "sites": 25,
+      "edges": 20,
+      "regions": 1,
+      "correspondences": 0
+    }
+  ]
+}

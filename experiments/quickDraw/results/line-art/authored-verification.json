@@ -1,0 +1,190 @@
+{
+  "schema": "gojo.authored-native-parity.v1",
+  "passed": true,
+  "sceneCount": 15,
+  "checks": 7642,
+  "totals": {
+    "sites": 376,
+    "edges": 380,
+    "strokes": 380,
+    "objects": 23,
+    "groups": 85,
+    "regions": 61,
+    "correspondences": 24,
+    "crossings": 1,
+    "contacts": 1
+  },
+  "sourceSha256": "1c06a09aa0b6cb8d2e15a852b8acd9c61fd8decc7e44c91e0dc03606b6b96151",
+  "nativeInspectorSha256": "ff3a657c64bd416462b73d92cd6bd813c205439d421ab78c3ad0a77c74457afe",
+  "generatorSha256": "fcd215bf26398440d2c6067944de1f3e60640e2deb26177fbd43cc7f6b691625",
+  "auditScriptSha256": "52e3dec01e9c44fc0a9e60f444e4405cf0ecdda6eecbef6e69fdd0b1caf3a796",
+  "verified": [
+    "latest source equals generator",
+    "no orphan sites",
+    "all native controls and site identities",
+    "ordered construction steps",
+    "object and template/detail scopes",
+    "oriented identity-closed regions and parent/figure/void roles",
+    "all authored transform geometry plus shared-site consistency and injectivity",
+    "crossing versus actual join",
+    "distinct-site contact, object separation, projected T",
+    "all exported tangent/trace reads"
+  ],
+  "limits": [
+    "Native archive deserialization is performed by the runner; this independent script checks the restored exported reads against source.",
+    "Region simple interiors, occupied fill, semantic object truth and mechanical attachment are not established by this parity audit.",
+    "This is authored construction order, not human drawing order."
+  ],
+  "scenes": [
+    {
+      "id": "church-01",
+      "checks": 546,
+      "sites": 25,
+      "edges": 26,
+      "regions": 5,
+      "correspondences": 2,
+      "archive": "001.annotated.gojo.json",
+      "archiveSha256": "55cf4aebd5a1484b33cba1f050cb060a488cf7e6fbac31234257b144647f31c2"
+    },
+    {
+      "id": "church-02",
+      "checks": 621,
+      "sites": 29,
+      "edges": 30,
+      "regions": 5,
+      "correspondences": 2,
+      "archive": "002.annotated.gojo.json",
+      "archiveSha256": "ffa48d6f6864c66ee5b8a858efa57e114a16d06aaed61860df535ed3d7c770c2"
+    },
+    {
+      "id": "church-03",
+      "checks": 526,
+      "sites": 28,
+      "edges": 29,
+      "regions": 5,
+      "correspondences": 2,
+      "archive": "003.annotated.gojo.json",
+      "archiveSha256": "b41ecfd9be0149e0f482584987f135bf83b5a2045763c73bc213d6b496e9aaad"
+    },
+    {
+      "id": "church-04",
+      "checks": 719,
+      "sites": 35,
+      "edges": 36,
+      "regions": 5,
+      "correspondences": 2,
+      "archive": "004.annotated.gojo.json",
+      "archiveSha256": "f41c3febaa7fd629a56af181f255d7595a98cc043065d5d670b034868f4d0807"
+    },
+    {
+      "id": "church-05",
+      "checks": 616,
+      "sites": 29,
+      "edges": 30,
+      "regions": 5,
+      "correspondences": 2,
+      "archive": "005.annotated.gojo.json",
+      "archiveSha256": "5761272d4f6176e54ba85bd4b3020ea6902538d55d63bb6030e0f16c586bb0f5"
+    },
+    {
+      "id": "church-06",
+      "checks": 829,
+      "sites": 37,
+      "edges": 38,
+      "regions": 7,
+      "correspondences": 4,
+      "archive": "006.annotated.gojo.json",
+      "archiveSha256": "8afdbb9320fb71dfdfe4aae3296ca3aea9ed552df32766e494ceab39074a0b3b"
+    },
+    {
+      "id": "church-07",
+      "checks": 484,
+      "sites": 27,
+      "edges": 28,
+      "regions": 5,
+      "correspondences": 1,
+      "archive": "007.annotated.gojo.json",
+      "archiveSha256": "d1b0dde1b69f22b028ea53dc2836b8c00ba19aa5efd83f024ae22a49805a44cc"
+    },
+    {
+      "id": "church-08",
+      "checks": 601,
+      "sites": 28,
+      "edges": 29,
+      "regions": 5,
+      "correspondences": 2,
+      "archive": "008.annotated.gojo.json",
+      "archiveSha256": "82e4434216406996ecc072f516defbed0ec3b42c8e06d17185be6676be815220"
+    },
+    {
+      "id": "church-09",
+      "checks": 509,
+      "sites": 28,
+      "edges": 29,
+      "regions": 5,
+      "correspondences": 1,
+      "archive": "009.annotated.gojo.json",
+      "archiveSha256": "72ee1973918e0365bcdf0d6c476a0225beaf4d638d1cbd2a36cb1a5820fe2258"
+    },
+    {
+      "id": "church-10",
+      "checks": 515,
+      "sites": 22,
+      "edges": 25,
+      "regions": 4,
+      "correspondences": 2,
+      "archive": "010.annotated.gojo.json",
+      "archiveSha256": "97bfe7de557a8354ca4b6f14c9412f9f81ce00725827a1bd74381b82db41d352"
+    },
+    {
+      "id": "church-11",
+      "checks": 621,
+      "sites": 29,
+      "edges": 30,
+      "regions": 5,
+      "correspondences": 2,
+      "archive": "011.annotated.gojo.json",
+      "archiveSha256": "b6082ec08a56456fc3d626cd43d182a1227c5c550a49df2cf5fa54979cac2489"
+    },
+    {
+      "id": "church-12",
+      "checks": 434,
+      "sites": 19,
+      "edges": 20,
+      "regions": 4,
+      "correspondences": 2,
+      "archive": "012.annotated.gojo.json",
+      "archiveSha256": "831e1157b81040c06e72444f43f5910bce05cf78d0d696311f32c749fedebc62"
+    },
+    {
+      "id": "diagnostic-rope-branch",
+      "checks": 101,
+      "sites": 6,
+      "edges": 4,
+      "regions": 0,
+      "correspondences": 0,
+      "archive": "013.annotated.gojo.json",
+      "archiveSha256": "006fb6b58b9dafb2a2e4c7d2544b432cc0f5de158427aa87b4c08169c3bfea0b"
+    },
+    {
+      "id": "diagnostic-crossing-join",
+      "checks": 141,
+      "sites": 9,
+      "edges": 6,
+      "regions": 0,
+      "correspondences": 0,
+      "archive": "014.annotated.gojo.json",
+      "archiveSha256": "42f61ed55edd7cc6c0d65dca4968d6049968994334771a69b2a94fcf5c302032"
+    },
+    {
+      "id": "diagnostic-joint-atlas",
+      "checks": 377,
+      "sites": 25,
+      "edges": 20,
+      "regions": 1,
+      "correspondences": 0,
+      "archive": "015.annotated.gojo.json",
+      "archiveSha256": "cd433084b622e370d1ddcc015f1fc0c5f4d1cc2d772b51894f5000bfeb4ef95f"
+    }
+  ]
+}
