@@ -8,6 +8,10 @@ The next checkpoint is [faithful reconstruction from budgeted evidence](Reconstr
 an actually trained local prior, native sequential hints and generated curves,
 four compression levels, restored-output reviews, and five additional categories.
 
+[Encoding strategy](EncodingStrategy.md) distinguishes the current measured
+packet from the proposed qualitative resolution dial, describes contextual
+priors and variable-length claims, and adds the frozen church transfer fixture.
+
 The first useful result is an **exact native sample-acquisition boundary plus an
 inspectable measured fitting experiment**. The full acquisition-to-concept
 converter is not complete. No prior was trained in this initial acquisition

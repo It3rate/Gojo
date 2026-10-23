@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-23",
+  "mode": "frozen model; five visually curated church acquisitions",
+  "selectedSources": 5,
+  "sourceStrokes": 47,
+  "sourceSamples": 1295,
+  "sourceBytesAndHashChecks": 5,
+  "drawingOnlyWhitelistOrderTimingChecks": 5,
+  "sourceIdsDisjointFromPriorPilotTransferTraining": true,
+  "nativePacketRoundTrips": 20,
+  "integerModelParityVerified": true,
+  "allPythonTestsPassed": 42,
+  "frozenModelSha256": "944a01020c8b831db7299159d52a8e1ea9e5459b6dbf7ac56c36f7ac65213fb8",
+  "selectedNdjsonSha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042",
+  "focusedChecks": {
+    "test_reconstruction_contract.py": 8,
+    "test_review_reconstruction.py": 8
+  },
+  "qualification": "No C# or existing pipeline behavior changed; full solution suite not rerun for the fixture-only addition. Category and review notes remain evaluator context."
+}

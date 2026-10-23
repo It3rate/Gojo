@@ -1,0 +1,251 @@
+{
+  "schema": "quickdraw-church-visual-selection/1",
+  "status": "visually reviewed before fitting; frozen-model development fixture",
+  "scope": "five varied recognizable church drawings; curated, not prevalence representative",
+  "category_role": "acquisition/review stratum only, no context or category input to model",
+  "selection_policy": "36 deterministic encoding-valid candidates from first 2000 records, then visual review",
+  "selected_ndjson_sha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042",
+  "drawings_only_sha256": "e8cb472a862d7177591e6ea330b619cda1130a3ed0fcdd5906e189092a6e895b",
+  "source_inventory": "D:\\_quickDraw\\gojo-reconstruction\\church\\candidates\\inventory.json",
+  "source": {
+    "category": "church",
+    "path": "D:\\_quickDraw\\quickdraw\\church.ndjson",
+    "file_size_bytes": 663751382,
+    "file_mtime_ns": 1604009203210408100,
+    "prefix_records_read": 2000,
+    "prefix_bytes_read": 7818394,
+    "prefix_sha256": "ae2a1309bc8e34b743d5dac51d9263b91f4eef2ff69dcc44834f13f53e04440e",
+    "encoding_valid_records": 2000,
+    "rejected": [],
+    "recognized_metadata_counts": {
+      "True": 1750,
+      "False": 250
+    },
+    "stroke_count_distribution": {
+      "5": 303,
+      "9": 88,
+      "10": 76,
+      "6": 257,
+      "8": 129,
+      "4": 371,
+      "12": 34,
+      "3": 288,
+      "7": 189,
+      "11": 58,
+      "16": 9,
+      "2": 97,
+      "1": 27,
+      "14": 8,
+      "18": 5,
+      "13": 31,
+      "20": 2,
+      "36": 1,
+      "15": 7,
+      "17": 7,
+      "31": 1,
+      "21": 1,
+      "22": 1,
+      "28": 2,
+      "19": 3,
+      "23": 1,
+      "27": 1,
+      "30": 1,
+      "49": 2
+    },
+    "fractional_coordinate_records": 443,
+    "consecutive_duplicate_xy_count": 4141,
+    "within_stroke_backwards_time_count": 3,
+    "candidate_count": 36,
+    "full_file_record_count": null
+  },
+  "chronology": "exact source stroke/sample order and time arrays; never sorted by timestamp",
+  "samples": [
+    {
+      "record_index": 0,
+      "category": "church",
+      "source_line": 379,
+      "byte_offset": 1465215,
+      "byte_length": 1671,
+      "record_sha256": "06724f973caba6e3cb4d49315486465c949dd3ac6a91a5a721becd7eb5a8f75e",
+      "selection_hash": "0254d38af09221d818999dc2af565cbe0d7d6d902cef179c94af7f83f9805d48",
+      "metrics": {
+        "stroke_count": 5,
+        "point_count": 118,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          128,
+          100,
+          293,
+          387
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 14,
+      "key_id": "5743197026254848",
+      "visual_review_note": "Simple frontal roof/body and cross; bowed edges, uneven proportions and open roof joins remain visible.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\church.ndjson"
+    },
+    {
+      "record_index": 1,
+      "category": "church",
+      "source_line": 1731,
+      "byte_offset": 6717573,
+      "byte_length": 4362,
+      "record_sha256": "469ae6c65ed94c2761343d79ea2c18f6230adc0bab9f9fd7820fe13f898353dd",
+      "selection_hash": "02be367a0b7c25048d2086062cf86bdbbce6542078ea9f52a9ce53b924eca9ee",
+      "metrics": {
+        "stroke_count": 9,
+        "point_count": 326,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          481,
+          37,
+          914,
+          504
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 3,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 18,
+      "key_id": "5181133614481408",
+      "visual_review_note": "Oblique building with roof and side wall, cross and doorway; skewed perspective and separate detail strokes retained.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\church.ndjson"
+    },
+    {
+      "record_index": 2,
+      "category": "church",
+      "source_line": 419,
+      "byte_offset": 1622310,
+      "byte_length": 5329,
+      "record_sha256": "00d74b4b2ee10d28df044d165f3fe9af6c9d68c5fd11522b3644f95956c23cde",
+      "selection_hash": "0336fca92790af6e584d47bc6ebc1ee1d67cadf6925f02088818c6b6c98964bf",
+      "metrics": {
+        "stroke_count": 17,
+        "point_count": 381,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          365,
+          33,
+          842,
+          504
+        ],
+        "has_fractional_coordinates": false,
+        "consecutive_duplicate_xy_count": 6,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 22,
+      "key_id": "5437095780810752",
+      "visual_review_note": "Tall gabled front with circular clock-like detail, doorway and side wing; seventeen acquired strokes exercise a high stroke floor.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\church.ndjson"
+    },
+    {
+      "record_index": 3,
+      "category": "church",
+      "source_line": 690,
+      "byte_offset": 2658235,
+      "byte_length": 9036,
+      "record_sha256": "6c2da5a750c8c06521dcf5db23278fa527a5c9bc96d19825d31ab34b16135597",
+      "selection_hash": "034896b557db124a734ddef9214fb331470c028c005170e3ac0283e97375114d",
+      "metrics": {
+        "stroke_count": 8,
+        "point_count": 329,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          516,
+          43.19999694824219,
+          897,
+          547.1999969482422
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 1,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 23,
+      "key_id": "6169132418465792",
+      "visual_review_note": "Three rounded tower profiles with crosses and an arched doorway; slant, gaps and unequal repeated curves retained.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\church.ndjson"
+    },
+    {
+      "record_index": 4,
+      "category": "church",
+      "source_line": 1779,
+      "byte_offset": 6928079,
+      "byte_length": 4556,
+      "record_sha256": "96c9f45936c359470f1d625c65b38910b83e4afc54fb081e498dc239eb483875",
+      "selection_hash": "049a3e19bebec34066abe7b07962615d5e0a858caf56874ef1f8865779ce680b",
+      "metrics": {
+        "stroke_count": 8,
+        "point_count": 141,
+        "stroke_axis_counts": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "coordinate_bounds": [
+          59,
+          75.5,
+          321,
+          344.0119934082031
+        ],
+        "has_fractional_coordinates": true,
+        "consecutive_duplicate_xy_count": 4,
+        "within_stroke_backwards_time_count": 0
+      },
+      "candidate_index": 33,
+      "key_id": "4578701515685888",
+      "visual_review_note": "Stepped central tower and cross over a broad body with arched door; retraced top, open boundaries and multiple pen lifts retained.",
+      "source_path": "D:\\_quickDraw\\quickdraw\\church.ndjson"
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "schema": "gojo.quickdraw.frozen-input.v1",
+  "mode": "frozen weights, no training",
+  "modelSource": "D:\\_quickDraw\\gojo-reconstruction\\model.json",
+  "modelSha256": "944a01020c8b831db7299159d52a8e1ea9e5459b6dbf7ac56c36f7ac65213fb8",
+  "summary": [
+    {
+      "split": "frozen-input",
+      "budget": 3,
+      "drawings": 5,
+      "meanSections": 9.4,
+      "strokeFloorOverBudget": 5,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 940.8,
+      "learnedImprovesFixed": 3,
+      "learned": {
+        "meanRms": 0.06874594882021848,
+        "medianRms": 0.05182587049192486,
+        "p90Rms": 0.15367075157041596,
+        "maximumSampleError": 0.4523913351961731
+      },
+      "fixed": {
+        "meanRms": 0.06893210081573505,
+        "medianRms": 0.05135797818616129,
+        "p90Rms": 0.15408132591425633,
+        "maximumSampleError": 0.45459691498710775
+      },
+      "line": {
+        "meanRms": 0.31725266539490893,
+        "medianRms": 0.31147281824685275,
+        "p90Rms": 0.4354119261870241,
+        "maximumSampleError": 0.972033802712094
+      },
+      "privateFit": {
+        "meanRms": 0.05720122576206728,
+        "medianRms": 0.04711359646182178,
+        "p90Rms": 0.11095627586668017,
+        "maximumSampleError": 0.27263136592972775
+      }
+    },
+    {
+      "split": "frozen-input",
+      "budget": 6,
+      "drawings": 5,
+      "meanSections": 9.6,
+      "strokeFloorOverBudget": 4,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 956.8,
+      "learnedImprovesFixed": 3,
+      "learned": {
+        "meanRms": 0.06637773520604738,
+        "medianRms": 0.05182587049192486,
+        "p90Rms": 0.15367075157041596,
+        "maximumSampleError": 0.4523913351961731
+      },
+      "fixed": {
+        "meanRms": 0.06661304012495659,
+        "medianRms": 0.05135797818616129,
+        "p90Rms": 0.15408132591425633,
+        "maximumSampleError": 0.45459691498710775
+      },
+      "line": {
+        "meanRms": 0.304813798725911,
+        "medianRms": 0.31147281824685275,
+        "p90Rms": 0.4354119261870241,
+        "maximumSampleError": 0.972033802712094
+      },
+      "privateFit": {
+        "meanRms": 0.05470660976227011,
+        "medianRms": 0.04711359646182178,
+        "p90Rms": 0.11095627586668017,
+        "maximumSampleError": 0.27263136592972775
+      }
+    },
+    {
+      "split": "frozen-input",
+      "budget": 12,
+      "drawings": 5,
+      "meanSections": 13.0,
+      "strokeFloorOverBudget": 1,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 1239.4,
+      "learnedImprovesFixed": 2,
+      "learned": {
+        "meanRms": 0.02176573640107943,
+        "medianRms": 0.014771684323393658,
+        "p90Rms": 0.05182587049192486,
+        "maximumSampleError": 0.15364151161362538
+      },
+      "fixed": {
+        "meanRms": 0.02163693025276195,
+        "medianRms": 0.014788854587530396,
+        "p90Rms": 0.05135797818616129,
+        "maximumSampleError": 0.14319818927348324
+      },
+      "line": {
+        "meanRms": 0.15273001595292257,
+        "medianRms": 0.13399552088249223,
+        "p90Rms": 0.3286474927575212,
+        "maximumSampleError": 0.972033802712094
+      },
+      "privateFit": {
+        "meanRms": 0.019682177444628784,
+        "medianRms": 0.0138092363757902,
+        "p90Rms": 0.04711359646182178,
+        "maximumSampleError": 0.19250705891005124
+      }
+    },
+    {
+      "split": "frozen-input",
+      "budget": 20,
+      "drawings": 5,
+      "meanSections": 20.0,
+      "strokeFloorOverBudget": 0,
+      "sampleCapacityReached": 0,
+      "meanHintJsonBytes": 1784.6,
+      "learnedImprovesFixed": 4,
+      "learned": {
+        "meanRms": 0.008067760763524114,
+        "medianRms": 0.005498555253679478,
+        "p90Rms": 0.021246725482439034,
+        "maximumSampleError": 0.06240335393588164
+      },
+      "fixed": {
+        "meanRms": 0.008133218864505038,
+        "medianRms": 0.005591177952821087,
+        "p90Rms": 0.02115447492056915,
+        "maximumSampleError": 0.061264381185113126
+      },
+      "line": {
+        "meanRms": 0.04914358624199264,
+        "medianRms": 0.029923767115754195,
+        "p90Rms": 0.1601567304918489,
+        "maximumSampleError": 0.45815262151492886
+      },
+      "privateFit": {
+        "meanRms": 0.005913056626904413,
+        "medianRms": 0.0035895449676048813,
+        "p90Rms": 0.019471363902608747,
+        "maximumSampleError": 0.05869988715310931
+      }
+    }
+  ],
+  "sources": [
+    {
+      "key_id": "5743197026254848",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\church\\selected.ndjson",
+      "sourceLine": 1,
+      "byteOffset": 0,
+      "byteLength": 1671,
+      "sha256": "06724f973caba6e3cb4d49315486465c949dd3ac6a91a5a721becd7eb5a8f75e"
+    },
+    {
+      "key_id": "5181133614481408",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\church\\selected.ndjson",
+      "sourceLine": 2,
+      "byteOffset": 1671,
+      "byteLength": 4362,
+      "sha256": "469ae6c65ed94c2761343d79ea2c18f6230adc0bab9f9fd7820fe13f898353dd"
+    },
+    {
+      "key_id": "5437095780810752",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\church\\selected.ndjson",
+      "sourceLine": 3,
+      "byteOffset": 6033,
+      "byteLength": 5329,
+      "sha256": "00d74b4b2ee10d28df044d165f3fe9af6c9d68c5fd11522b3644f95956c23cde"
+    },
+    {
+      "key_id": "6169132418465792",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\church\\selected.ndjson",
+      "sourceLine": 4,
+      "byteOffset": 11362,
+      "byteLength": 9036,
+      "sha256": "6c2da5a750c8c06521dcf5db23278fa527a5c9bc96d19825d31ab34b16135597"
+    },
+    {
+      "key_id": "4578701515685888",
+      "sourcePath": "D:\\_quickDraw\\gojo-reconstruction\\church\\selected.ndjson",
+      "sourceLine": 5,
+      "byteOffset": 20398,
+      "byteLength": 4556,
+      "sha256": "96c9f45936c359470f1d625c65b38910b83e4afc54fb081e498dc239eb483875"
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "schema": "gojo.quickdraw.native-review.v1",
+  "nativePackets": 20,
+  "integerModelParityVerified": true,
+  "summary": [
+    {
+      "budget": 3,
+      "drawings": 5,
+      "mean_orderedArcRms": 0.03392078158602367,
+      "mean_symmetricSampleRms": 0.02112434851343765,
+      "maximumSampleDistance": 0.15836052428755182,
+      "maximumEndpointError": 0.0006587252089556059
+    },
+    {
+      "budget": 6,
+      "drawings": 5,
+      "mean_orderedArcRms": 0.03207945020823323,
+      "mean_symmetricSampleRms": 0.020469437795879303,
+      "maximumSampleDistance": 0.15836052428755182,
+      "maximumEndpointError": 0.0006587252089556059
+    },
+    {
+      "budget": 12,
+      "drawings": 5,
+      "mean_orderedArcRms": 0.013613082187199843,
+      "mean_symmetricSampleRms": 0.0088969067252645,
+      "maximumSampleDistance": 0.13434738996971213,
+      "maximumEndpointError": 0.0006587252089556059
+    },
+    {
+      "budget": 20,
+      "drawings": 5,
+      "mean_orderedArcRms": 0.006696048013130107,
+      "mean_symmetricSampleRms": 0.00479019666979921,
+      "maximumSampleDistance": 0.059455136626092725,
+      "maximumEndpointError": 0.0006587252089556059
+    }
+  ],
+  "metric": "129 equally spaced arclength samples per nonempty stroke; each stroke equally weighted; native cubics approximated by 64 segments; no spatial alignment",
+  "limitations": "Sampled distances, not certified bounds; geometry metric is blind to within-stroke traversal; orderedArcRms preserves traversal but not time/speed; original sample events remain in audit.",
+  "rows": [
+    {
+      "id": "5743197026254848-b3",
+      "category": "church",
+      "budget": 3,
+      "sections": 5,
+      "orderedArcRms": 0.031113354700912928,
+      "symmetricSampleRms": 0.021811361016038772,
+      "maximumSampleDistance": 0.09592556018761253,
+      "maximumEndpointError": 0.0005737892393900052
+    },
+    {
+      "id": "5743197026254848-b6",
+      "category": "church",
+      "budget": 6,
+      "sections": 6,
+      "orderedArcRms": 0.02190669781196073,
+      "symmetricSampleRms": 0.018536807428247027,
+      "maximumSampleDistance": 0.09180760939185506,
+      "maximumEndpointError": 0.0005737892393900052
+    },
+    {
+      "id": "5743197026254848-b12",
+      "category": "church",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.0062970556984631365,
+      "symmetricSampleRms": 0.004891313079696345,
+      "maximumSampleDistance": 0.025677262440246904,
+      "maximumEndpointError": 0.0005737892393900052
+    },
+    {
+      "id": "5743197026254848-b20",
+      "category": "church",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0038291530256880954,
+      "symmetricSampleRms": 0.0033004552220131747,
+      "maximumSampleDistance": 0.010013321233878755,
+      "maximumEndpointError": 0.0005737892393900052
+    },
+    {
+      "id": "5181133614481408-b3",
+      "category": "church",
+      "budget": 3,
+      "sections": 9,
+      "orderedArcRms": 0.023342042000413354,
+      "symmetricSampleRms": 0.017420539923582123,
+      "maximumSampleDistance": 0.10015723307797837,
+      "maximumEndpointError": 0.000579664682732447
+    },
+    {
+      "id": "5181133614481408-b6",
+      "category": "church",
+      "budget": 6,
+      "sections": 9,
+      "orderedArcRms": 0.023342042000413354,
+      "symmetricSampleRms": 0.017420539923582123,
+      "maximumSampleDistance": 0.10015723307797837,
+      "maximumEndpointError": 0.000579664682732447
+    },
+    {
+      "id": "5181133614481408-b12",
+      "category": "church",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.012498788730037616,
+      "symmetricSampleRms": 0.009631731322918138,
+      "maximumSampleDistance": 0.04975173752084439,
+      "maximumEndpointError": 0.000579664682732447
+    },
+    {
+      "id": "5181133614481408-b20",
+      "category": "church",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004376121291888622,
+      "symmetricSampleRms": 0.0036569622056768216,
+      "maximumSampleDistance": 0.008127768181679451,
+      "maximumEndpointError": 0.000579664682732447
+    },
+    {
+      "id": "5437095780810752-b3",
+      "category": "church",
+      "budget": 3,
+      "sections": 17,
+      "orderedArcRms": 0.022801927010607216,
+      "symmetricSampleRms": 0.014250081091799949,
+      "maximumSampleDistance": 0.13434738996971213,
+      "maximumEndpointError": 0.0006587252089556059
+    },
+    {
+      "id": "5437095780810752-b6",
+      "category": "church",
+      "budget": 6,
+      "sections": 17,
+      "orderedArcRms": 0.022801927010607216,
+      "symmetricSampleRms": 0.014250081091799949,
+      "maximumSampleDistance": 0.13434738996971213,
+      "maximumEndpointError": 0.0006587252089556059
+    },
+    {
+      "id": "5437095780810752-b12",
+      "category": "church",
+      "budget": 12,
+      "sections": 17,
+      "orderedArcRms": 0.022801927010607216,
+      "symmetricSampleRms": 0.014250081091799949,
+      "maximumSampleDistance": 0.13434738996971213,
+      "maximumEndpointError": 0.0006587252089556059
+    },
+    {
+      "id": "5437095780810752-b20",
+      "category": "church",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.016030456270757186,
+      "symmetricSampleRms": 0.009135018538246593,
+      "maximumSampleDistance": 0.059455136626092725,
+      "maximumEndpointError": 0.0006587252089556059
+    },
+    {
+      "id": "6169132418465792-b3",
+      "category": "church",
+      "budget": 3,
+      "sections": 8,
+      "orderedArcRms": 0.060178831594550106,
+      "symmetricSampleRms": 0.026274098660523704,
+      "maximumSampleDistance": 0.14474216717517743,
+      "maximumEndpointError": 0.0005716483418460456
+    },
+    {
+      "id": "6169132418465792-b6",
+      "category": "church",
+      "budget": 6,
+      "sections": 8,
+      "orderedArcRms": 0.060178831594550106,
+      "symmetricSampleRms": 0.026274098660523704,
+      "maximumSampleDistance": 0.14474216717517743,
+      "maximumEndpointError": 0.0005716483418460456
+    },
+    {
+      "id": "6169132418465792-b12",
+      "category": "church",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.017513419955128784,
+      "symmetricSampleRms": 0.008183689132910562,
+      "maximumSampleDistance": 0.058677352363705845,
+      "maximumEndpointError": 0.0005716483418460456
+    },
+    {
+      "id": "6169132418465792-b20",
+      "category": "church",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.004339917578644896,
+      "symmetricSampleRms": 0.003447145472056514,
+      "maximumSampleDistance": 0.0116651699116136,
+      "maximumEndpointError": 0.0005716483418460456
+    },
+    {
+      "id": "4578701515685888-b3",
+      "category": "church",
+      "budget": 3,
+      "sections": 8,
+      "orderedArcRms": 0.032167752623634735,
+      "symmetricSampleRms": 0.02586566187524371,
+      "maximumSampleDistance": 0.15836052428755182,
+      "maximumEndpointError": 0.0005324738533595739
+    },
+    {
+      "id": "4578701515685888-b6",
+      "category": "church",
+      "budget": 6,
+      "sections": 8,
+      "orderedArcRms": 0.032167752623634735,
+      "symmetricSampleRms": 0.02586566187524371,
+      "maximumSampleDistance": 0.15836052428755182,
+      "maximumEndpointError": 0.0005324738533595739
+    },
+    {
+      "id": "4578701515685888-b12",
+      "category": "church",
+      "budget": 12,
+      "sections": 12,
+      "orderedArcRms": 0.008954219541762475,
+      "symmetricSampleRms": 0.007527718998997521,
+      "maximumSampleDistance": 0.039634634753904406,
+      "maximumEndpointError": 0.0005324738533595739
+    },
+    {
+      "id": "4578701515685888-b20",
+      "category": "church",
+      "budget": 20,
+      "sections": 20,
+      "orderedArcRms": 0.0049045918986717315,
+      "symmetricSampleRms": 0.004411401911002946,
+      "maximumSampleDistance": 0.016735333536844265,
+      "maximumEndpointError": 0.0005324738533595739
+    }
+  ]
+}
