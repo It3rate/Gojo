@@ -1,0 +1,457 @@
+{
+  "schema": "gojo.construction-source-parity.v1",
+  "passed": true,
+  "checks": 33296,
+  "runs": 53,
+  "families": 7,
+  "rungs": 245,
+  "transitions": 192,
+  "failedTargetTransitions": 2,
+  "sourceSha256": "fe83c600ba89330dfc96a349ac22d2e77fc5f679b60f943d0c56045d7e03f299",
+  "transitionSha256": "7eb9b4763378e183e40cedd9a30061b3b8fe237681ff8ccfd94e77b53800f13e",
+  "contextHasOnlyEarlierSites": true,
+  "trainedModel": false,
+  "finiteRead": "Independent Fraction evaluation; truncate each displacement toward zero.",
+  "scope": "Authored conditional construction transitions; no claim of human stroke order or inferred intent.",
+  "programs": [
+    {
+      "id": "church-front-balanced",
+      "rungs": 6,
+      "sites": 60,
+      "finiteCoordinateRemainders": 49,
+      "finalConditions": [
+        {
+          "label": "Window frame inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Complete window control hull inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "All three window control hulls inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Three windows remain within the wall",
+          "status": "satisfied"
+        }
+      ]
+    },
+    {
+      "id": "church-front-tall",
+      "rungs": 6,
+      "sites": 60,
+      "finiteCoordinateRemainders": 50,
+      "finalConditions": [
+        {
+          "label": "Window frame inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Complete window control hull inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "All three window control hulls inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Three windows remain within the wall",
+          "status": "satisfied"
+        }
+      ]
+    },
+    {
+      "id": "church-front-wide",
+      "rungs": 6,
+      "sites": 60,
+      "finiteCoordinateRemainders": 29,
+      "finalConditions": [
+        {
+          "label": "Window frame inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Complete window control hull inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "All three window control hulls inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Three windows remain within the wall",
+          "status": "satisfied"
+        }
+      ]
+    },
+    {
+      "id": "church-front-outside-trial",
+      "rungs": 6,
+      "sites": 60,
+      "finiteCoordinateRemainders": 49,
+      "finalConditions": [
+        {
+          "label": "Window frame inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "Complete window control hull inside the wall",
+          "status": "satisfied"
+        },
+        {
+          "label": "All three window control hulls inside the wall",
+          "status": "failed"
+        },
+        {
+          "label": "Three windows remain within the wall",
+          "status": "failed"
+        }
+      ]
+    },
+    {
+      "id": "partition-star-5-460",
+      "rungs": 4,
+      "sites": 34,
+      "finiteCoordinateRemainders": 33,
+      "finalConditions": []
+    },
+    {
+      "id": "partition-star-7-460",
+      "rungs": 4,
+      "sites": 40,
+      "finiteCoordinateRemainders": 45,
+      "finalConditions": []
+    },
+    {
+      "id": "partition-star-5-700",
+      "rungs": 4,
+      "sites": 34,
+      "finiteCoordinateRemainders": 32,
+      "finalConditions": []
+    },
+    {
+      "id": "crescent-left",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 18,
+      "finalConditions": []
+    },
+    {
+      "id": "crescent-right",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 18,
+      "finalConditions": []
+    },
+    {
+      "id": "crescent-slender",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 18,
+      "finalConditions": []
+    },
+    {
+      "id": "organic-contour-soft",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 29,
+      "finalConditions": []
+    },
+    {
+      "id": "organic-contour-tall",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 30,
+      "finalConditions": []
+    },
+    {
+      "id": "church-01",
+      "rungs": 6,
+      "sites": 61,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "church-02",
+      "rungs": 6,
+      "sites": 67,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "church-03",
+      "rungs": 6,
+      "sites": 66,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "church-04",
+      "rungs": 6,
+      "sites": 89,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "church-05",
+      "rungs": 6,
+      "sites": 84,
+      "finiteCoordinateRemainders": 8,
+      "finalConditions": []
+    },
+    {
+      "id": "church-06",
+      "rungs": 6,
+      "sites": 77,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "church-07",
+      "rungs": 5,
+      "sites": 76,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "church-08",
+      "rungs": 6,
+      "sites": 67,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "church-09",
+      "rungs": 6,
+      "sites": 84,
+      "finiteCoordinateRemainders": 8,
+      "finalConditions": []
+    },
+    {
+      "id": "church-10",
+      "rungs": 6,
+      "sites": 46,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "church-11",
+      "rungs": 6,
+      "sites": 65,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "church-12",
+      "rungs": 6,
+      "sites": 37,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "lucide-church",
+      "rungs": 5,
+      "sites": 66,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "tabler-church",
+      "rungs": 5,
+      "sites": 39,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-a",
+      "rungs": 4,
+      "sites": 21,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-b",
+      "rungs": 4,
+      "sites": 22,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-c",
+      "rungs": 4,
+      "sites": 42,
+      "finiteCoordinateRemainders": 8,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-d",
+      "rungs": 4,
+      "sites": 17,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-e",
+      "rungs": 4,
+      "sites": 22,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-f",
+      "rungs": 4,
+      "sites": 20,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-g",
+      "rungs": 4,
+      "sites": 45,
+      "finiteCoordinateRemainders": 8,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-h",
+      "rungs": 4,
+      "sites": 22,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-i",
+      "rungs": 4,
+      "sites": 22,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-j",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-k",
+      "rungs": 4,
+      "sites": 20,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-l",
+      "rungs": 4,
+      "sites": 28,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-m",
+      "rungs": 4,
+      "sites": 40,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-n",
+      "rungs": 4,
+      "sites": 34,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-o",
+      "rungs": 4,
+      "sites": 42,
+      "finiteCoordinateRemainders": 8,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-p",
+      "rungs": 4,
+      "sites": 19,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-q",
+      "rungs": 4,
+      "sites": 51,
+      "finiteCoordinateRemainders": 8,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-r",
+      "rungs": 4,
+      "sites": 21,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-s",
+      "rungs": 4,
+      "sites": 62,
+      "finiteCoordinateRemainders": 16,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-t",
+      "rungs": 4,
+      "sites": 23,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-u",
+      "rungs": 4,
+      "sites": 21,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-v",
+      "rungs": 4,
+      "sites": 29,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-w",
+      "rungs": 4,
+      "sites": 40,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-x",
+      "rungs": 4,
+      "sites": 45,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-y",
+      "rungs": 4,
+      "sites": 39,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-z",
+      "rungs": 4,
+      "sites": 18,
+      "finiteCoordinateRemainders": 0,
+      "finalConditions": []
+    },
+    {
+      "id": "alphabet-atlas",
+      "rungs": 4,
+      "sites": 738,
+      "finiteCoordinateRemainders": 48,
+      "finalConditions": []
+    }
+  ]
+}

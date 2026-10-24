@@ -68,6 +68,32 @@ class Recipe:
         corners = [a, tr, b, bl]
         return corners, self.poly(key, corners)
 
+    def triangle(self, key, a, b, apex_fraction=500, apex_at_top=True):
+        """A closed triangle generated in an earlier diagonal frame.
+
+        The apex is an affine sample, and each base corner consumes the actual
+        input sites. The constructor leaves all of these references in the
+        program; its name is not needed to execute the result.
+        """
+        if apex_at_top:
+            left = self.point(key + "-left", loc(a), loc(b))
+            right = b
+            apex = self.point(key + "-apex", loc(a, b, apex_fraction), loc(a))
+        else:
+            left = a
+            right = self.point(key + "-right", loc(b), loc(a))
+            apex = self.point(key + "-apex", loc(a, b, apex_fraction), loc(b))
+        vertices = [left, apex, right]
+        return vertices, self.poly(key, vertices)
+
+    def cross(self, key, a, b):
+        """Four ordered arms with one actual shared center, in a prior frame."""
+        center = self.inside(key + "-center", a, b, 500, 500)
+        ends = [self.inside(f"{key}-end-{i}", a, b, x, y)
+                for i, (x, y) in enumerate(((500, 0), (1000, 500), (500, 1000), (0, 500)))]
+        return [center, *ends], [self.edge(f"{key}-arm-{i}", [center, end])
+                                for i, end in enumerate(ends)]
+
     def finish(self, visible, guides=()):
         rung = self.data["rungs"][-1]
         previous = self.data["rungs"][-2]["visible"] if self.at else []
@@ -117,7 +143,8 @@ def church():
     peak = r.point("roof-peak", loc(a, wall[1], 500), loc(a, b, "roofRise", origin=a))
     # Reverse the vertical frame to make the roof rise above the wall.
     r.data["sites"][-1]["y"] = loc(b, a, "roofRise", origin=a)
-    roof = r.poly("roof-guide", [a, peak, wall[1]])
+    roof_frame = r.point("roof-frame-tl", loc(a), loc(peak))
+    _, roof = r.triangle("roof-guide", roof_frame, wall[1])
     tower_l = r.point("tower-left-top", loc(wall[1], a, "towerHalfWidth", origin=center), loc(peak))
     tower_r = r.point("tower-right-bottom", loc(a, wall[1], "towerHalfWidth", origin=center), loc(a))
     tower, tower_edges = r.rectangle("tower-guide", tower_l, tower_r)
@@ -304,24 +331,40 @@ def organic():
     return [r.variant("soft", "Soft asymmetric contour"), r.variant("tall", "Tall contour · stronger bend", {"top": 56, "bottom": 454, "bulge": 230})]
 
 
-def build():
-    return [*church(), star(5), star(7), star(5, 700), *crescent(), *organic()]
+def build(series="pilot"):
+    if series not in ("pilot", "line-art", "all"):
+        raise ValueError("Unknown construction series")
+    programs = []
+    if series in ("pilot", "all"):
+        programs.extend([*church(), star(5), star(7), star(5, 700), *crescent(), *organic()])
+    if series in ("line-art", "all"):
+        # Import after the shared authoring class is defined. The resulting
+        # native programs use the same mechanism as the pilot recipes.
+        from construction_churches import build_churches
+        from construction_alphabet import build_alphabet
+        programs.extend(build_churches())
+        programs.extend(build_alphabet())
+    return programs
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--series", choices=("pilot", "line-art", "all"), default="pilot")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
-    programs = build()
+    programs = build(args.series)
     (args.output / "programs.ndjson").write_text("".join(json.dumps(p, separators=(",", ":")) + "\n" for p in programs), encoding="utf-8")
-    manifest = {"schema": "gojo.drawing-construction-manifest.v1", "families": 4,
+    families = len({p["family"] for p in programs})
+    manifest = {"schema": "gojo.drawing-construction-manifest.v1", "families": families,
                 "runs": len(programs), "stages": sum(len(p["rungs"]) for p in programs),
+                "series": args.series,
+                "sourceMappedPrograms": sum("sourceMapping" in p for p in programs),
                 "description": "Authored executable numeric locators, topology and refinement; no final-coordinate oracle or learned inference.",
                 "programs": [{"id": p["id"], "family": p["family"], "title": p["title"], "variant": p["variantLabel"],
                               "rungs": len(p["rungs"]), "sites": len(p["sites"]), "edges": len(p["edges"])} for p in programs]}
     (args.output / "source-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"families": 4, "runs": len(programs), "stages": manifest["stages"]}))
+    print(json.dumps({"families": families, "runs": len(programs), "stages": manifest["stages"]}))
 
 
 if __name__ == "__main__":

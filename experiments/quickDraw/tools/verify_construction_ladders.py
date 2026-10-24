@@ -94,7 +94,8 @@ def transition(program, run, index):
                        "visible": after["visible"], "guides": after["guides"], "constraints": restored_after["constraints"],
                        "outcome": outcome},
             "provenance": {"authored": True, "nativeReplayVerified": run["nativeReplayVerified"],
-                           "splitUnit": program["family"], "trainingRun": False}}
+                           "splitUnit": program.get("sourceMapping", {}).get("sceneId", program["family"]),
+                           "constructionFamily": program["family"], "trainingRun": False}}
 
 
 def verify(root):

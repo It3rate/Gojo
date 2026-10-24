@@ -1,5 +1,11 @@
 # Drawing through retained construction steps
 
+The [24 October church and alphabet expansion](ConstructionSeries.md) now
+converts all fourteen church drawings, all 26 capitals and their atlas. It adds
+189 rungs, shared primitive builders and direct refinement from earlier coarse
+sites. That milestone is local and committed to GitHub; the published pilot
+described below remains the earlier selection.
+
 This experiment builds a drawing from earlier construction sites. It extends
 the [line-art controls](LineArt.md) with executable numeric programs and
 refinement history. It does not fit a church to Quick Draw observations or

@@ -27,6 +27,12 @@ causal site references and explicit failed conditions. Compact native programs
 replay after restoration; their authored transitions prepare a later training
 interface without claiming learned intention or nonnumeric reconstruction.
 
+The [church and alphabet construction series](ConstructionSeries.md) extends
+that mechanism to all fourteen churches, 26 individual letters and one alphabet
+atlas. The combined local review contains 53 programs and 245 steps, using
+reusable primitive builders, unconstrained rough guides and source-verified
+final controls. Website publication is deferred to the end of the milestone.
+
 The first useful result is an **exact native sample-acquisition boundary plus an
 inspectable measured fitting experiment**. The full acquisition-to-concept
 converter is not complete. No prior was trained in this initial acquisition

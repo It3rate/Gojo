@@ -110,23 +110,23 @@ def build(paths, output, public=False, default_scene=None, public_archives="all"
     families, archive_copies = OrderedDict(), []
     for run, archive in load_exports(paths):
         variant = normalize(run)
+        program_name = run.get("programArchive")
+        if program_name:
+            if Path(program_name).name != program_name or "/" in program_name or "\\" in program_name:
+                raise ValueError("The native program archive must be a sibling file")
+            archive = archive.parent / program_name
+            if not archive.is_file():
+                raise ValueError("The retained executable program archive is unavailable")
         if public:
             selected = public_archives == "all" or (public_archives == "representative" and run["family"] not in families)
             if selected:
-                program_name = run.get("programArchive")
-                if program_name:
-                    if Path(program_name).name != program_name or "/" in program_name or "\\" in program_name:
-                        raise ValueError("The native program archive must be a sibling file")
-                    archive = archive.parent / program_name
-                    if not archive.is_file():
-                        raise ValueError("The retained executable program archive is unavailable")
                 relative = f"archives/{run['id']}.gojo.json.gz"
                 variant["archivePath"] = relative
                 variant["archiveKind"] = "program" if program_name else "execution"
                 archive_copies.append((archive, relative))
         else:
             variant["archivePath"] = archive.resolve().as_uri()
-            variant["archiveKind"] = "execution"
+            variant["archiveKind"] = "program" if program_name else "execution"
         family = families.setdefault(run["family"], {"id": run["family"], "title": run["title"],
                                                     "description": run["description"], "viewBox": run["viewBox"], "variants": []})
         family["variants"].append(variant)
@@ -163,7 +163,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, nargs="+", required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--public", action="store_true")
+    parser.add_argument("--public", "--portable", dest="public", action="store_true",
+                        help="Prepare a portable folder with embedded reads and compressed programs; does not deploy or publish.")
     parser.add_argument("--default-scene")
     parser.add_argument("--public-archives", choices=("all", "representative", "none"), default="all")
     args = parser.parse_args()

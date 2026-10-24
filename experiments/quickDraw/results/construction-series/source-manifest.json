@@ -1,0 +1,488 @@
+{
+  "schema": "gojo.drawing-construction-manifest.v1",
+  "families": 7,
+  "runs": 53,
+  "stages": 245,
+  "series": "all",
+  "sourceMappedPrograms": 41,
+  "description": "Authored executable numeric locators, topology and refinement; no final-coordinate oracle or learned inference.",
+  "programs": [
+    {
+      "id": "church-front-balanced",
+      "family": "church-front",
+      "title": "A church from its construction frames",
+      "variant": "Balanced facade",
+      "rungs": 6,
+      "sites": 60,
+      "edges": 48
+    },
+    {
+      "id": "church-front-tall",
+      "family": "church-front",
+      "title": "A church from its construction frames",
+      "variant": "Tall steeple",
+      "rungs": 6,
+      "sites": 60,
+      "edges": 48
+    },
+    {
+      "id": "church-front-wide",
+      "family": "church-front",
+      "title": "A church from its construction frames",
+      "variant": "Broad wall and wider windows",
+      "rungs": 6,
+      "sites": 60,
+      "edges": 48
+    },
+    {
+      "id": "church-front-outside-trial",
+      "family": "church-front",
+      "title": "A church from its construction frames",
+      "variant": "Rejected spacing trial",
+      "rungs": 6,
+      "sites": 60,
+      "edges": 48
+    },
+    {
+      "id": "partition-star-5-460",
+      "family": "partition-star",
+      "title": "A star from a partitioned circular construction",
+      "variant": "5 points \u00b7 inset 0.46",
+      "rungs": 4,
+      "sites": 34,
+      "edges": 34
+    },
+    {
+      "id": "partition-star-7-460",
+      "family": "partition-star",
+      "title": "A star from a partitioned circular construction",
+      "variant": "7 points \u00b7 inset 0.46",
+      "rungs": 4,
+      "sites": 40,
+      "edges": 46
+    },
+    {
+      "id": "partition-star-5-700",
+      "family": "partition-star",
+      "title": "A star from a partitioned circular construction",
+      "variant": "5 points \u00b7 inset 0.7",
+      "rungs": 4,
+      "sites": 34,
+      "edges": 34
+    },
+    {
+      "id": "crescent-left",
+      "family": "crescent",
+      "title": "A crescent from an oval envelope",
+      "variant": "Left-side mass / opening right",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 9
+    },
+    {
+      "id": "crescent-right",
+      "family": "crescent",
+      "title": "A crescent from an oval envelope",
+      "variant": "Right-side mass / opening left",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 9
+    },
+    {
+      "id": "crescent-slender",
+      "family": "crescent",
+      "title": "A crescent from an oval envelope",
+      "variant": "Slender crescent",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 9
+    },
+    {
+      "id": "organic-contour-soft",
+      "family": "organic-contour",
+      "title": "An organic contour from a coarse envelope",
+      "variant": "Soft asymmetric contour",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 15
+    },
+    {
+      "id": "organic-contour-tall",
+      "family": "organic-contour",
+      "title": "An organic contour from a coarse envelope",
+      "variant": "Tall contour \u00b7 stronger bend",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 15
+    },
+    {
+      "id": "church-01",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Small gabled chapel",
+      "rungs": 6,
+      "sites": 61,
+      "edges": 52
+    },
+    {
+      "id": "church-02",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Central bell tower",
+      "rungs": 6,
+      "sites": 67,
+      "edges": 67
+    },
+    {
+      "id": "church-03",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Church with a side tower",
+      "rungs": 6,
+      "sites": 66,
+      "edges": 65
+    },
+    {
+      "id": "church-04",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Twin towers",
+      "rungs": 6,
+      "sites": 89,
+      "edges": 82
+    },
+    {
+      "id": "church-05",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Domed chapel",
+      "rungs": 6,
+      "sites": 84,
+      "edges": 65
+    },
+    {
+      "id": "church-06",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Wide church with three upper windows",
+      "rungs": 6,
+      "sites": 77,
+      "edges": 75
+    },
+    {
+      "id": "church-07",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Chapel with a low annex",
+      "rungs": 5,
+      "sites": 76,
+      "edges": 67
+    },
+    {
+      "id": "church-08",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Tall pointed facade",
+      "rungs": 6,
+      "sites": 67,
+      "edges": 55
+    },
+    {
+      "id": "church-09",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Chapel with a curved apse",
+      "rungs": 6,
+      "sites": 84,
+      "edges": 69
+    },
+    {
+      "id": "church-10",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Simple timber chapel",
+      "rungs": 6,
+      "sites": 46,
+      "edges": 47
+    },
+    {
+      "id": "church-11",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Compact church with square windows",
+      "rungs": 6,
+      "sites": 65,
+      "edges": 67
+    },
+    {
+      "id": "church-12",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "A-frame chapel",
+      "rungs": 6,
+      "sites": 37,
+      "edges": 36
+    },
+    {
+      "id": "lucide-church",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Lucide church \u2014 imported SVG centerlines",
+      "rungs": 5,
+      "sites": 66,
+      "edges": 53
+    },
+    {
+      "id": "tabler-church",
+      "family": "church-series",
+      "title": "Churches from construction guides",
+      "variant": "Tabler church \u2014 imported SVG centerlines",
+      "rungs": 5,
+      "sites": 39,
+      "edges": 27
+    },
+    {
+      "id": "alphabet-a",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "A",
+      "rungs": 4,
+      "sites": 21,
+      "edges": 13
+    },
+    {
+      "id": "alphabet-b",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "B",
+      "rungs": 4,
+      "sites": 22,
+      "edges": 16
+    },
+    {
+      "id": "alphabet-c",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "C",
+      "rungs": 4,
+      "sites": 42,
+      "edges": 20
+    },
+    {
+      "id": "alphabet-d",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "D",
+      "rungs": 4,
+      "sites": 17,
+      "edges": 10
+    },
+    {
+      "id": "alphabet-e",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "E",
+      "rungs": 4,
+      "sites": 22,
+      "edges": 14
+    },
+    {
+      "id": "alphabet-f",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "F",
+      "rungs": 4,
+      "sites": 20,
+      "edges": 12
+    },
+    {
+      "id": "alphabet-g",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "G",
+      "rungs": 4,
+      "sites": 45,
+      "edges": 22
+    },
+    {
+      "id": "alphabet-h",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "H",
+      "rungs": 4,
+      "sites": 22,
+      "edges": 14
+    },
+    {
+      "id": "alphabet-i",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "I",
+      "rungs": 4,
+      "sites": 22,
+      "edges": 14
+    },
+    {
+      "id": "alphabet-j",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "J",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 14
+    },
+    {
+      "id": "alphabet-k",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "K",
+      "rungs": 4,
+      "sites": 20,
+      "edges": 12
+    },
+    {
+      "id": "alphabet-l",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "L",
+      "rungs": 4,
+      "sites": 28,
+      "edges": 20
+    },
+    {
+      "id": "alphabet-m",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "M",
+      "rungs": 4,
+      "sites": 40,
+      "edges": 32
+    },
+    {
+      "id": "alphabet-n",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "N",
+      "rungs": 4,
+      "sites": 34,
+      "edges": 26
+    },
+    {
+      "id": "alphabet-o",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "O",
+      "rungs": 4,
+      "sites": 42,
+      "edges": 20
+    },
+    {
+      "id": "alphabet-p",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "P",
+      "rungs": 4,
+      "sites": 19,
+      "edges": 12
+    },
+    {
+      "id": "alphabet-q",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "Q",
+      "rungs": 4,
+      "sites": 51,
+      "edges": 28
+    },
+    {
+      "id": "alphabet-r",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "R",
+      "rungs": 4,
+      "sites": 21,
+      "edges": 14
+    },
+    {
+      "id": "alphabet-s",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "S",
+      "rungs": 4,
+      "sites": 62,
+      "edges": 28
+    },
+    {
+      "id": "alphabet-t",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "T",
+      "rungs": 4,
+      "sites": 23,
+      "edges": 10
+    },
+    {
+      "id": "alphabet-u",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "U",
+      "rungs": 4,
+      "sites": 21,
+      "edges": 12
+    },
+    {
+      "id": "alphabet-v",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "V",
+      "rungs": 4,
+      "sites": 29,
+      "edges": 19
+    },
+    {
+      "id": "alphabet-w",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "W",
+      "rungs": 4,
+      "sites": 40,
+      "edges": 32
+    },
+    {
+      "id": "alphabet-x",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "X",
+      "rungs": 4,
+      "sites": 45,
+      "edges": 32
+    },
+    {
+      "id": "alphabet-y",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "Y",
+      "rungs": 4,
+      "sites": 39,
+      "edges": 26
+    },
+    {
+      "id": "alphabet-z",
+      "family": "alphabet-series",
+      "title": "Capital letters from construction guides",
+      "variant": "Z",
+      "rungs": 4,
+      "sites": 18,
+      "edges": 10
+    },
+    {
+      "id": "alphabet-atlas",
+      "family": "alphabet-atlas",
+      "title": "The complete alphabet, drawn in four passes",
+      "variant": "A\u2013Z together",
+      "rungs": 4,
+      "sites": 738,
+      "edges": 482
+    }
+  ]
+}

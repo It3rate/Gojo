@@ -127,6 +127,16 @@ class ConstructionPublicationTests(unittest.TestCase):
             self.assertEqual(json.loads((output.parent / "public-files.json").read_text())["files"],
                              ["index.html", "archives/first.gojo.json.gz"])
 
+    def test_local_review_links_to_the_executable_program(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            write_source(root / "input", fixture())
+            output = root / "review.html"
+            build([root / "input"], output)
+            variant = embedded(output)["scenes"][0]["variants"][0]
+            self.assertEqual(variant["archiveKind"], "program")
+            self.assertEqual(variant["archivePath"], (root / "input/001.program.gojo.json").as_uri())
+
     def test_source_labels_cannot_close_the_embedded_script_and_survive_public_compression(self):
         with tempfile.TemporaryDirectory() as temp:
             root, run = Path(temp), fixture()

@@ -1,0 +1,58 @@
+{
+  "schema": "gojo.line-art.pinned-sources.v1",
+  "scope": "Exact pinned centerline SVG sources and original licenses for the two existing imported church studies.",
+  "items": [
+    {
+      "collection": "lucide",
+      "role": "asset",
+      "file": "lucide/church.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/lucide-icons/lucide/7faf87628a1ad6175975bc595344337ce14a7db4/icons/church.svg",
+      "sourcePage": "https://github.com/lucide-icons/lucide/blob/7faf87628a1ad6175975bc595344337ce14a7db4/icons/church.svg",
+      "revision": "7faf87628a1ad6175975bc595344337ce14a7db4",
+      "license": "ISC",
+      "attribution": "Lucide Contributors",
+      "sha256": "7b27e22b59e5f4a088a9ce16a6451139a2df10fa39fc69334d0b29e916e6189d",
+      "bytes": 501,
+      "centerlineImportSupported": true
+    },
+    {
+      "collection": "lucide",
+      "role": "license",
+      "file": "lucide/LICENSE.txt",
+      "sourceUrl": "https://raw.githubusercontent.com/lucide-icons/lucide/7faf87628a1ad6175975bc595344337ce14a7db4/LICENSE",
+      "sourcePage": "https://github.com/lucide-icons/lucide/blob/7faf87628a1ad6175975bc595344337ce14a7db4/LICENSE",
+      "revision": "7faf87628a1ad6175975bc595344337ce14a7db4",
+      "license": "ISC",
+      "attribution": "Lucide Contributors",
+      "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+      "bytes": 3208,
+      "centerlineImportSupported": true
+    },
+    {
+      "collection": "tabler",
+      "role": "asset",
+      "file": "tabler/church.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/tabler/tabler-icons/a4ce1404bc6d24d3c365afe7b258d6bf6f48d62d/icons/outline/building-church.svg",
+      "sourcePage": "https://github.com/tabler/tabler-icons/blob/a4ce1404bc6d24d3c365afe7b258d6bf6f48d62d/icons/outline/building-church.svg",
+      "revision": "a4ce1404bc6d24d3c365afe7b258d6bf6f48d62d",
+      "license": "MIT",
+      "attribution": "Copyright (c) 2020-2026 Pawe\u0142 Kuna",
+      "sha256": "94a6e630b1c155dc7aed836a1e3fb985bdbb55c5abb0c871bea5223e5d2f4c1a",
+      "bytes": 513,
+      "centerlineImportSupported": true
+    },
+    {
+      "collection": "tabler",
+      "role": "license",
+      "file": "tabler/LICENSE.txt",
+      "sourceUrl": "https://raw.githubusercontent.com/tabler/tabler-icons/a4ce1404bc6d24d3c365afe7b258d6bf6f48d62d/LICENSE",
+      "sourcePage": "https://github.com/tabler/tabler-icons/blob/a4ce1404bc6d24d3c365afe7b258d6bf6f48d62d/LICENSE",
+      "revision": "a4ce1404bc6d24d3c365afe7b258d6bf6f48d62d",
+      "license": "MIT",
+      "attribution": "Copyright (c) 2020-2026 Pawe\u0142 Kuna",
+      "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db",
+      "bytes": 1073,
+      "centerlineImportSupported": true
+    }
+  ]
+}
