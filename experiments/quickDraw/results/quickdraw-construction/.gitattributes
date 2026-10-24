@@ -1,0 +1,2 @@
+# Exact acquisition and captured review hashes must survive Windows/Linux clones.
+* -text -whitespace

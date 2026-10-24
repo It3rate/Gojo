@@ -6,6 +6,7 @@ using Gojo.Experiments.QuickDraw;
 if (args.Length > 0 && args[0] == "--reconstruct") return ReconstructionRunner.Run(args);
 if (args.Length > 0 && args[0] == "--annotate") return AnnotatedLineArtRunner.Run(args);
 if (args.Length > 0 && args[0] == "--construct") return ConstructionLadderRunner.Run(args);
+if (args.Length > 0 && args[0] == "--interpret-evidence") return QuickDrawInterpretationEvidenceRunner.Run(args);
 
 if (args.Length != 4 || args[0] != "--input" || args[2] != "--output")
 {

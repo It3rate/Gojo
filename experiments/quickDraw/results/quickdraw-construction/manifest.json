@@ -1,0 +1,40 @@
+{
+  "schema": "gojo.quickdraw-interpretation-study.v1",
+  "sourceSha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042",
+  "sourceIds": [
+    "5743197026254848",
+    "5181133614481408",
+    "5437095780810752",
+    "6169132418465792",
+    "4578701515685888"
+  ],
+  "modes": [
+    {
+      "id": "observed-fit",
+      "label": "Close fit",
+      "quantum": 1,
+      "axisToleranceDegrees": 0
+    },
+    {
+      "id": "gentle-priors",
+      "label": "Gentle interpretation",
+      "quantum": 4,
+      "axisToleranceDegrees": 12
+    },
+    {
+      "id": "stronger-priors",
+      "label": "Stronger interpretation",
+      "quantum": 12,
+      "axisToleranceDegrees": 24
+    }
+  ],
+  "counts": {
+    "drawings": 5,
+    "programs": 15,
+    "strokes": 47,
+    "samples": 1295
+  },
+  "trainingStatus": "No model trained; authored candidate thresholds and geometric interpretation policies.",
+  "splitPolicy": "All interpretations, intervals and derivatives of one sourceId belong to the same future data split.",
+  "selection": "The existing five visually curated church drawings, selected before this experiment; not a representative population evaluation."
+}

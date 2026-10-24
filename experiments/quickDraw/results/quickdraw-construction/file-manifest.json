@@ -1,0 +1,260 @@
+{
+  "schema": "gojo.retained-artifacts.v1",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 102,
+      "sha256": "76f32302816ba7efce84f456d6bb76337db49c19be49dc32e9b75bb7a12a7a65"
+    },
+    {
+      "path": "checkpoint-summary.json",
+      "bytes": 2577,
+      "sha256": "bcedb9e88a0b2a587a22488b22b944c728fb66d5818c177898606bafc2390802"
+    },
+    {
+      "path": "construction-summary.json",
+      "bytes": 8372,
+      "sha256": "87ae67028409517525843e9ca431e71fc9de826ab569c974b0c4bbb67d0bfde1"
+    },
+    {
+      "path": "focused-test-summary.json",
+      "bytes": 673,
+      "sha256": "b59a946c0c734545d1e60edca4b4837561a5211c7ad55d4db2575fe7039520d9"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 1212,
+      "sha256": "198785694c773493e899ccb23c8da019414677c2f984190f7aa8bc43e29257a1"
+    },
+    {
+      "path": "native-evidence/001.interpretation.gojo.json.gz",
+      "bytes": 63589,
+      "sha256": "b19d8ac066ebcc603f01f249054e96cd0bbbca86da5a5a0e53460278daa61d8e"
+    },
+    {
+      "path": "native-evidence/002.interpretation.gojo.json.gz",
+      "bytes": 63576,
+      "sha256": "957757cc807060605c68538f38b0661e0f31ea8cd519b7843318f25bdfb32f5d"
+    },
+    {
+      "path": "native-evidence/003.interpretation.gojo.json.gz",
+      "bytes": 63570,
+      "sha256": "495d6fd1466ef5c8cfc26ef62f3af5d3fc78638722ceaf48beae0f782aa78835"
+    },
+    {
+      "path": "native-evidence/004.interpretation.gojo.json.gz",
+      "bytes": 141790,
+      "sha256": "822ce8269bd2d67ca3082d507164aadebf4ce5db8f30db0c1df024ddc0ec7c91"
+    },
+    {
+      "path": "native-evidence/005.interpretation.gojo.json.gz",
+      "bytes": 141784,
+      "sha256": "ebbb5ce50f6b6c70d57358f96ac38db7364b98f2d04f8d5ca40de21dfd64f13b"
+    },
+    {
+      "path": "native-evidence/006.interpretation.gojo.json.gz",
+      "bytes": 141768,
+      "sha256": "eb5195db207e270a49f85d5857d6cd97449f9c548e1ad0bd57cbd3f7d0efdb14"
+    },
+    {
+      "path": "native-evidence/007.interpretation.gojo.json.gz",
+      "bytes": 206747,
+      "sha256": "8f5722901f28d279026c7e1b72e3d5d8e32cb6383d96afecb999f7005b7916c7"
+    },
+    {
+      "path": "native-evidence/008.interpretation.gojo.json.gz",
+      "bytes": 206705,
+      "sha256": "7595da95bd677fb0e181c32f3dce7d31444378d9ec9e6cd1473799f1146fddce"
+    },
+    {
+      "path": "native-evidence/009.interpretation.gojo.json.gz",
+      "bytes": 206636,
+      "sha256": "c73070cea7e7c0294da383dc8325957405aa5ef50ac7472bb38b24d43963c71b"
+    },
+    {
+      "path": "native-evidence/010.interpretation.gojo.json.gz",
+      "bytes": 147911,
+      "sha256": "1b6fbe6872c07513c9fd010250f5856daa2fab551e2b61ecb88ad31a51360600"
+    },
+    {
+      "path": "native-evidence/011.interpretation.gojo.json.gz",
+      "bytes": 147899,
+      "sha256": "d8ca479d2f252ee52d04610a8f81fe6ca9c54fb1d452f1701504f73b8d4dfe11"
+    },
+    {
+      "path": "native-evidence/012.interpretation.gojo.json.gz",
+      "bytes": 147865,
+      "sha256": "5416abad74fd82d79685c196dca6129eda58a59d2159756abce0e6de7171c3b4"
+    },
+    {
+      "path": "native-evidence/013.interpretation.gojo.json.gz",
+      "bytes": 87247,
+      "sha256": "b62168b84428601ab8c7f07908c64b76346c915c0fa3e7b5e95f74baafd2470a"
+    },
+    {
+      "path": "native-evidence/014.interpretation.gojo.json.gz",
+      "bytes": 87223,
+      "sha256": "a6684c90e201f88b547e38fe21fda44466aed85c7dfb2df0df1239ba51558cef"
+    },
+    {
+      "path": "native-evidence/015.interpretation.gojo.json.gz",
+      "bytes": 87209,
+      "sha256": "a62cb74a5a2953aba8736b7d50a5769e6b944bd3b7fa8a04e57a1d1b918f5938"
+    },
+    {
+      "path": "native-evidence-summary.json",
+      "bytes": 15577,
+      "sha256": "e3d3e66487c01f3979f2dae7d5f8f1e2f1aa2675b392609d0b7b61e29d5b5182"
+    },
+    {
+      "path": "native-inspector.ndjson.gz",
+      "bytes": 134587,
+      "sha256": "36386a093bedb7c8f3fc03d5a63ece4ec668e017be2451a16ff38d2059535316"
+    },
+    {
+      "path": "observations.ndjson.gz",
+      "bytes": 42711,
+      "sha256": "9b54138e9eb3f7dd34f50635e7aa7e532efb134c0486f8e81f656d184051e8aa"
+    },
+    {
+      "path": "packets.ndjson.gz",
+      "bytes": 213051,
+      "sha256": "9e6d5821d0e8ece50fe5712e75e3b40afd26e0067de879d7d1322a1b82a5a0e3"
+    },
+    {
+      "path": "programs.ndjson.gz",
+      "bytes": 40480,
+      "sha256": "c835d53d71acea3463887074632132d0a4e79a327b6d4c8f31165bdc112f5fe2"
+    },
+    {
+      "path": "qa/5437095780810752.png",
+      "bytes": 197068,
+      "sha256": "7e657a6f9e4fa1ca0bce1dcff71223e344684b8a3c066b55ac2292009226141f"
+    },
+    {
+      "path": "qa/5743197026254848.png",
+      "bytes": 160298,
+      "sha256": "4b75ee501b27d664e98d301e27b716e6ac806d4ace8e1e74b7a6ebe84a7e45fd"
+    },
+    {
+      "path": "qa/6169132418465792.png",
+      "bytes": 209911,
+      "sha256": "9451c4b398058ca81635fabe1082f46a29d54f0bcdf0da0630d4d952411f46bf"
+    },
+    {
+      "path": "qa/browser-summary.json",
+      "bytes": 316,
+      "sha256": "0dd3b00a35a740df330d3aa222f03fed9acf3a3c1459433e1a685b215478d4e3"
+    },
+    {
+      "path": "qa/disagreement.png",
+      "bytes": 183352,
+      "sha256": "255094c1f756a50cde451d7c431e1d1be570622ad4f159633e7e495386bec1f3"
+    },
+    {
+      "path": "qa/mobile.png",
+      "bytes": 109049,
+      "sha256": "d74ffeb5cd68aa1ab1d47787c038b3a3a21452b1619d2485711b37482a151b9c"
+    },
+    {
+      "path": "review/archives/quickdraw-4578701515685888--gentle-priors.gojo.json.gz",
+      "bytes": 35359,
+      "sha256": "996b5d883fb6931d5be1dc419bd1036c462a09bb84a30f22ce694fbab50f162b"
+    },
+    {
+      "path": "review/archives/quickdraw-4578701515685888--observed-fit.gojo.json.gz",
+      "bytes": 35391,
+      "sha256": "ae82b5cb7127c24c6481fa1a65495abd973133cd3b79ac3883b1477394e03020"
+    },
+    {
+      "path": "review/archives/quickdraw-4578701515685888--stronger-priors.gojo.json.gz",
+      "bytes": 35347,
+      "sha256": "1b40ed5c2bd63fc5817e0cb61b9d16835b25b58c70152e866974946d16b7600c"
+    },
+    {
+      "path": "review/archives/quickdraw-5181133614481408--gentle-priors.gojo.json.gz",
+      "bytes": 35655,
+      "sha256": "c9df3e15166674aadd2d4646122386a0417f0265ec219a7da1467a90eea4a73c"
+    },
+    {
+      "path": "review/archives/quickdraw-5181133614481408--observed-fit.gojo.json.gz",
+      "bytes": 35672,
+      "sha256": "000f40e412f4b266057037492dc5826f908688dd6585eb810acad646b46f0b66"
+    },
+    {
+      "path": "review/archives/quickdraw-5181133614481408--stronger-priors.gojo.json.gz",
+      "bytes": 35642,
+      "sha256": "6cedb8675244f78f598184dc79fca9fb7a994e7c1e56b9462c678126ff850a50"
+    },
+    {
+      "path": "review/archives/quickdraw-5437095780810752--gentle-priors.gojo.json.gz",
+      "bytes": 69613,
+      "sha256": "f2a42546921d506a729924284451f21705e15c9811512e3e42c1c2f6de1cfd31"
+    },
+    {
+      "path": "review/archives/quickdraw-5437095780810752--observed-fit.gojo.json.gz",
+      "bytes": 69661,
+      "sha256": "50b98396187d0cf109a778ae08dfd34fdb5eb6c3e16b4628b67208aa50b4bca9"
+    },
+    {
+      "path": "review/archives/quickdraw-5437095780810752--stronger-priors.gojo.json.gz",
+      "bytes": 69563,
+      "sha256": "9d8675a40a1e76d4dc0b79946445468907005aa4add48f094ec10e0c1597eccf"
+    },
+    {
+      "path": "review/archives/quickdraw-5743197026254848--gentle-priors.gojo.json.gz",
+      "bytes": 22327,
+      "sha256": "8ec58634f49dbb0ba44dbd46b0988931352010a65145790f143b1cbf072f9237"
+    },
+    {
+      "path": "review/archives/quickdraw-5743197026254848--observed-fit.gojo.json.gz",
+      "bytes": 22335,
+      "sha256": "8f0fa5e7126c8d7f621decf651239989d8a18122e755e60e28245f6127a9882f"
+    },
+    {
+      "path": "review/archives/quickdraw-5743197026254848--stronger-priors.gojo.json.gz",
+      "bytes": 22312,
+      "sha256": "8d3216f1bc9f38f9ccdcbf77a1e6f163df24054279bc9c118c08f8bd83ee7d6b"
+    },
+    {
+      "path": "review/archives/quickdraw-6169132418465792--gentle-priors.gojo.json.gz",
+      "bytes": 40578,
+      "sha256": "c8b0a80d1ef3a3b5bcad4b684d3081e624596a0a6545a98d57527ba54781fab3"
+    },
+    {
+      "path": "review/archives/quickdraw-6169132418465792--observed-fit.gojo.json.gz",
+      "bytes": 40605,
+      "sha256": "62ff2f7f19cae9246d28393a1156741d48901bc1596538a7d807a84c04f8bf6a"
+    },
+    {
+      "path": "review/archives/quickdraw-6169132418465792--stronger-priors.gojo.json.gz",
+      "bytes": 40553,
+      "sha256": "11f9a691b9420a61a83d6beb3d080d05a6a3c8c8c8b7eac92608afc8b0024ae9"
+    },
+    {
+      "path": "review/index.html",
+      "bytes": 990208,
+      "sha256": "0c324c1d3f2f7b2f52daaffe4966e96ff7561eee4290ff8ba908bed5ec386dad"
+    },
+    {
+      "path": "review/public-files.json",
+      "bytes": 1128,
+      "sha256": "db90f8f7ac5f6ce1be55a10e70164f20e916d287e576d31ddd9ef4a9d43f4a0d"
+    },
+    {
+      "path": "selected.ndjson",
+      "bytes": 24954,
+      "sha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042"
+    },
+    {
+      "path": "selection-manifest.json",
+      "bytes": 7769,
+      "sha256": "0aaa97e3d7e13da3c28c1dfca58fb7276b755898fbda15480e66b17c96590461"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 15083,
+      "sha256": "d11c19a5de369d01ea61b3a42290ec9378b1f568e74a209daa5052470e034810"
+    }
+  ]
+}
