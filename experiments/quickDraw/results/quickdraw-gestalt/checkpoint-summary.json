@@ -1,0 +1,134 @@
+{
+  "schema": "gojo.quickdraw-gestalt-checkpoint.v1",
+  "drawings": 5,
+  "rungs": 20,
+  "sourceSha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042",
+  "policy": {
+    "basis": "512-unit normalized source page; y increases downwards",
+    "learned": false,
+    "profileSubdivisions": 24,
+    "maximumPasses": 3,
+    "maximumSourceDistance": 36.0,
+    "maximumRelationDistance": 84.0,
+    "passSchedule": [
+      {
+        "id": "continuity",
+        "errorWeight": 0.45,
+        "maximumSymmetricDistance": 36.0
+      },
+      {
+        "id": "primitives",
+        "errorWeight": 0.12,
+        "maximumSymmetricDistance": 50.0
+      },
+      {
+        "id": "relations",
+        "errorWeight": 0.04,
+        "maximumSymmetricDistance": 84.0
+      }
+    ],
+    "maximumClosureGap": 20.0,
+    "axisAllowanceDegrees": 27.0,
+    "mergeTurnAllowanceDegrees": 62.0,
+    "errorWeight": 0.45,
+    "coherentCurveBend": 18.0,
+    "edgeCost": 7.0,
+    "controlCost": 3.0,
+    "fitBasis": "Symmetric finite nearest-distance: actual selected source samples to proposal segments, and 25 samples per proposal edge to actual source polyline segments. Source and proposal RMS contribute equally.",
+    "qualification": "Authored church/upright/regularity expectations are revisable hypotheses. Complete original intervals remain retained read residue; no exact intent or learned convergence is claimed."
+  },
+  "results": [
+    {
+      "sourceId": "5743197026254848",
+      "mainProfileCounts": [
+        11,
+        8,
+        8,
+        8
+      ],
+      "symmetricRms": [
+        1.8466219953749143,
+        2.117089736912633,
+        4.679255332924325,
+        10.368995381865135
+      ],
+      "retainedDetailProfiles": 0,
+      "accepted": 10,
+      "rejected": 1
+    },
+    {
+      "sourceId": "5181133614481408",
+      "mainProfileCounts": [
+        17,
+        16,
+        16,
+        16
+      ],
+      "symmetricRms": [
+        1.8357468496352374,
+        1.8217588406211258,
+        6.149773466448963,
+        6.185229571108718
+      ],
+      "retainedDetailProfiles": 0,
+      "accepted": 12,
+      "rejected": 0
+    },
+    {
+      "sourceId": "5437095780810752",
+      "mainProfileCounts": [
+        47,
+        27,
+        27,
+        27
+      ],
+      "symmetricRms": [
+        1.6726646567892522,
+        3.1526957396828514,
+        5.549498521880066,
+        5.377007138142908
+      ],
+      "retainedDetailProfiles": 16,
+      "accepted": 17,
+      "rejected": 5
+    },
+    {
+      "sourceId": "6169132418465792",
+      "mainProfileCounts": [
+        19,
+        15,
+        14,
+        14
+      ],
+      "symmetricRms": [
+        2.459187420864376,
+        2.7014592640198947,
+        6.493168578923581,
+        8.123781271745365
+      ],
+      "retainedDetailProfiles": 0,
+      "accepted": 15,
+      "rejected": 7
+    },
+    {
+      "sourceId": "4578701515685888",
+      "mainProfileCounts": [
+        17,
+        14,
+        13,
+        13
+      ],
+      "symmetricRms": [
+        2.046080941159393,
+        2.4049864404683023,
+        5.187684585480365,
+        5.544959344199989
+      ],
+      "retainedDetailProfiles": 0,
+      "accepted": 16,
+      "rejected": 1
+    }
+  ],
+  "publication": "Local review and GitHub checkpoint; no website publication in this milestone.",
+  "qualification": "Authored rule-guided conceptual approximation; source difference may intentionally increase. No learned intent, nonnumeric completion or global optimum is claimed."
+}

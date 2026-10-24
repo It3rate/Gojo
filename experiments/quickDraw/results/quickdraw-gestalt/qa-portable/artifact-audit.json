@@ -1,0 +1,40 @@
+{
+  "separateProcessBuilds": 2,
+  "htmlSha256": "ac2f4425342b4d1c5d7e9ea89b418bf5cfe8536e13813151f546e6f14449916d",
+  "htmlBytes": 1710952,
+  "identicalBytes": true,
+  "localAndPortableDisplayDataEqual": true,
+  "nativeProgramArchives": 5,
+  "allDecompressedBytesMatch": true,
+  "publicFiles": 6,
+  "manifestSha256": "56ebc6fba1a9699e8f263f7d7c0177b8ca3c265356e5bcdf02d65f0cd584c016",
+  "nativeInspectorSha256": "bf63616acdc59c46d5ead330c5109df69e3557bd21cc85949b3d752671369b68",
+  "observationsSha256": "cb727018962126236732be32ac300b1e0269890e92c2493cc0d60b027251b229",
+  "archives": [
+    {
+      "programId": "quickdraw-gestalt-5743197026254848",
+      "sha256": "77cfca30fdfa9a58dabac968057722864642fd61293233649d8a37b16081bcce",
+      "compressedBytes": 99249
+    },
+    {
+      "programId": "quickdraw-gestalt-5181133614481408",
+      "sha256": "80a00e4c97ffe4b7e2450ccc50d11ca1f4757789939e7ea890d31b99b54eaeb9",
+      "compressedBytes": 129237
+    },
+    {
+      "programId": "quickdraw-gestalt-5437095780810752",
+      "sha256": "69fcbee70ada094b82a7f57de94b0c344243a62b1e6b19f73b140f26cbde7a80",
+      "compressedBytes": 224444
+    },
+    {
+      "programId": "quickdraw-gestalt-6169132418465792",
+      "sha256": "83b0fb26e4351470cbf56082826bc351e39bfdb6734bb4ae7fad4e868ac6f310",
+      "compressedBytes": 238472
+    },
+    {
+      "programId": "quickdraw-gestalt-4578701515685888",
+      "sha256": "b1930d3c07582a234194130147006424a6700d3712b0eb6e667072c1fbbb27d0",
+      "compressedBytes": 148181
+    }
+  ]
+}

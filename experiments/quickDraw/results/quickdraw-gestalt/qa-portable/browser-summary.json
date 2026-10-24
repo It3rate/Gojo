@@ -1,0 +1,17 @@
+{
+  "drawings": 5,
+  "passes": 20,
+  "nativePaths": 347,
+  "operations": 84,
+  "rejected": 14,
+  "roles": 27,
+  "downloads": 20,
+  "sourcesSimplified": 5,
+  "capturedGeometryExact": true,
+  "sourcePreserved": true,
+  "rejectedNeverApplied": true,
+  "inspectionOnly": true,
+  "mobileOverflow": false,
+  "externalRequests": 0,
+  "consoleErrors": []
+}

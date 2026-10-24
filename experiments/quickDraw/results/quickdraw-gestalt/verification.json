@@ -1,0 +1,396 @@
+{
+  "schema": "gojo.quickdraw-gestalt-audit.v1",
+  "passed": true,
+  "drawings": 5,
+  "rungs": 20,
+  "results": [
+    {
+      "sourceId": "5743197026254848",
+      "sourceStrokeCount": 5,
+      "sourcePointCount": 118,
+      "sourceSpanCount": 11,
+      "consecutiveDuplicateSamples": 1,
+      "backwardsTimeSteps": 0,
+      "scope": "Preserved acquired stroke/sample/time order and complete source-span partition; no intent claim.",
+      "acceptedPatches": 10,
+      "rejectedPatches": 1,
+      "passes": [
+        {
+          "pass": 0,
+          "edges": 11,
+          "residueEdges": 0,
+          "accepted": 0,
+          "rejected": 0
+        },
+        {
+          "pass": 1,
+          "edges": 8,
+          "residueEdges": 0,
+          "accepted": 3,
+          "rejected": 1
+        },
+        {
+          "pass": 2,
+          "edges": 8,
+          "residueEdges": 0,
+          "accepted": 5,
+          "rejected": 0
+        },
+        {
+          "pass": 3,
+          "edges": 8,
+          "residueEdges": 0,
+          "accepted": 2,
+          "rejected": 0
+        }
+      ],
+      "mapping": [
+        {
+          "pass": 0,
+          "activeTargets": 11,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 1,
+          "activeTargets": 8,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 2,
+          "activeTargets": 8,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 3,
+          "activeTargets": 8,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        }
+      ],
+      "maximumProposalControlDisplacement": 0.6081666016446167,
+      "standaloneAffineReplay": true,
+      "native": {
+        "program": "quickdraw-gestalt-5743197026254848",
+        "rungs": 4,
+        "checks": 1382,
+        "sites": 199,
+        "edges": 48,
+        "nativeReplayVerified": true
+      }
+    },
+    {
+      "sourceId": "5181133614481408",
+      "sourceStrokeCount": 9,
+      "sourcePointCount": 326,
+      "sourceSpanCount": 17,
+      "consecutiveDuplicateSamples": 3,
+      "backwardsTimeSteps": 0,
+      "scope": "Preserved acquired stroke/sample/time order and complete source-span partition; no intent claim.",
+      "acceptedPatches": 12,
+      "rejectedPatches": 0,
+      "passes": [
+        {
+          "pass": 0,
+          "edges": 17,
+          "residueEdges": 0,
+          "accepted": 0,
+          "rejected": 0
+        },
+        {
+          "pass": 1,
+          "edges": 16,
+          "residueEdges": 0,
+          "accepted": 1,
+          "rejected": 0
+        },
+        {
+          "pass": 2,
+          "edges": 16,
+          "residueEdges": 0,
+          "accepted": 9,
+          "rejected": 0
+        },
+        {
+          "pass": 3,
+          "edges": 16,
+          "residueEdges": 0,
+          "accepted": 2,
+          "rejected": 0
+        }
+      ],
+      "mapping": [
+        {
+          "pass": 0,
+          "activeTargets": 17,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 1,
+          "activeTargets": 16,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 2,
+          "activeTargets": 16,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 3,
+          "activeTargets": 16,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        }
+      ],
+      "maximumProposalControlDisplacement": 0.6642465273692931,
+      "standaloneAffineReplay": true,
+      "native": {
+        "program": "quickdraw-gestalt-5181133614481408",
+        "rungs": 4,
+        "checks": 1818,
+        "sites": 262,
+        "edges": 62,
+        "nativeReplayVerified": true
+      }
+    },
+    {
+      "sourceId": "5437095780810752",
+      "sourceStrokeCount": 17,
+      "sourcePointCount": 381,
+      "sourceSpanCount": 47,
+      "consecutiveDuplicateSamples": 6,
+      "backwardsTimeSteps": 0,
+      "scope": "Preserved acquired stroke/sample/time order and complete source-span partition; no intent claim.",
+      "acceptedPatches": 17,
+      "rejectedPatches": 5,
+      "passes": [
+        {
+          "pass": 0,
+          "edges": 47,
+          "residueEdges": 0,
+          "accepted": 0,
+          "rejected": 0
+        },
+        {
+          "pass": 1,
+          "edges": 27,
+          "residueEdges": 16,
+          "accepted": 5,
+          "rejected": 0
+        },
+        {
+          "pass": 2,
+          "edges": 27,
+          "residueEdges": 16,
+          "accepted": 11,
+          "rejected": 2
+        },
+        {
+          "pass": 3,
+          "edges": 27,
+          "residueEdges": 16,
+          "accepted": 1,
+          "rejected": 3
+        }
+      ],
+      "mapping": [
+        {
+          "pass": 0,
+          "activeTargets": 47,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 1,
+          "activeTargets": 43,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 2,
+          "activeTargets": 43,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 3,
+          "activeTargets": 43,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        }
+      ],
+      "maximumProposalControlDisplacement": 0.650385288921375,
+      "standaloneAffineReplay": true,
+      "native": {
+        "program": "quickdraw-gestalt-5437095780810752",
+        "rungs": 4,
+        "checks": 3570,
+        "sites": 465,
+        "edges": 97,
+        "nativeReplayVerified": true
+      }
+    },
+    {
+      "sourceId": "6169132418465792",
+      "sourceStrokeCount": 8,
+      "sourcePointCount": 329,
+      "sourceSpanCount": 19,
+      "consecutiveDuplicateSamples": 1,
+      "backwardsTimeSteps": 0,
+      "scope": "Preserved acquired stroke/sample/time order and complete source-span partition; no intent claim.",
+      "acceptedPatches": 15,
+      "rejectedPatches": 7,
+      "passes": [
+        {
+          "pass": 0,
+          "edges": 19,
+          "residueEdges": 0,
+          "accepted": 0,
+          "rejected": 0
+        },
+        {
+          "pass": 1,
+          "edges": 15,
+          "residueEdges": 0,
+          "accepted": 4,
+          "rejected": 0
+        },
+        {
+          "pass": 2,
+          "edges": 14,
+          "residueEdges": 0,
+          "accepted": 6,
+          "rejected": 4
+        },
+        {
+          "pass": 3,
+          "edges": 14,
+          "residueEdges": 0,
+          "accepted": 5,
+          "rejected": 3
+        }
+      ],
+      "mapping": [
+        {
+          "pass": 0,
+          "activeTargets": 19,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 1,
+          "activeTargets": 15,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 2,
+          "activeTargets": 14,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 3,
+          "activeTargets": 14,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        }
+      ],
+      "maximumProposalControlDisplacement": 1.0943175335329576,
+      "standaloneAffineReplay": true,
+      "native": {
+        "program": "quickdraw-gestalt-6169132418465792",
+        "rungs": 4,
+        "checks": 2600,
+        "sites": 512,
+        "edges": 71,
+        "nativeReplayVerified": true
+      }
+    },
+    {
+      "sourceId": "4578701515685888",
+      "sourceStrokeCount": 8,
+      "sourcePointCount": 141,
+      "sourceSpanCount": 17,
+      "consecutiveDuplicateSamples": 4,
+      "backwardsTimeSteps": 0,
+      "scope": "Preserved acquired stroke/sample/time order and complete source-span partition; no intent claim.",
+      "acceptedPatches": 16,
+      "rejectedPatches": 1,
+      "passes": [
+        {
+          "pass": 0,
+          "edges": 17,
+          "residueEdges": 0,
+          "accepted": 0,
+          "rejected": 0
+        },
+        {
+          "pass": 1,
+          "edges": 14,
+          "residueEdges": 0,
+          "accepted": 3,
+          "rejected": 0
+        },
+        {
+          "pass": 2,
+          "edges": 13,
+          "residueEdges": 0,
+          "accepted": 10,
+          "rejected": 1
+        },
+        {
+          "pass": 3,
+          "edges": 13,
+          "residueEdges": 0,
+          "accepted": 3,
+          "rejected": 0
+        }
+      ],
+      "mapping": [
+        {
+          "pass": 0,
+          "activeTargets": 17,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 1,
+          "activeTargets": 14,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 2,
+          "activeTargets": 13,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 3,
+          "activeTargets": 13,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        }
+      ],
+      "maximumProposalControlDisplacement": 0.6558006432209523,
+      "standaloneAffineReplay": true,
+      "native": {
+        "program": "quickdraw-gestalt-4578701515685888",
+        "rungs": 4,
+        "checks": 1960,
+        "sites": 309,
+        "edges": 57,
+        "nativeReplayVerified": true
+      }
+    }
+  ],
+  "sourceSha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042",
+  "programSha256": "95c5aa308c624941387093f7734d3596aa1da972b21105b1567d495f1f7a28a8",
+  "scope": "Independent exact acquisition/interval preservation, local accepted/rejected patch replay, finite source fit and objective, actual affine dependencies, source/target pass accounting and native inspector replay. No intended-shape or learned-optimum claim."
+}

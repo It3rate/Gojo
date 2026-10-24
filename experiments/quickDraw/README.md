@@ -54,6 +54,13 @@ relations. The existing three modes now also widen interpretive allowances,
 with measured gaps and angular residuals retained. These reads mark the drawing
 without generating or repairing its geometry.
 
+[Gestalt simplification](QuickDrawGestalt.md) now tries longer profiles,
+primitive wall/roof/door constructions, centered crosses, local symmetry and
+affine curve reuse in four source-linked passes. Conceptual regularity can
+outweigh tracing accuracy; the original ink, rejected proposals and suppressed
+detail remain inspectable. This is a local and GitHub experiment with authored
+priors, before learning those preferences from data.
+
 The first useful result is an **exact native sample-acquisition boundary plus an
 inspectable measured fitting experiment**. The full acquisition-to-concept
 converter is not complete. No prior was trained in this initial acquisition

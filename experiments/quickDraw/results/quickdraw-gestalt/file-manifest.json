@@ -1,0 +1,227 @@
+[
+  {
+    "path": ".gitattributes",
+    "bytes": 102,
+    "sha256": "c8126e59cf7341db73d0e7a84df597224a0d00de4ec088a07ffdcb418cfd6969"
+  },
+  {
+    "path": "checkpoint-summary.json",
+    "bytes": 3623,
+    "sha256": "9f971c412887edf2e9c2710fbb2581f9bc1e14d0794dd04a03f0517656c99e59"
+  },
+  {
+    "path": "manifest.json",
+    "bytes": 388325,
+    "sha256": "56ebc6fba1a9699e8f263f7d7c0177b8ca3c265356e5bcdf02d65f0cd584c016"
+  },
+  {
+    "path": "native/001.construction.gojo.json.gz",
+    "bytes": 399767,
+    "sha256": "fff539a3a5a0ee5fa9240b4d1401cd36f0235994e2e0591a6a66e698638d63a4"
+  },
+  {
+    "path": "native/002.construction.gojo.json.gz",
+    "bytes": 523706,
+    "sha256": "b966c6909a67027603f23649e1503116f48f44a23a15986e5887c75ea62a2741"
+  },
+  {
+    "path": "native/003.construction.gojo.json.gz",
+    "bytes": 911459,
+    "sha256": "49f435489df5e624a1ef3ee325a47bb1ae026f4c59d9b1c0c1e7a8fb9740279a"
+  },
+  {
+    "path": "native/004.construction.gojo.json.gz",
+    "bytes": 988320,
+    "sha256": "3abb9a289e1cacc57079e7b43e1de88101e5ceb15e64de8599704f0f090b2415"
+  },
+  {
+    "path": "native/005.construction.gojo.json.gz",
+    "bytes": 605677,
+    "sha256": "98afa82865d93a9237bd96ef1d39f45176689bd9e62c835a452a20b520138fbe"
+  },
+  {
+    "path": "native-evidence/001.gestalt.gojo.json.gz",
+    "bytes": 150827,
+    "sha256": "209bfea971b1b32950d079e156aebdcb09c09046e2e440c7883bc9c1f08dc7bc"
+  },
+  {
+    "path": "native-evidence/002.gestalt.gojo.json.gz",
+    "bytes": 254409,
+    "sha256": "a787f0aa0030e7e6041c6f6fb42eb1914fa8ab119ca889818c709c56ceb3b27e"
+  },
+  {
+    "path": "native-evidence/003.gestalt.gojo.json.gz",
+    "bytes": 406449,
+    "sha256": "3499c58f94e4e862006d1c6b9a956ef91a5df9144be024c29961c441cb0623c2"
+  },
+  {
+    "path": "native-evidence/004.gestalt.gojo.json.gz",
+    "bytes": 364758,
+    "sha256": "156c5b96610093b72c34f83143a355704d0441d469252ed474983f5379807a03"
+  },
+  {
+    "path": "native-evidence/005.gestalt.gojo.json.gz",
+    "bytes": 216829,
+    "sha256": "65f53c9d5ab25cce1b2bc1e8efb6b6f6137576fe17d7a540f3be3002143b37f2"
+  },
+  {
+    "path": "native-evidence-summary.json",
+    "bytes": 10846,
+    "sha256": "cd1f830e52dee3c1dc484f959852b417751289de0c8c0bf525f8edebc7a456b6"
+  },
+  {
+    "path": "native-inspector.ndjson.gz",
+    "bytes": 121792,
+    "sha256": "60a9322b48b62e100bfd85915810224f1a0f72f20264ebd878678f8b95c8365f"
+  },
+  {
+    "path": "native-summary.json",
+    "bytes": 2767,
+    "sha256": "63e656f6fe248a221de618db81556faeeec33fc5c7f88f6c2969fcc8269a49b5"
+  },
+  {
+    "path": "observations.ndjson.gz",
+    "bytes": 42711,
+    "sha256": "9b54138e9eb3f7dd34f50635e7aa7e532efb134c0486f8e81f656d184051e8aa"
+  },
+  {
+    "path": "packets.ndjson.gz",
+    "bytes": 158129,
+    "sha256": "96cfc78be7fbe4fa53a9dfbd988bd2cf34c53ecbc3006cc232ce58c540a44084"
+  },
+  {
+    "path": "programs.ndjson.gz",
+    "bytes": 36715,
+    "sha256": "e4ed25456ea9a87384d6dd6379867f466427bfe23f151a0e8b6b6e867189cf87"
+  },
+  {
+    "path": "proposals.ndjson.gz",
+    "bytes": 65849,
+    "sha256": "75a8230b894b33f4eb8dd6d7fc9bf1702be2c20883597c702d3e59a5860f6341"
+  },
+  {
+    "path": "qa-final/4578701515685888.png",
+    "bytes": 211276,
+    "sha256": "5427dd211412499893ac6fb10a9f99e3908cc493f456a0dd65af3439f2d965e5"
+  },
+  {
+    "path": "qa-final/5181133614481408.png",
+    "bytes": 208471,
+    "sha256": "67d1a2aa1ac85d3571c2c3a769105df4a29f8d6d0725948cbce1d6e4967ed5ec"
+  },
+  {
+    "path": "qa-final/5437095780810752.png",
+    "bytes": 234365,
+    "sha256": "4dd0db994d40f7e58c606de053e9d7cc84257e9d8089eb517a1f74920d792a26"
+  },
+  {
+    "path": "qa-final/5743197026254848.png",
+    "bytes": 201514,
+    "sha256": "c1f6fbe98812bd309fdf170190fcc4bb62df9d1c941c47c0d5febd6a7fc28e18"
+  },
+  {
+    "path": "qa-final/6169132418465792.png",
+    "bytes": 238865,
+    "sha256": "e4f69288bf3b6430cc8380da1beb02135d3e924a183f8bca35cbea3a9c6436c9"
+  },
+  {
+    "path": "qa-final/artifact-audit.json",
+    "bytes": 1562,
+    "sha256": "86a17e46f1adb47a727ef2ba3917f862973e54ba3941c8ca7c0c584ff1f9b938"
+  },
+  {
+    "path": "qa-final/browser-summary.json",
+    "bytes": 349,
+    "sha256": "8c8216eb1067e6b6d650d1ec1720be06944818f88e1ba11c1a543014d482f8a1"
+  },
+  {
+    "path": "qa-final/mobile.png",
+    "bytes": 149571,
+    "sha256": "b49563e16cf7092218d9e629f6bacc6b735f1b2a1f496dc196bbad7d93ecc22b"
+  },
+  {
+    "path": "qa-portable/4578701515685888.png",
+    "bytes": 211276,
+    "sha256": "5427dd211412499893ac6fb10a9f99e3908cc493f456a0dd65af3439f2d965e5"
+  },
+  {
+    "path": "qa-portable/5181133614481408.png",
+    "bytes": 208471,
+    "sha256": "67d1a2aa1ac85d3571c2c3a769105df4a29f8d6d0725948cbce1d6e4967ed5ec"
+  },
+  {
+    "path": "qa-portable/5437095780810752.png",
+    "bytes": 234365,
+    "sha256": "4dd0db994d40f7e58c606de053e9d7cc84257e9d8089eb517a1f74920d792a26"
+  },
+  {
+    "path": "qa-portable/5743197026254848.png",
+    "bytes": 201514,
+    "sha256": "c1f6fbe98812bd309fdf170190fcc4bb62df9d1c941c47c0d5febd6a7fc28e18"
+  },
+  {
+    "path": "qa-portable/6169132418465792.png",
+    "bytes": 238865,
+    "sha256": "e4f69288bf3b6430cc8380da1beb02135d3e924a183f8bca35cbea3a9c6436c9"
+  },
+  {
+    "path": "qa-portable/artifact-audit.json",
+    "bytes": 1562,
+    "sha256": "86a17e46f1adb47a727ef2ba3917f862973e54ba3941c8ca7c0c584ff1f9b938"
+  },
+  {
+    "path": "qa-portable/browser-summary.json",
+    "bytes": 349,
+    "sha256": "8c8216eb1067e6b6d650d1ec1720be06944818f88e1ba11c1a543014d482f8a1"
+  },
+  {
+    "path": "qa-portable/mobile.png",
+    "bytes": 149570,
+    "sha256": "9fff6ecb0f5b1677f99841cc6733d544382c15c07e75f49da6d2c6efce4cca7b"
+  },
+  {
+    "path": "review/archives/quickdraw-gestalt-4578701515685888.gojo.json.gz",
+    "bytes": 148181,
+    "sha256": "f81e2e3b8ebc0c7762641ece7d3c86cdde7d76900c514464c0a5c6e931ca0207"
+  },
+  {
+    "path": "review/archives/quickdraw-gestalt-5181133614481408.gojo.json.gz",
+    "bytes": 129237,
+    "sha256": "10fd1eaf331aed5642e133dbf932291804d9954c5c375470147a9cea255184bc"
+  },
+  {
+    "path": "review/archives/quickdraw-gestalt-5437095780810752.gojo.json.gz",
+    "bytes": 224444,
+    "sha256": "a0182e44b9e637e6ff2c2ea35375048558aba5d89b6d87e69b18d219966fbadb"
+  },
+  {
+    "path": "review/archives/quickdraw-gestalt-5743197026254848.gojo.json.gz",
+    "bytes": 99249,
+    "sha256": "cc607bab831c7f9800824287d63dca85a1c8bfbae46a4cfb4a100e6c76b8ca0c"
+  },
+  {
+    "path": "review/archives/quickdraw-gestalt-6169132418465792.gojo.json.gz",
+    "bytes": 238472,
+    "sha256": "15574c59ff7f3910849b23ddda4cc5a89fe2a0e3cabe51646f33a276335a9ae3"
+  },
+  {
+    "path": "review/index.html",
+    "bytes": 1710952,
+    "sha256": "ac2f4425342b4d1c5d7e9ea89b418bf5cfe8536e13813151f546e6f14449916d"
+  },
+  {
+    "path": "review/public-files.json",
+    "bytes": 368,
+    "sha256": "5933cca93cf11c5b9515ace4616e739592e413304bc0f88811db0f0f686f5214"
+  },
+  {
+    "path": "selected.ndjson",
+    "bytes": 24954,
+    "sha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042"
+  },
+  {
+    "path": "verification.json",
+    "bytes": 10366,
+    "sha256": "7754c4a02615ddada8867462d77cbf05f1b94c2b4751c169917eafa4b28f8fb1"
+  }
+]
