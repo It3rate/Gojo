@@ -1,0 +1,462 @@
+[
+  {
+    "id": "quickdraw-synthesis-5743197026254848",
+    "archive": "001.gestalt.gojo.json",
+    "nodes": 28536,
+    "sourceId": "5743197026254848",
+    "sourceStrokes": 5,
+    "sourceSamples": 118,
+    "sourceIntervals": 11,
+    "passes": [
+      {
+        "rung": 0,
+        "links": 11,
+        "visible": 11,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 0,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 1,
+        "links": 8,
+        "visible": 8,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 2,
+        "links": 8,
+        "visible": 8,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 3,
+        "links": 8,
+        "visible": 8,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 4,
+        "links": 8,
+        "visible": 8,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 5,
+        "links": 8,
+        "visible": 8,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 6,
+        "links": 8,
+        "visible": 8,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      }
+    ],
+    "nativeRestoreVerified": true,
+    "actualSourceAndTargetAliasesVerified": true,
+    "completeSourcePartitionVerified": true,
+    "standaloneConstructionReplayVerified": true,
+    "priorControlDependenciesVerified": true,
+    "acquiredIdentityUnwelded": true,
+    "materialTransfer": false,
+    "exactGeometricFitClaimed": false,
+    "chronology": "Construction passes are authored interpretation history; original acquired stroke/sample/time order remains separate and unchanged.",
+    "residue": "Every selected source interval remains unaccounted read residue; unmatched intervals and active residue curves are explicit. Historical guides do not count as current source coverage.",
+    "qualification": "Measured approximation and candidate acceptance are external experimental reads. The native graph verifies correspondence, causality and retained accounting, not intended shape or a learned Gestalt law."
+  },
+  {
+    "id": "quickdraw-synthesis-5181133614481408",
+    "archive": "002.gestalt.gojo.json",
+    "nodes": 48059,
+    "sourceId": "5181133614481408",
+    "sourceStrokes": 9,
+    "sourceSamples": 326,
+    "sourceIntervals": 17,
+    "passes": [
+      {
+        "rung": 0,
+        "links": 17,
+        "visible": 17,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 0,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 1,
+        "links": 16,
+        "visible": 16,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 1,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 2,
+        "links": 16,
+        "visible": 16,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 1,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 3,
+        "links": 16,
+        "visible": 16,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 1,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 4,
+        "links": 16,
+        "visible": 16,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 1,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 5,
+        "links": 16,
+        "visible": 16,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 1,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 6,
+        "links": 16,
+        "visible": 16,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 1,
+        "manyTargetLinks": 0
+      }
+    ],
+    "nativeRestoreVerified": true,
+    "actualSourceAndTargetAliasesVerified": true,
+    "completeSourcePartitionVerified": true,
+    "standaloneConstructionReplayVerified": true,
+    "priorControlDependenciesVerified": true,
+    "acquiredIdentityUnwelded": true,
+    "materialTransfer": false,
+    "exactGeometricFitClaimed": false,
+    "chronology": "Construction passes are authored interpretation history; original acquired stroke/sample/time order remains separate and unchanged.",
+    "residue": "Every selected source interval remains unaccounted read residue; unmatched intervals and active residue curves are explicit. Historical guides do not count as current source coverage.",
+    "qualification": "Measured approximation and candidate acceptance are external experimental reads. The native graph verifies correspondence, causality and retained accounting, not intended shape or a learned Gestalt law."
+  },
+  {
+    "id": "quickdraw-synthesis-5437095780810752",
+    "archive": "003.gestalt.gojo.json",
+    "nodes": 73872,
+    "sourceId": "5437095780810752",
+    "sourceStrokes": 17,
+    "sourceSamples": 381,
+    "sourceIntervals": 47,
+    "passes": [
+      {
+        "rung": 0,
+        "links": 47,
+        "visible": 47,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 0,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 1,
+        "links": 43,
+        "visible": 27,
+        "activeResidueCurves": 16,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 2,
+        "links": 43,
+        "visible": 27,
+        "activeResidueCurves": 16,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 3,
+        "links": 43,
+        "visible": 27,
+        "activeResidueCurves": 16,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 4,
+        "links": 43,
+        "visible": 26,
+        "activeResidueCurves": 17,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 5,
+        "links": 43,
+        "visible": 26,
+        "activeResidueCurves": 17,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 6,
+        "links": 43,
+        "visible": 26,
+        "activeResidueCurves": 17,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      }
+    ],
+    "nativeRestoreVerified": true,
+    "actualSourceAndTargetAliasesVerified": true,
+    "completeSourcePartitionVerified": true,
+    "standaloneConstructionReplayVerified": true,
+    "priorControlDependenciesVerified": true,
+    "acquiredIdentityUnwelded": true,
+    "materialTransfer": false,
+    "exactGeometricFitClaimed": false,
+    "chronology": "Construction passes are authored interpretation history; original acquired stroke/sample/time order remains separate and unchanged.",
+    "residue": "Every selected source interval remains unaccounted read residue; unmatched intervals and active residue curves are explicit. Historical guides do not count as current source coverage.",
+    "qualification": "Measured approximation and candidate acceptance are external experimental reads. The native graph verifies correspondence, causality and retained accounting, not intended shape or a learned Gestalt law."
+  },
+  {
+    "id": "quickdraw-synthesis-6169132418465792",
+    "archive": "004.gestalt.gojo.json",
+    "nodes": 67868,
+    "sourceId": "6169132418465792",
+    "sourceStrokes": 8,
+    "sourceSamples": 329,
+    "sourceIntervals": 19,
+    "passes": [
+      {
+        "rung": 0,
+        "links": 19,
+        "visible": 19,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 0,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 1,
+        "links": 15,
+        "visible": 15,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 4,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 2,
+        "links": 14,
+        "visible": 14,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 5,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 3,
+        "links": 14,
+        "visible": 14,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 5,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 4,
+        "links": 14,
+        "visible": 14,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 5,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 5,
+        "links": 13,
+        "visible": 13,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 5,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 6,
+        "links": 13,
+        "visible": 13,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 5,
+        "manyTargetLinks": 0
+      }
+    ],
+    "nativeRestoreVerified": true,
+    "actualSourceAndTargetAliasesVerified": true,
+    "completeSourcePartitionVerified": true,
+    "standaloneConstructionReplayVerified": true,
+    "priorControlDependenciesVerified": true,
+    "acquiredIdentityUnwelded": true,
+    "materialTransfer": false,
+    "exactGeometricFitClaimed": false,
+    "chronology": "Construction passes are authored interpretation history; original acquired stroke/sample/time order remains separate and unchanged.",
+    "residue": "Every selected source interval remains unaccounted read residue; unmatched intervals and active residue curves are explicit. Historical guides do not count as current source coverage.",
+    "qualification": "Measured approximation and candidate acceptance are external experimental reads. The native graph verifies correspondence, causality and retained accounting, not intended shape or a learned Gestalt law."
+  },
+  {
+    "id": "quickdraw-synthesis-4578701515685888",
+    "archive": "005.gestalt.gojo.json",
+    "nodes": 43204,
+    "sourceId": "4578701515685888",
+    "sourceStrokes": 8,
+    "sourceSamples": 141,
+    "sourceIntervals": 17,
+    "passes": [
+      {
+        "rung": 0,
+        "links": 17,
+        "visible": 17,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 0,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 1,
+        "links": 14,
+        "visible": 14,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 2,
+        "links": 13,
+        "visible": 13,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 3,
+        "links": 13,
+        "visible": 13,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 4,
+        "links": 13,
+        "visible": 13,
+        "activeResidueCurves": 0,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 5,
+        "links": 12,
+        "visible": 9,
+        "activeResidueCurves": 3,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      },
+      {
+        "rung": 6,
+        "links": 12,
+        "visible": 9,
+        "activeResidueCurves": 3,
+        "unmatchedIntervals": 0,
+        "inferredCurves": 0,
+        "manySourceLinks": 3,
+        "manyTargetLinks": 0
+      }
+    ],
+    "nativeRestoreVerified": true,
+    "actualSourceAndTargetAliasesVerified": true,
+    "completeSourcePartitionVerified": true,
+    "standaloneConstructionReplayVerified": true,
+    "priorControlDependenciesVerified": true,
+    "acquiredIdentityUnwelded": true,
+    "materialTransfer": false,
+    "exactGeometricFitClaimed": false,
+    "chronology": "Construction passes are authored interpretation history; original acquired stroke/sample/time order remains separate and unchanged.",
+    "residue": "Every selected source interval remains unaccounted read residue; unmatched intervals and active residue curves are explicit. Historical guides do not count as current source coverage.",
+    "qualification": "Measured approximation and candidate acceptance are external experimental reads. The native graph verifies correspondence, causality and retained accounting, not intended shape or a learned Gestalt law."
+  }
+]

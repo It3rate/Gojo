@@ -1,0 +1,621 @@
+{
+  "schema": "gojo.quickdraw-synthesis-checkpoint.v1",
+  "drawings": 5,
+  "rungs": 35,
+  "sourceSha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042",
+  "policy": {
+    "basis": "512-unit normalized source page; y increases downwards",
+    "learned": false,
+    "profileSubdivisions": 24,
+    "maximumPasses": 3,
+    "maximumSourceDistance": 36.0,
+    "maximumRelationDistance": 84.0,
+    "passSchedule": [
+      {
+        "id": "continuity",
+        "errorWeight": 0.45,
+        "maximumSymmetricDistance": 36.0
+      },
+      {
+        "id": "primitives",
+        "errorWeight": 0.12,
+        "maximumSymmetricDistance": 50.0
+      },
+      {
+        "id": "relations",
+        "errorWeight": 0.04,
+        "maximumSymmetricDistance": 84.0
+      }
+    ],
+    "maximumClosureGap": 20.0,
+    "axisAllowanceDegrees": 27.0,
+    "mergeTurnAllowanceDegrees": 62.0,
+    "errorWeight": 0.45,
+    "coherentCurveBend": 18.0,
+    "edgeCost": 7.0,
+    "controlCost": 3.0,
+    "fitBasis": "Symmetric finite nearest-distance: actual selected source samples to proposal segments, and 25 samples per proposal edge to actual source polyline segments. Source and proposal RMS contribute equally.",
+    "qualification": "Authored church/upright/regularity expectations are revisable hypotheses. Complete original intervals remain retained read residue; no exact intent or learned convergence is claimed."
+  },
+  "results": [
+    {
+      "sourceId": "5743197026254848",
+      "mainProfileCounts": [
+        11,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "symmetricRms": [
+        1.8466219953749143,
+        2.117089736912633,
+        4.679255332924325,
+        10.368995381865135,
+        10.45467079708217,
+        10.45467079708217,
+        8.81976759234554
+      ],
+      "retainedDetailProfiles": 0,
+      "accepted": 14,
+      "rejected": 1,
+      "viewHypothesis": {
+        "kind": "front",
+        "reason": "No sufficiently supported exterior depth plane; frontal regularity is the current hypothesis.",
+        "supportEdgeIds": [
+          "proposal-0015",
+          "proposal-0016",
+          "proposal-0017"
+        ],
+        "frontEdgeIds": [
+          "proposal-0015",
+          "proposal-0016",
+          "proposal-0017"
+        ],
+        "frontBounds": [
+          132.6829268292683,
+          277.07317073170736,
+          369.9512195121951,
+          468.2926829268293
+        ],
+        "mainStrokeIndex": 2,
+        "side": null,
+        "candidates": [
+          {
+            "kind": "front",
+            "support": 1.0,
+            "reason": "Upright envelope and local facade support.",
+            "supportEdgeIds": [
+              "proposal-0015",
+              "proposal-0016",
+              "proposal-0017"
+            ]
+          },
+          {
+            "kind": "oblique",
+            "support": 0.0,
+            "reason": "Exterior extent, long wall and angular roof/depth cues.",
+            "supportEdgeIds": []
+          }
+        ],
+        "qualification": "Authored view read, not learned perspective classification or a camera reconstruction.",
+        "axisInputs": [
+          {
+            "edgeId": "completion-0004",
+            "controlIndex": 1,
+            "weight": 0.5
+          },
+          {
+            "edgeId": "proposal-0016",
+            "controlIndex": 1,
+            "weight": 0.5
+          }
+        ],
+        "axisX": 251.3170731707317
+      },
+      "lateStageWeights": [
+        {
+          "originalInk": 0.015,
+          "previousInterpretation": 0.25,
+          "geometricPrior": 4.0
+        },
+        {
+          "originalInk": 0.004,
+          "previousInterpretation": 0.12,
+          "geometricPrior": 6.0
+        },
+        {
+          "originalInk": 0.001,
+          "previousInterpretation": 0.04,
+          "geometricPrior": 10.0
+        }
+      ]
+    },
+    {
+      "sourceId": "5181133614481408",
+      "mainProfileCounts": [
+        17,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "symmetricRms": [
+        1.8357468496352374,
+        1.8217588406211258,
+        6.149773466448963,
+        6.185229571108718,
+        5.554474412365716,
+        5.554474412365716,
+        11.022122060055105
+      ],
+      "retainedDetailProfiles": 0,
+      "accepted": 18,
+      "rejected": 0,
+      "viewHypothesis": {
+        "kind": "oblique",
+        "reason": "Supported exterior wall/depth marks select a local facade and a separate side plane.",
+        "supportEdgeIds": [
+          "proposal-0008",
+          "proposal-0009",
+          "proposal-0010",
+          "proposal-0015",
+          "proposal-0016",
+          "proposal-0022",
+          "proposal-0021",
+          "proposal-0005"
+        ],
+        "frontEdgeIds": [
+          "proposal-0008",
+          "proposal-0009",
+          "proposal-0010"
+        ],
+        "frontBounds": [
+          176.37687366167023,
+          287.65738758029977,
+          459.3747323340471,
+          454.5781584582441
+        ],
+        "mainStrokeIndex": 0,
+        "side": {
+          "depthSign": -1,
+          "bounds": [
+            48.308351177730174,
+            45.430406852248396,
+            217.14775160599578,
+            476.6676434126001
+          ],
+          "depth": 128.06852248394006,
+          "supportEdgeIds": [
+            "proposal-0015",
+            "proposal-0016",
+            "proposal-0022",
+            "proposal-0021",
+            "proposal-0005"
+          ],
+          "score": 0.7262711864406779
+        },
+        "candidates": [
+          {
+            "kind": "front",
+            "support": 0.2737288135593221,
+            "reason": "Upright envelope and local facade support.",
+            "supportEdgeIds": [
+              "proposal-0008",
+              "proposal-0009",
+              "proposal-0010"
+            ]
+          },
+          {
+            "kind": "oblique",
+            "support": 0.7262711864406779,
+            "reason": "Exterior extent, long wall and angular roof/depth cues.",
+            "supportEdgeIds": [
+              "proposal-0015",
+              "proposal-0016",
+              "proposal-0022",
+              "proposal-0021",
+              "proposal-0005"
+            ]
+          }
+        ],
+        "qualification": "Authored view read, not learned perspective classification or a camera reconstruction.",
+        "axisInputs": [
+          {
+            "edgeId": "completion-0004",
+            "controlIndex": 1,
+            "weight": 0.5
+          },
+          {
+            "edgeId": "proposal-0009",
+            "controlIndex": 1,
+            "weight": 0.5
+          }
+        ],
+        "axisX": 317.87580299785867
+      },
+      "lateStageWeights": [
+        {
+          "originalInk": 0.015,
+          "previousInterpretation": 0.25,
+          "geometricPrior": 4.0
+        },
+        {
+          "originalInk": 0.004,
+          "previousInterpretation": 0.12,
+          "geometricPrior": 6.0
+        },
+        {
+          "originalInk": 0.001,
+          "previousInterpretation": 0.04,
+          "geometricPrior": 10.0
+        }
+      ]
+    },
+    {
+      "sourceId": "5437095780810752",
+      "mainProfileCounts": [
+        47,
+        27,
+        27,
+        27,
+        26,
+        26,
+        26
+      ],
+      "symmetricRms": [
+        1.6726646567892522,
+        3.1526957396828514,
+        5.549498521880066,
+        5.377007138142908,
+        6.84858667517939,
+        6.84858667517939,
+        19.032477440389805
+      ],
+      "retainedDetailProfiles": 17,
+      "accepted": 22,
+      "rejected": 5,
+      "viewHypothesis": {
+        "kind": "oblique",
+        "reason": "Supported exterior wall/depth marks select a local facade and a separate side plane.",
+        "supportEdgeIds": [
+          "proposal-0023",
+          "proposal-0052",
+          "proposal-0050",
+          "proposal-0051",
+          "proposal-0053",
+          "proposal-0036",
+          "proposal-0039",
+          "proposal-0040"
+        ],
+        "frontEdgeIds": [
+          "proposal-0023",
+          "proposal-0052",
+          "proposal-0050",
+          "proposal-0051",
+          "proposal-0053"
+        ],
+        "frontBounds": [
+          32.0,
+          34.81761006289307,
+          242.69461914744943,
+          474.36477987421387
+        ],
+        "mainStrokeIndex": 0,
+        "side": {
+          "depthSign": 1,
+          "bounds": [
+            228.29350104821805,
+            134.3731656184486,
+            478.70226528375923,
+            474.1464693326849
+          ],
+          "depth": 236.0076461363098,
+          "supportEdgeIds": [
+            "proposal-0036",
+            "proposal-0039",
+            "proposal-0040"
+          ],
+          "score": 1.0
+        },
+        "candidates": [
+          {
+            "kind": "front",
+            "support": 0.0,
+            "reason": "Upright envelope and local facade support.",
+            "supportEdgeIds": [
+              "proposal-0023",
+              "proposal-0052",
+              "proposal-0050",
+              "proposal-0051",
+              "proposal-0053"
+            ]
+          },
+          {
+            "kind": "oblique",
+            "support": 1.0,
+            "reason": "Exterior extent, long wall and angular roof/depth cues.",
+            "supportEdgeIds": [
+              "proposal-0036",
+              "proposal-0039",
+              "proposal-0040"
+            ]
+          }
+        ],
+        "qualification": "Authored view read, not learned perspective classification or a camera reconstruction.",
+        "axisInputs": [
+          {
+            "edgeId": "completion-0001",
+            "controlIndex": 0,
+            "weight": 0.5
+          },
+          {
+            "edgeId": "completion-0005",
+            "controlIndex": 1,
+            "weight": 0.5
+          }
+        ],
+        "axisX": 162.1416259026322
+      },
+      "lateStageWeights": [
+        {
+          "originalInk": 0.015,
+          "previousInterpretation": 0.25,
+          "geometricPrior": 4.0
+        },
+        {
+          "originalInk": 0.004,
+          "previousInterpretation": 0.12,
+          "geometricPrior": 6.0
+        },
+        {
+          "originalInk": 0.001,
+          "previousInterpretation": 0.04,
+          "geometricPrior": 10.0
+        }
+      ]
+    },
+    {
+      "sourceId": "6169132418465792",
+      "mainProfileCounts": [
+        19,
+        15,
+        14,
+        14,
+        14,
+        13,
+        13
+      ],
+      "symmetricRms": [
+        2.459187420864376,
+        2.7014592640198947,
+        6.493168578923581,
+        8.123781271745365,
+        8.123781271745365,
+        9.139778044958128,
+        47.526073114861944
+      ],
+      "retainedDetailProfiles": 0,
+      "accepted": 21,
+      "rejected": 7,
+      "viewHypothesis": {
+        "kind": "front",
+        "reason": "No sufficiently supported exterior depth plane; frontal regularity is the current hypothesis.",
+        "supportEdgeIds": [
+          "proposal-0021",
+          "proposal-0040",
+          "proposal-0039",
+          "proposal-0055",
+          "proposal-0054",
+          "proposal-0056",
+          "proposal-0032"
+        ],
+        "frontEdgeIds": [
+          "proposal-0021",
+          "proposal-0040",
+          "proposal-0039",
+          "proposal-0055",
+          "proposal-0054",
+          "proposal-0056",
+          "proposal-0032"
+        ],
+        "frontBounds": [
+          213.13777777777773,
+          179.55555555555554,
+          213.13777777777773,
+          303.1111111111111
+        ],
+        "mainStrokeIndex": 0,
+        "side": null,
+        "candidates": [
+          {
+            "kind": "front",
+            "support": 1.0,
+            "reason": "Upright envelope and local facade support.",
+            "supportEdgeIds": [
+              "proposal-0021",
+              "proposal-0040",
+              "proposal-0039",
+              "proposal-0055",
+              "proposal-0054",
+              "proposal-0056",
+              "proposal-0032"
+            ]
+          },
+          {
+            "kind": "oblique",
+            "support": 0.0,
+            "reason": "Exterior extent, long wall and angular roof/depth cues.",
+            "supportEdgeIds": []
+          }
+        ],
+        "qualification": "Authored view read, not learned perspective classification or a camera reconstruction.",
+        "axisInputs": [
+          {
+            "edgeId": "proposal-0021",
+            "controlIndex": 0,
+            "weight": 0.5
+          },
+          {
+            "edgeId": "completion-0001",
+            "controlIndex": 3,
+            "weight": 0.5
+          }
+        ],
+        "axisX": 215.30158730158732
+      },
+      "lateStageWeights": [
+        {
+          "originalInk": 0.015,
+          "previousInterpretation": 0.25,
+          "geometricPrior": 4.0
+        },
+        {
+          "originalInk": 0.004,
+          "previousInterpretation": 0.12,
+          "geometricPrior": 6.0
+        },
+        {
+          "originalInk": 0.001,
+          "previousInterpretation": 0.04,
+          "geometricPrior": 10.0
+        }
+      ]
+    },
+    {
+      "sourceId": "4578701515685888",
+      "mainProfileCounts": [
+        17,
+        14,
+        13,
+        13,
+        13,
+        9,
+        9
+      ],
+      "symmetricRms": [
+        2.046080941159393,
+        2.4049864404683023,
+        5.187684585480365,
+        5.544959344199989,
+        5.566396315162371,
+        8.256450173887636,
+        19.4288600938824
+      ],
+      "retainedDetailProfiles": 3,
+      "accepted": 24,
+      "rejected": 1,
+      "viewHypothesis": {
+        "kind": "front",
+        "reason": "No sufficiently supported exterior depth plane; frontal regularity is the current hypothesis.",
+        "supportEdgeIds": [
+          "proposal-0029",
+          "proposal-0028",
+          "proposal-0030",
+          "proposal-0032",
+          "proposal-0031",
+          "proposal-0033"
+        ],
+        "frontEdgeIds": [
+          "proposal-0029",
+          "proposal-0028",
+          "proposal-0030",
+          "proposal-0032",
+          "proposal-0031",
+          "proposal-0033"
+        ],
+        "frontBounds": [
+          50.27245077215839,
+          277.93032576222265,
+          464.4131547731282,
+          451.61626581316733
+        ],
+        "mainStrokeIndex": 0,
+        "side": null,
+        "candidates": [
+          {
+            "kind": "front",
+            "support": 1.0,
+            "reason": "Upright envelope and local facade support.",
+            "supportEdgeIds": [
+              "proposal-0029",
+              "proposal-0028",
+              "proposal-0030",
+              "proposal-0032",
+              "proposal-0031",
+              "proposal-0033"
+            ]
+          },
+          {
+            "kind": "oblique",
+            "support": 0.0,
+            "reason": "Exterior extent, long wall and angular roof/depth cues.",
+            "supportEdgeIds": []
+          }
+        ],
+        "qualification": "Authored view read, not learned perspective classification or a camera reconstruction.",
+        "axisInputs": [
+          {
+            "edgeId": "completion-0001",
+            "controlIndex": 0,
+            "weight": 0.5
+          },
+          {
+            "edgeId": "completion-0004",
+            "controlIndex": 1,
+            "weight": 0.5
+          }
+        ],
+        "axisX": 260.8425372293949
+      },
+      "lateStageWeights": [
+        {
+          "originalInk": 0.015,
+          "previousInterpretation": 0.25,
+          "geometricPrior": 4.0
+        },
+        {
+          "originalInk": 0.004,
+          "previousInterpretation": 0.12,
+          "geometricPrior": 6.0
+        },
+        {
+          "originalInk": 0.001,
+          "previousInterpretation": 0.04,
+          "geometricPrior": 10.0
+        }
+      ]
+    }
+  ],
+  "publication": "Local review and GitHub checkpoint; no website publication in this milestone.",
+  "qualification": "Authored rule-guided conceptual approximation; source difference may intentionally increase. No learned intent, nonnumeric completion or global optimum is claimed.",
+  "completionPolicy": {
+    "learned": false,
+    "selectionPolicy": "authored ordered synthesis; structural admissibility, not raw tracing improvement",
+    "nativeControlTolerance": 6,
+    "jointRadius": 36.0,
+    "maximumClusterDiameter": 58.0,
+    "schedule": [
+      {
+        "originalInk": 0.015,
+        "previousInterpretation": 0.25,
+        "geometricPrior": 4.0
+      },
+      {
+        "originalInk": 0.004,
+        "previousInterpretation": 0.12,
+        "geometricPrior": 6.0
+      },
+      {
+        "originalInk": 0.001,
+        "previousInterpretation": 0.04,
+        "geometricPrior": 10.0
+      }
+    ],
+    "qualification": "Exploratory hand-authored preferences. More distant original ink is expected, not treated as failure. View hypotheses and inferred joins are revisable; no absent cross, door or window is supplied."
+  }
+}

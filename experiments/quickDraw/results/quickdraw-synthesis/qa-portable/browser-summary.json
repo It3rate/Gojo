@@ -1,0 +1,48 @@
+{
+  "drawings": 5,
+  "passes": 35,
+  "nativePaths": 568,
+  "operations": 113,
+  "rejected": 14,
+  "roles": 77,
+  "downloads": 35,
+  "sourcesSimplified": 5,
+  "sharedJoints": 276,
+  "viewpointCandidates": 30,
+  "reviewSha256": "2e256cef6a304108aff5e755ec84081488882d460bb5ea293f06ee84adab73d9",
+  "sourceManifestSha256": "31bff248464d363304d1ce2fcaa769d3ed4c1f389b5360a62d3565265f76dd3e",
+  "archives": [
+    {
+      "programId": "quickdraw-synthesis-5743197026254848",
+      "archiveSha256": "2393fb9c6d56c48a34b015a8b7fc7a22c8799c294e18b27fb2312476ffda5323",
+      "programSha256": "ba141f79e6e4389f1c2332ede17c26ed39ed8bddf7f3746e2628c4601f33be1b"
+    },
+    {
+      "programId": "quickdraw-synthesis-5181133614481408",
+      "archiveSha256": "80091ca7347f4f06896b7608b3060b2782746dbe43a030ede9410d1e351402d2",
+      "programSha256": "92b848a767ba8ce54e8c952b116010235e037e82d4c62d6f33dea2f2b241201b"
+    },
+    {
+      "programId": "quickdraw-synthesis-5437095780810752",
+      "archiveSha256": "1cfc0603a4c6820aa57ffd48342a8d8cfa066305cc6f9a7c22fdf286b24e1424",
+      "programSha256": "e8288acaeaa0ff4aabd7c41cad8f48e16c4c150aec4251bde548799309909e33"
+    },
+    {
+      "programId": "quickdraw-synthesis-6169132418465792",
+      "archiveSha256": "0d447da26226fd0ae3afd7e66c0689a87e7b8d460de5cdae5b2e6570d9bd66ed",
+      "programSha256": "553c54fc3f31fbe5bf16c66e9cc86b882ebb20ace6e07208b595db089f8690ab"
+    },
+    {
+      "programId": "quickdraw-synthesis-4578701515685888",
+      "archiveSha256": "757493f779241c2104bb1f2801c2d246071d53073f3ed6df9df74853f1efe3c6",
+      "programSha256": "a84d01bf19acc73570713864c1c90870721daa9b33cf6612156451e0f9b2b8c6"
+    }
+  ],
+  "capturedGeometryExact": true,
+  "sourcePreserved": true,
+  "rejectedNeverApplied": true,
+  "inspectionOnly": true,
+  "mobileOverflow": false,
+  "externalRequests": 0,
+  "consoleErrors": []
+}

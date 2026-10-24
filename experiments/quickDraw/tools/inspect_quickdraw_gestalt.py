@@ -39,8 +39,8 @@ def build(observations_path, manifest_path, native_path, output, portable=False)
         observation = observed[record["sourceId"]]
         construction = normalize(run)
         passes = record["passes"]
-        if len(passes) != 4 or len(construction["rungs"]) != 4:
-            raise ValueError("The experiment requires a baseline and three native refinement passes")
+        if not passes or len(passes) != len(construction["rungs"]):
+            raise ValueError("Each interpretation stage requires its corresponding native rung")
         edges = {edge["id"]: edge for edge in construction["analysis"]["edges"]}
         sites = {site["id"]: site for site in construction["analysis"]["sites"]}
         spans = {span["id"] for span in observation["spans"]}
@@ -64,8 +64,30 @@ def build(observations_path, manifest_path, native_path, output, portable=False)
             stage.setdefault("unsupported", [])
             stage.setdefault("operations", [])
             stage.setdefault("residueEdgeIds", [])
+            stage.setdefault("jointMerges", [])
             if not set(stage["residueEdgeIds"]) <= set(rung["guideEdgeIds"]):
                 raise ValueError("Active residue detail must be retained as actual native guides")
+            for merge in stage["jointMerges"]:
+                if merge.get("status", "accepted") != "accepted":
+                    continue
+                site_id = merge["siteId"]
+                participants = merge["edgeIds"]
+                if site_id not in sites or not set(participants) <= set(rung["visibleEdgeIds"]):
+                    raise ValueError("A merged joint must name a current native site and visible participants")
+                if len(set(participants)) < 2 or any(
+                    site_id not in (edges[key]["controlSiteIds"][0], edges[key]["controlSiteIds"][-1])
+                    for key in participants
+                ):
+                    raise ValueError("Merged joint participation needs actual shared native endpoint identity")
+                if not set(merge.get("sourceSpanIds", [])) <= spans:
+                    raise ValueError("Merged joint source support must identify acquired intervals")
+            view = stage.get("view", stage.get("viewHypothesis", {}))
+            for candidate in [view, *view.get("candidates", [])]:
+                participants = candidate.get("edgeIds", candidate.get("supportEdgeIds", []))
+                if not set(participants) <= edges.keys() or any(edges[key]["at"] > index for key in participants):
+                    raise ValueError("A viewpoint read must cite available native geometry")
+                if not set(candidate.get("sourceSpanIds", [])) <= spans:
+                    raise ValueError("Viewpoint support must identify acquired intervals")
             produced_this_pass = set()
             for operation in stage["operations"]:
                 if operation["id"] in all_operation_ids or operation["status"] not in ("accepted", "rejected"):
@@ -131,6 +153,8 @@ def build(observations_path, manifest_path, native_path, output, portable=False)
                         "policy": record.get("policy", {}),
                         "sourceMapping": record.get("sourceMapping", {})})
     data = {"schema": "gojo.quickdraw-gestalt-viewer.v1", "sources": sources,
+            "title": manifest.get("title", "Finding a simpler drawing"),
+            "introduction": manifest.get("introduction", "Follow the same drawing through successive interpretations. Later stages can favor coherent construction over tracing accuracy while preserving the earlier evidence."),
             "policy": manifest.get("policy", {}),
             "sourceManifestSha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
             "qualification": "Exploratory rule-guided simplification. The saved native program owns geometry and earlier references; manifest decisions and source annotations are inspectable adapter reads."}

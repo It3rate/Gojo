@@ -61,6 +61,12 @@ outweigh tracing accuracy; the original ink, rejected proposals and suppressed
 detail remain inspectable. This is a local and GitHub experiment with authored
 priors, before learning those preferences from data.
 
+[Joint convergence and synthesis](QuickDrawSynthesis.md) adds three later
+stages to those four: nearby joints become actual shared target sites, current
+parts guide regularization, and view-aware synthesis distinguishes frontal
+symmetry from a local facade with a side parallelogram. Original-ink influence
+recedes while source evidence and earlier interpretations remain available.
+
 The first useful result is an **exact native sample-acquisition boundary plus an
 inspectable measured fitting experiment**. The full acquisition-to-concept
 converter is not complete. No prior was trained in this initial acquisition

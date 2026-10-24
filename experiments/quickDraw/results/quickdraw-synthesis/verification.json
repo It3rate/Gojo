@@ -1,0 +1,721 @@
+{
+  "schema": "gojo.quickdraw-synthesis-audit.v1",
+  "passed": true,
+  "drawings": 5,
+  "rungs": 35,
+  "results": [
+    {
+      "sourceId": "5743197026254848",
+      "sourceStrokeCount": 5,
+      "sourcePointCount": 118,
+      "sourceSpanCount": 11,
+      "consecutiveDuplicateSamples": 1,
+      "backwardsTimeSteps": 0,
+      "scope": "Preserved acquired stroke/sample/time order and complete source-span partition; no intent claim.",
+      "preservedPrefix": {
+        "acceptedPatches": 10,
+        "rejectedPatches": 1,
+        "passes": [
+          {
+            "pass": 0,
+            "edges": 11,
+            "residueEdges": 0,
+            "accepted": 0,
+            "rejected": 0
+          },
+          {
+            "pass": 1,
+            "edges": 8,
+            "residueEdges": 0,
+            "accepted": 3,
+            "rejected": 1
+          },
+          {
+            "pass": 2,
+            "edges": 8,
+            "residueEdges": 0,
+            "accepted": 5,
+            "rejected": 0
+          },
+          {
+            "pass": 3,
+            "edges": 8,
+            "residueEdges": 0,
+            "accepted": 2,
+            "rejected": 0
+          }
+        ]
+      },
+      "mapping": [
+        {
+          "pass": 0,
+          "activeTargets": 11,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 1,
+          "activeTargets": 8,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 2,
+          "activeTargets": 8,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 3,
+          "activeTargets": 8,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 4,
+          "activeTargets": 8,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 5,
+          "activeTargets": 8,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 6,
+          "activeTargets": 8,
+          "matchedIntervals": 11,
+          "unmatchedIntervals": 0
+        }
+      ],
+      "maximumProposalControlDisplacement": 1.3866152686287343,
+      "standaloneAffineReplay": true,
+      "lateAcceptedPatches": 4,
+      "lateRejectedPatches": 0,
+      "lateBoundSites": 17,
+      "synthesisPasses": [
+        {
+          "pass": 4,
+          "edges": 8,
+          "residueEdges": 0,
+          "accepted": 1,
+          "rejected": 0,
+          "view": {
+            "kind": "front",
+            "retainedAlternatives": 2,
+            "supportProfiles": 3
+          }
+        },
+        {
+          "pass": 5,
+          "edges": 8,
+          "residueEdges": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "view": {
+            "kind": "front",
+            "retainedAlternatives": 2,
+            "supportProfiles": 3
+          }
+        },
+        {
+          "pass": 6,
+          "edges": 8,
+          "residueEdges": 0,
+          "accepted": 3,
+          "rejected": 0,
+          "view": {
+            "kind": "front",
+            "retainedAlternatives": 2,
+            "supportProfiles": 3
+          }
+        }
+      ],
+      "lateNativeControlTolerance": 6,
+      "nativeExactReflectionPairs": 2,
+      "nativeAxisRectangles": 1,
+      "nativeSideParallelograms": 0,
+      "native": {
+        "program": "quickdraw-synthesis-5743197026254848",
+        "rungs": 7,
+        "checks": 3247,
+        "sites": 293,
+        "edges": 70,
+        "nativeReplayVerified": true
+      }
+    },
+    {
+      "sourceId": "5181133614481408",
+      "sourceStrokeCount": 9,
+      "sourcePointCount": 326,
+      "sourceSpanCount": 17,
+      "consecutiveDuplicateSamples": 3,
+      "backwardsTimeSteps": 0,
+      "scope": "Preserved acquired stroke/sample/time order and complete source-span partition; no intent claim.",
+      "preservedPrefix": {
+        "acceptedPatches": 12,
+        "rejectedPatches": 0,
+        "passes": [
+          {
+            "pass": 0,
+            "edges": 17,
+            "residueEdges": 0,
+            "accepted": 0,
+            "rejected": 0
+          },
+          {
+            "pass": 1,
+            "edges": 16,
+            "residueEdges": 0,
+            "accepted": 1,
+            "rejected": 0
+          },
+          {
+            "pass": 2,
+            "edges": 16,
+            "residueEdges": 0,
+            "accepted": 9,
+            "rejected": 0
+          },
+          {
+            "pass": 3,
+            "edges": 16,
+            "residueEdges": 0,
+            "accepted": 2,
+            "rejected": 0
+          }
+        ]
+      },
+      "mapping": [
+        {
+          "pass": 0,
+          "activeTargets": 17,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 1,
+          "activeTargets": 16,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 2,
+          "activeTargets": 16,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 3,
+          "activeTargets": 16,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 4,
+          "activeTargets": 16,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 5,
+          "activeTargets": 16,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 6,
+          "activeTargets": 16,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        }
+      ],
+      "maximumProposalControlDisplacement": 1.6671469823750886,
+      "standaloneAffineReplay": true,
+      "lateAcceptedPatches": 6,
+      "lateRejectedPatches": 0,
+      "lateBoundSites": 30,
+      "synthesisPasses": [
+        {
+          "pass": 4,
+          "edges": 16,
+          "residueEdges": 0,
+          "accepted": 1,
+          "rejected": 0,
+          "view": {
+            "kind": "oblique",
+            "retainedAlternatives": 2,
+            "supportProfiles": 8
+          }
+        },
+        {
+          "pass": 5,
+          "edges": 16,
+          "residueEdges": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "view": {
+            "kind": "oblique",
+            "retainedAlternatives": 2,
+            "supportProfiles": 8
+          }
+        },
+        {
+          "pass": 6,
+          "edges": 16,
+          "residueEdges": 0,
+          "accepted": 5,
+          "rejected": 0,
+          "view": {
+            "kind": "oblique",
+            "retainedAlternatives": 2,
+            "supportProfiles": 8
+          }
+        }
+      ],
+      "lateNativeControlTolerance": 6,
+      "nativeExactReflectionPairs": 2,
+      "nativeAxisRectangles": 1,
+      "nativeSideParallelograms": 1,
+      "native": {
+        "program": "quickdraw-synthesis-5181133614481408",
+        "rungs": 7,
+        "checks": 4413,
+        "sites": 427,
+        "edges": 97,
+        "nativeReplayVerified": true
+      }
+    },
+    {
+      "sourceId": "5437095780810752",
+      "sourceStrokeCount": 17,
+      "sourcePointCount": 381,
+      "sourceSpanCount": 47,
+      "consecutiveDuplicateSamples": 6,
+      "backwardsTimeSteps": 0,
+      "scope": "Preserved acquired stroke/sample/time order and complete source-span partition; no intent claim.",
+      "preservedPrefix": {
+        "acceptedPatches": 17,
+        "rejectedPatches": 5,
+        "passes": [
+          {
+            "pass": 0,
+            "edges": 47,
+            "residueEdges": 0,
+            "accepted": 0,
+            "rejected": 0
+          },
+          {
+            "pass": 1,
+            "edges": 27,
+            "residueEdges": 16,
+            "accepted": 5,
+            "rejected": 0
+          },
+          {
+            "pass": 2,
+            "edges": 27,
+            "residueEdges": 16,
+            "accepted": 11,
+            "rejected": 2
+          },
+          {
+            "pass": 3,
+            "edges": 27,
+            "residueEdges": 16,
+            "accepted": 1,
+            "rejected": 3
+          }
+        ]
+      },
+      "mapping": [
+        {
+          "pass": 0,
+          "activeTargets": 47,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 1,
+          "activeTargets": 43,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 2,
+          "activeTargets": 43,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 3,
+          "activeTargets": 43,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 4,
+          "activeTargets": 43,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 5,
+          "activeTargets": 43,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 6,
+          "activeTargets": 43,
+          "matchedIntervals": 47,
+          "unmatchedIntervals": 0
+        }
+      ],
+      "maximumProposalControlDisplacement": 2.1795261784340054,
+      "standaloneAffineReplay": true,
+      "lateAcceptedPatches": 5,
+      "lateRejectedPatches": 0,
+      "lateBoundSites": 34,
+      "synthesisPasses": [
+        {
+          "pass": 4,
+          "edges": 26,
+          "residueEdges": 17,
+          "accepted": 2,
+          "rejected": 0,
+          "view": {
+            "kind": "oblique",
+            "retainedAlternatives": 2,
+            "supportProfiles": 8
+          }
+        },
+        {
+          "pass": 5,
+          "edges": 26,
+          "residueEdges": 17,
+          "accepted": 0,
+          "rejected": 0,
+          "view": {
+            "kind": "oblique",
+            "retainedAlternatives": 2,
+            "supportProfiles": 8
+          }
+        },
+        {
+          "pass": 6,
+          "edges": 26,
+          "residueEdges": 17,
+          "accepted": 3,
+          "rejected": 0,
+          "view": {
+            "kind": "oblique",
+            "retainedAlternatives": 2,
+            "supportProfiles": 8
+          }
+        }
+      ],
+      "lateNativeControlTolerance": 6,
+      "nativeExactReflectionPairs": 2,
+      "nativeAxisRectangles": 0,
+      "nativeSideParallelograms": 1,
+      "native": {
+        "program": "quickdraw-synthesis-5437095780810752",
+        "rungs": 7,
+        "checks": 7799,
+        "sites": 652,
+        "edges": 127,
+        "nativeReplayVerified": true
+      }
+    },
+    {
+      "sourceId": "6169132418465792",
+      "sourceStrokeCount": 8,
+      "sourcePointCount": 329,
+      "sourceSpanCount": 19,
+      "consecutiveDuplicateSamples": 1,
+      "backwardsTimeSteps": 0,
+      "scope": "Preserved acquired stroke/sample/time order and complete source-span partition; no intent claim.",
+      "preservedPrefix": {
+        "acceptedPatches": 15,
+        "rejectedPatches": 7,
+        "passes": [
+          {
+            "pass": 0,
+            "edges": 19,
+            "residueEdges": 0,
+            "accepted": 0,
+            "rejected": 0
+          },
+          {
+            "pass": 1,
+            "edges": 15,
+            "residueEdges": 0,
+            "accepted": 4,
+            "rejected": 0
+          },
+          {
+            "pass": 2,
+            "edges": 14,
+            "residueEdges": 0,
+            "accepted": 6,
+            "rejected": 4
+          },
+          {
+            "pass": 3,
+            "edges": 14,
+            "residueEdges": 0,
+            "accepted": 5,
+            "rejected": 3
+          }
+        ]
+      },
+      "mapping": [
+        {
+          "pass": 0,
+          "activeTargets": 19,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 1,
+          "activeTargets": 15,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 2,
+          "activeTargets": 14,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 3,
+          "activeTargets": 14,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 4,
+          "activeTargets": 14,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 5,
+          "activeTargets": 13,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 6,
+          "activeTargets": 13,
+          "matchedIntervals": 19,
+          "unmatchedIntervals": 0
+        }
+      ],
+      "maximumProposalControlDisplacement": 3.0402946302060103,
+      "standaloneAffineReplay": true,
+      "lateAcceptedPatches": 6,
+      "lateRejectedPatches": 0,
+      "lateBoundSites": 39,
+      "synthesisPasses": [
+        {
+          "pass": 4,
+          "edges": 14,
+          "residueEdges": 0,
+          "accepted": 0,
+          "rejected": 0,
+          "view": {
+            "kind": "front",
+            "retainedAlternatives": 2,
+            "supportProfiles": 7
+          }
+        },
+        {
+          "pass": 5,
+          "edges": 13,
+          "residueEdges": 0,
+          "accepted": 1,
+          "rejected": 0,
+          "view": {
+            "kind": "front",
+            "retainedAlternatives": 2,
+            "supportProfiles": 7
+          }
+        },
+        {
+          "pass": 6,
+          "edges": 13,
+          "residueEdges": 0,
+          "accepted": 5,
+          "rejected": 0,
+          "view": {
+            "kind": "front",
+            "retainedAlternatives": 2,
+            "supportProfiles": 7
+          }
+        }
+      ],
+      "lateNativeControlTolerance": 6,
+      "nativeExactReflectionPairs": 9,
+      "nativeAxisRectangles": 0,
+      "nativeSideParallelograms": 0,
+      "native": {
+        "program": "quickdraw-synthesis-6169132418465792",
+        "rungs": 7,
+        "checks": 6671,
+        "sites": 765,
+        "edges": 85,
+        "nativeReplayVerified": true
+      }
+    },
+    {
+      "sourceId": "4578701515685888",
+      "sourceStrokeCount": 8,
+      "sourcePointCount": 141,
+      "sourceSpanCount": 17,
+      "consecutiveDuplicateSamples": 4,
+      "backwardsTimeSteps": 0,
+      "scope": "Preserved acquired stroke/sample/time order and complete source-span partition; no intent claim.",
+      "preservedPrefix": {
+        "acceptedPatches": 16,
+        "rejectedPatches": 1,
+        "passes": [
+          {
+            "pass": 0,
+            "edges": 17,
+            "residueEdges": 0,
+            "accepted": 0,
+            "rejected": 0
+          },
+          {
+            "pass": 1,
+            "edges": 14,
+            "residueEdges": 0,
+            "accepted": 3,
+            "rejected": 0
+          },
+          {
+            "pass": 2,
+            "edges": 13,
+            "residueEdges": 0,
+            "accepted": 10,
+            "rejected": 1
+          },
+          {
+            "pass": 3,
+            "edges": 13,
+            "residueEdges": 0,
+            "accepted": 3,
+            "rejected": 0
+          }
+        ]
+      },
+      "mapping": [
+        {
+          "pass": 0,
+          "activeTargets": 17,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 1,
+          "activeTargets": 14,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 2,
+          "activeTargets": 13,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 3,
+          "activeTargets": 13,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 4,
+          "activeTargets": 13,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 5,
+          "activeTargets": 12,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        },
+        {
+          "pass": 6,
+          "activeTargets": 12,
+          "matchedIntervals": 17,
+          "unmatchedIntervals": 0
+        }
+      ],
+      "maximumProposalControlDisplacement": 1.4911834496437535,
+      "standaloneAffineReplay": true,
+      "lateAcceptedPatches": 8,
+      "lateRejectedPatches": 0,
+      "lateBoundSites": 32,
+      "synthesisPasses": [
+        {
+          "pass": 4,
+          "edges": 13,
+          "residueEdges": 0,
+          "accepted": 1,
+          "rejected": 0,
+          "view": {
+            "kind": "front",
+            "retainedAlternatives": 2,
+            "supportProfiles": 6
+          }
+        },
+        {
+          "pass": 5,
+          "edges": 9,
+          "residueEdges": 3,
+          "accepted": 4,
+          "rejected": 0,
+          "view": {
+            "kind": "front",
+            "retainedAlternatives": 2,
+            "supportProfiles": 6
+          }
+        },
+        {
+          "pass": 6,
+          "edges": 9,
+          "residueEdges": 3,
+          "accepted": 3,
+          "rejected": 0,
+          "view": {
+            "kind": "front",
+            "retainedAlternatives": 2,
+            "supportProfiles": 6
+          }
+        }
+      ],
+      "lateNativeControlTolerance": 6,
+      "nativeExactReflectionPairs": 4,
+      "nativeAxisRectangles": 0,
+      "nativeSideParallelograms": 0,
+      "native": {
+        "program": "quickdraw-synthesis-4578701515685888",
+        "rungs": 7,
+        "checks": 4831,
+        "sites": 488,
+        "edges": 76,
+        "nativeReplayVerified": true
+      }
+    }
+  ],
+  "sourceSha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042",
+  "programSha256": "4fed8860dea59dc9af4a2f7cc980b461b03603548f0dc76e2d17f604f0d60e44",
+  "scope": "Independent exact acquisition and interval preservation, original interpretation preservation, declared late affine joint identities and dependencies, conceptual-basis diagnostics, source/target accounting and standalone native replay. Authored exploratory priors; no learned, optimal or recovered-intent claim."
+}

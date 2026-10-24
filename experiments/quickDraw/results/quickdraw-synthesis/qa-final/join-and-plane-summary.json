@@ -1,0 +1,50 @@
+{
+  "sourceManifestSha256": "31bff248464d363304d1ce2fcaa769d3ed4c1f389b5360a62d3565265f76dd3e",
+  "inspectorSha256": "5bd6490b852f3b54382d18b97220d15f55f99428219490a7a44ae93df20b8f91",
+  "roofWallCorners": [
+    {
+      "siteId": "r6-completion-patch-0002-binding-0",
+      "incidentEdges": [
+        "g-completion-0012",
+        "g-completion-0011",
+        "g-completion-0006"
+      ]
+    },
+    {
+      "siteId": "r6-completion-patch-0002-mirrored-site-0",
+      "incidentEdges": [
+        "g-completion-0013",
+        "g-completion-0011",
+        "g-completion-0008"
+      ]
+    }
+  ],
+  "sidePlane": {
+    "edgeIds": [
+      "g-completion-0021",
+      "g-completion-0022",
+      "g-completion-0023",
+      "g-completion-0010"
+    ],
+    "sharedCornerSites": [
+      "r6-completion-patch-0004-binding-1",
+      "r6-completion-patch-0002-binding-0",
+      "r6-completion-patch-0004-parallel-corner-0",
+      "r6-completion-patch-0002-rectangle-bl-0"
+    ],
+    "oppositeVectors": [
+      [
+        119,
+        -3
+      ],
+      [
+        119,
+        -3
+      ]
+    ],
+    "outerWallCandidates": [
+      "g-completion-0022"
+    ],
+    "closedByActualSiteIdentity": true
+  }
+}

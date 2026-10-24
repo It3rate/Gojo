@@ -1,0 +1,215 @@
+{
+  "schema": "gojo.quickdraw-review-artifact-hashes.v1",
+  "scope": "Core acquired, recipe, proposal, native, local/portable review and completed browser artifacts; the independently generated verification report is outside this file set.",
+  "localPortableProgramsMatch": true,
+  "files": {
+    "manifest.json": {
+      "bytes": 976826,
+      "sha256": "31bff248464d363304d1ce2fcaa769d3ed4c1f389b5360a62d3565265f76dd3e"
+    },
+    "native/001.construction.gojo.json": {
+      "bytes": 8996511,
+      "sha256": "540bffc2d6248b58ee6d684c746b6a9fa79d07492f489eaaa8281ced35030f6b"
+    },
+    "native/001.program.gojo.json": {
+      "bytes": 2239007,
+      "sha256": "ba141f79e6e4389f1c2332ede17c26ed39ed8bddf7f3746e2628c4601f33be1b"
+    },
+    "native/002.construction.gojo.json": {
+      "bytes": 12973207,
+      "sha256": "01b259f3261bdf55e4b4c67530a245592ca4a2402d0125df5edefd14a9a22b8e"
+    },
+    "native/002.program.gojo.json": {
+      "bytes": 3242762,
+      "sha256": "92b848a767ba8ce54e8c952b116010235e037e82d4c62d6f33dea2f2b241201b"
+    },
+    "native/003.construction.gojo.json": {
+      "bytes": 19551812,
+      "sha256": "a3e136939996a21398e97e83427c805f687dfaba79d0dc29a8a7008afe8a020f"
+    },
+    "native/003.program.gojo.json": {
+      "bytes": 4889552,
+      "sha256": "e8288acaeaa0ff4aabd7c41cad8f48e16c4c150aec4251bde548799309909e33"
+    },
+    "native/004.construction.gojo.json": {
+      "bytes": 22285443,
+      "sha256": "e9d16a81cbee86676b3a02ad682a8f441feb243edbd45282166a3af5b9f45086"
+    },
+    "native/004.program.gojo.json": {
+      "bytes": 5484658,
+      "sha256": "553c54fc3f31fbe5bf16c66e9cc86b882ebb20ace6e07208b595db089f8690ab"
+    },
+    "native/005.construction.gojo.json": {
+      "bytes": 14461658,
+      "sha256": "9616cbf78ba4d4eeec9653f0e078c9a4a6f846fc86a024bd08e07135995bc9a6"
+    },
+    "native/005.program.gojo.json": {
+      "bytes": 3590046,
+      "sha256": "a84d01bf19acc73570713864c1c90870721daa9b33cf6612156451e0f9b2b8c6"
+    },
+    "native/inspector.ndjson": {
+      "bytes": 3857837,
+      "sha256": "5bd6490b852f3b54382d18b97220d15f55f99428219490a7a44ae93df20b8f91"
+    },
+    "native/summary.json": {
+      "bytes": 2782,
+      "sha256": "c52823beb932152f4e88734f1df45ed2d48e618ecd512002e36960619653f018"
+    },
+    "native-evidence/001.gestalt.gojo.json": {
+      "bytes": 3147297,
+      "sha256": "e80624c6f567d71c4b6671bf587685fadfb8fdeeb50fd52d4ccc3ec595572b77"
+    },
+    "native-evidence/002.gestalt.gojo.json": {
+      "bytes": 5296267,
+      "sha256": "4102bc01d7f25c1a308a57b370def84011664fc130caa47b567e99cb79c79d62"
+    },
+    "native-evidence/003.gestalt.gojo.json": {
+      "bytes": 8240684,
+      "sha256": "a59029a76b5c7e2d967615c53dd1980dbbde6dcb67ee5b34fa7bb00a253d3330"
+    },
+    "native-evidence/004.gestalt.gojo.json": {
+      "bytes": 7526350,
+      "sha256": "fba3e93115b1de1a8b291539f1d355f319856551e7f0e0d8e54fb69b7a838852"
+    },
+    "native-evidence/005.gestalt.gojo.json": {
+      "bytes": 4792321,
+      "sha256": "b91a3ccaef673d537822466f171d844c9d6892a725add4213d5359aa2d0d7add"
+    },
+    "native-evidence/summary.json": {
+      "bytes": 14526,
+      "sha256": "d57768a20b7493ec4b0c0f838b711fdbc7e0c88b60390d26f7a824db5dffa408"
+    },
+    "observations.ndjson": {
+      "bytes": 169337,
+      "sha256": "cb727018962126236732be32ac300b1e0269890e92c2493cc0d60b027251b229"
+    },
+    "packets.ndjson": {
+      "bytes": 2541208,
+      "sha256": "10308d79e07ec167af21cd240a0ff642c5ecc2e52f7729e6e160d01b931e4822"
+    },
+    "programs.ndjson": {
+      "bytes": 1099007,
+      "sha256": "4fed8860dea59dc9af4a2f7cc980b461b03603548f0dc76e2d17f604f0d60e44"
+    },
+    "proposals.ndjson": {
+      "bytes": 1222521,
+      "sha256": "c3ca78babb54fd236e7ff95c5441a563de575900ed18be4ae0a3c5b0866032d6"
+    },
+    "qa-final/4578701515685888-comparison.png": {
+      "bytes": 25430,
+      "sha256": "03720a3d533acd4a211324dd19e80fc823e8cbd5226ccb23c4e8483f20b8e9a4"
+    },
+    "qa-final/4578701515685888.png": {
+      "bytes": 262811,
+      "sha256": "f686617205cf40ed2b80a17e359fd5fd8a108cb0b666db8f5de879191f0fa96f"
+    },
+    "qa-final/5181133614481408-comparison.png": {
+      "bytes": 23195,
+      "sha256": "662cc9a434d7aa99d9e4e6ba0d9ba8e020e9e051983bd1c2b2fa2c4c42a46b88"
+    },
+    "qa-final/5181133614481408.png": {
+      "bytes": 278113,
+      "sha256": "2816e8144fb539dc0d52e5a39e580ecb3e52a2e41707066d7c98eb4f95612fe4"
+    },
+    "qa-final/5437095780810752-comparison.png": {
+      "bytes": 35016,
+      "sha256": "8f58f0651c99b61ae923667e81771467b20321d65b77fcd951e9912696b5698f"
+    },
+    "qa-final/5437095780810752.png": {
+      "bytes": 287558,
+      "sha256": "ab967558ca822f211bfebed51c25815ecffd0f5df8962eb71e45de2ea6286415"
+    },
+    "qa-final/5743197026254848-comparison.png": {
+      "bytes": 17149,
+      "sha256": "ca9ed50731269b8e2e67676c8b00de5fa76eeab2823b1f1b346527abd258dafc"
+    },
+    "qa-final/5743197026254848.png": {
+      "bytes": 253875,
+      "sha256": "95f681e6d72d1213dbee8aa3871882d9623e647c2eaa860dae9eb31f3fe82385"
+    },
+    "qa-final/6169132418465792-comparison.png": {
+      "bytes": 32827,
+      "sha256": "037eaf57a45e6012cc39087fdfe86ce77523a11739bb90fec3bec33bed938525"
+    },
+    "qa-final/6169132418465792.png": {
+      "bytes": 286661,
+      "sha256": "2337004e8eb27c313ef874ed220390d6a7c5b71ffd89fc509ac5a4d645429aca"
+    },
+    "qa-final/browser-summary.json": {
+      "bytes": 1867,
+      "sha256": "fcf94237ac99022d51ea8511cde75f5eb1196ab42d3fd3d10e5af10a3e4640df"
+    },
+    "qa-final/join-and-plane-summary.json": {
+      "bytes": 1230,
+      "sha256": "63a5b45daebea424c7aa6bab25ae9e2fa33bdd04c7c49e528bfe881fd1639712"
+    },
+    "qa-final/mobile.png": {
+      "bytes": 180676,
+      "sha256": "b494de582764f0ff69e89d89622a1bded938c3f89a9fef74999a7c2b97049bd2"
+    },
+    "qa-portable/4578701515685888.png": {
+      "bytes": 262811,
+      "sha256": "f686617205cf40ed2b80a17e359fd5fd8a108cb0b666db8f5de879191f0fa96f"
+    },
+    "qa-portable/5181133614481408.png": {
+      "bytes": 278113,
+      "sha256": "2816e8144fb539dc0d52e5a39e580ecb3e52a2e41707066d7c98eb4f95612fe4"
+    },
+    "qa-portable/5437095780810752.png": {
+      "bytes": 287558,
+      "sha256": "ab967558ca822f211bfebed51c25815ecffd0f5df8962eb71e45de2ea6286415"
+    },
+    "qa-portable/5743197026254848.png": {
+      "bytes": 253874,
+      "sha256": "8a72dbc96270cd2e27acf50a52cd1e6cacf56526a9cf422749f5d4348b3b1309"
+    },
+    "qa-portable/6169132418465792.png": {
+      "bytes": 286661,
+      "sha256": "2337004e8eb27c313ef874ed220390d6a7c5b71ffd89fc509ac5a4d645429aca"
+    },
+    "qa-portable/browser-summary.json": {
+      "bytes": 1867,
+      "sha256": "b45e0b183af69abc443632026ff628d435a6ca2b74c33b8ee10440b32cadc515"
+    },
+    "qa-portable/mobile.png": {
+      "bytes": 180676,
+      "sha256": "b494de582764f0ff69e89d89622a1bded938c3f89a9fef74999a7c2b97049bd2"
+    },
+    "review/archives/quickdraw-synthesis-4578701515685888.gojo.json.gz": {
+      "bytes": 233405,
+      "sha256": "757493f779241c2104bb1f2801c2d246071d53073f3ed6df9df74853f1efe3c6"
+    },
+    "review/archives/quickdraw-synthesis-5181133614481408.gojo.json.gz": {
+      "bytes": 212455,
+      "sha256": "80091ca7347f4f06896b7608b3060b2782746dbe43a030ede9410d1e351402d2"
+    },
+    "review/archives/quickdraw-synthesis-5437095780810752.gojo.json.gz": {
+      "bytes": 316716,
+      "sha256": "1cfc0603a4c6820aa57ffd48342a8d8cfa066305cc6f9a7c22fdf286b24e1424"
+    },
+    "review/archives/quickdraw-synthesis-5743197026254848.gojo.json.gz": {
+      "bytes": 146782,
+      "sha256": "2393fb9c6d56c48a34b015a8b7fc7a22c8799c294e18b27fb2312476ffda5323"
+    },
+    "review/archives/quickdraw-synthesis-6169132418465792.gojo.json.gz": {
+      "bytes": 354875,
+      "sha256": "0d447da26226fd0ae3afd7e66c0689a87e7b8d460de5cdae5b2e6570d9bd66ed"
+    },
+    "review/index.html": {
+      "bytes": 2312195,
+      "sha256": "2e256cef6a304108aff5e755ec84081488882d460bb5ea293f06ee84adab73d9"
+    },
+    "review/public-files.json": {
+      "bytes": 378,
+      "sha256": "d620fcbe3cfe0c15c7742eabc1c0e4c290c45e1ad8600b2d5ef6d3e46eeb4b12"
+    },
+    "review.html": {
+      "bytes": 2312280,
+      "sha256": "5386010585893ba60697c5f8d1fa8bad1054b8d10381152d3704498d46dd2fa0"
+    },
+    "selected.ndjson": {
+      "bytes": 24954,
+      "sha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042"
+    }
+  }
+}

@@ -59,6 +59,12 @@ def retain(source, destination):
             "accepted": row["convergence"]["accepted"], "rejected": sum(step["convergence"]["rejected"] for step in row["steps"])} for row in proposals],
         "publication": "Local review and GitHub checkpoint; no website publication in this milestone.",
         "qualification": "Authored rule-guided conceptual approximation; source difference may intentionally increase. No learned intent, nonnumeric completion or global optimum is claimed."}
+    if any("completionPolicy" in row for row in proposals):
+        summary["schema"] = "gojo.quickdraw-synthesis-checkpoint.v1"
+        summary["completionPolicy"] = proposals[0]["completionPolicy"]
+        for result, row in zip(summary["results"], proposals):
+            result["viewHypothesis"] = row["steps"][-1].get("viewHypothesis", {})
+            result["lateStageWeights"] = [step.get("policyWeights", {}) for step in row["steps"][4:]]
     (destination/"checkpoint-summary.json").write_text(json.dumps(summary, indent=2)+"\n", encoding="utf-8")
     inventory = [{"path": str(path.relative_to(destination)).replace("\\", "/"), "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
         for path in sorted(destination.rglob("*")) if path.is_file() and path.name != "file-manifest.json"]

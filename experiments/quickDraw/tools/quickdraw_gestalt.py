@@ -2,11 +2,12 @@
 
 The geometry adapter makes revisable local decisions. This author retains actual
 input controls, primitive engines, intermediate replacements and acquired ink;
-the saved native program alone executes all four construction passes.
+the saved native program alone executes every construction stage.
 """
 from __future__ import annotations
 
 import argparse
+from fractions import Fraction
 import json
 from pathlib import Path
 
@@ -22,7 +23,11 @@ class Author:
     def __init__(self, observation, proposal):
         self.observation, self.proposal = observation, proposal
         self.recipe = Recipe("quickdraw-gestalt-"+observation["sourceId"], "Church "+observation["sourceId"]+" · simplification")
+        if len(proposal["steps"]) > 4:
+            self.recipe.data["id"] = "quickdraw-synthesis-"+observation["sourceId"]
+            self.recipe.data["family"] = self.recipe.data["id"]
         self.positions, self.edges, self.aliases, self.endpoints = {}, {}, {}, {}
+        self.synthesis_rows, self.binding_axes = [], {}
         self.serial = 0
 
     def point(self, key, x, y):
@@ -66,6 +71,82 @@ class Author:
     def controls(self, engine_id):
         return self.edges[self.aliases[engine_id]]["controls"]
 
+    def weighted_site(self, key, inputs):
+        """An affine combination of actual consumed controls, with native residue."""
+        selected = [(self.controls(item["edgeId"])[item["controlIndex"]], Fraction(str(item.get("weight", 1))))
+                    for item in inputs if item.get("weight", 1) != 0]
+        if not selected:
+            raise ValueError("A synthesis binding needs actual participating controls")
+        total = sum(weight for _, weight in selected)
+        if total == 0:
+            raise ValueError("An affine coordinate cannot use a zero normalization")
+        first = prior = selected[0][0]
+        for i, (site, weight) in enumerate(selected[1:]):
+            fraction = weight/total
+            prior = self.point(f"{key}-term-{i}",
+                loc(first, site, fraction.numerator, fraction.denominator, prior),
+                loc(first, site, fraction.numerator, fraction.denominator, prior))
+        return prior
+
+    def axis_site(self, key, inputs):
+        coefficients = {}
+        for item in inputs:
+            site = self.controls(item["edgeId"])[item["controlIndex"]]
+            coefficients[site] = coefficients.get(site, Fraction(0))+Fraction(str(item.get("weight", 1)))
+        total = sum(coefficients.values())
+        signature = tuple(sorted((site, str(weight/total)) for site, weight in coefficients.items() if weight))
+        token = (self.recipe.at, signature)
+        if token not in self.binding_axes:
+            self.binding_axes[token] = self.weighted_site(key, inputs)
+        return self.binding_axes[token]
+
+    def bind_sites(self, key, construction):
+        bound, descriptions = {}, []
+        for i, binding in enumerate(construction.get("endpointBindings", [])):
+            name = key+f"-binding-{i}"
+            inputs = binding.get("inputs", [])
+            if binding.get("mode") == "mirror" and "axisInputs" in binding and "xInputs" not in binding and "yInputs" not in binding:
+                source = self.weighted_site(name+"-source", inputs)
+                axis = self.axis_site(name+"-axis", binding["axisInputs"])
+                site = self.point(name, loc(source, axis, 1, 1, axis), loc(source))
+            elif "xInputs" in binding or "yInputs" in binding:
+                x = self.weighted_site(name+"-x", binding.get("xInputs", inputs))
+                y = self.weighted_site(name+"-y", binding.get("yInputs", inputs))
+                site = x if x == y else self.point(name, loc(x), loc(y))
+            else:
+                site = self.weighted_site(name, inputs)
+            bound[binding["targetSiteKey"]] = site
+            descriptions.append({"targetSiteKey": binding["targetSiteKey"], "siteId": site, "mode": binding.get("mode", "affine")})
+        pairs = []
+        pair_keys = set()
+        for i, frame in enumerate(construction.get("axisRectangles", [])):
+            tl, br = bound[frame["topLeftSiteKey"]], bound[frame["bottomRightSiteKey"]]
+            bound[frame["topRightSiteKey"]] = self.point(key+f"-rectangle-tr-{i}", loc(br), loc(tl))
+            bound[frame["bottomLeftSiteKey"]] = self.point(key+f"-rectangle-bl-{i}", loc(tl), loc(br))
+        for i, pair in enumerate(construction.get("symmetryPairs", [])):
+            first = bound[pair["firstSiteKey"]]
+            axis = self.axis_site(key+f"-symmetry-axis-{i}", pair["axisInputs"])
+            token = (pair["firstSiteKey"], pair["secondSiteKey"], axis)
+            if token in pair_keys:
+                continue
+            pair_keys.add(token)
+            second = self.point(key+f"-mirrored-site-{i}", loc(first, axis, 1, 1, axis), loc(first))
+            bound[pair["secondSiteKey"]] = second
+            pairs.append({"firstSiteId": first, "secondSiteId": second, "axisSiteId": axis})
+        parallelograms = []
+        for i, frame in enumerate(construction.get("parallelograms", [])):
+            a, b, c = (bound[frame[name]] for name in ("aSiteKey", "bSiteKey", "cSiteKey"))
+            d = self.point(key+f"-parallel-corner-{i}", loc(a, b, 1, 1, c), loc(a, b, 1, 1, c))
+            bound[frame["dSiteKey"]] = d
+            parallelograms.append({"aSiteId": a, "bSiteId": b, "cSiteId": c, "dSiteId": d})
+        if bound:
+            self.synthesis_rows.append({"operationId": key, "rung": self.recipe.at,
+                "bindings": [row | {"siteId": bound[row["targetSiteKey"]]} for row in descriptions],
+                "symmetryPairs": pairs, "parallelograms": parallelograms,
+                "axisRectangles": [{name.replace("Key", "Id"): bound[site] for name, site in frame.items()}
+                                   for frame in construction.get("axisRectangles", [])]})
+        return bound
+
     def new_batch(self, operation):
         after = operation["afterEdges"]
         source_ids = operation["sourceEdgeIds"]
@@ -74,6 +155,7 @@ class Author:
             for key in edge.get("transform", {}).get("sourceEdgeIds", []):
                 refs += self.controls(key)
         key = f"r{self.recipe.at}-{operation['id']}"
+        bound_sites = self.bind_sites(key, operation.get("construction", {}))
         targets = [p for edge in after for p in edge["controls"]]
         if not targets:
             return
@@ -135,7 +217,9 @@ class Author:
                 if operation["kind"] == "balance-local-roof":
                     is_primitive_member = edge in after[:2]
                 force_control = transform or (shared_center is not None and edge in after[:2])
-                site = None if force_control else (primitives.get(wanted) if is_primitive_member else None) or (self.endpoints.get(cache_key) if token else None)
+                site = bound_sites.get(token)
+                if site is None:
+                    site = None if force_control else (primitives.get(wanted) if is_primitive_member else None) or (self.endpoints.get(cache_key) if token else None)
                 if site is None:
                     site_key = f"{native_id}-control-{i}"
                     if shared_center is not None:
@@ -210,7 +294,8 @@ class Author:
                 self.sync()
             else:
                 for op in step["operations"]:
-                    if op["accepted"] and op["kind"] != "carry-detail-complement":
+                    unchanged = op["sourceEdgeIds"] == op["targetEdgeIds"] and all(edge["id"] in self.aliases for edge in op["afterEdges"])
+                    if op["accepted"] and not unchanged:
                         self.new_batch(op)
             visible = [self.aliases[edge["id"]] for edge in step["edges"]]
             residue = [self.aliases[edge["id"]] for edge in step.get("residueEdges", [])]
@@ -228,9 +313,10 @@ class Author:
             operations = []
             for op in step["operations"]:
                 accepted = op["accepted"]
+                unchanged = op["sourceEdgeIds"] == op["targetEdgeIds"]
                 operations.append({"id": op["id"], "title": op["kind"].replace("-", " "), "status": "accepted" if accepted else "rejected",
                     "rule": op["kind"], "reason": op["reason"], "inputEdgeIds": [self.aliases[key] for key in op["sourceEdgeIds"]],
-                    "replacementEdgeIds": [self.aliases[key] for key in op["targetEdgeIds"]] if accepted and op["kind"] != "carry-detail-complement" else [],
+                    "replacementEdgeIds": [self.aliases[key] for key in op["targetEdgeIds"]] if accepted and not unchanged else [],
                     "sourceSpanIds": op["sourceSpans"], "metrics": op.get("measurements", {}) | {"scoreBefore": op.get("scoreBefore"), "scoreAfter": op.get("scoreAfter")},
                     "thresholds": op.get("thresholds", {}), "construction": op.get("construction", {})})
             roles = [{"id": group["id"], "label": group.get("role", group["kind"]).replace("-", " "),
@@ -242,30 +328,53 @@ class Author:
                 "unsupported": [{"id": "remaining-ink", "label": "Retained small detail", "edgeIds": residue,
                     "sourceSpanIds": [sid for edge in step.get("residueEdges", []) for sid in edge["spans"]], "qualification": "Preserved as active faint source detail, not removed from the evidence."}] if residue else [],
                 "relations": step.get("relations", []), "convergence": step["convergence"]})
+            for name in ("viewHypothesis", "policyWeights", "referencePolicy", "conceptualMetrics", "view", "jointMerges"):
+                if name in step:
+                    stages[-1][name] = step[name]
+            if "viewHypothesis" in step:
+                def native_refs(value):
+                    if isinstance(value, list):
+                        return [native_refs(item) for item in value]
+                    if isinstance(value, dict):
+                        return {key: ([self.aliases[item] for item in items] if key in ("supportEdgeIds", "edgeIds", "participantEdgeIds") else native_refs(items)) for key, items in value.items()}
+                    return value
+                stages[-1]["viewHypothesis"] = native_refs(step["viewHypothesis"])
         source_mapping = {"sourceId": self.observation["sourceId"], "envelopeSiteIds": ["page-origin", "page-extent"], "passes": mapping}
         self.recipe.data["sourceMapping"] = source_mapping
-        self.recipe.data["description"] = "Four source-linked interpretation passes with explicit prior controls, real primitive frames and retained acquired ink. Numeric precision is retained in this experiment."
+        if self.synthesis_rows:
+            self.recipe.data["synthesisMapping"] = self.synthesis_rows
+        self.recipe.data["description"] = f"{len(stages)} source-linked interpretation passes with explicit prior controls, real primitive frames and retained acquired ink. Numeric precision is retained in this experiment."
+        policy = self.proposal["policy"]
+        if "completionPolicy" in self.proposal:
+            policy = policy | {"completion": self.proposal["completionPolicy"]}
         return self.recipe.data, {"sourceId": self.observation["sourceId"], "programId": self.recipe.data["id"], "label": "Church "+self.observation["sourceId"],
-                                  "policy": self.proposal["policy"], "passes": stages, "sourceMapping": source_mapping}
+                                  "policy": policy, "passes": stages, "sourceMapping": source_mapping}
 
 
-def build(observations_path, source_path, output):
+def build(observations_path, source_path, output, synthesize=False):
     observations = [json.loads(line) for line in observations_path.read_text(encoding="utf-8-sig").splitlines() if line.strip()]
     originals = {str(json.loads(line)["key_id"]): line for line in source_path.read_text(encoding="utf-8-sig").splitlines() if line.strip()}
     output.mkdir(parents=True, exist_ok=True)
     proposals, programs, records, packets = [], [], [], []
     for observation in observations:
         proposal = propose(observation)
+        if synthesize:
+            from quickdraw_gestalt_completion import extend
+            proposal = extend(observation, proposal)
         program, record = Author(observation, proposal).run()
         original = originals[observation["sourceId"]]
         proposals.append(proposal); programs.append(program); records.append(record)
         packets.append({"sourceOriginalJson": original, "source": json.loads(original), "observation": observation, "program": program, "proposal": proposal})
     for filename, values in (("proposals.ndjson", proposals), ("programs.ndjson", programs), ("packets.ndjson", packets)):
         (output/filename).write_text("".join(json.dumps(value, separators=(",", ":"), ensure_ascii=False)+"\n" for value in values), encoding="utf-8")
-    (output/"manifest.json").write_text(json.dumps({"schema": "gojo.quickdraw-gestalt-manifest.v1", "policy": proposals[0]["policy"], "sources": records}, indent=2)+"\n", encoding="utf-8")
+    manifest = {"schema": "gojo.quickdraw-gestalt-manifest.v1", "policy": records[0]["policy"], "sources": records}
+    if synthesize:
+        manifest.update({"schema": "gojo.quickdraw-synthesis-manifest.v1", "title": "From rough joints to a synthesized church",
+                         "introduction": "Follow seven stages from original ink to connected shapes and view-aware synthesis. Later stages give less weight to the acquired drawing and build increasingly from their own preceding structure."})
+    (output/"manifest.json").write_text(json.dumps(manifest, indent=2)+"\n", encoding="utf-8")
     (output/"observations.ndjson").write_bytes(observations_path.read_bytes())
     (output/"selected.ndjson").write_bytes(source_path.read_bytes())
-    return {"drawings": len(programs), "passes": len(programs)*4, "output": str(output)}
+    return {"drawings": len(programs), "passes": sum(len(program["rungs"]) for program in programs), "output": str(output)}
 
 
 if __name__ == "__main__":
@@ -273,5 +382,6 @@ if __name__ == "__main__":
     parser.add_argument("--observations", type=Path, required=True)
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--synthesize", action="store_true")
     args = parser.parse_args()
-    print(json.dumps(build(args.observations, args.source, args.output), indent=2))
+    print(json.dumps(build(args.observations, args.source, args.output, args.synthesize), indent=2))
