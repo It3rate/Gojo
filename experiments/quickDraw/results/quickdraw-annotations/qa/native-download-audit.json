@@ -1,0 +1,96 @@
+{
+  "passed": true,
+  "archives": [
+    {
+      "id": "quickdraw-5743197026254848--observed-fit",
+      "archive": "quickdraw-5743197026254848--observed-fit.annotations.gojo.json.gz",
+      "jsonSha256": "1b5bf53a2ec4e3c7e82ffc1ac6948d220597f1fc8d7c7a76cff1621fe8d21dce",
+      "gzipSha256": "5cb18e2570f0e1785670e323f15b55b051e14c23c4073a69abd0ed4fe86754d0"
+    },
+    {
+      "id": "quickdraw-5743197026254848--gentle-priors",
+      "archive": "quickdraw-5743197026254848--gentle-priors.annotations.gojo.json.gz",
+      "jsonSha256": "880ab19934f98622e5a214a75d7f091c6778574d7f66eb65b18d14d02a06fe2c",
+      "gzipSha256": "e744f74a887ee9a5e2fae17e032d90b727b20d363a31a1a87fd163228543023b"
+    },
+    {
+      "id": "quickdraw-5743197026254848--stronger-priors",
+      "archive": "quickdraw-5743197026254848--stronger-priors.annotations.gojo.json.gz",
+      "jsonSha256": "42bd48c7b13f2897149bbabaf4f3a7dfd786aaf1e32575e3cc4c20d610be1a72",
+      "gzipSha256": "e2663a6563477e8f91f84d66ecfae019572ba47c9404e2e538a65b436548776e"
+    },
+    {
+      "id": "quickdraw-5181133614481408--observed-fit",
+      "archive": "quickdraw-5181133614481408--observed-fit.annotations.gojo.json.gz",
+      "jsonSha256": "e4a8a3c3ed9c4ef578a8cd6577647152931a077e1d572184a3b79cc885cfc144",
+      "gzipSha256": "51dbb7fa27943f90e67bc13097dcdbdd862ac0f402159a763396ebccbed76410"
+    },
+    {
+      "id": "quickdraw-5181133614481408--gentle-priors",
+      "archive": "quickdraw-5181133614481408--gentle-priors.annotations.gojo.json.gz",
+      "jsonSha256": "ce8bd5429ffe9262a7b389c6590078410919bce95f0fd0e53f5597c3281346a4",
+      "gzipSha256": "78cbf541cd3f6f2a5bb8e281249e2c4a063f55e8573806ece06af69baadcb1c4"
+    },
+    {
+      "id": "quickdraw-5181133614481408--stronger-priors",
+      "archive": "quickdraw-5181133614481408--stronger-priors.annotations.gojo.json.gz",
+      "jsonSha256": "d70b809ef02b5995e4bd55365abbbc8fbb1e1e28a4354830b02a0ffc9be579c7",
+      "gzipSha256": "3a96ebbf4020a5f7963c3b0575a1f327ffe025e1903bc46485f0e2184dbaf70b"
+    },
+    {
+      "id": "quickdraw-5437095780810752--observed-fit",
+      "archive": "quickdraw-5437095780810752--observed-fit.annotations.gojo.json.gz",
+      "jsonSha256": "e1cc474c02369fc0dc96b3a87e5116e626eafc3e808517878b6b0feb88c4b456",
+      "gzipSha256": "ed2620d6ddce5e04c25c43bd3f96f413fc74892f54cea2be52b66a48d479da16"
+    },
+    {
+      "id": "quickdraw-5437095780810752--gentle-priors",
+      "archive": "quickdraw-5437095780810752--gentle-priors.annotations.gojo.json.gz",
+      "jsonSha256": "a47b5b8a1ee05f7c31dc742b4af523fef4d731e126402227258b3e7be037618b",
+      "gzipSha256": "41cfa0be3e230461a1ead1d3b72c5f03f1fdc78c9eb7b9145696f9824a27ba26"
+    },
+    {
+      "id": "quickdraw-5437095780810752--stronger-priors",
+      "archive": "quickdraw-5437095780810752--stronger-priors.annotations.gojo.json.gz",
+      "jsonSha256": "fad5e0b69718c05c0fda9256031e38b6db77cdded2ffc61e5c1f5b8a82124f85",
+      "gzipSha256": "a939e92f5340652857f316f964c32de86975960dbc1bf94266d2dd048b16cb5f"
+    },
+    {
+      "id": "quickdraw-6169132418465792--observed-fit",
+      "archive": "quickdraw-6169132418465792--observed-fit.annotations.gojo.json.gz",
+      "jsonSha256": "832dc7cc164014a67d6d2d57e52a42ee34e6840723d12bbc7b4c844d1dd257a1",
+      "gzipSha256": "5cdf35419d32063f1d724d4625e9b6d707932f7fa96aadf313a264f73005da3b"
+    },
+    {
+      "id": "quickdraw-6169132418465792--gentle-priors",
+      "archive": "quickdraw-6169132418465792--gentle-priors.annotations.gojo.json.gz",
+      "jsonSha256": "03664d4acd9223e425da277b77187c8c4169afaa632ce2047be74bc73d3a4193",
+      "gzipSha256": "ab774dddf49716c0affd92205b7b905704113ff5575bbd47da6dd0386fd35e0d"
+    },
+    {
+      "id": "quickdraw-6169132418465792--stronger-priors",
+      "archive": "quickdraw-6169132418465792--stronger-priors.annotations.gojo.json.gz",
+      "jsonSha256": "3ae112991c96d972de164bc5282704e8c042276c4c71659c9545767fe84c86b1",
+      "gzipSha256": "facae5fa8222fa0c558a3534e78b73e286f0152df6eb61b154f23972fe6fd296"
+    },
+    {
+      "id": "quickdraw-4578701515685888--observed-fit",
+      "archive": "quickdraw-4578701515685888--observed-fit.annotations.gojo.json.gz",
+      "jsonSha256": "e441bbc7347ba34488a9e9ea6898c6df5aaf87051afb2fd2f4ccb8495df88a22",
+      "gzipSha256": "17344903f2c9ebf8dc4b71fa6ac05dd8bed2c5e4f0c3a98c145dd8019775c3f4"
+    },
+    {
+      "id": "quickdraw-4578701515685888--gentle-priors",
+      "archive": "quickdraw-4578701515685888--gentle-priors.annotations.gojo.json.gz",
+      "jsonSha256": "7c00bac954e775a064b04064d2278306ae786877d821fa462fc4f9718f54959a",
+      "gzipSha256": "5d77d3e752f15835404602db2f10b01a16b359118de6339f454eb9edb8a6ccc2"
+    },
+    {
+      "id": "quickdraw-4578701515685888--stronger-priors",
+      "archive": "quickdraw-4578701515685888--stronger-priors.annotations.gojo.json.gz",
+      "jsonSha256": "d3632e2ca59d91e13b1e54f2321685446c135a65c2a4b8172f5324e8874d2c76",
+      "gzipSha256": "6a337075ac828f1a3a0b7d68f99fe4d31d080520ba7ff0a87743f3baca2acd69"
+    }
+  ],
+  "scope": "Final explicit acquired-site provenance schema; every compressed review archive matches its native original."
+}

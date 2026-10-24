@@ -6,6 +6,8 @@ gentle directional expectations and stronger interpretation. Each proposal
 begins with actual rough construction controls and places subsequent details
 relative to those controls and earlier acquired strokes. The purpose is to
 inspect the boundary between fitting a drawing and interpreting its intention.
+The subsequent [annotation checkpoint](QuickDrawAnnotations.md) adds line,
+joint and symmetry reads with increasing interpretive tolerance to this review.
 
 Open `D:\_quickDraw\gojo-quickdraw-structure\review.html` or the
 [portable review](results/quickdraw-construction/review/index.html).

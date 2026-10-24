@@ -1,0 +1,280 @@
+{
+  "schema": "gojo.retained-artifacts.v1",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 101,
+      "sha256": "47cd759794e7cfb55b21f80db497b323d73d97cbd10e3e99d79c665ec2697243"
+    },
+    {
+      "path": "annotation-manifest.json",
+      "bytes": 7703,
+      "sha256": "4c5a6b2153d686448e4fc51566fb7302f1f3d3a4043c94ee1e209343b0b3db5b"
+    },
+    {
+      "path": "annotation-packets.ndjson.gz",
+      "bytes": 492409,
+      "sha256": "d9ed2203c490ebc2757efd59827e0ddcfbbad555a3adbe0fa7594470f16c853b"
+    },
+    {
+      "path": "annotation-verification.json",
+      "bytes": 4652,
+      "sha256": "39cff197dc595c7b8cff1bf2525cb95921a97cf33e8aad1dbe59735e592f33ad"
+    },
+    {
+      "path": "annotations.ndjson.gz",
+      "bytes": 276535,
+      "sha256": "861102e55fc4712d94bb24c31c1be3126cace8daf7f3263cce69b451a34fa619"
+    },
+    {
+      "path": "checkpoint-summary.json",
+      "bytes": 2991,
+      "sha256": "e4aa96f07ef672e8705555b7a46c350e2a60599119c69d8822d44e9153db0a36"
+    },
+    {
+      "path": "native-annotation-summary.json",
+      "bytes": 28442,
+      "sha256": "4ceffc137befe82999496bd526d4a5141e1e1dcb85130b2732d07d03f2ab9e24"
+    },
+    {
+      "path": "native-inspector.ndjson.gz",
+      "bytes": 134587,
+      "sha256": "36386a093bedb7c8f3fc03d5a63ece4ec668e017be2451a16ff38d2059535316"
+    },
+    {
+      "path": "observations.ndjson.gz",
+      "bytes": 42711,
+      "sha256": "9b54138e9eb3f7dd34f50635e7aa7e532efb134c0486f8e81f656d184051e8aa"
+    },
+    {
+      "path": "programs.ndjson.gz",
+      "bytes": 40480,
+      "sha256": "c835d53d71acea3463887074632132d0a4e79a327b6d4c8f31165bdc112f5fe2"
+    },
+    {
+      "path": "qa/5437095780810752.png",
+      "bytes": 277184,
+      "sha256": "d6de3dd584fd43ef8655879fba87c97bb9e4346ddf216af640436a66d2da6fca"
+    },
+    {
+      "path": "qa/5743197026254848.png",
+      "bytes": 247093,
+      "sha256": "809515c5884f140e63bb20e117ac54da47de2dd32df938aff599194849675067"
+    },
+    {
+      "path": "qa/6169132418465792.png",
+      "bytes": 277134,
+      "sha256": "424cfa968f7d608b1c1e3b87dc720a356646659590c33aebd3061e09af8ab768"
+    },
+    {
+      "path": "qa/browser-summary.json",
+      "bytes": 525,
+      "sha256": "6ab626a69f5b6ca2d56e00744c655fead7dca423299b5df96d64d77640932d68"
+    },
+    {
+      "path": "qa/disagreement.png",
+      "bytes": 233724,
+      "sha256": "b5b457676a4a4495900e472cfa50ada7fa28748631bbfd0daf5ac3834fb59200"
+    },
+    {
+      "path": "qa/mirror.png",
+      "bytes": 258346,
+      "sha256": "37cd5146cc341820a7c29837ac10c125b7634bd8083008c5087e93c378b81017"
+    },
+    {
+      "path": "qa/mobile.png",
+      "bytes": 144889,
+      "sha256": "9877968e9dda39b66b70357b5b7ed6e7c6ef45661a847f0b766baf70edd134da"
+    },
+    {
+      "path": "qa/native-download-audit.json",
+      "bytes": 5250,
+      "sha256": "3cfdce8991d31681bb7395a574379757c1b7027d90935dc1b104447ddd5aac7a"
+    },
+    {
+      "path": "qa/review-reproducibility.json",
+      "bytes": 256,
+      "sha256": "d4a1dc594ab38e049d6223695f8b4d769231f09d1cb52e509c16d17cf1f05b85"
+    },
+    {
+      "path": "qa/right-angle.png",
+      "bytes": 284216,
+      "sha256": "a25b8d49ddb0ad4cdd21751cc214f5699a823daddca8e470f813c55dab22fbf7"
+    },
+    {
+      "path": "qa/t-joint.png",
+      "bytes": 246374,
+      "sha256": "cb0de52fd738fe1d81c8d374e7ce155f08307071dd2b3be2da7be671f05f550d"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-4578701515685888--gentle-priors.annotations.gojo.json.gz",
+      "bytes": 268211,
+      "sha256": "5d77d3e752f15835404602db2f10b01a16b359118de6339f454eb9edb8a6ccc2"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-4578701515685888--observed-fit.annotations.gojo.json.gz",
+      "bytes": 223220,
+      "sha256": "17344903f2c9ebf8dc4b71fa6ac05dd8bed2c5e4f0c3a98c145dd8019775c3f4"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-4578701515685888--stronger-priors.annotations.gojo.json.gz",
+      "bytes": 319963,
+      "sha256": "6a337075ac828f1a3a0b7d68f99fe4d31d080520ba7ff0a87743f3baca2acd69"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-5181133614481408--gentle-priors.annotations.gojo.json.gz",
+      "bytes": 291593,
+      "sha256": "78cbf541cd3f6f2a5bb8e281249e2c4a063f55e8573806ece06af69baadcb1c4"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-5181133614481408--observed-fit.annotations.gojo.json.gz",
+      "bytes": 248788,
+      "sha256": "51dbb7fa27943f90e67bc13097dcdbdd862ac0f402159a763396ebccbed76410"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-5181133614481408--stronger-priors.annotations.gojo.json.gz",
+      "bytes": 335934,
+      "sha256": "3a96ebbf4020a5f7963c3b0575a1f327ffe025e1903bc46485f0e2184dbaf70b"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-5437095780810752--gentle-priors.annotations.gojo.json.gz",
+      "bytes": 1055385,
+      "sha256": "41cfa0be3e230461a1ead1d3b72c5f03f1fdc78c9eb7b9145696f9824a27ba26"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-5437095780810752--observed-fit.annotations.gojo.json.gz",
+      "bytes": 677840,
+      "sha256": "ed2620d6ddce5e04c25c43bd3f96f413fc74892f54cea2be52b66a48d479da16"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-5437095780810752--stronger-priors.annotations.gojo.json.gz",
+      "bytes": 1883542,
+      "sha256": "a939e92f5340652857f316f964c32de86975960dbc1bf94266d2dd048b16cb5f"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-5743197026254848--gentle-priors.annotations.gojo.json.gz",
+      "bytes": 144785,
+      "sha256": "e744f74a887ee9a5e2fae17e032d90b727b20d363a31a1a87fd163228543023b"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-5743197026254848--observed-fit.annotations.gojo.json.gz",
+      "bytes": 133730,
+      "sha256": "5cb18e2570f0e1785670e323f15b55b051e14c23c4073a69abd0ed4fe86754d0"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-5743197026254848--stronger-priors.annotations.gojo.json.gz",
+      "bytes": 165169,
+      "sha256": "e2663a6563477e8f91f84d66ecfae019572ba47c9404e2e538a65b436548776e"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-6169132418465792--gentle-priors.annotations.gojo.json.gz",
+      "bytes": 271261,
+      "sha256": "ab774dddf49716c0affd92205b7b905704113ff5575bbd47da6dd0386fd35e0d"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-6169132418465792--observed-fit.annotations.gojo.json.gz",
+      "bytes": 259590,
+      "sha256": "5cdf35419d32063f1d724d4625e9b6d707932f7fa96aadf313a264f73005da3b"
+    },
+    {
+      "path": "review/annotation-archives/quickdraw-6169132418465792--stronger-priors.annotations.gojo.json.gz",
+      "bytes": 332746,
+      "sha256": "facae5fa8222fa0c558a3534e78b73e286f0152df6eb61b154f23972fe6fd296"
+    },
+    {
+      "path": "review/archives/quickdraw-4578701515685888--gentle-priors.gojo.json.gz",
+      "bytes": 35359,
+      "sha256": "996b5d883fb6931d5be1dc419bd1036c462a09bb84a30f22ce694fbab50f162b"
+    },
+    {
+      "path": "review/archives/quickdraw-4578701515685888--observed-fit.gojo.json.gz",
+      "bytes": 35391,
+      "sha256": "ae82b5cb7127c24c6481fa1a65495abd973133cd3b79ac3883b1477394e03020"
+    },
+    {
+      "path": "review/archives/quickdraw-4578701515685888--stronger-priors.gojo.json.gz",
+      "bytes": 35347,
+      "sha256": "1b40ed5c2bd63fc5817e0cb61b9d16835b25b58c70152e866974946d16b7600c"
+    },
+    {
+      "path": "review/archives/quickdraw-5181133614481408--gentle-priors.gojo.json.gz",
+      "bytes": 35655,
+      "sha256": "c9df3e15166674aadd2d4646122386a0417f0265ec219a7da1467a90eea4a73c"
+    },
+    {
+      "path": "review/archives/quickdraw-5181133614481408--observed-fit.gojo.json.gz",
+      "bytes": 35672,
+      "sha256": "000f40e412f4b266057037492dc5826f908688dd6585eb810acad646b46f0b66"
+    },
+    {
+      "path": "review/archives/quickdraw-5181133614481408--stronger-priors.gojo.json.gz",
+      "bytes": 35642,
+      "sha256": "6cedb8675244f78f598184dc79fca9fb7a994e7c1e56b9462c678126ff850a50"
+    },
+    {
+      "path": "review/archives/quickdraw-5437095780810752--gentle-priors.gojo.json.gz",
+      "bytes": 69613,
+      "sha256": "f2a42546921d506a729924284451f21705e15c9811512e3e42c1c2f6de1cfd31"
+    },
+    {
+      "path": "review/archives/quickdraw-5437095780810752--observed-fit.gojo.json.gz",
+      "bytes": 69661,
+      "sha256": "50b98396187d0cf109a778ae08dfd34fdb5eb6c3e16b4628b67208aa50b4bca9"
+    },
+    {
+      "path": "review/archives/quickdraw-5437095780810752--stronger-priors.gojo.json.gz",
+      "bytes": 69563,
+      "sha256": "9d8675a40a1e76d4dc0b79946445468907005aa4add48f094ec10e0c1597eccf"
+    },
+    {
+      "path": "review/archives/quickdraw-5743197026254848--gentle-priors.gojo.json.gz",
+      "bytes": 22327,
+      "sha256": "8ec58634f49dbb0ba44dbd46b0988931352010a65145790f143b1cbf072f9237"
+    },
+    {
+      "path": "review/archives/quickdraw-5743197026254848--observed-fit.gojo.json.gz",
+      "bytes": 22335,
+      "sha256": "8f0fa5e7126c8d7f621decf651239989d8a18122e755e60e28245f6127a9882f"
+    },
+    {
+      "path": "review/archives/quickdraw-5743197026254848--stronger-priors.gojo.json.gz",
+      "bytes": 22312,
+      "sha256": "8d3216f1bc9f38f9ccdcbf77a1e6f163df24054279bc9c118c08f8bd83ee7d6b"
+    },
+    {
+      "path": "review/archives/quickdraw-6169132418465792--gentle-priors.gojo.json.gz",
+      "bytes": 40578,
+      "sha256": "c8b0a80d1ef3a3b5bcad4b684d3081e624596a0a6545a98d57527ba54781fab3"
+    },
+    {
+      "path": "review/archives/quickdraw-6169132418465792--observed-fit.gojo.json.gz",
+      "bytes": 40605,
+      "sha256": "62ff2f7f19cae9246d28393a1156741d48901bc1596538a7d807a84c04f8bf6a"
+    },
+    {
+      "path": "review/archives/quickdraw-6169132418465792--stronger-priors.gojo.json.gz",
+      "bytes": 40553,
+      "sha256": "11f9a691b9420a61a83d6beb3d080d05a6a3c8c8c8b7eac92608afc8b0024ae9"
+    },
+    {
+      "path": "review/index.html",
+      "bytes": 3961228,
+      "sha256": "3788029eff461e91f1a1e78e4842da4e4de4391214478143f5c89779e6348dc6"
+    },
+    {
+      "path": "review/public-files.json",
+      "bytes": 2558,
+      "sha256": "5352d58f67623b517bbce8e141e82cc77ca14b97945112ccc2af87cb4a9a1693"
+    },
+    {
+      "path": "selected.ndjson",
+      "bytes": 24954,
+      "sha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 15083,
+      "sha256": "d11c19a5de369d01ea61b3a42290ec9378b1f568e74a209daa5052470e034810"
+    }
+  ]
+}

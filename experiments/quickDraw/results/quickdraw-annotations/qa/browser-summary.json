@@ -1,0 +1,20 @@
+{
+  "drawings": 5,
+  "modes": 15,
+  "rungs": 171,
+  "nativePathsChecked": 2604,
+  "candidateSelections": 81,
+  "nativeGeometryMatches": true,
+  "sourceSupportVisible": true,
+  "proposalMetricsMatched": true,
+  "rejectsInventedCross": true,
+  "annotationSelections": 217,
+  "annotationMarkers": 1594,
+  "annotationDownloads": 15,
+  "nativeAnnotationDownloads": 15,
+  "annotationOnlyGeometryPreserved": true,
+  "sourceAndProposalReadSeparated": true,
+  "mobileOverflow": false,
+  "externalRequests": 0,
+  "consoleErrors": []
+}

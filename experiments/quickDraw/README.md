@@ -48,6 +48,12 @@ envelope and rough outline precede the acquired strokes, with three strengths
 of geometric interpretation, retained source intervals and native correspondence
 witnesses. The new hand-drawing study remains a local review and GitHub checkpoint.
 
+[Joint and line annotations](QuickDrawAnnotations.md) add source-supported
+line roles, ray arrangements, local and broader symmetry, and geometric
+relations. The existing three modes now also widen interpretive allowances,
+with measured gaps and angular residuals retained. These reads mark the drawing
+without generating or repairing its geometry.
+
 The first useful result is an **exact native sample-acquisition boundary plus an
 inspectable measured fitting experiment**. The full acquisition-to-concept
 converter is not complete. No prior was trained in this initial acquisition

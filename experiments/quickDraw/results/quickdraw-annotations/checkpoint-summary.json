@@ -1,0 +1,117 @@
+{
+  "schema": "gojo.quickdraw-annotation-checkpoint.v1",
+  "status": "verified",
+  "sourceDrawings": 5,
+  "sourceStrokes": 47,
+  "sourceSamples": 1295,
+  "sourceIntervals": 111,
+  "programs": 15,
+  "rungs": 171,
+  "constructionProgramArchivesByteIdentical": true,
+  "annotationGeneratesGeometry": false,
+  "pythonTestsPassed": 200,
+  "dotnetSolutionTestsPassed": 5396,
+  "dotnetSolutionProjects": [
+    {
+      "project": "PrimitiveForager.Tests.dll",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "Gojo.Tests.dll",
+      "passed": 1069,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "Minds.Tests.dll",
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "Gojo.GearShapeLadder.Tests.dll",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "PrimitiveLearning.Tests.dll",
+      "passed": 66,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "Phototaxis.Tests.dll",
+      "passed": 129,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "AdaptiveLifecycle.Tests.dll",
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "CompositeEmergence.Tests.dll",
+      "passed": 66,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "UtilityEcology.Tests.dll",
+      "passed": 119,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "GojoCAD.Tests.dll",
+      "passed": 155,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "Gojo.Encoding.Tests.dll",
+      "passed": 725,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "project": "QualitativeExecution.Tests.dll",
+      "passed": 2966,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "finalNativeAnnotationTestsPassed": 16,
+  "testScope": "Full solution run plus focused final native tests after endpoint-attestation hardening; unrelated projects unchanged.",
+  "nativeProfiles": 333,
+  "nativeJointReads": 793,
+  "nativeParticipantLocations": 1803,
+  "nativeRays": 2290,
+  "nativeReflectionReads": 107,
+  "browser": {
+    "drawings": 5,
+    "modes": 15,
+    "rungs": 171,
+    "nativePathsChecked": 2604,
+    "candidateSelections": 81,
+    "nativeGeometryMatches": true,
+    "sourceSupportVisible": true,
+    "proposalMetricsMatched": true,
+    "rejectsInventedCross": true,
+    "annotationSelections": 217,
+    "annotationMarkers": 1594,
+    "annotationDownloads": 15,
+    "nativeAnnotationDownloads": 15,
+    "annotationOnlyGeometryPreserved": true,
+    "sourceAndProposalReadSeparated": true,
+    "mobileOverflow": false,
+    "externalRequests": 0,
+    "consoleErrors": []
+  },
+  "publication": "Local and repository checkpoint; no website publication in this pass.",
+  "learning": "Authored geometric observations and tolerance reads; no model training."
+}

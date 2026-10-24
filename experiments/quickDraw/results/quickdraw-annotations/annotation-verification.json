@@ -1,0 +1,191 @@
+{
+  "schema": "gojo.quickdraw-annotation-verification.v1",
+  "passed": true,
+  "sourceDrawings": 5,
+  "programs": 15,
+  "constructionUnchanged": true,
+  "nativeGeometryRegenerated": false,
+  "scope": "Independent support references, source-site claims, ordered curve tangents, explicit reflection participants and monotonically widening tolerance; qualitative intent remains a candidate.",
+  "runs": [
+    {
+      "programId": "quickdraw-5743197026254848--observed-fit",
+      "mode": "observed-fit",
+      "annotations": 35,
+      "rays": 33,
+      "counts": {
+        "lines": 11,
+        "joints": 18,
+        "symmetries": 0,
+        "relations": 6
+      }
+    },
+    {
+      "programId": "quickdraw-5743197026254848--gentle-priors",
+      "mode": "gentle-priors",
+      "annotations": 40,
+      "rays": 39,
+      "counts": {
+        "lines": 11,
+        "joints": 20,
+        "symmetries": 0,
+        "relations": 9
+      }
+    },
+    {
+      "programId": "quickdraw-5743197026254848--stronger-priors",
+      "mode": "stronger-priors",
+      "annotations": 48,
+      "rays": 42,
+      "counts": {
+        "lines": 11,
+        "joints": 18,
+        "symmetries": 1,
+        "relations": 18
+      }
+    },
+    {
+      "programId": "quickdraw-5181133614481408--observed-fit",
+      "mode": "observed-fit",
+      "annotations": 52,
+      "rays": 55,
+      "counts": {
+        "lines": 17,
+        "joints": 31,
+        "symmetries": 0,
+        "relations": 4
+      }
+    },
+    {
+      "programId": "quickdraw-5181133614481408--gentle-priors",
+      "mode": "gentle-priors",
+      "annotations": 70,
+      "rays": 77,
+      "counts": {
+        "lines": 17,
+        "joints": 36,
+        "symmetries": 0,
+        "relations": 17
+      }
+    },
+    {
+      "programId": "quickdraw-5181133614481408--stronger-priors",
+      "mode": "stronger-priors",
+      "annotations": 91,
+      "rays": 87,
+      "counts": {
+        "lines": 17,
+        "joints": 36,
+        "symmetries": 1,
+        "relations": 37
+      }
+    },
+    {
+      "programId": "quickdraw-5437095780810752--observed-fit",
+      "mode": "observed-fit",
+      "annotations": 168,
+      "rays": 291,
+      "counts": {
+        "lines": 47,
+        "joints": 107,
+        "symmetries": 1,
+        "relations": 13
+      }
+    },
+    {
+      "programId": "quickdraw-5437095780810752--gentle-priors",
+      "mode": "gentle-priors",
+      "annotations": 262,
+      "rays": 494,
+      "counts": {
+        "lines": 47,
+        "joints": 142,
+        "symmetries": 20,
+        "relations": 53
+      }
+    },
+    {
+      "programId": "quickdraw-5437095780810752--stronger-priors",
+      "mode": "stronger-priors",
+      "annotations": 375,
+      "rays": 703,
+      "counts": {
+        "lines": 47,
+        "joints": 170,
+        "symmetries": 63,
+        "relations": 95
+      }
+    },
+    {
+      "programId": "quickdraw-6169132418465792--observed-fit",
+      "mode": "observed-fit",
+      "annotations": 56,
+      "rays": 54,
+      "counts": {
+        "lines": 19,
+        "joints": 31,
+        "symmetries": 0,
+        "relations": 6
+      }
+    },
+    {
+      "programId": "quickdraw-6169132418465792--gentle-priors",
+      "mode": "gentle-priors",
+      "annotations": 62,
+      "rays": 57,
+      "counts": {
+        "lines": 19,
+        "joints": 32,
+        "symmetries": 1,
+        "relations": 10
+      }
+    },
+    {
+      "programId": "quickdraw-6169132418465792--stronger-priors",
+      "mode": "stronger-priors",
+      "annotations": 84,
+      "rays": 81,
+      "counts": {
+        "lines": 19,
+        "joints": 34,
+        "symmetries": 12,
+        "relations": 19
+      }
+    },
+    {
+      "programId": "quickdraw-4578701515685888--observed-fit",
+      "mode": "observed-fit",
+      "annotations": 62,
+      "rays": 74,
+      "counts": {
+        "lines": 17,
+        "joints": 36,
+        "symmetries": 0,
+        "relations": 9
+      }
+    },
+    {
+      "programId": "quickdraw-4578701515685888--gentle-priors",
+      "mode": "gentle-priors",
+      "annotations": 83,
+      "rays": 92,
+      "counts": {
+        "lines": 17,
+        "joints": 40,
+        "symmetries": 2,
+        "relations": 24
+      }
+    },
+    {
+      "programId": "quickdraw-4578701515685888--stronger-priors",
+      "mode": "stronger-priors",
+      "annotations": 106,
+      "rays": 111,
+      "counts": {
+        "lines": 17,
+        "joints": 42,
+        "symmetries": 6,
+        "relations": 41
+      }
+    }
+  ]
+}

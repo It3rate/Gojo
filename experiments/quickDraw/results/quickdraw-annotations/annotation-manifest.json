@@ -1,0 +1,309 @@
+{
+  "schema": "gojo.quickdraw-annotation-study.v1",
+  "observationSha256": "cb727018962126236732be32ac300b1e0269890e92c2493cc0d60b027251b229",
+  "programSha256": "958d0fe02df5acf186dda6f93ac98cc91ee672b0c54155f12c67b6c945c85703",
+  "sourceSha256": "f47285f5f7aaf7f2c3b251e6528bebf1a5fd7b088949238749c860422de87042",
+  "annotationsSha256": "75f766ef1afab931e4fec415b5e794168f2ab43dafee63901b01d06bf6db6ffc",
+  "annotationPacketsSha256": "201fe94ca2e87383fa2c39dcde07e8b33cc7d899fea7856aee104d9cff8d33c4",
+  "programs": 15,
+  "sourceDrawings": 5,
+  "constructionUnchanged": true,
+  "basis": "Measured acquired-source finite fits, with declared per-read tolerance. Mapped native proposal edges are corresponding participants, not an inferred physical join.",
+  "status": "Exploratory annotation reads; thresholds and expectations are authored, not learned probabilities.",
+  "runs": [
+    {
+      "programId": "quickdraw-5743197026254848--observed-fit",
+      "sourceId": "5743197026254848",
+      "mode": "observed-fit",
+      "counts": {
+        "lines": 11,
+        "joints": 18,
+        "symmetries": 0,
+        "relations": 6,
+        "jointLabels": {
+          "I": 1,
+          "L": 6,
+          "T": 1,
+          "X": 2,
+          "endpoint": 8
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-5743197026254848--gentle-priors",
+      "sourceId": "5743197026254848",
+      "mode": "gentle-priors",
+      "counts": {
+        "lines": 11,
+        "joints": 20,
+        "symmetries": 0,
+        "relations": 9,
+        "jointLabels": {
+          "I": 1,
+          "L": 6,
+          "T": 3,
+          "X": 2,
+          "endpoint": 8
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-5743197026254848--stronger-priors",
+      "sourceId": "5743197026254848",
+      "mode": "stronger-priors",
+      "counts": {
+        "lines": 11,
+        "joints": 18,
+        "symmetries": 1,
+        "relations": 18,
+        "jointLabels": {
+          "I": 1,
+          "K": 2,
+          "L": 3,
+          "T": 4,
+          "X": 2,
+          "endpoint": 6
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-5181133614481408--observed-fit",
+      "sourceId": "5181133614481408",
+      "mode": "observed-fit",
+      "counts": {
+        "lines": 17,
+        "joints": 31,
+        "symmetries": 0,
+        "relations": 4,
+        "jointLabels": {
+          "L": 9,
+          "T": 3,
+          "X": 3,
+          "endpoint": 16
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-5181133614481408--gentle-priors",
+      "sourceId": "5181133614481408",
+      "mode": "gentle-priors",
+      "counts": {
+        "lines": 17,
+        "joints": 36,
+        "symmetries": 0,
+        "relations": 17,
+        "jointLabels": {
+          "I": 2,
+          "L": 8,
+          "T": 10,
+          "X": 3,
+          "Y": 1,
+          "endpoint": 12
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-5181133614481408--stronger-priors",
+      "sourceId": "5181133614481408",
+      "mode": "stronger-priors",
+      "counts": {
+        "lines": 17,
+        "joints": 36,
+        "symmetries": 1,
+        "relations": 37,
+        "jointLabels": {
+          "I": 1,
+          "K": 1,
+          "L": 8,
+          "O": 1,
+          "T": 13,
+          "X": 4,
+          "Y": 1,
+          "endpoint": 7
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-5437095780810752--observed-fit",
+      "sourceId": "5437095780810752",
+      "mode": "observed-fit",
+      "counts": {
+        "lines": 47,
+        "joints": 107,
+        "symmetries": 1,
+        "relations": 13,
+        "jointLabels": {
+          "I": 2,
+          "K": 16,
+          "L": 20,
+          "T": 14,
+          "X": 14,
+          "Y": 1,
+          "coincident rays": 9,
+          "complex": 1,
+          "endpoint": 28,
+          "four-way": 2
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-5437095780810752--gentle-priors",
+      "sourceId": "5437095780810752",
+      "mode": "gentle-priors",
+      "counts": {
+        "lines": 47,
+        "joints": 142,
+        "symmetries": 20,
+        "relations": 53,
+        "jointLabels": {
+          "I": 4,
+          "K": 46,
+          "L": 13,
+          "T": 35,
+          "X": 14,
+          "Y": 3,
+          "coincident rays": 13,
+          "complex": 4,
+          "endpoint": 10
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-5437095780810752--stronger-priors",
+      "sourceId": "5437095780810752",
+      "mode": "stronger-priors",
+      "counts": {
+        "lines": 47,
+        "joints": 170,
+        "symmetries": 63,
+        "relations": 95,
+        "jointLabels": {
+          "I": 5,
+          "K": 68,
+          "L": 9,
+          "O": 2,
+          "T": 48,
+          "X": 15,
+          "coincident rays": 17,
+          "endpoint": 5,
+          "four-way": 1
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-6169132418465792--observed-fit",
+      "sourceId": "6169132418465792",
+      "mode": "observed-fit",
+      "counts": {
+        "lines": 19,
+        "joints": 31,
+        "symmetries": 0,
+        "relations": 6,
+        "jointLabels": {
+          "I": 1,
+          "L": 10,
+          "X": 4,
+          "endpoint": 16
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-6169132418465792--gentle-priors",
+      "sourceId": "6169132418465792",
+      "mode": "gentle-priors",
+      "counts": {
+        "lines": 19,
+        "joints": 32,
+        "symmetries": 1,
+        "relations": 10,
+        "jointLabels": {
+          "I": 1,
+          "L": 10,
+          "T": 1,
+          "X": 4,
+          "endpoint": 16
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-6169132418465792--stronger-priors",
+      "sourceId": "6169132418465792",
+      "mode": "stronger-priors",
+      "counts": {
+        "lines": 19,
+        "joints": 34,
+        "symmetries": 12,
+        "relations": 19,
+        "jointLabels": {
+          "I": 1,
+          "K": 2,
+          "L": 6,
+          "T": 9,
+          "X": 4,
+          "Y": 2,
+          "endpoint": 10
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-4578701515685888--observed-fit",
+      "sourceId": "4578701515685888",
+      "mode": "observed-fit",
+      "counts": {
+        "lines": 17,
+        "joints": 36,
+        "symmetries": 0,
+        "relations": 9,
+        "jointLabels": {
+          "K": 1,
+          "L": 9,
+          "T": 4,
+          "X": 6,
+          "endpoint": 16
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-4578701515685888--gentle-priors",
+      "sourceId": "4578701515685888",
+      "mode": "gentle-priors",
+      "counts": {
+        "lines": 17,
+        "joints": 40,
+        "symmetries": 2,
+        "relations": 24,
+        "jointLabels": {
+          "I": 2,
+          "K": 1,
+          "L": 7,
+          "T": 8,
+          "X": 6,
+          "Y": 1,
+          "coincident rays": 2,
+          "endpoint": 13
+        }
+      }
+    },
+    {
+      "programId": "quickdraw-4578701515685888--stronger-priors",
+      "sourceId": "4578701515685888",
+      "mode": "stronger-priors",
+      "counts": {
+        "lines": 17,
+        "joints": 42,
+        "symmetries": 6,
+        "relations": 41,
+        "jointLabels": {
+          "I": 1,
+          "K": 1,
+          "L": 10,
+          "T": 14,
+          "X": 7,
+          "Y": 1,
+          "coincident rays": 2,
+          "endpoint": 6
+        }
+      }
+    }
+  ]
+}
