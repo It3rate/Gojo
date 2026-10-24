@@ -118,14 +118,24 @@ Its source is `experiments/quickDraw/results/line-art/public`. That directory's
 unselected research files are not copied to the site.
 
 The construction study at `/quickdraw/construction/` uses
-`experiments/quickDraw/results/construction/public`. It contains four authored
-families, twelve parameterized runs and 56 rungs, with every compact executable
-program available for download. The larger execution/witness archives remain in
-the research data folder. The inspector's embedded gzip payload contains only
-captured native reads; the browser neither reconstructs recipes nor invents
-dependencies. Use `tools/check-construction.cjs` for its rung, guide, reference,
-condition and download checks. Its `restored-native-construction` publication
-contract verifies restored/replayed flags and selected archive links before copying.
+`experiments/quickDraw/results/construction-resolution/review`. It contains
+fourteen churches, 26 individual capitals and the alphabet atlas: 41 designs
+at five resolutions, 205 executed programs and 945 construction steps.
+The inspector contains only captured native reads; the browser neither
+reconstructs recipes nor invents dependencies. A lossless shared-subtree
+transport reduces the embedded payload, with every expanded value checked
+against the original checkpoint. Use `tools/check-construction.cjs` to verify
+all steps, comparison paths, retained references and native downloads.
+Its `restored-native-construction` contract verifies restored/replayed flags
+and selected archive links before copying.
+
+All 205 executable archives remain available from GitHub, pinned to commit
+`2921c2ec6e9d8aefb9719f64be0a340d87abfd08`. Their compressed and decoded hashes
+are recorded in `quickdraw/construction/publication.json`; the browser checker
+fetches every archive and verifies its integrity and cross-origin availability.
+Only clicking a download contacts GitHub. Drawing and resolution controls use
+the embedded captured reads. The twelve earlier construction download URLs
+remain available on this site alongside the 17 line-art downloads.
 
 ~~~powershell
 node Visualizations/Gojo.Demos.Web/tools/build-quickdraw.mjs
@@ -136,8 +146,10 @@ node Visualizations/Gojo.Demos.Web/tools/check-quickdraw.cjs
 Use `--dry-run` to validate the selection and report its size without writing.
 The builder checks restored-scene flags, local-path leakage, archive links and
 gzip integrity, then records source and published hashes in `publication.json`.
-Its only study HTML adaptation is a `/quickdraw/<id>/` base URL so the route works with or
-without a trailing slash. Geometry and native archives are retained unchanged.
+The adapter adds a `/quickdraw/<id>/` base URL so each route works with or
+without a trailing slash. The construction publication additionally applies
+the lossless transport and immutable archive URLs described above. Geometry
+and decoded native archives are retained unchanged.
 Standalone `.json.gz` downloads do not require an uncompressed counterpart.
 The inspector's download button saves decoded `.gojo.json` bytes, handling both
 ordinary gzip files and Azure's automatic HTTP gzip decoding. Browser checks
@@ -167,6 +179,13 @@ two studies, with all 29 selected native downloads retained. The captured
 construction read is compressed inside its standalone HTML; each native
 program is stored once as gzip rather than publishing the larger execution
 witnesses as well.
+
+Replacing that first study with the five-resolution checkpoint brings the
+complete production bundle to 262,087,860 bytes, leaving 56,140 bytes under
+the same allowance. No hosting-plan change or removal of other site content
+was needed. Re-measure the whole bundle before any further publication;
+there is very little remaining capacity. The earlier paragraph records the
+size of the initial construction publication, not the current bundle.
 
 ## Growing the ornament series
 

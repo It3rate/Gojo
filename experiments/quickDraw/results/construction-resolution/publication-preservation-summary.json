@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "liveBaselineAssets": 445,
+  "preservedStaticEntryRoutes": [
+    "ornaments",
+    "ornaments/bourgoin",
+    "ornaments/flowing-grammar",
+    "ornaments/lattice-interiors",
+    "ornaments/interior-ornament",
+    "minds",
+    "minds/two-space",
+    "minds/feedback-limits",
+    "minds/predictions",
+    "syntax",
+    "core4"
+  ],
+  "base": "https://gojo.inklingai.ca/"
+}

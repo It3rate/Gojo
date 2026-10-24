@@ -6,6 +6,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
+import {readConstruction,compactConstructionHtml} from './construction-presentation.mjs';
 
 const web=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const repo=path.resolve(web,'../..'),category=path.join(web,'quickdraw');
@@ -45,7 +46,15 @@ async function buildStudy(study){
   if(!Array.isArray(selection.files)||!selection.files.includes('index.html')||
       new Set(selection.files).size!==selection.files.length||selection.files.includes('publication.json'))
     throw new Error('Publication selection needs a unique file list including index.html.');
-  const files=new Map(),records=[];
+  const files=new Map(),records=[],externalDownloads=[];
+  const archiveUrls=new Map();
+  if(study.archiveStorage){
+    const {repository,commit}=study.archiveStorage;
+    if(!/^[A-Za-z0-9_-]+\/[A-Za-z0-9_.-]+$/.test(repository)||!/^[a-f0-9]{40}$/.test(commit))
+      throw new Error('Archive storage requires an explicit repository and immutable commit.');
+    for(const relative of selection.files.filter(file=>file.endsWith('.gojo.json.gz')))
+      archiveUrls.set(relative,`https://raw.githubusercontent.com/${repository}/${commit}/${study.source}/${relative}`);
+  }
   for(const relative of selection.files){
     const input=inside(source,relative),real=await fs.realpath(input);
     if(!real.startsWith(source+path.sep))throw new Error('Selected source leaves its directory: '+relative);
@@ -54,15 +63,40 @@ async function buildStudy(study){
     if(/\.(?:html?|css|js|mjs|json|ndjson|txt|md|svg)(?:\.gz)?$/i.test(relative)&&/file:\/{1,3}|\b[A-Za-z]:[\\/](?!\/)/i.test(text))
       throw new Error('Local machine path in selected publication: '+relative);
     let published=bytes;
+    if(archiveUrls.has(relative)){
+      JSON.parse(text);
+      externalDownloads.push({path:relative,url:archiveUrls.get(relative),sha256:hash(bytes),decodedSha256:hash(plain),bytes:bytes.length});
+      continue;
+    }
     if(relative==='index.html'){
       if(!/<head(?:\s[^>]*)?>/i.test(text))throw new Error('Entry is missing its HTML head.');
       const base=text.match(/<base\s+href=["']([^"']+)["']\s*\/?>/i);
       if(/<base\b/i.test(text)&&base?.[1]!==route)throw new Error('Entry has an incompatible base URL.');
-      published=Buffer.from(base?text:text.replace(/<head(?:\s[^>]*)?>/i,'$&<base href="'+route+'">'));
+      let entry=base?text:text.replace(/<head(?:\s[^>]*)?>/i,'$&<base href="'+route+'">');
+      if(study.compactCapturedReads){
+        const payload=readConstruction(entry);
+        for(const scene of payload.scenes)for(const design of scene.variants)for(const read of design.resolutions||[design])
+          for(const key of ['archive','archivePath'])if(read[key]){
+            if(!archiveUrls.has(read[key]))throw new Error('Unselected external archive '+read[key]);
+            read[key]=archiveUrls.get(read[key]);
+          }
+        entry=compactConstructionHtml(entry,payload);
+      }
+      published=Buffer.from(entry);
     }
     if(relative.endsWith('.json.gz'))JSON.parse(text);
     files.set(relative,published);
     records.push({path:relative,sourceSha256:hash(bytes),publishedSha256:hash(published),bytes:published.length});
+  }
+  // Keep the earlier executable downloads at their existing URLs.
+  if(study.retainedDownloadsSource){
+    const retained=inside(repo,study.retainedDownloadsSource);
+    const previous=JSON.parse(await fs.readFile(path.join(retained,'public-files.json'),'utf8'));
+    for(const relative of previous.files.filter(file=>file.startsWith('archives/')&&file.endsWith('.gojo.json.gz'))){
+      if(files.has(relative))throw new Error('Retained download conflicts with selected output.');
+      const bytes=await fs.readFile(inside(retained,relative));JSON.parse(zlib.gunzipSync(bytes));
+      files.set(relative,bytes);records.push({path:relative,sourceSha256:hash(bytes),publishedSha256:hash(bytes),bytes:bytes.length,retainedFrom:study.retainedDownloadsSource});
+    }
   }
   const entry=files.get('index.html').toString('utf8');
   let sceneCount=null;
@@ -71,21 +105,22 @@ async function buildStudy(study){
     if(!construction&&study.readSurface!=='restored-native-inspector')throw new Error('Unknown selected study read surface.');
     const embedded=construction?entry.match(/<script\b[^>]*id=["']construction-data["'][^>]*>([\s\S]*?)<\/script>/i):entry.match(/<script\b[^>]*id=["']scene-data["'][^>]*>([\s\S]*?)<\/script>/i);
     if(!embedded)throw new Error('Entry lacks the captured native scene payload.');
-    let payload=JSON.parse(embedded[1]);
-    if(construction&&payload.encoding==='gzip-base64')payload=JSON.parse(zlib.gunzipSync(Buffer.from(payload.payload,'base64')).toString('utf8'));
+    let payload=construction?readConstruction(entry):JSON.parse(embedded[1]);
     if(/file:\/{1,3}|\b[A-Za-z]:[\\/](?!\/)/i.test(JSON.stringify(payload)))throw new Error('Machine-local path in captured native payload.');
     if(!Array.isArray(payload.scenes)||payload.scenes.length===0)throw new Error('Entry has no captured scenes.');
-    const reads=construction?payload.scenes.flatMap(scene=>scene.variants):payload.scenes;
+    const reads=construction?payload.scenes.flatMap(scene=>scene.variants.flatMap(design=>design.resolutions||[design])):payload.scenes;
     if(reads.length===0)throw new Error('Entry has no captured native reads.');
     for(const scene of reads){
       if(scene.nativeRestoreVerified!==true||(construction&&scene.nativeReplayVerified!==true))throw new Error('Unverified scene in public entry: '+scene.id);
       for(const link of [scene.archive,scene.archivePath])
-        if(link&&!files.has(link))throw new Error('Unpublished native archive link: '+link);
+        if(link&&!files.has(link)&&!externalDownloads.some(file=>file.url===link))throw new Error('Unpublished native archive link: '+link);
     }
     sceneCount=payload.scenes.length;
   }
   const publication={schema:'gojo.quickdraw.website-publication.v1',route,source:study.source,scenes:sceneCount,
-    scope:'Captured study presentation and explicitly selected downloads; no experiment execution during publication.',files:records};
+    scope:'Captured study presentation and explicitly selected downloads; no experiment execution during publication.',files:records,
+    ...(externalDownloads.length?{archiveStorage:study.archiveStorage,externalDownloads}:{}),
+    ...(study.compactCapturedReads?{presentation:'Lossless shared-subtree transport; every decoded captured value checked against source.'}:{})};
   files.set('publication.json',Buffer.from(JSON.stringify(publication,null,2)+'\n'));
   if(!dryRun){
     // Remove only obsolete files previously owned by this study's manifest.

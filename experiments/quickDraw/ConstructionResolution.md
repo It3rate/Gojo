@@ -2,8 +2,10 @@
 
 This exploratory checkpoint extends the [church and alphabet construction
 series](ConstructionSeries.md). It varies numeric placement independently of
-the rough-to-finished drawing steps. Website publication remains deferred for
-this milestone; the code and portable review are retained in GitHub.
+the rough-to-finished drawing steps. This review now replaces the earlier
+construction pilot at [drawing steps and resolution](https://gojo.inklingai.ca/quickdraw/construction/).
+The code and portable review are also retained in GitHub. Earlier executable
+download URLs remain available.
 
 Open `D:\_quickDraw\gojo-construction-resolution\review.html` for the local
 inspector, or the [portable review](results/construction-resolution/review/index.html).

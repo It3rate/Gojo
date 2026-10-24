@@ -1,0 +1,1532 @@
+{
+  "schema": "gojo.construction-resolution-browser-verification.v1",
+  "passed": true,
+  "base": "https://gojo.inklingai.ca",
+  "families": 3,
+  "designs": 41,
+  "programs": 205,
+  "levels": 5,
+  "rungReads": 945,
+  "coordinatePathReads": 27820,
+  "comparisonPathReads": 14575,
+  "dependencySelections": 205,
+  "verifiedProgramDownloads": 205,
+  "savedNativeJsonVerified": true,
+  "losslessCapturedReadVerified": true,
+  "mobile": {
+    "scroll": 390,
+    "client": 390
+  },
+  "scriptErrors": [],
+  "externalRequests": [],
+  "readChecks": [
+    {
+      "id": "church-01--exact",
+      "design": "church-01",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 26
+    },
+    {
+      "id": "church-01--q64",
+      "design": "church-01",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 26
+    },
+    {
+      "id": "church-01--q32",
+      "design": "church-01",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 26
+    },
+    {
+      "id": "church-01--q16",
+      "design": "church-01",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 26
+    },
+    {
+      "id": "church-01--q8",
+      "design": "church-01",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 26
+    },
+    {
+      "id": "church-02--exact",
+      "design": "church-02",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-02--q64",
+      "design": "church-02",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-02--q32",
+      "design": "church-02",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-02--q16",
+      "design": "church-02",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-02--q8",
+      "design": "church-02",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-03--exact",
+      "design": "church-03",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-03--q64",
+      "design": "church-03",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-03--q32",
+      "design": "church-03",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-03--q16",
+      "design": "church-03",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-03--q8",
+      "design": "church-03",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-04--exact",
+      "design": "church-04",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 36
+    },
+    {
+      "id": "church-04--q64",
+      "design": "church-04",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 36
+    },
+    {
+      "id": "church-04--q32",
+      "design": "church-04",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 36
+    },
+    {
+      "id": "church-04--q16",
+      "design": "church-04",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 36
+    },
+    {
+      "id": "church-04--q8",
+      "design": "church-04",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 36
+    },
+    {
+      "id": "church-05--exact",
+      "design": "church-05",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-05--q64",
+      "design": "church-05",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-05--q32",
+      "design": "church-05",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-05--q16",
+      "design": "church-05",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-05--q8",
+      "design": "church-05",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-06--exact",
+      "design": "church-06",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 38
+    },
+    {
+      "id": "church-06--q64",
+      "design": "church-06",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 38
+    },
+    {
+      "id": "church-06--q32",
+      "design": "church-06",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 38
+    },
+    {
+      "id": "church-06--q16",
+      "design": "church-06",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 38
+    },
+    {
+      "id": "church-06--q8",
+      "design": "church-06",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 38
+    },
+    {
+      "id": "church-07--exact",
+      "design": "church-07",
+      "resolution": "exact",
+      "rungs": 5,
+      "finalSpans": 28
+    },
+    {
+      "id": "church-07--q64",
+      "design": "church-07",
+      "resolution": "q64",
+      "rungs": 5,
+      "finalSpans": 28
+    },
+    {
+      "id": "church-07--q32",
+      "design": "church-07",
+      "resolution": "q32",
+      "rungs": 5,
+      "finalSpans": 28
+    },
+    {
+      "id": "church-07--q16",
+      "design": "church-07",
+      "resolution": "q16",
+      "rungs": 5,
+      "finalSpans": 28
+    },
+    {
+      "id": "church-07--q8",
+      "design": "church-07",
+      "resolution": "q8",
+      "rungs": 5,
+      "finalSpans": 28
+    },
+    {
+      "id": "church-08--exact",
+      "design": "church-08",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-08--q64",
+      "design": "church-08",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-08--q32",
+      "design": "church-08",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-08--q16",
+      "design": "church-08",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-08--q8",
+      "design": "church-08",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-09--exact",
+      "design": "church-09",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-09--q64",
+      "design": "church-09",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-09--q32",
+      "design": "church-09",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-09--q16",
+      "design": "church-09",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-09--q8",
+      "design": "church-09",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-10--exact",
+      "design": "church-10",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 25
+    },
+    {
+      "id": "church-10--q64",
+      "design": "church-10",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 25
+    },
+    {
+      "id": "church-10--q32",
+      "design": "church-10",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 25
+    },
+    {
+      "id": "church-10--q16",
+      "design": "church-10",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 25
+    },
+    {
+      "id": "church-10--q8",
+      "design": "church-10",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 25
+    },
+    {
+      "id": "church-11--exact",
+      "design": "church-11",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-11--q64",
+      "design": "church-11",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-11--q32",
+      "design": "church-11",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-11--q16",
+      "design": "church-11",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-11--q8",
+      "design": "church-11",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-12--exact",
+      "design": "church-12",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 20
+    },
+    {
+      "id": "church-12--q64",
+      "design": "church-12",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 20
+    },
+    {
+      "id": "church-12--q32",
+      "design": "church-12",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 20
+    },
+    {
+      "id": "church-12--q16",
+      "design": "church-12",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 20
+    },
+    {
+      "id": "church-12--q8",
+      "design": "church-12",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 20
+    },
+    {
+      "id": "lucide-church--exact",
+      "design": "lucide-church",
+      "resolution": "exact",
+      "rungs": 5,
+      "finalSpans": 22
+    },
+    {
+      "id": "lucide-church--q64",
+      "design": "lucide-church",
+      "resolution": "q64",
+      "rungs": 5,
+      "finalSpans": 22
+    },
+    {
+      "id": "lucide-church--q32",
+      "design": "lucide-church",
+      "resolution": "q32",
+      "rungs": 5,
+      "finalSpans": 22
+    },
+    {
+      "id": "lucide-church--q16",
+      "design": "lucide-church",
+      "resolution": "q16",
+      "rungs": 5,
+      "finalSpans": 22
+    },
+    {
+      "id": "lucide-church--q8",
+      "design": "lucide-church",
+      "resolution": "q8",
+      "rungs": 5,
+      "finalSpans": 22
+    },
+    {
+      "id": "tabler-church--exact",
+      "design": "tabler-church",
+      "resolution": "exact",
+      "rungs": 5,
+      "finalSpans": 11
+    },
+    {
+      "id": "tabler-church--q64",
+      "design": "tabler-church",
+      "resolution": "q64",
+      "rungs": 5,
+      "finalSpans": 11
+    },
+    {
+      "id": "tabler-church--q32",
+      "design": "tabler-church",
+      "resolution": "q32",
+      "rungs": 5,
+      "finalSpans": 11
+    },
+    {
+      "id": "tabler-church--q16",
+      "design": "tabler-church",
+      "resolution": "q16",
+      "rungs": 5,
+      "finalSpans": 11
+    },
+    {
+      "id": "tabler-church--q8",
+      "design": "tabler-church",
+      "resolution": "q8",
+      "rungs": 5,
+      "finalSpans": 11
+    },
+    {
+      "id": "alphabet-a--exact",
+      "design": "alphabet-a",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-a--q64",
+      "design": "alphabet-a",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-a--q32",
+      "design": "alphabet-a",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-a--q16",
+      "design": "alphabet-a",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-a--q8",
+      "design": "alphabet-a",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-b--exact",
+      "design": "alphabet-b",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-b--q64",
+      "design": "alphabet-b",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-b--q32",
+      "design": "alphabet-b",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-b--q16",
+      "design": "alphabet-b",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-b--q8",
+      "design": "alphabet-b",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-c--exact",
+      "design": "alphabet-c",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-c--q64",
+      "design": "alphabet-c",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-c--q32",
+      "design": "alphabet-c",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-c--q16",
+      "design": "alphabet-c",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-c--q8",
+      "design": "alphabet-c",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-d--exact",
+      "design": "alphabet-d",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-d--q64",
+      "design": "alphabet-d",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-d--q32",
+      "design": "alphabet-d",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-d--q16",
+      "design": "alphabet-d",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-d--q8",
+      "design": "alphabet-d",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-e--exact",
+      "design": "alphabet-e",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-e--q64",
+      "design": "alphabet-e",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-e--q32",
+      "design": "alphabet-e",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-e--q16",
+      "design": "alphabet-e",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-e--q8",
+      "design": "alphabet-e",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-f--exact",
+      "design": "alphabet-f",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-f--q64",
+      "design": "alphabet-f",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-f--q32",
+      "design": "alphabet-f",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-f--q16",
+      "design": "alphabet-f",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-f--q8",
+      "design": "alphabet-f",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-g--exact",
+      "design": "alphabet-g",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-g--q64",
+      "design": "alphabet-g",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-g--q32",
+      "design": "alphabet-g",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-g--q16",
+      "design": "alphabet-g",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-g--q8",
+      "design": "alphabet-g",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-h--exact",
+      "design": "alphabet-h",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-h--q64",
+      "design": "alphabet-h",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-h--q32",
+      "design": "alphabet-h",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-h--q16",
+      "design": "alphabet-h",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-h--q8",
+      "design": "alphabet-h",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-i--exact",
+      "design": "alphabet-i",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-i--q64",
+      "design": "alphabet-i",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-i--q32",
+      "design": "alphabet-i",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-i--q16",
+      "design": "alphabet-i",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-i--q8",
+      "design": "alphabet-i",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-j--exact",
+      "design": "alphabet-j",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-j--q64",
+      "design": "alphabet-j",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-j--q32",
+      "design": "alphabet-j",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-j--q16",
+      "design": "alphabet-j",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-j--q8",
+      "design": "alphabet-j",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-k--exact",
+      "design": "alphabet-k",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-k--q64",
+      "design": "alphabet-k",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-k--q32",
+      "design": "alphabet-k",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-k--q16",
+      "design": "alphabet-k",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-k--q8",
+      "design": "alphabet-k",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-l--exact",
+      "design": "alphabet-l",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-l--q64",
+      "design": "alphabet-l",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-l--q32",
+      "design": "alphabet-l",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-l--q16",
+      "design": "alphabet-l",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-l--q8",
+      "design": "alphabet-l",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-m--exact",
+      "design": "alphabet-m",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-m--q64",
+      "design": "alphabet-m",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-m--q32",
+      "design": "alphabet-m",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-m--q16",
+      "design": "alphabet-m",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-m--q8",
+      "design": "alphabet-m",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-n--exact",
+      "design": "alphabet-n",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-n--q64",
+      "design": "alphabet-n",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-n--q32",
+      "design": "alphabet-n",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-n--q16",
+      "design": "alphabet-n",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-n--q8",
+      "design": "alphabet-n",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-o--exact",
+      "design": "alphabet-o",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-o--q64",
+      "design": "alphabet-o",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-o--q32",
+      "design": "alphabet-o",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-o--q16",
+      "design": "alphabet-o",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-o--q8",
+      "design": "alphabet-o",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-p--exact",
+      "design": "alphabet-p",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-p--q64",
+      "design": "alphabet-p",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-p--q32",
+      "design": "alphabet-p",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-p--q16",
+      "design": "alphabet-p",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-p--q8",
+      "design": "alphabet-p",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-q--exact",
+      "design": "alphabet-q",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 7
+    },
+    {
+      "id": "alphabet-q--q64",
+      "design": "alphabet-q",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 7
+    },
+    {
+      "id": "alphabet-q--q32",
+      "design": "alphabet-q",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 7
+    },
+    {
+      "id": "alphabet-q--q16",
+      "design": "alphabet-q",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 7
+    },
+    {
+      "id": "alphabet-q--q8",
+      "design": "alphabet-q",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 7
+    },
+    {
+      "id": "alphabet-r--exact",
+      "design": "alphabet-r",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-r--q64",
+      "design": "alphabet-r",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-r--q32",
+      "design": "alphabet-r",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-r--q16",
+      "design": "alphabet-r",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-r--q8",
+      "design": "alphabet-r",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-s--exact",
+      "design": "alphabet-s",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-s--q64",
+      "design": "alphabet-s",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-s--q32",
+      "design": "alphabet-s",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-s--q16",
+      "design": "alphabet-s",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-s--q8",
+      "design": "alphabet-s",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-t--exact",
+      "design": "alphabet-t",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-t--q64",
+      "design": "alphabet-t",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-t--q32",
+      "design": "alphabet-t",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-t--q16",
+      "design": "alphabet-t",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-t--q8",
+      "design": "alphabet-t",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-u--exact",
+      "design": "alphabet-u",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-u--q64",
+      "design": "alphabet-u",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-u--q32",
+      "design": "alphabet-u",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-u--q16",
+      "design": "alphabet-u",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-u--q8",
+      "design": "alphabet-u",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-v--exact",
+      "design": "alphabet-v",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-v--q64",
+      "design": "alphabet-v",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-v--q32",
+      "design": "alphabet-v",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-v--q16",
+      "design": "alphabet-v",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-v--q8",
+      "design": "alphabet-v",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-w--exact",
+      "design": "alphabet-w",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-w--q64",
+      "design": "alphabet-w",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-w--q32",
+      "design": "alphabet-w",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-w--q16",
+      "design": "alphabet-w",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-w--q8",
+      "design": "alphabet-w",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-x--exact",
+      "design": "alphabet-x",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-x--q64",
+      "design": "alphabet-x",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-x--q32",
+      "design": "alphabet-x",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-x--q16",
+      "design": "alphabet-x",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-x--q8",
+      "design": "alphabet-x",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-y--exact",
+      "design": "alphabet-y",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-y--q64",
+      "design": "alphabet-y",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-y--q32",
+      "design": "alphabet-y",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-y--q16",
+      "design": "alphabet-y",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-y--q8",
+      "design": "alphabet-y",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-z--exact",
+      "design": "alphabet-z",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-z--q64",
+      "design": "alphabet-z",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-z--q32",
+      "design": "alphabet-z",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-z--q16",
+      "design": "alphabet-z",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-z--q8",
+      "design": "alphabet-z",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-atlas--exact",
+      "design": "alphabet-atlas",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 100
+    },
+    {
+      "id": "alphabet-atlas--q64",
+      "design": "alphabet-atlas",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 100
+    },
+    {
+      "id": "alphabet-atlas--q32",
+      "design": "alphabet-atlas",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 100
+    },
+    {
+      "id": "alphabet-atlas--q16",
+      "design": "alphabet-atlas",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 100
+    },
+    {
+      "id": "alphabet-atlas--q8",
+      "design": "alphabet-atlas",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 100
+    }
+  ],
+  "packageHashes": [
+    {
+      "path": "index.html",
+      "bytes": 340714,
+      "sha256": "2a2b024e015779c5770ca3fd5caacbcd917e6dc27996b9b0562b192e37fd4b64"
+    },
+    {
+      "path": "archives/church-front-balanced.gojo.json.gz",
+      "bytes": 42391,
+      "sha256": "a1dddc90a2140fc81c24d7d259488416a5281c4abbb3f92f0a8f2af5949f25c4"
+    },
+    {
+      "path": "archives/church-front-tall.gojo.json.gz",
+      "bytes": 42390,
+      "sha256": "846082064d1e18611525cb3ce85c182e3603b269d1215008798e50830d4f6151"
+    },
+    {
+      "path": "archives/church-front-wide.gojo.json.gz",
+      "bytes": 42389,
+      "sha256": "561ab9837673b1423e3709cad456a52093abca08f923fa010b20902de43d44cc"
+    },
+    {
+      "path": "archives/church-front-outside-trial.gojo.json.gz",
+      "bytes": 42391,
+      "sha256": "f9469ef3f7624dc2a1fae57d149124098bb5744e856ef0b3014a741e2e12bf9b"
+    },
+    {
+      "path": "archives/partition-star-5-460.gojo.json.gz",
+      "bytes": 25077,
+      "sha256": "3afbf6b9e9b5aba451d59ded9b2d23b9aca8ddb3fb499c9233c9ed969f505512"
+    },
+    {
+      "path": "archives/partition-star-7-460.gojo.json.gz",
+      "bytes": 30265,
+      "sha256": "5ee3ff4ef471be47fcf658fd778430ce1ac1265a0e5fffa33f934b42d9a8fb4f"
+    },
+    {
+      "path": "archives/partition-star-5-700.gojo.json.gz",
+      "bytes": 25077,
+      "sha256": "90083f83ae36338098b70c9182dc1e23aea47f81a3b5b860ed0db2a3bc712081"
+    },
+    {
+      "path": "archives/crescent-left.gojo.json.gz",
+      "bytes": 15027,
+      "sha256": "5b773324b5c8a7f1f0e661d8044ccd513daf9df689d94036cd466f913d51486c"
+    },
+    {
+      "path": "archives/crescent-right.gojo.json.gz",
+      "bytes": 15025,
+      "sha256": "4cdd23da63e8cfc2e6d9af660541be3226c3cbdbb8e6a4c5b35f9b5eca963792"
+    },
+    {
+      "path": "archives/crescent-slender.gojo.json.gz",
+      "bytes": 15026,
+      "sha256": "6aa25ca3a938ffc5ad7db8b11478b3780717cf3620d629ca75e96ec96dcefec9"
+    },
+    {
+      "path": "archives/organic-contour-soft.gojo.json.gz",
+      "bytes": 16312,
+      "sha256": "b9db5ce50fddcefee15fba00e350b00ec6bf904790c708a4e74d4d49e39679d4"
+    },
+    {
+      "path": "archives/organic-contour-tall.gojo.json.gz",
+      "bytes": 16312,
+      "sha256": "57dcaab74f3240e711fb63af52ce1aa822930b8a049e0d67941a9e61ea2cf260"
+    }
+  ],
+  "screenshots": [
+    "church-11-coarse.png",
+    "church-03-coarse.png",
+    "alphabet-atlas-coarse.png",
+    "resolution-mobile.png"
+  ]
+}

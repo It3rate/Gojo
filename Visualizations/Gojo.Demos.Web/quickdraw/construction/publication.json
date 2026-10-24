@@ -1,87 +1,1541 @@
 {
   "schema": "gojo.quickdraw.website-publication.v1",
   "route": "/quickdraw/construction/",
-  "source": "experiments/quickDraw/results/construction/public",
-  "scenes": 4,
+  "source": "experiments/quickDraw/results/construction-resolution/review",
+  "scenes": 3,
   "scope": "Captured study presentation and explicitly selected downloads; no experiment execution during publication.",
   "files": [
     {
       "path": "index.html",
-      "sourceSha256": "955ca1fe7a3cc17b35cb2985dcfda1e948a258fb6ba36fbdcf8970e9d7f98777",
-      "publishedSha256": "7a3afecc72b2e25c12a74165d1310e14eb9f088d5687f3133e6eba68e3e1eb30",
-      "bytes": 68026
+      "sourceSha256": "3bb7c74fa0d21a26c1924a601ea9feb231e81a3ae6aba66aea3151392cf6fc5c",
+      "publishedSha256": "2a2b024e015779c5770ca3fd5caacbcd917e6dc27996b9b0562b192e37fd4b64",
+      "bytes": 340714
     },
     {
       "path": "archives/church-front-balanced.gojo.json.gz",
       "sourceSha256": "a1dddc90a2140fc81c24d7d259488416a5281c4abbb3f92f0a8f2af5949f25c4",
       "publishedSha256": "a1dddc90a2140fc81c24d7d259488416a5281c4abbb3f92f0a8f2af5949f25c4",
-      "bytes": 42391
+      "bytes": 42391,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/church-front-tall.gojo.json.gz",
       "sourceSha256": "846082064d1e18611525cb3ce85c182e3603b269d1215008798e50830d4f6151",
       "publishedSha256": "846082064d1e18611525cb3ce85c182e3603b269d1215008798e50830d4f6151",
-      "bytes": 42390
+      "bytes": 42390,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/church-front-wide.gojo.json.gz",
       "sourceSha256": "561ab9837673b1423e3709cad456a52093abca08f923fa010b20902de43d44cc",
       "publishedSha256": "561ab9837673b1423e3709cad456a52093abca08f923fa010b20902de43d44cc",
-      "bytes": 42389
+      "bytes": 42389,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/church-front-outside-trial.gojo.json.gz",
       "sourceSha256": "f9469ef3f7624dc2a1fae57d149124098bb5744e856ef0b3014a741e2e12bf9b",
       "publishedSha256": "f9469ef3f7624dc2a1fae57d149124098bb5744e856ef0b3014a741e2e12bf9b",
-      "bytes": 42391
+      "bytes": 42391,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/partition-star-5-460.gojo.json.gz",
       "sourceSha256": "3afbf6b9e9b5aba451d59ded9b2d23b9aca8ddb3fb499c9233c9ed969f505512",
       "publishedSha256": "3afbf6b9e9b5aba451d59ded9b2d23b9aca8ddb3fb499c9233c9ed969f505512",
-      "bytes": 25077
+      "bytes": 25077,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/partition-star-7-460.gojo.json.gz",
       "sourceSha256": "5ee3ff4ef471be47fcf658fd778430ce1ac1265a0e5fffa33f934b42d9a8fb4f",
       "publishedSha256": "5ee3ff4ef471be47fcf658fd778430ce1ac1265a0e5fffa33f934b42d9a8fb4f",
-      "bytes": 30265
+      "bytes": 30265,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/partition-star-5-700.gojo.json.gz",
       "sourceSha256": "90083f83ae36338098b70c9182dc1e23aea47f81a3b5b860ed0db2a3bc712081",
       "publishedSha256": "90083f83ae36338098b70c9182dc1e23aea47f81a3b5b860ed0db2a3bc712081",
-      "bytes": 25077
+      "bytes": 25077,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/crescent-left.gojo.json.gz",
       "sourceSha256": "5b773324b5c8a7f1f0e661d8044ccd513daf9df689d94036cd466f913d51486c",
       "publishedSha256": "5b773324b5c8a7f1f0e661d8044ccd513daf9df689d94036cd466f913d51486c",
-      "bytes": 15027
+      "bytes": 15027,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/crescent-right.gojo.json.gz",
       "sourceSha256": "4cdd23da63e8cfc2e6d9af660541be3226c3cbdbb8e6a4c5b35f9b5eca963792",
       "publishedSha256": "4cdd23da63e8cfc2e6d9af660541be3226c3cbdbb8e6a4c5b35f9b5eca963792",
-      "bytes": 15025
+      "bytes": 15025,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/crescent-slender.gojo.json.gz",
       "sourceSha256": "6aa25ca3a938ffc5ad7db8b11478b3780717cf3620d629ca75e96ec96dcefec9",
       "publishedSha256": "6aa25ca3a938ffc5ad7db8b11478b3780717cf3620d629ca75e96ec96dcefec9",
-      "bytes": 15026
+      "bytes": 15026,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/organic-contour-soft.gojo.json.gz",
       "sourceSha256": "b9db5ce50fddcefee15fba00e350b00ec6bf904790c708a4e74d4d49e39679d4",
       "publishedSha256": "b9db5ce50fddcefee15fba00e350b00ec6bf904790c708a4e74d4d49e39679d4",
-      "bytes": 16312
+      "bytes": 16312,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     },
     {
       "path": "archives/organic-contour-tall.gojo.json.gz",
       "sourceSha256": "57dcaab74f3240e711fb63af52ce1aa822930b8a049e0d67941a9e61ea2cf260",
       "publishedSha256": "57dcaab74f3240e711fb63af52ce1aa822930b8a049e0d67941a9e61ea2cf260",
-      "bytes": 16312
+      "bytes": 16312,
+      "retainedFrom": "experiments/quickDraw/results/construction/public"
     }
-  ]
+  ],
+  "archiveStorage": {
+    "repository": "It3rate/Gojo",
+    "commit": "2921c2ec6e9d8aefb9719f64be0a340d87abfd08"
+  },
+  "externalDownloads": [
+    {
+      "path": "archives/church-01--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-01--exact.gojo.json.gz",
+      "sha256": "755f3e8e6f31eefac871d43490072a50f4dc32a3f09293cb15b878983e0aa414",
+      "decodedSha256": "788b3235a19fc0c62cdff394b2cc15db8dca025a01afe1ce710c6fcc2fe2295d",
+      "bytes": 43634
+    },
+    {
+      "path": "archives/church-02--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-02--exact.gojo.json.gz",
+      "sha256": "abdc80074cfb5049f21a6afb6a2583cdf36c56ed97f39f88640b1428fd4eb33a",
+      "decodedSha256": "40de8edfd7924740e70b5eef81050f7556c7c0f20feb793d9259facde1acd043",
+      "bytes": 50073
+    },
+    {
+      "path": "archives/church-03--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-03--exact.gojo.json.gz",
+      "sha256": "c2e42bcd9a95213543c6cb6370873414f29761bc78066781b6f5eb6b86d7cada",
+      "decodedSha256": "93ed47121c4e68ba9ee9820fbddc91cab1b07ee0aeaa75ef8e0bbd6d67b4e1b7",
+      "bytes": 49093
+    },
+    {
+      "path": "archives/church-04--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-04--exact.gojo.json.gz",
+      "sha256": "c00ebbc296a128b4abfc1df31d31d0af47d5ccac4a4bcc9385f2be79ba6fe0ee",
+      "decodedSha256": "8964eecd1d18138dc27a2cf2e6f0ea5a8e86040993afb7b5e9f0c7dc44330f3a",
+      "bytes": 63005
+    },
+    {
+      "path": "archives/church-05--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-05--exact.gojo.json.gz",
+      "sha256": "22a026d43fb39415b8a7b60a9b055c1360c10825530a0b6a47c52156978fd96e",
+      "decodedSha256": "e55bdd13809cf75c7445a58bddd37e9e51d8f0e4d54d99e00005ad9cd0fc8721",
+      "bytes": 57111
+    },
+    {
+      "path": "archives/church-06--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-06--exact.gojo.json.gz",
+      "sha256": "523b2001aaba6d05695cc9a283dcf9c8cf7b0bcfe40e840562a118ec9a4c5be9",
+      "decodedSha256": "1b7a3091d3c4d25e85b21e0b1904ec4ddc6fa3f6a55b7c9c8f1bbae23dacbb15",
+      "bytes": 57046
+    },
+    {
+      "path": "archives/church-07--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-07--exact.gojo.json.gz",
+      "sha256": "42e7bbc501e489eda478ef3f82d4d2777c735971807a8b347b1168d6a299af05",
+      "decodedSha256": "e98982edc1cf1e5b7a5abc836efa6f0793363c6118aa1005f20a790704abacbb",
+      "bytes": 52042
+    },
+    {
+      "path": "archives/church-08--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-08--exact.gojo.json.gz",
+      "sha256": "8260d9c7f5257cfd5c384eca5f0fb0eba36778e3366d8cc02257b8a81e29a8cc",
+      "decodedSha256": "60237f4ad0dc40bcf23e4b87be23b4db280d80de50be3181fe2c0bc3d3b0ce7e",
+      "bytes": 46898
+    },
+    {
+      "path": "archives/church-09--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-09--exact.gojo.json.gz",
+      "sha256": "5f0864804be0d24122075ce1076e4d2811e7c784909fbb3528762081f2a592e9",
+      "decodedSha256": "cb33e8b29236bc037b641b2656132b76dc681534ce6b150a15e952647d3d1250",
+      "bytes": 57567
+    },
+    {
+      "path": "archives/church-10--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-10--exact.gojo.json.gz",
+      "sha256": "f93aeae62e7cf2a6d6b3d78d52082e44fe57d898d711dc3a19b79e0f41167b10",
+      "decodedSha256": "b3bf296376308f0b0a8f3d5a9d1de05548e39055d97c7acb34af762bbedf4465",
+      "bytes": 35646
+    },
+    {
+      "path": "archives/church-11--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-11--exact.gojo.json.gz",
+      "sha256": "7a91d75376979008c113c80d63ddf500702c33fede1a94b3c307e0ce8aa8cf2f",
+      "decodedSha256": "7f0ea4c312ab17aabd433f492a073d5b0ef8b9aeeffbc4c3d96c97d87a1886ca",
+      "bytes": 49002
+    },
+    {
+      "path": "archives/church-12--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-12--exact.gojo.json.gz",
+      "sha256": "835d5cb23c9750a68e909300aca0e61d03cb0c4c50d340a2fc66cb5f5023ff71",
+      "decodedSha256": "7f9d1a4dcba93ba0c51c2cb7a52e0821c0c4c87f8e510b7f8986e2a30d9fcffe",
+      "bytes": 29001
+    },
+    {
+      "path": "archives/lucide-church--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/lucide-church--exact.gojo.json.gz",
+      "sha256": "458d73c2125b1f866e18d145cfb1a304d38575fcdaad4abd9a7f782ec0a1300c",
+      "decodedSha256": "919169f7ca7446db5fe811478b00bbc57efa2fece025b71658faf5e74f19d43d",
+      "bytes": 44416
+    },
+    {
+      "path": "archives/tabler-church--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/tabler-church--exact.gojo.json.gz",
+      "sha256": "7c5bc13b14775bca8e020ffc65208082d5d2247d8adc833cab5215417fc0688f",
+      "decodedSha256": "d9ff0e42f06624bac075e8b89e98e6831b56a315373be37baefc020c14907e7e",
+      "bytes": 26286
+    },
+    {
+      "path": "archives/alphabet-a--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-a--exact.gojo.json.gz",
+      "sha256": "b9808ebb9234d9dd8737ce571847d7e90ea10696e43b5ee5f9d3bdfe70d0e872",
+      "decodedSha256": "5fd0b849d4db7fa9e3630b6cafb0b270cfeb2ee9202e8201291064980e146ef1",
+      "bytes": 15170
+    },
+    {
+      "path": "archives/alphabet-b--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-b--exact.gojo.json.gz",
+      "sha256": "e4264ac08e7e82a858c31bbc12112ba6c8e69c64fbd4c77877988857d83bd333",
+      "decodedSha256": "49dfeb8a90a4af5737301e2427a7717b31d28cbec84a5012984b20ab400a34a8",
+      "bytes": 15952
+    },
+    {
+      "path": "archives/alphabet-c--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-c--exact.gojo.json.gz",
+      "sha256": "b06a0a45775731f9f2efac8db73ec7094f6324adcb62c1a3288fd6066c84a631",
+      "decodedSha256": "48714ed270b6481d89c4610708e485cc1789a3a13441ee568019bd82b2477d88",
+      "bytes": 25484
+    },
+    {
+      "path": "archives/alphabet-d--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-d--exact.gojo.json.gz",
+      "sha256": "535a36fc2251d7f602ba632dcb737b919901e3ce9eb4a3b8e7d5fd93630d85e4",
+      "decodedSha256": "d3d44da8c65c74bbab56fd083b821b945e5ad8949346c5577fda0222736d79db",
+      "bytes": 12467
+    },
+    {
+      "path": "archives/alphabet-e--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-e--exact.gojo.json.gz",
+      "sha256": "56c3238baed56de3b3e4b7e186df467f97675281246e9a07d7827d164c5a2b57",
+      "decodedSha256": "aa6945220db332f7968a7d7bff043065ad756ff548e2d08f4b73c37b2cd6b12d",
+      "bytes": 15829
+    },
+    {
+      "path": "archives/alphabet-f--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-f--exact.gojo.json.gz",
+      "sha256": "45c3fb806fedadda07d06d39d4a470e1b2bc14c9d464c4a09da9a3cfc2ec0f95",
+      "decodedSha256": "059a0ff89f663c142af488c834f441aef47a1cd921dfd55969f9f1eaed9e67a5",
+      "bytes": 14164
+    },
+    {
+      "path": "archives/alphabet-g--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-g--exact.gojo.json.gz",
+      "sha256": "37b9fde1d3f1222b4713b29ef3787ff5fd9419bef408c8429420d45fd471d0db",
+      "decodedSha256": "cfdb140559163ef682d4f0e86adb76a54e41bbfa5e69d803c66f9f602586a093",
+      "bytes": 27291
+    },
+    {
+      "path": "archives/alphabet-h--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-h--exact.gojo.json.gz",
+      "sha256": "f603794ba37e83c875741d474eb69ed76776833435e1e7d5e0a2b88840e55808",
+      "decodedSha256": "c412c5b2be134191c89e4b936dcc1f9f537bb7e411a9ff8f5b6e30dc044107df",
+      "bytes": 16359
+    },
+    {
+      "path": "archives/alphabet-i--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-i--exact.gojo.json.gz",
+      "sha256": "63848e56b66b290af6898c2f82550d72e379f40321bd6c455a855d01429b0cbf",
+      "decodedSha256": "11b19203e991595980ae524212aae1f810cb01fda093b16ec39300f62a14aecb",
+      "bytes": 16275
+    },
+    {
+      "path": "archives/alphabet-j--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-j--exact.gojo.json.gz",
+      "sha256": "2ea16bfd390e64e9671eee9726316aca22be5602204e857fc2c6578c3b8c9760",
+      "decodedSha256": "e52862daa1b9ebcc025bdf3e801eec9235282714ed7b15b8ddedbef5f745a6c5",
+      "bytes": 15946
+    },
+    {
+      "path": "archives/alphabet-k--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-k--exact.gojo.json.gz",
+      "sha256": "63d80f664853e70237732ffe4b8195b6cba50aff5bab97290e812640457778e0",
+      "decodedSha256": "350941d2764ea2b8de0c021190531837dfd6ef5d3386e46b9a567f1c101197d7",
+      "bytes": 14172
+    },
+    {
+      "path": "archives/alphabet-l--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-l--exact.gojo.json.gz",
+      "sha256": "263315a0eae396fdd6d70b140c64296e1cf00165a17f0f42fc1f505dfd75b5fe",
+      "decodedSha256": "6e8cc3c18c576395c472aaa2bd07fc7e86f30cca5831fbe8348f41ca2846370c",
+      "bytes": 19363
+    },
+    {
+      "path": "archives/alphabet-m--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-m--exact.gojo.json.gz",
+      "sha256": "7837db03c398656873f7e431913818d8e32ffcd3964773cfe48b55dd0d6df535",
+      "decodedSha256": "889614f7d49468445b908c299c7320df514364eec7182f08f390013f0d14f82a",
+      "bytes": 27369
+    },
+    {
+      "path": "archives/alphabet-n--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-n--exact.gojo.json.gz",
+      "sha256": "83cc07b6a8fd0e0a078622f847867246d244df5014e310088dfdc0db74ce4734",
+      "decodedSha256": "fc55736d8f82dd17cb6734331d5a7ef80abb7add903c872956532507cb62764a",
+      "bytes": 23073
+    },
+    {
+      "path": "archives/alphabet-o--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-o--exact.gojo.json.gz",
+      "sha256": "f06f7879e24dda8f1c68e80c5d23e3faa93b211b38a8890d3e4f80114ed1daf5",
+      "decodedSha256": "b563e8405ff43b51589935947316d35309ba08aa3ca654740c6f485182f7006d",
+      "bytes": 25964
+    },
+    {
+      "path": "archives/alphabet-p--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-p--exact.gojo.json.gz",
+      "sha256": "247cc281d8fc3fee81fe1f93c523962f992816635cd2cd9f268d72b77f095344",
+      "decodedSha256": "b30c77ea0b823afaa6f143ae8dba88459fa69e5d09743f32a7549f941dcae33c",
+      "bytes": 13762
+    },
+    {
+      "path": "archives/alphabet-q--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-q--exact.gojo.json.gz",
+      "sha256": "cf7c7ea44e37c6acb543feaa77dd188d84fe757116a286e8be054172d5b58947",
+      "decodedSha256": "68ef301e57f4b0361517db8a4ea50ce072db5bd317b6be3c3295574df4f39df3",
+      "bytes": 31190
+    },
+    {
+      "path": "archives/alphabet-r--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-r--exact.gojo.json.gz",
+      "sha256": "9f1f3829049a7bfb24497d866d77b650f8bf8255b0e62b2afcddecc0095b44d6",
+      "decodedSha256": "dde3fb7347a3e89da6b4a20d81c6609e29257f2dc2eb88a8684fe3a170374599",
+      "bytes": 15008
+    },
+    {
+      "path": "archives/alphabet-s--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-s--exact.gojo.json.gz",
+      "sha256": "d6adc0ed357df54c85e983cafb1d7961bbfb7ee30b2c79350e4c6db7e8517c65",
+      "decodedSha256": "ee49b29a6fd9f617544645b2d506468f778d57511293670762b63f2282631a0a",
+      "bytes": 36364
+    },
+    {
+      "path": "archives/alphabet-t--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-t--exact.gojo.json.gz",
+      "sha256": "fbced84d331d39673dfbf08d8cba0d042fb70eaf32d163b4e2f1ba363bbab748",
+      "decodedSha256": "35429403a6d1d9c0490732e2c714838a7eae7410cae0d10512090a281bed59a9",
+      "bytes": 15457
+    },
+    {
+      "path": "archives/alphabet-u--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-u--exact.gojo.json.gz",
+      "sha256": "ce954d32913dc723bf7b714a61ea63030277a9006afb0109d288d42a9e5df740",
+      "decodedSha256": "a5253f52fb563b537a8cd9b31a033ce1a8b9c3f57429090273966e5d975c840e",
+      "bytes": 15492
+    },
+    {
+      "path": "archives/alphabet-v--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-v--exact.gojo.json.gz",
+      "sha256": "b48039dfa80087f855bd10721ab4acd4c10a6bf26ff260850c5cc31919a5ba08",
+      "decodedSha256": "e190d96635add626d30b9a56ecfae1b294722450b6584ed1f4a403a811663445",
+      "bytes": 19969
+    },
+    {
+      "path": "archives/alphabet-w--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-w--exact.gojo.json.gz",
+      "sha256": "db8101b04a3a57346203295dd0ca72314312511a27c999ca27dd604ac1e7cc0c",
+      "decodedSha256": "69403ab0f76513f30317baa7836c022b56b8038cd15efb847ad3905671c87fe8",
+      "bytes": 27380
+    },
+    {
+      "path": "archives/alphabet-x--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-x--exact.gojo.json.gz",
+      "sha256": "bc25f7b48cba0cb0eea795edab464441d90561be6c32294139eca1aa4d0b5be1",
+      "decodedSha256": "fd7ca66b079fb868399f252ca79747f4da5e2336cb17de7113402c26f365d48d",
+      "bytes": 29493
+    },
+    {
+      "path": "archives/alphabet-y--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-y--exact.gojo.json.gz",
+      "sha256": "272a1bf9a6e03e8bfafdb7d875de727ed2318d16a2ea379d26f5a03a49e2a7ef",
+      "decodedSha256": "46a26b10e044ea8f922210398b0accd7210c01269a1a219d40e95841395ef9af",
+      "bytes": 25691
+    },
+    {
+      "path": "archives/alphabet-z--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-z--exact.gojo.json.gz",
+      "sha256": "d037defa8813e58fb1e1ee51f075673f9f112cd3f6e260dd2ed058ab03ebc369",
+      "decodedSha256": "1db08d30072c7bf8047af33d2d12dbd2a1236ab62290f8ab51cd8a0e7cba81de",
+      "bytes": 13287
+    },
+    {
+      "path": "archives/alphabet-atlas--exact.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-atlas--exact.gojo.json.gz",
+      "sha256": "d44e867e11747900031ba89c9736609d412b1e98e61f0e3f7b0462c009632167",
+      "decodedSha256": "3b273db3df18b79f2ff48f90f8580ac1296cc98277d3fc3822469acae4d5b99d",
+      "bytes": 434331
+    },
+    {
+      "path": "archives/church-01--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-01--q64.gojo.json.gz",
+      "sha256": "61f5fbb1e80ee6a1ed44f0a01003c8b5f9d1e889327b91a4a3b1cc74e37ae288",
+      "decodedSha256": "7b4fe3412ba049b8ead376092ed3415f72036e025e1f3a785e883d21aeba7c88",
+      "bytes": 43624
+    },
+    {
+      "path": "archives/church-02--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-02--q64.gojo.json.gz",
+      "sha256": "d3eb846c600f7ade14ceed7da75a39677288eb914796ba808ad56a1b11458906",
+      "decodedSha256": "8fee62de5ad353b68e71065a5430ec33b4830709ecfc40b943803e531f0bfba4",
+      "bytes": 50066
+    },
+    {
+      "path": "archives/church-03--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-03--q64.gojo.json.gz",
+      "sha256": "8fa8ce3753e85678c2d148eeb8a00bfc9be0183432365ab4b8b57318d3349c5f",
+      "decodedSha256": "ab4623046af43bfd279d90c377cbda840c75300e4df10c56f44184ed82bd1553",
+      "bytes": 49099
+    },
+    {
+      "path": "archives/church-04--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-04--q64.gojo.json.gz",
+      "sha256": "a9665f14c4ff23c4abaf023878dc105e7a4855375194d0234667012c87022731",
+      "decodedSha256": "717c8c97e53651def5a570813d1f9b6ae67d8ee504ffed1c31fb53305fcdb7c5",
+      "bytes": 63003
+    },
+    {
+      "path": "archives/church-05--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-05--q64.gojo.json.gz",
+      "sha256": "85385580422e5f2785f906d909ab9d2ec4095ddb1f39288edb1c4242e81f7237",
+      "decodedSha256": "9c3c0aa871ca135547f3235846738aaa4ec083576809bcdd82ce44ee078efca9",
+      "bytes": 57120
+    },
+    {
+      "path": "archives/church-06--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-06--q64.gojo.json.gz",
+      "sha256": "c6ac542ff99f8b9f0b47ae548bc232c8f0fb1dc7129fa80c42b744ce808a42d2",
+      "decodedSha256": "4b7ca8e71f52922216a49021616b0e8919776c0a9b9684340ec3f91ba3b7812d",
+      "bytes": 57045
+    },
+    {
+      "path": "archives/church-07--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-07--q64.gojo.json.gz",
+      "sha256": "38b6c91917a5e31298bd10f9f95bb111df726fae9fccf293749d4aae3f35a6a6",
+      "decodedSha256": "b7f7967d992ac30aeae16dc30d31cec7de331905921307bc7647449f29cc6be3",
+      "bytes": 52031
+    },
+    {
+      "path": "archives/church-08--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-08--q64.gojo.json.gz",
+      "sha256": "ac9bc66878aed3f5abd858a08f28d86bc68ff901916530f843556006249e22b8",
+      "decodedSha256": "c252e1054fef87668c0332bd6b99dc927371d1eb2f05de4b20643682c64334d6",
+      "bytes": 46908
+    },
+    {
+      "path": "archives/church-09--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-09--q64.gojo.json.gz",
+      "sha256": "34f67c6aa32b4744c3cbeb7202b16e4703d94dc8d2576562a0b636198e1d1f6d",
+      "decodedSha256": "96689e81eba9d0691cbd05b76f3f69e5c926e0ae44354323432c131e50b0eddc",
+      "bytes": 57559
+    },
+    {
+      "path": "archives/church-10--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-10--q64.gojo.json.gz",
+      "sha256": "f9e563cb1e312b13c5db66c9a9db06730fde61ac6ff9b6d17daade69f5fff494",
+      "decodedSha256": "9a0e1eb61882b0568569905cf6af90b8b765f578671ebfbaaca23a43aafa2cbe",
+      "bytes": 35636
+    },
+    {
+      "path": "archives/church-11--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-11--q64.gojo.json.gz",
+      "sha256": "62029768f4b67d78f319417b7562adf74e2806573971cc87bb097443ebdc322b",
+      "decodedSha256": "a2336babdbac03a9d3d3bd21f1b044f7c13cd104e9547079cb6ce417c64255f2",
+      "bytes": 48993
+    },
+    {
+      "path": "archives/church-12--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-12--q64.gojo.json.gz",
+      "sha256": "8bbc43a572f7c3e71bc3b7ebd5dd384125f4bc943425de07296d178e83b00bb1",
+      "decodedSha256": "f02758ce7d2e3d0f681026b9ad6c26839f10d4d5080226d9c82672c2dad19dcf",
+      "bytes": 29013
+    },
+    {
+      "path": "archives/lucide-church--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/lucide-church--q64.gojo.json.gz",
+      "sha256": "b55e286cb6b7cf6143d466e626c2946dd5ea61aebeab69e79125c163a3eb4d6d",
+      "decodedSha256": "f7032c7c2ac23fd73c99840fa717b6882fa39ad5e2ca8da40ae415572c61ac17",
+      "bytes": 44419
+    },
+    {
+      "path": "archives/tabler-church--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/tabler-church--q64.gojo.json.gz",
+      "sha256": "d4532e1d06db74f4db8477d23e05f26b494c3c7276936442bad7c4292210d875",
+      "decodedSha256": "1d5e84bde41164423c3eabfb98f90a502dd5376193f637909cef7ebc354c1810",
+      "bytes": 26286
+    },
+    {
+      "path": "archives/alphabet-a--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-a--q64.gojo.json.gz",
+      "sha256": "b9808ebb9234d9dd8737ce571847d7e90ea10696e43b5ee5f9d3bdfe70d0e872",
+      "decodedSha256": "5fd0b849d4db7fa9e3630b6cafb0b270cfeb2ee9202e8201291064980e146ef1",
+      "bytes": 15170
+    },
+    {
+      "path": "archives/alphabet-b--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-b--q64.gojo.json.gz",
+      "sha256": "e4264ac08e7e82a858c31bbc12112ba6c8e69c64fbd4c77877988857d83bd333",
+      "decodedSha256": "49dfeb8a90a4af5737301e2427a7717b31d28cbec84a5012984b20ab400a34a8",
+      "bytes": 15952
+    },
+    {
+      "path": "archives/alphabet-c--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-c--q64.gojo.json.gz",
+      "sha256": "b06a0a45775731f9f2efac8db73ec7094f6324adcb62c1a3288fd6066c84a631",
+      "decodedSha256": "48714ed270b6481d89c4610708e485cc1789a3a13441ee568019bd82b2477d88",
+      "bytes": 25484
+    },
+    {
+      "path": "archives/alphabet-d--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-d--q64.gojo.json.gz",
+      "sha256": "535a36fc2251d7f602ba632dcb737b919901e3ce9eb4a3b8e7d5fd93630d85e4",
+      "decodedSha256": "d3d44da8c65c74bbab56fd083b821b945e5ad8949346c5577fda0222736d79db",
+      "bytes": 12467
+    },
+    {
+      "path": "archives/alphabet-e--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-e--q64.gojo.json.gz",
+      "sha256": "56c3238baed56de3b3e4b7e186df467f97675281246e9a07d7827d164c5a2b57",
+      "decodedSha256": "aa6945220db332f7968a7d7bff043065ad756ff548e2d08f4b73c37b2cd6b12d",
+      "bytes": 15829
+    },
+    {
+      "path": "archives/alphabet-f--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-f--q64.gojo.json.gz",
+      "sha256": "45c3fb806fedadda07d06d39d4a470e1b2bc14c9d464c4a09da9a3cfc2ec0f95",
+      "decodedSha256": "059a0ff89f663c142af488c834f441aef47a1cd921dfd55969f9f1eaed9e67a5",
+      "bytes": 14164
+    },
+    {
+      "path": "archives/alphabet-g--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-g--q64.gojo.json.gz",
+      "sha256": "37b9fde1d3f1222b4713b29ef3787ff5fd9419bef408c8429420d45fd471d0db",
+      "decodedSha256": "cfdb140559163ef682d4f0e86adb76a54e41bbfa5e69d803c66f9f602586a093",
+      "bytes": 27291
+    },
+    {
+      "path": "archives/alphabet-h--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-h--q64.gojo.json.gz",
+      "sha256": "f603794ba37e83c875741d474eb69ed76776833435e1e7d5e0a2b88840e55808",
+      "decodedSha256": "c412c5b2be134191c89e4b936dcc1f9f537bb7e411a9ff8f5b6e30dc044107df",
+      "bytes": 16359
+    },
+    {
+      "path": "archives/alphabet-i--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-i--q64.gojo.json.gz",
+      "sha256": "63848e56b66b290af6898c2f82550d72e379f40321bd6c455a855d01429b0cbf",
+      "decodedSha256": "11b19203e991595980ae524212aae1f810cb01fda093b16ec39300f62a14aecb",
+      "bytes": 16275
+    },
+    {
+      "path": "archives/alphabet-j--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-j--q64.gojo.json.gz",
+      "sha256": "2ea16bfd390e64e9671eee9726316aca22be5602204e857fc2c6578c3b8c9760",
+      "decodedSha256": "e52862daa1b9ebcc025bdf3e801eec9235282714ed7b15b8ddedbef5f745a6c5",
+      "bytes": 15946
+    },
+    {
+      "path": "archives/alphabet-k--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-k--q64.gojo.json.gz",
+      "sha256": "63d80f664853e70237732ffe4b8195b6cba50aff5bab97290e812640457778e0",
+      "decodedSha256": "350941d2764ea2b8de0c021190531837dfd6ef5d3386e46b9a567f1c101197d7",
+      "bytes": 14172
+    },
+    {
+      "path": "archives/alphabet-l--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-l--q64.gojo.json.gz",
+      "sha256": "263315a0eae396fdd6d70b140c64296e1cf00165a17f0f42fc1f505dfd75b5fe",
+      "decodedSha256": "6e8cc3c18c576395c472aaa2bd07fc7e86f30cca5831fbe8348f41ca2846370c",
+      "bytes": 19363
+    },
+    {
+      "path": "archives/alphabet-m--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-m--q64.gojo.json.gz",
+      "sha256": "7837db03c398656873f7e431913818d8e32ffcd3964773cfe48b55dd0d6df535",
+      "decodedSha256": "889614f7d49468445b908c299c7320df514364eec7182f08f390013f0d14f82a",
+      "bytes": 27369
+    },
+    {
+      "path": "archives/alphabet-n--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-n--q64.gojo.json.gz",
+      "sha256": "83cc07b6a8fd0e0a078622f847867246d244df5014e310088dfdc0db74ce4734",
+      "decodedSha256": "fc55736d8f82dd17cb6734331d5a7ef80abb7add903c872956532507cb62764a",
+      "bytes": 23073
+    },
+    {
+      "path": "archives/alphabet-o--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-o--q64.gojo.json.gz",
+      "sha256": "f06f7879e24dda8f1c68e80c5d23e3faa93b211b38a8890d3e4f80114ed1daf5",
+      "decodedSha256": "b563e8405ff43b51589935947316d35309ba08aa3ca654740c6f485182f7006d",
+      "bytes": 25964
+    },
+    {
+      "path": "archives/alphabet-p--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-p--q64.gojo.json.gz",
+      "sha256": "247cc281d8fc3fee81fe1f93c523962f992816635cd2cd9f268d72b77f095344",
+      "decodedSha256": "b30c77ea0b823afaa6f143ae8dba88459fa69e5d09743f32a7549f941dcae33c",
+      "bytes": 13762
+    },
+    {
+      "path": "archives/alphabet-q--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-q--q64.gojo.json.gz",
+      "sha256": "cf7c7ea44e37c6acb543feaa77dd188d84fe757116a286e8be054172d5b58947",
+      "decodedSha256": "68ef301e57f4b0361517db8a4ea50ce072db5bd317b6be3c3295574df4f39df3",
+      "bytes": 31190
+    },
+    {
+      "path": "archives/alphabet-r--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-r--q64.gojo.json.gz",
+      "sha256": "9f1f3829049a7bfb24497d866d77b650f8bf8255b0e62b2afcddecc0095b44d6",
+      "decodedSha256": "dde3fb7347a3e89da6b4a20d81c6609e29257f2dc2eb88a8684fe3a170374599",
+      "bytes": 15008
+    },
+    {
+      "path": "archives/alphabet-s--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-s--q64.gojo.json.gz",
+      "sha256": "d6adc0ed357df54c85e983cafb1d7961bbfb7ee30b2c79350e4c6db7e8517c65",
+      "decodedSha256": "ee49b29a6fd9f617544645b2d506468f778d57511293670762b63f2282631a0a",
+      "bytes": 36364
+    },
+    {
+      "path": "archives/alphabet-t--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-t--q64.gojo.json.gz",
+      "sha256": "fbced84d331d39673dfbf08d8cba0d042fb70eaf32d163b4e2f1ba363bbab748",
+      "decodedSha256": "35429403a6d1d9c0490732e2c714838a7eae7410cae0d10512090a281bed59a9",
+      "bytes": 15457
+    },
+    {
+      "path": "archives/alphabet-u--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-u--q64.gojo.json.gz",
+      "sha256": "ce954d32913dc723bf7b714a61ea63030277a9006afb0109d288d42a9e5df740",
+      "decodedSha256": "a5253f52fb563b537a8cd9b31a033ce1a8b9c3f57429090273966e5d975c840e",
+      "bytes": 15492
+    },
+    {
+      "path": "archives/alphabet-v--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-v--q64.gojo.json.gz",
+      "sha256": "b48039dfa80087f855bd10721ab4acd4c10a6bf26ff260850c5cc31919a5ba08",
+      "decodedSha256": "e190d96635add626d30b9a56ecfae1b294722450b6584ed1f4a403a811663445",
+      "bytes": 19969
+    },
+    {
+      "path": "archives/alphabet-w--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-w--q64.gojo.json.gz",
+      "sha256": "db8101b04a3a57346203295dd0ca72314312511a27c999ca27dd604ac1e7cc0c",
+      "decodedSha256": "69403ab0f76513f30317baa7836c022b56b8038cd15efb847ad3905671c87fe8",
+      "bytes": 27380
+    },
+    {
+      "path": "archives/alphabet-x--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-x--q64.gojo.json.gz",
+      "sha256": "bc25f7b48cba0cb0eea795edab464441d90561be6c32294139eca1aa4d0b5be1",
+      "decodedSha256": "fd7ca66b079fb868399f252ca79747f4da5e2336cb17de7113402c26f365d48d",
+      "bytes": 29493
+    },
+    {
+      "path": "archives/alphabet-y--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-y--q64.gojo.json.gz",
+      "sha256": "272a1bf9a6e03e8bfafdb7d875de727ed2318d16a2ea379d26f5a03a49e2a7ef",
+      "decodedSha256": "46a26b10e044ea8f922210398b0accd7210c01269a1a219d40e95841395ef9af",
+      "bytes": 25691
+    },
+    {
+      "path": "archives/alphabet-z--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-z--q64.gojo.json.gz",
+      "sha256": "d037defa8813e58fb1e1ee51f075673f9f112cd3f6e260dd2ed058ab03ebc369",
+      "decodedSha256": "1db08d30072c7bf8047af33d2d12dbd2a1236ab62290f8ab51cd8a0e7cba81de",
+      "bytes": 13287
+    },
+    {
+      "path": "archives/alphabet-atlas--q64.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-atlas--q64.gojo.json.gz",
+      "sha256": "d44e867e11747900031ba89c9736609d412b1e98e61f0e3f7b0462c009632167",
+      "decodedSha256": "3b273db3df18b79f2ff48f90f8580ac1296cc98277d3fc3822469acae4d5b99d",
+      "bytes": 434331
+    },
+    {
+      "path": "archives/church-01--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-01--q32.gojo.json.gz",
+      "sha256": "21e12dc38ec7fc5720a8c61f4c3d425e20ae37f7613eb856f9e9973dd912f8ac",
+      "decodedSha256": "0031087b25d640ab9786140447173e86274ba0577316db1b251a1646f3382a6f",
+      "bytes": 43637
+    },
+    {
+      "path": "archives/church-02--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-02--q32.gojo.json.gz",
+      "sha256": "943b83c5ccf2afdb265fd8d1a140c0404b0b7a09fdeaae8d54bde0d79a3f0836",
+      "decodedSha256": "c0a3ac05ab17e48c76e6f4b3d197406c79076f758d0039c95bd08af3e6f96729",
+      "bytes": 50038
+    },
+    {
+      "path": "archives/church-03--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-03--q32.gojo.json.gz",
+      "sha256": "8b7301a95e5aab4c8a9eeabcc2b1f94941624be5be35d3fb807d06719dce16fa",
+      "decodedSha256": "e0f9b5f48871acf7024a3db854d50f183f07d12dcf8002eb4d9a165b7ce8d334",
+      "bytes": 49105
+    },
+    {
+      "path": "archives/church-04--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-04--q32.gojo.json.gz",
+      "sha256": "f51ec5e4d47b27dde20c61f05b50605b41b6029fa76780f7806c15b8191b5015",
+      "decodedSha256": "8ef74e37728f6171c3d983707c88b445d24a754abdd1d46317f466c719bf22aa",
+      "bytes": 63001
+    },
+    {
+      "path": "archives/church-05--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-05--q32.gojo.json.gz",
+      "sha256": "1cf74494a11af10e8f72d5aeeb5f9dc972ec235c48ca8e04cd386216fceaed6a",
+      "decodedSha256": "1f6d41fea1e1a15584cb49b80a6816dfd9be5826058e74deb4a1c058c0869268",
+      "bytes": 57122
+    },
+    {
+      "path": "archives/church-06--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-06--q32.gojo.json.gz",
+      "sha256": "afebffddf56a1e838a5a5117c7903c7c662bef6059bc42ab38d517416dbe14c1",
+      "decodedSha256": "fa0d459d3bf5f8b8a0086b2f384f5253e9436abd828a8dd3646cfb82ca97e0a3",
+      "bytes": 57050
+    },
+    {
+      "path": "archives/church-07--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-07--q32.gojo.json.gz",
+      "sha256": "0b16a1ac3415be62087807d2988eca3a12607d18e7786d8b25a9646e76c1268b",
+      "decodedSha256": "d1bbef7a5dbf118246d3de41a673ca8477dfd1dc195d1d09b6536ab4e70406b2",
+      "bytes": 52033
+    },
+    {
+      "path": "archives/church-08--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-08--q32.gojo.json.gz",
+      "sha256": "967225fd5fa274d1cc3842a0d2503c9c978d89ed278cceb80e08f66538b23a25",
+      "decodedSha256": "4f3426aeddfa05f3a68eb835d632755684ef9bdf2693c27dfc64c586944de5e2",
+      "bytes": 46904
+    },
+    {
+      "path": "archives/church-09--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-09--q32.gojo.json.gz",
+      "sha256": "69ad88b217b8b54e035b84db7e45dd9e778319208e24ce4c593c1add5c28257d",
+      "decodedSha256": "999b472a3b923b97f9e9c83e39e1b6d412c2c3749a70e5be0e4752b516150079",
+      "bytes": 57559
+    },
+    {
+      "path": "archives/church-10--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-10--q32.gojo.json.gz",
+      "sha256": "4bb278d86e76b69a7021f020536bf33d19e253687dd9f0b2bedb5f39626e05ef",
+      "decodedSha256": "a1fcf05b29ca3d2f561a257b4ccd6740b380b876f218ca401bcbf2cc708e12e6",
+      "bytes": 35643
+    },
+    {
+      "path": "archives/church-11--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-11--q32.gojo.json.gz",
+      "sha256": "f81fba407fe64ad2010b55b3bf91f17121da11a7c657e5f4b0d33c69e3839ba1",
+      "decodedSha256": "23730658fc2bd5bc179e87bc2090d35dc27aa498283738e0301874e5cb5ca045",
+      "bytes": 49016
+    },
+    {
+      "path": "archives/church-12--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-12--q32.gojo.json.gz",
+      "sha256": "1fc292839da67416c25b9ba849f493074f78863a60216462fa4922de4a37218e",
+      "decodedSha256": "2bdbf9c7e97d3fb211aa27109a22715309b85e0ca8a5c978970157951f38acdc",
+      "bytes": 29014
+    },
+    {
+      "path": "archives/lucide-church--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/lucide-church--q32.gojo.json.gz",
+      "sha256": "636a16253691f2bf7b21b1f7f54a569aeb5dc30a726ea2e1f6ffa803467d9a15",
+      "decodedSha256": "abb6ab46f9db8c56fe052140604ae23fc3232f2f6cf187cf05a9669e7ebea8cd",
+      "bytes": 44531
+    },
+    {
+      "path": "archives/tabler-church--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/tabler-church--q32.gojo.json.gz",
+      "sha256": "b263db214857598ec0c45baeacde8422dfabcc181435f4a9dd607d824b3e4f92",
+      "decodedSha256": "3f9186ab506e2fa225785f837e3a21c81725f41c520747395300dc43c0a1e2ab",
+      "bytes": 26287
+    },
+    {
+      "path": "archives/alphabet-a--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-a--q32.gojo.json.gz",
+      "sha256": "b9808ebb9234d9dd8737ce571847d7e90ea10696e43b5ee5f9d3bdfe70d0e872",
+      "decodedSha256": "5fd0b849d4db7fa9e3630b6cafb0b270cfeb2ee9202e8201291064980e146ef1",
+      "bytes": 15170
+    },
+    {
+      "path": "archives/alphabet-b--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-b--q32.gojo.json.gz",
+      "sha256": "e4264ac08e7e82a858c31bbc12112ba6c8e69c64fbd4c77877988857d83bd333",
+      "decodedSha256": "49dfeb8a90a4af5737301e2427a7717b31d28cbec84a5012984b20ab400a34a8",
+      "bytes": 15952
+    },
+    {
+      "path": "archives/alphabet-c--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-c--q32.gojo.json.gz",
+      "sha256": "b06a0a45775731f9f2efac8db73ec7094f6324adcb62c1a3288fd6066c84a631",
+      "decodedSha256": "48714ed270b6481d89c4610708e485cc1789a3a13441ee568019bd82b2477d88",
+      "bytes": 25484
+    },
+    {
+      "path": "archives/alphabet-d--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-d--q32.gojo.json.gz",
+      "sha256": "535a36fc2251d7f602ba632dcb737b919901e3ce9eb4a3b8e7d5fd93630d85e4",
+      "decodedSha256": "d3d44da8c65c74bbab56fd083b821b945e5ad8949346c5577fda0222736d79db",
+      "bytes": 12467
+    },
+    {
+      "path": "archives/alphabet-e--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-e--q32.gojo.json.gz",
+      "sha256": "56c3238baed56de3b3e4b7e186df467f97675281246e9a07d7827d164c5a2b57",
+      "decodedSha256": "aa6945220db332f7968a7d7bff043065ad756ff548e2d08f4b73c37b2cd6b12d",
+      "bytes": 15829
+    },
+    {
+      "path": "archives/alphabet-f--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-f--q32.gojo.json.gz",
+      "sha256": "45c3fb806fedadda07d06d39d4a470e1b2bc14c9d464c4a09da9a3cfc2ec0f95",
+      "decodedSha256": "059a0ff89f663c142af488c834f441aef47a1cd921dfd55969f9f1eaed9e67a5",
+      "bytes": 14164
+    },
+    {
+      "path": "archives/alphabet-g--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-g--q32.gojo.json.gz",
+      "sha256": "f02864c43dcae62a356bfd7987d90b65841ccab951426ebd3951d6557c14fd8b",
+      "decodedSha256": "2528e674799f80c6f068bc8b220e572ca1dfe0b44f5d9af861997e020290cb9b",
+      "bytes": 27295
+    },
+    {
+      "path": "archives/alphabet-h--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-h--q32.gojo.json.gz",
+      "sha256": "3550fc45793c660ff9670fe3c8b766e5fbe37dcef3d7afb2993a3c979faee049",
+      "decodedSha256": "01459f1e77887a9f3ca473832d9445ee9889c4dcfdc53a8500334da4c3251c07",
+      "bytes": 16360
+    },
+    {
+      "path": "archives/alphabet-i--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-i--q32.gojo.json.gz",
+      "sha256": "e03fe241dfe0a408f825e71b2c58293e715cf9f2e40c88587fc2c6409b3ab72a",
+      "decodedSha256": "7a2029425713c0778f6fbb375438c2c158ff665889570368ba169e9d8a876348",
+      "bytes": 16275
+    },
+    {
+      "path": "archives/alphabet-j--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-j--q32.gojo.json.gz",
+      "sha256": "3524767e09a611915ad26e45537975cf6120f7169ff165e0eb5ac57ddb135a76",
+      "decodedSha256": "1e4f9c8db27d30b355a834d49008a24575ec485444fce2e2480de6af63a5fa66",
+      "bytes": 15945
+    },
+    {
+      "path": "archives/alphabet-k--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-k--q32.gojo.json.gz",
+      "sha256": "bdb9363664ba87ca0efea3504529670927532afc11748c7781649703a01825e9",
+      "decodedSha256": "e9da3c363d7a7eb0c61fef32af721936b4221207cd34a78c3b712c68d00f38ec",
+      "bytes": 14173
+    },
+    {
+      "path": "archives/alphabet-l--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-l--q32.gojo.json.gz",
+      "sha256": "d895802a18bb72aa6edaea9776fcc53ad120b142fca0e4790d6517149b024bd8",
+      "decodedSha256": "e5656e2e4da179a0462fb416feb8dab77e4499e21663d5d379a75bab53a60c26",
+      "bytes": 19363
+    },
+    {
+      "path": "archives/alphabet-m--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-m--q32.gojo.json.gz",
+      "sha256": "7837db03c398656873f7e431913818d8e32ffcd3964773cfe48b55dd0d6df535",
+      "decodedSha256": "889614f7d49468445b908c299c7320df514364eec7182f08f390013f0d14f82a",
+      "bytes": 27369
+    },
+    {
+      "path": "archives/alphabet-n--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-n--q32.gojo.json.gz",
+      "sha256": "83cc07b6a8fd0e0a078622f847867246d244df5014e310088dfdc0db74ce4734",
+      "decodedSha256": "fc55736d8f82dd17cb6734331d5a7ef80abb7add903c872956532507cb62764a",
+      "bytes": 23073
+    },
+    {
+      "path": "archives/alphabet-o--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-o--q32.gojo.json.gz",
+      "sha256": "f06f7879e24dda8f1c68e80c5d23e3faa93b211b38a8890d3e4f80114ed1daf5",
+      "decodedSha256": "b563e8405ff43b51589935947316d35309ba08aa3ca654740c6f485182f7006d",
+      "bytes": 25964
+    },
+    {
+      "path": "archives/alphabet-p--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-p--q32.gojo.json.gz",
+      "sha256": "247cc281d8fc3fee81fe1f93c523962f992816635cd2cd9f268d72b77f095344",
+      "decodedSha256": "b30c77ea0b823afaa6f143ae8dba88459fa69e5d09743f32a7549f941dcae33c",
+      "bytes": 13762
+    },
+    {
+      "path": "archives/alphabet-q--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-q--q32.gojo.json.gz",
+      "sha256": "cf7c7ea44e37c6acb543feaa77dd188d84fe757116a286e8be054172d5b58947",
+      "decodedSha256": "68ef301e57f4b0361517db8a4ea50ce072db5bd317b6be3c3295574df4f39df3",
+      "bytes": 31190
+    },
+    {
+      "path": "archives/alphabet-r--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-r--q32.gojo.json.gz",
+      "sha256": "9f1f3829049a7bfb24497d866d77b650f8bf8255b0e62b2afcddecc0095b44d6",
+      "decodedSha256": "dde3fb7347a3e89da6b4a20d81c6609e29257f2dc2eb88a8684fe3a170374599",
+      "bytes": 15008
+    },
+    {
+      "path": "archives/alphabet-s--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-s--q32.gojo.json.gz",
+      "sha256": "29aebdcdeef2047213f044a541074b603a543d67249dfd8f701226d95d0d3851",
+      "decodedSha256": "924c369b025f4401e7cc5acb82a7a0174dff76907fd2c95cdf0ac54096db7b58",
+      "bytes": 36366
+    },
+    {
+      "path": "archives/alphabet-t--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-t--q32.gojo.json.gz",
+      "sha256": "4b75cbbd938d714e82dd616221477b67a178695e84417a13a69196e1b5f98850",
+      "decodedSha256": "ed4beb498f7108270f3fa424ffcd0cec7302349e75ddf853935814233de1f074",
+      "bytes": 15455
+    },
+    {
+      "path": "archives/alphabet-u--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-u--q32.gojo.json.gz",
+      "sha256": "1d5f1042a5db25a00123544315c0845d92cb58d816bf515a178cea648aec389f",
+      "decodedSha256": "ec6bb2f5e5feb3980dffe31061a6001a7ded944dfae4f310fbf12b70c5279c92",
+      "bytes": 15490
+    },
+    {
+      "path": "archives/alphabet-v--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-v--q32.gojo.json.gz",
+      "sha256": "04d4e71cd84e583eb99a1db729a37f46da24cc24ef23bc73ba846f71d6e39070",
+      "decodedSha256": "6daddb747115c21dc413045274a92c580b3d410724a7d59d71b1b33b475afbbf",
+      "bytes": 19969
+    },
+    {
+      "path": "archives/alphabet-w--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-w--q32.gojo.json.gz",
+      "sha256": "588d6a3e4c22c90c65d5375501fd30b2d9d3a1d20851ec168887eeee8a563707",
+      "decodedSha256": "0383be5f30164e79b07f826ee0d6afd2c53ce25c00ce61a738e87e1c711cab83",
+      "bytes": 27380
+    },
+    {
+      "path": "archives/alphabet-x--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-x--q32.gojo.json.gz",
+      "sha256": "d81e0ee9f5c63edd2b4110de1857b7ceb6f3216160d170a2193220c03fadccb6",
+      "decodedSha256": "b0f14a5abc56960d87503bbe67da35d380583b11c87fdbd0ead9c98f8ede4562",
+      "bytes": 29494
+    },
+    {
+      "path": "archives/alphabet-y--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-y--q32.gojo.json.gz",
+      "sha256": "272a1bf9a6e03e8bfafdb7d875de727ed2318d16a2ea379d26f5a03a49e2a7ef",
+      "decodedSha256": "46a26b10e044ea8f922210398b0accd7210c01269a1a219d40e95841395ef9af",
+      "bytes": 25691
+    },
+    {
+      "path": "archives/alphabet-z--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-z--q32.gojo.json.gz",
+      "sha256": "d037defa8813e58fb1e1ee51f075673f9f112cd3f6e260dd2ed058ab03ebc369",
+      "decodedSha256": "1db08d30072c7bf8047af33d2d12dbd2a1236ab62290f8ab51cd8a0e7cba81de",
+      "bytes": 13287
+    },
+    {
+      "path": "archives/alphabet-atlas--q32.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-atlas--q32.gojo.json.gz",
+      "sha256": "0b3b375eccb24c9f82a206f390b164477c999d946e9536407f4e0964cca2daa6",
+      "decodedSha256": "823ffd6fa8513b9f95cedd362c2782fcabfaafcec2e2fe01ab3aa57388e8b353",
+      "bytes": 434340
+    },
+    {
+      "path": "archives/church-01--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-01--q16.gojo.json.gz",
+      "sha256": "df39dfae360b500a8d4fede7536288b1ab6b4e8a050deb4ceb373cacc23760fc",
+      "decodedSha256": "91fe8d8eed6c076497d36b2c821adc723b2a055ff810b192b5261b40428ed51a",
+      "bytes": 43636
+    },
+    {
+      "path": "archives/church-02--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-02--q16.gojo.json.gz",
+      "sha256": "8ce63a0691e764778b3a611c4388e38bb27ebbf5b7cafe7a9afdace02e92f170",
+      "decodedSha256": "b7a4859be9fc6b1d7e3ecf360f90c3f70c0e618fa7a44c4179f5d55b0b737a2a",
+      "bytes": 50038
+    },
+    {
+      "path": "archives/church-03--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-03--q16.gojo.json.gz",
+      "sha256": "16e6070f9c5313ba16a6cc4078fd1fe5c0d40f9b9c51594f2639bcc825a0b898",
+      "decodedSha256": "6f54d1770db25d6ede6117b1497949c6e3a2a50326cf1e457bf66f907b7d140b",
+      "bytes": 49094
+    },
+    {
+      "path": "archives/church-04--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-04--q16.gojo.json.gz",
+      "sha256": "ff8b7db0868a8b2bc62fadc38361b8ff009d47814b87d13e7940045902c3dea0",
+      "decodedSha256": "d0035e1740f82be16a1f661ce0bba305b95de532dd4558baebf67a4c6d98c66a",
+      "bytes": 62992
+    },
+    {
+      "path": "archives/church-05--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-05--q16.gojo.json.gz",
+      "sha256": "2dab576e2b91be03eda221acabaf1546b0814f5e783a6b93f430ec14e7219be2",
+      "decodedSha256": "5dba5d87e840270e42bb98bbe995ea4c6f2f7cbe0589260ecca74d0798251829",
+      "bytes": 57111
+    },
+    {
+      "path": "archives/church-06--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-06--q16.gojo.json.gz",
+      "sha256": "f8e1d8ce51d88054240c023697731f2281c1807581d8769557318fc20c12b321",
+      "decodedSha256": "788ebebd1d375b151c4396596ada46570d426db049e7c52d29a856686e6783fb",
+      "bytes": 57016
+    },
+    {
+      "path": "archives/church-07--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-07--q16.gojo.json.gz",
+      "sha256": "b066de71960f845fc77859d2f4725d9984a265581be5f70572307c82ba0b47f7",
+      "decodedSha256": "40129321838cb6bf26d17c93416e33baf5e12f19aa195777cfac69ed14fe14b3",
+      "bytes": 52035
+    },
+    {
+      "path": "archives/church-08--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-08--q16.gojo.json.gz",
+      "sha256": "4751dc2693ba2640867ab60c6eb9dc1cecdc446c75c0564d64c6a7d030283472",
+      "decodedSha256": "9c793aa223b21944843e2b705f11313fd3aa3e0c04c107ca169d5e4c15dd3355",
+      "bytes": 46891
+    },
+    {
+      "path": "archives/church-09--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-09--q16.gojo.json.gz",
+      "sha256": "d24f5bd2680d60c0d191fcfd4454899170cb5396caa04f01510a86bd68d351f9",
+      "decodedSha256": "ab5ba1a79b27940a8a2a65334a57c636019fc9e32ffccb759b7886ce7534a35f",
+      "bytes": 57560
+    },
+    {
+      "path": "archives/church-10--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-10--q16.gojo.json.gz",
+      "sha256": "3a725ab05d2bbee3c2c2ad8d49d02a3a1ba1a14a2e4de789ae596f1b879067ea",
+      "decodedSha256": "1b3ba3678b8bda40489ed8ff64b8761a631859e83428fac30e5f76750cf7ee21",
+      "bytes": 35643
+    },
+    {
+      "path": "archives/church-11--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-11--q16.gojo.json.gz",
+      "sha256": "bbcdd3d04af466aa71cfe8b96df0881138efbbbd98b12e5788c75529ef640df1",
+      "decodedSha256": "b0e2e669363edf7efd32be27055fb239999598f7f6b32c37a3ec796a4266d5c7",
+      "bytes": 49008
+    },
+    {
+      "path": "archives/church-12--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-12--q16.gojo.json.gz",
+      "sha256": "bc27b59befd6c3273c5545b48874ab6b7618a68710af5e48d9a269c8bb5b733b",
+      "decodedSha256": "ad1bcd36cdc26a41ee21020eab4f70090a2a90209135f2014170aa84e156f2fc",
+      "bytes": 29004
+    },
+    {
+      "path": "archives/lucide-church--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/lucide-church--q16.gojo.json.gz",
+      "sha256": "72755c9ba344392a9efe56b1804acb42feaf79ad52c0b8ccb56d58a31b9d566d",
+      "decodedSha256": "284dabd7376ce9ffa3aec9815755bf1f0710cf3b2c95549e2f069a2e2e4cf0b5",
+      "bytes": 44403
+    },
+    {
+      "path": "archives/tabler-church--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/tabler-church--q16.gojo.json.gz",
+      "sha256": "e4947caf9a55003e0c00810b0e1c3e9b4c6a0bb8a316feba896be1af7e4c8c05",
+      "decodedSha256": "0168916ab2806e0049ca2a0ec494a9fdc3c2ac7088bde8f79bfb4548756a9069",
+      "bytes": 26281
+    },
+    {
+      "path": "archives/alphabet-a--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-a--q16.gojo.json.gz",
+      "sha256": "59de5eb03622d52d728f1a8344403defa49cce527e3b1403401dad79b7237a47",
+      "decodedSha256": "5dfd7d03c7473955c19a1427b58cc473ce2015670bc3299be457e3501587fe32",
+      "bytes": 15169
+    },
+    {
+      "path": "archives/alphabet-b--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-b--q16.gojo.json.gz",
+      "sha256": "8d25e08125116337f97212778a940c6fcb1afbe9357b4878249a7a6b7fb22fe8",
+      "decodedSha256": "529bee866c7c33bc33d3d1676e2096f93377a9b42fa5a8a2f3a8dda433ec0a89",
+      "bytes": 15960
+    },
+    {
+      "path": "archives/alphabet-c--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-c--q16.gojo.json.gz",
+      "sha256": "8167d0efec222648b60648c5318164e5c3e321fa319bc58445c829997a0c7126",
+      "decodedSha256": "39bee51ee98376ee4c6152844da978ed2dc5c7bcee81ff22dae6ff82343608de",
+      "bytes": 25490
+    },
+    {
+      "path": "archives/alphabet-d--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-d--q16.gojo.json.gz",
+      "sha256": "3d1f71ae510f013e83c3a03d9826d9a37c45cd87957b4f8210e4d395018fceb1",
+      "decodedSha256": "88b57d0807a9a6136200165bc2c4c8a26cf3bd6afcbb9f00fe16d58ca6904348",
+      "bytes": 12470
+    },
+    {
+      "path": "archives/alphabet-e--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-e--q16.gojo.json.gz",
+      "sha256": "26b8280380e920c47ff044be5fa831cedad17d52d1b68dc3676f67442e591020",
+      "decodedSha256": "05239c04ede09f3863e1bac8b418aa5253edfe6f66821f85dee46e1b5a19de9c",
+      "bytes": 15829
+    },
+    {
+      "path": "archives/alphabet-f--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-f--q16.gojo.json.gz",
+      "sha256": "bba7b8c61ea4a130bc19bba0f1b30e67e59d9e1b43956fe42564b67ffa7fb1bb",
+      "decodedSha256": "cfd408cb4645c7c6d7ccdc23e0c48210af2bcb0ef914a2c172d81db1d616ca0c",
+      "bytes": 14166
+    },
+    {
+      "path": "archives/alphabet-g--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-g--q16.gojo.json.gz",
+      "sha256": "40adc2943e8822f0dbaf5890c4c2ed3ea57b0cd314b666c9013dde8e7dad4c2d",
+      "decodedSha256": "a3d37b2072b72c24d75c3c791afcada621176f85ba10247190d55ea89bb0b28f",
+      "bytes": 27290
+    },
+    {
+      "path": "archives/alphabet-h--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-h--q16.gojo.json.gz",
+      "sha256": "f26974f1e6750e9673e37fd5ec25fff675e548dbbb6a8d01e4d51c895a9588bc",
+      "decodedSha256": "b9ea43684384f276531836ad5c4bca39a03513bb9015573edf8a02180dfd5b8b",
+      "bytes": 16359
+    },
+    {
+      "path": "archives/alphabet-i--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-i--q16.gojo.json.gz",
+      "sha256": "d3a2de45c5f627820b26ef963727826bbb4a1d1fa4ea234f8dd7bdccef01134c",
+      "decodedSha256": "cc0a40377723d2fa1d95b8839b5741ead2568addae476439ef3c386ae97a2b7b",
+      "bytes": 16274
+    },
+    {
+      "path": "archives/alphabet-j--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-j--q16.gojo.json.gz",
+      "sha256": "396d2c62f8c99330422d59e842bdb6676fd9c705fd844af9416f5c4067233ef3",
+      "decodedSha256": "844b9dcfdb3113ff7c319ffed2945b10ec2766d82da79253bd31b4a04fac1795",
+      "bytes": 15946
+    },
+    {
+      "path": "archives/alphabet-k--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-k--q16.gojo.json.gz",
+      "sha256": "23c355936d331e2dda03f2bf45ca5d190dce1878125b3d9235b4cdcb0ed5c5d7",
+      "decodedSha256": "4be0b11f9f3d61530a0b0fb5bf3df51bc8f69f74ae2afc0f215be70b098078ea",
+      "bytes": 14175
+    },
+    {
+      "path": "archives/alphabet-l--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-l--q16.gojo.json.gz",
+      "sha256": "8ca2a70fdb148ab24aa9f76e27a3b7eec4055efa37471ea7d2f970bfdac51c4b",
+      "decodedSha256": "e030cc15876ed0a0aa557df9e851a2c9eee1d9df14146196147500e7a73ca378",
+      "bytes": 19364
+    },
+    {
+      "path": "archives/alphabet-m--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-m--q16.gojo.json.gz",
+      "sha256": "2b81e2097292f75ea2dd370eddf2c52f83908618f2b95090de9fb850911ab0bd",
+      "decodedSha256": "635c90dada688a6a08f7dd59419ee77dcf92dccfd693689bae1416b036e16d94",
+      "bytes": 27373
+    },
+    {
+      "path": "archives/alphabet-n--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-n--q16.gojo.json.gz",
+      "sha256": "8fe2a97ea5ab3571c3ed5b78c13eade2947934fccaa2609020939e6743fe2035",
+      "decodedSha256": "13418a85371cf3387239b502204ced3184f3ab5bbf490897c109a2e9f0624800",
+      "bytes": 23071
+    },
+    {
+      "path": "archives/alphabet-o--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-o--q16.gojo.json.gz",
+      "sha256": "e97b7eeed55253b8853ed68529b388f4ae9e60738f75c03e41250520af249b1f",
+      "decodedSha256": "52ed8b0fd7d2cbb9d6aa4dff95d9693b7115a9e4c5b0f37f00e16cb458d1f826",
+      "bytes": 25965
+    },
+    {
+      "path": "archives/alphabet-p--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-p--q16.gojo.json.gz",
+      "sha256": "c54f7944c8f04674cb5c4a10af2619375d53c7af7aa0b6c183205253d42e0c66",
+      "decodedSha256": "f1762550f011fc58939ebe180e60f0aa8ecd5d8d35476900e00adf5dc2982c2b",
+      "bytes": 13767
+    },
+    {
+      "path": "archives/alphabet-q--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-q--q16.gojo.json.gz",
+      "sha256": "820e2e9d442bdfe4e693a2d2c277bacef05c0676feef379798315011ec24bb22",
+      "decodedSha256": "acf6bfd79612c75268caff83882efd0363a28a3959dee713bfcf887e620ca477",
+      "bytes": 31193
+    },
+    {
+      "path": "archives/alphabet-r--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-r--q16.gojo.json.gz",
+      "sha256": "d7250d909b72177327f75773946a14400352a808669e0abb1a2fc32160314ab0",
+      "decodedSha256": "8b04097b8100902ffe681e485d5ae51ffbf449c3635a4adae2466d2fcd90beba",
+      "bytes": 15013
+    },
+    {
+      "path": "archives/alphabet-s--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-s--q16.gojo.json.gz",
+      "sha256": "8e4a0bfbbc30d97c760cedaae4d6c28d065171ec6b179e70e996df8d10d7f719",
+      "decodedSha256": "952bb5ffe70fb321594522d1d42c3edd7679898e24721aa7d5d6ff642d0d0115",
+      "bytes": 36368
+    },
+    {
+      "path": "archives/alphabet-t--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-t--q16.gojo.json.gz",
+      "sha256": "52f8f05d0332b8f985535a85a2a7ee3d514f549695a81a6e2a421f037ac1cf0c",
+      "decodedSha256": "1278df95b632a3e88d7eb9f841f5ee3d3a88591e236f4b7b632782eea38cc1e8",
+      "bytes": 15452
+    },
+    {
+      "path": "archives/alphabet-u--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-u--q16.gojo.json.gz",
+      "sha256": "68cba54c98dda3d68a6e86027f8e89eaffccaa1e396d5599acde2ce0872d4257",
+      "decodedSha256": "f7ccca79b5c556a65d82bb42a94cd3af4958316a68f07180abd9a2615576ac30",
+      "bytes": 15486
+    },
+    {
+      "path": "archives/alphabet-v--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-v--q16.gojo.json.gz",
+      "sha256": "0470b3fa4b3f63cd2bd337fea794f5a6fb24229438823eef59ae056abb7cf941",
+      "decodedSha256": "0b2f8f4356b718e8c57575c849228a01ba94dffdb578c0fe370440b7cb59ecfa",
+      "bytes": 19970
+    },
+    {
+      "path": "archives/alphabet-w--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-w--q16.gojo.json.gz",
+      "sha256": "a18031207c80ee2039ccd7872bb8115e03b0ccfcab48c95f6de242aa1578e2b5",
+      "decodedSha256": "97469f8bf14896bcb9bde119da0dfb89b8b46ba38e15c07e2a3eb3b28bfd862f",
+      "bytes": 27383
+    },
+    {
+      "path": "archives/alphabet-x--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-x--q16.gojo.json.gz",
+      "sha256": "9d2abcee6a5f0592270aaff525824ea6873b2d1203736604b4c88f62db98673a",
+      "decodedSha256": "d3890c143d8e578e298212af6e359475718e3621f04702ceaef4be491a79a2b3",
+      "bytes": 29495
+    },
+    {
+      "path": "archives/alphabet-y--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-y--q16.gojo.json.gz",
+      "sha256": "551753eac4803e1a40d2bd7834955818c959d4b35d6842432071e26f4a906e14",
+      "decodedSha256": "f017ff3d053a99444194e8c134c9229215d6d123907bfd7856a359b13ce43acb",
+      "bytes": 25692
+    },
+    {
+      "path": "archives/alphabet-z--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-z--q16.gojo.json.gz",
+      "sha256": "c1f5f7742ab372e031837da92f920867b96f5822695ee592f65b2e615974c9f3",
+      "decodedSha256": "6afacf6251c8a69ca702df7b947ec8c4f39e4223c371dc5e9902e1f2da1443ec",
+      "bytes": 13288
+    },
+    {
+      "path": "archives/alphabet-atlas--q16.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-atlas--q16.gojo.json.gz",
+      "sha256": "739614ecc11c97a118de9e78208a92edaa9ee669b96aac52ae59f503457935d2",
+      "decodedSha256": "f0835e070673ab3c635206bdaed2f30d7f386c60e1c81390127a10fc6ce45917",
+      "bytes": 434400
+    },
+    {
+      "path": "archives/church-01--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-01--q8.gojo.json.gz",
+      "sha256": "25db914d2bf2915bc004e9283370e472577dd85875f9c56dbf9e838802518858",
+      "decodedSha256": "d89f3a0d75b994e271770c4322adcc869ca14b898292bb59cfb59fdf943a8b15",
+      "bytes": 43617
+    },
+    {
+      "path": "archives/church-02--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-02--q8.gojo.json.gz",
+      "sha256": "a86971caafa8fa6291189ada970cbc2828ed06050786e5d6e0c7ff369fc98825",
+      "decodedSha256": "171a8b1b54023a92ff6586d70de325e00e30a1e0701852b09755400c791aa7a7",
+      "bytes": 50035
+    },
+    {
+      "path": "archives/church-03--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-03--q8.gojo.json.gz",
+      "sha256": "590005bae1670924b0fc5f8924bded7560411f4a7a777446ad904ffdae730925",
+      "decodedSha256": "aab8d8516d176fd00cb7bc0d236b756d82f165d3fa7876aca331a95e8c52a723",
+      "bytes": 49060
+    },
+    {
+      "path": "archives/church-04--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-04--q8.gojo.json.gz",
+      "sha256": "9104699bf10d86477a38bdb1cedb376b5fd0f6cdc644e819f0eeca01a4b0f2db",
+      "decodedSha256": "2bc8f40716e66adbabf7776a7ff7e0940f67a9ba94eac6a8d34c05338bdb72d8",
+      "bytes": 63003
+    },
+    {
+      "path": "archives/church-05--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-05--q8.gojo.json.gz",
+      "sha256": "aabb7cd0b1524e2549877bf955fd0fb0db83ec7893109d9a12a9fe72854026c1",
+      "decodedSha256": "764eec1d0769bc12d7c9270e658cf215adddd8f498caf6cbf10735c91261631c",
+      "bytes": 57106
+    },
+    {
+      "path": "archives/church-06--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-06--q8.gojo.json.gz",
+      "sha256": "d657cea2c44b56891f9e5c7a13a071aada0995b3c9758971caed35de7fd90716",
+      "decodedSha256": "02afd0d0664851e6c519a290904fc9f1950b3155859257679f27e98368c78f5c",
+      "bytes": 57038
+    },
+    {
+      "path": "archives/church-07--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-07--q8.gojo.json.gz",
+      "sha256": "247be43b6afd663892b497ce7753830bc1916c3cfb637185759d192355ddf016",
+      "decodedSha256": "7c404839e6f4d0111eaeab37953932fa61ec9d2a9e988492cf752ffe53942780",
+      "bytes": 52027
+    },
+    {
+      "path": "archives/church-08--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-08--q8.gojo.json.gz",
+      "sha256": "a21a0888c2016ca3c905c467e7f79893f87e09c8a2e4dc99729f1caa99d8419b",
+      "decodedSha256": "561f0564531e578318d749cd4c2a028397dcafe483ed2ba9d24f66b6f3154819",
+      "bytes": 46896
+    },
+    {
+      "path": "archives/church-09--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-09--q8.gojo.json.gz",
+      "sha256": "ad993adb701a9636012ec59d3f6fb510da787e9ab5d599a5a0c38594347de5d5",
+      "decodedSha256": "bedaade8fc4fd15c65cb27f69e01bed3c8a14c75d5743b87a0efb409ba1b00a7",
+      "bytes": 57590
+    },
+    {
+      "path": "archives/church-10--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-10--q8.gojo.json.gz",
+      "sha256": "740dbe54d48a7153072d24d8a37d2226e5a6a0a7531f182f25a718c9164db9c9",
+      "decodedSha256": "a40fd1625cdc680823210d7a09ad27b2858eb10861859485764174c03f2a04ce",
+      "bytes": 35630
+    },
+    {
+      "path": "archives/church-11--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-11--q8.gojo.json.gz",
+      "sha256": "bb6d0ed473ea689fbf2b66027c2a6e54bce9810496cf9856a13fa4bcb9144754",
+      "decodedSha256": "f769faf256790ae7180d97540ee18745e0781f988ef895d5b0415f5d91f0db4b",
+      "bytes": 49017
+    },
+    {
+      "path": "archives/church-12--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/church-12--q8.gojo.json.gz",
+      "sha256": "553d35d7bf23ba8215d6e48ffec57f53e41dfbbdcb2e74ce54d20920d9675066",
+      "decodedSha256": "4a96acefd65530e2d890a08995b2cc1adc36e9f5319ad56015efd0ca4b3a2d79",
+      "bytes": 29004
+    },
+    {
+      "path": "archives/lucide-church--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/lucide-church--q8.gojo.json.gz",
+      "sha256": "2f5ffb9ded2fdfc073ca6807cc332aa32bc5eb62d0cce2ca164499b8c1cebcf9",
+      "decodedSha256": "690ba5c3b724f7576a3630ab1a838a410ea16a5e6fee7987969c62d4c952ebda",
+      "bytes": 44540
+    },
+    {
+      "path": "archives/tabler-church--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/tabler-church--q8.gojo.json.gz",
+      "sha256": "7b9df42a491e08a8605e05edd943047ecb529fbe82b032ba933af398096476a0",
+      "decodedSha256": "28633c5511ce0a701afe1556bf58a55e25ce8635db64be9d9c3c8ed5cb7433f6",
+      "bytes": 26284
+    },
+    {
+      "path": "archives/alphabet-a--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-a--q8.gojo.json.gz",
+      "sha256": "b0cb4df9179007c4d60e6d928edacd0f5ba5894e0b5fd0f50d305b2a890abab7",
+      "decodedSha256": "0939c70091c1c415da5ce4b86bc8fa0733776a9d5c44037c5df49ce32e90b25f",
+      "bytes": 15174
+    },
+    {
+      "path": "archives/alphabet-b--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-b--q8.gojo.json.gz",
+      "sha256": "a2589b890467cb9b3274e7ae880517d3770ac3b1bfe6dcaee9c6e6cbbd1ec47b",
+      "decodedSha256": "f3b09f194779650d5f10c773113ccf47bd689b8e77bb3eab14d450f35fbb6603",
+      "bytes": 15956
+    },
+    {
+      "path": "archives/alphabet-c--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-c--q8.gojo.json.gz",
+      "sha256": "364dbf365fd7618335a9fee266d67c4665deae85f1eee9cd5b305b239d7f273c",
+      "decodedSha256": "403e2d579f2f84a16dc066975a6ca17de469316306fe3be805b26aade33f5b96",
+      "bytes": 25485
+    },
+    {
+      "path": "archives/alphabet-d--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-d--q8.gojo.json.gz",
+      "sha256": "e751b8bfb3657106b2f7f3c4eb84160c6f55c214651879a7ca830d59ae8d0f4c",
+      "decodedSha256": "47ac51e7bb1544c06c30d13389680f046b44d888ce70c5fb86d48c18a020a461",
+      "bytes": 12471
+    },
+    {
+      "path": "archives/alphabet-e--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-e--q8.gojo.json.gz",
+      "sha256": "8ae6499c180d412286888cc24c4f50c802be41acaca64f2318ddb17a66e3d619",
+      "decodedSha256": "f0e36e7f7a11e9e47a6caccb0ca7dadf27611ac581bd9b6fb0a393e1bccdf227",
+      "bytes": 15829
+    },
+    {
+      "path": "archives/alphabet-f--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-f--q8.gojo.json.gz",
+      "sha256": "190d8705de0b457a86887f26788887fa00e55587656bff1749952320773cdb24",
+      "decodedSha256": "4f416c6fa858a0e08ac1e1d2d39eeec9ae2b37adb9eea56483acedf54547351b",
+      "bytes": 14167
+    },
+    {
+      "path": "archives/alphabet-g--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-g--q8.gojo.json.gz",
+      "sha256": "e7b3d158dd2eeb54e56dc3dba2a8e49a2a60ce0f4e37f248ef3d474906b67c60",
+      "decodedSha256": "a27e6072192cb55c191733ec0ad3a636342c48d671b83dc9234fbe1a6d731f9a",
+      "bytes": 27291
+    },
+    {
+      "path": "archives/alphabet-h--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-h--q8.gojo.json.gz",
+      "sha256": "02d73c81931256483eb013b6b232c33902bd5657a66cd0579c78ed313674bcb1",
+      "decodedSha256": "5fee74c6d4554e4b411ec3f27a462bfca8d0d836468558ddc9b6d1e31011983c",
+      "bytes": 16358
+    },
+    {
+      "path": "archives/alphabet-i--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-i--q8.gojo.json.gz",
+      "sha256": "60a7b6e5f8735ab206d7edcf5043daab35b4f0e30110023f4867d7565b9111b7",
+      "decodedSha256": "eaa58e857fb60f5f1df75d29c4a2a239011efce692f2c4bdf1ba89c58424b361",
+      "bytes": 16280
+    },
+    {
+      "path": "archives/alphabet-j--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-j--q8.gojo.json.gz",
+      "sha256": "0adc8203602e3b0b3a4af87cd05063f63370b30917b5a82cc23c6ad5ec7249ba",
+      "decodedSha256": "e4528ed60abd1546dc6ca6f38405b68475b667db577d4501650865040c08c703",
+      "bytes": 15944
+    },
+    {
+      "path": "archives/alphabet-k--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-k--q8.gojo.json.gz",
+      "sha256": "b76fb7f684d4944916f5803dbcc6c076a60b66ceb4b54b2476aa15606bd2e932",
+      "decodedSha256": "f94f4fc9b17537d710692f8af4fd0f6f9e1801ac3671560624a0fb40b1be6605",
+      "bytes": 14175
+    },
+    {
+      "path": "archives/alphabet-l--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-l--q8.gojo.json.gz",
+      "sha256": "8d321f9f9ee0230859b16e20d1cc125362855e9f8aaca6f4c66998dc0cdb6589",
+      "decodedSha256": "53139ee7f1c506521d7f73db6f1ffc60fbc912ae4dd8dbe8f8c9474e779bc7f1",
+      "bytes": 19363
+    },
+    {
+      "path": "archives/alphabet-m--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-m--q8.gojo.json.gz",
+      "sha256": "246cc540328e59612bfefad5b0481589848ec0ff6543b8d7dda7e2f7b33a8989",
+      "decodedSha256": "902e49840d032bbf0db2f4c395b4a992848e2b152f5df4b38dca462c0f68dc89",
+      "bytes": 27375
+    },
+    {
+      "path": "archives/alphabet-n--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-n--q8.gojo.json.gz",
+      "sha256": "0c189a56318acff0a2d6e3432e973a5c1368611362656a76bdaf6db7e19f1aa9",
+      "decodedSha256": "82624d8115692a09311b83a0a62816d0a0ed598402f9441f2d1acad2ce9a2d75",
+      "bytes": 23069
+    },
+    {
+      "path": "archives/alphabet-o--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-o--q8.gojo.json.gz",
+      "sha256": "6be867a243688ccb5e129076936bdab139d64a436cbe39be7849cb8592cf034c",
+      "decodedSha256": "55327fdb6f548f149d3f42a3aee3fc65eb192e0d0485ed45aba0d87090abf018",
+      "bytes": 25965
+    },
+    {
+      "path": "archives/alphabet-p--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-p--q8.gojo.json.gz",
+      "sha256": "5e9d455b2e228e039a65de9693e236332de1c3d085337fc05f3857cf9ab29a74",
+      "decodedSha256": "7937fa1b1b9d2ec00a8f9a84aa004ffb90e3a3744dbeec7fdd246310b94b2639",
+      "bytes": 13765
+    },
+    {
+      "path": "archives/alphabet-q--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-q--q8.gojo.json.gz",
+      "sha256": "ae95ad246849450fb25398969580f69ab8f1e7edd35351a0b0d071009bfaf2a0",
+      "decodedSha256": "026d0afffa524e6b14319c239e570e25e7b27f8a67bd7d229c2577a449ff6cfb",
+      "bytes": 31190
+    },
+    {
+      "path": "archives/alphabet-r--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-r--q8.gojo.json.gz",
+      "sha256": "2779b9ed6b51ebe4e86f239fb0860963c8f065a29ea8ad9b4364fc5cc7154a8f",
+      "decodedSha256": "e5843843969259d0f10844c68cdbbd96339d99168bae76afa872ad0d6f9fdffd",
+      "bytes": 15013
+    },
+    {
+      "path": "archives/alphabet-s--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-s--q8.gojo.json.gz",
+      "sha256": "8c4245864feb7b8bf81953cedc5e3bdaf419a13991151325716af31632154016",
+      "decodedSha256": "95c0a4747091a776aed47dcc3d0b1507a4b0e11420ba02cfde991843a42a481c",
+      "bytes": 36370
+    },
+    {
+      "path": "archives/alphabet-t--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-t--q8.gojo.json.gz",
+      "sha256": "c35cdf513cb42295b2aec01a9225a15b52067ff54e5f785a74584c2b56ef6fbc",
+      "decodedSha256": "261c3fd473c58b21634ed9880bd539797a59396f7f6def8da7957d9360974d7a",
+      "bytes": 15451
+    },
+    {
+      "path": "archives/alphabet-u--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-u--q8.gojo.json.gz",
+      "sha256": "d8b5809a208e4057225b900f9a3715de5b6d14032c694ae9d02cd341bf332755",
+      "decodedSha256": "9696903b4d9714a9a9a351c0167c10892239fce8c6321ddbadefc1ee2b54fea2",
+      "bytes": 15484
+    },
+    {
+      "path": "archives/alphabet-v--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-v--q8.gojo.json.gz",
+      "sha256": "3271825e83111b97406a7f1ff2a5290f9e76c16afb9ccd04e366f1899e07ecf1",
+      "decodedSha256": "648387ff53b52d9b4cbf4c0a3edce68ff7e496d47d49e5a25fcb019b93d79861",
+      "bytes": 19972
+    },
+    {
+      "path": "archives/alphabet-w--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-w--q8.gojo.json.gz",
+      "sha256": "d122ed8de880b453ac8c5c8d0aea4c8f12da9ec4c8c77ccc03e9685f9feed36b",
+      "decodedSha256": "5163119d443b319fe09c34f26628fa1a82a2f3992c2a68bc4468f5cae3ba4547",
+      "bytes": 27383
+    },
+    {
+      "path": "archives/alphabet-x--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-x--q8.gojo.json.gz",
+      "sha256": "cd14b23200547a42b2506a13352d8a3b789a82a9bc6b7cb9687528cbda3dc088",
+      "decodedSha256": "cd0c213ad911f71d499f644040e95592a57435ee169eb3559bfc1b0efd5cbf0a",
+      "bytes": 29493
+    },
+    {
+      "path": "archives/alphabet-y--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-y--q8.gojo.json.gz",
+      "sha256": "551753eac4803e1a40d2bd7834955818c959d4b35d6842432071e26f4a906e14",
+      "decodedSha256": "f017ff3d053a99444194e8c134c9229215d6d123907bfd7856a359b13ce43acb",
+      "bytes": 25692
+    },
+    {
+      "path": "archives/alphabet-z--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-z--q8.gojo.json.gz",
+      "sha256": "1074a528c0152bef17599496d5bccd8e1546418c1591072d63255be73fe9c7e0",
+      "decodedSha256": "2e7efb7aac7cfae9774b08123d26bc71a1046cad808f48cbabc26a0d646e9190",
+      "bytes": 13289
+    },
+    {
+      "path": "archives/alphabet-atlas--q8.gojo.json.gz",
+      "url": "https://raw.githubusercontent.com/It3rate/Gojo/2921c2ec6e9d8aefb9719f64be0a340d87abfd08/experiments/quickDraw/results/construction-resolution/review/archives/alphabet-atlas--q8.gojo.json.gz",
+      "sha256": "764f870ca96ebaf99eb1fe3e95748668141109fcd5f78636b1b8ed103cb87cd6",
+      "decodedSha256": "89d3cf4c119fe13cd1a20e3db44a746064453a1a4f9f4427f06a6160e8211d37",
+      "bytes": 434387
+    }
+  ],
+  "presentation": "Lossless shared-subtree transport; every decoded captured value checked against source."
 }

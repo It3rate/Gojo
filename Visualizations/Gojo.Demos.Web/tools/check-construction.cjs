@@ -1,131 +1,149 @@
-// Browser, retained-reference, and download checks for the construction study.
-// GOJO_BASE_URL selects a deployed site; GOJO_WEB_ROOT selects expected assets.
+// Verify the website uses every captured resolution read and immutable native download.
 const {chromium}=require(process.env.GOJO_PLAYWRIGHT_MODULE||'playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),http=require('node:http');
-const assert=require('node:assert/strict'),crypto=require('node:crypto'),zlib=require('node:zlib');
+const assert=require('node:assert/strict'),zlib=require('node:zlib'),crypto=require('node:crypto');
 const web=path.resolve(process.env.GOJO_WEB_ROOT||path.join(__dirname,'..'));
-const screenshotDir=process.env.GOJO_SCREENSHOTS||path.join(require('node:os').tmpdir(),'GojoConstructionQA');
 const route='/quickdraw/construction/';
-const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.gz':'application/gzip'};
+const review=path.join(web,route);
+const source=path.resolve(__dirname,'../../../experiments/quickDraw/results/construction-resolution/review');
+const qa=path.resolve(process.env.GOJO_SCREENSHOTS||path.join(require('node:os').tmpdir(),'GojoConstructionResolutionQA'));
+const digest=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
+const pathOf=edge=>'M'+edge.controls[0].join(' ')+({2:'L',3:'Q',4:'C'}[edge.controls.length])+edge.controls.slice(1).map(p=>p.join(' ')).join(' ');
 
-function readEnvelope(html){
-  const match=html.match(/<script id="construction-data" type="application\/json">([\s\S]*?)<\/script>/);
-  assert.ok(match,'Construction data is embedded');
-  const envelope=JSON.parse(match[1]);
-  return envelope.encoding==='gzip-base64'?JSON.parse(zlib.gunzipSync(Buffer.from(envelope.payload,'base64'))):envelope;
-}
 
 (async()=>{
+  const {readConstruction:envelope}=await import("./construction-presentation.mjs");
   const server=http.createServer(async(req,res)=>{
     try{
       let file=path.resolve(web,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));
-      if(file!==web&&!file.startsWith(web+path.sep)){res.writeHead(403);return res.end();}
+      if(file!==web&&!file.startsWith(web+path.sep)){res.writeHead(403);return res.end()}
       if((await fs.stat(file)).isDirectory())file=path.join(file,'index.html');
-      const bytes=await fs.readFile(file);res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream'});res.end(bytes);
-    }catch{res.writeHead(404);res.end('Not found');}
+      const bytes=await fs.readFile(file);res.writeHead(200,{'Content-Type':file.endsWith('.html')?'text/html':file.endsWith('.gz')?'application/gzip':'application/json'});res.end(bytes);
+    }catch{res.writeHead(404);res.end()}
   });
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
-  const base=(process.env.GOJO_BASE_URL||'http://127.0.0.1:'+server.address().port).replace(/\/$/,'');
+  const origin=(process.env.GOJO_BASE_URL||'http://127.0.0.1:'+server.address().port).replace(/\/$/,'');
+  const base=origin+route.slice(0,-1);
   let browser;
   try{
-    await fs.mkdir(screenshotDir,{recursive:true});
-    const data=readEnvelope(await fs.readFile(path.join(web,route,'index.html'),'utf8'));
-    const manifest=JSON.parse(await fs.readFile(path.join(web,route,'publication.json'),'utf8'));
-    assert.equal(data.public,true);
+    await fs.mkdir(qa,{recursive:true});
+    const data=envelope(await fs.readFile(path.join(review,'index.html'),'utf8'));
+    const designs=data.scenes.flatMap(scene=>scene.variants.map(design=>({scene,design})));
+    const programs=designs.flatMap(row=>row.design.resolutions.map(variant=>({...row,variant})));
+    assert.ok(data.resolution.levels.length>1);assert.equal(data.public,true);
+    assert.equal(new Set(programs.map(row=>row.variant.id)).size,programs.length);
+    for(const {design}of designs)assert.deepEqual(design.resolutions.map(v=>v.resolution.id),data.resolution.levels.map(level=>level.id));
+    const manifest=JSON.parse(await fs.readFile(path.join(review,'publication.json'),'utf8'));
+    const archiveFiles=new Map(),packageHashes=[];
+    for(const file of manifest.files){
+      const bytes=await fs.readFile(path.join(review,file.path));
+      assert.equal(digest(bytes),file.publishedSha256);
+      packageHashes.push({path:file.path,bytes:bytes.length,sha256:digest(bytes)});
+      const response=await fetch(origin+route+file.path,{signal:AbortSignal.timeout(45000)});assert.equal(response.status,200,file.path);
+      const remote=Buffer.from(await response.arrayBuffer());
+      if(file.path.endsWith('.gz')&&remote[0]!==31)assert.deepEqual(remote,zlib.gunzipSync(bytes));
+      else assert.deepEqual(remote,bytes,'Published bytes '+file.path);
+    }
+    const downloads=manifest.externalDownloads||[];
+    for(let start=0;start<downloads.length;start+=6)await Promise.all(downloads.slice(start,start+6).map(async file=>{
+      assert.match(file.url,/^https:\/\/raw\.githubusercontent\.com\/It3rate\/Gojo\/[a-f0-9]{40}\//);
+      const local=await fs.readFile(path.join(source,file.path));assert.equal(digest(local),file.sha256);
+      const response=await fetch(file.url,{signal:AbortSignal.timeout(45000)});assert.equal(response.status,200,file.url);
+      const bytes=Buffer.from(await response.arrayBuffer());assert.equal(digest(bytes),file.sha256);
+      assert.equal(response.headers.get('access-control-allow-origin'),'*','Native download permits browser reads');
+      const decoded=zlib.gunzipSync(bytes);assert.equal(digest(decoded),file.decodedSha256);JSON.parse(decoded);
+      archiveFiles.set(file.url,decoded);
+    }));
+    assert.equal(archiveFiles.size,programs.length);
+    for(const {variant}of programs){assert.equal(variant.archiveKind,'program');assert.ok(archiveFiles.has(variant.archivePath));assert.ok(variant.nativeRestoreVerified&&variant.nativeReplayVerified)}
+    // The publication may change only archive URLs; all native geometry and reads
+    // must remain exactly equal to the original captured checkpoint.
+    const sourceData=envelope(await fs.readFile(path.join(source,'index.html'),'utf8'));
+    for(const scene of sourceData.scenes)for(const design of scene.variants)for(const read of design.resolutions){
+      const published=programs.find(row=>row.variant.id===read.id).variant;
+      read.archivePath=published.archivePath;if(read.archive)read.archive=published.archive;
+    }
+    assert.deepEqual(data,sourceData,'Complete published read matches captured checkpoint');
     browser=await chromium.launch({headless:true,executablePath:process.env.GOJO_BROWSER});
     const context=await browser.newContext({viewport:{width:1480,height:1100},reducedMotion:'reduce'});
-    const page=await context.newPage(),errors=[],readChecks=[],downloads=[];
-    page.on('pageerror',error=>errors.push(error.message));
-    page.on('response',response=>{if(response.status()>=400&&response.url().startsWith(base))errors.push(response.status()+' '+response.url());});
-    for(const file of manifest.files){
-      const response=await context.request.get(base+route+file.path);
-      assert.equal(response.status(),200,file.path);
-      const bytes=await response.body(),stored=await fs.readFile(path.join(web,route,file.path));
-      const compressed=file.path.endsWith('.json.gz');
-      const decoded=compressed&&response.headers()['content-encoding']==='gzip'&&!(bytes[0]===31&&bytes[1]===139);
-      assert.equal(crypto.createHash('sha256').update(stored).digest('hex'),file.publishedSha256,file.path+' expected bytes');
-      if(decoded)assert.deepEqual(bytes,zlib.gunzipSync(stored),file.path+' decoded HTTP body');
-      else assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),file.publishedSha256,file.path+' published bytes');
-      if(compressed){JSON.parse((decoded?bytes:zlib.gunzipSync(bytes)).toString('utf8'));downloads.push(file.path);}
+    const errors=[],externalRequests=[];
+    await context.route('**/*',async route=>{
+      const url=route.request().url();
+      if(url.startsWith(origin+'/')||archiveFiles.has(url)||url.startsWith('blob:')||url.startsWith('data:')||url.startsWith('file:'))return route.continue();
+      externalRequests.push(url);await route.abort();
+    });
+    const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
+    for(const suffix of ['', '/', '/index.html']){await page.goto(base+suffix);await page.waitForSelector('#resolution-panel:not([hidden])');assert.equal(await page.locator('.scene-button').count(),data.scenes.length)}
+    await page.goto(base+'/');await page.waitForSelector('#resolution-panel:not([hidden])');
+    async function select(scene,design,index,level){
+      await page.evaluate(hash=>{location.hash=hash},[scene.id,design.id,index,level].map(encodeURIComponent).join('/'));
+      await page.waitForFunction(expected=>location.hash.slice(1)===expected.hash&&document.querySelector('#resolution-label').textContent===expected.label&&document.querySelector('#rung').value===String(expected.index)&&document.querySelector('.variant-button[aria-pressed=true]')?.textContent===expected.designLabel,
+        {hash:[scene.id,design.id,index,level].map(encodeURIComponent).join('/'),label:data.resolution.levels.find(l=>l.id===level).label,index,designLabel:design.label});
     }
-    for(const suffix of ['','/','/index.html']){
-      await page.goto(base+route.slice(0,-1)+suffix);
-      await page.waitForFunction(()=>document.querySelectorAll('.scene-button').length>0);
-      assert.equal(await page.locator('.scene-button').count(),data.scenes.length);
-      assert.equal(await page.locator('header a[href="/quickdraw/"]').count(),1);
-      const href=await page.locator('#archive').evaluate(link=>link.href);
-      assert.ok(href&&new URL(href).pathname.startsWith(route+'archives/'),'Portable archive link on '+suffix);
-    }
-    let rungReads=0,dependencySelections=0;
-    for(const scene of data.scenes)for(const variant of scene.variants){
-      await page.goto(base+route+'#'+scene.id+'/'+variant.id+'/0');
-      await page.waitForFunction(label=>document.querySelector('.variant-button[aria-pressed="true"]')?.textContent===label,variant.label);
-      assert.equal(await page.locator('.rung-button').count(),variant.rungs.length,variant.id);
-      assert.equal(await page.locator('#native-status').innerText(),'Native restore checked');
-      assert.equal(variant.nativeRestoreVerified,true);assert.equal(variant.nativeReplayVerified,true);
-      for(let i=0;i<variant.rungs.length;i++){
-        const rung=variant.rungs[i];
-        await page.locator('#rung').evaluate((node,value)=>{node.value=String(value);node.dispatchEvent(new Event('input',{bubbles:true}));},i);
-        assert.equal(await page.locator('#step-count').innerText(),`${i+1} / ${variant.rungs.length}`);
-        assert.equal(await page.locator('.stroke:not(.guide):not(.dependency-overlay)').count(),rung.visibleEdgeIds.length,variant.id+' visible spans');
-        assert.equal(await page.locator('.stroke.introduced').count(),rung.visibleEdgeIds.filter(id=>rung.introducedEdgeIds.includes(id)).length,variant.id+' introduced spans');
-        assert.equal(await page.locator('.constraint.failed').count(),rung.constraints.filter(c=>c.status==='failed').length,variant.id+' failed reads');
-        rungReads++;
-      }
-      const final=variant.rungs.at(-1),edgeMap=new Map(variant.analysis.edges.map(edge=>[edge.id,edge]));
-      const referenced=new Set(variant.rungs.flatMap(r=>r.dependencies.flatMap(d=>d.targetEdgeIds)));
-      const candidates=final.visibleEdgeIds.map(id=>edgeMap.get(id)).filter(edge=>referenced.has(edge.id));
-      const candidate=candidates.find(edge=>edge.controls.length===2)||candidates[0];
-      if(candidate){
-        const locator=page.locator('.hit[data-edge="'+candidate.id+'"]');
-        const point=await locator.evaluate(node=>{const p=node.getPointAtLength(node.getTotalLength()/2).matrixTransform(node.getScreenCTM());return{x:p.x,y:p.y};});
-        await page.mouse.move(point.x,point.y);await page.mouse.click(point.x,point.y);
-        // Exact keyboard selection remains available where projected spans overlap.
-        if(!(await page.locator('#selection').innerText()).includes(candidate.id)){await locator.focus();await locator.press('Enter');}
-        assert.ok((await page.locator('#selection').innerText()).includes(candidate.id));
-        assert.ok(await page.locator('[data-reference-site]').count()>0,variant.id+' retained sites');
-        dependencySelections++;
-      }
-      await page.keyboard.press('Escape');await page.mouse.move(20,20);
-      await page.locator('#guide-mode').selectOption('hide');assert.equal(await page.locator('.guide.stroke').count(),0);
-      await page.locator('#guide-mode').selectOption('retain');
-      await page.locator('#guide-mode').selectOption('fade');
-      await page.screenshot({path:path.join(screenshotDir,variant.id+'.png'),fullPage:true});
-      readChecks.push({id:variant.id,rungs:variant.rungs.length,visibleSpans:final.visibleEdgeIds.length,failedConditions:final.constraints.filter(c=>c.status==='failed').length});
-      if(variant.archivePath){
-        assert.equal(variant.archiveKind,'program');
-        assert.ok(downloads.includes(variant.archivePath),'Published executable program '+variant.id);
+    async function setRung(index){await page.locator('#rung').evaluate((node,value)=>{node.value=value;node.dispatchEvent(new Event('input',{bubbles:true}))},String(index))}
+    let rungReads=0,coordinatePathReads=0,comparisonPathReads=0,dependencySelections=0;
+    const readChecks=[];
+    for(const {scene,design}of designs){
+      for(let levelIndex=0;levelIndex<design.resolutions.length;levelIndex++){
+        const variant=design.resolutions[levelIndex];await select(scene,design,0,variant.resolution.id);
+        assert.equal(await page.locator('#resolution').inputValue(),String(levelIndex));
+        assert.equal(await page.locator('.variant-button[aria-pressed=true]').innerText(),design.label);
+        assert.equal(await page.locator('#native-status').innerText(),'Native restore checked');
+        const edgeMap=new Map(variant.analysis.edges.map(edge=>[edge.id,edge]));
+        for(let index=0;index<variant.rungs.length;index++){
+          await setRung(index);const rung=variant.rungs[index];
+          const actual=await page.locator('#drawing .stroke:not(.dependency-overlay)').evaluateAll(nodes=>nodes.map(n=>({id:n.dataset.edge,d:n.getAttribute('d'),guide:n.classList.contains('guide')})));
+          const expected=[...rung.guideEdgeIds.filter(id=>!rung.visibleEdgeIds.includes(id)).map(id=>({id,guide:true})),...rung.visibleEdgeIds.map(id=>({id,guide:false}))].map(row=>({...row,d:pathOf(edgeMap.get(row.id))}));
+          assert.deepEqual(actual,expected,variant.id+' rung '+index+' uses exact saved native read');
+          coordinatePathReads+=actual.length;rungReads++;
+        }
+        // The comparison panel keeps the same drawing and step at every level.
+        await page.locator('#comparison-mode').selectOption('resolutions');
+        const cards=await page.locator('.comparison-card').evaluateAll(nodes=>nodes.map(n=>({id:n.dataset.variant,paths:[...n.querySelectorAll('svg path')].map(p=>p.getAttribute('d'))})));
+        assert.equal(cards.length,design.resolutions.length);
+        for(let i=0;i<cards.length;i++){
+          const read=design.resolutions[i],edges=new Map(read.analysis.edges.map(e=>[e.id,e]));
+          assert.equal(cards[i].id,read.id);assert.deepEqual(cards[i].paths,read.rungs.at(-1).visibleEdgeIds.map(id=>pathOf(edges.get(id))));comparisonPathReads+=cards[i].paths.length;
+        }
+        const dependencies=variant.rungs.flatMap(r=>r.dependencies),final=variant.rungs.at(-1);
+        const edgeId=final.visibleEdgeIds.find(id=>dependencies.some(d=>d.targetEdgeIds.includes(id)));
+        assert.ok(edgeId,variant.id+' retains prior construction references');
+        const hit=page.locator('#drawing .hit[data-edge="'+edgeId+'"]');await hit.focus();await hit.press('Enter');
+        const expectedSites=[...new Set(dependencies.filter(d=>d.targetEdgeIds.includes(edgeId)).flatMap(d=>d.sourceSiteIds))].sort();
+        assert.deepEqual(await page.locator('#drawing [data-reference-site]').evaluateAll(nodes=>nodes.map(n=>n.dataset.referenceSite).sort()),expectedSites);
+        await page.keyboard.press('Escape');dependencySelections++;
+        readChecks.push({id:variant.id,design:design.id,resolution:variant.resolution.id,rungs:variant.rungs.length,finalSpans:final.visibleEdgeIds.length});
       }
     }
-    const first=data.scenes[0],initial=first.variants[0];
-    await page.goto(base+route+'#'+first.id+'/'+initial.id+'/0');
-    await page.waitForFunction(label=>document.querySelector('.variant-button[aria-pressed="true"]')?.textContent===label,initial.label);
-    await page.screenshot({path:path.join(screenshotDir,'construction-rough.png'),fullPage:true});
-    if(initial.rungs.length>1){
-      await page.locator('#play').click();await page.waitForTimeout(1650);await page.locator('#play').click();
-      assert.equal(await page.locator('#step-count').innerText(),`2 / ${initial.rungs.length}`,'Playback advances one rung');
-    }
-    await page.locator('#show-comparison').uncheck();assert.ok(await page.locator('#comparison').isHidden());
-    await page.locator('#show-comparison').check();
-    if(first.variants.length>1){
-      assert.ok(await page.locator('#comparison').isVisible());
-      await page.locator('.comparison-card').nth(1).click();
-      assert.equal(await page.locator('.variant-button[aria-pressed="true"]').innerText(),first.variants[1].label);
+    // Changing either dial preserves the other; switching drawings retains the
+    // selected resolution. Browser navigation restores all four hash fields.
+    const entry=designs.find(row=>row.design.id==='church-11')||designs[0],lastLevel=data.resolution.levels.at(-1);
+    await select(entry.scene,entry.design,entry.design.resolutions[0].rungs.length-1,lastLevel.id);
+    await page.locator('#resolution').evaluate(node=>{node.value='1';node.dispatchEvent(new Event('input',{bubbles:true}))});
+    assert.equal(await page.locator('#rung').inputValue(),String(entry.design.resolutions[0].rungs.length-1));
+    await setRung(0);assert.equal(await page.locator('#resolution').inputValue(),'1');
+    await page.locator('#comparison-mode').selectOption('drawings');
+    assert.equal(await page.locator('.comparison-card').count(),entry.scene.variants.length);
+    if(entry.scene.variants.length>1){await page.locator('.comparison-card').nth(1).click();assert.equal(await page.locator('#resolution').inputValue(),'1');assert.equal(await page.locator('.variant-button[aria-pressed=true]').innerText(),entry.scene.variants[1].label)}
+    await select(entry.scene,entry.design,entry.design.resolutions[0].rungs.length-1,lastLevel.id);
+    const selected=entry.design.resolutions.at(-1),event=page.waitForEvent('download');await page.locator('#archive').click();const download=await event;
+    assert.equal(download.suggestedFilename(),selected.id+'.gojo.json');assert.deepEqual(await fs.readFile(await download.path()),archiveFiles.get(selected.archivePath));
+    await page.locator('#comparison-mode').selectOption('resolutions');
+    const screenshots=[];
+    for(const candidate of [entry,designs.find(row=>row.design.id==='church-03'),designs.find(row=>row.design.id==='alphabet-atlas')].filter(Boolean)){
+      await select(candidate.scene,candidate.design,candidate.design.resolutions[0].rungs.length-1,lastLevel.id);
+      await page.locator('#guide-mode').selectOption('hide');const name=candidate.design.id+'-coarse.png';
+      await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(qa,name),fullPage:true});screenshots.push(name);
     }
     await page.setViewportSize({width:390,height:844});
-    const sizing=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}));
-    assert.ok(sizing.scroll<=sizing.client,'Phone page overflows');
-    await page.screenshot({path:path.join(screenshotDir,'construction-mobile.png'),fullPage:true});
-    const selected=first.variants[Math.min(1,first.variants.length-1)];
-    if(selected.archivePath){
-      const downloadEvent=page.waitForEvent('download');await page.locator('#archive').click();const download=await downloadEvent;
-      assert.equal(download.suggestedFilename(),selected.id+'.gojo.json');
-      assert.deepEqual(await fs.readFile(await download.path()),zlib.gunzipSync(await fs.readFile(path.join(web,route,selected.archivePath))),'Saved executable program bytes');
-    }
-    assert.equal((await context.request.get(base+route+'archives/missing-program.json.gz')).status(),404,'Missing archive must not fall back to a webpage');
-    assert.deepEqual(errors,[]);
-    const result={base,passed:true,families:data.scenes.length,variants:readChecks.length,rungReads,dependencySelections,verifiedProgramDownloads:downloads.length,savedNativeJsonVerified:true,mobile:sizing,scriptErrors:errors,readChecks,screenshots:screenshotDir};
-    await fs.writeFile(path.join(screenshotDir,'browser-qa.json'),JSON.stringify(result,null,2)+'\n');
-    console.log(JSON.stringify(result,null,2));
-  }finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}
-})().catch(error=>{console.error(error);process.exitCode=1;});
+    const mobile=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}));
+    assert.ok(mobile.scroll<=mobile.client);await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(qa,'resolution-mobile.png'),fullPage:true});screenshots.push('resolution-mobile.png');
+    assert.deepEqual(errors,[]);assert.deepEqual(externalRequests,[]);
+    const result={schema:'gojo.construction-resolution-browser-verification.v1',passed:true,base:origin,
+      families:data.scenes.length,designs:designs.length,programs:programs.length,levels:data.resolution.levels.length,
+      rungReads,coordinatePathReads,comparisonPathReads,dependencySelections,verifiedProgramDownloads:archiveFiles.size,
+      savedNativeJsonVerified:true,losslessCapturedReadVerified:true,mobile,scriptErrors:errors,externalRequests,readChecks,packageHashes,screenshots};
+    await fs.writeFile(path.join(qa,'browser-summary.json'),JSON.stringify(result,null,2)+'\n');
+    console.log(JSON.stringify({...result,readChecks:undefined,packageHashes:undefined},null,2));
+  }finally{await browser?.close();await new Promise(resolve=>server.close(resolve))}
+})().catch(error=>{console.error(error);process.exitCode=1});

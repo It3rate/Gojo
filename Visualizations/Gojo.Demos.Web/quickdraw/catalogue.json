@@ -3,12 +3,12 @@
   "studies": [
     {
       "id": "construction",
-      "title": "From rough shapes to finished structure",
-      "description": "Follow churches, stars, crescents and organic contours from their first guides to their finished lines. Fade the scaffolds, inspect earlier references and compare parameter variations.",
+      "title": "Drawing steps and resolution",
+      "description": "Build fourteen churches and every capital letter from rough guides, then lower positional precision. Compare five resolutions while retaining checked symmetry, repeated counts and relative order.",
       "kind": "Executable construction steps",
-      "detail": "4 families · 12 variants · 56 steps",
+      "detail": "41 designs · 5 resolutions · 945 steps",
       "route": "/quickdraw/construction/",
-      "scenes": 4
+      "scenes": 3
     },
     {
       "id": "line-art",
