@@ -1,0 +1,2506 @@
+{
+  "schema": "gojo.construction-resolution-browser-verification.v1",
+  "passed": true,
+  "localOnly": true,
+  "families": 3,
+  "designs": 41,
+  "programs": 205,
+  "levels": 5,
+  "rungReads": 945,
+  "coordinatePathReads": 27820,
+  "comparisonPathReads": 14575,
+  "dependencySelections": 205,
+  "verifiedProgramDownloads": 205,
+  "savedNativeJsonVerified": true,
+  "fileOriginVerified": true,
+  "mobile": {
+    "scroll": 390,
+    "client": 390
+  },
+  "scriptErrors": [],
+  "externalRequests": [],
+  "readChecks": [
+    {
+      "id": "church-01--exact",
+      "design": "church-01",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 26
+    },
+    {
+      "id": "church-01--q64",
+      "design": "church-01",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 26
+    },
+    {
+      "id": "church-01--q32",
+      "design": "church-01",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 26
+    },
+    {
+      "id": "church-01--q16",
+      "design": "church-01",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 26
+    },
+    {
+      "id": "church-01--q8",
+      "design": "church-01",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 26
+    },
+    {
+      "id": "church-02--exact",
+      "design": "church-02",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-02--q64",
+      "design": "church-02",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-02--q32",
+      "design": "church-02",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-02--q16",
+      "design": "church-02",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-02--q8",
+      "design": "church-02",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-03--exact",
+      "design": "church-03",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-03--q64",
+      "design": "church-03",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-03--q32",
+      "design": "church-03",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-03--q16",
+      "design": "church-03",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-03--q8",
+      "design": "church-03",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-04--exact",
+      "design": "church-04",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 36
+    },
+    {
+      "id": "church-04--q64",
+      "design": "church-04",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 36
+    },
+    {
+      "id": "church-04--q32",
+      "design": "church-04",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 36
+    },
+    {
+      "id": "church-04--q16",
+      "design": "church-04",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 36
+    },
+    {
+      "id": "church-04--q8",
+      "design": "church-04",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 36
+    },
+    {
+      "id": "church-05--exact",
+      "design": "church-05",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-05--q64",
+      "design": "church-05",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-05--q32",
+      "design": "church-05",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-05--q16",
+      "design": "church-05",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-05--q8",
+      "design": "church-05",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-06--exact",
+      "design": "church-06",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 38
+    },
+    {
+      "id": "church-06--q64",
+      "design": "church-06",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 38
+    },
+    {
+      "id": "church-06--q32",
+      "design": "church-06",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 38
+    },
+    {
+      "id": "church-06--q16",
+      "design": "church-06",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 38
+    },
+    {
+      "id": "church-06--q8",
+      "design": "church-06",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 38
+    },
+    {
+      "id": "church-07--exact",
+      "design": "church-07",
+      "resolution": "exact",
+      "rungs": 5,
+      "finalSpans": 28
+    },
+    {
+      "id": "church-07--q64",
+      "design": "church-07",
+      "resolution": "q64",
+      "rungs": 5,
+      "finalSpans": 28
+    },
+    {
+      "id": "church-07--q32",
+      "design": "church-07",
+      "resolution": "q32",
+      "rungs": 5,
+      "finalSpans": 28
+    },
+    {
+      "id": "church-07--q16",
+      "design": "church-07",
+      "resolution": "q16",
+      "rungs": 5,
+      "finalSpans": 28
+    },
+    {
+      "id": "church-07--q8",
+      "design": "church-07",
+      "resolution": "q8",
+      "rungs": 5,
+      "finalSpans": 28
+    },
+    {
+      "id": "church-08--exact",
+      "design": "church-08",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-08--q64",
+      "design": "church-08",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-08--q32",
+      "design": "church-08",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-08--q16",
+      "design": "church-08",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-08--q8",
+      "design": "church-08",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-09--exact",
+      "design": "church-09",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-09--q64",
+      "design": "church-09",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-09--q32",
+      "design": "church-09",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-09--q16",
+      "design": "church-09",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-09--q8",
+      "design": "church-09",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 29
+    },
+    {
+      "id": "church-10--exact",
+      "design": "church-10",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 25
+    },
+    {
+      "id": "church-10--q64",
+      "design": "church-10",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 25
+    },
+    {
+      "id": "church-10--q32",
+      "design": "church-10",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 25
+    },
+    {
+      "id": "church-10--q16",
+      "design": "church-10",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 25
+    },
+    {
+      "id": "church-10--q8",
+      "design": "church-10",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 25
+    },
+    {
+      "id": "church-11--exact",
+      "design": "church-11",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-11--q64",
+      "design": "church-11",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-11--q32",
+      "design": "church-11",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-11--q16",
+      "design": "church-11",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-11--q8",
+      "design": "church-11",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 30
+    },
+    {
+      "id": "church-12--exact",
+      "design": "church-12",
+      "resolution": "exact",
+      "rungs": 6,
+      "finalSpans": 20
+    },
+    {
+      "id": "church-12--q64",
+      "design": "church-12",
+      "resolution": "q64",
+      "rungs": 6,
+      "finalSpans": 20
+    },
+    {
+      "id": "church-12--q32",
+      "design": "church-12",
+      "resolution": "q32",
+      "rungs": 6,
+      "finalSpans": 20
+    },
+    {
+      "id": "church-12--q16",
+      "design": "church-12",
+      "resolution": "q16",
+      "rungs": 6,
+      "finalSpans": 20
+    },
+    {
+      "id": "church-12--q8",
+      "design": "church-12",
+      "resolution": "q8",
+      "rungs": 6,
+      "finalSpans": 20
+    },
+    {
+      "id": "lucide-church--exact",
+      "design": "lucide-church",
+      "resolution": "exact",
+      "rungs": 5,
+      "finalSpans": 22
+    },
+    {
+      "id": "lucide-church--q64",
+      "design": "lucide-church",
+      "resolution": "q64",
+      "rungs": 5,
+      "finalSpans": 22
+    },
+    {
+      "id": "lucide-church--q32",
+      "design": "lucide-church",
+      "resolution": "q32",
+      "rungs": 5,
+      "finalSpans": 22
+    },
+    {
+      "id": "lucide-church--q16",
+      "design": "lucide-church",
+      "resolution": "q16",
+      "rungs": 5,
+      "finalSpans": 22
+    },
+    {
+      "id": "lucide-church--q8",
+      "design": "lucide-church",
+      "resolution": "q8",
+      "rungs": 5,
+      "finalSpans": 22
+    },
+    {
+      "id": "tabler-church--exact",
+      "design": "tabler-church",
+      "resolution": "exact",
+      "rungs": 5,
+      "finalSpans": 11
+    },
+    {
+      "id": "tabler-church--q64",
+      "design": "tabler-church",
+      "resolution": "q64",
+      "rungs": 5,
+      "finalSpans": 11
+    },
+    {
+      "id": "tabler-church--q32",
+      "design": "tabler-church",
+      "resolution": "q32",
+      "rungs": 5,
+      "finalSpans": 11
+    },
+    {
+      "id": "tabler-church--q16",
+      "design": "tabler-church",
+      "resolution": "q16",
+      "rungs": 5,
+      "finalSpans": 11
+    },
+    {
+      "id": "tabler-church--q8",
+      "design": "tabler-church",
+      "resolution": "q8",
+      "rungs": 5,
+      "finalSpans": 11
+    },
+    {
+      "id": "alphabet-a--exact",
+      "design": "alphabet-a",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-a--q64",
+      "design": "alphabet-a",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-a--q32",
+      "design": "alphabet-a",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-a--q16",
+      "design": "alphabet-a",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-a--q8",
+      "design": "alphabet-a",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-b--exact",
+      "design": "alphabet-b",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-b--q64",
+      "design": "alphabet-b",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-b--q32",
+      "design": "alphabet-b",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-b--q16",
+      "design": "alphabet-b",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-b--q8",
+      "design": "alphabet-b",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-c--exact",
+      "design": "alphabet-c",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-c--q64",
+      "design": "alphabet-c",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-c--q32",
+      "design": "alphabet-c",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-c--q16",
+      "design": "alphabet-c",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-c--q8",
+      "design": "alphabet-c",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-d--exact",
+      "design": "alphabet-d",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-d--q64",
+      "design": "alphabet-d",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-d--q32",
+      "design": "alphabet-d",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-d--q16",
+      "design": "alphabet-d",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-d--q8",
+      "design": "alphabet-d",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-e--exact",
+      "design": "alphabet-e",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-e--q64",
+      "design": "alphabet-e",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-e--q32",
+      "design": "alphabet-e",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-e--q16",
+      "design": "alphabet-e",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-e--q8",
+      "design": "alphabet-e",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-f--exact",
+      "design": "alphabet-f",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-f--q64",
+      "design": "alphabet-f",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-f--q32",
+      "design": "alphabet-f",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-f--q16",
+      "design": "alphabet-f",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-f--q8",
+      "design": "alphabet-f",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-g--exact",
+      "design": "alphabet-g",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-g--q64",
+      "design": "alphabet-g",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-g--q32",
+      "design": "alphabet-g",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-g--q16",
+      "design": "alphabet-g",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-g--q8",
+      "design": "alphabet-g",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-h--exact",
+      "design": "alphabet-h",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-h--q64",
+      "design": "alphabet-h",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-h--q32",
+      "design": "alphabet-h",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-h--q16",
+      "design": "alphabet-h",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-h--q8",
+      "design": "alphabet-h",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-i--exact",
+      "design": "alphabet-i",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-i--q64",
+      "design": "alphabet-i",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-i--q32",
+      "design": "alphabet-i",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-i--q16",
+      "design": "alphabet-i",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-i--q8",
+      "design": "alphabet-i",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 5
+    },
+    {
+      "id": "alphabet-j--exact",
+      "design": "alphabet-j",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-j--q64",
+      "design": "alphabet-j",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-j--q32",
+      "design": "alphabet-j",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-j--q16",
+      "design": "alphabet-j",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-j--q8",
+      "design": "alphabet-j",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-k--exact",
+      "design": "alphabet-k",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-k--q64",
+      "design": "alphabet-k",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-k--q32",
+      "design": "alphabet-k",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-k--q16",
+      "design": "alphabet-k",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-k--q8",
+      "design": "alphabet-k",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-l--exact",
+      "design": "alphabet-l",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-l--q64",
+      "design": "alphabet-l",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-l--q32",
+      "design": "alphabet-l",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-l--q16",
+      "design": "alphabet-l",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-l--q8",
+      "design": "alphabet-l",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-m--exact",
+      "design": "alphabet-m",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-m--q64",
+      "design": "alphabet-m",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-m--q32",
+      "design": "alphabet-m",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-m--q16",
+      "design": "alphabet-m",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-m--q8",
+      "design": "alphabet-m",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-n--exact",
+      "design": "alphabet-n",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-n--q64",
+      "design": "alphabet-n",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-n--q32",
+      "design": "alphabet-n",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-n--q16",
+      "design": "alphabet-n",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-n--q8",
+      "design": "alphabet-n",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-o--exact",
+      "design": "alphabet-o",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-o--q64",
+      "design": "alphabet-o",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-o--q32",
+      "design": "alphabet-o",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-o--q16",
+      "design": "alphabet-o",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-o--q8",
+      "design": "alphabet-o",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-p--exact",
+      "design": "alphabet-p",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-p--q64",
+      "design": "alphabet-p",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-p--q32",
+      "design": "alphabet-p",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-p--q16",
+      "design": "alphabet-p",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-p--q8",
+      "design": "alphabet-p",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-q--exact",
+      "design": "alphabet-q",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 7
+    },
+    {
+      "id": "alphabet-q--q64",
+      "design": "alphabet-q",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 7
+    },
+    {
+      "id": "alphabet-q--q32",
+      "design": "alphabet-q",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 7
+    },
+    {
+      "id": "alphabet-q--q16",
+      "design": "alphabet-q",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 7
+    },
+    {
+      "id": "alphabet-q--q8",
+      "design": "alphabet-q",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 7
+    },
+    {
+      "id": "alphabet-r--exact",
+      "design": "alphabet-r",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-r--q64",
+      "design": "alphabet-r",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-r--q32",
+      "design": "alphabet-r",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-r--q16",
+      "design": "alphabet-r",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-r--q8",
+      "design": "alphabet-r",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-s--exact",
+      "design": "alphabet-s",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-s--q64",
+      "design": "alphabet-s",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-s--q32",
+      "design": "alphabet-s",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-s--q16",
+      "design": "alphabet-s",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-s--q8",
+      "design": "alphabet-s",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-t--exact",
+      "design": "alphabet-t",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-t--q64",
+      "design": "alphabet-t",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-t--q32",
+      "design": "alphabet-t",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-t--q16",
+      "design": "alphabet-t",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-t--q8",
+      "design": "alphabet-t",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-u--exact",
+      "design": "alphabet-u",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-u--q64",
+      "design": "alphabet-u",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-u--q32",
+      "design": "alphabet-u",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-u--q16",
+      "design": "alphabet-u",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-u--q8",
+      "design": "alphabet-u",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-v--exact",
+      "design": "alphabet-v",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-v--q64",
+      "design": "alphabet-v",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-v--q32",
+      "design": "alphabet-v",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-v--q16",
+      "design": "alphabet-v",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-v--q8",
+      "design": "alphabet-v",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 2
+    },
+    {
+      "id": "alphabet-w--exact",
+      "design": "alphabet-w",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-w--q64",
+      "design": "alphabet-w",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-w--q32",
+      "design": "alphabet-w",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-w--q16",
+      "design": "alphabet-w",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-w--q8",
+      "design": "alphabet-w",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-x--exact",
+      "design": "alphabet-x",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-x--q64",
+      "design": "alphabet-x",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-x--q32",
+      "design": "alphabet-x",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-x--q16",
+      "design": "alphabet-x",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-x--q8",
+      "design": "alphabet-x",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 4
+    },
+    {
+      "id": "alphabet-y--exact",
+      "design": "alphabet-y",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-y--q64",
+      "design": "alphabet-y",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-y--q32",
+      "design": "alphabet-y",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-y--q16",
+      "design": "alphabet-y",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-y--q8",
+      "design": "alphabet-y",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-z--exact",
+      "design": "alphabet-z",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-z--q64",
+      "design": "alphabet-z",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-z--q32",
+      "design": "alphabet-z",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-z--q16",
+      "design": "alphabet-z",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-z--q8",
+      "design": "alphabet-z",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 3
+    },
+    {
+      "id": "alphabet-atlas--exact",
+      "design": "alphabet-atlas",
+      "resolution": "exact",
+      "rungs": 4,
+      "finalSpans": 100
+    },
+    {
+      "id": "alphabet-atlas--q64",
+      "design": "alphabet-atlas",
+      "resolution": "q64",
+      "rungs": 4,
+      "finalSpans": 100
+    },
+    {
+      "id": "alphabet-atlas--q32",
+      "design": "alphabet-atlas",
+      "resolution": "q32",
+      "rungs": 4,
+      "finalSpans": 100
+    },
+    {
+      "id": "alphabet-atlas--q16",
+      "design": "alphabet-atlas",
+      "resolution": "q16",
+      "rungs": 4,
+      "finalSpans": 100
+    },
+    {
+      "id": "alphabet-atlas--q8",
+      "design": "alphabet-atlas",
+      "resolution": "q8",
+      "rungs": 4,
+      "finalSpans": 100
+    }
+  ],
+  "packageHashes": [
+    {
+      "path": "index.html",
+      "bytes": 885275,
+      "sha256": "3bb7c74fa0d21a26c1924a601ea9feb231e81a3ae6aba66aea3151392cf6fc5c"
+    },
+    {
+      "path": "archives/church-01--exact.gojo.json.gz",
+      "bytes": 43634,
+      "sha256": "755f3e8e6f31eefac871d43490072a50f4dc32a3f09293cb15b878983e0aa414"
+    },
+    {
+      "path": "archives/church-02--exact.gojo.json.gz",
+      "bytes": 50073,
+      "sha256": "abdc80074cfb5049f21a6afb6a2583cdf36c56ed97f39f88640b1428fd4eb33a"
+    },
+    {
+      "path": "archives/church-03--exact.gojo.json.gz",
+      "bytes": 49093,
+      "sha256": "c2e42bcd9a95213543c6cb6370873414f29761bc78066781b6f5eb6b86d7cada"
+    },
+    {
+      "path": "archives/church-04--exact.gojo.json.gz",
+      "bytes": 63005,
+      "sha256": "c00ebbc296a128b4abfc1df31d31d0af47d5ccac4a4bcc9385f2be79ba6fe0ee"
+    },
+    {
+      "path": "archives/church-05--exact.gojo.json.gz",
+      "bytes": 57111,
+      "sha256": "22a026d43fb39415b8a7b60a9b055c1360c10825530a0b6a47c52156978fd96e"
+    },
+    {
+      "path": "archives/church-06--exact.gojo.json.gz",
+      "bytes": 57046,
+      "sha256": "523b2001aaba6d05695cc9a283dcf9c8cf7b0bcfe40e840562a118ec9a4c5be9"
+    },
+    {
+      "path": "archives/church-07--exact.gojo.json.gz",
+      "bytes": 52042,
+      "sha256": "42e7bbc501e489eda478ef3f82d4d2777c735971807a8b347b1168d6a299af05"
+    },
+    {
+      "path": "archives/church-08--exact.gojo.json.gz",
+      "bytes": 46898,
+      "sha256": "8260d9c7f5257cfd5c384eca5f0fb0eba36778e3366d8cc02257b8a81e29a8cc"
+    },
+    {
+      "path": "archives/church-09--exact.gojo.json.gz",
+      "bytes": 57567,
+      "sha256": "5f0864804be0d24122075ce1076e4d2811e7c784909fbb3528762081f2a592e9"
+    },
+    {
+      "path": "archives/church-10--exact.gojo.json.gz",
+      "bytes": 35646,
+      "sha256": "f93aeae62e7cf2a6d6b3d78d52082e44fe57d898d711dc3a19b79e0f41167b10"
+    },
+    {
+      "path": "archives/church-11--exact.gojo.json.gz",
+      "bytes": 49002,
+      "sha256": "7a91d75376979008c113c80d63ddf500702c33fede1a94b3c307e0ce8aa8cf2f"
+    },
+    {
+      "path": "archives/church-12--exact.gojo.json.gz",
+      "bytes": 29001,
+      "sha256": "835d5cb23c9750a68e909300aca0e61d03cb0c4c50d340a2fc66cb5f5023ff71"
+    },
+    {
+      "path": "archives/lucide-church--exact.gojo.json.gz",
+      "bytes": 44416,
+      "sha256": "458d73c2125b1f866e18d145cfb1a304d38575fcdaad4abd9a7f782ec0a1300c"
+    },
+    {
+      "path": "archives/tabler-church--exact.gojo.json.gz",
+      "bytes": 26286,
+      "sha256": "7c5bc13b14775bca8e020ffc65208082d5d2247d8adc833cab5215417fc0688f"
+    },
+    {
+      "path": "archives/alphabet-a--exact.gojo.json.gz",
+      "bytes": 15170,
+      "sha256": "b9808ebb9234d9dd8737ce571847d7e90ea10696e43b5ee5f9d3bdfe70d0e872"
+    },
+    {
+      "path": "archives/alphabet-b--exact.gojo.json.gz",
+      "bytes": 15952,
+      "sha256": "e4264ac08e7e82a858c31bbc12112ba6c8e69c64fbd4c77877988857d83bd333"
+    },
+    {
+      "path": "archives/alphabet-c--exact.gojo.json.gz",
+      "bytes": 25484,
+      "sha256": "b06a0a45775731f9f2efac8db73ec7094f6324adcb62c1a3288fd6066c84a631"
+    },
+    {
+      "path": "archives/alphabet-d--exact.gojo.json.gz",
+      "bytes": 12467,
+      "sha256": "535a36fc2251d7f602ba632dcb737b919901e3ce9eb4a3b8e7d5fd93630d85e4"
+    },
+    {
+      "path": "archives/alphabet-e--exact.gojo.json.gz",
+      "bytes": 15829,
+      "sha256": "56c3238baed56de3b3e4b7e186df467f97675281246e9a07d7827d164c5a2b57"
+    },
+    {
+      "path": "archives/alphabet-f--exact.gojo.json.gz",
+      "bytes": 14164,
+      "sha256": "45c3fb806fedadda07d06d39d4a470e1b2bc14c9d464c4a09da9a3cfc2ec0f95"
+    },
+    {
+      "path": "archives/alphabet-g--exact.gojo.json.gz",
+      "bytes": 27291,
+      "sha256": "37b9fde1d3f1222b4713b29ef3787ff5fd9419bef408c8429420d45fd471d0db"
+    },
+    {
+      "path": "archives/alphabet-h--exact.gojo.json.gz",
+      "bytes": 16359,
+      "sha256": "f603794ba37e83c875741d474eb69ed76776833435e1e7d5e0a2b88840e55808"
+    },
+    {
+      "path": "archives/alphabet-i--exact.gojo.json.gz",
+      "bytes": 16275,
+      "sha256": "63848e56b66b290af6898c2f82550d72e379f40321bd6c455a855d01429b0cbf"
+    },
+    {
+      "path": "archives/alphabet-j--exact.gojo.json.gz",
+      "bytes": 15946,
+      "sha256": "2ea16bfd390e64e9671eee9726316aca22be5602204e857fc2c6578c3b8c9760"
+    },
+    {
+      "path": "archives/alphabet-k--exact.gojo.json.gz",
+      "bytes": 14172,
+      "sha256": "63d80f664853e70237732ffe4b8195b6cba50aff5bab97290e812640457778e0"
+    },
+    {
+      "path": "archives/alphabet-l--exact.gojo.json.gz",
+      "bytes": 19363,
+      "sha256": "263315a0eae396fdd6d70b140c64296e1cf00165a17f0f42fc1f505dfd75b5fe"
+    },
+    {
+      "path": "archives/alphabet-m--exact.gojo.json.gz",
+      "bytes": 27369,
+      "sha256": "7837db03c398656873f7e431913818d8e32ffcd3964773cfe48b55dd0d6df535"
+    },
+    {
+      "path": "archives/alphabet-n--exact.gojo.json.gz",
+      "bytes": 23073,
+      "sha256": "83cc07b6a8fd0e0a078622f847867246d244df5014e310088dfdc0db74ce4734"
+    },
+    {
+      "path": "archives/alphabet-o--exact.gojo.json.gz",
+      "bytes": 25964,
+      "sha256": "f06f7879e24dda8f1c68e80c5d23e3faa93b211b38a8890d3e4f80114ed1daf5"
+    },
+    {
+      "path": "archives/alphabet-p--exact.gojo.json.gz",
+      "bytes": 13762,
+      "sha256": "247cc281d8fc3fee81fe1f93c523962f992816635cd2cd9f268d72b77f095344"
+    },
+    {
+      "path": "archives/alphabet-q--exact.gojo.json.gz",
+      "bytes": 31190,
+      "sha256": "cf7c7ea44e37c6acb543feaa77dd188d84fe757116a286e8be054172d5b58947"
+    },
+    {
+      "path": "archives/alphabet-r--exact.gojo.json.gz",
+      "bytes": 15008,
+      "sha256": "9f1f3829049a7bfb24497d866d77b650f8bf8255b0e62b2afcddecc0095b44d6"
+    },
+    {
+      "path": "archives/alphabet-s--exact.gojo.json.gz",
+      "bytes": 36364,
+      "sha256": "d6adc0ed357df54c85e983cafb1d7961bbfb7ee30b2c79350e4c6db7e8517c65"
+    },
+    {
+      "path": "archives/alphabet-t--exact.gojo.json.gz",
+      "bytes": 15457,
+      "sha256": "fbced84d331d39673dfbf08d8cba0d042fb70eaf32d163b4e2f1ba363bbab748"
+    },
+    {
+      "path": "archives/alphabet-u--exact.gojo.json.gz",
+      "bytes": 15492,
+      "sha256": "ce954d32913dc723bf7b714a61ea63030277a9006afb0109d288d42a9e5df740"
+    },
+    {
+      "path": "archives/alphabet-v--exact.gojo.json.gz",
+      "bytes": 19969,
+      "sha256": "b48039dfa80087f855bd10721ab4acd4c10a6bf26ff260850c5cc31919a5ba08"
+    },
+    {
+      "path": "archives/alphabet-w--exact.gojo.json.gz",
+      "bytes": 27380,
+      "sha256": "db8101b04a3a57346203295dd0ca72314312511a27c999ca27dd604ac1e7cc0c"
+    },
+    {
+      "path": "archives/alphabet-x--exact.gojo.json.gz",
+      "bytes": 29493,
+      "sha256": "bc25f7b48cba0cb0eea795edab464441d90561be6c32294139eca1aa4d0b5be1"
+    },
+    {
+      "path": "archives/alphabet-y--exact.gojo.json.gz",
+      "bytes": 25691,
+      "sha256": "272a1bf9a6e03e8bfafdb7d875de727ed2318d16a2ea379d26f5a03a49e2a7ef"
+    },
+    {
+      "path": "archives/alphabet-z--exact.gojo.json.gz",
+      "bytes": 13287,
+      "sha256": "d037defa8813e58fb1e1ee51f075673f9f112cd3f6e260dd2ed058ab03ebc369"
+    },
+    {
+      "path": "archives/alphabet-atlas--exact.gojo.json.gz",
+      "bytes": 434331,
+      "sha256": "d44e867e11747900031ba89c9736609d412b1e98e61f0e3f7b0462c009632167"
+    },
+    {
+      "path": "archives/church-01--q64.gojo.json.gz",
+      "bytes": 43624,
+      "sha256": "61f5fbb1e80ee6a1ed44f0a01003c8b5f9d1e889327b91a4a3b1cc74e37ae288"
+    },
+    {
+      "path": "archives/church-02--q64.gojo.json.gz",
+      "bytes": 50066,
+      "sha256": "d3eb846c600f7ade14ceed7da75a39677288eb914796ba808ad56a1b11458906"
+    },
+    {
+      "path": "archives/church-03--q64.gojo.json.gz",
+      "bytes": 49099,
+      "sha256": "8fa8ce3753e85678c2d148eeb8a00bfc9be0183432365ab4b8b57318d3349c5f"
+    },
+    {
+      "path": "archives/church-04--q64.gojo.json.gz",
+      "bytes": 63003,
+      "sha256": "a9665f14c4ff23c4abaf023878dc105e7a4855375194d0234667012c87022731"
+    },
+    {
+      "path": "archives/church-05--q64.gojo.json.gz",
+      "bytes": 57120,
+      "sha256": "85385580422e5f2785f906d909ab9d2ec4095ddb1f39288edb1c4242e81f7237"
+    },
+    {
+      "path": "archives/church-06--q64.gojo.json.gz",
+      "bytes": 57045,
+      "sha256": "c6ac542ff99f8b9f0b47ae548bc232c8f0fb1dc7129fa80c42b744ce808a42d2"
+    },
+    {
+      "path": "archives/church-07--q64.gojo.json.gz",
+      "bytes": 52031,
+      "sha256": "38b6c91917a5e31298bd10f9f95bb111df726fae9fccf293749d4aae3f35a6a6"
+    },
+    {
+      "path": "archives/church-08--q64.gojo.json.gz",
+      "bytes": 46908,
+      "sha256": "ac9bc66878aed3f5abd858a08f28d86bc68ff901916530f843556006249e22b8"
+    },
+    {
+      "path": "archives/church-09--q64.gojo.json.gz",
+      "bytes": 57559,
+      "sha256": "34f67c6aa32b4744c3cbeb7202b16e4703d94dc8d2576562a0b636198e1d1f6d"
+    },
+    {
+      "path": "archives/church-10--q64.gojo.json.gz",
+      "bytes": 35636,
+      "sha256": "f9e563cb1e312b13c5db66c9a9db06730fde61ac6ff9b6d17daade69f5fff494"
+    },
+    {
+      "path": "archives/church-11--q64.gojo.json.gz",
+      "bytes": 48993,
+      "sha256": "62029768f4b67d78f319417b7562adf74e2806573971cc87bb097443ebdc322b"
+    },
+    {
+      "path": "archives/church-12--q64.gojo.json.gz",
+      "bytes": 29013,
+      "sha256": "8bbc43a572f7c3e71bc3b7ebd5dd384125f4bc943425de07296d178e83b00bb1"
+    },
+    {
+      "path": "archives/lucide-church--q64.gojo.json.gz",
+      "bytes": 44419,
+      "sha256": "b55e286cb6b7cf6143d466e626c2946dd5ea61aebeab69e79125c163a3eb4d6d"
+    },
+    {
+      "path": "archives/tabler-church--q64.gojo.json.gz",
+      "bytes": 26286,
+      "sha256": "d4532e1d06db74f4db8477d23e05f26b494c3c7276936442bad7c4292210d875"
+    },
+    {
+      "path": "archives/alphabet-a--q64.gojo.json.gz",
+      "bytes": 15170,
+      "sha256": "b9808ebb9234d9dd8737ce571847d7e90ea10696e43b5ee5f9d3bdfe70d0e872"
+    },
+    {
+      "path": "archives/alphabet-b--q64.gojo.json.gz",
+      "bytes": 15952,
+      "sha256": "e4264ac08e7e82a858c31bbc12112ba6c8e69c64fbd4c77877988857d83bd333"
+    },
+    {
+      "path": "archives/alphabet-c--q64.gojo.json.gz",
+      "bytes": 25484,
+      "sha256": "b06a0a45775731f9f2efac8db73ec7094f6324adcb62c1a3288fd6066c84a631"
+    },
+    {
+      "path": "archives/alphabet-d--q64.gojo.json.gz",
+      "bytes": 12467,
+      "sha256": "535a36fc2251d7f602ba632dcb737b919901e3ce9eb4a3b8e7d5fd93630d85e4"
+    },
+    {
+      "path": "archives/alphabet-e--q64.gojo.json.gz",
+      "bytes": 15829,
+      "sha256": "56c3238baed56de3b3e4b7e186df467f97675281246e9a07d7827d164c5a2b57"
+    },
+    {
+      "path": "archives/alphabet-f--q64.gojo.json.gz",
+      "bytes": 14164,
+      "sha256": "45c3fb806fedadda07d06d39d4a470e1b2bc14c9d464c4a09da9a3cfc2ec0f95"
+    },
+    {
+      "path": "archives/alphabet-g--q64.gojo.json.gz",
+      "bytes": 27291,
+      "sha256": "37b9fde1d3f1222b4713b29ef3787ff5fd9419bef408c8429420d45fd471d0db"
+    },
+    {
+      "path": "archives/alphabet-h--q64.gojo.json.gz",
+      "bytes": 16359,
+      "sha256": "f603794ba37e83c875741d474eb69ed76776833435e1e7d5e0a2b88840e55808"
+    },
+    {
+      "path": "archives/alphabet-i--q64.gojo.json.gz",
+      "bytes": 16275,
+      "sha256": "63848e56b66b290af6898c2f82550d72e379f40321bd6c455a855d01429b0cbf"
+    },
+    {
+      "path": "archives/alphabet-j--q64.gojo.json.gz",
+      "bytes": 15946,
+      "sha256": "2ea16bfd390e64e9671eee9726316aca22be5602204e857fc2c6578c3b8c9760"
+    },
+    {
+      "path": "archives/alphabet-k--q64.gojo.json.gz",
+      "bytes": 14172,
+      "sha256": "63d80f664853e70237732ffe4b8195b6cba50aff5bab97290e812640457778e0"
+    },
+    {
+      "path": "archives/alphabet-l--q64.gojo.json.gz",
+      "bytes": 19363,
+      "sha256": "263315a0eae396fdd6d70b140c64296e1cf00165a17f0f42fc1f505dfd75b5fe"
+    },
+    {
+      "path": "archives/alphabet-m--q64.gojo.json.gz",
+      "bytes": 27369,
+      "sha256": "7837db03c398656873f7e431913818d8e32ffcd3964773cfe48b55dd0d6df535"
+    },
+    {
+      "path": "archives/alphabet-n--q64.gojo.json.gz",
+      "bytes": 23073,
+      "sha256": "83cc07b6a8fd0e0a078622f847867246d244df5014e310088dfdc0db74ce4734"
+    },
+    {
+      "path": "archives/alphabet-o--q64.gojo.json.gz",
+      "bytes": 25964,
+      "sha256": "f06f7879e24dda8f1c68e80c5d23e3faa93b211b38a8890d3e4f80114ed1daf5"
+    },
+    {
+      "path": "archives/alphabet-p--q64.gojo.json.gz",
+      "bytes": 13762,
+      "sha256": "247cc281d8fc3fee81fe1f93c523962f992816635cd2cd9f268d72b77f095344"
+    },
+    {
+      "path": "archives/alphabet-q--q64.gojo.json.gz",
+      "bytes": 31190,
+      "sha256": "cf7c7ea44e37c6acb543feaa77dd188d84fe757116a286e8be054172d5b58947"
+    },
+    {
+      "path": "archives/alphabet-r--q64.gojo.json.gz",
+      "bytes": 15008,
+      "sha256": "9f1f3829049a7bfb24497d866d77b650f8bf8255b0e62b2afcddecc0095b44d6"
+    },
+    {
+      "path": "archives/alphabet-s--q64.gojo.json.gz",
+      "bytes": 36364,
+      "sha256": "d6adc0ed357df54c85e983cafb1d7961bbfb7ee30b2c79350e4c6db7e8517c65"
+    },
+    {
+      "path": "archives/alphabet-t--q64.gojo.json.gz",
+      "bytes": 15457,
+      "sha256": "fbced84d331d39673dfbf08d8cba0d042fb70eaf32d163b4e2f1ba363bbab748"
+    },
+    {
+      "path": "archives/alphabet-u--q64.gojo.json.gz",
+      "bytes": 15492,
+      "sha256": "ce954d32913dc723bf7b714a61ea63030277a9006afb0109d288d42a9e5df740"
+    },
+    {
+      "path": "archives/alphabet-v--q64.gojo.json.gz",
+      "bytes": 19969,
+      "sha256": "b48039dfa80087f855bd10721ab4acd4c10a6bf26ff260850c5cc31919a5ba08"
+    },
+    {
+      "path": "archives/alphabet-w--q64.gojo.json.gz",
+      "bytes": 27380,
+      "sha256": "db8101b04a3a57346203295dd0ca72314312511a27c999ca27dd604ac1e7cc0c"
+    },
+    {
+      "path": "archives/alphabet-x--q64.gojo.json.gz",
+      "bytes": 29493,
+      "sha256": "bc25f7b48cba0cb0eea795edab464441d90561be6c32294139eca1aa4d0b5be1"
+    },
+    {
+      "path": "archives/alphabet-y--q64.gojo.json.gz",
+      "bytes": 25691,
+      "sha256": "272a1bf9a6e03e8bfafdb7d875de727ed2318d16a2ea379d26f5a03a49e2a7ef"
+    },
+    {
+      "path": "archives/alphabet-z--q64.gojo.json.gz",
+      "bytes": 13287,
+      "sha256": "d037defa8813e58fb1e1ee51f075673f9f112cd3f6e260dd2ed058ab03ebc369"
+    },
+    {
+      "path": "archives/alphabet-atlas--q64.gojo.json.gz",
+      "bytes": 434331,
+      "sha256": "d44e867e11747900031ba89c9736609d412b1e98e61f0e3f7b0462c009632167"
+    },
+    {
+      "path": "archives/church-01--q32.gojo.json.gz",
+      "bytes": 43637,
+      "sha256": "21e12dc38ec7fc5720a8c61f4c3d425e20ae37f7613eb856f9e9973dd912f8ac"
+    },
+    {
+      "path": "archives/church-02--q32.gojo.json.gz",
+      "bytes": 50038,
+      "sha256": "943b83c5ccf2afdb265fd8d1a140c0404b0b7a09fdeaae8d54bde0d79a3f0836"
+    },
+    {
+      "path": "archives/church-03--q32.gojo.json.gz",
+      "bytes": 49105,
+      "sha256": "8b7301a95e5aab4c8a9eeabcc2b1f94941624be5be35d3fb807d06719dce16fa"
+    },
+    {
+      "path": "archives/church-04--q32.gojo.json.gz",
+      "bytes": 63001,
+      "sha256": "f51ec5e4d47b27dde20c61f05b50605b41b6029fa76780f7806c15b8191b5015"
+    },
+    {
+      "path": "archives/church-05--q32.gojo.json.gz",
+      "bytes": 57122,
+      "sha256": "1cf74494a11af10e8f72d5aeeb5f9dc972ec235c48ca8e04cd386216fceaed6a"
+    },
+    {
+      "path": "archives/church-06--q32.gojo.json.gz",
+      "bytes": 57050,
+      "sha256": "afebffddf56a1e838a5a5117c7903c7c662bef6059bc42ab38d517416dbe14c1"
+    },
+    {
+      "path": "archives/church-07--q32.gojo.json.gz",
+      "bytes": 52033,
+      "sha256": "0b16a1ac3415be62087807d2988eca3a12607d18e7786d8b25a9646e76c1268b"
+    },
+    {
+      "path": "archives/church-08--q32.gojo.json.gz",
+      "bytes": 46904,
+      "sha256": "967225fd5fa274d1cc3842a0d2503c9c978d89ed278cceb80e08f66538b23a25"
+    },
+    {
+      "path": "archives/church-09--q32.gojo.json.gz",
+      "bytes": 57559,
+      "sha256": "69ad88b217b8b54e035b84db7e45dd9e778319208e24ce4c593c1add5c28257d"
+    },
+    {
+      "path": "archives/church-10--q32.gojo.json.gz",
+      "bytes": 35643,
+      "sha256": "4bb278d86e76b69a7021f020536bf33d19e253687dd9f0b2bedb5f39626e05ef"
+    },
+    {
+      "path": "archives/church-11--q32.gojo.json.gz",
+      "bytes": 49016,
+      "sha256": "f81fba407fe64ad2010b55b3bf91f17121da11a7c657e5f4b0d33c69e3839ba1"
+    },
+    {
+      "path": "archives/church-12--q32.gojo.json.gz",
+      "bytes": 29014,
+      "sha256": "1fc292839da67416c25b9ba849f493074f78863a60216462fa4922de4a37218e"
+    },
+    {
+      "path": "archives/lucide-church--q32.gojo.json.gz",
+      "bytes": 44531,
+      "sha256": "636a16253691f2bf7b21b1f7f54a569aeb5dc30a726ea2e1f6ffa803467d9a15"
+    },
+    {
+      "path": "archives/tabler-church--q32.gojo.json.gz",
+      "bytes": 26287,
+      "sha256": "b263db214857598ec0c45baeacde8422dfabcc181435f4a9dd607d824b3e4f92"
+    },
+    {
+      "path": "archives/alphabet-a--q32.gojo.json.gz",
+      "bytes": 15170,
+      "sha256": "b9808ebb9234d9dd8737ce571847d7e90ea10696e43b5ee5f9d3bdfe70d0e872"
+    },
+    {
+      "path": "archives/alphabet-b--q32.gojo.json.gz",
+      "bytes": 15952,
+      "sha256": "e4264ac08e7e82a858c31bbc12112ba6c8e69c64fbd4c77877988857d83bd333"
+    },
+    {
+      "path": "archives/alphabet-c--q32.gojo.json.gz",
+      "bytes": 25484,
+      "sha256": "b06a0a45775731f9f2efac8db73ec7094f6324adcb62c1a3288fd6066c84a631"
+    },
+    {
+      "path": "archives/alphabet-d--q32.gojo.json.gz",
+      "bytes": 12467,
+      "sha256": "535a36fc2251d7f602ba632dcb737b919901e3ce9eb4a3b8e7d5fd93630d85e4"
+    },
+    {
+      "path": "archives/alphabet-e--q32.gojo.json.gz",
+      "bytes": 15829,
+      "sha256": "56c3238baed56de3b3e4b7e186df467f97675281246e9a07d7827d164c5a2b57"
+    },
+    {
+      "path": "archives/alphabet-f--q32.gojo.json.gz",
+      "bytes": 14164,
+      "sha256": "45c3fb806fedadda07d06d39d4a470e1b2bc14c9d464c4a09da9a3cfc2ec0f95"
+    },
+    {
+      "path": "archives/alphabet-g--q32.gojo.json.gz",
+      "bytes": 27295,
+      "sha256": "f02864c43dcae62a356bfd7987d90b65841ccab951426ebd3951d6557c14fd8b"
+    },
+    {
+      "path": "archives/alphabet-h--q32.gojo.json.gz",
+      "bytes": 16360,
+      "sha256": "3550fc45793c660ff9670fe3c8b766e5fbe37dcef3d7afb2993a3c979faee049"
+    },
+    {
+      "path": "archives/alphabet-i--q32.gojo.json.gz",
+      "bytes": 16275,
+      "sha256": "e03fe241dfe0a408f825e71b2c58293e715cf9f2e40c88587fc2c6409b3ab72a"
+    },
+    {
+      "path": "archives/alphabet-j--q32.gojo.json.gz",
+      "bytes": 15945,
+      "sha256": "3524767e09a611915ad26e45537975cf6120f7169ff165e0eb5ac57ddb135a76"
+    },
+    {
+      "path": "archives/alphabet-k--q32.gojo.json.gz",
+      "bytes": 14173,
+      "sha256": "bdb9363664ba87ca0efea3504529670927532afc11748c7781649703a01825e9"
+    },
+    {
+      "path": "archives/alphabet-l--q32.gojo.json.gz",
+      "bytes": 19363,
+      "sha256": "d895802a18bb72aa6edaea9776fcc53ad120b142fca0e4790d6517149b024bd8"
+    },
+    {
+      "path": "archives/alphabet-m--q32.gojo.json.gz",
+      "bytes": 27369,
+      "sha256": "7837db03c398656873f7e431913818d8e32ffcd3964773cfe48b55dd0d6df535"
+    },
+    {
+      "path": "archives/alphabet-n--q32.gojo.json.gz",
+      "bytes": 23073,
+      "sha256": "83cc07b6a8fd0e0a078622f847867246d244df5014e310088dfdc0db74ce4734"
+    },
+    {
+      "path": "archives/alphabet-o--q32.gojo.json.gz",
+      "bytes": 25964,
+      "sha256": "f06f7879e24dda8f1c68e80c5d23e3faa93b211b38a8890d3e4f80114ed1daf5"
+    },
+    {
+      "path": "archives/alphabet-p--q32.gojo.json.gz",
+      "bytes": 13762,
+      "sha256": "247cc281d8fc3fee81fe1f93c523962f992816635cd2cd9f268d72b77f095344"
+    },
+    {
+      "path": "archives/alphabet-q--q32.gojo.json.gz",
+      "bytes": 31190,
+      "sha256": "cf7c7ea44e37c6acb543feaa77dd188d84fe757116a286e8be054172d5b58947"
+    },
+    {
+      "path": "archives/alphabet-r--q32.gojo.json.gz",
+      "bytes": 15008,
+      "sha256": "9f1f3829049a7bfb24497d866d77b650f8bf8255b0e62b2afcddecc0095b44d6"
+    },
+    {
+      "path": "archives/alphabet-s--q32.gojo.json.gz",
+      "bytes": 36366,
+      "sha256": "29aebdcdeef2047213f044a541074b603a543d67249dfd8f701226d95d0d3851"
+    },
+    {
+      "path": "archives/alphabet-t--q32.gojo.json.gz",
+      "bytes": 15455,
+      "sha256": "4b75cbbd938d714e82dd616221477b67a178695e84417a13a69196e1b5f98850"
+    },
+    {
+      "path": "archives/alphabet-u--q32.gojo.json.gz",
+      "bytes": 15490,
+      "sha256": "1d5f1042a5db25a00123544315c0845d92cb58d816bf515a178cea648aec389f"
+    },
+    {
+      "path": "archives/alphabet-v--q32.gojo.json.gz",
+      "bytes": 19969,
+      "sha256": "04d4e71cd84e583eb99a1db729a37f46da24cc24ef23bc73ba846f71d6e39070"
+    },
+    {
+      "path": "archives/alphabet-w--q32.gojo.json.gz",
+      "bytes": 27380,
+      "sha256": "588d6a3e4c22c90c65d5375501fd30b2d9d3a1d20851ec168887eeee8a563707"
+    },
+    {
+      "path": "archives/alphabet-x--q32.gojo.json.gz",
+      "bytes": 29494,
+      "sha256": "d81e0ee9f5c63edd2b4110de1857b7ceb6f3216160d170a2193220c03fadccb6"
+    },
+    {
+      "path": "archives/alphabet-y--q32.gojo.json.gz",
+      "bytes": 25691,
+      "sha256": "272a1bf9a6e03e8bfafdb7d875de727ed2318d16a2ea379d26f5a03a49e2a7ef"
+    },
+    {
+      "path": "archives/alphabet-z--q32.gojo.json.gz",
+      "bytes": 13287,
+      "sha256": "d037defa8813e58fb1e1ee51f075673f9f112cd3f6e260dd2ed058ab03ebc369"
+    },
+    {
+      "path": "archives/alphabet-atlas--q32.gojo.json.gz",
+      "bytes": 434340,
+      "sha256": "0b3b375eccb24c9f82a206f390b164477c999d946e9536407f4e0964cca2daa6"
+    },
+    {
+      "path": "archives/church-01--q16.gojo.json.gz",
+      "bytes": 43636,
+      "sha256": "df39dfae360b500a8d4fede7536288b1ab6b4e8a050deb4ceb373cacc23760fc"
+    },
+    {
+      "path": "archives/church-02--q16.gojo.json.gz",
+      "bytes": 50038,
+      "sha256": "8ce63a0691e764778b3a611c4388e38bb27ebbf5b7cafe7a9afdace02e92f170"
+    },
+    {
+      "path": "archives/church-03--q16.gojo.json.gz",
+      "bytes": 49094,
+      "sha256": "16e6070f9c5313ba16a6cc4078fd1fe5c0d40f9b9c51594f2639bcc825a0b898"
+    },
+    {
+      "path": "archives/church-04--q16.gojo.json.gz",
+      "bytes": 62992,
+      "sha256": "ff8b7db0868a8b2bc62fadc38361b8ff009d47814b87d13e7940045902c3dea0"
+    },
+    {
+      "path": "archives/church-05--q16.gojo.json.gz",
+      "bytes": 57111,
+      "sha256": "2dab576e2b91be03eda221acabaf1546b0814f5e783a6b93f430ec14e7219be2"
+    },
+    {
+      "path": "archives/church-06--q16.gojo.json.gz",
+      "bytes": 57016,
+      "sha256": "f8e1d8ce51d88054240c023697731f2281c1807581d8769557318fc20c12b321"
+    },
+    {
+      "path": "archives/church-07--q16.gojo.json.gz",
+      "bytes": 52035,
+      "sha256": "b066de71960f845fc77859d2f4725d9984a265581be5f70572307c82ba0b47f7"
+    },
+    {
+      "path": "archives/church-08--q16.gojo.json.gz",
+      "bytes": 46891,
+      "sha256": "4751dc2693ba2640867ab60c6eb9dc1cecdc446c75c0564d64c6a7d030283472"
+    },
+    {
+      "path": "archives/church-09--q16.gojo.json.gz",
+      "bytes": 57560,
+      "sha256": "d24f5bd2680d60c0d191fcfd4454899170cb5396caa04f01510a86bd68d351f9"
+    },
+    {
+      "path": "archives/church-10--q16.gojo.json.gz",
+      "bytes": 35643,
+      "sha256": "3a725ab05d2bbee3c2c2ad8d49d02a3a1ba1a14a2e4de789ae596f1b879067ea"
+    },
+    {
+      "path": "archives/church-11--q16.gojo.json.gz",
+      "bytes": 49008,
+      "sha256": "bbcdd3d04af466aa71cfe8b96df0881138efbbbd98b12e5788c75529ef640df1"
+    },
+    {
+      "path": "archives/church-12--q16.gojo.json.gz",
+      "bytes": 29004,
+      "sha256": "bc27b59befd6c3273c5545b48874ab6b7618a68710af5e48d9a269c8bb5b733b"
+    },
+    {
+      "path": "archives/lucide-church--q16.gojo.json.gz",
+      "bytes": 44403,
+      "sha256": "72755c9ba344392a9efe56b1804acb42feaf79ad52c0b8ccb56d58a31b9d566d"
+    },
+    {
+      "path": "archives/tabler-church--q16.gojo.json.gz",
+      "bytes": 26281,
+      "sha256": "e4947caf9a55003e0c00810b0e1c3e9b4c6a0bb8a316feba896be1af7e4c8c05"
+    },
+    {
+      "path": "archives/alphabet-a--q16.gojo.json.gz",
+      "bytes": 15169,
+      "sha256": "59de5eb03622d52d728f1a8344403defa49cce527e3b1403401dad79b7237a47"
+    },
+    {
+      "path": "archives/alphabet-b--q16.gojo.json.gz",
+      "bytes": 15960,
+      "sha256": "8d25e08125116337f97212778a940c6fcb1afbe9357b4878249a7a6b7fb22fe8"
+    },
+    {
+      "path": "archives/alphabet-c--q16.gojo.json.gz",
+      "bytes": 25490,
+      "sha256": "8167d0efec222648b60648c5318164e5c3e321fa319bc58445c829997a0c7126"
+    },
+    {
+      "path": "archives/alphabet-d--q16.gojo.json.gz",
+      "bytes": 12470,
+      "sha256": "3d1f71ae510f013e83c3a03d9826d9a37c45cd87957b4f8210e4d395018fceb1"
+    },
+    {
+      "path": "archives/alphabet-e--q16.gojo.json.gz",
+      "bytes": 15829,
+      "sha256": "26b8280380e920c47ff044be5fa831cedad17d52d1b68dc3676f67442e591020"
+    },
+    {
+      "path": "archives/alphabet-f--q16.gojo.json.gz",
+      "bytes": 14166,
+      "sha256": "bba7b8c61ea4a130bc19bba0f1b30e67e59d9e1b43956fe42564b67ffa7fb1bb"
+    },
+    {
+      "path": "archives/alphabet-g--q16.gojo.json.gz",
+      "bytes": 27290,
+      "sha256": "40adc2943e8822f0dbaf5890c4c2ed3ea57b0cd314b666c9013dde8e7dad4c2d"
+    },
+    {
+      "path": "archives/alphabet-h--q16.gojo.json.gz",
+      "bytes": 16359,
+      "sha256": "f26974f1e6750e9673e37fd5ec25fff675e548dbbb6a8d01e4d51c895a9588bc"
+    },
+    {
+      "path": "archives/alphabet-i--q16.gojo.json.gz",
+      "bytes": 16274,
+      "sha256": "d3a2de45c5f627820b26ef963727826bbb4a1d1fa4ea234f8dd7bdccef01134c"
+    },
+    {
+      "path": "archives/alphabet-j--q16.gojo.json.gz",
+      "bytes": 15946,
+      "sha256": "396d2c62f8c99330422d59e842bdb6676fd9c705fd844af9416f5c4067233ef3"
+    },
+    {
+      "path": "archives/alphabet-k--q16.gojo.json.gz",
+      "bytes": 14175,
+      "sha256": "23c355936d331e2dda03f2bf45ca5d190dce1878125b3d9235b4cdcb0ed5c5d7"
+    },
+    {
+      "path": "archives/alphabet-l--q16.gojo.json.gz",
+      "bytes": 19364,
+      "sha256": "8ca2a70fdb148ab24aa9f76e27a3b7eec4055efa37471ea7d2f970bfdac51c4b"
+    },
+    {
+      "path": "archives/alphabet-m--q16.gojo.json.gz",
+      "bytes": 27373,
+      "sha256": "2b81e2097292f75ea2dd370eddf2c52f83908618f2b95090de9fb850911ab0bd"
+    },
+    {
+      "path": "archives/alphabet-n--q16.gojo.json.gz",
+      "bytes": 23071,
+      "sha256": "8fe2a97ea5ab3571c3ed5b78c13eade2947934fccaa2609020939e6743fe2035"
+    },
+    {
+      "path": "archives/alphabet-o--q16.gojo.json.gz",
+      "bytes": 25965,
+      "sha256": "e97b7eeed55253b8853ed68529b388f4ae9e60738f75c03e41250520af249b1f"
+    },
+    {
+      "path": "archives/alphabet-p--q16.gojo.json.gz",
+      "bytes": 13767,
+      "sha256": "c54f7944c8f04674cb5c4a10af2619375d53c7af7aa0b6c183205253d42e0c66"
+    },
+    {
+      "path": "archives/alphabet-q--q16.gojo.json.gz",
+      "bytes": 31193,
+      "sha256": "820e2e9d442bdfe4e693a2d2c277bacef05c0676feef379798315011ec24bb22"
+    },
+    {
+      "path": "archives/alphabet-r--q16.gojo.json.gz",
+      "bytes": 15013,
+      "sha256": "d7250d909b72177327f75773946a14400352a808669e0abb1a2fc32160314ab0"
+    },
+    {
+      "path": "archives/alphabet-s--q16.gojo.json.gz",
+      "bytes": 36368,
+      "sha256": "8e4a0bfbbc30d97c760cedaae4d6c28d065171ec6b179e70e996df8d10d7f719"
+    },
+    {
+      "path": "archives/alphabet-t--q16.gojo.json.gz",
+      "bytes": 15452,
+      "sha256": "52f8f05d0332b8f985535a85a2a7ee3d514f549695a81a6e2a421f037ac1cf0c"
+    },
+    {
+      "path": "archives/alphabet-u--q16.gojo.json.gz",
+      "bytes": 15486,
+      "sha256": "68cba54c98dda3d68a6e86027f8e89eaffccaa1e396d5599acde2ce0872d4257"
+    },
+    {
+      "path": "archives/alphabet-v--q16.gojo.json.gz",
+      "bytes": 19970,
+      "sha256": "0470b3fa4b3f63cd2bd337fea794f5a6fb24229438823eef59ae056abb7cf941"
+    },
+    {
+      "path": "archives/alphabet-w--q16.gojo.json.gz",
+      "bytes": 27383,
+      "sha256": "a18031207c80ee2039ccd7872bb8115e03b0ccfcab48c95f6de242aa1578e2b5"
+    },
+    {
+      "path": "archives/alphabet-x--q16.gojo.json.gz",
+      "bytes": 29495,
+      "sha256": "9d2abcee6a5f0592270aaff525824ea6873b2d1203736604b4c88f62db98673a"
+    },
+    {
+      "path": "archives/alphabet-y--q16.gojo.json.gz",
+      "bytes": 25692,
+      "sha256": "551753eac4803e1a40d2bd7834955818c959d4b35d6842432071e26f4a906e14"
+    },
+    {
+      "path": "archives/alphabet-z--q16.gojo.json.gz",
+      "bytes": 13288,
+      "sha256": "c1f5f7742ab372e031837da92f920867b96f5822695ee592f65b2e615974c9f3"
+    },
+    {
+      "path": "archives/alphabet-atlas--q16.gojo.json.gz",
+      "bytes": 434400,
+      "sha256": "739614ecc11c97a118de9e78208a92edaa9ee669b96aac52ae59f503457935d2"
+    },
+    {
+      "path": "archives/church-01--q8.gojo.json.gz",
+      "bytes": 43617,
+      "sha256": "25db914d2bf2915bc004e9283370e472577dd85875f9c56dbf9e838802518858"
+    },
+    {
+      "path": "archives/church-02--q8.gojo.json.gz",
+      "bytes": 50035,
+      "sha256": "a86971caafa8fa6291189ada970cbc2828ed06050786e5d6e0c7ff369fc98825"
+    },
+    {
+      "path": "archives/church-03--q8.gojo.json.gz",
+      "bytes": 49060,
+      "sha256": "590005bae1670924b0fc5f8924bded7560411f4a7a777446ad904ffdae730925"
+    },
+    {
+      "path": "archives/church-04--q8.gojo.json.gz",
+      "bytes": 63003,
+      "sha256": "9104699bf10d86477a38bdb1cedb376b5fd0f6cdc644e819f0eeca01a4b0f2db"
+    },
+    {
+      "path": "archives/church-05--q8.gojo.json.gz",
+      "bytes": 57106,
+      "sha256": "aabb7cd0b1524e2549877bf955fd0fb0db83ec7893109d9a12a9fe72854026c1"
+    },
+    {
+      "path": "archives/church-06--q8.gojo.json.gz",
+      "bytes": 57038,
+      "sha256": "d657cea2c44b56891f9e5c7a13a071aada0995b3c9758971caed35de7fd90716"
+    },
+    {
+      "path": "archives/church-07--q8.gojo.json.gz",
+      "bytes": 52027,
+      "sha256": "247be43b6afd663892b497ce7753830bc1916c3cfb637185759d192355ddf016"
+    },
+    {
+      "path": "archives/church-08--q8.gojo.json.gz",
+      "bytes": 46896,
+      "sha256": "a21a0888c2016ca3c905c467e7f79893f87e09c8a2e4dc99729f1caa99d8419b"
+    },
+    {
+      "path": "archives/church-09--q8.gojo.json.gz",
+      "bytes": 57590,
+      "sha256": "ad993adb701a9636012ec59d3f6fb510da787e9ab5d599a5a0c38594347de5d5"
+    },
+    {
+      "path": "archives/church-10--q8.gojo.json.gz",
+      "bytes": 35630,
+      "sha256": "740dbe54d48a7153072d24d8a37d2226e5a6a0a7531f182f25a718c9164db9c9"
+    },
+    {
+      "path": "archives/church-11--q8.gojo.json.gz",
+      "bytes": 49017,
+      "sha256": "bb6d0ed473ea689fbf2b66027c2a6e54bce9810496cf9856a13fa4bcb9144754"
+    },
+    {
+      "path": "archives/church-12--q8.gojo.json.gz",
+      "bytes": 29004,
+      "sha256": "553d35d7bf23ba8215d6e48ffec57f53e41dfbbdcb2e74ce54d20920d9675066"
+    },
+    {
+      "path": "archives/lucide-church--q8.gojo.json.gz",
+      "bytes": 44540,
+      "sha256": "2f5ffb9ded2fdfc073ca6807cc332aa32bc5eb62d0cce2ca164499b8c1cebcf9"
+    },
+    {
+      "path": "archives/tabler-church--q8.gojo.json.gz",
+      "bytes": 26284,
+      "sha256": "7b9df42a491e08a8605e05edd943047ecb529fbe82b032ba933af398096476a0"
+    },
+    {
+      "path": "archives/alphabet-a--q8.gojo.json.gz",
+      "bytes": 15174,
+      "sha256": "b0cb4df9179007c4d60e6d928edacd0f5ba5894e0b5fd0f50d305b2a890abab7"
+    },
+    {
+      "path": "archives/alphabet-b--q8.gojo.json.gz",
+      "bytes": 15956,
+      "sha256": "a2589b890467cb9b3274e7ae880517d3770ac3b1bfe6dcaee9c6e6cbbd1ec47b"
+    },
+    {
+      "path": "archives/alphabet-c--q8.gojo.json.gz",
+      "bytes": 25485,
+      "sha256": "364dbf365fd7618335a9fee266d67c4665deae85f1eee9cd5b305b239d7f273c"
+    },
+    {
+      "path": "archives/alphabet-d--q8.gojo.json.gz",
+      "bytes": 12471,
+      "sha256": "e751b8bfb3657106b2f7f3c4eb84160c6f55c214651879a7ca830d59ae8d0f4c"
+    },
+    {
+      "path": "archives/alphabet-e--q8.gojo.json.gz",
+      "bytes": 15829,
+      "sha256": "8ae6499c180d412286888cc24c4f50c802be41acaca64f2318ddb17a66e3d619"
+    },
+    {
+      "path": "archives/alphabet-f--q8.gojo.json.gz",
+      "bytes": 14167,
+      "sha256": "190d8705de0b457a86887f26788887fa00e55587656bff1749952320773cdb24"
+    },
+    {
+      "path": "archives/alphabet-g--q8.gojo.json.gz",
+      "bytes": 27291,
+      "sha256": "e7b3d158dd2eeb54e56dc3dba2a8e49a2a60ce0f4e37f248ef3d474906b67c60"
+    },
+    {
+      "path": "archives/alphabet-h--q8.gojo.json.gz",
+      "bytes": 16358,
+      "sha256": "02d73c81931256483eb013b6b232c33902bd5657a66cd0579c78ed313674bcb1"
+    },
+    {
+      "path": "archives/alphabet-i--q8.gojo.json.gz",
+      "bytes": 16280,
+      "sha256": "60a7b6e5f8735ab206d7edcf5043daab35b4f0e30110023f4867d7565b9111b7"
+    },
+    {
+      "path": "archives/alphabet-j--q8.gojo.json.gz",
+      "bytes": 15944,
+      "sha256": "0adc8203602e3b0b3a4af87cd05063f63370b30917b5a82cc23c6ad5ec7249ba"
+    },
+    {
+      "path": "archives/alphabet-k--q8.gojo.json.gz",
+      "bytes": 14175,
+      "sha256": "b76fb7f684d4944916f5803dbcc6c076a60b66ceb4b54b2476aa15606bd2e932"
+    },
+    {
+      "path": "archives/alphabet-l--q8.gojo.json.gz",
+      "bytes": 19363,
+      "sha256": "8d321f9f9ee0230859b16e20d1cc125362855e9f8aaca6f4c66998dc0cdb6589"
+    },
+    {
+      "path": "archives/alphabet-m--q8.gojo.json.gz",
+      "bytes": 27375,
+      "sha256": "246cc540328e59612bfefad5b0481589848ec0ff6543b8d7dda7e2f7b33a8989"
+    },
+    {
+      "path": "archives/alphabet-n--q8.gojo.json.gz",
+      "bytes": 23069,
+      "sha256": "0c189a56318acff0a2d6e3432e973a5c1368611362656a76bdaf6db7e19f1aa9"
+    },
+    {
+      "path": "archives/alphabet-o--q8.gojo.json.gz",
+      "bytes": 25965,
+      "sha256": "6be867a243688ccb5e129076936bdab139d64a436cbe39be7849cb8592cf034c"
+    },
+    {
+      "path": "archives/alphabet-p--q8.gojo.json.gz",
+      "bytes": 13765,
+      "sha256": "5e9d455b2e228e039a65de9693e236332de1c3d085337fc05f3857cf9ab29a74"
+    },
+    {
+      "path": "archives/alphabet-q--q8.gojo.json.gz",
+      "bytes": 31190,
+      "sha256": "ae95ad246849450fb25398969580f69ab8f1e7edd35351a0b0d071009bfaf2a0"
+    },
+    {
+      "path": "archives/alphabet-r--q8.gojo.json.gz",
+      "bytes": 15013,
+      "sha256": "2779b9ed6b51ebe4e86f239fb0860963c8f065a29ea8ad9b4364fc5cc7154a8f"
+    },
+    {
+      "path": "archives/alphabet-s--q8.gojo.json.gz",
+      "bytes": 36370,
+      "sha256": "8c4245864feb7b8bf81953cedc5e3bdaf419a13991151325716af31632154016"
+    },
+    {
+      "path": "archives/alphabet-t--q8.gojo.json.gz",
+      "bytes": 15451,
+      "sha256": "c35cdf513cb42295b2aec01a9225a15b52067ff54e5f785a74584c2b56ef6fbc"
+    },
+    {
+      "path": "archives/alphabet-u--q8.gojo.json.gz",
+      "bytes": 15484,
+      "sha256": "d8b5809a208e4057225b900f9a3715de5b6d14032c694ae9d02cd341bf332755"
+    },
+    {
+      "path": "archives/alphabet-v--q8.gojo.json.gz",
+      "bytes": 19972,
+      "sha256": "3271825e83111b97406a7f1ff2a5290f9e76c16afb9ccd04e366f1899e07ecf1"
+    },
+    {
+      "path": "archives/alphabet-w--q8.gojo.json.gz",
+      "bytes": 27383,
+      "sha256": "d122ed8de880b453ac8c5c8d0aea4c8f12da9ec4c8c77ccc03e9685f9feed36b"
+    },
+    {
+      "path": "archives/alphabet-x--q8.gojo.json.gz",
+      "bytes": 29493,
+      "sha256": "cd14b23200547a42b2506a13352d8a3b789a82a9bc6b7cb9687528cbda3dc088"
+    },
+    {
+      "path": "archives/alphabet-y--q8.gojo.json.gz",
+      "bytes": 25692,
+      "sha256": "551753eac4803e1a40d2bd7834955818c959d4b35d6842432071e26f4a906e14"
+    },
+    {
+      "path": "archives/alphabet-z--q8.gojo.json.gz",
+      "bytes": 13289,
+      "sha256": "1074a528c0152bef17599496d5bccd8e1546418c1591072d63255be73fe9c7e0"
+    },
+    {
+      "path": "archives/alphabet-atlas--q8.gojo.json.gz",
+      "bytes": 434387,
+      "sha256": "764f870ca96ebaf99eb1fe3e95748668141109fcd5f78636b1b8ed103cb87cd6"
+    }
+  ],
+  "screenshots": [
+    "church-11-coarse.png",
+    "church-03-coarse.png",
+    "alphabet-atlas-coarse.png",
+    "resolution-mobile.png"
+  ],
+  "visualInspection": {
+    "files": [
+      "church-11-coarse.png",
+      "church-03-coarse.png",
+      "alphabet-atlas-coarse.png",
+      "resolution-mobile.png"
+    ],
+    "result": "Inspected church 11, side-tower church 3, full alphabet and mobile views. Resolution labels, five comparative reads, source-scene exceptions, drawing controls and layouts are legible."
+  }
+}

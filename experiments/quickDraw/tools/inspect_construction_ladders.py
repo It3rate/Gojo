@@ -106,7 +106,62 @@ def normalize(run):
             "verificationNote": "The saved native program was restored and executed again. Geometry and condition reads were checked against the first execution. " + run.get("numericPolicy", "")}
 
 
-def build(paths, output, public=False, default_scene=None, public_archives="all"):
+def group_resolutions(families, manifest):
+    """Group separately replayed native reads without changing their geometry.
+
+    The manifest supplies display correspondence only. It cannot create a
+    missing native read, manufacture a structural invariant, or execute a
+    finer source when the user selects a coarse result.
+    """
+    levels = manifest.get("levels", [])
+    if not levels or any(not SAFE_ID.fullmatch(level.get("id", "")) for level in levels):
+        raise ValueError("Resolution levels need safe identities")
+    level_ids = [level["id"] for level in levels]
+    if len(set(level_ids)) != len(level_ids):
+        raise ValueError("Duplicate resolution level identity")
+    programs = manifest.get("programs", [])
+    mapping = {}
+    for row in programs:
+        if any(not SAFE_ID.fullmatch(row.get(key, "")) for key in ("id", "baseId", "levelId")):
+            raise ValueError("Resolution correspondence needs safe identities")
+        if row["id"] in mapping:
+            raise ValueError("Duplicate resolution program correspondence")
+        if row["levelId"] not in level_ids:
+            raise ValueError("Resolution correspondence names an unavailable level")
+        mapping[row["id"]] = row
+    native_ids = {v["id"] for family in families.values() for v in family["variants"]}
+    if set(mapping) != native_ids:
+        raise ValueError("Resolution correspondence must cover exactly the native programs")
+    owners = {}
+    for family in families.values():
+        designs = OrderedDict()
+        for variant in family["variants"]:
+            row = mapping[variant["id"]]
+            base_id = row["baseId"]
+            if base_id in owners and owners[base_id] != family["id"]:
+                raise ValueError("One resolution design spans different construction families")
+            owners[base_id] = family["id"]
+            design = designs.setdefault(base_id, {"id": base_id, "label": row.get("label", variant["label"]),
+                                                  "viewBox": variant["viewBox"], "resolutions": []})
+            variant["resolution"] = next(dict(level) for level in levels if level["id"] == row["levelId"])
+            # These values describe generator/audit observations, not inferred
+            # constraints or independently verified native properties.
+            variant["resolutionMetrics"] = {key: row[key] for key in
+                ("retainedFine", "changedCoordinates", "maxDeviation", "metricsScope",
+                 "nominalQuantum", "referenceSpan") if key in row}
+            design["resolutions"].append(variant)
+        for design in designs.values():
+            reads = design["resolutions"]
+            if sorted(v["resolution"]["id"] for v in reads) != sorted(level_ids):
+                raise ValueError("Each drawing needs exactly one native read at every resolution")
+            reads.sort(key=lambda v: level_ids.index(v["resolution"]["id"]))
+            if len({len(v["rungs"]) for v in reads}) != 1:
+                raise ValueError("Resolution comparisons need corresponding construction steps")
+        family["variants"] = list(designs.values())
+    return {"levels": levels, "qualification": manifest.get("qualification", "Coordinate placement remains numeric.")}
+
+
+def build(paths, output, public=False, default_scene=None, public_archives="all", resolution_manifest=None):
     families, archive_copies = OrderedDict(), []
     for run, archive in load_exports(paths):
         variant = normalize(run)
@@ -132,8 +187,16 @@ def build(paths, output, public=False, default_scene=None, public_archives="all"
         family["variants"].append(variant)
     if default_scene and default_scene not in families:
         raise ValueError("Default construction family is absent")
+    native_programs = sum(len(s["variants"]) for s in families.values())
+    native_rungs = sum(len(v["rungs"]) for s in families.values() for v in s["variants"])
+    resolution = None
+    if resolution_manifest is not None:
+        manifest = json.loads(resolution_manifest.read_text(encoding="utf-8-sig"))
+        resolution = group_resolutions(families, manifest)
     data = {"schema": "gojo.construction-viewer.v1", "public": public,
             "defaultScene": default_scene or next(iter(families)), "scenes": list(families.values())}
+    if resolution is not None:
+        data["resolution"] = resolution
     encoded = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     if public and ("file:///" in encoded or re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", encoded)):
         raise ValueError("Public construction viewer contains a machine-local path")
@@ -155,7 +218,7 @@ def build(paths, output, public=False, default_scene=None, public_archives="all"
     if public:
         (output.parent / "public-files.json").write_text(json.dumps({"files": files}, indent=2)+"\n", encoding="utf-8")
     return {"families": len(families), "variants": sum(len(s["variants"]) for s in families.values()),
-            "rungs": sum(len(v["rungs"]) for s in families.values() for v in s["variants"]),
+            "programs": native_programs, "rungs": native_rungs,
             "publicFiles": len(files) if public else 0, "htmlBytes": output.stat().st_size}
 
 
@@ -167,8 +230,11 @@ def main():
                         help="Prepare a portable folder with embedded reads and compressed programs; does not deploy or publish.")
     parser.add_argument("--default-scene")
     parser.add_argument("--public-archives", choices=("all", "representative", "none"), default="all")
+    parser.add_argument("--resolution-manifest", type=Path,
+                        help="Display correspondence for separately executed native resolution reads.")
     args = parser.parse_args()
-    print(json.dumps(build(args.input, args.output, args.public, args.default_scene, args.public_archives), indent=2))
+    print(json.dumps(build(args.input, args.output, args.public, args.default_scene, args.public_archives,
+                           args.resolution_manifest), indent=2))
 
 
 if __name__ == "__main__":

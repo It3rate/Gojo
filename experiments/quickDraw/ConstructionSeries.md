@@ -6,6 +6,11 @@ letter in the existing [line-art study](LineArt.md). It is a local milestone
 checkpoint, retained in GitHub. Website publication is deferred until the end
 of the milestone.
 
+The next [positional-resolution checkpoint](ConstructionResolution.md) now
+executes all 41 selections at five numeric grades while retaining their
+construction steps and selected structural relationships. This document and
+its retained review remain the exact-source baseline.
+
 The local inspector is `D:\_quickDraw\gojo-construction-series\review.html`.
 The repository also retains a [portable review folder](results/construction-series/review/index.html)
 with the displayed native reads and compressed executable programs.

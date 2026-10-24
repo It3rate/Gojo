@@ -33,6 +33,12 @@ atlas. The combined local review contains 53 programs and 245 steps, using
 reusable primitive builders, unconstrained rough guides and source-verified
 final controls. Website publication is deferred to the end of the milestone.
 
+[Positional resolution](ConstructionResolution.md) adds a separate five-setting
+dial for those 41 selections: measured, 64, 32, 16 and 8 divisions. The 205 native
+programs retain scoped symmetry/repetition, identity, count and relative order
+while proportions may change. Necessary finer exceptions remain visible; this
+is still numeric calibration, before learned or pre-numeric completion.
+
 The first useful result is an **exact native sample-acquisition boundary plus an
 inspectable measured fitting experiment**. The full acquisition-to-concept
 converter is not complete. No prior was trained in this initial acquisition

@@ -132,7 +132,7 @@ def _add_scope(recipe, source_ids, frame, masses=None, chords=False):
     return recipe.source_scope(source_ids, frame, chords=chords)
 
 
-def _build_church(scene):
+def _build_church(scene, mass_plans=None):
     recipe = SourceRecipe(scene, scene["id"], title="Churches from construction guides", family="church-series")
     recipe.data["variantLabel"] = scene["title"]
     recipe.data["description"] = (
@@ -158,7 +158,7 @@ def _build_church(scene):
     recipe.frame()
     page = recipe.source_frame("source-page", (0, 0, 512, 512), emit=False)
     masses = [recipe.source_frame("mass-" + key, bounds, parent=page, kind=kind)
-              for key, kind, bounds in MASS_PLANS[scene["id"]]]
+              for key, kind, bounds in (mass_plans if mass_plans is not None else MASS_PLANS[scene["id"]])]
     mass_edges = [edge for frame in masses for edge in frame.edges]
     recipe.finish(mass_edges)
 

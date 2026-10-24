@@ -8,7 +8,7 @@ import re
 import tempfile
 import unittest
 
-from inspect_construction_ladders import build, load_exports, normalize
+from inspect_construction_ladders import build, group_resolutions, load_exports, normalize
 
 
 def fixture(key="fixture"):
@@ -52,6 +52,61 @@ def embedded(output):
 
 
 class ConstructionPublicationTests(unittest.TestCase):
+    def test_resolution_selection_groups_native_reads_without_recomputing_coordinates(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            fine, coarse = fixture("first--exact"), fixture("first--q8")
+            for rung in coarse["rungs"]:
+                for site in rung["sites"]:
+                    site["x"] *= 2
+                for edge in rung["edges"]:
+                    for point in edge["controls"]:
+                        point[0] *= 2
+            write_source(root / "fine", fine)
+            write_source(root / "coarse", coarse, b'{"coarse":"program without fine source"}')
+            manifest = {"levels": [{"id": "exact", "label": "Original placement"},
+                                     {"id": "q8", "label": "Coarser"}],
+                        "programs": [{"id": run["id"], "baseId": "first", "levelId": level,
+                                      "label": "First drawing", "changedCoordinates": count}
+                                     for run, level, count in ((fine, "exact", 0), (coarse, "q8", 2))],
+                        "qualification": "Numeric placement with retained structural references."}
+            file = root / "resolution.json"
+            file.write_text(json.dumps(manifest), encoding="utf-8")
+            for public in (False, True):
+                output = root / str(public) / "index.html"
+                summary = build([root / "coarse", root / "fine"], output, public=public, resolution_manifest=file)
+                data = embedded(output)
+                self.assertEqual((summary["variants"], summary["programs"], summary["rungs"]), (1, 2, 4))
+                design = data["scenes"][0]["variants"][0]
+                self.assertEqual((design["id"], design["label"]), ("first", "First drawing"))
+                reads = design["resolutions"]
+                self.assertEqual([v["id"] for v in reads], ["first--exact", "first--q8"])
+                self.assertEqual([v["analysis"]["edges"][0]["controls"][1][0] for v in reads], [100, 200])
+                self.assertEqual(reads[1]["resolutionMetrics"]["changedCoordinates"], 2)
+                self.assertIn("first--q8", reads[1]["archivePath"] if public else reads[1]["id"])
+                if public:
+                    self.assertEqual(gzip.decompress((output.parent / reads[1]["archivePath"]).read_bytes()),
+                                     b'{"coarse":"program without fine source"}')
+
+    def test_resolution_correspondence_cannot_invent_missing_reads_or_duplicate_a_level(self):
+        variants = [normalize(fixture("a--exact")), normalize(fixture("a--coarse"))]
+        family = {"lines": {"id": "lines", "variants": variants}}
+        manifest = {"levels": [{"id": "exact"}, {"id": "coarse"}], "programs": [
+            {"id": "a--exact", "baseId": "a", "levelId": "exact"},
+            {"id": "a--coarse", "baseId": "a", "levelId": "coarse"}]}
+        missing = copy.deepcopy(manifest)
+        missing["programs"].pop()
+        with self.assertRaisesRegex(ValueError, "exactly the native"):
+            group_resolutions(copy.deepcopy(family), missing)
+        duplicate = copy.deepcopy(manifest)
+        duplicate["programs"][1]["levelId"] = "exact"
+        with self.assertRaisesRegex(ValueError, "exactly one native"):
+            group_resolutions(copy.deepcopy(family), duplicate)
+        wrong_steps = copy.deepcopy(family)
+        wrong_steps["lines"]["variants"][1]["rungs"].pop()
+        with self.assertRaisesRegex(ValueError, "corresponding construction steps"):
+            group_resolutions(wrong_steps, manifest)
+
     def test_coincident_sites_and_edges_keep_distinct_identities_and_actual_dependencies(self):
         result = normalize(fixture())
         self.assertEqual([s["id"] for s in result["analysis"]["sites"]], ["a", "b", "c", "d"])

@@ -10,6 +10,26 @@ namespace Gojo.Experiments.QualitativeExecution.Tests;
 public sealed class ConstructionLadderTests
 {
     [Fact]
+    public void RestoredReflectionConsumesEarlierSiteAndMovesOppositelyWithoutMergingIdentity()
+    {
+        var source = Fixture(); source["repeats"] = new JsonArray();
+        source["sites"]![6]!["x"] = JsonNode.Parse("""{"origin":"b","from":"p","to":"b","numerator":1,"denominator":1}""");
+        source["sites"]![7]!["x"] = JsonNode.Parse("""{"origin":"b","from":"q","to":"b","numerator":1,"denominator":1}""");
+        var program = Restore(Import(source));
+        Assert.True(ConstructionLadder.TryExecute(program, out var before));
+        Assert.Equal(175, before.Sites[6].Position.X);
+        Assert.Contains(4, before.Sites[6].Dependencies);
+        Assert.Contains(1, before.Sites[6].Dependencies);
+        Assert.NotSame(before.Sites[4].Event, before.Sites[6].Event);
+        before.Parameters[0].Set(40);
+        Assert.True(ConstructionLadder.TryExecute(program, out var after));
+        Assert.Equal(160, after.Sites[6].Position.X);
+        Assert.Equal(200, after.Sites[4].Position.X + after.Sites[6].Position.X);
+        Assert.Equal(before.Sites[6].Position.Y, after.Sites[6].Position.Y);
+        Assert.Equal(175, before.Sites[6].Position.X);
+    }
+
+    [Fact]
     public void RestoredProgramRecomputesDependentCoordinatesWhenLiveParameterReceivesDelta()
     {
         var program = Restore(Import(Fixture())); Assert.True(ConstructionLadder.TryExecute(program, out var first));
