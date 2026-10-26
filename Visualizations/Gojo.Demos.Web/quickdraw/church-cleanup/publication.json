@@ -1,0 +1,21 @@
+{
+  "schema": "gojo.quickdraw.website-publication.v1",
+  "route": "/quickdraw/church-cleanup/",
+  "source": "experiments/quickDraw/results/church-cleanup/public",
+  "scenes": null,
+  "scope": "Captured study presentation and explicitly selected downloads; no experiment execution during publication.",
+  "files": [
+    {
+      "path": "index.html",
+      "sourceSha256": "f534f4e58492a51231ff8ff68c148e0c9d4a64a5112d51a5337baa9abb84afc5",
+      "publishedSha256": "f8c58a09361ad98c00b6a244a94bc544afc06071f6f3c35476f29d8010dcd268",
+      "bytes": 9794
+    },
+    {
+      "path": "data.bin",
+      "sourceSha256": "fd8b444e2f1ff1652fa633cb0b44f812eb3c45903c93811409ecc602cb365551",
+      "publishedSha256": "fd8b444e2f1ff1652fa633cb0b44f812eb3c45903c93811409ecc602cb365551",
+      "bytes": 36472
+    }
+  ]
+}

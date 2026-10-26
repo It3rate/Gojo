@@ -18,6 +18,15 @@
       "detail": "Alphabet A–Z · Church studies · Native evidence",
       "route": "/quickdraw/line-art/",
       "scenes": 17
+    },
+    {
+      "id": "church-cleanup",
+      "title": "Church drawings: source and cleanup",
+      "description": "Compare each imperfect church drawing with its proposed cleaned structure. Enlarge pairs and distinguish observed strokes from added expectations.",
+      "kind": "36 Quick Draw sketches",
+      "detail": "36 drawings · 3 pages · original and proposal",
+      "route": "/quickdraw/church-cleanup/",
+      "scenes": null
     }
   ]
 }

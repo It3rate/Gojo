@@ -117,6 +117,15 @@ Its source is `experiments/quickDraw/results/line-art/public`. That directory's
 `public-files.json` selection lists its entry page and native downloads;
 unselected research files are not copied to the site.
 
+The church cleanup comparison at `/quickdraw/church-cleanup/` shows the original
+drawing and saved final shape proposal for all 36 verified pilot samples, 12 per
+page. Its captured display is generated from the `church-shape-cleanup.v3`
+checkpoint in the GojoQuickDraw dataset, with source archive hashes and native
+restore flags checked. Run `tools/build-church-cleanup.py --dataset $dataset`
+to refresh the display, then run it again with `--check` and rebuild the
+Quick Draw category. The published coordinates are rounded to one display
+unit; the authoritative evidence and native records remain in the dataset.
+
 The construction study at `/quickdraw/construction/` uses
 `experiments/quickDraw/results/construction-resolution/review`. It contains
 fourteen churches, 26 individual capitals and the alphabet atlas: 41 designs
@@ -186,6 +195,12 @@ the same allowance. No hosting-plan change or removal of other site content
 was needed. Re-measure the whole bundle before any further publication;
 there is very little remaining capacity. The earlier paragraph records the
 size of the initial construction publication, not the current bundle.
+
+Adding the 36-drawing church cleanup comparison brings the prepared bundle to
+262,135,748 bytes across 2,065 files, leaving 8,252 bytes under the last
+verified allowance. The gallery's compressed display data is 36,472 bytes.
+The larger detailed inspector and native archives remain in the research
+dataset; this site edition preserves the full set of visual comparisons.
 
 ## Growing the ornament series
 

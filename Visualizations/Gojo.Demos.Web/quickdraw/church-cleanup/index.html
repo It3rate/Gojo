@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head><base href="/quickdraw/church-cleanup/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Thirty-six Quick Draw churches, with each original drawing beside its proposed cleaned structure.">
+<title>Church drawings: source and cleanup · Gojo</title>
+<link rel="stylesheet" href="/app.css">
+<style>
+main{width:min(1540px,calc(100% - 30px));padding:30px 0 70px}
+.back{color:var(--accent);font:14px "Trebuchet MS",sans-serif;text-decoration:none}.back:hover{text-decoration:underline}
+.intro{margin:28px 0 24px}.intro h1{font-size:clamp(34px,5vw,58px)}.intro .summary{max-width:990px;margin-top:18px;font-size:clamp(16px,1.7vw,20px)}
+.key,.toolbar,.card-head,.panels,.legend{display:flex;align-items:center}.key{gap:16px;flex-wrap:wrap;margin:18px 0 22px;color:#53646a;font:13px "Trebuchet MS",sans-serif}.swatch{display:inline-block;width:20px;margin-right:5px;border-top:3px solid;vertical-align:middle}.swatch.dots{border-top-style:dotted}
+.toolbar{justify-content:space-between;gap:14px;flex-wrap:wrap;margin:20px 0 16px;font:14px "Trebuchet MS",sans-serif}.toolbar button,.close{padding:10px 15px;border:1px solid #97a9a2;background:#fffdf8;color:#225951;border-radius:8px;cursor:pointer;font:inherit}.toolbar button:disabled{opacity:.42;cursor:default}.toolbar button:focus-visible,.sample:focus-visible,.close:focus-visible{outline:3px solid #c78f3e;outline-offset:3px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.sample{display:block;width:100%;padding:13px;border:1px solid #ccd6cf;border-radius:15px;background:#fffefa;color:#21383d;text-align:left;cursor:pointer;box-shadow:0 4px 18px #32403c0a}.sample:hover{border-color:#207669;box-shadow:0 8px 24px #32403c18}.card-head{justify-content:space-between;gap:8px;margin:0 2px 10px;font:700 15px "Trebuchet MS",sans-serif}.card-head small{font-size:11px;font-weight:400;color:#708080}.panels{align-items:stretch;gap:8px}.panel{min-width:0;flex:1;text-align:center}.panel+.panel{border-left:1px solid #e2e7e1;padding-left:8px}.panel-label{display:block;color:#506870;font:12px "Trebuchet MS",sans-serif}.panel svg{display:block;width:100%;aspect-ratio:1;max-height:240px}.sample-note{margin:4px 2px 0;color:#687a78;font:11px "Trebuchet MS",sans-serif}
+.legend{gap:15px;flex-wrap:wrap;margin-top:18px;color:#526267;font:12px "Trebuchet MS",sans-serif}.notice{margin:28px 0;color:#5b6b70;font-size:15px;line-height:1.5}
+dialog{border:1px solid #b9ccc3;border-radius:16px;padding:20px;background:#fffefa;box-shadow:0 24px 80px #223a3c66;width:min(1040px,calc(100% - 20px));max-height:calc(100% - 20px)}dialog::backdrop{background:#263837bb}.modal-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.modal-top h2{margin:0;font-size:25px}.modal-panels{margin-top:12px}.modal-panels .panel svg{max-height:min(65vh,620px)}
+@media(max-width:1020px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:660px){main{width:calc(100% - 22px)}.grid{grid-template-columns:1fr}.sample{padding:10px}.card-head small{font-size:10px}.modal-panels{flex-direction:column}.modal-panels .panel+.panel{border-left:0;border-top:1px solid #e2e7e1;padding-left:0;padding-top:8px}.modal-panels .panel svg{max-height:32vh}}
+</style>
+</head>
+<body><main>
+<nav aria-label="Gojo navigation"><a class="back" href="/quickdraw/">← Quick Draw studies</a></nav>
+<header class="intro"><p class="eyebrow">Quick Draw · Church study</p><h1>From drawing to proposed structure</h1><p class="summary">Thirty-six church sketches, each beside a cleaned shape proposal. Open any pair for a closer comparison. The faint lines in the proposal show the original drawing; colored parts show the current interpretation.</p></header>
+<div class="key" aria-label="Reading key"><span><i class="swatch" style="color:#465852"></i>Original ink</span><span><i class="swatch" style="color:#277da8"></i>Refined estimate</span><span><i class="swatch dots" style="color:#9aa2a6"></i>Possible added door or window</span><span><i class="swatch dots" style="color:#ae3f6d"></i>Other expectation</span></div>
+<div class="toolbar"><div><button id="previous" type="button">← Previous page</button> <button id="next" type="button">Next page →</button></div><span id="page-state" aria-live="polite">Loading drawings…</span></div>
+<section id="gallery" class="grid" aria-label="Church drawing comparisons"></section>
+<p class="notice">These are saved shape proposals from authored expectations, not learned category truths. The source dataset retains the full evidence and native Gojo records; this gallery rounds display coordinates to one unit to keep all 36 comparisons together.</p>
+<dialog id="detail" aria-label="Enlarged church drawing comparison"><div class="modal-top"><h2 id="detail-title"></h2><button class="close" id="close" type="button">Close</button></div><div id="detail-panels" class="panels modal-panels"></div></dialog>
+</main>
+<script>
+const $=id=>document.getElementById(id), ns='http://www.w3.org/2000/svg', colors=['#63735f','#277da8','#56729a','#bf712a','#ae3f6d','#23846c','#8c68aa'];
+let dataset,page=0;
+function svgNode(tag,attributes,parent){const el=document.createElementNS(ns,tag);for(const [key,value] of Object.entries(attributes))el.setAttribute(key,String(value));parent?.append(el);return el}
+function points(flat,scale){const result=[];for(let i=0;i<flat.length;i+=2)result.push([flat[i]/scale,flat[i+1]/scale]);return result}
+function drawingSvg(row,final){const strokes=row[2],parts=row[3],scale=dataset.scale,all=[...strokes.flatMap(s=>points(s,scale)),...parts.flatMap(p=>points(p[3],scale))],xs=all.map(p=>p[0]),ys=all.map(p=>p[1]),left=Math.min(0,...xs),top=Math.min(0,...ys),right=Math.max(512,...xs),bottom=Math.max(512,...ys),pad=.035*Math.max(right-left,bottom-top);
+ const svg=svgNode('svg',{viewBox:[left-pad,top-pad,right-left+2*pad,bottom-top+2*pad].join(' '),role:'img','aria-label':final?'Proposed cleaned church with faint original':'Original Quick Draw church'});
+ for(const raw of strokes){const p=points(raw,scale);svgNode('polyline',{points:p.map(v=>v.join(',')).join(' '),fill:'none',stroke:'#465852','stroke-width':2.1,opacity:final?.20:1,'stroke-linecap':'round','stroke-linejoin':'round'},svg)}
+ if(final)for(const part of parts){const [role,prior,shape,flat,segments,fill]=part,p=points(flat,scale),added=prior&&(role===5||role===6),color=added?'#9aa2a6':colors[role],group=svgNode('g',{},svg);svgNode('title',{},group).textContent=dataset.roles[role]+' · '+shape+' · '+(prior?'added from expectation':'refined estimate');
+  if(fill.length)svgNode('polygon',{points:fill.map(i=>p[i].join(',')).join(' '),fill:color,'fill-opacity':.075,stroke:'none'},group);
+  for(let i=0;i<segments.length;i+=2){const a=p[segments[i]],b=p[segments[i+1]];svgNode('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:color,'stroke-width':2.8,'stroke-linecap':'round','stroke-dasharray':added?'1 4':prior||role===0?'5 3':'none'},group)}
+ }return svg}
+function panels(row){const host=document.createElement('div');host.className='panels';for(const [label,final] of [['Original',false],['Cleanup + original',true]]){const panel=document.createElement('div');panel.className='panel';const heading=document.createElement('span');heading.className='panel-label';heading.textContent=label;panel.append(heading,drawingSvg(row,final));host.append(panel)}return host}
+function show(index){const row=dataset.drawings[index],dialog=$('detail');$('detail-title').textContent=row[0]+'. Church · '+row[1];$('detail-panels').replaceChildren(...panels(row).children);dialog.showModal();location.hash='sample-'+row[0]}
+function render(){const rows=dataset.drawings.slice(page*12,page*12+12),gallery=$('gallery');gallery.replaceChildren();for(const row of rows){const button=document.createElement('button');button.className='sample';button.type='button';button.setAttribute('aria-label','Open church '+row[0]+' comparison');const head=document.createElement('div');head.className='card-head';const number=document.createElement('strong');number.textContent=row[0]+'. church';const id=document.createElement('small');id.textContent=row[1];head.append(number,id);const note=document.createElement('p');note.className='sample-note';note.textContent=row[3].length+' proposed parts · open larger view';button.append(head,panels(row),note);button.onclick=()=>show(row[0]-1);gallery.append(button)}$('page-state').textContent='Page '+(page+1)+' of '+Math.ceil(dataset.drawings.length/12)+' · drawings '+(page*12+1)+'–'+(page*12+rows.length)+' of '+dataset.drawings.length;$('previous').disabled=page===0;$('next').disabled=(page+1)*12>=dataset.drawings.length}
+function setPage(value,updateHash=true){page=Math.max(0,Math.min(Math.ceil(dataset.drawings.length/12)-1,value));render();if(updateHash)location.hash='page-'+(page+1)}
+$('previous').onclick=()=>setPage(page-1);$('next').onclick=()=>setPage(page+1);$('close').onclick=()=>{$('detail').close();location.hash='page-'+(page+1)};
+async function load(){const response=await fetch('data.bin');if(!response.ok)throw Error('Drawing data could not be loaded ('+response.status+').');dataset=await new Response(response.body.pipeThrough(new DecompressionStream('deflate'))).json();if(dataset.schema!=='gojo.quickdraw.church-cleanup-display.v1'||dataset.drawings.length!==36)throw Error('Unexpected drawing set.');const sample=location.hash.match(/^#sample-(\d+)$/),requested=location.hash.match(/^#page-(\d+)$/);setPage(sample?Math.floor((+sample[1]-1)/12):requested?+requested[1]-1:0,false);if(sample&&+sample[1]>=1&&+sample[1]<=36)show(+sample[1]-1)}
+load().catch(error=>{$('page-state').textContent=error.message});
+</script>
+</body></html>
