@@ -29,6 +29,17 @@ correspondence and external path obligations alongside mechanical negotiation.
 dotnet run --project experiments/ConstructionMachines -- joints D:/_quickDraw/data/joint-constructions-2026-10-28-v1
 ```
 
+The [coupled shape and joint extension](Coupled.md) combines both mechanisms.
+A moving, resizing outline develops a ridge/eave conflict with an initially
+compatible rigid joint. Observed mismatch triggers bounded local previews;
+an eligible replacement preserves public sites before later responses change
+the geometry. Five controls and 266 observations expose remaining disagreement,
+load accounting and rejected alternatives, including loss of a required path.
+
+```powershell
+dotnet run --project experiments/ConstructionMachines -- coupled D:/_quickDraw/data/coupled-constructions-2026-10-28-v1
+```
+
 ## Selected structural contract
 
 `G` denotes an ordered native group. All references below are actual elements.
@@ -200,7 +211,7 @@ carriers. The new engine also supports an explicitly authored replacement under
 the same ordered public interface. See [the contract and limits](Negotiation.md).
 Neither fixture supplies a learning law or a universal convergence claim.
 
-## Verified checkpoint — 28 October 2026
+## Initial fixture checkpoint — 28 October 2026
 
 * 44 focused construction tests passed, including native restoration, late turn
   binding, output-port correspondence, shared-site identity, atomic rejection,

@@ -9,6 +9,11 @@ public static class Program
 {
     public static void Main(string[] args)
     {
+        if (args.Length == 2 && args[0] == "coupled")
+        {
+            CoupledExperiment.Write(args[1]);
+            return;
+        }
         if (args.Length == 2 && args[0] == "joints")
         {
             JointExperiment.Write(args[1]);
