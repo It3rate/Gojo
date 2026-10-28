@@ -4,6 +4,11 @@ Status: exploratory design note, 28 October 2026. The existing construction,
 joint and coupled fixtures remain unchanged. The proposed laws below are not
 kernel guarantees or implemented learning behavior.
 
+A bounded first [ensemble settlement fixture](Ensemble.md) now tests selected
+parts of this proposal: explicit interval obligations, several response rules,
+local request negotiation and conditional construction review. The broader
+learning and coordination mechanisms below remain proposed work.
+
 The next useful extension is to represent an unwanted condition as connected
 structure, with its own participants, applicability, permitted region and
 response routes. Such a structure can explain disagreement and invite several

@@ -9,6 +9,17 @@ public static class Program
 {
     public static void Main(string[] args)
     {
+        if (args.Length == 2 && args[0] == "ensemble-review")
+        {
+            var reviewFolder = Path.GetFullPath(args[1]);
+            EnsembleReview.Write(Path.Combine(reviewFolder, "review.html"), File.ReadAllText(Path.Combine(reviewFolder, "observations.json")));
+            return;
+        }
+        if (args.Length == 2 && args[0] == "ensemble")
+        {
+            EnsembleExperiment.Write(args[1]);
+            return;
+        }
         if (args.Length == 2 && args[0] == "coupled")
         {
             CoupledExperiment.Write(args[1]);

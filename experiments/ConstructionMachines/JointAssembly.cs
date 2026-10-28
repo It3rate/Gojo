@@ -166,9 +166,16 @@ public sealed class JointAssembly
     public Relation Step(NegotiationWorld world)
     {
         if (!world.Machines.Any(m => ReferenceEquals(m, Mechanical))) throw new ArgumentException("The schedule must use this actual mechanical instance.");
-        var before = CurrentRead; var motion = world.Step();
+        return ObserveTransition(world.Step());
+    }
+
+    /// <summary>Observe an explicitly supplied mechanical transition without
+    /// asking a second numerical scheduler to execute another round.</summary>
+    public Relation ObserveTransition(IElement transition)
+    {
+        var before = CurrentRead;
         CurrentRead = JointGraph.Observe(Definition, RequestedPaths);
-        return Record(before, motion, CurrentRead);
+        return Record(before, transition, CurrentRead);
     }
 
     public bool TryRewrite(Relation candidate, Relation nodeMap, Relation edgeMap, out Relation witness)

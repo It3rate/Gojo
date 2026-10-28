@@ -45,6 +45,15 @@ structures, evidence from multiple layers, local response methods and further
 construction search. It separates existing mechanisms from proposed laws and
 includes research sources and controlled next experiments.
 
+The [ensemble settlement fixture](Ensemble.md) tests several small response
+rules on connected wall, roof and opening constructions. It compares individual
+rules, equal blending and receiver-local negotiation, with explicit error
+intervals, structural alternatives, support-copy controls and a variation grid.
+
+```powershell
+dotnet run --project experiments/ConstructionMachines -- ensemble D:/_quickDraw/data/ensemble-settlement-2026-10-28-v1
+```
+
 ## Selected structural contract
 
 `G` denotes an ordered native group. All references below are actual elements.
