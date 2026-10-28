@@ -10,6 +10,16 @@ rectangle makers, shared-phrase widening, centre-preserving widening, a failed
 seam, an offset roof ridge, an arched cap, a moved opening, a one-beat square,
 an unfinished five-beat phrase, and a hinged leaf.
 
+The [bidirectional negotiation extension](Negotiation.md) adds ten connected
+wall/roof/door experiments with 140 saved observations. It compares private
+response constructions, a geometry-preserving in-place replacement, limited
+capacity, coarse response packets, fixed conflicts and oscillation. Each world
+has a retained round budget, executable native state and an offline review:
+
+```powershell
+dotnet run --project experiments/ConstructionMachines -- negotiate D:/_quickDraw/data/construction-negotiation-2026-10-28-v1
+```
+
 ## Selected structural contract
 
 `G` denotes an ordered native group. All references below are actual elements.
@@ -171,14 +181,15 @@ the same rectangle machine under a different observer and passage context.
 Those different connections, rather than a renamed shape, should carry the
 eventual functional interpretation.
 
-## Next bounded experiment
+## Connected response experiment
 
-Connect a small explicit response policy to a roof or opening request, then
-compare which public demands each private construction can absorb. Preserve
-the selected basis, request, response route, accepted movement and remaining
-disagreement. Only after that should learned models propose which construction
-or response policy to try. The current fixture supplies inspectable machines
-and correspondence for that experiment; it does not supply the learning law.
+The original publication-only fixture remains available. Its next step is now
+implemented separately in `Negotiation.cs` and `NegotiationExperiment.cs`:
+independent machines exchange captured scalar publications through actual public
+ports, then admit calibrated displacement requests into their own parameter
+carriers. The new engine also supports an explicitly authored replacement under
+the same ordered public interface. See [the contract and limits](Negotiation.md).
+Neither fixture supplies a learning law or a universal convergence claim.
 
 ## Verified checkpoint — 28 October 2026
 

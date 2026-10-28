@@ -9,6 +9,11 @@ public static class Program
 {
     public static void Main(string[] args)
     {
+        if (args.Length == 2 && args[0] == "negotiate")
+        {
+            NegotiationExperiment.Write(args[1]);
+            return;
+        }
         if (args.Length != 1) throw new ArgumentException("Supply one output folder for the native experiment and review.");
         var folder = Path.GetFullPath(args[0]); Directory.CreateDirectory(folder);
         var c = new ConstructionRecipes(); var width = Parameter(120); var height = Parameter(80);
