@@ -40,6 +40,11 @@ load accounting and rejected alternatives, including loss of a required path.
 dotnet run --project experiments/ConstructionMachines -- coupled D:/_quickDraw/data/coupled-constructions-2026-10-28-v1
 ```
 
+The [settlement design note](SettlementEvidence.md) examines explicit error
+structures, evidence from multiple layers, local response methods and further
+construction search. It separates existing mechanisms from proposed laws and
+includes research sources and controlled next experiments.
+
 ## Selected structural contract
 
 `G` denotes an ordered native group. All references below are actual elements.
