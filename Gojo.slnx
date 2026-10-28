@@ -147,6 +147,11 @@
     <Project Path="Tests/UtilityEcology.Tests/UtilityEcology.Tests.csproj" />
   </Folder>
   <Folder Name="/Experiments/" />
+  <Folder Name="/Experiments/ConstructionMachines/">
+    <File Path="experiments/ConstructionMachines/README.md" />
+    <Project Path="experiments/ConstructionMachines/ConstructionMachines.csproj" />
+    <Project Path="Tests/ConstructionMachines.Tests/ConstructionMachines.Tests.csproj" />
+  </Folder>
   <Folder Name="/Experiments/Minds/">
     <File Path="experiments/Minds/README.md" />
     <File Path="experiments/Minds/AGENTS.md" />
