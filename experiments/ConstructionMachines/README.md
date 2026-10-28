@@ -20,6 +20,15 @@ has a retained round budget, executable native state and an offline review:
 dotnet run --project experiments/ConstructionMachines -- negotiate D:/_quickDraw/data/construction-negotiation-2026-10-28-v1
 ```
 
+The [joint construction extension](Joints.md) adds six experiments with 83
+observations: fixed controls, T-to-fan relaxation, T-to-corner splitting, branch
+retirement/reintroduction, and coincident-site folding. It retains node/edge
+correspondence and external path obligations alongside mechanical negotiation.
+
+```powershell
+dotnet run --project experiments/ConstructionMachines -- joints D:/_quickDraw/data/joint-constructions-2026-10-28-v1
+```
+
 ## Selected structural contract
 
 `G` denotes an ordered native group. All references below are actual elements.
