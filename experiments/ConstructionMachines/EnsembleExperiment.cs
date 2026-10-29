@@ -13,11 +13,12 @@ public static class EnsembleExperiment
         double? demand, double? change, double[]? proposals, int[][] participants);
     public sealed record Candidate(string name, double? after, int? openPaths, bool eligible);
     public sealed record Review(double? baseline, Candidate[] candidates);
+    public sealed record ResponseDecision(int machine, int point, int coordinate, double[] requests, double[] features, long? cap, double[]? scores);
     public sealed record Frame(int index, int pass, string phase, string construction, double[][][] geometry,
         double cost, int unknown, double pressure, ulong persistence, ulong attempts, double movement, double withheld,
-        Judgment[] judgments, Review? review);
+        Judgment[] judgments, Review? review, ResponseDecision[]? decisions = null);
     public sealed record Case(string id, string title, string explanation, int method, string condition, int seed,
-        long[] reference, List<Frame> frames, string archive);
+        long[] reference, List<Frame> frames, string archive, bool? negotiated = null);
     public sealed record Trial(int seed, string condition, int method, double initial, double final,
         double meanDemand, int firstChange, int unresolved, string archive);
     private sealed record Setup(string Id, string Title, string Explanation, int Method = 3, string Condition = "ordinary", long Reviews = 2);
@@ -66,36 +67,7 @@ public static class EnsembleExperiment
                 trials.Add(new(0, setup.Condition, setup.Method, frames[0].cost, frames[^1].cost, demandSum / passes, changed, frames[^1].unknown, archive));
 
             void Add(int pass, string phase, Relation read, EnsembleSettlement.Transition? step, Review? review)
-            {
-                var assessments = EnsembleSettlement.Assessments(read); var support = new List<IElement>();
-                var effects = step is null ? [] : F(step.Effects).Cast<Relation>().ToArray();
-                var plans = step is null ? [] : F(step.Plans).Cast<Relation>().ToArray();
-                var judgments = model.Active.Select((factor, i) =>
-                {
-                    var supportIndex = support.FindIndex(s => ReferenceEquals(s, factor.Support)); if (supportIndex < 0) { supportIndex = support.Count; support.Add(factor.Support); }
-                    var assessment = assessments[i]; var resolved = EvidenceObligation.Resolved(assessment);
-                    var permitted = TimeStepSequence.TryReadSpan(factor.Allowed, out var lo, out var hi);
-                    double? change = effects.Length > i && OperationClaim.TryReadIntervalResponse(effects[i], out _, out _, out _, out _, out _, out var delta) ? delta.Ticks : null;
-                    var participants = factor.Terms.Select(term =>
-                    {
-                        var port = F(term)[0];
-                        for (var m = 0; m < model.Machines.Length; m++)
-                        { var index = Array.FindIndex(model.Machines[m].Ports.ToArray(), p => ReferenceEquals(p, port)); if (index >= 0) return new[] { m, index / 2 }; }
-                        throw new InvalidDataException("An obligation escaped its declared public participants.");
-                    }).ToArray();
-                    double[]? contributions = plans.Length > i && F(plans[i])[2] is Relation planResult && planResult.TryReadOrderedGroup(out var pf) && pf.Length == 3
-                        ? F(pf[2]).Where((_, part) => part % 2 == 0).Select(c => Number(F(c)[2])).ToArray() : null;
-                    return new Judgment(scene.ObligationNames[i], supportIndex, resolved ? Number(EvidenceObligation.Value(assessment)) : null,
-                        permitted ? lo.Ticks : null, permitted ? hi.Ticks : null, resolved ? Number(EvidenceObligation.Demand(assessment)) : null, change, contributions, participants);
-                }).ToArray();
-                var movement = step is null ? 0 : F(step.Motion).Cast<Relation>().SelectMany(NegotiatingMachine.Outcomes)
-                    .Sum(o => Math.Abs(Number(o.Accepted)));
-                var attempts = phase == "Local responses" && step?.Review is Relation decision && ReadReview(model, decision) is not null ? model.Reviews.Value - 1 : model.Reviews.Value;
-                var withheld = step is null ? 0 : F(F(step.Negotiation)[4]).Sum(entry => Math.Abs(Number(F(F(entry)[0])[3])));
-                frames.Add(new(frames.Count, pass, phase, phase == "Local responses" && step?.Rewritten == true ? "Rigid shared-height joint" : model.Selected is Placeholder ? "Rigid shared-height joint" : "Independent eaves with required support",
-                    model.Machines.Select(m => m.Points.Select(Program.XY).ToArray()).ToArray(), Number(EnsembleSettlement.Cost(read)), EnsembleSettlement.Unknown(read),
-                    model.LastPressure is Relation r ? Number(F(r)[2]) : 0, model.Persistence.Value, attempts, movement, withheld, judgments, review));
-            }
+                => frames.Add(ObserveFrame(scene, frames.Count, pass, phase, read, step, review));
         }
         foreach (var condition in new[] { "ordinary", "outlier" })
             for (var seed = 1; seed < 12; seed++)
@@ -129,7 +101,48 @@ public static class EnsembleExperiment
             Console.WriteLine($"{condition} mean final: " + string.Join(", ", Enumerable.Range(0, EnsembleRecipes.MethodNames.Length).Select(method => $"{EnsembleRecipes.MethodNames[method]}={trials.Where(t => t.condition == condition && t.method == method).Average(t => t.final):0.##}")));
         Console.WriteLine($"{cases.Count} visual worlds / {cases.Sum(c => c.frames.Count)} observations; {trials.Count} controlled trajectories; {folder}");
     }
-    private static Review? ReadReview(EnsembleSettlement model, IElement review)
+    public static Frame ObserveFrame(EnsembleRecipes.Scene scene, int index, int pass, string phase, Relation read,
+        EnsembleSettlement.Transition? step = null, Review? review = null)
+    {
+        var model = scene.Model; var assessments = EnsembleSettlement.Assessments(read); var support = new List<IElement>();
+        var effects = step is null ? [] : F(step.Effects).Cast<Relation>().ToArray();
+        var plans = step is null ? [] : F(step.Plans).Cast<Relation>().ToArray();
+        int[] Locate(IElement port)
+        {
+            for (var m = 0; m < model.Machines.Length; m++)
+            { var i = Array.FindIndex(model.Machines[m].Ports.ToArray(), p => ReferenceEquals(p, port)); if (i >= 0) return [m, i / 2, i % 2]; }
+            throw new InvalidDataException("A recorded request escaped its declared public participants.");
+        }
+        var judgments = model.Active.Select((factor, i) =>
+        {
+            var supportIndex = support.FindIndex(s => ReferenceEquals(s, factor.Support)); if (supportIndex < 0) { supportIndex = support.Count; support.Add(factor.Support); }
+            var assessment = assessments[i]; var resolved = EvidenceObligation.Resolved(assessment);
+            var permitted = TimeStepSequence.TryReadSpan(factor.Allowed, out var lo, out var hi);
+            double? change = effects.Length > i && OperationClaim.TryReadIntervalResponse(effects[i], out _, out _, out _, out _, out _, out var delta) ? delta.Ticks : null;
+            var participants = factor.Terms.Select(term => Locate(F(term)[0]).Take(2).ToArray()).ToArray();
+            double[]? contributions = plans.Length > i && F(plans[i])[2] is Relation planResult && planResult.TryReadOrderedGroup(out var pf) && pf.Length == 3
+                ? F(pf[2]).Where((_, part) => part % 2 == 0).Select(c => Number(F(c)[2])).ToArray() : null;
+            return new Judgment(scene.ObligationNames[i], supportIndex, resolved ? Number(EvidenceObligation.Value(assessment)) : null,
+                permitted ? lo.Ticks : null, permitted ? hi.Ticks : null, resolved ? Number(EvidenceObligation.Demand(assessment)) : null, change, contributions, participants);
+        }).ToArray();
+        var decisions = new List<ResponseDecision>(); var seen = new HashSet<IElement>(ReferenceEqualityComparer.Instance);
+        if (step is not null) foreach (var entry in F(F(step.Negotiation)[4]))
+        {
+            var provenance = F(F(entry)[0])[4]; if (F(provenance).Length != 3 || F(provenance)[2] is not Relation learned || F(learned).Length != 5 || !seen.Add(learned)) continue;
+            var parts = F(learned); var trace = F(parts[4]); var raw = F(parts[0]); var at = Locate(F(raw[0])[0]);
+            var scores = F(trace[1])[2] is Relation vector ? F(vector).Select(x => Number(x) / LocalResponseProgram.OutputScale).ToArray() : null;
+            long? cap = parts[2] is Relation bound && TimeStepSequence.TryReadSpan(bound, out _, out var end) ? end.Ticks : null;
+            decisions.Add(new(at[0], at[1], at[2], raw.Select(r => Number(F(r)[3])).ToArray(), RequestContext.Values((Relation)trace[0]), cap, scores));
+        }
+        var movement = step is null ? 0 : F(step.Motion).Cast<Relation>().SelectMany(NegotiatingMachine.Outcomes).Sum(o => Math.Abs(Number(o.Accepted)));
+        var attempts = phase == "Local responses" && step?.Review is Relation decision && ReadReview(model, decision) is not null ? model.Reviews.Value - 1 : model.Reviews.Value;
+        var withheld = step is null ? 0 : F(F(step.Negotiation)[4]).Sum(entry => Math.Abs(Number(F(F(entry)[0])[3])));
+        return new(index, pass, phase, phase == "Local responses" && step?.Rewritten == true ? "Rigid shared-height joint" : model.Selected is Placeholder ? "Rigid shared-height joint" : "Independent eaves with required support",
+            model.Machines.Select(m => m.Points.Select(Program.XY).ToArray()).ToArray(), Number(EnsembleSettlement.Cost(read)), EnsembleSettlement.Unknown(read),
+            model.LastPressure is Relation r ? Number(F(r)[2]) : 0, model.Persistence.Value, attempts, movement, withheld, judgments, review, decisions.ToArray());
+    }
+
+    public static Review? ReadReview(EnsembleSettlement model, IElement review)
     {
         if (review is not Relation read || F(read)[2] is not Relation result || !result.TryReadOrderedGroup(out var fields) || fields.Length != 3) return null;
         var candidates = F(fields[2]).Cast<Relation>().Select(r =>

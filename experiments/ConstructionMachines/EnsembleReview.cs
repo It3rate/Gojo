@@ -7,7 +7,16 @@ public static class EnsembleReview
     public static void Write(string path, string json)
     {
         using var document = JsonDocument.Parse(json);
-        File.WriteAllText(path, Template.Replace("__DATA__", JsonSerializer.Serialize(document.RootElement), StringComparison.Ordinal));
+        var template = Template;
+        if (document.RootElement.TryGetProperty("title", out var title))
+            template = template.Replace("Several small settlement rules", System.Net.WebUtility.HtmlEncode(title.GetString()), StringComparison.Ordinal);
+        var scenes = document.RootElement.GetProperty("trials").EnumerateArray().Select(t =>
+            (t.GetProperty("condition").GetString(), t.GetProperty("seed").GetInt32())).Distinct().Count();
+        template = template.Replace("24 scenes × 5 policies", $"{scenes} scenes × {document.RootElement.GetProperty("methods").GetArrayLength()} policies", StringComparison.Ordinal);
+        if (document.RootElement.TryGetProperty("benchmarkNote", out var note))
+            template = template.Replace("Twelve deterministic placements and proportions, with and without a conflicting opening opinion. Forty numerical rounds each. This is a mechanism study with authored observations, not a trained-model benchmark.",
+                System.Net.WebUtility.HtmlEncode(note.GetString()), StringComparison.Ordinal);
+        File.WriteAllText(path, template.Replace("__DATA__", JsonSerializer.Serialize(document.RootElement), StringComparison.Ordinal));
     }
     private const string Template = """
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none';script-src 'unsafe-inline';style-src 'unsafe-inline';base-uri 'none';form-action 'none'"><title>Gojo · Several small settlement rules</title><style>
@@ -25,7 +34,7 @@ public static class EnsembleReview
 <details class="card benchmark" open><summary>Controlled variation grid · 24 scenes × 5 policies</summary><p class="review-note">Twelve deterministic placements and proportions, with and without a conflicting opening opinion. Forty numerical rounds each. This is a mechanism study with authored observations, not a trained-model benchmark.</p><div class="table-scroll"><table><thead><tr><th>Inputs</th><th>Rule policy</th><th>Mean final</th><th>Mean during run</th><th>Lowest final, ties included</th></tr></thead><tbody id="benchmark"></tbody></table></div><details><summary>Individual trajectories and repeatable native inputs</summary><div class="table-scroll"><table><thead><tr><th>Inputs</th><th>Seed</th><th>Policy</th><th>Initial</th><th>Final</th><th>Native input and result</th></tr></thead><tbody id="trials"></tbody></table></div></details></details>
 <details class="card scope"><summary>What is implemented and what this experiment does not establish</summary><ul id="scope"></ul></details><footer><a id="native" download>Download this native world</a><a href="observations.json" download>Recorded observations and results</a><span class="kbd">← / → observation · Shift + ← / → case · Space play</span></footer>
 </main><script id="data" type="application/json">__DATA__</script><script>
-'use strict';const data=JSON.parse(document.getElementById('data').textContent),$=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';let ci=4,fi=0,timer=null,highlight=[];
+'use strict';const data=JSON.parse(document.getElementById('data').textContent),$=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';let ci=data.defaultCase??Math.min(4,data.cases.length-1),fi=0,timer=null,highlight=[];
 const currentCase=()=>data.cases[ci],current=()=>currentCase().frames[fi],num=v=>v===null||v===undefined?'open':Number.isInteger(v)?String(v):Number(v).toFixed(2);function html(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n}function svg(tag,attrs={},text){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(text!==undefined)n.textContent=text;return n}
 function line(s,a,b,cls){s.append(svg('line',{x1:a[0],y1:-a[1],x2:b[0],y2:-b[1],class:'ink '+cls}))}function shape(s,p,cls,fill){s.append(svg('polygon',{points:p.map(a=>`${a[0]},${-a[1]}`).join(' '),fill,opacity:.055}));for(let i=0;i<p.length;i++)line(s,p[i],p[(i+1)%p.length],cls)}function scene(s,g,ghost=false){shape(s,g[0],ghost?'reference':'wall',ghost?'#aaa':'#4086a4');shape(s,g[2],ghost?'reference':'opening',ghost?'#aaa':'#8b72a6');const r=g[1];line(s,r[0],r[3],ghost?'reference':'roof');line(s,r[3],r[1],ghost?'reference':'roof');line(s,r[2],r[3],ghost?'reference':'support');if(!ghost)r.forEach(p=>s.append(svg('circle',{cx:p[0],cy:-p[1],r:1.8,class:'site'})))}
 function draw(){const c=currentCase(),f=current(),all=c.frames.flatMap(f=>f.geometry.flat()),xs=all.map(p=>p[0]).concat(c.reference[0],c.reference[1]),ys=all.map(p=>p[1]).concat(c.reference[2],c.reference[3]),box=[Math.min(...xs)-25,-Math.max(...ys)-22,Math.max(...xs)-Math.min(...xs)+50,Math.max(...ys)-Math.min(...ys)+44],s=svg('svg',{viewBox:box.join(' '),role:'img','aria-label':'Native wall, roof joint, opening and error spans'});if($('reference').checked){const[a,b,t,peak,d]=c.reference;shape(s,[[a,20],[b,20],[b,t],[a,t]],'reference','#aaa');line(s,[(a+b)/2-7,peak],[(a+b)/2+7,peak],'reference');shape(s,[[d,20],[d+24,20],[d+24,56],[d,56]],'reference','#aaa')}
@@ -49,15 +58,25 @@ function render(){
   f.pass===0?'No numerical round has run yet.':
   f.movement===0&&f.cost>0?'No admitted motion in this round. Disagreement remains.':
   f.cost===0?'Every observed obligation is within its selected permitted region.':'Local receivers continue to respond within their capacities.';
- if(c.method===4)$('state').textContent+=' Receiver negotiation withheld '+num(f.withheld)+' requested units this round (sum of magnitudes).';
+ if(c.negotiated??(c.method===4))$('state').textContent+=' Receiver negotiation withheld '+num(f.withheld)+' requested units this round (sum of magnitudes).';
  $('mechanisms').replaceChildren(...['Direct','Bounded','Trend-aware'].map((n,i)=>{
   const a=html('div','',n);a.append(html('strong','',`${data.shares[c.method][i]}/6`));return a;
  }));
  $('stats').replaceChildren(...[['Known demand',f.cost],['Unresolved',f.unknown],['Admitted movement',f.movement],['Opposed requests',f.pressure]].map(([k,v])=>{
   const s=html('div','card stat');s.append(html('span','',k),html('strong','',num(v)));return s;
  }));
- $('native').href=c.archive;highlight=[];draw();historyPlot();obligations();review();comparisons();
+ $('native').href=c.archive;highlight=[];draw();historyPlot();obligations();review();comparisons();learnedDecisions();
  history.replaceState(null,'',`#${encodeURIComponent(c.id)}/${fi}`);
+}
+function learnedDecisions(){
+ let box=$('learnedDecisions');if(!box){box=html('section','card panel');box.id='learnedDecisions';const rail=document.querySelector('.rail');rail.insertBefore(box,rail.children[1]);}
+ const rows=current().decisions??[];box.hidden=!rows.length;box.replaceChildren();if(!rows.length)return;
+ box.replaceChildren(html('h3','','Learned local responses'),html('p','review-note','Predicted relief uses the scalar teaching task. The coupled scene may respond differently. Expand a port to inspect every option.'));
+ const list=html('div','obligations');for(const d of rows){const detail=html('details'),name=['Wall','Roof','Opening'][d.machine]+' · site '+(d.point+1)+' '+(d.coordinate?'y':'x'),summary=html('summary','',name+' · '+(d.cap===null?'fallback 12':'bound '+d.cap));detail.append(summary);
+ detail.append(html('p','review-note','Requests: '+d.requests.map(num).join(', ')));
+ for(let i=0;i<d.features.length;i++)detail.append(html('p','review-note',(data.features?.[i]??'Feature '+(i+1))+': '+num(d.features[i])));
+ if(d.scores){const table=html('table');d.scores.forEach((score,i)=>{const r=html('tr',data.caps[i]===d.cap?'current':'');r.append(html('td','','Bound '+data.caps[i]),html('td','num',num(score*100)+'% predicted relief'));table.append(r)});detail.append(table)}
+ summary.onmouseenter=()=>{highlight=[[d.machine,d.point]];draw()};summary.onmouseleave=()=>{highlight=[];draw()};list.append(detail)}box.append(list);
 }
 function stop(){if(timer)clearInterval(timer);timer=null;$('play').textContent='Play'}function move(d){stop();fi=Math.max(0,Math.min(currentCase().frames.length-1,fi+d));render()}function change(d){stop();ci=Math.max(0,Math.min(data.cases.length-1,ci+d));fi=0;render()}function readHash(){const p=location.hash.slice(1).split('/');let id='';try{id=decodeURIComponent(p[0]??'')}catch{}const found=data.cases.findIndex(c=>c.id===id);if(found>=0)ci=found;fi=Math.max(0,Math.min(currentCase().frames.length-1,Math.trunc(Number(p[1])||0)))}
 data.cases.forEach((c,i)=>{const o=html('option','',`${i+1}. ${c.title}`);o.value=i;$('case').append(o)});$('scope').replaceChildren(...data.scope.map(t=>html('li','',t)));const mean=(a,k)=>a.reduce((s,v)=>s+v[k],0)/a.length;for(const condition of ['ordinary','outlier'])for(let method=0;method<data.methods.length;method++){const rows=data.trials.filter(t=>t.condition===condition&&t.method===method),wins=rows.filter(t=>t.final===Math.min(...data.trials.filter(a=>a.condition===condition&&a.seed===t.seed).map(a=>a.final))).length,r=html('tr');for(const v of [condition==='ordinary'?'Cooperative':'Conflicting opinion',data.methods[method],num(mean(rows,'final')),num(mean(rows,'meanDemand')),`${wins} / ${rows.length}`])r.append(html('td','',v));$('benchmark').append(r)}for(const t of data.trials){const r=html('tr');for(const v of [t.condition,t.seed,data.methods[t.method],num(t.initial),num(t.final)])r.append(html('td','',v));const cell=html('td'),a=html('a','','Native archive');a.href=t.archive;a.setAttribute('download','');cell.append(a);r.append(cell);$('trials').append(r)}

@@ -174,13 +174,30 @@ public sealed class EnsembleSettlement
             }
             var guardRead = ReadWitness.Create(new Carrier(), G(group.Cast<IElement>().ToArray()), (Relation)pf[2], G(guardProofs.ToArray()),
                 guardQuiet ? G() : G(guardProofs.ToArray()), passage);
-            TimeStepSequence.TryReadSpan((Relation)pf[1], out var low, out var high);
+            var bound = (Relation)pf[1]; IElement learned = G();
+            if (guardQuiet && pf.Length == 4)
+            {
+                var binding = F(pf[3]); var program = new LocalResponseProgram((Relation)binding[0]);
+                var context = RequestContext.Read(group.ToArray(), axis, program.Inputs);
+                var prediction = program.Predict(context); var selection = program.Select(prediction);
+                var projections = new List<IElement>(); IElement selectedBound = new Placeholder();
+                if (F(selection)[2] is Relation action && TimeStepSequence.TryReadSpan(action, out var a, out var b))
+                {
+                    var first = Equation.PredictWitness(new Carrier(), (Relation)binding[1], a, axis);
+                    var last = Equation.PredictWitness(new Carrier(), (Relation)binding[1], b, axis); projections.Add(first); projections.Add(last);
+                    if (F(first)[2] is CarrierLocation from && F(last)[2] is CarrierLocation to)
+                        selectedBound = bound = Relation.Segment(axis, from.Ticks, to.Ticks);
+                }
+                learned = ReadWitness.Create(new Carrier(), G(group.Cast<IElement>().ToArray()), (Relation)pf[3], selectedBound,
+                    selectedBound is Placeholder ? G(selection) : G(), G(context, prediction, selection, G(projections.ToArray())));
+            }
+            TimeStepSequence.TryReadSpan(bound, out var low, out var high);
             foreach (var request in group)
             {
                 var f = F(request); var raw = Fraction.Read(f[3]);
                 var accepted = guardQuiet ? Fraction.Clamp(raw, new Fraction(low.Ticks), new Fraction(high.Ticks)) : raw;
                 var bounded = ReadWitness.Create(new Carrier(), G(group.Cast<IElement>().ToArray()), passage, accepted.Encode(axis),
-                    (raw - accepted).Encode(axis), G(request, guardRead));
+                    (raw - accepted).Encode(axis), pf.Length == 4 ? G(request, guardRead, learned) : G(request, guardRead));
                 if (!guardQuiet) { results.Add(request); witnesses.Add(G(bounded, G())); continue; }
                 var target = Equation.PredictWitness(new Carrier(), Equation.Sum(axis, Equation.UnitPort(axis), Equation.UnitPort(axis)),
                     new Relation(F(f[1])[2], accepted.Encode(axis)), axis);

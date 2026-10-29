@@ -278,9 +278,11 @@ is equivalent to a neural network, or whether neural components will be useful
 for broader tasks. Representation, inference, proposal discovery and learning
 are separate questions.
 
-The next useful learning comparison would keep the same public interfaces and
-observation budget while substituting a simple context table, small regression
-model or small neural model for one local proposal or weighting function.
+The [first learned-response comparison](SettlementLearning.md) now substitutes
+a context table, regression and a small neural function at the same public
+boundary. Its scalar teaching task and coupled transfer test give different
+rankings. The next comparison should teach from actual connected-receiver
+feedback while preserving the same public interfaces and observation budget.
 Compare held-out arrangements, useful structural choices, remaining disagreement
 and computational work. A model could also help discover reusable construction
 machines, after which those machines could execute without the model. That

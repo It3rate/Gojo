@@ -9,6 +9,11 @@ parts of this proposal: explicit interval obligations, several response rules,
 local request negotiation and conditional construction review. The broader
 learning and coordination mechanisms below remain proposed work.
 
+The subsequent [local learning fixture](SettlementLearning.md) fits three
+small response estimators and exports them as native finite functions. It keeps
+its scalar teaching task, coupled transfer and post-hoc coverage probe separate;
+the broader adaptive coordination mechanisms remain open.
+
 The next useful extension is to represent an unwanted condition as connected
 structure, with its own participants, applicability, permitted region and
 response routes. Such a structure can explain disagreement and invite several

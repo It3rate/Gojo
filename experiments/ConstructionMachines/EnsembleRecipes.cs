@@ -13,7 +13,7 @@ public static class EnsembleRecipes
     public sealed record Scene(EnsembleSettlement Model, string[] ObligationNames, long[] Reference,
         Relation Initial, int Seed, string Condition);
 
-    public static Scene Create(int method = 3, int seed = 0, long reviewBudget = 2, string condition = "ordinary")
+    public static Scene Create(int method = 3, int seed = 0, long reviewBudget = 2, string condition = "ordinary", LocalResponseProgram? learner = null)
     {
         var recipes = new CoupledRecipes(); var s = recipes.Space;
         var wallX = Program.Parameter(54 + seed % 4 * 4); var width = Program.Parameter(116 + seed % 3 * 8);
@@ -86,18 +86,22 @@ public static class EnsembleRecipes
         var model = new EnsembleSettlement([wall, roof, opening], joint, rows.Select(r => r.Obligation).ToArray(),
             G(active.Select(o => (IElement)o.Surface).ToArray()), proposals, fixedAll ? 0 : reviewBudget,
             negotiationPassages: method == 4 ? G(new[] { wall, roof, opening }.SelectMany(m => m.Ports)
-                .Select(p => (IElement)GuardedPassage(p)).ToArray()) : G());
+                .Select(p => (IElement)GuardedPassage(p, learner)).ToArray()) : G());
         return new Scene(model, active.Select(o => rows.First(r => ReferenceEquals(r.Obligation, o)).Name).ToArray(),
             [goalLeft, goalRight, goalTop, goalPeak, goalDoor], (Relation)Program.CaptureObservation(model.Surface), seed, condition);
     }
 
     // A conjunction of occupied direction groups. Each ordered direction frame
     // has its own required count interval; the guard is not a hidden mode flag.
-    private static Relation GuardedPassage(Relation port)
+    private static Relation GuardedPassage(Relation port, LocalResponseProgram? learner)
     {
         var axis = NegotiatingMachine.PortAxis(port);
-        return G(port, Relation.Segment(axis, -12, 12), G(
+        var guards = G(
             new Relation(Relation.Segment(axis, 0, 1), Relation.Segment(new Carrier(), 1, 4096)),
-            new Relation(Relation.Segment(axis, 0, -1), Relation.Segment(new Carrier(), 1, 4096))));
+            new Relation(Relation.Segment(axis, 0, -1), Relation.Segment(new Carrier(), 1, 4096)));
+        if (learner is null) return G(port, Relation.Segment(axis, -12, 12), guards);
+        TimeStepSequence.TryReadSpan(learner.Actions[0], out var bound, out _);
+        var calibration = new Relation(Relation.Segment(bound.Carrier, 0, 1), Relation.Segment(axis, 0, 1));
+        return G(port, Relation.Segment(axis, -12, 12), guards, G(learner.Surface, calibration));
     }
 }

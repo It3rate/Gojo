@@ -9,6 +9,42 @@ public static class Program
 {
     public static void Main(string[] args)
     {
+        if (args.Length == 2 && args[0] == "response-verify")
+        {
+            ResponseLearningVerification.Verify(args[1]);
+            return;
+        }
+        if (args.Length == 2 && args[0] == "response-review")
+        {
+            ResponseLearningReview.Write(args[1]);
+            var observations = Path.Combine(args[1], "observations.json");
+            if (File.Exists(observations)) EnsembleReview.Write(Path.Combine(args[1], "transfer.html"), File.ReadAllText(observations));
+            var coverage = Path.Combine(args[1], "coverage.json");
+            if (File.Exists(coverage)) EnsembleReview.Write(Path.Combine(args[1], "coverage.html"), File.ReadAllText(coverage));
+            return;
+        }
+        if (args.Length == 2 && args[0] == "response-coverage")
+        {
+            ResponseCoverageExperiment.Write(args[1]);
+            ResponseLearningReview.Write(args[1]);
+            return;
+        }
+        if (args.Length is 2 or 3 && args[0] == "response-transfer")
+        {
+            ResponseTransferExperiment.Write(args[1], args.Length == 3 && args[2] == "--quick");
+            ResponseCoverageExperiment.Write(args[1]);
+            ResponseLearningReview.Write(args[1]);
+            return;
+        }
+        if (args.Length is 2 or 3 && args[0] == "response-learn")
+        {
+            ResponseLearningExperiment.Write(args[1], args.Length == 3 && args[2] == "--quick");
+            ResponseLearningVerification.Verify(args[1]);
+            ResponseTransferExperiment.Write(args[1], args.Length == 3 && args[2] == "--quick");
+            ResponseCoverageExperiment.Write(args[1]);
+            ResponseLearningReview.Write(args[1]);
+            return;
+        }
         if (args.Length == 2 && args[0] == "ensemble-review")
         {
             var reviewFolder = Path.GetFullPath(args[1]);

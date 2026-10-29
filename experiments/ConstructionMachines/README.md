@@ -54,6 +54,16 @@ intervals, structural alternatives, support-copy controls and a variation grid.
 dotnet run --project experiments/ConstructionMachines -- ensemble D:/_quickDraw/data/ensemble-settlement-2026-10-28-v1
 ```
 
+The [learned local response comparison](SettlementLearning.md) fits a context
+table, regression and a small neural function, exports all three into one
+native finite-function grammar, and tests their transfer to the coupled worlds.
+Its reviews retain the successful local predictions, failed transfer cases and
+a separate count-coverage probe.
+
+```powershell
+dotnet run --project experiments/ConstructionMachines -- response-learn D:/_quickDraw/data/ensemble-learning-2026-10-28-v1
+```
+
 ## Selected structural contract
 
 `G` denotes an ordered native group. All references below are actual elements.
