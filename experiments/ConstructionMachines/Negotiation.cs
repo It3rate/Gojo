@@ -131,8 +131,13 @@ public sealed class NegotiatingMachine
     public Relation AddResponse(Relation port, Carrier actuator,
         long gainN = 1, long gainD = 1, long responseN = 1, long responseD = 2,
         long min = 0, long max = 10000, long maxStep = 10000, long quantum = 1)
+        => AddResponseCore(port,actuator,gainN,gainD,responseN,responseD,min,max,maxStep,quantum,false);
+
+    private Relation AddResponseCore(Relation port,Carrier actuator,long gainN,long gainD,long responseN,long responseD,
+        long min,long max,long maxStep,long quantum,bool family)
     {
-        if (!ports.Any(p => ReferenceEquals(p, port)) || routes.Any(r => ReferenceEquals(F(r)[0], port)) ||
+        if (!ports.Any(p => ReferenceEquals(p, port)) || routes.Any(r => ReferenceEquals(F(r)[0], port)&&
+                (!family||CapacityAxis((Relation)F(r)[3]).SameIdentityAs(actuator))) ||
             gainD <= 0 || responseN < 0 || responseD <= 0 || responseN > responseD || min < 0 || max < min ||
             maxStep < 0 || quantum <= 0 || actuator.IsUnknown || actuator.IsInverse ||
             actuator.Value < (ulong)min || actuator.Value > (ulong)max ||
@@ -154,6 +159,22 @@ public sealed class NegotiatingMachine
         routes.Add(route);
         parameterSamples = CaptureParameters();
         return route;
+    }
+
+    public sealed record ResponseTarget(Carrier Actuator,long GainN=1,long GainD=1,long Min=0,long Max=10000,long Step=10000,long Quantum=1);
+
+    /// <summary>An explicitly coupled displacement response, not allocation of
+    /// conserved input material. Each route retains its own calibration and
+    /// receiver capacity; the family is validated atomically before attachment.</summary>
+    public Relation AddCoupledResponses(Relation port,IReadOnlyList<ResponseTarget> targets,long responseN=1,long responseD=4)
+    {
+        if(targets.Count==0||routes.Any(r=>ReferenceEquals(F(r)[0],port)))
+            throw new ArgumentException("Choose an unbound output port and a nonempty response family.");
+        var preview=Restore(Surface);var start=routes.Count;
+        foreach(var t in targets)preview.AddResponseCore(port,t.Actuator,t.GainN,t.GainD,responseN,responseD,
+            t.Min,t.Max,t.Step,t.Quantum,true);
+        var selected=preview.routes.Skip(start).ToArray();routes.AddRange(selected);parameterSamples=CaptureParameters();
+        return G(port,G(selected));
     }
 
     /// <summary>A read of the currently published event; repeated reads do not republish.</summary>
@@ -182,8 +203,10 @@ public sealed class NegotiatingMachine
         foreach (var request in requests)
         {
             var r = F(request);
-            var route = routes.SingleOrDefault(candidate => ReferenceEquals(F(candidate)[0], r[0]));
-            if (route is null) { unrouted.Add(request); continue; }
+            var selectedRoutes = routes.Where(candidate => ReferenceEquals(F(candidate)[0], r[0])).ToArray();
+            if (selectedRoutes.Length==0) { unrouted.Add(request); continue; }
+            foreach(var route in selectedRoutes)
+            {
             var f = F(route); var map = (Relation)f[1];
             TimeStepSequence.TryReadSpan((Relation)map.Left, out var a, out var b);
             TimeStepSequence.TryReadSpan((Relation)map.Right, out var c, out var d);
@@ -193,6 +216,7 @@ public sealed class NegotiatingMachine
             var witness = ReadWitness.Create(new Carrier(), request, route, admitted.Encode(c.Carrier),
                 (mapped - admitted).Encode(c.Carrier), G(map, f[2]));
             contributions.Add((request, route, c.Carrier, admitted, witness));
+            }
         }
 
         var allocations = new List<Allocation>();

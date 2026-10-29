@@ -29,6 +29,16 @@ round = TimeStepSequence.Step(before, captured plans, receipts, after, residue)
 The concrete executable field order is documented alongside the engine. This
 notation establishes the intended connections before naming helper classes.
 
+`AddCoupledResponses` can explicitly bind one exposed displacement read to a
+family of private actuator responses. The whole family is validated before
+attachment; duplicate port/actuator routes are refused. Each route retains its
+calibration, response fraction and actuator-local capacity, and a live batch
+updates all involved actuators together. This is a coupled response to an
+observation, not duplication of a conserved input packet. Ordinary `AddResponse`
+continues to require a single receiver for its port. The native surface and its
+restore format are unchanged; the shared port and calibrated route family carry
+the coupling.
+
 ## Observation is already interpretation
 
 Every publication is a selected read: it has a basis, a source/event and the
