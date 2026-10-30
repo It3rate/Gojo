@@ -39,6 +39,36 @@ continues to require a single receiver for its port. The native surface and its
 restore format are unchanged; the shared port and calibrated route family carry
 the coupling.
 
+## Live execution without retained history
+
+As of 30 October 2026, `new NegotiatingMachine(definition, retainHistory: false)`
+keeps the same native machine and mutable parameter carriers across responses.
+The default remains the historical audit mode. No core carrier law changes:
+accepted parameter changes still enter through `Carrier.ReceiveTogether`.
+
+`LiveSurface` is a stable six-field native computation:
+`G(definition, public points, ports, response routes, clock, correspondence)`.
+Numeric application preserves these identities. Adding response routes or
+replacing the definition deliberately invalidates that structural root. Restoring
+the live computation regenerates current publications from its actual participants.
+The ordinary twelve-field `Surface` is a current observation/export; in live mode
+it carries one latest receipt and an anchor at the current clock, with zero
+historical steps. Old captured witnesses are never rewritten.
+
+Eligible fixed machines reuse a private native preview workspace. Each candidate
+is applied there by signed tension before the real machine is changed. Changed
+relations, fixed sites or non-actuator state invalidate the cache. Attached worlds,
+nonzero tension and unresolved candidates use the existing isolated preview path;
+resetting an arbitrary connected world is not assumed to undo a transfer. The
+cache is derived execution state, not a replacement encoding of the construction.
+Captured preview values cannot alias mutable scratch value slots.
+
+Focused tests compare audit/live responses and accounting, preserve public and
+parameter identity over 200 moving iterations, bound the complete current surface,
+restore an independent live machine, and exercise rejected candidates and cache
+invalidation. This supplies a history-free numeric executor. It does not by itself
+provide a scheduler, automatic connection discovery or adaptive structural search.
+
 ## Observation is already interpretation
 
 Every publication is a selected read: it has a basis, a source/event and the

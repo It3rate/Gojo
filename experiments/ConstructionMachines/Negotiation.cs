@@ -23,9 +23,19 @@ public sealed class NegotiatingMachine
     public IReadOnlyList<Relation> Responses => routes;
     public Relation CurrentPublication { get; private set; }
     public Relation Timeline { get; private set; }
+    public bool RetainsHistory { get; }
     public Relation? LastReceipt => receipts.LastOrDefault();
     public Relation Surface => G(Definition, G(points.ToArray()), G(ports.ToArray()), G(routes.ToArray()),
         clock, CurrentPublication, Timeline, G(receipts.ToArray()), initial, lastApplication, parameterSamples, correspondence);
+
+    /// <summary>
+    /// The live computation, without captured read reports. Numeric settlement
+    /// preserves this root and its definition, point, port and route identities.
+    /// A construction/route replacement starts a new structural root. Restore
+    /// recalculates publications from these actual participants.
+    /// </summary>
+    public Relation LiveSurface => liveSurface ??= G(Definition, G(points.ToArray()), G(ports.ToArray()),
+        G(routes.ToArray()), clock, correspondence);
 
     private readonly List<Relation> points = [];
     private readonly List<Relation> ports = [];
@@ -37,9 +47,15 @@ public sealed class NegotiatingMachine
     private Relation lastApplication;
     private Relation parameterSamples;
     private Relation correspondence;
+    private Relation? liveSurface;
+    private NativePreviewWorkspace? previewWorkspace;
 
-    public NegotiatingMachine(Relation definition)
+    /// <summary>Diagnostic count of isolated preview-world imports, not settlement passes.</summary>
+    public int PreviewWorldImports { get; private set; }
+
+    public NegotiatingMachine(Relation definition, bool retainHistory = true)
     {
+        RetainsHistory = retainHistory;
         Definition = definition;
         clock = new Carrier();
         lastApplication = MachineRunner.Run(definition);
@@ -64,15 +80,29 @@ public sealed class NegotiatingMachine
         Timeline = TimeStepSequence.Create(new Carrier(), clock, initial);
     }
 
-    private NegotiatingMachine(Relation surface, bool restoring)
+    private NegotiatingMachine(Relation surface, bool restoring, bool retainHistory)
     {
+        RetainsHistory = retainHistory;
         var f = F(surface);
-        if (f.Length != 12) throw new ArgumentException("An exact local negotiation surface is required.", nameof(surface));
+        if (f.Length is not (6 or 12)) throw new ArgumentException("An exact local negotiation surface is required.", nameof(surface));
         Definition = (Relation)f[0];
         points.AddRange(F(f[1]).Cast<Relation>());
         ports.AddRange(F(f[2]).Cast<Relation>());
         routes.AddRange(F(f[3]).Cast<Relation>());
         clock = (Carrier)f[4];
+        if (f.Length == 6)
+        {
+            correspondence = (Relation)f[5];
+            initial = CapturePoints();
+            lastApplication = MachineRunner.Run(Definition);
+            parameterSamples = CaptureParameters();
+            CurrentPublication = MakePublications();
+            Timeline = TimeStepSequence.Create(new Carrier(), clock, CurrentPublication);
+            liveSurface = surface;
+            if (!CurrentStateMatches())
+                throw new ArgumentException("The live computation does not reproduce its exposed sites.", nameof(surface));
+            return;
+        }
         CurrentPublication = (Relation)f[5];
         Timeline = (Relation)f[6];
         receipts.AddRange(F(f[7]).Cast<Relation>());
@@ -80,10 +110,18 @@ public sealed class NegotiatingMachine
         correspondence = (Relation)f[11];
         if (!TimeStepSequence.TryRead(Timeline, out _, out _, out var restoredSteps))
             throw new ArgumentException("The retained local timeline is unavailable.", nameof(surface));
-        steps.AddRange(restoredSteps);
+        if (retainHistory) steps.AddRange(restoredSteps);
+        else
+        {
+            var latest = receipts.LastOrDefault();
+            receipts.Clear();
+            if (latest is not null) receipts.Add(latest);
+            Timeline = TimeStepSequence.Create(new Carrier(), clock, CurrentPublication);
+        }
     }
 
-    public static NegotiatingMachine Restore(Relation surface) => new(surface, true);
+    public static NegotiatingMachine Restore(Relation surface) => new(surface, true, true);
+    public static NegotiatingMachine Restore(Relation surface, bool retainHistory) => new(surface, true, retainHistory);
     public Relation Point(int outputIndex) => points[outputIndex];
     public Relation Port(int outputIndex, int coordinateIndex) => coordinateIndex is 0 or 1
         ? ports[checked(outputIndex * 2 + coordinateIndex)] : throw new ArgumentOutOfRangeException(nameof(coordinateIndex));
@@ -108,6 +146,7 @@ public sealed class NegotiatingMachine
             return false;
         }
         Definition = replacement;
+        InvalidateComputation();
         lastApplication = candidate;
         routes.Clear();
         correspondence = MakeCorrespondence();
@@ -116,10 +155,7 @@ public sealed class NegotiatingMachine
         CurrentPublication = MakePublications();
         witness = ReadWitness.Create(new Carrier(), previous, G(ports.ToArray()),
             G(Definition, correspondence, CurrentPublication), G(), G(candidate, CapturePoints()));
-        receipts.Add(witness);
-        steps.Add(TimeStepSequence.Step(new Carrier(), clock, checked((long)clock.Value - 1), (long)clock.Value,
-            before, witness, CurrentPublication, G()));
-        Timeline = TimeStepSequence.Create(new Carrier(), clock, initial, steps.ToArray());
+        Retain(witness, before, G());
         return true;
     }
 
@@ -157,6 +193,7 @@ public sealed class NegotiatingMachine
         var fraction = ProjectionResidue.Create(new Carrier(), responseN, responseD);
         var route = G(port, calibration, fraction, capacity, G(Definition, actuator));
         routes.Add(route);
+        InvalidateComputation();
         parameterSamples = CaptureParameters();
         return route;
     }
@@ -170,10 +207,11 @@ public sealed class NegotiatingMachine
     {
         if(targets.Count==0||routes.Any(r=>ReferenceEquals(F(r)[0],port)))
             throw new ArgumentException("Choose an unbound output port and a nonempty response family.");
-        var preview=Restore(Surface);var start=routes.Count;
+        var preview=Restore(Surface, RetainsHistory);var start=routes.Count;
         foreach(var t in targets)preview.AddResponseCore(port,t.Actuator,t.GainN,t.GainD,responseN,responseD,
             t.Min,t.Max,t.Step,t.Quantum,true);
         var selected=preview.routes.Skip(start).ToArray();routes.AddRange(selected);parameterSamples=CaptureParameters();
+        InvalidateComputation();
         return G(port,G(selected));
     }
 
@@ -194,7 +232,7 @@ public sealed class NegotiatingMachine
         {
             receipt = ReadWitness.Create(new Carrier(), G(requests.ToArray()), before, new Placeholder(),
                 G(requests.ToArray()), G());
-            receipts.Add(receipt);
+            RetainReceipt(receipt);
             return false;
         }
 
@@ -270,11 +308,32 @@ public sealed class NegotiatingMachine
         receipt = ReadWitness.Create(new Carrier(), G(requests.ToArray()), before,
             G(CurrentPublication, G(outcomes.ToArray())), G(G(unrouted.ToArray()), admissible ? G() : preview),
             G(G(contributions.Select(c => (IElement)c.Witness).ToArray()), preview, material));
-        receipts.Add(receipt);
-        steps.Add(TimeStepSequence.Step(new Carrier(), clock, checked((long)clock.Value - 1), (long)clock.Value,
-            before, receipt, CurrentPublication, F(receipt)[3]));
-        Timeline = TimeStepSequence.Create(new Carrier(), clock, initial, steps.ToArray());
+        Retain(receipt, before, F(receipt)[3]);
         return true;
+    }
+
+    private void InvalidateComputation()
+    {
+        liveSurface = null;
+        previewWorkspace = null;
+    }
+
+    private void RetainReceipt(Relation receipt)
+    {
+        if (!RetainsHistory) receipts.Clear();
+        receipts.Add(receipt);
+    }
+
+    private void Retain(Relation receipt, Relation before, IElement remainder)
+    {
+        RetainReceipt(receipt);
+        if (RetainsHistory)
+        {
+            steps.Add(TimeStepSequence.Step(new Carrier(), clock, checked((long)clock.Value - 1), (long)clock.Value,
+                before, receipt, CurrentPublication, remainder));
+            Timeline = TimeStepSequence.Create(new Carrier(), clock, initial, steps.ToArray());
+        }
+        else Timeline = TimeStepSequence.Create(new Carrier(), clock, CurrentPublication);
     }
 
     // Result tuples are diagnostic reads, subordinate to retained native witnesses.
@@ -295,8 +354,61 @@ public sealed class NegotiatingMachine
     private Relation Preview(List<Allocation> allocations, out bool admissible)
     {
         if (allocations.All(a => a.Accepted == 0)) { admissible = true; return G(lastApplication); }
+        if (!RetainsHistory)
+        {
+            var actuators = routes.Select(r => CapacityAxis((Relation)F(r)[3])).Distinct().ToArray();
+            if (previewWorkspace is null || !previewWorkspace.Matches())
+            {
+                previewWorkspace = NativePreviewWorkspace.TryCreate(Definition, actuators);
+                if (previewWorkspace is not null) PreviewWorldImports++;
+            }
+            if (previewWorkspace is not null)
+            {
+                var applied = previewWorkspace.Run(allocations.Select(a => (a.Actuator, a.Accepted)).ToArray());
+                var whole = WholeOutputs(applied, out var output) && output.Length == points.Count;
+                var publication = whole ? PublicationProposal(output, out _) : G(applied);
+                admissible = whole && F(F(publication)[3]).Length == 0 &&
+                    allocations.All(a => previewWorkspace.HasState(a.Actuator, checked(a.Before + a.Accepted)));
+                if (admissible)
+                {
+                    // The reusable private world never escapes into a receipt.
+                    // Keep captured output samples and their actual unit maps;
+                    // the per-operation internal trace is deliberately omitted.
+                    var imports = new List<IElement>(); var samples = new List<IElement>();
+                    for (var i = 0; i < output.Length; i++)
+                    {
+                        var coordinates = F(output[i]); var copied = new List<IElement>();
+                        for (var j = 0; j < coordinates.Length; j++)
+                        {
+                            ProjectionResidue.TryRead(coordinates[j], out var basis, out var n, out var d);
+                            var target = PortAxis(Port(i, j));
+                            var sample = ProjectionResidue.Create(target, n, d);
+                            var map = new Relation(Relation.Segment(basis, 0, 1), Relation.Segment(target, 0, 1));
+                            var captured = ProjectionResidue.Create(basis, n, d);
+                            imports.Add(ReadWitness.Create(new Carrier(), captured, map, sample, G(), G()));
+                            copied.Add(sample);
+                        }
+                        samples.Add(G(copied.ToArray()));
+                    }
+                    var proposed = G(allocations.Select(a => (IElement)G(
+                        new CarrierLocation(a.Actuator, a.Before),
+                        new CarrierLocation(a.Actuator, checked(a.Before + a.Accepted)))).ToArray());
+                    return ReadWitness.Create(new Carrier(), G(Definition, proposed),
+                        G(allocations.Select(a => (IElement)a.Capacity).ToArray()), G(samples.ToArray()),
+                        G(), G(imports.ToArray()));
+                }
+                // An exceptional unresolved candidate keeps the full isolated
+                // failure witness. It still cannot mutate the live machine.
+            }
+        }
+        return PreviewIsolated(allocations, out admissible);
+    }
+
+    private Relation PreviewIsolated(List<Allocation> allocations, out bool admissible)
+    {
         var source = G(Definition, G(allocations.Select(a => (IElement)a.Actuator).ToArray()));
         var restored = (Relation)GojoNumericFormat.Decode(GojoNumericFormat.Encode(source))[0];
+        PreviewWorldImports++;
         var clone = F(restored); var actuators = F(clone[1]).Cast<Carrier>().ToArray();
         var arrivals = allocations.Select((a, i) => (IElement)new CarrierLocation(actuators[i], a.Accepted)).ToArray();
         var transfer = Carrier.ReceiveTogether(G(arrivals));

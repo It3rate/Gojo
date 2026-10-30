@@ -7,8 +7,10 @@ namespace Gojo.ConstructionMachines.Tests;
 
 public sealed class NegotiationPublicationRangeTests
 {
-    [Fact]
-    public void AWholeCoordinateCandidateWithAnUnrepresentablePublicationJumpCannotMutateItsActuator()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void AWholeCoordinateCandidateWithAnUnrepresentablePublicationJumpCannotMutateItsActuator(bool retainHistory)
     {
         var c = new ConstructionRecipes();
         var actuator = Program.Parameter(1);
@@ -16,7 +18,7 @@ public sealed class NegotiationPublicationRangeTests
             actuator.ValueSlot, 1, actuator, 0, long.MaxValue);
         var definition = TransformSurface.Create(new Carrier(), G(actuator), G(expression),
             G(new Placeholder()), G(), G(c.Basis, c.Metric));
-        var local = new NegotiatingMachine(definition);
+        var local = new NegotiatingMachine(definition, retainHistory);
         var target = new NegotiatingMachine(TransformSurface.Create(new Carrier(), G(), G(c.Point(0, 0)),
             G(new Placeholder()), G(), G(c.Basis, c.Metric)));
         var port = local.Port(0, 0); var targetPort = target.Port(0, 0);

@@ -390,12 +390,14 @@ public sealed class NegotiationTests
         Assert.Equal(0L, a.Width.Tension);
     }
 
-    [Fact]
-    public void AnUnpublishableFractionalCandidateDoesNotMutateAnyLiveParameterOrSite()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void AnUnpublishableFractionalCandidateDoesNotMutateAnyLiveParameterOrSite(bool retainHistory)
     {
         var c = new ConstructionRecipes(); var width = Program.Parameter(8);
         var origin = c.Times(c.Point(1, 0), width.ValueSlot, width, 2);
-        var a = new NegotiatingMachine(c.Offsets(origin, width, Program.Parameter(4)));
+        var a = new NegotiatingMachine(c.Offsets(origin, width, Program.Parameter(4)), retainHistory);
         var b = Rectangle(13);
         var ap = a.Port(1, 0); var bp = b.Machine.Port(1, 0);
         a.AddResponse(ap, width, responseN: 1, responseD: 1, min: 1);
