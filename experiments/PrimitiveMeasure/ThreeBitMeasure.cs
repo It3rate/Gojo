@@ -17,6 +17,16 @@ public static class ThreeBitMeasure
     public static byte Reorient(byte word) { Check(word); return (byte)(word ^ (Orientation | Direction)); }
     public static byte ReverseDirection(byte word) { Check(word); return (byte)(word ^ Direction); }
 
+    /// <summary>One side of a shared word, in that word's orientation. These
+    /// are observations, not two independently owned amounts. At most one side
+    /// is occupied; both are empty at zero.</summary>
+    public static byte ReadSide(byte shared, bool negative)
+    {
+        Check(shared);
+        var occupied = (shared & Value) != 0 && ((shared & Direction) != 0) == negative;
+        return Encode((shared & Orientation) != 0, negative, occupied);
+    }
+
     /// <summary>Comparison at this resolution: negative nonzero &lt; zero &lt;
     /// positive nonzero. Equal here does not assert equal underlying magnitudes.
     /// Different orientations have no selected comparison.</summary>
@@ -27,7 +37,8 @@ public static class ThreeBitMeasure
         return CoarseOrder(a).CompareTo(CoarseOrder(b));
     }
 
-    /// <summary>Possible answer words, not extra fields on either operand.
+    /// <summary>Prediction only: possible answer words, not actual settlement
+    /// and not extra fields on either operand.
     /// No answer is selected across orientations. A zero result retains both
     /// direction possibilities when the operands do not settle that bit.</summary>
     public static byte[] Add(byte a, byte b)
