@@ -1,5 +1,12 @@
 # Handoff for compact native primitives and geometric motion
 
+> Superseded as the immediate starting brief by the user's Round 2 correction
+> on 30 October 2026. Start with only orientation, direction and zero/nonzero;
+> no identifiers, graph connections, receipts or runtime. The rejected runtime
+> experiment has been removed. See
+> [Three bits, before a yardstick](../../experiments/PrimitiveMeasure/README.md).
+> The larger constructions below are distant context, not current requirements.
+
 Prepared 30 October 2026. This is a starting brief for a new chat, not a finalized
 encoding specification or a change to Gojo's foundational laws.
 

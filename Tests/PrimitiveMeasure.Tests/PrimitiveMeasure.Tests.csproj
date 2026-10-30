@@ -12,7 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <ProjectReference Include="../../experiments/PrimitiveRuntime/PrimitiveRuntime.csproj" />
+    <ProjectReference Include="../../experiments/PrimitiveMeasure/PrimitiveMeasure.csproj" />
     <Using Include="Xunit" />
   </ItemGroup>
 </Project>

@@ -145,7 +145,7 @@
     <Project Path="Tests/CompositeEmergence.Tests/CompositeEmergence.Tests.csproj" />
     <Project Path="Tests/AdaptiveLifecycle.Tests/AdaptiveLifecycle.Tests.csproj" />
     <Project Path="Tests/UtilityEcology.Tests/UtilityEcology.Tests.csproj" />
-    <Project Path="Tests/PrimitiveRuntime.Tests/PrimitiveRuntime.Tests.csproj" />
+    <Project Path="Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj" />
   </Folder>
   <Folder Name="/Experiments/" />
   <Folder Name="/Experiments/ConstructionMachines/">
@@ -168,11 +168,9 @@
   <Folder Name="/Experiments/QualitativeExecution/">
     <Project Path="experiments/QualitativeExecution/QualitativeExecution.csproj" />
   </Folder>
-  <Folder Name="/Experiments/PrimitiveRuntime/">
-    <File Path="experiments/PrimitiveRuntime/README.md" />
-    <File Path="experiments/PrimitiveRuntime/Coverage.md" />
-    <Project Path="experiments/PrimitiveRuntime/PrimitiveRuntime.csproj" />
-    <Project Path="experiments/PrimitiveRuntime.Viewer/PrimitiveRuntime.Viewer.csproj" />
+  <Folder Name="/Experiments/PrimitiveMeasure/">
+    <File Path="experiments/PrimitiveMeasure/README.md" />
+    <Project Path="experiments/PrimitiveMeasure/PrimitiveMeasure.csproj" />
   </Folder>
   <Folder Name="/Experiments/RefinementPerformance/">
     <Project Path="experiments/RefinementPerformance/RefinementPerformance.csproj" />
