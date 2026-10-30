@@ -3,16 +3,19 @@ namespace Gojo.Experiments.PrimitiveMeasure;
 /// <summary>Demonstration apparatus, NOT part of the three-bit encoding.
 /// Signed integers stand in for finer material in one explicitly chosen local,
 /// positive-right basis. The predictor sees only Observe's three-bit output.
-/// This fixture selects immediate additive settlement; it is not a general
-/// physical law. Checked overflow leaves every input unchanged.</summary>
+/// This fixture selects a lossy signed-net fold: matched opposition is not
+/// retained. It is not a general physical law. See RetainedFlowFixture for a
+/// different structure with the same net reads but retained participation.
+/// Checked overflow leaves every input unchanged.</summary>
 public static class FineFlowFixture
 {
     // This apparatus chooses positive direction at exactly zero. That choice
     // is not a deduction from coarse inputs; both zero directions remain valid.
     public static byte Observe(long amount) => ThreeBitMeasure.Encode(false, amount < 0, amount != 0);
 
-    /// <summary>Consume two independent stores into one returned flow. Their
-    /// old slots are emptied; subsequent opposed reads use the single result.</summary>
+    /// <summary>Consume two independent stores into one returned NET flow.
+    /// Their old slots are emptied; original participation cannot be recovered
+    /// from this result. Subsequent opposed reads use the single net result.</summary>
     public static long Join(Span<long> pair)
     {
         if (pair.Length != 2) throw new ArgumentException("Expected two independent stores.", nameof(pair));

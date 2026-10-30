@@ -170,6 +170,7 @@
   </Folder>
   <Folder Name="/Experiments/PrimitiveMeasure/">
     <File Path="experiments/PrimitiveMeasure/README.md" />
+    <File Path="experiments/PrimitiveMeasure/EncodingChart.md" />
     <Project Path="experiments/PrimitiveMeasure/PrimitiveMeasure.csproj" />
   </Folder>
   <Folder Name="/Experiments/RefinementPerformance/">

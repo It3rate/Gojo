@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--connections"))
+{
+    ConnectionExamples.Run();
+    return;
+}
+
 Console.WriteLine("O D V: orientation / direction / zero-or-nonzero");
 Console.WriteLine("O: 0 positive-right, 1 positive-left. D: 0 positive, 1 negative. V: 0 zero, 1 nonzero.");
 for (byte word = 0; word < 8; word++)
@@ -40,7 +46,8 @@ foreach (var (first, second) in new (long, long)[] { (5, -2), (2, -2), (2, -5) }
         $"world {first} + ({second}) settles {actual}, observed {Label(observed)} -> {BranchName(selected!.Value)}; " +
         $"outlets [{string.Join(", ", cells.Skip(1))}]");
 }
-Console.WriteLine("The zero branch was selected after settlement; it did not create a nonzero signal.");
+Console.WriteLine("In this net-only fixture, zero selected a branch but retained no opposed participation.");
+Console.WriteLine("Run with --connections to compare empty zero with retained balanced participation.");
 
 long[] opposing = [2, -5];
 long[] filtered = [FineFlowFixture.Join(opposing), 0, 0, 0];

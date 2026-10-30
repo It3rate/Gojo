@@ -6,6 +6,13 @@ contains no identifiers, connections, carriers, units, receipts or hidden magnit
 The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
 following the user's corrected scope rather than the earlier runtime handoff.
 
+The next four experiments now add shared context tables, retained opposition,
+explicit local connections, and direction memory. Their exact bits, attachment
+sites, and executed results are in the **[encoding chart](EncodingChart.md)**.
+The chart distinguishes the externally selected layout from stored state and
+stored topology. These remain small exploratory layouts, not a general port
+system or changes to the Gojo kernel.
+
 ```text
 O D V
 │ │ └─ 0: zero             1: nonzero, magnitude unspecified
@@ -128,7 +135,7 @@ The same coarse inputs can have different actual outcomes:
 | +? and -? | negative, zero, or positive | +2 joins -2 | zero |
 | +? and -? | negative, zero, or positive | +2 joins -5 | -? |
 
-`FineFlowFixture` is explicitly separate demonstration apparatus. Its signed
+`FineFlowFixture` is explicitly separate, **net-only** demonstration apparatus. Its signed
 integers stand in for finer physical material in one selected local,
 positive-right basis. `Join` adds those amounts and empties the two consumed
 stores, leaving one returned amount. The three-bit predictor receives only
@@ -137,6 +144,12 @@ an ODV word, no random choice among predictions, and no assumption that read-equ
 amounts cancel. The apparatus chooses positive direction when observing exact
 zero; scalar zero does not establish that direction. It therefore supplies
 positive-zero inputs, rather than pretending to realize every zero-direction code.
+
+This fold deliberately discards the matched opposing participation. It cannot
+distinguish empty zero from a balanced pair after consuming the inputs. The
+new `RetainedFlowFixture` keeps the opposed stores connected under one net read
+and demonstrates that they can still supply a passage when the net is zero.
+Zero net therefore does not establish absence of available participation.
 
 This fixture selects immediate finite additive settlement. That makes the
 actual sign definite in each run. General connectedness alone does not guarantee
@@ -184,12 +197,18 @@ that same held flow. The opening does not decide which sign the merge produces.
 This is early conditional behavior: the layout constrains what can happen, and
 the runtime flow determines which available path is used.
 
-The zero branch needs particular care. An observed zero can select its position,
-but transports zero material. The returned selection demonstrates the read;
+The zero branch needs particular care. In this **net-only fixture**, an observed
+zero can select its position, but the fixture has retained no material for it
+to transport. The returned selection demonstrates the read;
 it does not create a nonzero pulse. The caller invokes this read after settlement.
 Autonomous detection of completion, distinguishing no observation from an actual
 zero, and powering an action on zero need further structure. Missing settlement
 must never be supplied as a zero word.
+
+The later retained-participation experiment demonstrates a different case:
+balanced opposition remains available underneath a zero net read. A control
+connection matching a zero bit can also open a passage for material from a
+different source. Neither behavior creates material from an empty scalar zero.
 
 ## A passage can resemble a bond
 
@@ -212,6 +231,43 @@ stores and an intervening opening. Later
 work can build these openings from ordinary connected structures, rather than
 giving connectors an unrelated set of primitive capabilities.
 
+## Four next experiments: actual attachment sites
+
+`ContextTable` stores fixed O/D bits once per table. Entries own one, two, or
+three bits according to the selected layout. Updating an entry cannot change
+its inherited constants; explicit `Release` moves those distinctions into the
+entry. It preserves observations and moves no material. Shared header positions
+are actual shared sites, while equal bits at different positions remain distinct.
+
+`RetainedFlowFixture` supplies two joined columns, each with positive and
+negative participation beneath a single net read. The coarse observation is
+two packed context tables in one byte. Empty zero is `20` hex; occupied opposing
+sides in A with empty B are `64` hex. The latter does not establish balance:
+its net sign is predicted as uncertain until the fine demonstration world is
+observed. That world's magnitude stores are separate apparatus, not hidden
+extra fields on the encoded word.
+
+`LocalConnection` represents a passage as an ordered pair of three-bit local
+bit offsets: six bits of topology, no third amount. A grouped positive/negative
+passage uses two such links and a selected simultaneous transfer law. A
+conditional passage adds the actual control-site offset and its matching face,
+for ten bits total; its opening is calculated from that site rather than stored
+again. Material endpoints identify the stores exposed by V bits. Shared O/D
+bits can be observed for control but cannot receive material in this layout.
+The [chart](EncodingChart.md) gives every endpoint, raw byte and fixed convention.
+
+`DirectionMemory` uses the existing D bit to retain direction when its input
+resolves no magnitude. Its executable frame packs input and memory into six
+bits; the selected fixed transition law supplies the feedback wiring. A
+separate threshold reader demonstrates different sensing resolutions. It does
+not change the existing exact-zero meaning of V in `ThreeBitMeasure`.
+
+No orthogonal flag is added. Moving equal opposing participation preserves the
+source net under the selected paired transfer law; moving one side changes it.
+The behavior follows from the participating structure and the chosen read.
+Neither geometric coincidence nor arbitrary adjacency establishes a passage.
+Changing a table layout requires explicit rebinding of affected endpoint offsets.
+
 ## Where this stops
 
 We can communicate a local distinction, preserve orientation and direction,
@@ -231,6 +287,7 @@ Run the encodings, predictions, actual merges, opposed reads and passages:
 
 ```powershell
 dotnet run --project experiments/PrimitiveMeasure
+dotnet run --project experiments/PrimitiveMeasure -- --connections
 dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
 ```
 
@@ -241,5 +298,6 @@ conservation, blocked flow, and refusal before overflow can consume an input.
 Finer integers occur only in the explicitly named demonstration apparatus and
 tests; the primitive word and its predictor still contain no such values.
 
-Verification on 30 October 2026: all 18 focused tests pass, the console
-demonstration runs successfully, and `dotnet test Gojo.slnx` passes.
+Focused verification on 30 October 2026: all 46 tests pass and both console
+demonstrations run successfully. Full verification with `dotnet test Gojo.slnx`
+also passes, with 5,602 tests across 14 projects and no failures or skipped tests.
