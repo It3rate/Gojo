@@ -1,0 +1,68 @@
+{
+  "Command": "dotnet test Gojo.slnx --nologo",
+  "ExitCode": 0,
+  "Passed": 5581.0,
+  "Failed": 0,
+  "Skipped": 0,
+  "TestProjects": 14,
+  "Projects": [
+    {
+      "Project": "PrimitiveForager.Tests.dll",
+      "Passed": 6
+    },
+    {
+      "Project": "PrimitiveRuntime.Tests.dll",
+      "Passed": 25
+    },
+    {
+      "Project": "Gojo.GearShapeLadder.Tests.dll",
+      "Passed": 21
+    },
+    {
+      "Project": "Gojo.Tests.dll",
+      "Passed": 1069
+    },
+    {
+      "Project": "Minds.Tests.dll",
+      "Passed": 49
+    },
+    {
+      "Project": "AdaptiveLifecycle.Tests.dll",
+      "Passed": 25
+    },
+    {
+      "Project": "PrimitiveLearning.Tests.dll",
+      "Passed": 66
+    },
+    {
+      "Project": "Phototaxis.Tests.dll",
+      "Passed": 129
+    },
+    {
+      "Project": "UtilityEcology.Tests.dll",
+      "Passed": 119
+    },
+    {
+      "Project": "ConstructionMachines.Tests.dll",
+      "Passed": 149
+    },
+    {
+      "Project": "CompositeEmergence.Tests.dll",
+      "Passed": 66
+    },
+    {
+      "Project": "GojoCAD.Tests.dll",
+      "Passed": 155
+    },
+    {
+      "Project": "Gojo.Encoding.Tests.dll",
+      "Passed": 725
+    },
+    {
+      "Project": "QualitativeExecution.Tests.dll",
+      "Passed": 2977
+    }
+  ],
+  "FinalFocusedCheck": "25 passed after final receipt validation change",
+  "Viewer": "Release build and headless visual inspection passed"
+}
