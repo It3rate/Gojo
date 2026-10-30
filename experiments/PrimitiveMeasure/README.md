@@ -6,12 +6,21 @@ contains no identifiers, connections, carriers, units, receipts or hidden magnit
 The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
 following the user's corrected scope rather than the earlier runtime handoff.
 
-The next four experiments now add shared context tables, retained opposition,
-explicit local connections, and direction memory. Their exact bits, attachment
-sites, and executed results are in the **[encoding chart](EncodingChart.md)**.
-The chart distinguishes the externally selected layout from stored state and
-stored topology. These remain small exploratory layouts, not a general port
-system or changes to the Gojo kernel.
+The latest experiment puts constants in **array positions**, with no stored O/D
+headers. A stable port follows a value as it moves to arrays that give it more
+owned bits. Old slots stay dirty but cannot be read as live values. See the
+**[positional arrays and stable ports chart](StablePortExperiment.md)** for the
+exact layout and a four-step example. Run it with:
+
+```powershell
+dotnet run --project experiments/PrimitiveMeasure -- --ports
+```
+
+The earlier four experiments cover shared context headers, retained opposition,
+explicit local connections, and direction memory in the **[Round 3 encoding
+chart](EncodingChart.md)**. Those examples remain executable; their physical
+header-bit attachments are not the new positional layout. All of these remain
+small exploratory layouts, not a general runtime or changes to the Gojo kernel.
 
 ```text
 O D V
@@ -288,6 +297,7 @@ Run the encodings, predictions, actual merges, opposed reads and passages:
 ```powershell
 dotnet run --project experiments/PrimitiveMeasure
 dotnet run --project experiments/PrimitiveMeasure -- --connections
+dotnet run --project experiments/PrimitiveMeasure -- --ports
 dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
 ```
 
@@ -298,6 +308,11 @@ conservation, blocked flow, and refusal before overflow can consume an input.
 Finer integers occur only in the explicitly named demonstration apparatus and
 tests; the primitive word and its predictor still contain no such values.
 
-Focused verification on 30 October 2026: all 46 tests pass and both console
-demonstrations run successfully. Full verification with `dotnet test Gojo.slnx`
-also passes, with 5,602 tests across 14 projects and no failures or skipped tests.
+The positional tests also cover widths through 64 bits, inherited constants,
+direct packed access, dirty retired slots, all eight ODV words migrating without
+changing their port reads, alias ports, owner isolation, and failed moves leaving
+existing values unchanged. Wider payload codes add capacity, not finer knowledge.
+
+Focused verification on 30 October 2026: all 63 tests pass and the stable-port
+demonstration runs successfully. Full verification with `dotnet test Gojo.slnx`
+also passes, with 5,619 tests across 14 projects and no failures or skipped tests.

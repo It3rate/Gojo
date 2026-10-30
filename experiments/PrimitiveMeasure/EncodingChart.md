@@ -5,6 +5,12 @@ general port format or a replacement for Gojo's kernel. The chosen layouts and
 their local transition laws are exploratory. They make every attachment in these
 small examples explicit without identifiers, receipts, or a connection registry.
 
+**The next storage experiment is [positional arrays and stable ports](StablePortExperiment.md).**
+It removes the shared O/D header bits by deriving constants from array position.
+The physical header-bit attachments below belong to these earlier examples;
+they are not the current target for positional storage. Both experiments remain
+executable so their different mechanisms can be inspected directly.
+
 An ODV word still means orientation, direction, and zero/nonzero. Conventional
 word displays put O on the left: `011` is positive-right, negative, nonzero.
 Storage charts below run from **bit 0 upward**. Hexadecimal bytes use ordinary
