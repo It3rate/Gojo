@@ -7,6 +7,8 @@ or rectangle is inferred merely from those bits.
 
 [Round 6 below](#round-6-one-site-two-sites-and-one-site-used-twice) exercises
 that distinction with one site, two sites, and one site referenced twice.
+The later [Round 7 passage chart](PassageExperiments.md) adds explicit joint
+before/after transitions and a two-passage chain over the primitive stores.
 
 ODV still means orientation, direction, and zero/nonzero. V=1 means some
 nonzero participation, not a calibrated quantity of one.
@@ -192,7 +194,7 @@ cannot reconstruct that pair, its route, or the retained opposing participation.
 These tests preserve the roles needed to express that structural potential; they do not
 simulate radial radiation, a perpendicular direction, or full geometry.
 
-## Current boundaries
+## Boundaries of the Round 5 read table
 
 Read tables execute observational bitmap laws; the four-ended fine fixture
 executes its explicitly selected material routing law. The latter is not yet

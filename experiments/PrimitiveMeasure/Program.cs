@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--passages"))
+{
+    PassageExamples.Run();
+    return;
+}
+
 if (args.Contains("--potential"))
 {
     StructuralPotentialExamples.Run();

@@ -2,8 +2,9 @@ namespace Gojo.Experiments.PrimitiveMeasure;
 
 /// <summary>One structure owns its packed arrays, local bindings, and port map.
 /// Ports expose the same coarse ODV observation as their binding moves. These
-/// are representation operations, not material flow or a finer measurement.</summary>
-public sealed class PortStructure
+/// Storage/migration operations change representation, not measurement or flow.
+/// Explicit local passage steps additionally execute whole-handoff laws.</summary>
+public sealed partial class PortStructure
 {
     private readonly object gate = new();
     private readonly PositionalBuckets storage = new();

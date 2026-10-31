@@ -6,7 +6,17 @@ contains no identifiers, connections, carriers, units, receipts or hidden magnit
 The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
 following the user's corrected scope rather than the earlier runtime handoff.
 
-The latest **[structural-potential experiment](ConnectionExperiments.md#round-6-one-site-two-sites-and-one-site-used-twice)**
+The latest **[controlled-passage experiment and encoding chart](PassageExperiments.md)**
+moves whole unmeasured contents through one passage and a two-passage chain.
+An eight-byte shared transition law keeps the source and receiver's changes
+joint; uncertain controls predict linked alternatives without changing stored
+values. Run it with:
+
+```powershell
+dotnet run --project experiments/PrimitiveMeasure -- --passages
+```
+
+The preceding **[structural-potential experiment](ConnectionExperiments.md#round-6-one-site-two-sites-and-one-site-used-twice)**
 compares one empty site, two connected empty sites, and one site used in two
 input roles. All can read zero, but their response to change and uncertainty
 differs. The chart shows each exact row and packed byte. Run it with:
@@ -321,6 +331,7 @@ dotnet run --project experiments/PrimitiveMeasure -- --connections
 dotnet run --project experiments/PrimitiveMeasure -- --ports
 dotnet run --project experiments/PrimitiveMeasure -- --relations
 dotnet run --project experiments/PrimitiveMeasure -- --potential
+dotnet run --project experiments/PrimitiveMeasure -- --passages
 dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
 ```
 
@@ -352,3 +363,9 @@ all 109 focused tests pass, including 13 structural-potential cases. Full
 `dotnet test Gojo.slnx` verification passes with 5,665 tests across 14 projects,
 with no failures or skipped tests. Direct internal addressing is discussed as
 an alternative; the executable experiment retains the current local mappings.
+
+Verification for Round 7: the `--passages` demonstration runs successfully;
+all 141 focused tests pass, including 32 passage cases. Full
+`dotnet test Gojo.slnx` verification passes with 5,697 tests across 14 projects,
+with no failures or skipped tests. The passage chart records actual value bytes,
+connection rows and linked uncertainty for one passage and a two-passage chain.
