@@ -6,7 +6,17 @@ contains no identifiers, connections, carriers, units, receipts or hidden magnit
 The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
 following the user's corrected scope rather than the earlier runtime handoff.
 
-The latest **[controlled-passage experiment and encoding chart](PassageExperiments.md)**
+The latest **[conditional experiment](ConditionalExperiments.md)** starts with a
+plain-language recap, then routes one source through a Yes or No outlet and
+continues through the passage attached to that outlet. Complementary law tables
+make the choice; a grouped local step keeps one control observation throughout
+selection. The document includes exact encodings and unresolved predictions.
+
+```powershell
+dotnet run --project experiments/PrimitiveMeasure -- --conditionals
+```
+
+The preceding **[controlled-passage experiment and encoding chart](PassageExperiments.md)**
 moves whole unmeasured contents through one passage and a two-passage chain.
 An eight-byte shared transition law keeps the source and receiver's changes
 joint; uncertain controls predict linked alternatives without changing stored
@@ -332,6 +342,7 @@ dotnet run --project experiments/PrimitiveMeasure -- --ports
 dotnet run --project experiments/PrimitiveMeasure -- --relations
 dotnet run --project experiments/PrimitiveMeasure -- --potential
 dotnet run --project experiments/PrimitiveMeasure -- --passages
+dotnet run --project experiments/PrimitiveMeasure -- --conditionals
 dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
 ```
 
@@ -369,3 +380,10 @@ all 141 focused tests pass, including 32 passage cases. Full
 `dotnet test Gojo.slnx` verification passes with 5,697 tests across 14 projects,
 with no failures or skipped tests. The passage chart records actual value bytes,
 connection rows and linked uncertainty for one passage and a two-passage chain.
+
+Verification for Round 8: the `--conditionals` demonstration runs successfully;
+all 179 focused tests pass, including 38 new conditional cases. Full
+`dotnet test Gojo.slnx` verification passes with 5,735 tests across 14 projects,
+with no failures or skipped tests. The conditional chart starts with an overview
+and records exact connections, actual bit changes, and uncertain predictions
+for complementary selection followed by attached continuations.

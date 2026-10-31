@@ -4,6 +4,9 @@ Round 7, 31 October 2026. This experiment executes a whole handoff directly on
 the primitive value stores. It adds a joint before/after law to the existing
 positional arrays, local port mappings, and packed connection rows.
 
+The later [conditional experiment](ConditionalExperiments.md) begins with a
+simple recap and composes these passages into a two-way choice with continuations.
+
 ```powershell
 dotnet run --project experiments/PrimitiveMeasure -- --passages
 dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj

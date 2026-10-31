@@ -29,14 +29,28 @@ public sealed class PassageLaw
             }
     }
 
-    /// <summary>Compile a passage that hands off only when S=1, C=1, T=0.
+    /// <summary>Compile a passage that hands off when S=1, T=0 and C matches
+    /// the selected presence. That selection is compiled into the bitmap.
     /// Execution and prediction use the resulting bits, not this builder's name.</summary>
-    public static PassageLaw Controlled()
+    public static PassageLaw Controlled(bool whenPresent = true)
     {
         var bitmap = new byte[8];
         for (var before = 0; before < 8; before++)
         {
-            var after = before == State(true, true, false) ? State(false, true, true) : before;
+            var after = before == State(true, whenPresent, false) ? State(false, whenPresent, true) : before;
+            bitmap[after] |= (byte)(1 << before);
+        }
+        return new PassageLaw(bitmap);
+    }
+
+    /// <summary>Continue whole contents for either control value. The control
+    /// role remains unchanged; its current value cannot veto a chosen path.</summary>
+    public static PassageLaw Unconditional()
+    {
+        var bitmap = new byte[8];
+        for (var before = 0; before < 8; before++)
+        {
+            var after = (before & 5) == 1 ? (before & 2) | 4 : before;
             bitmap[after] |= (byte)(1 << before);
         }
         return new PassageLaw(bitmap);

@@ -36,6 +36,49 @@ public sealed class PassageConnections
     public bool TryStep(ConnectionRow row, byte observedBefore, out byte afterState) =>
         owner.TryStepPassage(Wiring(row), law, observedBefore, out afterState);
 
+    /// <summary>Execute an explicitly ordered sequence of existing passage rows
+    /// as one owner-local settlement. Scope ports select three to five distinct
+    /// fixed-context one-bit sites. The before support must name one complete
+    /// scope state and still match every selected site. Each intermediate must
+    /// also resolve uniquely; otherwise nothing changes. Rows may share sites,
+    /// but each row's three roles must be distinct and belong to this scope.
+    /// All tables must have the same owner. No concealed value resolves an
+    /// uncertain observation, and no partial sequence is committed.
+    /// On success afterState is the final scope state number (0..31), not a
+    /// support mask. Success includes an unchanged result. Controls can change
+    /// only if another explicitly selected row uses them as a material site.</summary>
+    public static bool TrySequence(int[] scopePorts, uint observedBefore,
+        out byte afterState, params (PassageConnections Table, ConnectionRow Row)[] steps)
+    {
+        afterState = 0;
+        ArgumentNullException.ThrowIfNull(scopePorts);
+        ArgumentNullException.ThrowIfNull(steps);
+        if (scopePorts.Length is < 3 or > 5)
+            throw new ArgumentOutOfRangeException(nameof(scopePorts));
+        if (steps.Length == 0)
+            throw new ArgumentException("Supply at least one passage row.", nameof(steps));
+        foreach (var step in steps) ArgumentNullException.ThrowIfNull(step.Table);
+        var validSupport = scopePorts.Length == 5 ? uint.MaxValue : (1U << (1 << scopePorts.Length)) - 1;
+        if ((observedBefore & ~validSupport) != 0)
+            throw new ArgumentOutOfRangeException(nameof(observedBefore), "Support contains states outside this scope.");
+        if (observedBefore == 0 || (observedBefore & (observedBefore - 1)) != 0) return false;
+
+        // Keep the role mapping and the eventual locked read on the same scope.
+        // This is a temporary execution plan, not another stored connection.
+        var scope = scopePorts.ToArray();
+        var owner = steps[0].Table.owner;
+        var plan = new (PassageLaw Law, int[] Roles)[steps.Length];
+        for (var index = 0; index < steps.Length; index++)
+        {
+            var (table, row) = steps[index];
+            if (!ReferenceEquals(owner, table.owner)) return false;
+            var roles = MapScopeRoles(table.Wiring(row), scope);
+            if (roles is null) return false;
+            plan[index] = (table.law, roles);
+        }
+        return owner.TrySequencePassages(scope, observedBefore, plan, out afterState);
+    }
+
     public int[] Wiring(ConnectionRow row)
     {
         if (row.Arity != 3) throw new ArgumentException("Expected [source, control, target].", nameof(row));
@@ -73,7 +116,12 @@ public sealed class PassageConnections
         ArgumentNullException.ThrowIfNull(scopePorts);
         var ends = Wiring(row);
         if (owner.ObservePassageSites(scopePorts, 0) == 0 || Observe(row, 0) == 0) return null;
+        return MapScopeRoles(ends, scopePorts);
+    }
+
+    private static int[]? MapScopeRoles(int[] ends, int[] scopePorts)
+    {
         var roles = ends.Select(port => Array.IndexOf(scopePorts, port)).ToArray();
-        return roles.Any(position => position < 0) ? null : roles;
+        return roles.Any(position => position < 0) || roles.Distinct().Count() != 3 ? null : roles;
     }
 }

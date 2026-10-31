@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--conditionals"))
+{
+    ConditionalExamples.Run();
+    return;
+}
+
 if (args.Contains("--passages"))
 {
     PassageExamples.Run();

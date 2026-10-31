@@ -57,6 +57,42 @@ public sealed partial class PortStructure
         }
     }
 
+    /// <summary>Resolve an ordered sequence on one complete scope candidate,
+    /// then commit its final differences under the same owner lock. Binding
+    /// aliases and migrated contexts are checked here before any value read;
+    /// the supplied laws are the only way the planned state can change.</summary>
+    internal bool TrySequencePassages(ReadOnlySpan<int> positions, uint observedBefore,
+        ReadOnlySpan<(PassageLaw Law, int[] Roles)> steps, out byte afterState)
+    {
+        afterState = 0;
+        if (observedBefore == 0 || (observedBefore & (observedBefore - 1)) != 0) return false;
+        var before = System.Numerics.BitOperations.TrailingZeroCount(observedBefore);
+        lock (gate)
+        {
+            if (!TryPassageAddresses(positions, out var addresses)) return false;
+            var actual = 0;
+            for (var site = 0; site < addresses.Length; site++)
+                actual |= (int)ReadLive(addresses[site]) << site;
+            if (actual != before) return false;
+
+            var candidate = observedBefore;
+            foreach (var (law, roles) in steps)
+            {
+                candidate = law.PredictScope(candidate, roles, positions.Length);
+                if (candidate == 0 || (candidate & (candidate - 1)) != 0) return false;
+            }
+
+            var after = System.Numerics.BitOperations.TrailingZeroCount(candidate);
+            // No writes occur until the complete sequence has resolved. All
+            // addresses are still live and fixed-width under this owner lock.
+            for (var site = 0; site < addresses.Length; site++)
+                if (((before ^ after) & (1 << site)) != 0)
+                    storage.TryWrite(addresses[site], (ulong)((after >> site) & 1));
+            afterState = (byte)after;
+            return true;
+        }
+    }
+
     private bool TryPassageAddresses(ReadOnlySpan<int> positions, out SlotAddress[] addresses)
     {
         addresses = new SlotAddress[positions.Length];
