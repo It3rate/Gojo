@@ -6,7 +6,16 @@ contains no identifiers, connections, carriers, units, receipts or hidden magnit
 The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
 following the user's corrected scope rather than the earlier runtime handoff.
 
-The latest **[connection experiments](ConnectionExperiments.md)** use one packed
+The latest **[structural-potential experiment](ConnectionExperiments.md#round-6-one-site-two-sites-and-one-site-used-twice)**
+compares one empty site, two connected empty sites, and one site used in two
+input roles. All can read zero, but their response to change and uncertainty
+differs. The chart shows each exact row and packed byte. Run it with:
+
+```powershell
+dotnet run --project experiments/PrimitiveMeasure -- --potential
+```
+
+The preceding **[connection experiments](ConnectionExperiments.md)** use one packed
 ordered-row format for a qualitative occupancy ladder, calculated and retained
 addition results, and a four-ended opposed-flow fixture. Read laws are explicit
 bitmaps shared by their rows. Two endpoint roles remain present when both values
@@ -311,6 +320,7 @@ dotnet run --project experiments/PrimitiveMeasure
 dotnet run --project experiments/PrimitiveMeasure -- --connections
 dotnet run --project experiments/PrimitiveMeasure -- --ports
 dotnet run --project experiments/PrimitiveMeasure -- --relations
+dotnet run --project experiments/PrimitiveMeasure -- --potential
 dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
 ```
 
@@ -332,7 +342,13 @@ shared candidate reads, cross-structure ports, and retained opposed flow. A zero
 read does not erase its endpoint roles, and an unresolved read is not stored as
 a measured zero.
 
-Verification for this checkpoint: all 96 focused tests pass and the new
+Verification for the Round 5 checkpoint: all 96 focused tests pass and the new
 `--relations` demonstration runs successfully. Full verification with
 `dotnet test Gojo.slnx` also passes, with 5,652 tests across 14 projects and no
 failures or skipped tests.
+
+Verification for Round 6: the `--potential` demonstration runs successfully;
+all 109 focused tests pass, including 13 structural-potential cases. Full
+`dotnet test Gojo.slnx` verification passes with 5,665 tests across 14 projects,
+with no failures or skipped tests. Direct internal addressing is discussed as
+an alternative; the executable experiment retains the current local mappings.

@@ -21,6 +21,19 @@ public static class ConnectionLaws
         return BitRelation.FromTuples(3, tuples);
     }
 
+    /// <summary>Exactly one input role reads occupied in a shared O/D context.
+    /// This compares presence bits, not underlying amounts. Repeated references
+    /// retain their shared candidate through BitRelation's reference-aware read.</summary>
+    public static BitRelation ExclusivePresence()
+    {
+        var tuples = new List<byte[]>();
+        for (byte context = 0; context < 8; context += 2)
+            for (byte first = 0; first < 2; first++)
+                for (byte second = 0; second < 2; second++)
+                    tuples.Add([(byte)(context | first), (byte)(context | second), (byte)(context | (first ^ second))]);
+        return BitRelation.FromTuples(3, tuples);
+    }
+
     /// <summary>Compile the existing conservative ODV addition read. Opposing
     /// nonzero inputs retain every admitted result, including both zero signs.</summary>
     public static BitRelation Addition()

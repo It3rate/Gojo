@@ -5,6 +5,9 @@ positional value arrays and stable ports. They preserve a connection's roles
 even when every attached value reads zero. No geometric direction, radial field,
 or rectangle is inferred merely from those bits.
 
+[Round 6 below](#round-6-one-site-two-sites-and-one-site-used-twice) exercises
+that distinction with one site, two sites, and one site referenced twice.
+
 ODV still means orientation, direction, and zero/nonzero. V=1 means some
 nonzero participation, not a calibrated quantity of one.
 
@@ -202,3 +205,127 @@ is no global sampling clock, general constraint solver, automatic feedback,
 connection collector, or compaction. Published ports are sampled through their
 advertised read, and explicit capture is a held observation rather than a
 material transfer or a guarantee of simultaneous sampling across structures.
+
+## Round 6: one site, two sites, and one site used twice
+
+```powershell
+dotnet run --project experiments/PrimitiveMeasure -- --potential
+```
+
+This experiment uses existing value arrays, ports and connection rows. The only
+additional law builder is `ExclusivePresence`: exactly one of two input roles
+reads present. Its bitmap executes the Boolean XOR of their V bits within one
+shared O/D context. It does not subtract or cancel underlying quantities.
+
+### Exactly what is connected
+
+Each arrangement has its own local tables. All value sites use fixed O=0, D=0
+and one owned V bit. Endpoint 0 reaches A; endpoint 2, where present, reaches B.
+Odd endpoints are calculated reads with no separately stored amount.
+
+A is at packed address `(0,0,1,0)`, through port 0 and binding 0. In the pair,
+B is at `(0,0,1,1)`, through port 1 and binding 1. Thus A owns bit 0 and B owns
+bit 1 of that value array. The repeated arrangement allocates only A's slot.
+
+| Arrangement | Value slots | Law | Ordered row | Packed row byte |
+| --- | --- | --- | --- | --- |
+| One site | A | Identity | `[0,1]` | `04` |
+| Two sites | A, B | Presence of either | `[0,2,1]` | `18` |
+| Two sites | Same A, B | Exclusive presence | `[0,2,3]` | `38` |
+| One site, two roles | A | Presence of either | `[0,0,1]` | `10` |
+| One site, two roles | Same A | Exclusive presence | `[0,0,3]` | `30` |
+
+Each reference is two bits, packed low first. For `[0,2,3]`, for example:
+`0 + (2 << 2) + (3 << 4) = 0x38`. Each listed law has one row in its own table;
+the final byte's unused bits are zero. Law storage is additional to row storage.
+
+The two-site arrangement stores two V bits. The repeated-site arrangement
+stores one V bit and mentions the same endpoint twice. A calculation adds a
+connection row and an output endpoint, not a third material value. The actual
+rows carry this distinction; no pair/repeated category flag is stored.
+
+### What happens when the observations change
+
+The caller explicitly supplies observations. No transfer or settlement is
+implied by changing a stored observation in this demonstration.
+
+| Stage | Single V | Two-site input reads | Repeated-site input reads | Two-site XOR | Repeated-site XOR |
+| --- | --- | --- | --- | --- | --- |
+| Initially empty | 0 | `[0,0]` | `[0,0]` | 0 | 0 |
+| A becomes present | 1 | `[1,0]` | `[1,1]` | 1 | 0 |
+| B also becomes present in the pair | 1 | `[1,1]` | `[1,1]` | 0 | 0 |
+| Everything returns to empty | 0 | `[0,0]` | `[0,0]` | 0 | 0 |
+
+All three coarse presence reads follow `0,1,1,0`. That read alone cannot
+distinguish the structures. Inspecting the rows shows the difference; observing
+the response when A changes reveals a behavioral consequence. When the pair
+later reads `[1,1]`, its sites remain distinct. Returning to zero preserves
+their connection and their ability to differ on a later observation.
+
+With unresolved input reads, each admitting V=0 or V=1, the same distinction
+matters before any new observation arrives:
+
+```text
+exclusive presence of distinct A and B -> {0,1}
+exclusive presence of A used twice     -> {0}
+```
+
+The first result leaves agreement unresolved; distinct references do not prove
+statistical independence. The second requires both roles to choose the same
+candidate word. It establishes presence agreement only, not equality or
+cancellation of hidden magnitudes. Correlation through separate calculated
+paths remains limited as described above.
+
+### Internal direct addresses are a valid alternative
+
+The current path is `endpoint -> port -> binding -> packed address`. The
+address contains orientation group, direction group, total width, and index;
+the bit offset inside the selected array is `index * width`.
+
+The demonstration moves A from `(0,0,1,0)` to `(0,0,3,0)`. Only its binding's
+address changes. The old slot becomes non-live, the connection rows remain
+unchanged, and their coarse reads remain valid. The added bits supply capacity,
+not new measurement.
+
+An internal row could instead contain that address directly. This would remove
+lookup steps, while movement would require rewriting all affected local
+references. Small structures can reasonably scan their own rows. This is an
+exploratory alternative, not an implemented second address format or a measured
+performance improvement. Stable external ports can be retained either way.
+
+The main requirements for such a move would be:
+
+- Update every local reference holder, including the external-port map, before
+  reads resume. Apply a relocation map to original addresses once so swaps do
+  not accidentally become cascading substitutions.
+- Preserve repeated references together and keep distinct sites distinct.
+- Prevent a stale reference from silently reaching a new occupant after reuse.
+- Distinguish a stored-value address from a calculated-read address. A calculated
+  output has no value slot unless a separate sample is explicitly captured.
+
+Indirection stores a potentially longer address once; direct references may
+repeat it, although shared table context can omit some address bits. Neither
+choice requires global identifiers. Cycles can be encoded using either choice;
+their evaluation still needs a separate timing or settlement law. The current
+calculated reader remains acyclic. This experiment retains its existing mapping
+so the structural comparison is independent of a storage redesign.
+
+### What refinement preserves
+
+The two-part presence relation is already a small structural ladder:
+
+```text
+parts [0,0]             -> coarse 0
+parts [0,1], [1,0], [1,1] -> coarse 1
+```
+
+Learning which connected parts are present refines a previously valid coarse
+1. It does not supply a calibrated magnitude. More generally, for the same
+state and the same read contract, finer evidence should project into the
+possibilities already admitted by the coarse read. A changed physical state or
+changed meaning of zero is a different observation, not that refinement.
+
+The tests exhaust the exclusive-presence law and exercise the structural
+distinction across all four fixed O/D contexts, including uncertain inputs and
+migration. No geometric line, radial dynamics, automatic feedback, or hidden
+numeric resolution is inferred from these rows.
