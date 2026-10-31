@@ -6,7 +6,17 @@ contains no identifiers, connections, carriers, units, receipts or hidden magnit
 The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
 following the user's corrected scope rather than the earlier runtime handoff.
 
-The latest experiment puts constants in **array positions**, with no stored O/D
+The latest **[connection experiments](ConnectionExperiments.md)** use one packed
+ordered-row format for a qualitative occupancy ladder, calculated and retained
+addition results, and a four-ended opposed-flow fixture. Read laws are explicit
+bitmaps shared by their rows. Two endpoint roles remain present when both values
+read zero; the encoding does not turn them into a single participant.
+
+```powershell
+dotnet run --project experiments/PrimitiveMeasure -- --relations
+```
+
+The underlying storage experiment puts constants in **array positions**, with no stored O/D
 headers. A stable port follows a value as it moves to arrays that give it more
 owned bits. Old slots stay dirty but cannot be read as live values. See the
 **[positional arrays and stable ports chart](StablePortExperiment.md)** for the
@@ -289,8 +299,10 @@ additional sensing is not hidden in the bits.
 
 The historical Core4 `Measure`/`Relation` sources and current Gojo core informed
 the separation of raw magnitude, ordered perspective and inversion. Their
-carrier/graph machinery has not been imported. Multiplication, units, refinement,
-general connective structures and a primitive runtime remain later work.
+carrier/graph machinery has not been imported. Multiplication, units, calibrated
+refinement, general connective structures and a primitive runtime remain later
+work. Round 5 adds qualitative occupancy correspondence and conservative
+calculated reads, not a general geometric or material-flow interpreter.
 
 Run the encodings, predictions, actual merges, opposed reads and passages:
 
@@ -298,6 +310,7 @@ Run the encodings, predictions, actual merges, opposed reads and passages:
 dotnet run --project experiments/PrimitiveMeasure
 dotnet run --project experiments/PrimitiveMeasure -- --connections
 dotnet run --project experiments/PrimitiveMeasure -- --ports
+dotnet run --project experiments/PrimitiveMeasure -- --relations
 dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
 ```
 
@@ -313,6 +326,13 @@ direct packed access, dirty retired slots, all eight ODV words migrating without
 changing their port reads, alias ports, owner isolation, and failed moves leaving
 existing values unchanged. Wider payload codes add capacity, not finer knowledge.
 
-Focused verification on 30 October 2026: all 63 tests pass and the stable-port
-demonstration runs successfully. Full verification with `dotnet test Gojo.slnx`
-also passes, with 5,619 tests across 14 projects and no failures or skipped tests.
+The connection tests cover ordered and repeated endpoints, explicit law bytes,
+all coarse addition inputs, qualitative occupancy correspondence, held samples,
+shared candidate reads, cross-structure ports, and retained opposed flow. A zero
+read does not erase its endpoint roles, and an unresolved read is not stored as
+a measured zero.
+
+Verification for this checkpoint: all 96 focused tests pass and the new
+`--relations` demonstration runs successfully. Full verification with
+`dotnet test Gojo.slnx` also passes, with 5,652 tests across 14 projects and no
+failures or skipped tests.

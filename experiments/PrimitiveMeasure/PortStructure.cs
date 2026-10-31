@@ -123,11 +123,39 @@ public sealed class PortStructure
 
     private ulong ReadLive(SlotAddress address) => storage.TryRead(address, out var raw)
         ? raw : throw new InvalidOperationException("Binding is not live.");
+
+    internal bool HasBinding(int port, int binding)
+    {
+        lock (gate) return ports[port] == binding;
+    }
+
+    /// <summary>Explicitly retain a resolved coarse observation. Holding an old
+    /// sample is allowed; this is neither material transfer nor a live output.</summary>
+    internal bool TryCaptureObservation(int binding, byte support)
+    {
+        lock (gate)
+        {
+            var address = bindings[binding];
+            if (!ReadSupport.TrySingle(support, out var word)) return false;
+            // A held coarse sample uses one value bit. Do not overwrite a
+            // separately interpreted wider field through this coarse interface.
+            if (PositionalBuckets.ValueBits(address.OrientationGroup, address.DirectionGroup, address.Width) != 1)
+                return false;
+            var positiveLeft = (word & ThreeBitMeasure.Orientation) != 0;
+            var negative = (word & ThreeBitMeasure.Direction) != 0;
+            if (address.OrientationGroup != 2 && positiveLeft != (address.OrientationGroup == 1)) return false;
+            if (address.OrientationGroup != 2 && address.DirectionGroup != 2 && negative != (address.DirectionGroup == 1))
+                return false;
+            var raw = PositionalBuckets.Encode(address.OrientationGroup, address.DirectionGroup,
+                address.Width, positiveLeft, negative, (ulong)(word & ThreeBitMeasure.Value));
+            return storage.TryWrite(address, raw);
+        }
+    }
 }
 
 /// <summary>A non-draining read attachment to an exposed port. This object does
 /// not join values or own a copy of their flow. Its owner reference supplies scope.</summary>
-public sealed class PortConnection
+public sealed class PortConnection : IPrimitiveReadPort
 {
     private readonly PortStructure owner;
     public int PortIndex { get; }
@@ -139,4 +167,11 @@ public sealed class PortConnection
     }
 
     public byte Read() => owner.ReadPort(PortIndex);
+    public byte ReadSupport() => Gojo.Experiments.PrimitiveMeasure.ReadSupport.Of(Read());
+
+    internal bool RefersTo(PortStructure expectedOwner, int binding) =>
+        ReferenceEquals(owner, expectedOwner) && owner.HasBinding(PortIndex, binding);
+
+    internal bool SamePortAs(PortConnection other) =>
+        ReferenceEquals(owner, other.owner) && PortIndex == other.PortIndex;
 }

@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--relations"))
+{
+    RelationExamples.Run();
+    return;
+}
+
 if (args.Contains("--ports"))
 {
     PortExamples.Run();

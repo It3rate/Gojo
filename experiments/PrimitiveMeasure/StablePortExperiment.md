@@ -4,6 +4,9 @@ Round 4, 30 October 2026. This experiment tests two simple ideas: fixed orientat
 from array positions, and an outside reader can keep the same port while its
 value moves inside the owning structure. It does not change Gojo's core.
 
+The next [connection experiments](ConnectionExperiments.md) attach calculated
+reads and explicit held samples to these ports while preserving local ownership.
+
 Run the example:
 
 ```powershell
