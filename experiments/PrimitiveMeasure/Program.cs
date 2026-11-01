@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--repetition"))
+{
+    RepetitionExamples.Run();
+    return;
+}
+
 if (args.Contains("--saturation"))
 {
     SaturationExamples.Run();

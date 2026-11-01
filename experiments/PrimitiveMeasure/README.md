@@ -6,7 +6,18 @@ contains no identifiers, connections, carriers, units, receipts or hidden magnit
 The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
 following the user's corrected scope rather than the earlier runtime handoff.
 
-The latest **[saturation and geometry experiment](SaturationExperiments.md)**
+The latest **[repetition and composition experiment](RepetitionExperiments.md)**
+adds reusable bodies, phase cycles, stopping reads, request/completion ports,
+five-stage waits, and independent placement changes. A separate radial-path
+contract supports circle and polygon structures without assigned geometric
+values. Its charts expose exactly which references and laws supply the meaning,
+including open spiral/contact requirements and branching/rejoining cases.
+
+```powershell
+dotnet run --project experiments/PrimitiveMeasure -- --repetition
+```
+
+The preceding **[saturation and geometry experiment](SaturationExperiments.md)**
 exercises forward flow, side escape, competing outlets, and retained pending
 contents. It also reads a rectangle from shared unknown reaches in a declared
 perpendicular frame, with tests that reject false closure and degenerate reads.
@@ -404,3 +415,12 @@ Full `dotnet test Gojo.slnx` verification passes with 5,761 tests across 14
 projects, with no failures or skipped tests. The new chart covers 17 situations,
 exact passage and geometry encodings, and the distinction between implemented
 routing, constrained boundary reads, and proposed radiation or route retention.
+
+Verification for Round 10: the `--repetition` demonstration completes;
+all 250 primitive tests pass, including 45 new repetition/composition and
+contour cases. Full `dotnet test Gojo.slnx` verification passes with 5,806 tests
+across 14 projects, no failures or skipped tests. The new chart covers reusable
+bodies, phase/turn correspondence, waits, independent placement changes,
+circle/polygon constraints, conditional rejoining, barriers, and open contact
+or shrinkage requirements. The existing kernel and primitive passage laws are
+unchanged.

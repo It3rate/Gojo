@@ -175,6 +175,8 @@
     <File Path="experiments/PrimitiveMeasure/ConnectionExperiments.md" />
     <File Path="experiments/PrimitiveMeasure/PassageExperiments.md" />
     <File Path="experiments/PrimitiveMeasure/ConditionalExperiments.md" />
+    <File Path="experiments/PrimitiveMeasure/SaturationExperiments.md" />
+    <File Path="experiments/PrimitiveMeasure/RepetitionExperiments.md" />
     <Project Path="experiments/PrimitiveMeasure/PrimitiveMeasure.csproj" />
   </Folder>
   <Folder Name="/Experiments/RefinementPerformance/">
