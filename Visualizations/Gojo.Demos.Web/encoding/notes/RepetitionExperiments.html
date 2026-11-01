@@ -1,0 +1,573 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Repetition and composed shape structures</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="repetition-and-composed-shape-structures">Repetition and composed shape structures</h1>
+<p>Round 10 adds executable feedback and composition to the primitive experiment.
+A small body can run repeatedly, expose completion, wait for another component,
+and run again with a different placement. The shape parameters remain unknown:
+there are no coordinate pairs, assigned lengths, angles in degrees, or hidden
+fine values in these examples.</p>
+<p>The main result is that <strong>the repeated body, its controller, and its geometric
+interpretation can be connected separately</strong>. A cycle is useful for timing
+before it means anything geometric. Connecting it to equal parts of a whole
+turn gives it additional meaning. Connecting the resulting motif to a moving
+placement creates another composition.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --repetition
+dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
+</code></pre>
+<h2 id="the-small-mechanism">The small mechanism</h2>
+<p>One occupied V site represents an activation. An incoming clock pulse permits
+at most one handoff from its current site to a successor. The handoff uses the
+existing eight-byte passage law: a bitmap of allowed complete before/after
+patterns for <code>[source, control, target]</code>. Feedback is an ordinary connection
+back to an earlier site. There is no power opcode or hidden repeat counter.</p>
+<p>The same O/D/V encoding remains unchanged. State sites and guard observations
+use the existing fixed-positive-context, one-value-bit arrays. A guard can bind
+to a public read port on another structure. This is observation: it does not
+drain the supplier or create another material flow. Resolved observations are
+imported into the local guard sites even when the activation stays put.</p>
+<pre><code class="language-text">participate using A -&gt; turn -&gt; participate using B -&gt; turn -&gt; check
+       ^                                                      |
+       |                         stop absent -----------------+
+       |                                                      |
+       +--------------------------------       stop present -&gt; done
+</code></pre>
+<p>The diagram names the sites for explanation. The stored successors, shared
+parameter references, guard bindings and law bits determine what happens.
+An unknown guard preserves alternative successors and refuses mutation.
+No admitted observation is different from a known absent guard.
+When the law has the same material outcome for either guard value, the external
+guard is not consulted. An unconditional continuation therefore remains usable
+if the original branch condition later becomes uncertain.</p>
+<p>For one pulse, two simultaneously enabled outgoing rows are a conflict. The
+controller holds instead of choosing by array order or copying activation.
+Round 9's explicitly ordered priority sequence remains available as a different
+composition; this new controller does not quietly supply that priority.</p>
+<h2 id="samples-and-their-limits">Samples and their limits</h2>
+<table>
+<thead>
+<tr>
+<th>Construction</th>
+<th>What runs or is read</th>
+<th>What remains qualified</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Square body</td>
+<td>One shared reach participates at four successive phases, then completes</td>
+<td>A stable reach and the attached equal quarter-turn basis justify the geometric square</td>
+</tr>
+<tr>
+<td>Rectangle body</td>
+<td>A, B, A, B participate over four phases</td>
+<td>A and B are shared unknown reaches, not fresh samples chosen on each pass</td>
+</tr>
+<tr>
+<td>Three-part body over four phases</td>
+<td>Twelve participations before both body boundary and phase return agree</td>
+<td>This establishes recurrence; it is not a four-edge rectangle</td>
+</tr>
+<tr>
+<td>Two-part body over five phases</td>
+<td>Ten participations before completion</td>
+<td>No stored lap counter is consulted</td>
+</tr>
+<tr>
+<td>Continuous rectangle controller</td>
+<td>Feedback continues through further traversals</td>
+<td>The demonstration's observation budget is not a stop rule</td>
+</tr>
+<tr>
+<td>Reusable requested motif</td>
+<td>Request enters the body; completion stays visible until request is released</td>
+<td>This is a level handshake, not automatic retriggering every beat</td>
+</tr>
+<tr>
+<td>Rectangle and five-beat wait</td>
+<td>Five distinct waiting stages precede another request</td>
+<td>Beats are supplied events, not seconds</td>
+</tr>
+<tr>
+<td>Displacement during the wait</td>
+<td>Another component completes a shared formal offset; next motif binds to its new placement</td>
+<td>Offset direction and magnitude can remain open</td>
+</tr>
+<tr>
+<td>Independently moving placement</td>
+<td>Each body participation binds to the then-current placement</td>
+<td>Local repetition survives; world-space closure is not established</td>
+</tr>
+<tr>
+<td>Circle without a polygon</td>
+<td>A shared radial reach throughout a whole contour, with an explicit return binding</td>
+<td>Selected homogeneous planar Euclidean constraint; no field simulation</td>
+</tr>
+<tr>
+<td>Triangle from circle</td>
+<td>Three equal contour parts with successive straight chords</td>
+<td>No radius or side length assigned</td>
+</tr>
+<tr>
+<td>Square from circle</td>
+<td>Four equal contour parts with successive straight chords</td>
+<td>Same square family as the path construction under compatible frame/reach bindings; histories differ</td>
+</tr>
+<tr>
+<td>Pentagon from circle</td>
+<td>Five equal contour parts with successive straight chords</td>
+<td>Five arbitrary markers would not establish regularity</td>
+</tr>
+<tr>
+<td>Hexagon and further polygons</td>
+<td>Same shared-part construction with more connected stages</td>
+<td>A different partition, not a larger radius</td>
+</tr>
+<tr>
+<td>Rectangle from circle</td>
+<td>Four positive arc shares A, B, A, B, joined by successive chords</td>
+<td>Opposite vertices are antipodal under this whole-circle contract; A need not equal B</td>
+</tr>
+<tr>
+<td>Conditional fork and rejoin</td>
+<td>One guard selects one branch; both branches lead to one later state</td>
+<td>Rejoining alternatives is not addition of two amounts</td>
+</tr>
+<tr>
+<td>Completion barrier</td>
+<td>A third activation advances when both supplied completion ports are present</td>
+<td>Observes both; does not consume their completion states or power the workers</td>
+</tr>
+<tr>
+<td>Contact-controlled loop</td>
+<td>False feeds back, true completes, unknown holds at the check</td>
+<td>Contact evidence is supplied; no self-distance detector has been invented</td>
+</tr>
+<tr>
+<td>Shrinking spiral candidate</td>
+<td>Turn/body feedback and the stopping interface are available</td>
+<td>A changing-reach relation and proximity read remain open; the current contact example does not shrink</td>
+</tr>
+</tbody>
+</table>
+<h2 id="exact-rectangle-body-encoding">Exact rectangle body encoding</h2>
+<p>The standalone rectangle controller uses these local port positions:</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Participate using A</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Request one turn</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Participate using B</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Request one turn</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Check the stopping condition</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Completion</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Request guard, reserved for the requested-body form; initially present here</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Stop guard, bound to the phase cycle's starting-site read</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Ignored control position for unconditional rows</td>
+</tr>
+</tbody>
+</table>
+<p>Only one of the state sites 0 through 5 is occupied. Guard bits are observations,
+not additional activations. The initial packed value bytes are <code>41 00</code>: state
+0 and the reserved request guard are present. The requested-body form adds an
+idle state and uses that request guard; its port positions consequently differ.</p>
+<p>Each reference uses six bits. Each three-reference row uses eighteen bits.
+Rows are contiguous within their table, low reference and low bit first;
+only the last byte of each array has unused padding.</p>
+<table>
+<thead>
+<tr>
+<th>Shared law</th>
+<th>Ordered rows <code>[source,guard,target]</code></th>
+<th>Packed bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unconditional</td>
+<td><code>[0,8,1] [1,8,2] [2,8,3] [3,8,4]</code></td>
+<td><code>00 12 04 88 20 20 C3 80 10</code></td>
+</tr>
+<tr>
+<td>Control present</td>
+<td><code>[4,7,5]</code></td>
+<td><code>C4 51 00</code></td>
+</tr>
+<tr>
+<td>Control absent</td>
+<td><code>[4,7,0]</code></td>
+<td><code>C4 01 00</code></td>
+</tr>
+</tbody>
+</table>
+<p>Their law bytes are unchanged from the earlier passages:</p>
+<table>
+<thead>
+<tr>
+<th>Law</th>
+<th>Bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unconditional</td>
+<td><code>01 00 04 00 12 20 48 80</code></td>
+</tr>
+<tr>
+<td>Present</td>
+<td><code>01 02 04 00 10 20 48 80</code></td>
+</tr>
+<tr>
+<td>Absent</td>
+<td><code>01 00 04 08 12 20 40 80</code></td>
+</tr>
+</tbody>
+</table>
+<p>The parameter attachment table stores <code>[participation port, parameter-slot
+reference]</code>: <code>[0,0] [2,1]</code>, packed as <code>00 20 04</code>. Parameter 0 is A and parameter
+1 is B. Row roles identify their local address spaces: parameter 0 is not an
+alias of control-state port 0. These are formal shared reach slots, implicit
+in the local parameter-reference space, rather than allocated amount stores.
+Stable nonzero reaches are the geometric construction's input promise. The
+controller can visit those roles before any physical reach or measuring device
+has been bound; its completion alone does not establish physical movement.</p>
+<h2 id="phase-and-geometric-turning">Phase and geometric turning</h2>
+<p>The separate phase structure has state sites 0 through 3 and guard site 4.
+Its present-controlled rows are:</p>
+<pre><code class="language-text">[0,4,1] [1,4,2] [2,4,3] [3,4,0]
+</code></pre>
+<p>They pack as <code>00 11 04 84 20 10 C3 40 00</code>. Its guard observes the OR of the
+body's two public turn-site ports. The body stop guard observes the phase
+structure's public starting-site port. The OR is an ordinary read-law bitmap,
+not a second material source.</p>
+<p>One supplied beat first advances the phase structure if a turn is requested,
+then advances the body. At a check site the phase is held. The resulting trace is:</p>
+<table>
+<thead>
+<tr>
+<th>Participation</th>
+<th>Parameter reference</th>
+<th>Phase reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>First</td>
+<td>A</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Second</td>
+<td>B</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Third</td>
+<td>A</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Fourth</td>
+<td>B</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>After the first body pass, phase is 2 and the stop read is absent. Feedback
+returns activation to site 0. After the second pass, phase is 0 and the stop
+read is present. Activation moves to completion site 5. The check occurs after
+participation, so the initial phase 0 does not trigger an immediate exit.</p>
+<p>A bare phase cycle proves none of these steps is a quarter-turn. The experiment
+adds a correspondence to four <strong>equal parts of a whole circular traversal</strong>.
+The binding rows <code>[phase site, exposed arc start, exposed arc end]</code> are:</p>
+<pre><code class="language-text">[0,1,5] [1,5,6] [2,6,7] [3,7,2]
+</code></pre>
+<p>These pack as <code>40 50 04 85 21 18 C7 70 08</code>. The contour itself carries the common
+radial reach, whole traversal, equal-part references, and end-to-start binding.
+<code>HasEqualTurnBasis</code> reads that connected evidence; it is not a stored flag.
+Unequal contour parts or a broken exact contour contract invalidate this read.</p>
+<p>The square uses a body with only one participation and one turn. Its same
+parameter reference therefore appears in all four phases. Both constructions
+require the shared reach to stay stable during the construction. A live source
+that changes its hidden length while still reading V=1 does not satisfy that
+promise merely because its reference stayed the same.</p>
+<p>The phase cycle can also drive beats without any contour binding. Its positions
+then remain ordered control stages. No geometric meaning is inferred.</p>
+<p>Three kinds of return remain separate. Returning to a controller stage is
+recurrence. Returning to a geometric position is closure in that read. Binding
+the new endpoint to the original endpoint establishes topology. The repeated
+body provides the first; suitable reach/turn constraints justify the second;
+the contour's explicit return connection supplies the third. None is inferred
+merely because two stored V bits are equal.</p>
+<h2 id="composing-a-motif-with-another-device">Composing a motif with another device</h2>
+<p>The parent exposes a drawing request, followed by five waiting states:</p>
+<pre><code class="language-text">Draw --body complete--&gt; Wait0 -&gt; Wait1 -&gt; Wait2 -&gt; Wait3 -&gt; Wait4
+ ^                                                          |
+ +---------------- driver complete -------------------------+
+</code></pre>
+<p>The body's request input observes Draw. A separate displacement device observes
+the OR of the waiting states. It acknowledges the request once, then holds
+completion until the request is released. The parent's final waiting stage
+requires that completion, so a slower device could hold the parent there.</p>
+<p>The explicit beat order is body, displacement device, parent. This is an
+ordered observation/transition schedule, not a claim of physical simultaneity
+or a transaction across structures. In the supplied trace:</p>
+<table>
+<thead>
+<tr>
+<th>Clock pulse</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>First motif accepts its request at placement 1</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Motif completes; parent enters Wait0</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Displacement completes; parent leaves Wait0</td>
+</tr>
+<tr>
+<td>12 through 15</td>
+<td>Remaining waiting stages advance; parent returns to Draw</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Next motif accepts the request at placement 2</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Third motif accepts a request at placement 3</td>
+</tr>
+</tbody>
+</table>
+<p>Thus there are five waiting-stage transitions, plus the next beat needed for
+the body to receive the new request. Communication latency is visible instead
+of being folded into an unexplained numeric delay.</p>
+<p>The placement device creates formal translation relations:</p>
+<pre><code class="language-text">[old placement, new placement, shared offset]
+[1,2,0] [2,3,0]                 bytes 01 02 00 02 03 00
+</code></pre>
+<p>The motif instances bind to those exposed placements:</p>
+<pre><code class="language-text">[instance position, placement reference]
+[0,1] [1,2] [2,3]               bytes 00 01 01 02 02 03
+</code></pre>
+<p>These are new placement references, not numeric coordinates. Offset 0 can
+remain an uncalibrated displacement. A diagonal interpretation would need its
+own connected directional components. We have not assumed that equal-looking
+value bits establish equal horizontal and vertical distances.
+Guaranteeing a spatially advancing frieze additionally requires a nonzero
+translation promise. An open offset does not establish distinct geometric
+positions merely because its successive placement references are distinct.</p>
+<p><code>MovingFramePattern</code> instead advances the placement driver on every beat while
+the local rectangle body continues. The first four sampled bindings are:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Local phase</th>
+<th>Exposed placement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>B</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>A</td>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>B</td>
+<td>3</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<p>The local A/B pattern persists, but these participations do not share one world
+placement. The resulting path is a composition with moving-frame contributions;
+its closure or exact shape remains unresolved. No numeric positions are needed
+to expose that difference.</p>
+<p>Both placement examples retain a small bounded construction chart. This is
+demonstration history, not a mandatory permanent log. Filling that chart refuses
+further construction before advancing the participating components.</p>
+<h2 id="a-circle-and-polygons-without-assigned-values">A circle and polygons without assigned values</h2>
+<p><code>ContourPattern</code> selects a homogeneous Euclidean planar radial-path law. Every
+point along an admitted arc maintains the same reach from the centre. Its
+ordered parts cover one whole traversal; the actual traversal end is connected
+back to the actual reference site. These are the geometric premises. A finite
+collection of equal-radius endpoints alone would not supply them.</p>
+<p>The fixed local layout starts with centre 0, reference site 1, unwrapped end 2,
+radius read 3, and whole-traversal participation 4. Other local sites and part
+parameters follow. The base rows are:</p>
+<pre><code class="language-text">radial attachment: [0,1,3]
+whole traversal:  [1,2,4]
+return binding:   [2,1]
+</code></pre>
+<p>The whole and radius have supplied zero/nonzero observations. Nonzero does not
+mean a radius of one. The separate unwrapped end keeps a full traversal distinct
+from doing nothing, even though the return binding closes at the start.</p>
+<p>A circle can use one arc <code>[1,2,32]</code>, with no polygon at all. For a pentagon the
+five consecutive parts are:</p>
+<table>
+<thead>
+<tr>
+<th>Arc start</th>
+<th>Arc end</th>
+<th>Shared part reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>32</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6</td>
+<td>32</td>
+</tr>
+<tr>
+<td>6</td>
+<td>7</td>
+<td>32</td>
+</tr>
+<tr>
+<td>7</td>
+<td>8</td>
+<td>32</td>
+</tr>
+<tr>
+<td>8</td>
+<td>2</td>
+<td>32</td>
+</tr>
+</tbody>
+</table>
+<p>Reusing part 32 constrains equal intrinsic shares of this same whole. Five parts
+therefore establish fifths without assigning degrees or using pi. With six-bit
+references these rows pack as <code>41 01 16 06 68 1C E0 81 80 88 00 02</code>.
+The return binding is <code>42 00</code>.</p>
+<p>A separate straight-chord table joins <code>[1,5] [5,6] [6,7] [7,8] [8,1]</code>, packed
+as <code>41 51 18 C6 71 20 48 00</code>. Notice the last chord uses reference site 1 through
+the established return correspondence. It does not treat the distinct unwrapped
+end 2 as the same site merely because a drawing could put them together.</p>
+<p>The same construction with three, four, six or seven equal parts gives the
+corresponding regular polygon constraints. Four alternating part references
+<code>32,33,32,33</code> give a rectangle: each opposite pair of vertices is separated by
+the same half of the whole. Four unrelated part references do not establish
+that correspondence. Skipping markers to make a star is another construction;
+the successive-chord reader deliberately refuses to label it the same polygon.</p>
+<p>Radius zero leaves a degenerate construction; uncertain radius preserves both
+possibilities. Missing observations, an open return, a wrong reference site,
+and a disconnected arc chain remain distinct failures of the complete read.
+The arcs and reference roles remain present in these cases.</p>
+<p>This follows the current Gojo <a href="Gojo--docs--GojoCircleConstructionFixture.html">circle construction contract</a>
+at a smaller encoding level. It does not import its numeric carriers, discover
+a physical isotropic field, or supply coordinates to a renderer.</p>
+<h2 id="branches-and-rejoining">Branches and rejoining</h2>
+<p>The tested fork uses state sites 0=start, 1=left, 2=right, 3=join, and guard 4.
+Its present row <code>[0,4,1]</code> and absent row <code>[0,4,2]</code> select complementary paths.
+Unconditional rows <code>[1,4,3]</code> and <code>[2,4,3]</code> rejoin them. The activation reaches
+one branch and later one join; it never appears in both branches.</p>
+<p>If guard 4 admits absent and present, the predicted destinations are <code>{1,2}</code>.
+Execution holds at 0. If two unconditional rows instead offer both destinations,
+that is a conflict, not uncertainty about which known rule applies.</p>
+<p>A completion barrier is different. A third waiting activation observes the AND
+of two public completion surfaces. It proceeds only when both are present.
+The AND is a calculated bitmap relation. Reading completion does not consume
+either source. These tests do not claim to split one conserved material amount
+into two workers, sum their amounts, or infer that geometric paths touch.</p>
+<h2 id="what-a-spiral-still-needs">What a spiral still needs</h2>
+<p>The existing loop can now stop on a contact or proximity read. An unknown read
+holds at the check; an explicit false observation permits another body pass;
+an explicit true observation selects completion. Conditions are checked at body
+boundaries. Reacting in the middle of a reach would need a finer boundary or an
+interrupting connection.</p>
+<p>A shrinking spiral needs more than that controller. Its successive reaches
+must be related by an actual decrease, and the contact question must name the
+earlier path and the comparison basis. V=1 before and after cannot distinguish
+shrinking, growing, or staying unchanged. A shrinking process also need not
+ever reach a contact threshold; termination needs evidence of its own.</p>
+<p>The next decision is what evidence should supply those relations: a refinement
+ladder, relative order constraints, a participating sensor, or a finer measure.
+This experiment leaves that geometric input open. The contact-controlled demo
+is a controller test, not a falsely completed spiral simulation.</p>
+<p>One candidate next primitive is a part/whole connection: the previous positive
+reach consists of a retained positive part and a removed positive part, in the
+same additive basis. The retained part is then strictly smaller without either
+length being numbered. That would require a real partition/accounting law and
+a feedback binding to the retained part; the current whole-handoff passage
+cannot supply it. It would establish decrease, not automatically prove spiral
+geometry, self-contact, or termination.</p>
+<h2 id="encoding-and-execution-boundaries">Encoding and execution boundaries</h2>
+<p>The new pieces are clocked passage composition, explicit phase references,
+shared parameter attachments, public request/completion bindings, and a narrow
+radial traversal/partition contract. No global identifiers or shape opcode were
+added. All references are local to their declared owner and role.</p>
+<p>Six-bit references are a convenient fixture width, not a geometric resolution.
+The small placement charts use eight-bit references. Existing owner-local value
+maps, table sizes and cross-structure port bindings provide their context;
+the displayed byte streams are not a self-describing persistence format.
+Public read bindings are retained as local port connections in the fixture,
+not encoded into an invented global owner-address number.</p>
+<p>Prediction explores at most eight distinct outgoing guards at an active site.
+Only a resolved, nonconflicting pulse commits. A law with no unique per-case
+transition is refused by this execution foothold. Arbitrary concurrent pulses,
+general scheduling, numeric distance detection, material splitting, automatic
+route growth, and cross-owner atomic settlement remain outside this pass.</p>
+<p>The design borrows reusable bodies and output-to-input feedback from
+<a href="assets/Gojo--Structures--RepeatSurface.cs">RepeatSurface</a>, and phase/control ideas
+from the current pattern experiments. The repository's
+<a href="Gojo--docs--GojoCore2Core4ContinuityReview-2026-09.html">Core2 and Core4 continuity review</a>
+records the older pattern-editor lineage; those numeric engines were not imported.</p>
+<h2 id="verification">Verification</h2>
+<p>The <code>--repetition</code> demonstration completes successfully. All 250 primitive tests
+pass, including 45 new cases. Final full-solution verification with
+<code>dotnet test Gojo.slnx</code> passes: 5,806 tests across 14 projects, no failures or
+skipped tests. Tests cover actual clocked feedback, resolved and uncertain
+guards, ignored-control independence, observation refresh on holds, public
+request/completion handshakes, waits and frame bindings, retained reference
+correspondence, and refusal of unsupported geometric reads.</p></main></html>

@@ -1,0 +1,471 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Primitive connections: exact encoding chart</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="primitive-connections-exact-encoding-chart">Primitive connections: exact encoding chart</h1>
+<p>Round 3, 30 October 2026. These layouts are <strong>implemented experiments</strong>, not a
+general port format or a replacement for Gojo's kernel. The chosen layouts and
+their local transition laws are exploratory. They make every attachment in these
+small examples explicit without identifiers, receipts, or a connection registry.</p>
+<p><strong>The next storage experiment is <a href="StablePortExperiment.html">positional arrays and stable ports</a>.</strong>
+It removes the shared O/D header bits by deriving constants from array position.
+The physical header-bit attachments below belong to these earlier examples;
+they are not the current target for positional storage. Both experiments remain
+executable so their different mechanisms can be inspected directly.</p>
+<p>An ODV word still means orientation, direction, and zero/nonzero. Conventional
+word displays put O on the left: <code>011</code> is positive-right, negative, nonzero.
+Storage charts below run from <strong>bit 0 upward</strong>. Hexadecimal bytes use ordinary
+notation; consecutive bytes are listed in storage order. Padding is not a site.</p>
+<h2 id="1-where-the-constants-live">1. Where the constants live</h2>
+<p><code>ContextTable</code> stores the shared high bits once. Its enclosing layout supplies
+the entry width and count; neither is repeated inside an entry.</p>
+<table>
+<thead>
+<tr>
+<th>Instance width</th>
+<th>Low-to-high physical layout</th>
+<th>Meaningful bits for n entries</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>O D V0 V1 ...</code></td>
+<td><code>2 + n</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>O V0 D0 V1 D1 ...</code></td>
+<td><code>1 + 2n</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>V0 D0 O0 V1 D1 O1 ...</code></td>
+<td><code>3n</code></td>
+</tr>
+</tbody>
+</table>
+<p>For a width-one table, all entries' O reads address physical bit 0 and all D
+reads address bit 1. Their V reads address different sites: 2, 3, and so on.
+Sharing the sign is therefore sharing an actual stored bit. Sharing the same
+sign <strong>value</strong> in two different tables does not share that bit.</p>
+<p>Concrete two-entry examples:</p>
+<table>
+<thead>
+<tr>
+<th>Effective words</th>
+<th>Fixed OD table: 4 bits</th>
+<th>Release D into instances: 5 bits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>001, 000</code></td>
+<td>low-to-high <code>0 0 1 0</code>; byte <code>04</code></td>
+<td><code>0 1 0 0 0</code>; byte <code>02</code></td>
+</tr>
+<tr>
+<td><code>011, 010</code></td>
+<td>low-to-high <code>0 1 1 0</code>; byte <code>06</code></td>
+<td><code>0 1 1 0 1</code>; byte <code>16</code></td>
+</tr>
+</tbody>
+</table>
+<p>Every effective word survives release, including the direction-marked zero.
+The upper four or three bits of each host byte are padding, respectively.
+An instance update cannot change an inherited O or D: <code>TryWrite</code> refuses the
+change and preserves the buffer. <code>Release</code> makes a replacement representation;
+it does not move material, consume the old buffer, or narrow a signed instance
+merely because its present value is positive.</p>
+<p>Same-sign fixed inputs can keep that fixed context for a joint read. Opposing
+fixed inputs cannot both fit one fixed-D table: construction refuses it.
+Selecting the O-only table explicitly gives their joint read its own D bit.
+That freedom remains even if the current observed net happens to be positive
+or zero. The retained participants below still occupy their original fixed-sign
+tables; selecting a net read does not consume them or determine its sign.</p>
+<p>Repacking changes physical positions. An attachment to the old bit 2 does not
+automatically follow an entry whose V moves to bit 1. The caller must explicitly
+replace the representation and rebind its attachments. Releasing O likewise
+does not establish a correspondence between previously different orientations.</p>
+<h2 id="2-the-retained-participation-tile">2. The retained-participation tile</h2>
+<p>For the flow experiment, two width-one, two-entry tables occupy one byte. The
+positive table uses the low nibble and the negative table the high nibble.
+The fixed tile layout groups their <strong>columns</strong>: A contains A+ and A−, while B
+contains B+ and B−. This grouping is part of the declared layout, not a rule
+that arbitrary adjacent bits or equal values are automatically connected.</p>
+<table>
+<thead>
+<tr>
+<th>Bit position</th>
+<th>Stored role</th>
+<th>Shared by / attached participant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Positive table O = 0</td>
+<td>A+ and B+ orientation</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Positive table D = 0</td>
+<td>A+ and B+ fixed positive sign</td>
+</tr>
+<tr>
+<td>2</td>
+<td>A+ V</td>
+<td>A's retained positive participation</td>
+</tr>
+<tr>
+<td>3</td>
+<td>B+ V</td>
+<td>B's retained positive participation</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Negative table O = 0</td>
+<td>A− and B− orientation</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Negative table D = 1</td>
+<td>A− and B− fixed negative sign</td>
+</tr>
+<tr>
+<td>6</td>
+<td>A− V</td>
+<td>A's retained negative participation</td>
+</tr>
+<tr>
+<td>7</td>
+<td>B− V</td>
+<td>B's retained negative participation</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-text">                    column A                  column B
+positive O,D     -&gt;  V at bit 2                V at bit 3
+negative O,D     -&gt;  V at bit 6                V at bit 7
+                    A+ together with A−       B+ together with B−
+                    one net read              one net read
+</code></pre>
+<p>There is no net-result field in this byte. A net read is derived from the
+participants. Two occupied sides predict negative, zero, or positive; equal
+presence bits do not establish equal amounts or exact balance.</p>
+<p>The separate <code>RetainedFlowFixture</code> demonstration world holds four nonnegative
+amounts in order <code>[A+, B+, A−, B−]</code>. Their exposed sites are <code>[2, 3, 6, 7]</code>.
+<code>Observe</code> derives the byte from that world; there is no independently maintained
+copy of V to synchronize. Fine amounts are demonstration apparatus, not hidden
+fields in the primitive word. Writing an arbitrary observation bit does not
+create or destroy those amounts.</p>
+<table>
+<thead>
+<tr>
+<th>Demonstration world</th>
+<th>Observed byte</th>
+<th>Actual net A</th>
+<th>Actual net B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[0, 0, 0, 0]</code></td>
+<td><code>20</code></td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>[5, 0, 5, 0]</code></td>
+<td><code>64</code></td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>[5, 0, 2, 0]</code></td>
+<td><code>64</code></td>
+<td>+3</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>The first two rows expose different retained participation despite equal net
+reads. The last two expose the same occupancy byte despite different net reads.
+Observation does not consume either participant.</p>
+<h2 id="3-a-connection-names-two-existing-sites">3. A connection names two existing sites</h2>
+<p><code>LocalConnection.Link</code> stores <strong>source position followed by target position</strong>:</p>
+<pre><code class="language-text">physical bits:     0 1 2 | 3 4 5
+                  source | target
+printed binary:   target source
+</code></pre>
+<p>The positions are three-bit offsets within this eight-bit tile. They are not
+object IDs, calibrated magnitudes, or durable addresses outside this layout.</p>
+<table>
+<thead>
+<tr>
+<th>Material connection</th>
+<th>Source</th>
+<th>Target</th>
+<th>Six-bit encoding</th>
+<th>Host byte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A+ → B+</td>
+<td>2 (<code>010</code>)</td>
+<td>3 (<code>011</code>)</td>
+<td><code>011010</code></td>
+<td><code>1A</code></td>
+</tr>
+<tr>
+<td>A− → B−</td>
+<td>6 (<code>110</code>)</td>
+<td>7 (<code>111</code>)</td>
+<td><code>111110</code></td>
+<td><code>3E</code></td>
+</tr>
+<tr>
+<td>B+ → A+</td>
+<td>3 (<code>011</code>)</td>
+<td>2 (<code>010</code>)</td>
+<td><code>010011</code></td>
+<td><code>13</code></td>
+</tr>
+</tbody>
+</table>
+<p>The material reader permits endpoints only at V sites 2, 3, 6, and 7, and only
+between matching fixed signs. An O or D header is not a material destination.
+The V site exposes its participant; the presence bit is not a unit packet.
+The six bits specify where; the selected material reader specifies the local
+transfer law. A bare link does not itself schedule a transfer or choose between
+observation and material use. There is no cached open flag or amount in a link.</p>
+<p>For a whole same-sign transfer between distinct sites, the resulting occupancy
+is particularly simple: <code>target.V = old target.V OR old source.V</code>, followed by
+<code>source.V = 0</code>. All O/D header bits stay fixed. This describes the coarse state
+change; it does not turn presence into the quantity one. A self-link is handled
+as the same site, so it neither clears nor doubles its state.</p>
+<p>An explicitly grouped pair stores the positive link first, then the negative
+link: <code>Pair(1A, 3E) = 0F9A</code>. Its twelve meaningful bits occupy bytes <code>9A 0F</code>;
+the upper four bits are padding. Its selected material law validates both links
+as matching sides between the same distinct columns before changing anything.
+The pair grouping is essential: two unrelated links do not imply simultaneous
+paired transfer.</p>
+<table>
+<thead>
+<tr>
+<th>Arrangement</th>
+<th>Independent amounts</th>
+<th>What establishes the connection?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Two reads of one material site</td>
+<td>One</td>
+<td>Both address the same storage site</td>
+</tr>
+<tr>
+<td>Equal values at different sites</td>
+<td>Two</td>
+<td>Nothing; equality does not connect them</td>
+</tr>
+<tr>
+<td>A site linked to a different site</td>
+<td>Two before transfer</td>
+<td>Ordered endpoint positions</td>
+</tr>
+<tr>
+<td>Two sites and a buffer between them</td>
+<td>Three</td>
+<td>Two links plus an actual buffer store</td>
+</tr>
+</tbody>
+</table>
+<p>A link is a third <strong>structural item</strong>, but not a third amount-bearing object.
+A self-link moves nothing; it does not duplicate a source. A shared site is
+already one state and needs no transfer to keep its reads together. Neither
+proximity nor coincident coordinates silently welds two independently stored
+values. This experiment encodes sites and relations, not geometric coordinates.</p>
+<h2 id="4-what-the-two-passages-actually-do">4. What the two passages actually do</h2>
+<p>Start with <code>[5, 0, 5, 0]</code>, observed as <code>64</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Executed passage</th>
+<th>Amount moved</th>
+<th>Remaining world</th>
+<th>Byte</th>
+<th>Net A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A+ → B+ (<code>1A</code>)</td>
+<td>5 positive</td>
+<td><code>[0, 5, 5, 0]</code></td>
+<td><code>68</code></td>
+<td>−5</td>
+</tr>
+<tr>
+<td>Grouped pair (<code>0F9A</code>)</td>
+<td>5 in each side</td>
+<td><code>[0, 5, 0, 5]</code></td>
+<td><code>A8</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td>Grouped pair from empty <code>20</code></td>
+<td>0</td>
+<td><code>[0, 0, 0, 0]</code></td>
+<td><code>20</code></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>The paired law transfers the smaller available source amount along <strong>both</strong>
+links. It preserves each column's net read while moving retained opposition.
+For <code>[5, 0, 2, 0]</code>, it moves 2 in each side, leaving <code>[3, 2, 0, 2]</code>: net A
+remains +3. The returned amount is per side, not a newly created positive total.
+A second execution cannot transfer participation that has already left.</p>
+<p>This is a selected pairing law in the finer apparatus. The primitive occupancy
+bits cannot calculate the hidden minimum. There is no orthogonal bit: the fact
+that this operation preserves a net read follows from its connected paired
+action. A single-side connection does not provide the same guarantee.</p>
+<p>An excessive withdrawal stops at available participation, keeps the fixed sign,
+and reports the unmet draw as requested minus moved. It does not manufacture
+flow or automatically promote the receiver into a signed structure. Overflow
+and invalid grouped connections are refused before partial consumption.</p>
+<h2 id="5-attaching-a-condition-to-a-particular-bit">5. Attaching a condition to a particular bit</h2>
+<p>A conditional passage stores ten meaningful bits:</p>
+<table>
+<thead>
+<tr>
+<th>Physical bits</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–5</td>
+<td>Material link, source then target</td>
+</tr>
+<tr>
+<td>6–8</td>
+<td>Control-site position</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Matching face: open on observed 0 or observed 1</td>
+</tr>
+</tbody>
+</table>
+<p>For B+ → A+ (<code>13</code>), controlled by A+ V at bit 2:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Encoded value</th>
+<th>Stored bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A+ is empty: match bit 2 = 0</td>
+<td><code>093</code></td>
+<td><code>93 00</code></td>
+</tr>
+<tr>
+<td>A+ is occupied: match bit 2 = 1</td>
+<td><code>293</code></td>
+<td><code>93 02</code></td>
+</tr>
+</tbody>
+</table>
+<p>The upper six bits of the two-byte container are padding. The control attachment
+is a read of site 2. The material attachment still runs from site 3 to site 2.
+These roles are knowable from their positions in the conditional layout.</p>
+<p>With world <code>[0, 4, 0, 0]</code>, byte <code>28</code>, condition <code>093</code> opens. The 4 units in B+
+move to A+, yielding <code>[4, 0, 0, 0]</code>, byte <code>24</code>. A+ V is now 1, so the same
+condition is closed on the next read. Condition <code>293</code> would initially block.
+No open/closed result is stored separately, and the controlling zero supplies
+no material: the material came from B+. The control is sampled once before
+each transfer. This is a local step, not an asynchronous circuit model.</p>
+<h2 id="6-retained-direction-with-independently-selected-resolution">6. Retained direction with independently selected resolution</h2>
+<p>The memory experiment has a fixed six-bit block <code>[input I | state M]</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Physical bits</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Role</td>
+<td>I.V</td>
+<td>I.D</td>
+<td>I.O</td>
+<td>M.V</td>
+<td>M.D</td>
+<td>M.O</td>
+</tr>
+</tbody>
+</table>
+<p>Its declared transition is <code>I.V → M.V</code>; when I.V is 1, <code>I.D → M.D</code>; otherwise
+M.D retains its prior value through feedback. O must match. <code>UpdateFrame</code>
+executes this layout in one host byte with two padding bits; it preserves I.
+These paths are fixed by this selected layout and transition law, not stored
+as general connection records in the six state bits.</p>
+<p>Starting with M=<code>000</code>, the following are state words <strong>after</strong> each observation:</p>
+<table>
+<thead>
+<tr>
+<th>Fine input</th>
+<th>+3</th>
+<th>+1</th>
+<th>0</th>
+<th>−1</th>
+<th>−3</th>
+<th>0</th>
+<th>+1</th>
+<th>+3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Threshold 0</td>
+<td><code>001</code></td>
+<td><code>001</code></td>
+<td><code>000</code></td>
+<td><code>011</code></td>
+<td><code>011</code></td>
+<td><code>010</code></td>
+<td><code>001</code></td>
+<td><code>001</code></td>
+</tr>
+<tr>
+<td>Threshold 2</td>
+<td><code>001</code></td>
+<td><code>000</code></td>
+<td><code>000</code></td>
+<td><code>000</code></td>
+<td><code>011</code></td>
+<td><code>010</code></td>
+<td><code>010</code></td>
+<td><code>001</code></td>
+</tr>
+</tbody>
+</table>
+<p>This demonstration reader resolves an input only when its magnitude strictly
+exceeds the chosen threshold. Inside that region it exposes neither fine sign
+nor magnitude. The memory supplies retained direction; resolution alone does
+not. Here V=0 means no magnitude resolved by that reader, which is an explicitly
+different read contract from the original exact-zero ODV word. At threshold 0
+they agree. True zero produces V=0 at every demonstrated threshold.</p>
+<p>The memory state is a controller/read state, not a second amount of material.
+There is no automatic material effect of changing M.D. Connecting it to a later
+passage would require a declared control attachment, just as in the preceding
+example. General wiring, automatic discovery of formats, rebinding after table
+relocation, and arbitrary geometric ports remain later experiments.</p></main></html>

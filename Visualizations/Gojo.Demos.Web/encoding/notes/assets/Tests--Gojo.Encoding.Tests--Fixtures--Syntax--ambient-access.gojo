@@ -1,0 +1,56 @@
+gojo 1;
+
+// The ambient basis records the lanes known by this numeric family at this
+// resolution. A tool receives only its outward value and action ports.
+let $axis = carrier();
+let $ambient = basis($axis, PN, FI);
+let $pf = lane(PF);
+let $pi = lane(PI);
+let $inverse_recipe = $pf -> $pi;
+
+// PI remains part of the ambient basis, but this tool exposes PF and no action
+// capable of reaching PI. An attempted use remains visible as blocked residue.
+let $unoffered_attempt = act(
+    $pf,
+    $inverse_recipe,
+    ?unreached_inverse,
+    $pi,
+    ?capability_not_exposed
+);
+let $restricted_access = access(
+    $ambient,
+    ports($pf),
+    ports(),
+    ports($unoffered_attempt),
+    $pi,
+    ?restricted_tool_provenance
+);
+
+// A wider tool exposes an inverse capability. The action references the
+// already-possible PI lane; it does not create a new lane universe.
+let $inverse_capability = lane_action(
+    $pf,
+    $pi,
+    $inverse_recipe,
+    ?inverse_capability_basis
+);
+let $enabled_access = access(
+    $ambient,
+    ports($pf),
+    ports($inverse_capability),
+    ports(),
+    ?enabled_access_residue,
+    ?enabled_tool_provenance
+);
+let $enabled_action = act(
+    $pf,
+    $inverse_capability,
+    $pi,
+    ?enabled_action_residue,
+    ?enabled_action_provenance
+);
+
+root $ambient;
+root $restricted_access;
+root $enabled_access;
+root $enabled_action;

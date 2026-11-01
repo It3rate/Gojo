@@ -1,0 +1,11 @@
+gojo 1;
+let $coarse = carrier();
+let $fine = carrier(subdivision(unit_of($coarse), 10));
+let $to_fine = span($coarse, 0, 1) -> span($fine, 0, 10);
+let $to_coarse = span($fine, 0, 10) -> span($coarse, 0, 1);
+root group($coarse, $fine);
+root group($to_fine, at($coarse, 2));
+root group($to_coarse, at($fine, 17));
+root $to_fine;
+root group($to_fine, ?amount);
+root bind(?amount, at($coarse, 1));

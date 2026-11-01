@@ -1,0 +1,301 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Complex interpretations and fractional powers</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="complex-interpretations-and-fractional-powers">Complex interpretations and fractional powers</h1>
+<p>September 11, 2026. This work follows the user's clarification that complex
+arithmetic remains fundamental, while its construction is a selected Gojo
+interpretation rather than the mandatory meaning of every primitive pair.</p>
+<h2 id="construction-contract">Construction contract</h2>
+<p>Two coefficient roles and an explicit signed action establish the algebra:</p>
+<pre><code class="language-text">coordinates = group_on(holder, S(real,0,1), S(imaginary,0,1))
+one         = group_on(holder, L(real,1),  L(imaginary,0))
+generator   = group_on(holder, L(real,0),  L(imaginary,1))
+minus_one   = group_on(holder, L(real,-1), L(imaginary,0))
+minus_gen   = group_on(holder, L(real,0),  L(imaginary,-1))
+action      = group(one -&gt; generator, generator -&gt; minus_one,
+                    minus_one -&gt; minus_gen, minus_gen -&gt; one)
+basis       = group(coordinates, action, construction_evidence)
+value       = group_on(holder, real_coefficient, imaginary_coefficient)
+</code></pre>
+<p>The edges share their actual intermediate nodes. A pair of visually opposed
+directions alone does not establish this action. Within the selected unital,
+bilinear coefficient read, multiplication follows <code>J(1)=i</code>, <code>J(i)=-1</code> and
+linear extension: <code>(a+bi)z = az + bJ(z)</code>. Four product contributions remain
+inspectable. This is ordinary complex arithmetic, with a connected explanation
+for the generator. The two coordinate spans calibrate scalar coefficients;
+this read is not a physical dimensional product or an implicit unit conversion.</p>
+<p>In the <strong>opposed-face construction</strong>, <code>imaginary = Dual(real)</code>. Positive
+participation on both faces remains present as two components. Drawing those
+faces left and right does not make the second component negative. Scalar
+negation changes both signed coefficients, conjugation changes only the
+generator coefficient, and applying the generator advances the signed cycle.
+The primitive face dual remains an involution; it is not multiplication by i.</p>
+<p>In the <strong>contour construction</strong>, the already constructed circle, metric and
+ordered radial quarter landmarks justify the same cycle. Opposite and
+perpendicular rays are checked; an arbitrary four-marker loop is insufficient.
+The first ray is the unit reference and the next is the selected generator.
+The radius supplies a scale, not an intrinsic angle constant. Correspondence
+maps each radial landmark to its coefficient state. Reversing the selected
+orientation can choose the conjugate interpretation without changing the laws.</p>
+<p>Both structures can therefore express the same algebra while retaining
+different provenance. A cross-basis read requires explicit correspondences
+for the two unit states. Equal numbers or similar drawings do not create that
+correspondence automatically.</p>
+<h2 id="fractional-powers">Fractional powers</h2>
+<p>For a reduced rational exponent p/q with q positive, retain the constraint
+<code>w^q = z^p</code>. Reduction is essential: <code>2/2</code> requests z, not both square roots of
+z squared. Negative p requires a nonzero z. Repetition and inversion remain
+separate from choice among roots. This algebraic candidate-set contract does
+not silently choose the principal analytic power or a logarithm branch.</p>
+<p>A root candidate must reproduce the target under the selected product law.
+When exact rational components are unavailable, keep an open coefficient pair
+connected to its repeated-power constraint. This is an incomplete numeric read,
+not evidence that the root is nonexistent. Alternative roots are not an
+uncertainty interval or a probability distribution. A reference can select the
+nearest exact candidate in the coefficient metric; a tie remains a tie. That
+local choice is not yet continuous branch tracking around a loop.</p>
+<p>Ordinary complex identities and the distinction between general and principal
+powers are checked against <a href="https://dlmf.nist.gov/1.9">NIST DLMF 1.9</a> and
+<a href="https://dlmf.nist.gov/4.2#iv">NIST DLMF 4.2(iv)</a>. Their analytic definitions
+provide conformance references, not a requirement to store radians or floats.</p>
+<p>The existing fused carrier-face product and fold remain separate selected
+reads. Their law must not be silently changed into complex multiplication.
+Split-complex (<code>j*j=+1</code>) also requires a different action and is not an alias
+for this algebra.</p>
+<h2 id="what-the-two-views-share-and-what-they-do-not">What the two views share, and what they do not</h2>
+<p>For <code>3 + 2i</code>, the opposed construction carries positive 3 on the forward face
+and positive 2 on the opposed face. Both are present. The contour construction
+reads those coefficients along its first ray and next radial quarter. The
+generator acts as follows in either view:</p>
+<table>
+<thead>
+<tr>
+<th>Repeated generator application</th>
+<th>Coefficients</th>
+<th>Opposed-face read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Original</td>
+<td><code>(3,2)</code></td>
+<td><code>+3F</code>, <code>+2I</code></td>
+</tr>
+<tr>
+<td>Once</td>
+<td><code>(-2,3)</code></td>
+<td><code>-2F</code>, <code>+3I</code></td>
+</tr>
+<tr>
+<td>Twice</td>
+<td><code>(-3,-2)</code></td>
+<td><code>-3F</code>, <code>-2I</code></td>
+</tr>
+<tr>
+<td>Three times</td>
+<td><code>(2,-3)</code></td>
+<td><code>+2F</code>, <code>-3I</code></td>
+</tr>
+<tr>
+<td>Four times</td>
+<td><code>(3,2)</code></td>
+<td><code>+3F</code>, <code>+2I</code></td>
+</tr>
+</tbody>
+</table>
+<p>The general flow codex calls this a phase step; it need not describe a physical
+rotation. The circular construction additionally justifies the geometric read.
+Nothing here assigns universal screen-left or screen-up meanings to the roles.</p>
+<p>The two-coefficient representation does not embed all complex arithmetic into
+one ordinary real coordinate. For example, the existing scalar fold sends
+<code>3F + 2I</code> to <code>1F</code>. It cannot reconstruct the pair. Under that fold <code>i</code> becomes
+<code>-1</code>, but folding <code>i*i</code> gives <code>-1</code>, whereas multiplying the folded values gives
+<code>+1</code>. This is a useful explicit example of a read which does not preserve the
+product. Here the scalar accounting read is forward minus opposed; the fold
+itself retains the resulting carrier face. Retaining the pair allows both
+readings without contradicting either
+selected law.</p>
+<p>Core2's <code>AlgebraTable.ApplyOpposition</code> already distinguished the four-step
+operation from its <code>Mirror</code> operation. Its default product agrees with the
+new coefficient read: recessive/recessive contributes negative dominant;
+the two mixed products contribute recessive. Current
+<code>FusedCarrierFaceReads</code> instead exposes a different four-term participation
+law and a scalar fold. Both remain available; neither is silently renamed.</p>
+<h2 id="implemented-readers">Implemented readers</h2>
+<p>The implementation is in <a href="assets/Gojo--Structures--ComplexFrame.cs">ComplexFrame</a>,
+<a href="assets/Gojo--Structures--ComplexFrame.Contour.cs">contour construction</a> and
+<a href="assets/Gojo--Structures--ComplexFrame.Powers.cs">powers</a>. These are local readers over
+ordinary relation surfaces. Their temporary rational arithmetic uses the
+existing <code>ExactScalar</code>; durable fractions use grounded numerator/subdivision
+structure. No new primitive element or host complex-number wrapper is added.</p>
+<table>
+<thead>
+<tr>
+<th>Reader</th>
+<th>Request structure</th>
+<th>Result and evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Opposed</code></td>
+<td>One concrete forward carrier</td>
+<td>Two unit spans, four shared signed states, the full directed cycle and face correspondence. A convenience builder; the fixture writes the same structure explicitly.</td>
+</tr>
+<tr>
+<td><code>TryFromContour</code></td>
+<td><code>group(contour surface, coefficient coordinates)</code></td>
+<td>A complex basis with radial-to-coefficient correspondence, native contour and verified turn evidence.</td>
+</tr>
+<tr>
+<td><code>TryAdd</code>, <code>TrySubtract</code></td>
+<td><code>group(basis,left,right)</code></td>
+<td>Exact or partial coefficient pair; signed coordinate calibrations distinguish addition from subtraction.</td>
+</tr>
+<tr>
+<td><code>TryMultiply</code></td>
+<td><code>group(basis,left,right)</code></td>
+<td>Exact or partial pair and four source-product contributions; no scalar face fold.</td>
+</tr>
+<tr>
+<td><code>TryApplyGenerator</code>, <code>TryConjugate</code></td>
+<td><code>group(basis,value)</code></td>
+<td>Calculated pair and the selected action or unit-state correspondences.</td>
+</tr>
+<tr>
+<td><code>TryDivide</code></td>
+<td><code>group(basis,numerator,denominator)</code></td>
+<td>Conjugate, squared coefficient norm, numerator product and exact quotient; open or zero divisor remains unresolved.</td>
+</tr>
+<tr>
+<td><code>TryReexpress</code></td>
+<td><code>group(source basis,target basis,two unit correspondences,value)</code></td>
+<td>Same coefficients on the explicitly corresponding target roles. Lookalike unit nodes do not substitute for actual connections.</td>
+</tr>
+<tr>
+<td><code>TryPower</code></td>
+<td><code>group(basis,value,signed count span)</code></td>
+<td>Integer power with actual product compositions and inversion evidence. Binary composition is a derived evaluation strategy.</td>
+</tr>
+<tr>
+<td><code>TryFractionalPower</code></td>
+<td><code>group(basis,value,p span,q span)</code></td>
+<td><code>group(power constraint,candidate witnesses)</code>, with reduced exponent, target-power trace, branch correspondence and reproduction checks.</td>
+</tr>
+<tr>
+<td><code>TrySelectNearest</code></td>
+<td><code>group(fractional-power request,reference)</code></td>
+<td>Root witness, exact squared coefficient distances, and nearest candidate group. A tie remains plural and unresolved as a unique selection.</td>
+</tr>
+</tbody>
+</table>
+<p>Count spans begin at zero. Numerator and denominator counts use the same
+concrete count carrier; q must be positive. Known zero to a positive power
+is zero. This selected domain leaves <code>0^0</code> and negative powers of zero
+unresolved. Signed integer powers are not limited to positive exponents.</p>
+<p>All these reads are observations. They introduce no carrier value or tension.
+Numeric sites are captured before arithmetic, so a later retargeting produces
+a new result while the earlier witness remains readable. Within a transported
+world the graph preserves aliases; independently restored worlds still require
+explicit identity correspondence.</p>
+<p>The first numeric implementation computes over rational complex coefficients,
+not every possible member of the complex continuum. Exact intermediates use
+wide integer arithmetic; each stored coordinate or fraction must fit the
+current signed-integer transport. Overflow retains an unresolved request,
+without wraparound, saturation or a floating-point fallback.</p>
+<h2 id="fractional-power-examples-and-boundaries">Fractional-power examples and boundaries</h2>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Current result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solutions of <code>w^2 = -1</code></td>
+<td>Two exact candidates, <code>i</code> and <code>-i</code>; neither is automatically the chosen branch.</td>
+</tr>
+<tr>
+<td>Solutions of <code>w^2 = 3+4i</code></td>
+<td><code>2+i</code> and <code>-2-i</code>, each with a multiplication check.</td>
+</tr>
+<tr>
+<td>Solutions of <code>w^2 = 4/9</code></td>
+<td><code>2/3</code> and <code>-2/3</code>, with exact subdivisions.</td>
+</tr>
+<tr>
+<td><code>9^(3/2)</code> under the candidate-set contract</td>
+<td><code>27</code> and <code>-27</code>, satisfying <code>w^2=729</code>. This differs from a request for the positive principal real power.</td>
+</tr>
+<tr>
+<td><code>(3+4i)^(2/2)</code></td>
+<td>Only <code>3+4i</code>; reducing the exponent prevents inventing a second branch.</td>
+</tr>
+<tr>
+<td>Solutions of <code>w^2 = 2</code></td>
+<td>Open real coefficient and known zero imaginary coefficient, attached to the square equation. No tolerance or decimal root is invented.</td>
+</tr>
+<tr>
+<td>Solutions of <code>w^2 = i</code></td>
+<td>Correlated open real/imaginary coefficients in one candidate whose square must reproduce <code>i</code>.</td>
+</tr>
+<tr>
+<td>Solutions of <code>w^3 = 8</code></td>
+<td>Retained cubic equation. Returning only <code>2</code> would falsely omit the other complex roots.</td>
+</tr>
+<tr>
+<td>Roots of zero with any positive integer degree</td>
+<td>The unique zero candidate.</td>
+</tr>
+</tbody>
+</table>
+<p>Exact integer results and square-root families with rational components are
+implemented. Other nonzero root degrees currently retain their constraints;
+they do not claim an enumerated candidate set. A missing rational answer is
+different from a forbidden divisor and from a tie between exact candidates.
+Known input, exponent, target and the unresolved candidate remain available
+in the result/remainder so another reader can refine them.</p>
+<p>There is no principal branch flag on a number. The fixture separately requests
+the candidate nearest <code>-i</code> among the roots of <code>-1</code>; that selects <code>-i</code>. With a
+reference at zero both candidates have the same distance, so neither wins.
+An open reference retains the already calculated candidates and leaves their
+distance reads open; it does not discard the root family.
+This read uses the coefficient norm of the selected complex algebra. It does
+not infer a physical distance metric for an arbitrary rendering of the faces.</p>
+<h2 id="syntax-and-validation">Syntax and validation</h2>
+<p>The <a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--complex-interpretations.gojo">authored fixture</a>
+writes the entire opposed basis, not a literal whose meaning is hidden inside
+the parser. Its circle request accepts the result of the existing
+<a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--constructed-circle-rotation.gojo">constructed circle fixture</a>.
+No new parser forms are needed. As with the other semantic fixtures, the driver
+selects the local reader. A future compiler must preserve that explicit read
+selection in addition to compiling the basis and request graph; bare parsing
+does not execute an overloaded group.</p>
+<p>The <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxComplexTests.cs">conformance tests</a>
+exercise independent integer arithmetic identities, associativity,
+distributivity, inverse reconstruction and exact Gaussian square roots across
+all quadrants. They compare the circular generator against the existing
+geometric rotation reader under ordinary and sheared charts and both choices
+of side. False bases, false shared cycle sites, non-quarter landmarks, zero
+divisors, independent unknowns, integer range, branch ties and two numeric
+restorations are included. Current full-solution verification passes 1,653
+tests, including 35 focused complex cases and the new fixture inventory entry.</p>
+<h2 id="next-mathematical-steps">Next mathematical steps</h2>
+<ol>
+<li><strong>Refine correlated algebraic roots.</strong> Connect shared radical constraints
+   to exact rational enclosures and available refinement reads. For <code>sqrt(i)</code>,
+   retain the shared magnitude and signs rather than independent error bars
+   on its two components. An exact algebraic value need not become a float.</li>
+<li><strong>Construct higher root families.</strong> Use intrinsic contour subdivision and
+   repeated-product constraints, retaining every admissible branch. A cubic
+   should account for all three branches before claiming a complete read.</li>
+<li><strong>Follow branches through change.</strong> Add source samples, continuation
+   correspondences, path/winding evidence and ties. A loop around zero can
+   exchange square-root branches even though the source returns to its start;
+   a nearest-current-sample rule alone is insufficient to encode that history.</li>
+<li><strong>Extend selected algebras and quantities deliberately.</strong> A split-complex
+   action, dimensional complex quantities, broader calibrations and analytic
+   functions need their own laws. A two-cycle or positive square cannot be
+   accepted by the present complex-basis reader merely because it looks similar.</li>
+</ol>
+<p>The key recovered principle is that the algebra is fundamental enough to be
+constructed and tested, while its applicability and representation remain local
+choices. These two constructions are a starting point for those further reads.</p></main></html>

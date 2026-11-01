@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GojoCAD</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojocad">GojoCAD</h1>
+<p>GojoCAD is the Gojo-native graphical format library. It is deliberately not a
+renderer, SVG adapter, bitmap sampler, CAD solver, or scene graph. Its job is
+to define graphic and geometric concepts as inspectable Gojo structure.</p>
+<p>The central rule is the same as the Gojo kernel:</p>
+<pre><code class="language-text">meaning lives in connected carriers, locations, relations, unit shapes,
+residue, tension, and timelines
+</code></pre>
+<p>A helper may make structure easier to build or read, but the helper must not
+become the source of meaning. If a helper disappeared, the structure should
+still expose the concept through local Gojo reads.</p>
+<p>The September 2026 <a href="Gojo--docs--GojoCadEcadSyntaxAssessment-2026-09.html">syntax assessment for CAD and electronics</a>
+compares this inventory with current kernel constructions, the sibling GojoEcad
+importer and external formats. It distinguishes implemented reads from proposed
+geometry, uncertainty, circuit and interchange contracts.</p>
+<h2 id="format-direction">Format Direction</h2>
+<p>A graphical definition should be readable as a connected surface:</p>
+<pre><code class="language-text">GraphicSurface
+  selected structure
+  topology / connection surface
+  focus / feature sites
+  flow / direction / lane surface
+  metric / parameter surface
+  style / attribute participation
+  settlement witness / residue / tension
+  refinement timeline / provenance
+</code></pre>
+<p>The format can remain low resolution. A curve can be defined by tangent,
+length, curvature, radius, partition, or transition evidence before any sampled
+points exist. A branch can be defined by shared sites and lane transitions
+before any drawing engine decides how thick or smooth the junction should be.</p>
+<h2 id="current-foothold">Current Foothold</h2>
+<p>The first executable surface is intentionally small:</p>
+<ul>
+<li>shared graphic sites through <code>TickRef</code></li>
+<li>point construction over Gojo carriers</li>
+<li>radial flow as an orthogonal outlet from a point</li>
+<li>ordinary positive-face segments</li>
+<li>directed segments whose start is aligned inverse flow and whose end is
+  positive flow</li>
+</ul>
+<p>These are enough to start defining dots, radial potential, ordinary spans, and
+the inverse-start/positive-end directed segment shape before adding linework
+composition, curves, or junctions.</p>
+<p><code>GraphicReadGraph</code> is the first executable read-algebra surface over these
+relations. It derives temporary read nodes such as points, spans, radial seeds,
+circular markers, contour spans, point attachments, shared sites, segment
+connections, partitions, early second-order control reads, and closed segment
+boundaries without making those code objects the source of meaning. It can also
+navigate from changed relations, carriers, locations, and shared sites to
+report the local reads that need to be reconsidered.</p>
+<h2 id="non-goals-for-now">Non-Goals For Now</h2>
+<ul>
+<li>no rendering</li>
+<li>no path flattening</li>
+<li>no pixel output</li>
+<li>no built-in curve sampler or clothoid/involute calculation</li>
+<li>no global shape classifier</li>
+<li>no metadata bag that owns graphic meaning</li>
+</ul>
+<p>Output systems can come later as lenses over settled or partially settled
+GojoCAD structure.</p>
+<p>The kernel's <a href="Gojo--docs--GojoAffineConstructionFixture.html">selected affine construction reads</a>
+now exercise Bézier interpolation and local derivative constraints over exposed
+coordinates. These are exact, non-mutating reads of authored construction
+graphs; they do not add a general curve sampler or change the compact CAD
+recognition heuristics. Rational coordinate results require that selected
+reader; existing CAD point recognition still reads integral locations.</p>
+<h2 id="important-reads-to-preserve">Important Reads To Preserve</h2>
+<ul>
+<li>lower-resolution reads are valid reads</li>
+<li>unresolved parameters should remain visible as residue or tension</li>
+<li>equal visible geometry may have different provenance</li>
+<li>joins should be actual shared sites or explicit relations, not equal numbers</li>
+<li>two-span joins, higher-valence junctions, and closed boundaries should stay
+  separate until stronger evidence upgrades them</li>
+<li>local flow evidence should be carried upward from joins into boundaries
+  before naming turns, corners, or smoothing</li>
+<li>carrier unit and descriptor provenance should be carried separately from
+  geometry so turns and changes of kind do not collapse into one read</li>
+<li>shared-frame polylines and repeated-step polylines should emerge from
+  coordinate groups, segment joins, and unit/template provenance</li>
+<li>branch, merge, intersection, and crossing are different local reads over
+  connection structure</li>
+<li>style presence and style detail should be separate participation surfaces</li>
+</ul>
+<p>See <a href="Applications--GojoCAD--docs--FormatPlan.html">docs/FormatPlan.md</a> for the current roadmap.
+See <a href="Applications--GojoCAD--docs--ReadAlgebra.html">docs/ReadAlgebra.md</a> for the initial relation-read
+algebra and read graph direction.
+See <a href="Applications--GojoCAD--docs--EcadDocumentaryBundle.html">docs/EcadDocumentaryBundle.md</a> for the
+current direction on PCB projects as Gojo-encoded documentary bundles.
+See <a href="Applications--GojoCAD--electronics--components--README.html">electronics/components/README.md</a> for
+the first experimental electronics component-encoding notes.</p></main></html>

@@ -1,0 +1,71 @@
+gojo 1;
+
+// 0. Ordered frames, flow faces and shared sites are separate participation.
+let $axis = carrier();
+let $a = tick(-4);
+let $joint = tick(3);
+let $b = tick(9);
+let $ordinary = span($axis, $a, $joint);
+let $directed = point(dual($axis), $a) -> point($axis, $joint);
+let $continuation = point(dual($axis), $joint) -> point($axis, $b);
+let $lookalike = point(dual($axis), 3) -> point($axis, 9);
+root group($axis, $ordinary, $directed, reverse($ordinary),
+    dual(at($axis, -4)), $continuation, $lookalike);
+
+// 1. A normalized parameter keeps its local scale, selected basis and refinement.
+// 40/100 and 47/100 on the 10..210 basis read as 90 and 104.
+let $parameter = carrier();
+let $coarse = carrier(resolution(unit_of($parameter), 10));
+let $metric = carrier();
+let $basis = span($metric, 10, 210);
+let $domain = span($parameter, 0, 100);
+let $calibration = $domain -> $basis;
+let $coarsening = span($parameter, 0, 10) -> span($coarse, 0, 1);
+let $refinement = act(at($parameter, 47), $coarsening,
+    at($coarse, 4), at($parameter, 7), ?parameter_observation);
+let $normalized = group($basis, $domain, point($parameter, 40),
+    point($parameter, 47), point($metric, 90), point($metric, 104),
+    $refinement, $calibration);
+root group($normalized, $calibration, $coarsening);
+
+// 2. Carrier-native circular and linear promises do not require x/y tuples.
+let $anchor_axis = carrier();
+let $anchor_tick = tick(5);
+let $anchor = point($anchor_axis, $anchor_tick);
+let $circle = crystal(orthogonal($anchor));
+let $linear = crystal(orthogonal(span($anchor_axis, $anchor_tick, $anchor_tick)));
+let $arc = span($circle, -2, 6);
+let $line = span($linear, -3, 8);
+root group($anchor, $circle, $linear, $arc, $line);
+
+// 3. The section remains a valid partial structure with only one known site.
+let $start_port = ports($anchor, ?start_flow, ?start_tangent,
+    ?start_normal, ?start_residue);
+let $end_port = ports(?end_site, ?end_flow, ?end_tangent,
+    ?end_normal, ?end_residue);
+let $section = group($start_port, ?trace, $end_port, ?section_residue);
+root group($section, bind(?end_site, point($linear, 8)));
+
+// 4. A holder records grouping identity; ordered coordinate axes supply a basis.
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $z = carrier(unit_of($x));
+let $x_tick = tick(2);
+let $first = group_on($space, at($x, $x_tick), at($y, 4), at($z, 6));
+let $second = group_on($space, at($x, 8), at($y, 10), at($z, 12));
+let $other_holder = group(at($x, 8), at($y, 10), at($z, 12));
+let $permuted = group_on($space, at($y, 8), at($x, 10), at($z, 12));
+root group($first -> $second, $first -> $other_holder,
+    $first -> $permuted, $first, $second, $space);
+
+// 5. A reusable template and its bindings carry the relation, not a shape label.
+// This is the shared-frame circle recipe, also used by parameterized sketch instances.
+let $circle_template = ?center -> (?center -> ?rim);
+let $circle_result = $first -> ($first -> $second);
+let $circle_bindings = frame(bind(?center, $first), bind(?rim, $second));
+let $circle_instance = group($circle_template, $circle_bindings,
+    $circle_result, $normalized);
+let $partial_instance = group($circle_template, frame(bind(?center, $first)),
+    ?unconstructed_circle, $normalized);
+root group($circle_instance, $partial_instance);

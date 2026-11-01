@@ -1,0 +1,277 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Syntax exercised against graphic structure</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="syntax-exercised-against-graphic-structure">Syntax exercised against graphic structure</h1>
+<p>Status: representation review and executable fixtures, September 2026.</p>
+<p>Follow-up: the <a href="Gojo--docs--GojoAffineConstructionFixture.html">selected affine construction fixture</a>
+now implements exact interpolation, derivative-displacement checks and exposed
+motif correspondence. The review below records the original pass and the gaps
+it identified. The linked follow-up is authoritative for the current status
+of those three contracts; the Bézier and frieze fixtures have been extended.</p>
+<p>The syntax can express the selected graphic structures with one small
+authoring addition: <code>group_on(holder, ...)</code>. The more significant gaps concern
+how much a selected reader may conclude from a compact shape. Transporting a
+graph does not establish geometric intent, continuity, construction validity
+or an infinite pattern's symmetry.</p>
+<p>This pass authors structures, applies explicit placeholder bindings and checks
+existing local reads. It adds no curve sampler, frieze expander, rendering
+backend, compiler or machine-learning operations.</p>
+<h2 id="inventory-and-evidence">Inventory and evidence</h2>
+<table>
+<thead>
+<tr>
+<th>Source examined</th>
+<th>Representation exercised</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Blocks primitive glossary and <code>GraphicStructure</code></td>
+<td>Ordered segments, opposed-start directed segments and shared junctions</td>
+<td>Existing primitives suffice; flow face, order and site identity stay distinct</td>
+</tr>
+<tr>
+<td><code>GraphicParameterSurface</code> and SketchViewer house/leaf instances</td>
+<td>Normalized parameters, coarse/fine results, templates and bindings</td>
+<td>Reproduced the surfaces; corrected a reader that accepted unrelated parameter frames</td>
+</tr>
+<tr>
+<td>Native line/circle structures</td>
+<td>An orthogonal point or zero span crystallized into a carrier promise</td>
+<td>Expressible without coordinate tuples; the captured promise stays stable when its source moves</td>
+</tr>
+<tr>
+<td><code>GraphicConceptShape</code> ports and sections</td>
+<td>Known start site, open endpoint, trace, tangent, normal and residue</td>
+<td>Partial construction remains readable before full geometry exists</td>
+</tr>
+<tr>
+<td><code>GraphicStructure.FramePoint</code> and curve readers</td>
+<td>Shared holder and ordered x/y/z carriers</td>
+<td>Added <code>group_on</code>; coordinate compatibility currently follows axes rather than holder identity</td>
+</tr>
+<tr>
+<td>Blocks line–line, line–arc and arc–arc Bézier rows</td>
+<td>Incoming section, bridge and outgoing section</td>
+<td>Fixed bridges to share the actual surrounding endpoint references</td>
+</tr>
+<tr>
+<td>Existing quadratic/cubic CAD recipes</td>
+<td>Chord/control and chord/control-span structure</td>
+<td>Ordinary examples read; degenerate cases expose ambiguity</td>
+</tr>
+<tr>
+<td><code>TransformSurface.Interpolate</code></td>
+<td>Six connected interpolation requests for a cubic construction</td>
+<td>Shared parameter, control order and intermediate dependencies survive partial binding and transport</td>
+</tr>
+<tr>
+<td><code>RepeatSurface</code>, transforms and affine frames</td>
+<td>Translation and glide-reflection generators over a motif</td>
+<td>Exploratory representation; coordinate laws checked, general expansion remains open</td>
+</tr>
+<tr>
+<td>GearShapeLadder and Visualizer ladder sources</td>
+<td>Repeated profile, transforms, correspondence and history</td>
+<td>Composition precedents reviewed; a whole gear or ladder was not re-authored</td>
+</tr>
+</tbody>
+</table>
+<p>Sources are current builders and readers. Glossary JSON files are sparse
+teaching projections containing some caption-derived hints, not semantic
+proofs. The three affected snapshots were regenerated after the bridge fix;
+existing tests require them to agree with the live teaching projection. The
+full inventory also checks current Blocks exports through two numeric round
+trips.</p>
+<p>The legacy teaching projection also treats the word <code>tangent</code> in a note as a
+positive hint, even in a sentence denying continuity. The bridge note avoids
+creating that misleading hint. This is a remaining limitation of teaching
+summaries; source-faithful inspection should use <code>EntryFromStructure</code> and local
+reads rather than infer semantics from prose.</p>
+<p>Executable sources:</p>
+<ul>
+<li><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--graphic-primitives.gojo">Graphic primitives</a></li>
+<li><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--bezier-construction.gojo">Bézier construction</a></li>
+<li><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--frieze-patterns.gojo">Frieze generators</a></li>
+<li><a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxGeometryTests.cs">Semantic checks</a></li>
+</ul>
+<h2 id="one-authoring-addition-no-graphic-opcodes">One authoring addition, no graphic opcodes</h2>
+<p><code>group</code>, <code>ports</code> and <code>frame</code> allocate a fresh holder. To retain an explicitly
+authored shared holder, the syntax now also provides:</p>
+<pre><code class="language-gojo">let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $p = group_on($space, at($x, 2), at($y, 4));
+let $q = group_on($space, at($x, 8), at($y, 10));
+root $p -&gt; $q;
+</code></pre>
+<p>This expands directly to <code>Relation.OrderedGroup(space, ...)</code>, with no geometry
+dependency in the parser. For two participants its primitive expansion is:</p>
+<pre><code class="language-gojo">root ((point($space,0) -&gt; at($x,2)) -&gt; (point($space,0) -&gt; at($y,4))) -&gt; $space;
+</code></pre>
+<p>The raw form was already expressible. The addition improves readability and
+reduces accidental loss of holder identity. Empty and singleton groups remain
+ordinary groups. A missing or unbound holder is not silently replaced.</p>
+<p>The current CAD reader compares ordered coordinate carrier identities. It can
+read points with different holders in the same coordinate basis. Sharing a
+holder does not make swapped x/y axes compatible. Compatible unit shapes do
+not make those axes identical. The fixture tests these distinctions in three
+coordinates as well as the two-coordinate curve examples.</p>
+<h2 id="parameters-are-calibrated-perspectives">Parameters are calibrated perspectives</h2>
+<p>The parameter fixture maps a 0..100 parameter onto a 10..210 metric span.
+Its coarse parameter 40 gives 90; its refined parameter 47 gives 104.
+A separate coarse read retains the known seven-tick remainder. The record
+connects the basis, domain, both parameters, both results, refinement evidence
+and calibration. The known remainder is not a statistical error bar.</p>
+<p><code>TryReadNormalizedValue</code> previously accepted any relation in its domain role
+and any two grounded points in its parameter roles. Seven regression cases
+reproduced false reads: an unrelated relation, zero/reversed/non-origin scale,
+mixed-axis endpoints and parameter points on unrelated carriers.</p>
+<p>The reader now requires a concrete same-carrier span from zero to a positive
+scale, with both parameter points on that carrier face. Rejected records remain
+available as structure. This still does not prove that supplied results were
+correctly calculated. Values outside 0..scale are not newly forbidden:
+extrapolation is a separate question from the existence of a calibration.</p>
+<p>A template instance also preserves its repeated center role:</p>
+<pre><code class="language-gojo">let $template = ?center -&gt; (?center -&gt; ?rim);
+let $bindings = frame(bind(?center, $p), bind(?rim, $q));
+root group($template, $bindings, $p -&gt; ($p -&gt; $q), ?provenance);
+</code></pre>
+<p>This is the shared-frame circle recipe. Its center occurs twice by identity.
+A partial instance retains an open rim and unconstructed result. This uses
+the same template/binding approach as SketchViewer leaf and opening instances,
+without reproducing the house's processing code.</p>
+<h2 id="direction-sites-and-native-carriers">Direction, sites and native carriers</h2>
+<p>An ordinary ordered span and an opposed-start directed segment are distinct:</p>
+<pre><code class="language-gojo">let $axis = carrier();
+let $joint = tick(3);
+root span($axis, -4, $joint);
+root point(dual($axis), -4) -&gt; point($axis, $joint);
+</code></pre>
+<p>Reversing endpoints, negating a location and opposing a carrier face remain
+different structures. A following segment reusing <code>$joint</code> follows its motion.
+A separately authored equal coordinate does not.</p>
+<p>A circle carrier crystallizes from an orthogonal point; a line carrier from
+an orthogonal zero span. These structures retain origins without requiring
+global x/y coordinates. Crystallization captures the tick promise: moving the
+original anchor does not silently recenter the stabilized carrier. Live moving
+origins require an explicit connection.</p>
+<p>Carrier-native arcs and shared-frame curves can coexist at different
+perspectives. This is a useful benefit, but not yet a general law for angles,
+curvature or arbitrary embeddings.</p>
+<h2 id="bezier-intent-needs-more-than-a-convenient-silhouette">Bézier intent needs more than a convenient silhouette</h2>
+<p>The current concrete recipes are compact:</p>
+<pre><code class="language-gojo">root ($start -&gt; $end) -&gt; $control;
+root ($start -&gt; $end) -&gt; ($first_control -&gt; $second_control);
+</code></pre>
+<p>The second shape also pairs two curve sections. The current reader chooses a
+transition when those spans meet and a cubic curve otherwise. It also declines
+a shared-frame segment with equal-position endpoints. Consequently closed
+cubics, repeated control spans and endpoint-coincident controls can lose the
+intended cubic read, although such Bézier controls are legitimate.</p>
+<p>Reversing the outer relation exchanges chord and control span. It does not
+reverse traversal. A reversed cubic needs reversed control order, with the
+parameter correspondence <code>t -&gt; 1-t</code> when comparing it to the original.</p>
+<p>These are recorded limits of the existing recognition heuristic. This pass
+does not change the global reader's choice or introduce a <code>Bezier</code> tag to
+decide between otherwise identical graphs.</p>
+<p>The new fixture instead connects three first interpolations, two second
+interpolations and a final interpolation, all sharing one parameter surface.
+This is the de Casteljau construction: each intermediate interpolates adjacent
+points of the preceding level. See its
+<a href="https://pages.mtu.edu/~shene/COURSES/cs3621/NOTES/spline/Bezier/de-casteljau.html">geometric derivation</a>.</p>
+<pre><code class="language-mermaid">flowchart LR
+    A[Start] --&gt; AB[q0]
+    B[Control A] --&gt; AB
+    B --&gt; BC[q1]
+    C[Control B] --&gt; BC
+    C --&gt; CD[q2]
+    D[End] --&gt; CD
+    AB --&gt; ABC[r0]
+    BC --&gt; ABC
+    BC --&gt; BCD[r1]
+    CD --&gt; BCD
+    ABC --&gt; P[Curve point]
+    BCD --&gt; P
+</code></pre>
+<p>An edge is ordinary relation structure:</p>
+<pre><code class="language-gojo">let $ab = ports(?start, ?control_a, $grade) -&gt; ?q0;
+let $bc = ports(?control_a, ?control_b, $grade) -&gt; ?q1;
+let $abc = ports(?q0, ?q1, $grade) -&gt; ?r0;
+</code></pre>
+<p>These are existing <code>TransformSurface.Interpolate</code> requests in a selected
+interpolation context. That generic three-input shape alone is not a universal
+proof of affine interpolation. The fixture supplies the construction dependency
+pattern and a shared bounded parameter domain. A general numerical interpolation
+reader, spatial calibration validation, parameter-domain enforcement and
+residual propagation remain to be developed. Intermediate values and the
+final point remain open; parsing does not evaluate the curve.</p>
+<p>Construction intent survives coincident controls, partial binding and reversed
+control order. Uncertainty can attach to a control or parameter without
+inventing missing coordinates. This is inspectable construction evidence,
+not yet a canonical replacement for every CAD curve.</p>
+<h2 id="actual-blocks-bridge-correction">Actual Blocks bridge correction</h2>
+<p>The Bézier glossary builder used fixed example coordinates for all three
+source/target combinations. The line–line bridge ended at <code>(26,-10)</code> while
+the outgoing line started at <code>(8,-10)</code>. Arc combinations needed different
+entry/exit sites too. Even equal coordinates were separately constructed.</p>
+<p>The bridge now reuses the actual incoming end and outgoing start relations.
+Nine checks cover the three rows before and after one/two restores. Controls
+remain illustrative: endpoint connection does not establish tangency,
+curvature continuity or a computed best bridge. The export note now states
+that boundary.</p>
+<h2 id="frieze-patterns-as-motif-plus-generators">Frieze patterns as motif plus generators</h2>
+<p>No active explicitly named frieze implementation was found in the searched
+sources. This exploratory fixture uses current repeat/transform and projection
+mechanisms, connecting an asymmetric triangular motif to candidate generators:</p>
+<pre><code class="language-text">T(x,y) = (x+12, y)
+G(x,y) = (x+6, -y)
+</code></pre>
+<p>The operations are actual affine frames:</p>
+<pre><code class="language-gojo">let $translate_x = span($x,0,12) -&gt; span($x,12,24);
+let $glide_x = span($x,0,6) -&gt; span($x,6,12);
+let $reflect_y = span($y,0,1) -&gt; span($y,0,-1);
+</code></pre>
+<p>Reflection reverses the target frame on the same carrier, rather than selecting
+an opposed flow face. Existing projection checks establish <code>G(G(p)) = T(p)</code>
+on 35 signed integer samples per axis at each transport depth. The general
+affine identity follows directly from the frames; this is not an exhaustive
+classification of frieze groups.</p>
+<p>Each repeat retains motif, controller, transform, output-to-next-input
+feedback, residue and history. The controller connects a cell-index carrier
+to open support. A <code>-2..2</code> observation window uses that same index carrier but
+is separate from the unresolved repetition domain. A bounded observation does
+not claim to define the whole infinite strip.</p>
+<p>The pointwise extension of coordinate maps to every motif participant remains
+an exposed correspondence slot. Another example leaves x calibration unbound
+until an explicit binding arrives. A missing step is not zero translation.</p>
+<p>A generator has a potential advantage over a list of repeated shapes: motif,
+period and operation have a common structural source. Learning that generator
+from observed copies is a separate inference. Changing a period must update or
+invalidate its dependent calibrations; sharing one period tick alone does not
+maintain an entire affine relation automatically.</p>
+<h2 id="remaining-representation-work-at-this-checkpoint">Remaining representation work at this checkpoint</h2>
+<ol>
+<li><strong>Selected curve construction reads.</strong> Establish affine interpolation over
+   exposed spatial bases, including degeneracies and partial controls. The
+   six-edge fixture is a concrete starting point.</li>
+<li><strong>Continuity constraints.</strong> Attach desired endpoint, tangent and curvature
+   relationships to a bridge, separately from the fact that a curve exists.</li>
+<li><strong>Identity versus geometric contact.</strong> The coordinate reader can find
+   candidate joins from equal coordinates. That is not shared tick identity
+   or a material/topological connection without further evidence.</li>
+<li><strong>Repeating constructions.</strong> Define correspondence over transformed motifs,
+   integer-domain repetition, inverse traversal and generator composition.
+   A complete frieze classifier or expander is unnecessary for the next fixture.</li>
+<li><strong>Authoring reuse.</strong> Version 1 lacks reusable text definitions, imports and
+   a canonical text writer. Aliases and structural templates suffice here;
+   repeating six interpolation clauses will become cumbersome at larger scales.</li>
+</ol>
+<p>This pass does not establish coverage of every possible structure. It shows
+that the small vocabulary reaches useful geometric examples and reveals
+ambiguity and missing connections that scalar tests alone would not expose.</p>
+<h2 id="verification">Verification</h2>
+<pre><code class="language-powershell">dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter FullyQualifiedName~GojoSyntaxGeometryTests
+dotnet test Tests/GojoCAD.Tests/GojoCAD.Tests.csproj --filter FullyQualifiedName~GraphicParameterSurfaceTests
+dotnet test Gojo.slnx
+</code></pre>
+<p>Every new text fixture also enters <code>NumericMilestoneInventoryTests</code>, which
+compares its complete encoded graph before and after two restorations.</p></main></html>

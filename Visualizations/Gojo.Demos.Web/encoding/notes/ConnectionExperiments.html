@@ -1,0 +1,447 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ordered connections, calculated reads, and retained results</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="ordered-connections-calculated-reads-and-retained-results">Ordered connections, calculated reads, and retained results</h1>
+<p>Round 5, 30 October 2026. These are small implemented experiments over the
+positional value arrays and stable ports. They preserve a connection's roles
+even when every attached value reads zero. No geometric direction, radial field,
+or rectangle is inferred merely from those bits.</p>
+<p><a href="#round-6-one-site-two-sites-and-one-site-used-twice">Round 6 below</a> exercises
+that distinction with one site, two sites, and one site referenced twice.
+The later <a href="PassageExperiments.html">Round 7 passage chart</a> adds explicit joint
+before/after transitions and a two-passage chain over the primitive stores.</p>
+<p>ODV still means orientation, direction, and zero/nonzero. V=1 means some
+nonzero participation, not a calibrated quantity of one.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --relations
+dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
+</code></pre>
+<h2 id="what-is-actually-stored">What is actually stored</h2>
+<p>There are three separate things:</p>
+<table>
+<thead>
+<tr>
+<th>Storage</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Existing value arrays</td>
+<td>Owned O/D/V bits; constants still come from position</td>
+</tr>
+<tr>
+<td>Connection rows</td>
+<td>Ordered local endpoint positions</td>
+</tr>
+<tr>
+<td>Read-law bitmap</td>
+<td>Which combinations of endpoint observations are allowed</td>
+</tr>
+</tbody>
+</table>
+<p>A connection row has no amount, operation opcode, or global ID. <code>EndpointRows</code>
+groups rows by endpoint count and bits per reference. It stores endpoint 0
+first, then endpoint 1, and so on, low bit first within each reference.</p>
+<pre><code class="language-text">first bit of row n = n * endpoint count * bits per reference
+</code></pre>
+<p>There are no headers or gaps between rows. Only the final byte can have unused
+bits. The experiment supports one to eight endpoints and reference widths from
+one to sixteen bits. Endpoint order and repeated references are preserved.</p>
+<h2 id="how-a-reference-finds-its-endpoint">How a reference finds its endpoint</h2>
+<p><code>ReadConnections</code> has two local lists:</p>
+<pre><code class="language-text">endpoint 2*n     -&gt; imported public port n
+endpoint 2*n+1   -&gt; calculated read n -&gt; table and connection row
+</code></pre>
+<p>Thus the low address bit selects the list. A calculated endpoint owns no value
+slot. Its port reads the inputs named in its row through the table's actual law.
+Imported ports can expose a local value or another structure's public output.
+Reading does not inspect the peer's private arrays or hidden fine amounts.</p>
+<p>The host maps still use ordinary references and integers. This is a packed
+endpoint experiment, not a complete compact wire protocol. Every endpoint
+position is meaningful only within its owning <code>ReadConnections</code> instance.</p>
+<p>Reimporting a stored port from the same owner and public port position keeps
+the same endpoint, even through a fresh connection wrapper. Equal readings
+from different public ports do not establish that correspondence. Existing stored
+ports continue following their private binding when their value moves arrays.</p>
+<h2 id="the-law-is-data-not-a-name-on-each-row">The law is data, not a name on each row</h2>
+<p>Each read-table role is an ODV word from <code>000</code> to <code>111</code>. For three roles
+<code>(a,b,c)</code>, one bit in <code>BitRelation</code> states whether that tuple is allowed:</p>
+<pre><code class="language-text">tuple bit = a + 8*b + 64*c
+</code></pre>
+<p>For example, <code>(001,000,001)</code> addresses bit 65: byte 8, bit 1. The last role is
+the output of a forward prediction. The relation can also be inspected with
+<code>Allows</code> to see which complete tuples it admits.</p>
+<p>One-, two-, and three-role laws occupy 1, 8, and 64 bytes respectively. This
+fixed bitmap is an inspectable prototype, not an optimized compression claim.
+One table shares its bitmap across all its connection rows. Builder helpers
+compile presence, identity, and the existing coarse addition law into bits;
+the reader executes those bits without dispatching on the helper's name.</p>
+<p>The two-role identity law has bytes <code>01 02 04 08 10 20 40 80</code>: only <code>(w,w)</code>
+is admitted. Different law bits can give the same wiring different behavior.</p>
+<h2 id="a-result-can-contain-alternatives">A result can contain alternatives</h2>
+<p>A read returns an eight-bit support mask: bit <code>w</code> admits ODV word <code>w</code>.
+This is a set of possible observations, not another primitive magnitude field.</p>
+<table>
+<thead>
+<tr>
+<th>Support mask, hex</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00</code></td>
+<td>No admitted result; not a measured zero</td>
+</tr>
+<tr>
+<td><code>01</code></td>
+<td>Exactly ODV <code>000</code>: orientation 0, positive-marked zero</td>
+</tr>
+<tr>
+<td><code>04</code></td>
+<td>Exactly ODV <code>010</code>: orientation 0, negative-marked zero</td>
+</tr>
+<tr>
+<td><code>05</code></td>
+<td>Zero magnitude, but its direction marking remains unresolved</td>
+</tr>
+<tr>
+<td><code>0F</code></td>
+<td>Any orientation-0 word: positive, negative, or either marked zero</td>
+</tr>
+</tbody>
+</table>
+<p>Repeated uses of one endpoint are sampled once per local read and must choose
+the same candidate word. Equal masks alone do not impose that constraint.
+This preserves correspondence of the published word; it does not infer exact
+hidden magnitudes or statistical independence.</p>
+<h2 id="three-concrete-connection-arrangements">Three concrete connection arrangements</h2>
+<p>The first two examples below use separate fresh read networks, each importing
+its first two ports as endpoints 0 and 2. Their first calculated output is 1.</p>
+<table>
+<thead>
+<tr>
+<th>Arrangement</th>
+<th>Ordered row</th>
+<th>Reference width</th>
+<th>Packed row bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Two parts into a coarse presence read</td>
+<td><code>[0,2,1]</code></td>
+<td>2 bits</td>
+<td><code>18</code></td>
+</tr>
+<tr>
+<td>Two operands into calculated addition</td>
+<td><code>[0,2,1]</code></td>
+<td>2 bits</td>
+<td><code>18</code></td>
+</tr>
+<tr>
+<td>Calculated output into a held sample</td>
+<td><code>[1,4]</code></td>
+<td>3 bits</td>
+<td><code>21</code></td>
+</tr>
+<tr>
+<td>Active opposition into retained opposition</td>
+<td><code>[0,1,2,3]</code></td>
+<td>2 bits</td>
+<td><code>E4</code></td>
+</tr>
+</tbody>
+</table>
+<p>For <code>[0,2,1]</code>, the packed integer is <code>0 + (2 &lt;&lt; 2) + (1 &lt;&lt; 4) = 0x18</code>.
+The table's law distinguishes the first two uses; their wiring is identical.
+The last row is interpreted by the separate fine settlement fixture below.</p>
+<h2 id="two-parts-and-their-coarse-read">Two parts and their coarse read</h2>
+<p>The parts have the same fixed orientation and direction. Their V bits are
+separately readable; the coarse output says whether either is occupied.</p>
+<table>
+<thead>
+<tr>
+<th>First V</th>
+<th>Second V</th>
+<th>Coarse V</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>This is qualitative refinement of occupancy, not calibrated binary magnitude.
+Fine evidence determines coarse presence. Coarse presence 1 permits three
+finer patterns and cannot select one. Increasing storage width does not supply
+that missing evidence. The coarse port is calculated, so it creates no second
+independently owned amount. Opposing signs do not fit this presence law.</p>
+<h2 id="calculated-addition-and-an-explicitly-held-result">Calculated addition and an explicitly held result</h2>
+<p>The addition bitmap reproduces <code>ThreeBitMeasure.Add</code>. Positive nonzero plus
+positive zero gives one candidate. Positive nonzero plus negative nonzero gives
+support <code>0F</code>; the connector does not guess which actual amount dominates.
+Different orientations have no admitted addition until explicitly reoriented.</p>
+<p>To retain a result, create an ordinary value, publish its port, and import it
+as endpoint 4. The identity row <code>[1,4]</code> connects calculated output 1 to it.
+<code>TryCapture</code> is an explicit sampling step. It checks that the last endpoint
+really exposes the supplied destination binding, then stores only a single
+resolved ODV word that the target's fixed context accepts.</p>
+<p>Empty support, several candidates, unresolved zero direction, incompatible
+context, or a target with more than one value bit all leave the held value
+unchanged. A successful capture stores an observation; it drains no source.
+Changing an input changes the calculated read immediately on the next read.
+The held sample remains its old value until another successful capture.
+There is no automatic feedback, freshness flag, or hidden update schedule.</p>
+<h2 id="a-positivenegative-pair-can-settle-without-losing-its-two-ends">A positive/negative pair can settle without losing its two ends</h2>
+<p><code>OpposedConnectionFixture</code> interprets a four-ended row as:</p>
+<pre><code class="language-text">[active positive, active negative, retained positive, retained negative]
+</code></pre>
+<p>Its fine nonnegative integers are demonstration apparatus, not hidden fields
+on the encodings. It routes <code>min(active positive, active negative)</code> along both
+signs into the retained pair, leaving at most one active side occupied.</p>
+<table>
+<thead>
+<tr>
+<th>Before, <code>[P,N,Rp,Rn]</code></th>
+<th>After</th>
+<th>Active net read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[5,2,0,0]</code></td>
+<td><code>[3,0,2,2]</code></td>
+<td>Positive nonzero</td>
+</tr>
+<tr>
+<td><code>[2,5,0,0]</code></td>
+<td><code>[0,3,2,2]</code></td>
+<td>Negative nonzero</td>
+</tr>
+<tr>
+<td><code>[5,5,0,0]</code></td>
+<td><code>[0,0,5,5]</code></td>
+<td>Zero, with retained opposition still present</td>
+</tr>
+</tbody>
+</table>
+<p>Each sign's total, gross participation, and overall net are preserved. The
+matched amount is moved on each side; it is not a new third net amount.
+Aliases between these four stores and overflowing destination additions are
+rejected before any store changes. Repeating settlement moves nothing further.</p>
+<p><code>ReadSettled</code> refuses to guess while both active sides are occupied. At active
+zero it keeps the previous direction using the existing direction-memory rule.
+Two empty occupancy slots alone cannot remember which sign was last active.
+Here the previous ODV word is supplied explicitly by the reader; it is not
+hidden state on the four-ended row. The existing direction-memory experiment
+supplies the feedback law. A general connection encoding for that feedback
+remains separate work.</p>
+<p>The same row remains present before and after zero. Two distinct endpoints
+remain distinct even when their observations agree. A single retained ODV word
+cannot reconstruct that pair, its route, or the retained opposing participation.
+These tests preserve the roles needed to express that structural potential; they do not
+simulate radial radiation, a perpendicular direction, or full geometry.</p>
+<h2 id="boundaries-of-the-round-5-read-table">Boundaries of the Round 5 read table</h2>
+<p>Read tables execute observational bitmap laws; the four-ended fine fixture
+executes its explicitly selected material routing law. The latter is not yet
+a general encoded material-transition interpreter. Shared row storage does not
+make those two uses interchangeable.</p>
+<p>Calculated graphs connect existing local endpoints and are acyclic. Correlations
+through different calculated paths can remain conservatively unresolved. There
+is no global sampling clock, general constraint solver, automatic feedback,
+connection collector, or compaction. Published ports are sampled through their
+advertised read, and explicit capture is a held observation rather than a
+material transfer or a guarantee of simultaneous sampling across structures.</p>
+<h2 id="round-6-one-site-two-sites-and-one-site-used-twice">Round 6: one site, two sites, and one site used twice</h2>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --potential
+</code></pre>
+<p>This experiment uses existing value arrays, ports and connection rows. The only
+additional law builder is <code>ExclusivePresence</code>: exactly one of two input roles
+reads present. Its bitmap executes the Boolean XOR of their V bits within one
+shared O/D context. It does not subtract or cancel underlying quantities.</p>
+<h3 id="exactly-what-is-connected">Exactly what is connected</h3>
+<p>Each arrangement has its own local tables. All value sites use fixed O=0, D=0
+and one owned V bit. Endpoint 0 reaches A; endpoint 2, where present, reaches B.
+Odd endpoints are calculated reads with no separately stored amount.</p>
+<p>A is at packed address <code>(0,0,1,0)</code>, through port 0 and binding 0. In the pair,
+B is at <code>(0,0,1,1)</code>, through port 1 and binding 1. Thus A owns bit 0 and B owns
+bit 1 of that value array. The repeated arrangement allocates only A's slot.</p>
+<table>
+<thead>
+<tr>
+<th>Arrangement</th>
+<th>Value slots</th>
+<th>Law</th>
+<th>Ordered row</th>
+<th>Packed row byte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One site</td>
+<td>A</td>
+<td>Identity</td>
+<td><code>[0,1]</code></td>
+<td><code>04</code></td>
+</tr>
+<tr>
+<td>Two sites</td>
+<td>A, B</td>
+<td>Presence of either</td>
+<td><code>[0,2,1]</code></td>
+<td><code>18</code></td>
+</tr>
+<tr>
+<td>Two sites</td>
+<td>Same A, B</td>
+<td>Exclusive presence</td>
+<td><code>[0,2,3]</code></td>
+<td><code>38</code></td>
+</tr>
+<tr>
+<td>One site, two roles</td>
+<td>A</td>
+<td>Presence of either</td>
+<td><code>[0,0,1]</code></td>
+<td><code>10</code></td>
+</tr>
+<tr>
+<td>One site, two roles</td>
+<td>Same A</td>
+<td>Exclusive presence</td>
+<td><code>[0,0,3]</code></td>
+<td><code>30</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each reference is two bits, packed low first. For <code>[0,2,3]</code>, for example:
+<code>0 + (2 &lt;&lt; 2) + (3 &lt;&lt; 4) = 0x38</code>. Each listed law has one row in its own table;
+the final byte's unused bits are zero. Law storage is additional to row storage.</p>
+<p>The two-site arrangement stores two V bits. The repeated-site arrangement
+stores one V bit and mentions the same endpoint twice. A calculation adds a
+connection row and an output endpoint, not a third material value. The actual
+rows carry this distinction; no pair/repeated category flag is stored.</p>
+<h3 id="what-happens-when-the-observations-change">What happens when the observations change</h3>
+<p>The caller explicitly supplies observations. No transfer or settlement is
+implied by changing a stored observation in this demonstration.</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Single V</th>
+<th>Two-site input reads</th>
+<th>Repeated-site input reads</th>
+<th>Two-site XOR</th>
+<th>Repeated-site XOR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initially empty</td>
+<td>0</td>
+<td><code>[0,0]</code></td>
+<td><code>[0,0]</code></td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>A becomes present</td>
+<td>1</td>
+<td><code>[1,0]</code></td>
+<td><code>[1,1]</code></td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>B also becomes present in the pair</td>
+<td>1</td>
+<td><code>[1,1]</code></td>
+<td><code>[1,1]</code></td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Everything returns to empty</td>
+<td>0</td>
+<td><code>[0,0]</code></td>
+<td><code>[0,0]</code></td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>All three coarse presence reads follow <code>0,1,1,0</code>. That read alone cannot
+distinguish the structures. Inspecting the rows shows the difference; observing
+the response when A changes reveals a behavioral consequence. When the pair
+later reads <code>[1,1]</code>, its sites remain distinct. Returning to zero preserves
+their connection and their ability to differ on a later observation.</p>
+<p>With unresolved input reads, each admitting V=0 or V=1, the same distinction
+matters before any new observation arrives:</p>
+<pre><code class="language-text">exclusive presence of distinct A and B -&gt; {0,1}
+exclusive presence of A used twice     -&gt; {0}
+</code></pre>
+<p>The first result leaves agreement unresolved; distinct references do not prove
+statistical independence. The second requires both roles to choose the same
+candidate word. It establishes presence agreement only, not equality or
+cancellation of hidden magnitudes. Correlation through separate calculated
+paths remains limited as described above.</p>
+<h3 id="internal-direct-addresses-are-a-valid-alternative">Internal direct addresses are a valid alternative</h3>
+<p>The current path is <code>endpoint -&gt; port -&gt; binding -&gt; packed address</code>. The
+address contains orientation group, direction group, total width, and index;
+the bit offset inside the selected array is <code>index * width</code>.</p>
+<p>The demonstration moves A from <code>(0,0,1,0)</code> to <code>(0,0,3,0)</code>. Only its binding's
+address changes. The old slot becomes non-live, the connection rows remain
+unchanged, and their coarse reads remain valid. The added bits supply capacity,
+not new measurement.</p>
+<p>An internal row could instead contain that address directly. This would remove
+lookup steps, while movement would require rewriting all affected local
+references. Small structures can reasonably scan their own rows. This is an
+exploratory alternative, not an implemented second address format or a measured
+performance improvement. Stable external ports can be retained either way.</p>
+<p>The main requirements for such a move would be:</p>
+<ul>
+<li>Update every local reference holder, including the external-port map, before
+  reads resume. Apply a relocation map to original addresses once so swaps do
+  not accidentally become cascading substitutions.</li>
+<li>Preserve repeated references together and keep distinct sites distinct.</li>
+<li>Prevent a stale reference from silently reaching a new occupant after reuse.</li>
+<li>Distinguish a stored-value address from a calculated-read address. A calculated
+  output has no value slot unless a separate sample is explicitly captured.</li>
+</ul>
+<p>Indirection stores a potentially longer address once; direct references may
+repeat it, although shared table context can omit some address bits. Neither
+choice requires global identifiers. Cycles can be encoded using either choice;
+their evaluation still needs a separate timing or settlement law. The current
+calculated reader remains acyclic. This experiment retains its existing mapping
+so the structural comparison is independent of a storage redesign.</p>
+<h3 id="what-refinement-preserves">What refinement preserves</h3>
+<p>The two-part presence relation is already a small structural ladder:</p>
+<pre><code class="language-text">parts [0,0]             -&gt; coarse 0
+parts [0,1], [1,0], [1,1] -&gt; coarse 1
+</code></pre>
+<p>Learning which connected parts are present refines a previously valid coarse
+1. It does not supply a calibrated magnitude. More generally, for the same
+state and the same read contract, finer evidence should project into the
+possibilities already admitted by the coarse read. A changed physical state or
+changed meaning of zero is a different observation, not that refinement.</p>
+<p>The tests exhaust the exclusive-presence law and exercise the structural
+distinction across all four fixed O/D contexts, including uncertain inputs and
+migration. No geometric line, radial dynamics, automatic feedback, or hidden
+numeric resolution is inferred from these rows.</p></main></html>

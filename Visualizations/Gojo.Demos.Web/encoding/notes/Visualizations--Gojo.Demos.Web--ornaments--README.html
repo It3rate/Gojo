@@ -1,0 +1,89 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ornament collections</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="ornament-collections">Ornament collections</h1>
+<p><code>/ornaments/interior-ornament/</code> presents twelve compound interior designs:
+flowers, fans and scrolls within woven, bowed and interlocking meshes. The
+bounded edition includes all twelve final SVGs, all twelve even-outline mesh
+views, an inspector, an all-design sheet, captured summaries and the study
+notes. Earlier comparisons, guide overlays, full display-path records and native
+archives remain in the linked research checkout. The adapter in
+<code>tools/interior-ornament-publication.mjs</code> only projects the captured presentation;
+it does not execute geometry or alter the SVGs. Its source is
+<code>experiments/QualitativeFrieze/results/ornament-interior</code>.</p>
+<p><code>/ornaments/lattice-interiors/</code> adds all 100 recorded interior-first lattices.
+Its bounded website edition retains the 100 coloured and 100 outline SVGs,
+captured cell and repeat summaries, family/search controls, local ratings with
+fingerprint-checked export/import, an all-design overview, and four rejected
+interior examples. Construction stages, full diagnostics and native archives
+remain in the research checkout; the publication scope states this explicitly.
+The adapter in <code>tools/interiors-publication.mjs</code> projects captured facts and
+does not execute geometry or alter any SVG. The complete research gallery is
+at <code>experiments/QualitativeFrieze/results/lattice-interiors/gallery.html</code>.</p>
+<p>Public entry: <code>/ornaments/</code>. The Gojo homepage links here; each collection has
+a permanent child route. <code>/ornaments/bourgoin/</code> retains 36 source
+comparisons, construction views, earlier SVG interpretations, native packets
+and a whole-atlas view. Its linked program example is included under
+<code>/ornaments/bourgoin/program/</code>.</p>
+<p><code>/ornaments/flowing-grammar/</code> presents the refined collection: 36 retained
+skeletons with overall, intermediate and detail designs (108 designs). Its
+website edition includes every current full-field SVG and every executed-unit
+SVG, the all-design overview, the interior selection, the conceptual-complexity
+review and diagnostic records. Source comparisons link to the existing Bourgoin
+collection. Colour and geometry come from the recorded research outputs.</p>
+<p>The website edition is deliberately bounded to fit the shared hosting quota.
+Alternate chord/construction controls, native archives, large combined exports
+and older review images remain in the research checkout; those controls and
+links are removed together from the web edition, with an explicit scope note.
+The research galleries are unchanged. Nothing is silently substituted for an
+unpublished view.</p>
+<h2 id="add-a-collection">Add a collection</h2>
+<ol>
+<li>Finish and retain the study in its experiment folder.</li>
+<li>Add an entry to <a href="assets/Visualizations--Gojo.Demos.Web--tools--ornament-collections.json">ornament-collections.json</a>.
+   Array order is the index order. Choose a descriptive, stable <code>id</code>; do not
+   renumber existing routes when more studies arrive. Give the source directory,
+   gallery filename, catalogue (<code>Entries</code>, or the configured <code>countProperty</code>,
+   supplies the displayed count), short
+   description and actual SVG/image previews. Declare linked companion folders
+   or documents explicitly; unpublished local dependencies fail the build.
+   A bounded presentation may declare <code>includeFiles</code> and <code>omitLinks</code> regular
+   expressions. <code>refined-compact</code> retains mode and executed-unit controls while
+   removing the omitted curve/construction controls and links. Every omitted
+   target must match an explicit rule. Other unpublished dependencies still
+   fail the build. Links into another selected collection share its stable URL.</li>
+<li>Rebuild and check:</li>
+</ol>
+<pre><code class="language-powershell">node Visualizations/Gojo.Demos.Web/tools/build-ornaments.mjs
+node Visualizations/Gojo.Demos.Web/tools/build-ornaments.mjs --check
+node Visualizations/Gojo.Demos.Web/tools/check-ornaments.cjs
+</code></pre>
+<p>Use <code>build-ornaments.mjs --dry-run</code> to inspect collection sizes without writing
+generated files. Check the complete prepared production bundle against the
+site's allowance before deployment, including the existing applications.</p>
+<p>The builder copies the selected recorded files, rewrites local HTML links to
+absolute public paths and adds return navigation. It does not run the kernel,
+change a construction or regenerate research results. Galleries keep their
+controls. Text files retain their content with LF newlines for consistent
+publication across platforms; images are copied byte for byte. <code>publication.json</code>
+records source paths and SHA-256 hashes after this newline normalization, before
+HTML navigation and link adaptation. Native JSON data and SVG geometry are not
+recomputed.
+<code>gallery.html</code> remains a working alias for the collection's directory index.
+Its small redirect preserves the query and fragment, including selected cases,
+instead of duplicating the potentially large complete gallery HTML. Without
+JavaScript, its collection link remains usable.
+An explicit base URL preserves relative image URLs constructed by the original
+gallery controls, including at the directory's no-trailing-slash alias.
+Study notes are retained as Markdown downloads.</p>
+<p>Edit the original study to revise a gallery, then rebuild. Generated collection
+files and <code>index.html</code> are committed for static hosting. <code>ornaments.css</code> and
+this README are authored here. Do not copy unrelated ongoing experiments into
+a collection just because their folders exist.</p>
+<h2 id="preview-and-publish">Preview and publish</h2>
+<p>The browser check uses Playwright, with <code>GOJO_PLAYWRIGHT_MODULE</code> and
+<code>GOJO_BROWSER</code> overrides as in the syntax notebook. It checks navigation,
+dependencies, retained artifact hashes, controls and desktop/phone layouts.
+Set <code>GOJO_BASE_URL=https://gojo.inklingai.ca</code> to check the public site.</p>
+<p>Use the <a href="Visualizations--Gojo.Demos.Web--README.html">shared site preparation and deployment</a>. The complete
+bundle retains the existing browser applications, syntax and Minds sections.
+<code>/ornaments/*</code> is excluded from the homepage fallback, so a missing download
+returns a real 404. Future collections only need a catalogue entry and rebuild;
+the homepage link and deployment overlay remain the same.</p></main></html>

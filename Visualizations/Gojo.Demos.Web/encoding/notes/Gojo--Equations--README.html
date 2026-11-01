@@ -1,0 +1,228 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gojo Equations</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojo-equations">Gojo Equations</h1>
+<p><code>Gojo.Equations</code> is the first foothold for relation-shaped equations. An
+equation is not a symbolic formula object. It is a Gojo surface that admits
+input participation, predicts output participation, and exposes residue or
+error as structure.</p>
+<p><code>Equation</code> stays deliberately tight: it builds equation surfaces and performs a
+single local read through them. <code>EquationInspection</code> is the separate layer that
+applies those surfaces to ordered sample streams, compares predictions with
+observations, and records fit evidence.</p>
+<h2 id="affine-surface">Affine Surface</h2>
+<p>The first equation shape is an affine frame surface:</p>
+<pre><code class="language-text">Segment(input, inputStart, inputEnd)
+  -&gt; Segment(output, outputStart, outputEnd)
+</code></pre>
+<p><code>inputStart</code> and <code>inputEnd</code> are basis endpoints, not consecutive samples.</p>
+<pre><code class="language-text">Segment(sensor,0,10) -&gt; Segment(percent,0,100)
+sensor = 3 reads as percent = 30
+</code></pre>
+<p>The same shape covers unit conversion, normalization, proportional gear reads,
+inverse direction, offsets, and coarse percentage projections.</p>
+<h2 id="prediction">Prediction</h2>
+<p>Prediction is a read through the equation surface:</p>
+<pre><code class="language-text">input sample -&gt; predicted output + source residue
+</code></pre>
+<p>The data does not become part of the equation. It is admitted through the input
+surface and read into the requested output carrier.</p>
+<h2 id="patterned-equations">Patterned Equations</h2>
+<p>An equation surface and an input surface can both contain structural slots:</p>
+<pre><code class="language-text">equation pattern:
+  (XPort -&gt; YPort) -&gt; Output
+
+input pattern:
+  XValue -&gt; YValue
+</code></pre>
+<p><code>EquationPattern</code> binds those slots through ordinary relation-shaped bindings
+and then runs the same local equation read. If some slots are missing, the read
+still returns a prediction/residue structure and reports the unresolved slot
+surfaces:</p>
+<pre><code class="language-text">bindings:
+  XPort  -&gt; concrete x port
+  Output -&gt; concrete output
+
+unbound:
+  YPort
+  XValue
+  YValue
+</code></pre>
+<p>This keeps incomplete data frames inspectable. A missing value is not a thrown
+validation failure; it remains visible as an open slot in the residue or
+instantiated structure.</p>
+<p>Patterned equation maps apply the same idea to streams of binding frames:</p>
+<pre><code class="language-text">PatternMapRoot
+  + index span
+  + equation pattern
+  + input pattern
+  + sample 0
+  + sample 1
+
+PatternSampleN
+  + Point(index,N)
+  + supplied slot bindings
+  + predicted output location
+  + residue
+  + unresolved slot surfaces
+</code></pre>
+<p>Different samples in the same stream may be complete, partial, or differently
+resolved. The map records that directly instead of requiring every frame to
+have the same shape before it can participate.</p>
+<p>The first stress footholds are deliberately small:</p>
+<pre><code class="language-text">Fibonacci-like frames:
+  (a,b) -&gt; a+b
+  next frame supplies (b,a+b)
+
+Generated partial frames:
+  complete frame
+  missing input value
+  missing equation port
+  missing output surface
+  repeat...
+</code></pre>
+<p>Missing input values tend to remain visible in prediction residue because the
+input pattern itself is still carried through the read. Missing equation ports
+or output surfaces are still recorded in the unresolved-slot group, but they may
+not survive inside operation residue after the equation read attempts to parse
+the partial operation. The unresolved-slot group is therefore the authoritative
+read for frame completeness.</p>
+<h2 id="sum-and-product-surfaces">Sum And Product Surfaces</h2>
+<p>Weighted sums and products use existing Gojo operation surfaces. The ports are
+ordinary frame relations, and the output surface decides the operation shape:</p>
+<pre><code class="language-text">// weighted sum
+((Segment(x,0,1) -&gt; Segment(Unknown,0,2))
+  -&gt; (Segment(y,0,1) -&gt; Segment(Unknown,0,3)))
+  -&gt; Point(output,1)
+
+// product
+((Point(width,1) -&gt; Point(Unknown,1))
+  -&gt; (Point(height,1) -&gt; Point(Unknown,1)))
+  -&gt; Segment(area,0,1)
+</code></pre>
+<p>For the sum, each operand is projected into the equation reader basis and then
+added. For the product, each operand is projected and then multiplied. Biases
+or constants can be represented as ordinary supplied slots, such as a bias
+carrier with value <code>1</code> and a weighted port of <code>0..5</code>.</p>
+<h2 id="sequences">Sequences</h2>
+<p><code>EquationSequence</code> composes equation surfaces without turning them into a
+symbolic expression tree. A sequence is an ordered Gojo group:</p>
+<pre><code class="language-text">SequenceRoot
+  + equation step 0
+  + equation step 1
+  + equation step 2
+</code></pre>
+<p>A single read through the sequence feeds each step's predicted output into the
+next step. The final read returns the last predicted output, while the residue
+is an ordered group of the step residues. The sequence itself is the structure;
+the step reads are witnesses of one particular input moving through it.</p>
+<p>This is the first foothold for multi-step equations such as:</p>
+<pre><code class="language-text">sensor -&gt; normalized sensor -&gt; squared sensor -&gt; score
+width,height -&gt; area -&gt; normalized area
+</code></pre>
+<h2 id="fanout">Fanout</h2>
+<p><code>EquationFanout</code> is the paired branching shape for sequence composition. It
+anchors an ordered branch group at a fanout origin:</p>
+<pre><code class="language-text">Point(fanoutRoot,0)
+  -&gt; BranchGroup
+       + equation branch 0
+       + equation branch 1
+</code></pre>
+<p>Each branch reads the same supplied input. The prediction output is a
+tuple-shaped relation, not an ordered holder group, so it can feed existing
+operation surfaces:</p>
+<pre><code class="language-text">input -&gt; (branch0 output, branch1 output, branch2 output)
+(branch outputs) -&gt; Sum/Product/etc.
+</code></pre>
+<p>This gives the equation layer the first explicit <code>one input, many derived
+participations</code> structure. It is enough to model shapes like <code>x -&gt; (x, 2x) -&gt;
+sum</code>, and it points toward polynomial terms where later branches can derive
+<code>x^2</code>, <code>x^3</code>, or lower-resolution witnesses before a merge surface reads them.</p>
+<h2 id="ordered-map">Ordered Map</h2>
+<p>Mapping a stream is inspection structure built by <code>EquationInspection</code>:</p>
+<pre><code class="language-text">MapRoot
+  + index span
+  + equation surface
+  + sample 0
+  + sample 1
+  + sample 2
+
+SampleN
+  + Point(index,N)
+  + input location or relation-shaped input
+  + predicted output location
+  + source residue location or relation-shaped residue
+</code></pre>
+<p>The current helper still executes the per-sample loop in code, but the result
+records the index sites and per-sample prediction groups. This keeps the
+direction compatible with later time-step and SIMD-style execution without
+making SIMD the source of meaning.</p>
+<h2 id="comparison">Comparison</h2>
+<p>Comparison is also inspection structure:</p>
+<pre><code class="language-text">CompareRoot
+  + index span
+  + comparison sample 0
+  + comparison sample 1
+
+ComparisonSampleN
+  + Point(index,N)
+  + predicted output
+  + observed output
+  + error
+  + equality claim surface
+</code></pre>
+<p>The comparison helper now builds a small equality claim:</p>
+<pre><code class="language-text">predicted -&gt; observed
+  + readable residual
+  + one-sided/equality violation
+  + residual magnitude
+  + violation magnitude
+  + residue
+</code></pre>
+<p>For same-face scalar samples the readable residual is still <code>observed -
+predicted</code> on the supplied error carrier. Negative residuals remain negative
+locations on that carrier; they are not converted into inverse-flow
+participation. If the compared samples use opposed carrier faces, the claim
+keeps a fused residual so a later surface can decide whether to fold, route, or
+settle that opposed participation.</p>
+<h2 id="difference-and-fit">Difference And Fit</h2>
+<p>The difference helper is not a symbolic subtraction node. It is a weighted sum
+surface, so it belongs with <code>Equation</code>:</p>
+<pre><code class="language-text">(predicted port: 0..1 -&gt; 0..-1)
++(observed port:  0..1 -&gt; 0..1)
+  -&gt; Point(error,1)
+</code></pre>
+<p>Given relation-shaped input <code>(predicted, observed)</code>, it reads <code>observed -
+predicted</code> onto the error carrier.</p>
+<p>A fit summary is separate inspection structure. It gathers a stream of error
+samples:</p>
+<pre><code class="language-text">FitRoot
+  + index span
+  + total signed error
+  + total error magnitude
+  + fit sample 0
+  + fit sample 1
+
+FitSampleN
+  + Point(index,N)
+  + signed error
+  + error magnitude
+</code></pre>
+<p>The magnitude value is now read from the equality claim. It is still a small
+inspection foothold, but the mismatch that produced it remains attached as
+claim/residual structure so later fit, thresholds, and "close enough" reads can
+settle from the same surface rather than from a hidden classifier.</p>
+<h2 id="next-targets">Next Targets</h2>
+<p>The intended sequence is:</p>
+<pre><code class="language-text">affine frame             y = ax + b
+weighted sum             y = a*x + b*z + c
+difference/error         observed - predicted
+product/bilinear         x*z
+sequence/composition     f(g(x))
+fanout/merge             x -&gt; (f(x), g(x)) -&gt; h(...)
+fit summary              samples -&gt; signed/magnitude residuals
+piecewise/clamp/gate     bounded local equations
+polynomial               c0 + c1*x + c2*x^2 ...
+state transition         state[t+1] = f(state[t], input[t])
+exponential/log/trig     higher equation families
+candidate fitting        samples -&gt; parameters + residual
+</code></pre>
+<p>Each target should first be a clear Gojo structure, then an executable helper,
+and only later a compiled/backend representation.</p></main></html>

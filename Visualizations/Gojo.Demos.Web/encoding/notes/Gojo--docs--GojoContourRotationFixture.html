@@ -1,0 +1,197 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rotation with supplied radial coordinates</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="rotation-with-supplied-radial-coordinates">Rotation with supplied radial coordinates</h1>
+<p>Status: implemented exploratory selected contract, September 2026. This develops the
+<a href="Gojo--docs--GojoContourRotationAndLocalInterfaces-2026-09.html">contour-grounded plan</a>.</p>
+<p><a href="assets/Gojo--docs--examples--calibrated-contour-rotation.html">Open the nine-step dial and plate example</a>.</p>
+<p>This is a later turning fixture: it <strong>supplies</strong> an X/Y basis, metric and
+radial landmarks. It did not establish how the circle or those landmarks came
+into being. Start with <a href="Gojo--docs--GojoCircleConstructionFixture.html">circle construction before coordinates</a>
+and its <a href="assets/Gojo--docs--examples--contour-rotation.html">revised first demo</a> for that earlier work.
+The two fixtures do not yet have an executable intrinsic-to-Cartesian bridge.</p>
+<p>The first experiment uses a finite ordered set of marked radial attachments
+on a planar constant-reach contour. A turn selects a walk between markers.
+Its geometric action is derived from the source and destination radii under
+an explicitly supplied positive-definite local metric. No degrees, radians,
+trigonometric constants or authored rotation matrix define that action.</p>
+<h2 id="structural-contract">Structural contract</h2>
+<p>The notation below describes ordered Gojo structure. The executable authored
+example uses the existing <code>gojo 1</code> constructors.</p>
+<pre><code class="language-text">basis = group_on(space, x unit span, y unit span)
+metric = group(basis, group(
+    (x unit span -&gt; x unit span) -&gt; xx,
+    (x unit span -&gt; y unit span) -&gt; xy,
+    (y unit span -&gt; y unit span) -&gt; yy))
+surface = group(origin point -&gt; exposed centre, circular carrier, metric,
+                group(marker -&gt; (centre -&gt; rim), ...),
+                group(marker -&gt; next marker, ..., last -&gt; first))
+traverse request = group(surface, start marker, signed step span)
+traverse result = group(start marker, finish marker, copied step span,
+                        signed crossings)
+turn result = group(metric, centre -&gt; first rim, centre -&gt; last rim)
+apply request = group(traversal witness, exposed ordered points)
+</code></pre>
+<p>The <a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--contour-rotation.gojo">authored fixture</a>
+contains these structures using existing <code>gojo 1</code> constructors. Its six roots
+expose the base surface, a one-edge request, an ordered point frame, a refined
+surface, a partial surface and an application template. The reader's name is
+not stored as an operation tag, and identifiers can be renamed without changing
+the read. No grammar change was needed.</p>
+<p>The metric pairings are squared-length participation on one compatible basis.
+The selected symmetric bilinear read is
+<code>&lt;u,v&gt; = xx*ux*vx + xy*(ux*vy + uy*vx) + yy*uy*vy</code>.
+It requires <code>xx &gt; 0</code> and <code>xx*yy - xy*xy &gt; 0</code>. Zero cross participation supplies
+perpendicular coordinate directions in this selected metric; a generic
+orthogonal outlet does not do so. This is a declared metric, not discovery of
+geometry from unconstrained tension.</p>
+<p>Topology requires a closed ordered cycle with actual shared marker sites.
+Equal coordinates cannot substitute for a missing connection. Traversal counts
+edges, not angular distance: unevenly spaced markers remain legal. A geometric
+turn additionally requires concrete, nonzero, equal metric radii and a simple
+convex cyclic ordering. Open geometry can therefore retain a successful
+topological walk while the stronger geometric result remains open.</p>
+<h2 id="turning-without-an-angle-parameter">Turning without an angle parameter</h2>
+<p>Let <code>a</code> and <code>b</code> be the source and destination displacements from the centre.
+The metric establishes <code>&lt;a,a&gt; = &lt;b,b&gt; &gt; 0</code>. Reflecting a displacement <code>v</code>
+along the source radius gives <code>w = 2*a*&lt;a,v&gt;/&lt;a,a&gt; - v</code>. Reflecting <code>w</code>
+across the normal <code>a-b</code> then gives
+<code>w - 2*(a-b)*&lt;a-b,w&gt;/&lt;a-b,a-b&gt;</code>. Together these preserve the metric, preserve
+planar orientation and carry <code>a</code> to <code>b</code>. When <code>a=b</code>, the endpoint transform is
+identity; any completed traversal remains recorded separately.</p>
+<p>The reflections are a derived evaluation of the connected radial relation.
+They keep their intermediate displacements in witnesses. An attached point is
+read relative to the centre, transformed, and reattached to that centre. The
+helper supplies no universal angular unit. A Cartesian or angular export can
+be added later as a calibrated read.</p>
+<p>The first contract is discrete: it evaluates authored contour landmarks. It
+does not interpolate a continuous turn between them, discover a metric, infer
+equal angular sectors, model torque, or provide general three-dimensional
+rotation. These remain subsequent constructions.</p>
+<h2 id="a-concrete-turn">A concrete turn</h2>
+<p>Imagine a dial with a plate attached to its pointer. In the authored local
+plane the centre is <code>(10,20)</code> and four radial endpoints are <code>(15,20)</code>,
+<code>(10,25)</code>, <code>(5,20)</code> and <code>(10,15)</code>. All have reach five under the selected metric.
+Each has a marker on the contour. The ordered cycle connects those markers,
+including the final connection back to the first.</p>
+<p>The plate's ordered corners are <code>(12,20)</code>, <code>(12,21)</code>, <code>(13,21)</code> and <code>(13,20)</code>.
+Following the first edge carries the first radius to the second. The plate's
+corners consequently become <code>(10,22)</code>, <code>(9,22)</code>, <code>(9,23)</code> and <code>(10,23)</code>.
+Their pairwise distances and handedness survive the turn.</p>
+<p>Adding a landmark at <code>(13,24)</code> introduces the radial displacement <code>(3,4)</code>.
+It has the same reach of five. One edge in this refined cycle sends the first
+plate corner to exactly <code>(56/5,108/5)</code>. Two refined edges reach the earlier
+endpoint <code>(10,25)</code> and reproduce the original turn. The new path has five
+edges, but their geometric sizes are unequal. Tick labels <code>0,2,4,8,12</code> identify
+sites; neither their values nor their differences are angular units.</p>
+<p>If that next radial endpoint is <code>?missing_rim</code>, the cycle can still say which
+marker comes next. The geometric read retains an open result. Binding the
+missing attachment permits a new geometric read while the earlier witness
+continues to record its unresolved state. In this first contract, <strong>every</strong>
+radial landmark must be concrete before the whole contour's stronger geometric
+claim succeeds. A later read may justify turning over a sufficiently known
+subsurface; the current reader does not infer it automatically.</p>
+<h2 id="procedures-and-evidence">Procedures and evidence</h2>
+<p><a href="assets/Gojo--Structures--ContourRotation.cs">ContourRotation</a> implements three selected
+reads. Each returns the ordinary five-part witness: selected source, read
+surface, result, remainder and provenance.</p>
+<table>
+<thead>
+<tr>
+<th>Procedure</th>
+<th>Result</th>
+<th>Retained evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TryTraverse</code></td>
+<td>Start marker, end marker, signed step span, signed closing-edge crossings</td>
+<td>Captured surface and request; shared marker sites and all authored edges</td>
+</tr>
+<tr>
+<td><code>TryTurn</code></td>
+<td>Metric, first radial relation, final radial relation</td>
+<td>Successful traversal and exact squared reach</td>
+</tr>
+<tr>
+<td><code>TryApply</code></td>
+<td>New ordered point frame, possibly partial</td>
+<td>Geometric witness, source-to-result relations and per-point reflection evidence</td>
+</tr>
+</tbody>
+</table>
+<p>The native circular origin is linked to the exposed centre through the
+<code>$centre_representation</code> relation, formerly named <code>$anchor</code>.
+The reader checks that the anchor's source carrier and tick match the frozen
+circular-origin promise. This is an explicit calibration relation, not a claim
+that two independently exposed coordinate-equal points are the same site.
+Within the cycle, edges must use the actual shared marker ticks. Radial
+relations must share the actual exposed centre relation.</p>
+<p>The metric connects two distinct compatible length axes through their <code>0..1</code>
+unit spans. Its pair operands reference those same spans. Coefficients live on
+one compatible squared-length carrier. For example, pairings <code>1,1,2</code> describe
+a valid nonperpendicular basis; the rotation preserves that metric rather than
+assuming the displayed coordinate axes are perpendicular.</p>
+<p>Traversal counts signed edges, including any number of complete circuits. A
+crossing is measured at the cycle's authored closing edge, relative to its
+first marker. A one-edge backward walk from that first marker records <code>-1</code>;
+this does not mean it travelled a whole circuit. Start, endpoint, step count,
+cycle structure and crossings together retain the route. A four-edge circuit
+and a zero-edge walk have the same endpoint action but different witnesses.</p>
+<p><code>TryApply</code> is a construction read. A caller explicitly adopts the resulting
+point frame and can put before, application witness, after and remainder into
+a <code>TimeStepSequence.Step</code>. Four such steps are tested as a connected timeline
+before and after numeric restoration. This does not model forces or material
+settlement; externally driven material change must still enter through tension.
+The fixture transforms only the exposed ordered points, not hidden CAD internals.</p>
+<p>Repeated whole-point references remain shared in the result. Independent
+coordinate-equal points stay distinct. Derived coordinate sites are new;
+the reader does not promise that an input coordinate alias survives as an
+output coordinate alias, since a turned coordinate can depend on both inputs.
+Captured per-point sources preserve shared input ticks for that dependency
+evidence. An open input coordinate remains open wherever it contributes;
+an output independent of that unknown can still be exact. For example, the
+first turn takes <code>(?,21)</code> to <code>(9,?)</code>.</p>
+<p>Captures copy exposed numeric locations and relation sharing while retaining
+carrier references and their stable unit shapes. They do not traverse private
+attachments or freeze an entire live local world. The selected-source field
+can remain a backlink to the live request; historical evaluation uses the
+captured surface and request. Re-reading a recorded traversal does not silently
+pick up later edits to the original centre, rims or metric ticks.</p>
+<h2 id="refusal-and-current-limits">Refusal and current limits</h2>
+<p>An unresolved witness retains the request and an open result. It does not
+declare which participant caused the conflict. Refused geometric claims
+include unequal or zero radii, repeated radial poses, crossing landmark order,
+an invalid metric, incompatible units and ungrounded coordinates. A valid
+weaker traversal remains available even when the stronger read fails.</p>
+<p>Calculations use exact rational intermediates. The current numeric encoding
+still bounds stored numerators and denominators; an unencodable squared reach
+or intermediate/output displacement remains unresolved instead of wrapping
+or introducing a float.
+The reader currently preserves the relevant request rather than producing a
+fine-grained conflict diagnosis. Uncertainty in radial distance, metric or
+pose needs a subsequent conditional interpretation; <code>approximately five</code>
+must not become an invented hard tolerance or an exact radius.</p>
+<p>This validates later discrete planar turning with supplied geometry. Its
+earlier description as an implementation of R1–R4 overstated the construction
+coverage: the source of the contour and its landmarks was still missing.
+The native construction fixture now addresses those earlier stages. Remaining work
+includes continuous contour parameterization, conditional turns under uncertain
+geometry, native calibration between different resolutions and units, frame
+transport between local spaces, and three-dimensional composition. A 3D turn
+needs a selected plane/axis and orientation structure: one radius alone does
+not determine how the remaining frame turns. Angle-unit exports, if added,
+must read these constructions rather than define them.</p>
+<h2 id="verification">Verification</h2>
+<p><a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxRotationTests.cs">GojoSyntaxRotationTests</a>
+contains 37 cases covering exact turns, nonperpendicular metrics, signed
+traversal, refinement, partial inputs, refused claims, identity, history,
+numeric restoration and range failures. The nine demo states are checked
+against the actual readers after two numeric round trips, and its displayed
+syntax is checked against the authored fixture. The demo draws those recorded
+results; it does not run the Gojo kernel in JavaScript.</p>
+<p><code>dotnet test Gojo.slnx</code> passes 1,420 tests at this checkpoint: 782 kernel,
+462 encoding, 155 CAD and 21 gear-ladder tests. These results establish this
+selected contract, not the later continuous or physical rotation systems.</p>
+<p>The standalone demo also passes browser checks at desktop and phone widths:
+all nine steps, the syntax disclosure, local links, direct step URLs, keyboard
+controls and page overflow. Representative complete and open states were
+visually inspected.</p></main></html>

@@ -1,0 +1,37 @@
+gojo 1;
+
+let $space = carrier();
+let $x = carrier();
+let $y = carrier(unit_of($x));
+let $t = carrier();
+let $basis = group_on($space, span($x,0,1), span($y,0,1));
+let $a = group_on($space, at($x,-1), at($y,2));
+let $b = group_on($space, at($x,2), at($y,3));
+let $parameter = span($t,0,3);
+let $grade = group(at($t,1), $parameter, $parameter, $basis);
+// The exact sample is (0, 7/3), not (0, 2) silently fed to the next stage.
+root ports($a, $b, $grade) -> ?sample;
+root ports($a, group_on($space, at($x,2), ?unknown_y), $grade) -> ?partial_sample;
+
+// Extrapolation is permission from support; it is not implicit from calibration.
+root ports($a, $b, group(at($t,4), $parameter, $parameter, $basis)) -> ?outside;
+root ports($a, $b, group(at($t,4), $parameter, span($t,-3,6), $basis)) -> ?extended;
+// Reversal maps the same physical parameter through a reversed ordered frame.
+root ports($b, $a, group(at($t,1), reverse($parameter), $parameter, $basis)) -> ?reversed;
+
+// An equal-position lookalike remains a different site; a shared tick remains shared.
+let $joint_x = tick(4);
+let $p = group_on($space, at($x,$joint_x), at($y,1));
+let $q = group_on($space, at($x,$joint_x), at($y,3));
+let $lookalike = group_on($space, at($x,4), at($y,1));
+let $edge = $p -> $q;
+let $motif = group($edge, $edge, $q -> $lookalike, ?unfinished_feature);
+let $maps = ports(span($x,0,3) -> span($x,1,3), span($y,0,1) -> span($y,0,-1));
+root group($motif, ports($p,$q,$lookalike), $maps, $basis);
+// Selection may expose only one site; it does not claim the whole motif moved.
+root group($motif, ports($p), $maps, $basis);
+
+// The same unresolved coordinate remains a shared dependency after mapping.
+let $open_p = group_on($space, at($x,1), ?shared_y);
+let $open_q = group_on($space, at($x,2), ?shared_y);
+root group($open_p -> $open_q, ports($open_p,$open_q), $maps, $basis);

@@ -1,0 +1,146 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Primitive Explorer</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="primitive-explorer">Primitive Explorer</h1>
+<p>An interactive visual overview of the primitive experiments, from the original
+ODV word to connected flow, geometry constraints and repeated patterns.</p>
+<p><img alt="A shared unknown reach highlights both opposite sides and their exact reference bits" src="assets/Visualizations--Gojo.PrimitiveExplorer--previews--shared-reach.png" /></p>
+<pre><code class="language-powershell">dotnet run --project Visualizations/Gojo.PrimitiveExplorer
+</code></pre>
+<p>Or run <code>Open-Explorer.ps1</code> in this directory. This is a local Avalonia desktop
+application, with native drawing and no XAML, web service or external assets.
+It requires the repository's .NET 10 development environment.</p>
+<h2 id="how-to-explore">How to explore</h2>
+<p>Choose a layer on the left. The dark panel contains actual packed bytes, with
+hexadecimal byte labels and individual bits in <strong>low-bit-first storage order</strong>.
+The diagram is on the right. Hover either side to highlight its counterpart;
+click to pin a selection and scroll to its encoding. Escape clears it.</p>
+<p>Use the controls above the panels to change observations, wiring premises or
+construction. Passage chapters step actual owner-local transitions. Repetition
+and composition chapters advance one external beat at a time, or play slowly.
+Reset returns to the selected scenario's initial state. Changing a scenario
+also resets its timeline. Each displayed timeline is reconstructed by replaying
+the bounded experiment from its selected initial state; it is not a general
+live simulator or persistence format.</p>
+<p>The result underneath explains what changed and what can be concluded. The
+smaller text states the interpretation's limits. <strong>Encoding notes</strong> opens the
+corresponding experiment document in the repository.</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What can be changed / inspected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Three bits</td>
+<td>All eight words, explicit reorientation versus direction reversal, packing</td>
+</tr>
+<tr>
+<td>Prediction &amp; shared flow</td>
+<td>Coarse addition, incomparable orientations, opposed reads of one word</td>
+</tr>
+<tr>
+<td>Storage &amp; ports</td>
+<td>Release D, widen payload, release O, follow a stable port, inspect dirty retired slots</td>
+</tr>
+<tr>
+<td>Read laws &amp; Boolean logic</td>
+<td>OR, XOR, AND, addition; exact admitted tuple bits; missing and uncertain support</td>
+</tr>
+<tr>
+<td>Refinement &amp; correspondence</td>
+<td>Two-part presence ladder; distinct versus shared uncertain input references</td>
+</tr>
+<tr>
+<td>Retained opposition</td>
+<td>Fine demonstration settlement and separate coarse occupancy; zero net with retained participation</td>
+</tr>
+<tr>
+<td>Memory at zero</td>
+<td>Previous direction, new observation, explicit feedback update</td>
+</tr>
+<tr>
+<td>Structural potential</td>
+<td>One site, two sites, one site occupying two roles</td>
+</tr>
+<tr>
+<td>Passages &amp; chains</td>
+<td>Whole handoff, shared middle site, occupied target, unknown control</td>
+</tr>
+<tr>
+<td>Conditionals</td>
+<td>Complementary outlets, continuations, shared Done, correlated branch predictions</td>
+</tr>
+<tr>
+<td>Saturation &amp; outlets</td>
+<td>Forward-first ordered routing, side overflow, blocked contents, uncertain capacity read</td>
+</tr>
+<tr>
+<td>Rectangle constraints</td>
+<td>Shared opposite reaches, missing correspondence, open seam, zero/unknown reach</td>
+</tr>
+<tr>
+<td>Circles &amp; polygons</td>
+<td>Circle, triangle, square, pentagon, hexagon, alternating-part rectangle; radius and seam</td>
+</tr>
+<tr>
+<td>Repetition &amp; stopping</td>
+<td>Reused bodies, phase/contour correspondence, feedback, continuous or observed-contact stop</td>
+</tr>
+<tr>
+<td>Composed patterns</td>
+<td>Five waiting stages and independent displacement; continuous body in a moving frame</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-the-pictures-mean">What the pictures mean</h2>
+<p>The viewer references <code>experiments/PrimitiveMeasure</code> directly. It calls the same
+packing, prediction, settlement, shape readers and controller fixtures as the
+console experiments. There is no second arithmetic or flow implementation in
+the UI. Numeric row charts are repacked with <code>EndpointRows</code> and checked against
+the originating fixture's bytes where that fixture exposes them.</p>
+<p>Screen positions, colors, labels and highlight mappings are presentation data.
+They are not new fields in the primitive representation. Shape dimensions and
+placement offsets on screen are illustrative; they cannot supply absent
+lengths, calibration, closure or equality. A phase cycle does not prove a turn
+angle without its displayed contour correspondence. The shape readers select
+explicit geometric contracts, rather than deriving physical geometry from ODV.</p>
+<p>Keep three different bit interpretations separate:</p>
+<ul>
+<li><strong>Stored values:</strong> ODV words, or owned V/D/O fields in their positional context.</li>
+<li><strong>Read supports:</strong> bit w admits word w; several bits represent alternatives.</li>
+<li><strong>Joint states / transition laws:</strong> bits describe complete multi-site patterns
+  or before/after pairs. They are not extra ODV quantities.</li>
+</ul>
+<p>Grey final bits are padding. Rows have no internal padding. The owning table's
+arity, reference width and law supply the interpretation. Current port/binding
+maps use host references and integers; the viewer does not imply that these
+maps already have a compact serialized format.</p>
+<p>Unknown control is a limited read of actual state; hiding it does not mutate
+the stored bit. Predictions are never committed as actual flow. The material
+passage executor requires a complete resolved observation; the later pulse
+controller can avoid reading an irrelevant guard. The two behaviors are shown
+without claiming they are the same executor.</p>
+<p>Automatic material splitting, discovered radial fields, automatic hardening,
+calibrated ladders, garbage collection, shrinking and contact detection remain
+open or separately scoped work. They are explained at the relevant layers,
+not animated as if already implemented.</p>
+<h2 id="checks-and-visual-review">Checks and visual review</h2>
+<pre><code class="language-powershell">dotnet test Tests/PrimitiveExplorer.Tests/PrimitiveExplorer.Tests.csproj
+dotnet test Gojo.slnx
+dotnet run --project Visualizations/Gojo.PrimitiveExplorer -- --capture=C:/Temp/gojo-primitive-explorer
+</code></pre>
+<p>The focused checks exercise every exposed choice combination at several step
+counts, enforce bit/padding bounds, compare uncertain conditional storage with
+its joint predictions, test missing shape evidence, verify shared-reference
+highlight spans, and check repetition/composition correspondence.</p>
+<p>Capture mode renders all 15 chapters from the actual Avalonia control tree,
+plus a linked selection, then exits. It is a visual review aid; it does not
+replace testing pointer and keyboard interaction in the live window. Capture
+mode also exercises the native direction button, uncertainty selector, step
+button and diagram hit detection. Representative screenshots are retained in
+<code>previews/</code>; the complete generated capture set is not required at runtime.</p>
+<p>Verified 1 November 2026: all 5,816 solution tests across 15 test projects
+passed, including 10 explorer cases and 250 primitive cases. All 15 chapter
+captures and the linked-selection capture were visually reviewed. The desktop
+window was also launched and confirmed responsive. The primitive kernel and
+experiment laws are unchanged by this viewer.</p></main></html>

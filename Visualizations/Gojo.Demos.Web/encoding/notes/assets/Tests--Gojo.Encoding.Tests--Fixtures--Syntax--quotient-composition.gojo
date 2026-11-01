@@ -1,0 +1,12 @@
+gojo 1;
+let $mile = carrier();
+let $hour = carrier();
+let $standard = point($mile, 1) -> point($hour, 1);
+let $speed = carrier(quotient_unit(group(ports(point($mile, 1)), ports(point($hour, 1)), $standard)));
+let $per_hour = carrier(quotient_unit(group(ports(), ports(point($hour, 1)), $standard)));
+let $product = carrier(product_units(unit_of($speed), unit_of($hour)));
+root group($mile, $hour, $speed, $per_hour, $product, $standard);
+root group(at($speed, 7), at($per_hour, 2), $mile, $standard);
+root group(at($speed, 7), at($per_hour, 0), $mile, $standard);
+root group(ports(point($product, 1)), ports(), $standard);
+root group(ports(point($speed, 1), ?factor), ports(point($hour, 1)), $standard);

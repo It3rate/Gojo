@@ -1,0 +1,286 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contour-grounded rotation and relations between local spaces</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="contour-grounded-rotation-and-relations-between-local-spaces">Contour-grounded rotation and relations between local spaces</h1>
+<p>Status: source review and exploratory construction plan, September 8, 2026.
+Baseline: <code>037c62e</code>. No new runtime behavior or grammar is introduced here.
+This refines the <a href="Gojo--docs--GojoCadEcadSyntaxAssessment-2026-09.html">CAD/ECAD assessment</a>
+following the user's clarification of rotation, locality and the experimental
+role of GojoEcad.</p>
+<h2 id="the-change-in-emphasis">The change in emphasis</h2>
+<p>The first assessment correctly identified incomplete coordinate-transform and
+connectivity readers, but gave coordinate matrices too central a role in the
+proposed rotation work. Gojo already has a more appropriate starting point:
+point-derived contour potential, radial attachment, marked traversal,
+partition and correspondence between contours.</p>
+<p>Rotation should become readable from such connected construction. Degrees,
+radians and a Cartesian matrix can express a calibrated read or an execution
+backend. They must not provide otherwise absent turning semantics. A different
+connected construction may also support rotation; the contour example is a
+small candidate to refine, not an exclusive universal recipe.</p>
+<p>GojoEcad is an experimental source of problems and ideas. Its record shapes,
+readable format, contact grouping and pinned dependency are not requirements
+for new Gojo construction. Preserve useful discoveries and assess proposed
+solutions on their merits. There is no obligation to maintain compatibility
+with every exploratory representation before finding a satisfactory structure.</p>
+<h2 id="what-already-exists-for-rotation">What already exists for rotation</h2>
+<p>The direction is explicit in the
+<a href="Gojo--axioms--Gojo Potential Shape Fact Sheet.html">potential-shape fact sheet</a>,
+<a href="Gojo--axioms--Gojo Structure Through Tension.html">structure-through-tension notes</a>
+and <a href="Gojo--ConceptSurface--ConceptShapesCodex.html">concept-shape codex</a>. They distinguish
+the possibility of a contour from its radius, reference marker, traversal,
+partition and eventual measurable geometry.</p>
+<table>
+<thead>
+<tr>
+<th>Current evidence</th>
+<th>What it establishes</th>
+<th>What it leaves open</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="assets/Gojo--Core--UnitShape.cs">UnitShape.CircularFrom</a>, <a href="assets/Tests--Gojo.Tests--Core--CircularStructureTests.cs">circular structure tests</a></td>
+<td>A point's orthogonal source is retained as inspectable unit provenance. A radial endpoint can be connected to a perimeter marker by an ordinary relation.</td>
+<td>The seed does not generate a completed circle, discover its container or enact a rigid turn.</td>
+</tr>
+<tr>
+<td><a href="assets/Tests--Gojo.Tests--Core--OrdinaryMathFlowTests.cs">Ordinary cycle tests</a>, <a href="assets/Tests--Gojo.Tests--Core--UnitShapeTests.cs">unit-shape tests</a></td>
+<td>Partitioned cycles wrap, count crossings through a carry route, and project between explicit cycle ratios. Circular carriers can participate in these same operations.</td>
+<td>A counter alone does not prove equal geometric sectors or radius-preserving movement.</td>
+</tr>
+<tr>
+<td><a href="assets/Applications--GojoCAD--GraphicReadGraph.cs">CAD read graph</a> and <a href="assets/Tests--GojoCAD.Tests--GraphicReadGraphTests.cs">tests</a></td>
+<td>Circular markers, spans, contour partitions, base-to-contour attachments and linear endpoint witnesses are recognized through connected structure.</td>
+<td>These selected attachment reads do not supply a complete turning or metric law.</td>
+</tr>
+<tr>
+<td><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--graphic-primitives.gojo">Graphic syntax fixture</a> and <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxGeometryTests.cs">tests</a></td>
+<td>Carrier-native circular and linear promises and partial ports survive numeric restoration without needing X/Y tuples.</td>
+<td>No general contour-to-pose executor is established by those tests.</td>
+</tr>
+<tr>
+<td><a href="assets/Visualizations--Gojo.GearShapeLadder--GearShapeLadderModel.cs">Gear model</a> and <a href="assets/Tests--Gojo.GearShapeLadder.Tests--GearShapeLadderModelTests.cs">tests</a></td>
+<td>Motion enters as tension; perimeter projections, opposing motion, phase calibration, shared pitch identity and refinement history remain structural.</td>
+<td>The renderer converts ticks to angles; the geometry builder also uses trigonometric sampling. This is not a completed native geometric rotation construction.</td>
+</tr>
+</tbody>
+</table>
+<p>For example, the existing syntax already contains this shape:</p>
+<pre><code class="language-gojo">let $anchor_axis = carrier();
+let $anchor_tick = tick(5);
+let $anchor = point($anchor_axis, $anchor_tick);
+let $circle = crystal(orthogonal($anchor));
+let $linear = crystal(orthogonal(span($anchor_axis, $anchor_tick, $anchor_tick)));
+let $arc = span($circle, -2, 6);
+let $line = span($linear, -3, 8);
+root group($anchor, $circle, $linear, $arc, $line);
+</code></pre>
+<p>This is an excerpt from the <code>gojo 1</code> fixture, not a complete new rotation
+program. It establishes distinguishable shape promises and ordered spans.
+The missing turning contract should connect to those structures rather than
+replace them with a number named <code>angle</code>.</p>
+<p>Blocks is useful evidence but remains an experimental inventory. In its
+<a href="assets/Visualizations--Gojo.Blocks--Glossary--BlocksGlossaryStructureCatalog.cs">structure catalogue</a>,
+the <code>rotated-frame</code> row currently groups two line examples; the description
+expresses an intended transform rather than an executed rotation. The
+<code>PartitionedCircle</code> builder places numbered markers on a circular carrier but
+does not itself attach a complete closure/radius/uniformity law. Its descriptive
+text is stronger than that construction. These are unfinished examples to
+learn from, not canonical definitions to preserve.</p>
+<h2 id="the-smallest-useful-turning-construction">The smallest useful turning construction</h2>
+<p>The following is a proposed sequence of structural obligations. Several early
+pieces already exist separately; their full composition is not implemented.</p>
+<ol>
+<li><strong>Source and available space.</strong> Preserve the originating point and the local
+   space through which its orthogonal possibility is being read. A point alone
+   does not choose a plane, an isotropic distance law or all possible dimensions.</li>
+<li><strong>Bounded contour.</strong> Connect the selected level/reach condition and closure.
+   To read a Euclidean circle, establish equal radial reach in the selected
+   geometry. An arbitrary level contour need not be a circle.</li>
+<li><strong>Radial attachment and reference.</strong> Connect a centre-to-contour relation
+   to an actual marker. This can establish a reference direction. Radius length
+   alone does not choose a contour marker, traversal direction or partition.</li>
+<li><strong>Traversal and partition.</strong> Expose ordered movement around the contour,
+   its closure correspondence, and the repeated units through which it is read.
+   Equal counter increments require supporting correspondence before they can
+   be interpreted as equal turns. Unmarked orientation remains a valid open state.</li>
+<li><strong>Moved radial relation.</strong> Connect the selected contour movement to the new
+   radial endpoint while retaining the origin and radial condition. This is the
+   first geometric turning result, distinct from advancing a cycle counter.</li>
+<li><strong>Attached structure.</strong> Expose how a second ray, pad or frame follows the
+   same turn. A rigid-turn claim preserves the selected relative geometry;
+   moving one endpoint on a contour alone does not prove rigidity of a whole part.</li>
+<li><strong>Witness and history.</strong> Retain the request, construction, old/new sites,
+   correspondence, unresolved participation and any chosen coordinate read.</li>
+</ol>
+<p>The radius-to-contour relation is therefore a particularly useful bridge. It
+makes a change in contour position a candidate change in radial orientation.
+It still needs the receiving geometry to interpret that change. This identifies
+the gap more precisely than saying that Gojo lacks a rotation matrix.</p>
+<p>Crystallized unit provenance is a retained snapshot. The existing syntax tests
+explicitly show that moving the source anchor does not change the captured
+circular origin. A live pivot or moving centre needs its own exposed pose and
+correspondence; it cannot be implemented by silently rewriting the unit promise.</p>
+<h2 id="example-a-pointer-on-a-partitioned-ring">Example: a pointer on a partitioned ring</h2>
+<p>Start with a pointer attached at the centre and at one marked site on a ring.
+Its length and attachment are known. Its absolute compass direction need not
+be known. Other equally valid local spaces may orient the whole assembly
+differently.</p>
+<p>Suppose the ring exposes twelve equal repeated sectors and the pointer follows
+that traversal. Advancing by three sectors is a quarter of the declared cycle.
+It becomes a geometric quarter-turn only when the circle and equal-sector
+correspondence support that read. A ring with twelve unevenly spaced markers
+does not meet the same contract. Nor does a counter that happens to wrap at twelve.</p>
+<p>After four such advances, the endpoint returns to its starting site under the
+declared closure, while the history records one complete traversal. Zero motion
+and a completed cycle can have equal exposed endpoint positions and different
+histories. A full-turn return does not generally prove that every transported
+orientation on an arbitrary contour returns unchanged; the rigid planar-circle
+contract must support that stronger claim.</p>
+<p>The current accounting mechanism already demonstrates an important part of
+this: introducing 27 ticks into a twelve-part circular carrier with a carry
+route leaves phase 3 and two counted crossings. With only a wrap boundary,
+the crossed 24 ticks remain tension instead. This is meaningful cycle
+accounting without degrees or radians. Negative traversal still needs its own
+signed movement/correspondence contract: an unsigned carrier value cannot
+silently become a negative modulo phase by drawing below zero.</p>
+<p>Reversal of traversal, opposed carrier flow, negating a coordinate and changing
+the observer's handedness remain distinct. A perpendicular construction can
+provide a quarter-turn in an appropriate planar geometry, with its direction
+resolved. The general Gojo orthogonal outlet means participation unaccounted
+for in the current order; it must not universally mean a ninety-degree turn.
+In three dimensions, an axis or oriented plane supplies additional necessary
+context.</p>
+<p>Only after this structure is readable should we compare it with coordinate
+results, including the rational matrix example in the earlier assessment.
+Exporting its turn in degrees or radians then becomes calibration. An optimized
+matrix or trigonometric implementation must retain correspondence with the
+selected construction and its approximation promise.</p>
+<h2 id="a-layer-boundary-is-a-local-interface">A layer boundary is a local interface</h2>
+<p>The user's layer example is a natural composition of local spaces. One
+perspective may expose a top conductor and its passage interface. Another may
+expose the bottom conductor or reference plane. The passage between them has
+its own participation. A larger local space can select all three and reason
+about their combined behavior; it does not become an all-knowing global observer.</p>
+<p>At the lowest useful resolution, the receiving side need only interpret its
+exposed attachment and the promised participation. It need not reconstruct the
+source's private geometry. The composition should nevertheless retain a route
+and enough correspondence for a later request or failure to reach the relevant
+interface:</p>
+<pre><code class="language-text">top participation -&gt; exposed passage -&gt; bottom participation
+                         |
+                 selected transfer/read
+                         |
+           accepted, blocked, unresolved evidence
+                         |
+           connected request or response route
+</code></pre>
+<p>“Layer-aware” should therefore mean that admissibility is grounded in these
+relationships. A layer name can help an importer establish context, but a
+string comparison is not the physical connection law. Same coordinates on two
+unconnected layers remain distinct sites. Adding a plated passage introduces
+connected participation, not an automatic merger of all coincident sites.</p>
+<p>A ground via connects reference conductors. A signal via carries its signal
+net; it should not thereby connect that net directly to ground. Signal and
+return participation must be distinguishable. A low-resolution model may expose
+only continuity. A stricter model can ask whether the <em>combined</em> forward and
+return paths meet a frequency/time-dependent response requirement. TI's
+<a href="https://www.ti.com/document-viewer/lit/html/SLLA653/GUID-A4F1CD83-9D39-45B1-B7A5-0E03429E4305">high-speed layout example</a>
+illustrates why reference-plane continuity and stitching at transitions matter.
+Its device-specific layout dimensions are not proposed Gojo laws.</p>
+<p>Inductance and capacitance describe physical participation already associated
+with the geometry and materials; failure does not create them. A changed signal
+or a finer observation can expose their previously omitted effects. A local
+space may publish a response shortfall without knowing whether it originated
+in the passage, reference path, source, load or measurement. Both neighbours
+can receive related mismatch without being declared independently at fault.</p>
+<p>A need for information can become an explicit request and a demand for change.
+Unbound information alone does not inject carrier tension. A connected response
+can turn relevant mismatch into exploratory pressure, with its basis and route
+preserved. Geometry changes, another connection, a revised operating condition
+or a revised model are candidate responses; no present rule guarantees that
+geometry will autonomously settle into a successful design.</p>
+<h2 id="fit-uses-the-same-composition-discipline">Fit uses the same composition discipline</h2>
+<p>A bolt and a hole can expose mating surfaces without either local space knowing
+the other's entire object. Their receiving relation selects a fit requirement:
+clearance, interference, alignment, travel, thread compatibility or another
+condition. Measurements and tolerances participate through their own bases and
+evidence. The <a href="Gojo--docs--GojoCadEcadSyntaxAssessment-2026-09.html#worked-example-a-bolt-and-a-hole">earlier fit example</a>
+is a small read of that connection.</p>
+<p>The shared pattern is exposed structure, correspondence, a selected relation,
+conditional assessment and a possible response. The physical laws remain
+specific to the participating quantities. Mechanical clearance is not electrical
+conductance; observing either is not automatically a material transfer. A
+common composition mechanism should not force them into an identical scalar
+equation or an identical update policy.</p>
+<h2 id="revised-experiment-order-and-stopping-points">Revised experiment order and stopping points</h2>
+<p>Implementation follow-up: <a href="Gojo--docs--GojoContourRotationFixture.html">the coordinate rotation fixture</a>
+validates later turning with supplied landmarks; its initial R1–R4 coverage
+claim was too broad. <a href="Gojo--docs--GojoCircleConstructionFixture.html">Circle construction before coordinates</a>
+now starts with the point, offset, radius, closure and native whole subdivision.
+Continuous, uncertain and three-dimensional rotation remain open. The
+verification section below records the earlier documentation review; each
+fixture document records its implementation checks.</p>
+<table>
+<thead>
+<tr>
+<th>Experiment</th>
+<th>Required observation</th>
+<th>Refuse or retain as open</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1: contour grounding</td>
+<td>Point-derived seed, selected container, radial attachment, marker and closure can be discovered from their connections after syntax restoration.</td>
+<td>A seed alone cannot be read as a complete circle; an unrelated radius or equal coordinates cannot supply attachment.</td>
+</tr>
+<tr>
+<td>R2: traversal and calibration</td>
+<td>Partition and closure support phase/cycle correspondence; reversal and coarse/fine reads preserve the declared traversal.</td>
+<td>No implicit uniform geometry from numbered markers; no clockwise default; no loss of completed traversals.</td>
+</tr>
+<tr>
+<td>R3: transported radial relation</td>
+<td>A chosen movement preserves radial reach and exposes a changed orientation, with a valid inverse under the chosen contract.</td>
+<td>Missing contour geometry, ambiguous direction or incompatible radius remains visible; do not manufacture Cartesian output.</td>
+</tr>
+<tr>
+<td>R4: attached frame or pad</td>
+<td>Two connected radial features follow the same turn, preserving their specified relationship; coordinate checks agree afterward.</td>
+<td>Moving just one feature does not establish a rigid-body rotation; a singular or partial frame cannot claim an unrestricted inverse.</td>
+</tr>
+<tr>
+<td>L1: connection across spaces</td>
+<td>Two independently readable surfaces connect through an exposed passage; shared/blocked participation survives restoration.</td>
+<td>Coincidence, the same net label or unknown layer participation cannot establish a physical passage.</td>
+</tr>
+<tr>
+<td>L2: a stricter request</td>
+<td>A continuity read remains valid while a higher-frequency response claim stays open or fails; feedback returns through explicit interfaces.</td>
+<td>Do not equate DC continuity with adequate signal response or infer the faulty participant from one mismatch.</td>
+</tr>
+<tr>
+<td>F1: a mating relation</td>
+<td>Bolt/hole or lead/hole surfaces expose a conditional fit, with source dependence and desired clearance preserved.</td>
+<td>A nominal size does not imply tolerance, conformance, compatible pose or a successful full insertion.</td>
+</tr>
+</tbody>
+</table>
+<p>R1–R3 should guide the next rotation work before a general matrix API is treated
+as the solution. Some R1/R2 pieces can be reused from existing tests; a new
+fixture must check their composition and important false reads. L1 and F1 should
+exercise the same exposed-interface mechanism with different local laws. L2
+initially needs only a declared response source and an unresolved or violated
+claim, not a complete electromagnetic solver.</p>
+<p>Keep the syntax aligned as these constructions settle. Introduce authoring
+shorthand only when it expands into the actual participating structure and can
+be restored and inspected without the helper's name. An attractive drawing,
+ECAD capture or passing scalar test alone is not the promised construction.</p>
+<h2 id="verification">Verification</h2>
+<p>The focused existing tests passed 193 cases: 71 kernel, 52 CAD, 49 syntax and
+21 gear-ladder cases. The command was:</p>
+<pre><code class="language-powershell">dotnet test Gojo.slnx --no-restore --filter &quot;FullyQualifiedName~CircularStructureTests|FullyQualifiedName~UnitShapeTests|FullyQualifiedName~OrdinaryMathFlowTests|FullyQualifiedName~GraphicReadGraphTests|FullyQualifiedName~GojoSyntaxGeometryTests|FullyQualifiedName~GearShapeLadderModelTests&quot; --verbosity quiet
+</code></pre>
+<p>This verifies the inspected footholds, including the existing syntax excerpt.
+The proposed R/L/F experiments are not implemented or covered by this result.
+This pass changes documentation and clarifies the canonical instructions and
+their design notes; it changes no runtime code, fixture or grammar.</p></main></html>

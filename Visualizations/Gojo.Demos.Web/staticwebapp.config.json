@@ -11,7 +11,8 @@
       "/minds/*",
       "/ornaments/*",
       "/quickdraw/*",
-      "/*.{css,js,wasm,json,dat,br,gz,png,ico,svg,gojo}"
+      "/*.{css,js,wasm,json,dat,br,gz,png,ico,svg,gojo}",
+      "/encoding/*"
     ]
   },
   "mimeTypes": {

@@ -1,0 +1,327 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A conditional made from connected passages</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="a-conditional-made-from-connected-passages">A conditional made from connected passages</h1>
+<p>Round 8, 31 October 2026.</p>
+<p><strong>Overview:</strong> the previous pass moved contents along one path, with gates that
+could allow or hold movement. This pass gives the same source two possible
+outlets. One control chooses which outlet receives the contents. Each outlet
+then feeds another passage. The two paths eventually meet at a shared receiver.</p>
+<pre><code class="language-text">                   C present -&gt; Yes outlet -&gt; continuation --+
+source S ----------+                                         +-&gt; Done
+                   C absent  -&gt; No outlet  -&gt; continuation --+
+</code></pre>
+<p>That is a small <code>if / else</code> expressed as connected flow. Only the selected
+outlet receives this source's new contents. An empty source supplies nothing,
+even when a route is open. A blocked selected outlet holds the source.</p>
+<p>An <strong>eight-byte transition law</strong> is simply a compact table of which complete
+before-and-after bit patterns one passage allows. We reuse that mechanism for
+the two complementary routes and the continuations. No conditional opcode or
+branch-choice field is added to the values or connection rows.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --conditionals
+dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
+</code></pre>
+<h2 id="what-the-previous-pass-did">What the previous pass did</h2>
+<p>The <a href="PassageExperiments.html">previous passage experiment</a> had three material
+sites arranged as <code>A -&gt; B -&gt; T</code>. Each passage also read a control site. An open
+passage moved the source's whole contents into an empty receiver, changing
+their presence bits together. A closed passage left those contents where they
+were. Repeating a step after its source emptied could not send a second copy.</p>
+<p>Its uncertain read meant "the contents stay here, or move there." Prediction
+retained both complete possibilities. It did not choose one or update storage.</p>
+<p>This was already a conditional gate. The new experiment makes an explicit
+two-way choice and shows that each resulting outlet can feed further structure.</p>
+<h2 id="what-is-attached-to-the-outlets">What is attached to the outlets</h2>
+<p>Each outlet is an ordinary value site. The same site is the receiver of its
+selection passage and the source of its continuation passage. That shared
+attachment is what joins the two pieces; equal values elsewhere would not.</p>
+<p>The continuation law permits a whole handoff for either control value. Once
+contents enter an outlet, changing the original condition does not veto their
+continuation. The current three-role layout still references C, but its value
+does not determine whether that continuation is open.</p>
+<p>The two continuations share Done so that the example also demonstrates paths
+rejoining. Done's presence alone does not reveal which path was taken. A larger
+branch could attach different connected work, but this pass demonstrates
+routing and continued movement, not an arbitrary instruction body or scheduler.</p>
+<p>Connections therefore carry more than inventory. The value sites retain what
+is currently present; their shared references retain correspondence; the wiring
+and local laws determine which interactions and changes are possible.</p>
+<h2 id="five-stored-value-bits">Five stored value bits</h2>
+<p>Every site has fixed O=0 and D=0, inherited from its array position, and owns
+one V bit. V=1 means unmeasured nonzero contents, not a quantity of one.</p>
+<table>
+<thead>
+<tr>
+<th>Site</th>
+<th>Role</th>
+<th style="text-align: right;">Local port / binding</th>
+<th style="text-align: right;">Value-bit position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td>Contents to route</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Condition: absent or present</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Yes</td>
+<td>Receives S when C is present</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>No</td>
+<td>Receives S when C is absent</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>Done</td>
+<td>Common receiver after either continuation</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+</tbody>
+</table>
+<p>The packed addresses are <code>(0,0,1,index)</code>, with index equal to the final column.
+References still use the owner's existing <code>port -&gt; binding -&gt; address</code> mapping.
+These are local port positions, not global identifiers.</p>
+<pre><code class="language-text">stored state = S + 2*C + 4*Yes + 8*No + 16*Done
+tuple order  = [S,C,Yes,No,Done]
+</code></pre>
+<h2 id="the-connections-and-their-laws">The connections and their laws</h2>
+<p>Each row remains <code>[source, control, receiver]</code>. Every reference uses three bits.
+Rows sharing a law occupy that law's table; the operation is not tagged on each
+row. The two continuations share one table and pack without a gap between rows.</p>
+<table>
+<thead>
+<tr>
+<th>Law table</th>
+<th>Row(s) of local port positions</th>
+<th>Packed row bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open when C is present</td>
+<td><code>[0,1,2]</code>: S, C, Yes</td>
+<td><code>88 00</code></td>
+</tr>
+<tr>
+<td>Open when C is absent</td>
+<td><code>[0,1,3]</code>: S, C, No</td>
+<td><code>C8 00</code></td>
+</tr>
+<tr>
+<td>Continue for either C value</td>
+<td><code>[2,1,4]</code>, <code>[3,1,4]</code>: Yes/No, C, Done</td>
+<td><code>0A 17 02</code></td>
+</tr>
+</tbody>
+</table>
+<p>For example, the continuation rows are <code>0x10A</code> and <code>0x10B</code>. Packing each in
+nine bits gives <code>0x10A | (0x10B &lt;&lt; 9) = 0x2170A</code>, stored low byte first.</p>
+<p>The law still describes three V bits, using local state code
+<code>source + 2*control + 4*receiver</code>. Law bit <code>before + 8*after</code> admits that edge.</p>
+<table>
+<thead>
+<tr>
+<th>Law</th>
+<th>Non-identity transition(s)</th>
+<th>Eight stored law bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C present</td>
+<td><code>3 -&gt; 6</code>: <code>[1,1,0] -&gt; [0,1,1]</code></td>
+<td><code>01 02 04 00 10 20 48 80</code></td>
+</tr>
+<tr>
+<td>C absent</td>
+<td><code>1 -&gt; 4</code>: <code>[1,0,0] -&gt; [0,0,1]</code></td>
+<td><code>01 00 04 08 12 20 40 80</code></td>
+</tr>
+<tr>
+<td>Either C value</td>
+<td>Both transitions above</td>
+<td><code>01 00 04 00 12 20 48 80</code></td>
+</tr>
+</tbody>
+</table>
+<p>Every other local state stays unchanged under these laws. In particular,
+neither a closed gate nor an occupied receiver consumes the source.</p>
+<h2 id="one-choice-then-separate-continuations">One choice, then separate continuations</h2>
+<p>Selection applies the two complementary rows as one owner-local step using a
+single resolved observation of <code>[S,C,Yes,No]</code>. It computes their intermediate
+states, validates the whole sequence, and commits only the final differences
+under one lock. This prevents C from changing between the two route checks.</p>
+<p>The selection scope deliberately excludes Done. A separate change at Done
+cannot invalidate a choice that does not touch it. The continuation later checks
+Done's actual state when it attempts its own handoff.</p>
+<p>This grouping is a general operation over explicitly supplied existing rows,
+not a special conditional instruction. Reversing these two selector rows gives
+the same choice because their control conditions are complementary. A missing,
+ambiguous, stale, incompatible, or cross-owner step prevents the entire grouped
+update; no earlier partial movement remains.</p>
+<p>The demo then explicitly steps each continuation. A fresh unselected outlet is
+empty, so its step changes nothing. An unselected outlet already containing
+older contents can still continue those contents when explicitly stepped: this
+conditional routes the new source, not every activity in the surrounding system.</p>
+<h2 id="actual-bits-the-two-cases">Actual bits: the two cases</h2>
+<table>
+<thead>
+<tr>
+<th>Case and stage</th>
+<th>Tuple <code>[S,C,Yes,No,Done]</code></th>
+<th>Stored byte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C absent: start</td>
+<td><code>[1,0,0,0,0]</code></td>
+<td><code>01</code></td>
+</tr>
+<tr>
+<td>Select No</td>
+<td><code>[0,0,0,1,0]</code></td>
+<td><code>08</code></td>
+</tr>
+<tr>
+<td>Step Yes continuation: empty</td>
+<td><code>[0,0,0,1,0]</code></td>
+<td><code>08</code></td>
+</tr>
+<tr>
+<td>Step No continuation</td>
+<td><code>[0,0,0,0,1]</code></td>
+<td><code>10</code></td>
+</tr>
+<tr>
+<td>C present: start</td>
+<td><code>[1,1,0,0,0]</code></td>
+<td><code>03</code></td>
+</tr>
+<tr>
+<td>Select Yes</td>
+<td><code>[0,1,1,0,0]</code></td>
+<td><code>06</code></td>
+</tr>
+<tr>
+<td>Step Yes continuation</td>
+<td><code>[0,1,0,0,1]</code></td>
+<td><code>12</code></td>
+</tr>
+<tr>
+<td>Step No continuation: empty</td>
+<td><code>[0,1,0,0,1]</code></td>
+<td><code>12</code></td>
+</tr>
+</tbody>
+</table>
+<p>The rows and law bytes remain unchanged. Repeating selection with the source
+empty sends nothing further.</p>
+<p>Two edge cases clarify what the conditional means:</p>
+<ul>
+<li><strong>Selected outlet blocked:</strong> with C=1 and Yes occupied, byte <code>07</code> stays <code>07</code>.
+  The empty No outlet does not become a fallback. With C=0 and No occupied,
+  byte <code>09</code> stays <code>09</code> for the same reason.</li>
+<li><strong>Control changes after selection:</strong> choosing Yes gives <code>06</code>. Supplying C=0
+  changes only the control bit, giving <code>04</code>. The Yes continuation still moves
+  the already chosen contents to Done, giving <code>10</code>.</li>
+</ul>
+<p>Changing C is a separately supplied observation, not material transfer. A
+successful unchanged step means a resolved legal hold, not that flow moved.</p>
+<h2 id="when-the-condition-is-uncertain">When the condition is uncertain</h2>
+<p>As before, uncertainty belongs to the read. The fixture stores a concrete C,
+but the observer can omit that site. No extra "unknown" value is written into
+the primitive.</p>
+<p>For a nonempty source and empty outlets/Done, the observer admits initial
+states <code>01</code> or <code>03</code>. Its joint support mask is <code>0000000A</code>: bit n admits the
+complete five-site state n. The prediction carries each whole candidate through
+both selection laws and both continuations.</p>
+<table>
+<thead>
+<tr>
+<th>Predicted stage</th>
+<th>Possible complete state codes, hex</th>
+<th>Joint support mask</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before</td>
+<td><code>01</code>, <code>03</code></td>
+<td><code>0000000A</code></td>
+</tr>
+<tr>
+<td>After C-present row</td>
+<td><code>01</code>, <code>06</code></td>
+<td><code>00000042</code></td>
+</tr>
+<tr>
+<td>After C-absent row: selected outlet</td>
+<td><code>06</code>, <code>08</code></td>
+<td><code>00000140</code></td>
+</tr>
+<tr>
+<td>After Yes continuation</td>
+<td><code>08</code>, <code>12</code></td>
+<td><code>00040100</code></td>
+</tr>
+<tr>
+<td>After No continuation</td>
+<td><code>10</code>, <code>12</code></td>
+<td><code>00050000</code></td>
+</tr>
+</tbody>
+</table>
+<p>After selection, the possibilities are exactly:</p>
+<pre><code class="language-text">[0,1,1,0,0]  contents at Yes, C present
+or
+[0,0,0,1,0]  contents at No, C absent
+</code></pre>
+<p>After both continuations, the possibilities are:</p>
+<pre><code class="language-text">[0,0,0,0,1]  Done present, C absent
+or
+[0,1,0,0,1]  Done present, C present
+</code></pre>
+<p>This yields a useful coarse conclusion: <strong>either route would reach Done</strong> under
+these empty-receiver premises and the explicit sequence of steps. The condition
+and selected route remain unresolved. No candidate duplicates the source or
+makes its contents disappear.</p>
+<p>A definite prediction about Done does not execute either branch. Grouped
+execution still requires a resolved before-observation and uniquely resolved
+intermediates. With C hidden, the attempt is refused and the fixture's actual
+byte remains <code>03</code>. Revealing C=1 allows actual selection and continuation:
+<code>03 -&gt; 06 -&gt; 12</code>.</p>
+<h2 id="how-this-maps-to-settlement-and-other-conditionals">How this maps to settlement and other conditionals</h2>
+<p>An outlet can be the input to more connected structure; this pass makes that
+attachment literal by sharing the outlet's value site between two rows. At a
+structure boundary, a later implementation must use exposed ports rather than
+reaching into the peer's private sites.</p>
+<p>This experiment selects <strong>presence versus absence</strong> in one fixed O/D context.
+It does not yet select positive, zero, and negative outcomes of a signed merge.
+Those outcomes could supply conditions for corresponding passages once their
+reads are explicitly connected. Here C is a supplied observation.</p>
+<p>In particular, a zero condition can open a passage carrying material from S.
+It does not create material from zero. If the observed quantity has net zero
+but retained opposing participation, access to that participation must come
+through its actual retained structure; a bare zero read cannot recover it.</p>
+<p>The current executor remains explicitly stepped, local to one owner, and limited
+to compatible one-bit stores. It provides conditional routing and continuation,
+not a general automatic scheduler, side-effect interpreter, or proof of emergent
+intelligence. No extra numeric resolution or per-value history record was added.</p>
+<h2 id="verification">Verification</h2>
+<p>The <code>--conditionals</code> demonstration runs successfully. All 179 focused tests
+pass, including 38 new conditional cases. Full <code>dotnet test Gojo.slnx</code>
+verification passes with 5,735 tests across 14 projects, with no failures or
+skipped tests. The cases cover exact encodings, both routes, blocked outlets,
+changed controls, joint uncertainty, stale observations, and atomic refusal
+without partial movement.</p></main></html>

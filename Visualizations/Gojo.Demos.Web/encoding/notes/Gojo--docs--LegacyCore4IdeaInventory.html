@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Legacy Core4 Idea Inventory</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="legacy-core4-idea-inventory">Legacy Core4 Idea Inventory</h1>
+<p>This note records the old Core4 ideas that looked worth keeping as design memory while extracting Gojo into a lean repo. These are not instructions to port old code directly. Most old code used model objects that Gojo should now express through carriers, relations, unit shapes, tension, residue, slots, timelines, and local reads.</p>
+<p>The September 2026 <a href="Gojo--docs--GojoCore2Core4ContinuityReview-2026-09.html">Core2/Core4 continuity review</a>
+now compares actual demo families and historical tests with current Gojo,
+including capabilities that remain only in the old projects and current CAD
+helpers that still need the newer construction contracts.</p>
+<h2 id="keep-as-design-memory">Keep As Design Memory</h2>
+<h3 id="boundary-overflow-routing">Boundary Overflow Routing</h3>
+<p>The old boundary overflow notes had a strong route-based model: boundary crossing can drain, observe, wrap, branch, merge, count, filter, or become tension depending on attached route structure. The important Gojo-native idea is that loop, clamp, filter, counter, and branch behavior should be boundary-route structure, not enum-driven control flow.</p>
+<h3 id="traversal-as-carried-structural-signature">Traversal As Carried Structural Signature</h3>
+<p>The old trolley code should not come over as a class hierarchy, but the target behavior is useful. A traversal carries a local signature: selected support, placement, perspective, carried value or tension, provenance/weight, and local constraints. Re-entry, reflection, merge, wrap, and periodicity should be detected by comparing structural signatures rather than replaying a hidden path list.</p>
+<h3 id="basis-encounter-and-seam">Basis Encounter And Seam</h3>
+<p>A seam is not a primitive object. It is a pinned basis encounter where continuation is nontrivial. Preserve the idea that traversal negotiates between carried calibration, local traversal state, encountered calibration, topology, and commitment. Reflection, clamp, closure, and partial transfer should emerge from the encountered structure.</p>
+<h3 id="support-projection-reads">Support Projection Reads</h3>
+<p>Old support projection code separated forward support, reverse support, total support, tension, exclusive support, forward residue, and reverse residue. Gojo now has better boundary/flow lane structure, but this read family is still useful for future pass/block/filter surfaces.</p>
+<h3 id="attachment-as-live-samples-through-frozen-basis">Attachment As Live Samples Through Frozen Basis</h3>
+<p>Old attachments bound live sample sites into a frozen support structure, preserving grouping and degrading weak reads into tension. In Gojo this should become slot/binding/repeat/read structure, not a wrapper object, but the "live samples through stable basis" behavior is valuable.</p>
+<h3 id="resolved-publication-and-feedback">Resolved Publication And Feedback</h3>
+<p>Old carrier communication distinguished local unresolved tension, resolved publication, resolved feedback, and sender-side aggregation. This is worth keeping for future port/field work. A receiving site should generally inspect or respond to publication, not mutate the publisher's structure in place.</p>
+<h3 id="equal-result-different-structure">Equal Result, Different Structure</h3>
+<p>Several old notes emphasized that equal numeric reads can come from different participation lineages. Keep this. Gojo reads should preserve enough structural provenance that equal visible values can still differ by route, basis, repetition, resolution, or residue.</p>
+<h3 id="topology-examples">Topology Examples</h3>
+<p>The old topology tests contain useful examples: T junctions, Y branches, endpoint bridges, H-like bridges, triangle loops, terminal reflection, diamond merges, and distinct exact sites sharing a whole location. These are good future diagnostic examples, but they should be rebuilt from Gojo relation/unit-shape structure.</p>
+<h2 id="do-not-port-directly">Do Not Port Directly</h2>
+<ul>
+<li>Old <code>Core4</code>, <code>Core4.Kernel</code>, <code>Core4.Runtime</code>, examples, runner, Avalonia probe, SIMD, and gear demo projects.</li>
+<li>Ratio/Basis/Site/SupportStructure wrappers as sources of meaning.</li>
+<li>Trolley, propagation wave, and resistive circuit classes as canonical mechanics.</li>
+<li>Compatibility aliases from the old support projection layer.</li>
+</ul>
+<h2 id="gojo-native-re-expression-targets">Gojo-Native Re-expression Targets</h2>
+<ul>
+<li>Boundary events as visible route surfaces with residue/tension witnesses.</li>
+<li>Traversal signatures as relation-shaped local reads, possibly with timelines.</li>
+<li>Basis encounter as unit-shape/lane/flow evidence plus continuation routes.</li>
+<li>Publication and feedback as explicit port structures with read-only source evidence.</li>
+<li>Data attachment as repeated slot binding and resolution-ladder structure.</li>
+</ul></main></html>

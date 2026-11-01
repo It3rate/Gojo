@@ -1,0 +1,41 @@
+gojo 1;
+
+let $mile = carrier();
+let $hour = carrier();
+let $standard = point($mile, 1) -> point($hour, 1);
+let $speed_units = group(ports(point($mile, 1)), ports(point($hour, 1)), $standard);
+let $speed = carrier(quotient_unit($speed_units));
+let $reciprocal = carrier(quotient_unit(group(ports(), ports(point($hour, 1)), $standard)));
+let $dimensionless = carrier(quotient_unit(group(ports(), ports(), $standard)));
+let $litre = carrier();
+let $km = carrier();
+let $hundred_km = carrier(resolution(unit_of($km), 100));
+let $consumption_standard = point($litre, 1) -> point($km, 100);
+let $consumption = carrier(quotient_unit(group(
+    ports(point($litre, 1)), ports(point($hundred_km, 1)), $consumption_standard)));
+let $tens_speed = carrier(resolution(unit_of($speed), 10));
+
+root group($mile, $hour, $speed, $reciprocal, $dimensionless,
+    $litre, $km, $hundred_km, $consumption, $tens_speed);
+root $speed_units;
+
+// Selected quantity read: numerator, denominator, output basis, standard.
+root group(at($mile, 7), at($hour, 2), $speed, $standard);
+root group(at($mile, 8), at($hour, 2), $speed, $standard);
+root group(at($mile, 7), at($hour, -2), $speed, $standard);
+root group(at($mile, 7), at($hour, 0), $speed, $standard);
+root group(at($mile, 7), ?elapsed, $speed, $standard);
+root bind(?elapsed, at($hour, 2));
+
+// Native calibration is required; retaining a standard does not convert km.
+root group(at($litre, 5), at($hundred_km, 2), $consumption, $consumption_standard);
+root group(at($litre, 5), at($km, 2), $consumption, $consumption_standard);
+root group(ports(), ports(?unit_factor), $standard);
+root bind(?unit_factor, point($hour, 1));
+
+// These remain distinct from denominator participation.
+root group(at($hour, -1), dual($hour), reverse(span($hour, 0, 1)), $reciprocal);
+root group(at($mile, 237), at($hour, 2), $speed, $standard);
+root span($speed, 0, 10) -> span($tens_speed, 0, 1);
+root carrier(quotient_unit(group(ports(), ports(point($hour, 1), point($hour, 1)), $standard)));
+root carrier(product_units(unit_of($reciprocal), unit_of($mile)));

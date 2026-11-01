@@ -1,0 +1,219 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Low-level structural mathematics and syntax status</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="low-level-structural-mathematics-and-syntax-status">Low-level structural mathematics and syntax status</h1>
+<p>Status: coverage review and measured limitations, September 5, 2026, against
+<code>40c31ee</code>. This audit pauses the move toward broader feedback discovery. It
+does not change arithmetic, parser behavior, or settlement laws.</p>
+<p><strong>Follow-up:</strong> the <a href="Gojo--docs--GojoMathConformance.html">mathematical conformance checkpoint</a>
+now corrects the ratio-residue bug, fractional-import accounting, numeric range
+cases and resolution validation described below, and adds kernel and authored
+conformance tests. This audit remains a record of the earlier implementation;
+its bug examples and verification counts are historical. The follow-up records
+the current guarantees and remaining laws.</p>
+<p><strong>September 11 follow-up:</strong> <a href="Gojo--docs--GojoComplexInterpretations-2026-09.html">complex coefficient interpretations</a>
+now supply opposed-face and contour constructions, exact rational arithmetic,
+square-root alternatives and retained partial root equations. The earlier
+absence of a demonstrated complex algebra is no longer current; broader
+algebraic and analytic branch coverage remains incomplete.</p>
+<p>The kernel has substantial executable mathematics. The text notation can
+construct many of those structures through its small vocabulary, but it has
+not demonstrated comprehensive mathematical coverage. Three different claims
+must remain separate: a graph can be authored; an appropriate kernel reader
+exists; that reader and its composition laws have been exercised through text.</p>
+<h2 id="coverage-overview">Coverage overview</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Present kernel support</th>
+<th>Current text surface and remaining boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity and topology</td>
+<td>Carriers, signed locations, shared TickRefs, ordered relations, points, spans, groups, bindings</td>
+<td>Direct <code>carrier</code>, <code>tick</code>, <code>at</code>, <code>point</code>, <code>span</code>, <code>-&gt;</code>, aliases, slots. Strong basic coverage. No general external-reference, cyclic-graph, or lossless round-trip contract.</td>
+</tr>
+<tr>
+<td>Signed arithmetic</td>
+<td>Signed location reads; carrier addition/removal through tension; scalar additive and negative-ratio reads</td>
+<td>Signed literals and explicit port topology can express the reads. A negative coordinate is different from an unsigned carrier value with an unmet draw. Text constructs state descriptions; it does not activate a settlement world.</td>
+</tr>
+<tr>
+<td>Addition and multiplication</td>
+<td>Point-output sums, segment-output products, per-input calibration, product units, preserved source participation</td>
+<td>Expanded relations can express operations; <code>product_units</code> preserves repeated units. Kernel tests are broader than the syntax's end-to-end mathematical fixtures.</td>
+</tr>
+<tr>
+<td>Ratios and affine frames</td>
+<td>Forward/backward projection, offsets, reversed extents, integer quotient and remainder</td>
+<td>Direct point/span relations. A confirmed general-ratio residue-basis issue prevents claiming a complete source-remainder accounting law; see below.</td>
+</tr>
+<tr>
+<td>Duality and inversion</td>
+<td>Carrier opposed face, scalar location negation, relation dual, relation reversal; tested opposed-face product cycles</td>
+<td><code>dual</code> and <code>reverse</code> express distinct primitive moves. They do not provide general algebraic inversion, reciprocal units, or arbitrary transform inversion.</td>
+</tr>
+<tr>
+<td>Unit dimensions</td>
+<td>Shared units, repeated products, distinct product/additive participation, descriptor provenance, crystallization</td>
+<td><code>unit_of</code>, <code>product_units</code>, <code>additive_units</code>, <code>crystal</code> cover a useful subset. No general denominator/cancellation algebra. No direct syntax for attaching arbitrary unit descriptors.</td>
+</tr>
+<tr>
+<td>Multiple components and spatial structure</td>
+<td>Independent carrier participation, compound ports, higher structural/CAD views</td>
+<td>Generic relations can preserve multiple axes and components. <code>group(x,y)</code> alone does not establish a vector space, metric, rotation law, or dimensional compatibility. No demonstrated complete vector, complex, or tensor algebra in syntax.</td>
+</tr>
+<tr>
+<td>Orthogonal shapes and fill</td>
+<td>Point-, zero-span-, and nonzero-span-derived orthogonal units; interval fill and crystallization reads</td>
+<td><code>crystal(orthogonal(...))</code> works for the three basic source shapes. That is shape/unit construction, not complete circle, surface, volume, angular, or field mathematics. Fill measurement and shape-only crystallization must remain separate.</td>
+</tr>
+<tr>
+<td>Resolution and ladders</td>
+<td>Coarse unit shapes, nested coarse spans, explicit ratio/carry ladders, partial digit reads, positive carry settlement</td>
+<td><code>resolution</code> and explicit frames/routes can author these. Finer reads need an appropriate basis; no general automatic bidirectional borrow/refill. <code>resolution</code> is not a universal precision setting.</td>
+</tr>
+<tr>
+<td>Boundary/flow and occupancy</td>
+<td>Legal lanes, transitions, occupied values, local transfer/capacity/settlement surfaces</td>
+<td><code>basis</code>, <code>lane</code>, <code>value</code>, <code>lane_action</code>, <code>access</code> expose part of this. An authored action or witness is not proof of its result or execution. Unit-attached lane evidence has richer kernel construction paths than the parser exposes directly.</td>
+</tr>
+<tr>
+<td>Unknown mathematics</td>
+<td>Placeholder patterns, partial bindings, claims, read residue, unresolved structure</td>
+<td>Open element positions work; a concrete location or carrier still requires concrete ticks or a stable unit. Partial patterns can retain missing participants. General propagation of bounded measurement uncertainty remains incomplete.</td>
+</tr>
+<tr>
+<td>Numeric range</td>
+<td>Integer storage and checked arithmetic, with some helper-specific saturation</td>
+<td>Text literals use signed 64-bit integers. This is not arbitrary-precision mathematics; some representable inputs/results still fail on intermediate overflow.</td>
+</tr>
+</tbody>
+</table>
+<p>Evidence includes <a href="assets/Tests--Gojo.Tests--Core--OrdinaryMathFlowTests.cs">ordinary arithmetic</a>,
+<a href="assets/Tests--Gojo.Tests--Core--OperationSurfaceTests.cs">operation surfaces</a>,
+<a href="assets/Tests--Gojo.Tests--Core--UnitShapeTests.cs">unit shapes</a>,
+<a href="assets/Tests--Gojo.Tests--Core--ElementDualityTests.cs">duality</a>,
+<a href="assets/Tests--Gojo.Tests--Core--ResolutionLadderTests.cs">resolution ladders</a>,
+<a href="assets/Tests--Gojo.Tests--Core--FillCrystallizationTests.cs">fill crystallization</a>, and
+<a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxTests.cs">syntax tests</a>.</p>
+<h2 id="a-confirmed-ratio-remainder-mismatch">A confirmed ratio-remainder mismatch</h2>
+<p>The following syntax constructs a valid current ratio and input:</p>
+<pre><code class="language-gojo">gojo 1;
+let $source = carrier();
+let $target = carrier();
+root point($source, 3) -&gt; point($target, 2);
+root at($source, 10);
+root $target;
+</code></pre>
+<p>Using the kernel's <code>TryProject</code> on this parsed structure returns:</p>
+<pre><code class="language-text">target result:   L(target, 6)
+reported residue: L(source, 2)
+</code></pre>
+<p>The arithmetic performed by
+<a href="assets/Gojo--Core--Relation.Projection.cs">ProjectBetween</a> is:</p>
+<pre><code class="language-text">scaled numerator = 10 * 2 = 20
+quotient = 20 / 3 = 6
+remainder = 20 % 3 = 2
+20 = 6 * 3 + 2
+</code></pre>
+<p>That numerator identity is correct. The unresolved contract is its basis: six
+target ticks account for nine source ticks, leaving one source tick. Treating
+the stored remainder as two ordinary source ticks reconstructs eleven, not ten.
+The remainder needs its scale retained or must be represented in an appropriate
+source/finer basis. Simply dividing it by the target extent in integer arithmetic
+would lose information in cases where that remainder is fractional in source
+ticks.</p>
+<p>The issue reaches mutation: <code>target.TrySetFrom(port, input)</code> produces target
+value 6 and source tension 2. This observation-to-tension path treats the scaled
+remainder as source participation. Existing tests, including the backward-ratio
+case and <a href="assets/Tests--Gojo.Tests--Core--CarrierSlotTests.cs">carrier import tests</a>, protect
+this convention, so a passing suite does not resolve the physical interpretation.</p>
+<p>The new blend fixture's half-read and four-to-one coarse read have unit target
+extents; their retained remainder is directly in source ticks. Its gain-endpoint
+examples are exact. Those checks therefore did not expose this more general
+ratio problem. That limitation should narrow our earlier confidence about
+universal remainder preservation.</p>
+<p>This is the first issue to settle before adding more algebra or feedback.
+Changing it requires auditing projection, import, operation residue, follow
+responses, and higher transfer readers together. Preserve the explicit
+remainder and its basis; do not normalize it into a misleading scalar.</p>
+<h2 id="other-boundaries-verified-directly">Other boundaries verified directly</h2>
+<p>The local probe at <code>artifacts/low-level-audit-2026-09-05</code> performed ten
+observations against parsed source. Besides the ratio and import examples:</p>
+<ul>
+<li><code>resolution(unit, -2)</code> and <code>resolution(unit, 0)</code> are accepted and return the
+  original unit, as does factor 1. This follows <code>UnitShape.ResolutionOf</code>'s
+  <code>&lt;= 1</code> fallback. It is not negative resolution, inversion, or refinement.
+  The authoring contract should make this explicit or reject misleading input.</li>
+<li>The signed minimum integer parses, but projecting it through a 1:1 frame
+  throws <code>OverflowException</code> when magnitude is calculated.</li>
+<li>A 4,000,000,000:4,000,000,000 ratio applied to 8,000,000,000 also throws on
+  intermediate multiplication, although the mathematical result fits in a
+  signed 64-bit integer. Range guarantees need to cover intermediate arithmetic.</li>
+<li>Text can crystallize the orthogonal of a point, a zero-length span, and a
+  nonzero span. These are present capabilities, not merely possible spellings.</li>
+</ul>
+<p>These probes characterize boundaries. They are not new regression tests
+endorsing the limitations or a new implementation of the missing laws.</p>
+<h2 id="dimensions-and-inversions-need-specific-claims">Dimensions and inversions need specific claims</h2>
+<p>The system distinguishes several meanings that ordinary notation often hides:</p>
+<pre><code class="language-text">negative coordinate
+opposed carrier face
+reversed ordered frame
+backward ratio read
+reciprocal unit participation
+inverse transformation
+</code></pre>
+<p>The first four have executable footing. The last two are not generally solved.
+In particular, <code>dual(carrier)</code> must not be advertised as <code>1 / unit</code>, and
+<code>reverse(relation)</code> does not recover information discarded by a transformation.</p>
+<p>Repeated dimensional products such as <code>u * u</code> can preserve two occurrences of
+<code>u</code>. Incompatible additive units remain multi-participation structure; a
+shape-only crystal can exist while projection into one scalar value is refused.
+The active <a href="Gojo--axioms--Gojo Crystallized Resolution.html">crystallized-resolution notes</a>
+explicitly leave full <code>distance/time * time -&gt; distance</code> cancellation for future
+inverse-unit participation.</p>
+<p>There is also tested complex-like opposed-face behavior: a pair of opposed
+operands can produce a negative forward scalar, and fused operands distribute
+into visible terms. The fused-term path intentionally retains opposed
+participation before a scalar fold. That is useful intermediate structure, not
+a reason to claim complete complex arithmetic or to read every term's displayed
+face as its final scalar interpretation. We need explicit expanded-versus-folded
+agreement tests before making that stronger claim through syntax.</p>
+<h2 id="the-next-work-should-be-mathematical-conformance">The next work should be mathematical conformance</h2>
+<p>Before another feedback-discovery fixture, build a compact set of authored
+structures with independently knowable outcomes and declared bases:</p>
+<ol>
+<li><strong>Projection and remainder accounting.</strong> Exact and inexact ratios, both
+   extents non-unit, offsets, reversed signs, and zero extents. Check quotient,
+   remainder basis, reconstruction, and the observation/import boundary.</li>
+<li><strong>Arithmetic composition and inversion.</strong> Signed sums and products,
+   opposed-face cycles, repeated units, and fused products before/after an
+   explicit fold. Compare equivalent constructions without erasing topology.</li>
+<li><strong>Dimensional compatibility.</strong> Compatible and incompatible addition,
+   squared/cubed units, calibration, and explicit unresolved denominator cases.
+   Missing cancellation should remain visible rather than silently accepted.</li>
+<li><strong>Resolution composition.</strong> Coarse and fine reads, operation before versus
+   after projection, remainder refinement, carry, and unsupported borrow.
+   Different rounded scalar answers may be valid if their full evidence
+   accounts for the difference; scalar equality alone is an inadequate law.</li>
+<li><strong>Authoring coverage and range.</strong> For each kernel primitive in scope,
+   classify it as directly expressible, expressible through expanded relations,
+   missing a construction path, or awaiting kernel semantics. Test numeric
+   boundaries rather than assuming parser acceptance implies executability.</li>
+</ol>
+<p>Deterministic projection residue is also different from measurement uncertainty.
+Knowing the exact remainder of a rounded read does not establish how a product
+of two approximate measurements should propagate bounds or correlated error.
+Those uncertainty laws should build on the exact foundation, not replace it.</p>
+<p>This checkpoint keeps the dynamic thesis intact while giving its local
+participants mathematics whose guarantees can be stated precisely.</p>
+<h2 id="verification-and-scope">Verification and scope</h2>
+<ul>
+<li>111 focused arithmetic, operation, unit, duality, ladder, and fill tests passed.</li>
+<li><code>dotnet test Gojo.slnx --nologo</code>: 962 passed, none failed or skipped.</li>
+<li>Ten local probe observations reproduced the boundaries above.</li>
+<li>No runtime behavior was changed. Existing tests do not yet assert the
+  source-reconstruction law that exposes the general-ratio discrepancy.</li>
+</ul></main></html>

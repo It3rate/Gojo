@@ -248,3 +248,9 @@ applies.
 The complete prepared bundle for this publication is 260,405,197 bytes,
 leaving 1,738,803 bytes under that allowance. The alias reduction retains the
 previous URLs and makes this edition smaller than the preceding deployment.
+
+## Primitive encoding
+
+The /encoding/ section contains the shared-code Primitive Explorer and HTML versions of its Markdown notes. See ../Gojo.PrimitiveExplorer.Browser/README.md for build and browser checks. The deployment preparation requires a current browser publish and generated notes; it preserves the other live applications.
+
+To stay within the existing hosting quota, preparation removes redundant `.br`/`.gz` transport siblings beneath non-archived runtime folders when the original asset is present and the compressed sibling is not named by a live manifest. Manifest-addressed assets and the frozen Core4 archive are retained.

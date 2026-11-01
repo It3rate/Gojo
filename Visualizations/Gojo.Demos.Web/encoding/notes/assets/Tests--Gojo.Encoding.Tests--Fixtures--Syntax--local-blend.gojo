@@ -1,0 +1,84 @@
+gojo 1;
+
+// A local experiment, not a general learning rule. All forms are version 1.
+// Source names help the author; the relation frames carry the interpretation.
+let $light = carrier();
+let $heat = carrier();
+let $sound = carrier();
+let $signal = carrier();
+let $error = carrier(unit_of($signal));
+let $gain = carrier();
+let $time = carrier();
+let $coarse = carrier(resolution(unit_of($signal), 4));
+
+let $light_site = tick(6);
+let $light_read = at($light, $light_site);
+let $heat_read = at($heat, 10);
+let $hidden_sound = at($sound, 12);
+let $ambient = ports($light_read, $heat_read, $hidden_sound);
+let $exposed = ports($light_read, $heat_read);
+let $source = access($ambient, $exposed, ports(), ports(),
+                     ?unexposed_information, ?source_history);
+
+// A known first component and a present-but-open second component.
+// The expected second input frame is connected even before it is bound.
+let $input_pattern = ?first -> ?second;
+let $partial = frame(bind(?first, $light_read));
+let $complete = frame(bind(?first, $light_read), bind(?second, $heat_read));
+let $expectation = ?second -> span($heat, 0, 20);
+
+// Exact additive operation topology. Each input has its own calibrated port.
+// The second output endpoint is an open point, not an invented zero tick.
+let $light_filter = span($light, 0, 2) -> span($signal, 0, 1);
+let $heat_filter = span($heat, 0, 10) -> (point($signal, 0) -> ?heat_endpoint);
+let $mixture = ($light_filter -> $heat_filter) -> point($signal, 1);
+let $initial_endpoint = point($signal, 5);
+let $initial_binding = frame(bind(?heat_endpoint, $initial_endpoint));
+
+// Another mixture: 1*light + (4/10)*heat. It is retained independently.
+// It already agrees with the requested 10 for this sample. That is not a verdict.
+let $alternative = (
+    (span($light, 0, 1) -> span($signal, 0, 1)) ->
+    (span($heat, 0, 10) -> span($signal, 0, 4))
+) -> point($signal, 1);
+let $candidates = ports($mixture, $alternative);
+
+// The requested signal is external evidence, not ground truth for all contexts.
+let $expected = point($signal, 10);
+let $goal = ?prediction -> $expected;
+let $initial_gain = point($gain, 5);
+let $endpoint_read = span($gain, 0, 1) -> span($signal, 0, 1);
+// This experiment chooses the second gain as its movable participant.
+// The response ratios are hypotheses about useful change, not error attribution.
+let $half_response = point($error, 2) -> point($gain, 1);
+let $full_response = point($error, 1) -> point($gain, 1);
+let $adjustment = action(ports(?mismatch), $half_response,
+                         ports(?gain_delta), ?route_remainder, $goal);
+let $endpoint_observation = action(ports($gain), $endpoint_read,
+    ports(?next_endpoint), ?endpoint_read_remainder, $goal);
+
+// Expanded FocusSurface: source, basis, participation, complement, replacement,
+// correspondence, residue, provenance. No new focus keyword is necessary yet.
+let $focus = group(
+    $candidates, $goal, ports(?heat_endpoint),
+    ports($light_filter, $alternative), ?next_endpoint,
+    frame(bind(?heat_endpoint, ?next_endpoint)), ?mismatch, $source
+);
+let $cycle = repeat(
+    $focus, ?continue_or_revise, $adjustment,
+    group(?gain_delta -> $gain, $endpoint_observation,
+          ?next_endpoint -> ?heat_endpoint), ?remaining_mismatch,
+    timeline($time, $initial_binding)
+);
+
+// A four-tick output read retains the unrepresented fine participation.
+let $coarse_read = span($signal, 0, 4) -> span($coarse, 0, 1);
+
+// Root layout is documented in GojoLocalBlendFixture.md.
+root $source;
+root group($input_pattern, $partial, $complete, $expectation);
+root group($mixture, ?heat_endpoint, $initial_binding, $alternative);
+root group($goal, $expected, $error, $gain, $initial_gain,
+           $endpoint_read, $half_response, $full_response);
+root $cycle;
+root $coarse_read;

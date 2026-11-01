@@ -1,0 +1,345 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gojo ECAD Documentary Bundle</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojo-ecad-documentary-bundle">Gojo ECAD Documentary Bundle</h1>
+<p>This note captures the current direction for representing PCB projects in
+Gojo. It is deliberately not a KiCad, EasyEDA, Eagle, Gerber, or G-code clone.
+Those formats are important source witnesses and output lenses, but the Gojo
+format should be a documentary bundle for the board project itself.</p>
+<p>The bundle should hold tight information and loose information together:</p>
+<pre><code class="language-text">raw ECAD artifacts
+  -&gt; dialect reads
+  -&gt; schematic, PCB, manufacturing, and documentation witnesses
+  -&gt; Gojo relation structure
+  -&gt; purpose-specific readouts
+  -&gt; residue, unresolved claims, and tension
+</code></pre>
+<p>The point is not to force every source into one clean tree. PCB projects are
+not clean trees. A board has geometry, electrical intent, manufacturing
+constraints, documentation claims, component data, firmware expectations,
+connector ecosystems, assembly procedures, and verification status. Those facts
+cross-link heavily. A good Gojo encoding should let a read surface pull the
+pieces relevant to its purpose without pretending that unrelated pieces do not
+exist.</p>
+<h2 id="intent">Intent</h2>
+<p>A Gojo ECAD bundle should let different readers ask different questions:</p>
+<ul>
+<li>A milling or G-code reader asks for copper to remove, holes to drill,
+  board-side orientation, tool diameter, isolation rules, and safe machine
+  motion.</li>
+<li>A schematic reader asks for components, pins, nets, power domains,
+  interfaces, and unresolved or implied design intent.</li>
+<li>A manufacturing reader asks for stackup, clearances, paste, mask, BOM,
+  pick-and-place, assembly limits, and which outputs have actually been
+  generated.</li>
+<li>A conceptual reader asks why the board exists, which functional blocks were
+  chosen, what compromises remain, and what evidence supports those claims.</li>
+<li>An ML reader may ask for a low-resolution project summary, a feature ladder,
+  a local training example, a source-grounded explanation, or a high-resolution
+  graph of pads, traces, and constraints.</li>
+</ul>
+<p>The same bundle should support all of those reads without moving meaning into a
+code-side wrapper model. The source of meaning remains ordinary Gojo structure:
+carriers, locations, relations, unit shapes, read witnesses, residue, tension,
+timelines, and crystallized settlement surfaces.</p>
+<h2 id="core-shape">Core Shape</h2>
+<p>The bundle can be read as an assembly of surfaces rather than a single schema.
+Names below are working names, not a request for wrapper classes.</p>
+<pre><code class="language-text">Project surface
+  raw artifact surface
+  dialect read surface
+  board geometry surface
+  schematic intent surface
+  component and capability surface
+  net, pad, trace, via, zone, and area surfaces
+  documentation claim surface
+  external evidence surface
+  manufacturing and validation surface
+  operation and assembly surface
+  correspondence and variant surface
+  resolution ladder
+  timeline and provenance
+  residue and tension
+</code></pre>
+<p>Each surface should be locally traversable. A claim about a pull-up resistor
+should attach near the resistor, bus, and source documentation. A firmware link
+should attach near the microcontroller, connector, or protocol surface it
+explains. A board status claim should attach to the manufacturing/validation
+surface, not to a generic project note.</p>
+<h2 id="raw-artifacts-are-witnesses">Raw Artifacts Are Witnesses</h2>
+<p>The bundle should preserve source artifacts as witnesses:</p>
+<ul>
+<li><code>.kicad_sch</code>, <code>.kicad_pcb</code>, <code>.kicad_pro</code></li>
+<li>Eagle <code>.sch</code> and <code>.brd</code></li>
+<li>EasyEDA Standard JSON and EasyEDA project ZIPs</li>
+<li>Gerbers, drill files, IPC-D-356, pick-and-place, BOMs, PDFs, images, STEP
+  files, firmware links, datasheets, product pages, and README documents</li>
+</ul>
+<p>The raw file does not own the canonical meaning after import. It remains a
+witness that can be reread through a chosen dialect surface. If two imports
+produce different structure, the conflict should be visible as read residue or
+tension.</p>
+<h2 id="dialect-read-surface">Dialect Read Surface</h2>
+<p>KiCad, EasyEDA, Eagle, Gerber, and G-code all need explicit dialect reads. The
+reader should preserve the format lens that produced a result:</p>
+<pre><code class="language-text">source artifact
+read through dialect/version/basis
+produced parsed structure
+left parser residue
+with parser provenance
+</code></pre>
+<p>For EasyEDA Standard samples this matters immediately:</p>
+<ul>
+<li>PCB files often read as <code>docType=3</code> with shape arrays.</li>
+<li>Schematic projects may read as <code>docType=5</code> containers with one or more
+  schematic sheets.</li>
+<li>Shape strings are compact, delimiter-heavy source records, not already-clean
+  semantic objects.</li>
+<li>Schematic and PCB pairing may come from naming conventions or README claims
+  rather than explicit project metadata.</li>
+</ul>
+<p>The dialect surface should include coordinate basis, unit/scaling basis,
+orientation assumptions, layer dictionary, shape ordering evidence, and raw
+fields that did not settle. A future parser may convert these into richer Gojo
+structure, but the first import should not discard the weirdness.</p>
+<h2 id="documentary-claims">Documentary Claims</h2>
+<p>The samples show that documentation carries design facts that are not optional
+decoration. A Gojo bundle should preserve claims as local read witnesses:</p>
+<pre><code class="language-text">claim source
+selected target structure
+claim surface or basis
+claimed result
+verification state
+residue or tension
+provenance
+</code></pre>
+<p>Examples from the current samples:</p>
+<ul>
+<li>The BQ24074 PMIC board README says high-current VBUS/VOUT/BAT tracks use a
+  minimum 0.5 mm width, low-ESR capacitors are placed near PMIC pins, ground
+  planes and via stitching support return paths and thermal dissipation, DRC
+  passed at a stated clearance, and STEP models are intentionally excluded.</li>
+<li>The BME280/MPU6050 board README says 4.7k pull-ups were selected for I2C up
+  to 400 kHz, address jumpers expose alternate addresses, decoupling capacitors
+  sit near sensor power pins, Gerbers are ready, but fabrication and testing
+  have not happened yet.</li>
+<li>The AVR ZIF programmer README contains an operation/compatibility table:
+  which AVR family maps to which ISP header, and how the user must orient the
+  IC in the socket.</li>
+<li>The Salty Spoon README states that one EasyEDA schematic is an older variant
+  and that the PCB corresponds to the newer schematic.</li>
+<li>The SHOC keyboard README says the board is tied to QMK firmware, repeated
+  switch/diode structure, OLED support, and an EasyEDA export limitation.</li>
+<li>The SparkFun Qwiic BME280 README ties the board to Arduino/Python libraries,
+  Fritzing, a hookup guide, and the Qwiic ecosystem.</li>
+</ul>
+<p>These are not all the same kind of fact. Some are design intent, some are
+verification, some are operation, some are ecosystem context, some are tool
+limitations, and some are unresolved or possibly stale. The common move is that
+they attach to structure as witnesses and remain available to later reads.</p>
+<h2 id="validation-ladder">Validation Ladder</h2>
+<p>Documentation often collapses several states into phrases like "complete" or
+"ready." Gojo should split those into a validation ladder:</p>
+<pre><code class="language-text">idea / product goal
+schematic captured
+PCB placed
+PCB routed
+DRC passed
+manufacturing outputs generated
+BOM / pick-and-place settled
+fabricated
+assembled
+powered
+tested
+measured
+field-proven
+</code></pre>
+<p>A low rung is not failure. It is the current read. A board with Gerbers and no
+test evidence should not be treated like a board with measured performance.
+The missing test evidence is useful tension.</p>
+<h2 id="correspondence-and-variants">Correspondence And Variants</h2>
+<p>Real projects include variants, revisions, stale files, screenshots, exported
+PDFs, and generated manufacturing outputs. A bundle needs explicit
+correspondence surfaces:</p>
+<pre><code class="language-text">source A
+corresponds to / implements / generated from / supersedes / conflicts with
+source B
+with basis and confidence
+with residue
+</code></pre>
+<p>This is especially important when:</p>
+<ul>
+<li>README text says one schematic corresponds to one PCB.</li>
+<li>A schematic is missing even though documentation lists it.</li>
+<li>A Gerber ZIP is generated from an unknown board revision.</li>
+<li>An imported EasyEDA project has multiple schematic sheets.</li>
+<li>A board has Rev A/Rev B layouts, alternate connectors, or package options.</li>
+</ul>
+<p>The correspondence should be evidence, not a filename heuristic hidden inside
+the importer.</p>
+<h2 id="concept-ladder-for-boards">Concept Ladder For Boards</h2>
+<p>The bundle should support low-to-high resolution concept ladders:</p>
+<pre><code class="language-text">product goal
+functional block
+component capability
+pin role
+net / signal / power domain
+pad / footprint / package
+trace / via / zone / copper area
+manufacturing output
+physical board evidence
+test evidence
+</code></pre>
+<p>A temperature sensor board can be read roughly as "BME280 weather sensor on
+Qwiic I2C." It can refine into component capabilities, pull-ups, address
+selection, connector pinout, exact traces, solder jumpers, and library links.
+Both readings are valid at their requested resolution.</p>
+<p>A charger board can be read roughly as "USB-C to LiPo charger and system power
+path." It can refine into PMIC pins, charge-current constraints, thermal
+evidence, battery pads, high-current copper, decoupling placement, and assembly
+risks.</p>
+<p>A keyboard can be read roughly as "repeated switch matrix." It can refine into
+row/column nets, diode orientation, switch footprint repetition, firmware key
+positions, enclosure files, and human use.</p>
+<h2 id="geometry-area-and-orientation">Geometry, Area, And Orientation</h2>
+<p>PCB geometry must preserve orientation and sidedness. A read should never have
+to guess whether it is looking at the top from above, the bottom from below, or
+a mirrored manufacturing view.</p>
+<p>Useful surfaces:</p>
+<ul>
+<li>board coordinate basis and origin</li>
+<li>top and bottom face basis</li>
+<li>layer stack and layer order</li>
+<li>board outline and edge cuts</li>
+<li>copper participation</li>
+<li>anti-area, keepout, holes, slots, and cutouts</li>
+<li>solder mask and paste openings</li>
+<li>silkscreen and documentation markings</li>
+<li>component placement orientation</li>
+<li>drill and plating state</li>
+<li>fixture, panel, or milling orientation</li>
+</ul>
+<p>Area should not be only a polygon. Copper zones, board outline, cutouts,
+clearances, isolation paths, solder openings, and empty space are all forms of
+participation or anti-participation. A G-code reader may care about the same
+area at a different resolution than a schematic reader.</p>
+<h2 id="component-and-capability-surface">Component And Capability Surface</h2>
+<p>Components should not be only footprints or schematic symbols. They carry
+capabilities, constraints, alternatives, costs, sourcing, and external evidence:</p>
+<pre><code class="language-text">component instance
+  symbol witness
+  footprint witness
+  package and pin basis
+  datasheet / product page / library links
+  manufacturer and supplier parts
+  cost / availability / assembly class
+  capabilities and limits
+  unresolved substitutions
+</code></pre>
+<p>This can remain sparse. The important thing is that a datasheet or supplier
+link attaches to the component, pin, package, or capability it supports. It
+should not disappear into a project-wide attachment pile.</p>
+<h2 id="operation-and-human-use">Operation And Human Use</h2>
+<p>Some board meaning only appears when a person uses it:</p>
+<ul>
+<li>align pin 1 with this socket edge</li>
+<li>select this programming header for this MCU family</li>
+<li>bridge this solder jumper for this I2C address</li>
+<li>connect this Qwiic cable in this orientation</li>
+<li>flash this firmware before expecting this connector behavior</li>
+<li>avoid this pad during manual soldering</li>
+</ul>
+<p>These should be operation surfaces with selected structure, action basis,
+expected result, failure/tension, and provenance. They are part of the board
+project, even when they are not part of the PCB layout file.</p>
+<h2 id="physical-encoding-direction">Physical Encoding Direction</h2>
+<p>The physical storage can be repository-like without becoming "just Git."</p>
+<p>A useful bundle layout might look like:</p>
+<pre><code class="language-text">bundle/
+  artifacts/
+    raw/
+    generated/
+    external/
+  reads/
+    dialect/
+    schematic/
+    pcb/
+    manufacturing/
+    documentation/
+  witnesses/
+    claims/
+    validation/
+    correspondence/
+    source-links/
+  ladders/
+    concept/
+    resolution/
+    revisions/
+  residue/
+  exports/
+</code></pre>
+<p>This is not a required directory schema. It is a storage intuition:</p>
+<ul>
+<li>raw artifacts stay available</li>
+<li>read outputs are reproducible or traceable</li>
+<li>witnesses attach claims to local structure</li>
+<li>unresolved residue is preserved</li>
+<li>revisions and alternatives can keep participating in later reads</li>
+<li>export products such as G-code can be traced back to the source structure,
+  basis, settings, and residue that produced them</li>
+</ul>
+<p>A Git-like history is useful, but Gojo needs the old versions as active
+starting points and comparison witnesses, not only as archival commits.</p>
+<h2 id="readout-examples">Readout Examples</h2>
+<h3 id="g-code-isolation-read">G-code isolation read</h3>
+<pre><code class="language-text">selected copper and board-side basis
+tool diameter / machine basis
+isolation and clearance surfaces
+holes and drill surfaces
+produced toolpath / G-code witness
+left unresolved collisions, uncut islands, or unsupported geometry as residue
+</code></pre>
+<h3 id="ml-concept-read">ML concept read</h3>
+<pre><code class="language-text">selected board project
+requested resolution: rough product explanation
+source witnesses: README, schematic, PCB, datasheet links
+produced low-resolution concept ladder
+left missing datasheets, unverified claims, and parser gaps as tension
+</code></pre>
+<h3 id="design-review-read">Design-review read</h3>
+<pre><code class="language-text">selected net or functional block
+constraints and documentation claims
+geometry and component witnesses
+validation state
+produced concern / confidence / unresolved question
+left unverifiable claims as residue
+</code></pre>
+<h2 id="what-should-stay-loose">What Should Stay Loose</h2>
+<p>Several things should remain intentionally loose for now:</p>
+<ul>
+<li>exact on-disk structure</li>
+<li>how much raw JSON/S-expression data to preserve in each read</li>
+<li>whether all documentation claims become Gojo relation structure immediately
+  or first pass through a lighter witness index</li>
+<li>how aggressively to infer intent from component names, net names, and README
+  prose</li>
+<li>how to represent confidence separately from ordinary tension</li>
+<li>how to keep very large projects tractable without flattening meaning into
+  arrays that own the model</li>
+</ul>
+<p>Loose does not mean vague. It means unresolved information should stay
+available until a reader needs to settle it.</p>
+<h2 id="near-term-import-direction">Near-Term Import Direction</h2>
+<p>The next importer work should probably aim for a small durable spine:</p>
+<ol>
+<li>Preserve raw artifacts and source paths.</li>
+<li>Create dialect read witnesses for KiCad PCB and EasyEDA schematic/PCB JSON.</li>
+<li>Convert boards, layers, nets, pads, traces, vias, zones, holes, and outlines
+   into GojoCAD-compatible relation structure where the geometry is understood.</li>
+<li>Attach parser residue where the source shape is unsupported or ambiguous.</li>
+<li>Attach documentation claims from sample READMEs as local witnesses, even if
+   the first version uses a simple hand-authored extraction.</li>
+<li>Create correspondence witnesses between schematic, PCB, generated Gerbers,
+   BOMs, PDFs, and README claims.</li>
+<li>Add one G-code read that traces output back to the selected copper,
+   board-side orientation, machine/tool basis, and unresolved residue.</li>
+</ol>
+<p>That would give us a working documentary bundle without pretending the whole
+domain is already solved.</p></main></html>

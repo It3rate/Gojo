@@ -1,0 +1,293 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Primitive construction audit: parallels, curves and their prerequisites</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="primitive-construction-audit-parallels-curves-and-their-prerequisites">Primitive construction audit: parallels, curves and their prerequisites</h1>
+<p>Status: September 2026. Updated after the
+<a href="Gojo--docs--GojoMetricConstructionFixtures.html">metric construction fixtures</a>: native
+circle quarters now feed rotation; measured straight offsets and a bounded
+two-edge miter are calculated from their inputs. The
+<a href="Gojo--docs--GojoJoinedOffsetPath.html">joined-path follow-up</a> now composes multiple miters,
+checks remaining traversal in source order and retains partial path evidence.
+The broader geometric gaps below remain distinct from those bounded contracts.
+The follow-up <a href="Gojo--docs--GojoGroundedAffineBasisFixture.html">grounded affine basis fixture</a>
+now constructs and crystallizes a justified local basis, then reuses the
+existing Bézier procedure within it. Cartesian-like coordinates are a valid
+outcome of this process; the requirement is justification of the basis.</p>
+<p>The <a href="Gojo--docs--GojoCircleConstructionFixture.html">circle construction</a> exposed a useful
+question for every graphic example: <strong>which parts did the structure actually
+construct, and which parts arrived as observations, choices or illustrations?</strong>
+The answer is not yet uniform across Gojo. Bézier evaluation has a real
+construction procedure. Several Blocks offsets only have supplied geometry
+connected to a request. Neither should be mistaken for a native construction
+of its input plane, directions or control polygon.</p>
+<p>This pass adds <a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--constructed-parallels.gojo">a syntax fixture</a>
+that builds an affine parallelogram from three observed points, then uses its
+constructed corner in a Bézier. It exercises existing kernel reads; there is
+no new geometric opcode or parser execution rule.</p>
+<h2 id="what-counts-as-construction">What counts as construction</h2>
+<p>A source point, an observed segment or a deliberately chosen reach can be an
+input. We cannot derive all design choices or sensory evidence from nothing.
+However, a claimed output must follow from connected inputs under an explicit
+local law. If a renderer or fixture author supplies the output coordinates,
+that is supplied geometry, even when the picture looks correct.</p>
+<p>For each example, inspect:</p>
+<ol>
+<li>Its input participants and their identity, origin, calibration and open parts.</li>
+<li>The selected local law and the structure that makes its premises readable.</li>
+<li>Intermediate results and the actual dependencies consumed by later steps.</li>
+<li>A witness of what was calculated, with unresolved participation retained.</li>
+<li>What survives transport, and what needs invalidation or replay after change.</li>
+</ol>
+<p>Crystallization can stabilize a unit promise or a reusable construction. It
+does not make an unverified geometric statement true. Likewise, attaching an
+orthogonal outlet does not by itself establish a calibrated Euclidean normal.</p>
+<h2 id="coverage-at-this-checkpoint">Coverage at this checkpoint</h2>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Existing construction/evidence</th>
+<th>Remaining boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Native points and ordered segments</td>
+<td>Carrier locations, shared tick sites, point relations and endpoint order; syntax tests preserve these distinctions</td>
+<td>Coordinate equality, contact, displacement and shared identity remain different reads</td>
+</tr>
+<tr>
+<td>Native line/circle carrier promises</td>
+<td><code>LinearAt</code> and <code>CircularFrom</code> retain structural unit origins</td>
+<td>A carrier promise alone does not supply a realized path, metric, radius or complete embedding</td>
+</tr>
+<tr>
+<td>Point-derived circle</td>
+<td>Point outlet, common reach, radial attachment, actual seam, whole correspondence and subdivision; now four native quarters feed calculated radial observations in a selected metric chart</td>
+<td>General fraction embedding and arc-length calibration remain open; the metric and homogeneous planar law are selected inputs</td>
+</tr>
+<tr>
+<td>Parallel segment pair</td>
+<td>New fixture constructs the second endpoint by two affine interpolations, preserving ordered displacement</td>
+<td>Its three inputs already have a selected affine coordinate read. It does not derive a native normal flow from the source segment</td>
+</tr>
+<tr>
+<td>Bézier samples</td>
+<td>Six connected de Casteljau interpolations, exact fractions, shared parameter and explicit support</td>
+<td>Earlier controls are supplied. The new fixture constructs one control from earlier inputs; coordinate-free interpolation remains unimplemented</td>
+</tr>
+<tr>
+<td>Curve joins</td>
+<td>Shared endpoints and selected endpoint/first-/second-derivative comparisons</td>
+<td>Shared endpoints alone do not establish tangency; parameter calibration, a metric and regularity are needed for stronger geometric claims</td>
+</tr>
+<tr>
+<td>Rotation in a coordinate chart</td>
+<td>Ordered contour traversal and two radial reflections; the new quarter bridge constructs its rim coordinates and retains native radial correspondence</td>
+<td>The older calibrated fixture still supplies its rim coordinates; neither fixture discovers a physical metric</td>
+</tr>
+<tr>
+<td>Repeated motifs/friezes</td>
+<td>Exposed point correspondence, composition of glide/reflection/translation, identity preservation</td>
+<td>Seed motif and generator calibration are supplied; neither generator discovery nor all frieze classes are implemented</td>
+</tr>
+<tr>
+<td>Blocks path offsets/insets</td>
+<td>Source and candidate carriers, proposed correspondences, requested extents and resolution evidence</td>
+<td>Geometry is supplied; no general normal-offset, corner-join, cap or arc-length construction is executed</td>
+</tr>
+<tr>
+<td>Measured straight offset</td>
+<td>Actual edge outlet, calibrated reach and side guide; exact displacement when rational; staged normal, open squared-scale equation and shared endpoint recipes with guaranteed resolution bounds</td>
+<td>Physical distance/metric uncertainty and side discovery remain open; marginal endpoint bounds must not erase their common scale</td>
+</tr>
+<tr>
+<td>Two-edge miter</td>
+<td>Two computed offsets, actual shared source corner, explicit straight-support windows, calculated intersection and shared output site</td>
+<td>One local corner policy; parallel/collinear cases, caps, curved offsets, global self-intersections and region topology remain open</td>
+</tr>
+<tr>
+<td>Joined open offset path</td>
+<td>Existing preparations and bounded miters compose in source order; shared joints, per-edge admission, collapsed/reversed-span rejection and retained candidate topology</td>
+<td>Exact rational joint coordinates only; correlated bounded joins, topology repair, closed paths and non-neighbour intersections remain open</td>
+</tr>
+<tr>
+<td>Clothoids, involutes and fills in the inventory</td>
+<td>Connected recipes such as transition plus length, base arc plus unwound length, or selected enclosing boundaries</td>
+<td>These recipes are not evidence of solved curvature evolution, complete unwrap geometry or general region/Boolean settlement</td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="Gojo--docs--GojoCore2Core4ContinuityReview-2026-09.html">Core2/Core4 continuity review</a>
+also records existing GojoCAD area-settlement, cusp-rounding and tip-cap
+implementations. These have executable tests but use floating-point geometry,
+rounded coordinates and fixed thresholds. Statements below about missing caps,
+round joins or region laws concern the new exact construction contracts; they
+do not mean those broader CAD helpers are absent. Their numerical choices and
+construction evidence still need to be reconciled with these contracts.</p>
+<p>The primary implementation sources are
+<a href="assets/Applications--GojoCAD--GraphicStructure.cs"><code>GraphicStructure</code></a>,
+<a href="assets/Gojo--Structures--ContourConstruction.cs"><code>ContourConstruction</code></a>,
+<a href="assets/Gojo--Structures--AffineFrame.cs"><code>AffineFrame</code></a>,
+<a href="assets/Gojo--Structures--ContourRotation.cs"><code>ContourRotation</code></a>, and the
+<a href="assets/Visualizations--Gojo.Blocks--Glossary--BlocksGlossaryStructureCatalog.cs">Blocks construction catalog</a>.
+The <a href="Gojo--docs--GojoAffineConstructionFixture.html">affine fixture notes</a> and
+<a href="Gojo--docs--GojoCurveReplayWalkthrough.html">curve replay walkthrough</a> document their narrower
+contracts and current change handling.</p>
+<h2 id="a-parallel-constructed-from-three-points">A parallel constructed from three points</h2>
+<p>Imagine an existing ordered edge <code>A -&gt; B</code> and a chosen point <code>D</code> where its
+translated copy should begin. We want to construct <code>C</code>, not supply a second
+edge that happens to look parallel.</p>
+<p>Under a selected affine-space interpretation:</p>
+<pre><code class="language-text">M = interpolate(B, D, 1/2)
+C = interpolate(A, M, 2)
+
+C = 2M - A = B + D - A
+C - D = B - A
+C - B = D - A
+</code></pre>
+<p>Thus <code>D -&gt; C</code> has the same ordered displacement as <code>A -&gt; B</code>. The second
+interpolation deliberately extends past its ordinary whole, so its allowed
+support must admit that extension. No new vector-addition primitive is needed.</p>
+<p>The operative syntax in the new fixture is:</p>
+<pre><code class="language-gojo">let $midpoint = ports(?b, ?d, $half) -&gt; ?m;
+let $corner = ports(?a, ?m, ?completion_grade) -&gt; ?c;
+</code></pre>
+<p><code>$half</code> and the bound completion grade carry a sample, parameter frame,
+allowed support and selected basis. The host applies <code>AffineFrame.TryInterpolate</code>
+to each request, records the result witness, and binds that actual result into
+the next request. Parsing alone leaves the procedure and output slots intact.</p>
+<p>For a concrete calibrated read, the inputs are <code>A=(-3,2)</code>, <code>B=(5,7)</code> and
+<code>D=(-1,8)</code>. The kernel constructs <code>M=(2,15/2)</code> and <code>C=(7,13)</code>. Both ordered
+edges read <code>(8,5)</code>. These output values are absent from the authored fixture.</p>
+<p>This is an affine construction. It does not require an absolute world origin
+or a preferred orientation, but the present reader does require explicit
+coordinate carriers and unit frames. Naming those carriers does not generate
+their physical interpretation. Re-expressing the inputs by a shear,
+translation, reflection or quarter-turn gives the corresponding re-expressed
+output in the tests; those input transformations are independent test oracles,
+not a new general matrix reader in the kernel.</p>
+<p>Parallel displacement is also distinct from perpendicular offset. Here the
+copy is displaced by <code>(2,6)</code>. In an identity metric its dot product with
+<code>(8,5)</code> is <code>46</code>, so that displacement is not normal to the edge. A specified
+normal distance would require more evidence. If <code>A=B</code>, the same algebra has
+a valid degenerate result, but no regular line direction is thereby created.</p>
+<h2 id="the-bezier-consumes-the-constructed-corner">The Bézier consumes the constructed corner</h2>
+<p>The cubic's controls are <code>A,D,C,B</code>. After constructing <code>C</code>, the procedure
+builds:</p>
+<pre><code class="language-text">q0 = interpolate(A,D,t)
+q1 = interpolate(D,C,t)
+q2 = interpolate(C,B,t)
+r0 = interpolate(q0,q1,t)
+r1 = interpolate(q1,q2,t)
+curve point = interpolate(r0,r1,t)
+</code></pre>
+<p>All six steps use the same parameter observation. <code>C</code> in the second and third
+requests is the actual earlier construction result. The displayed compact
+recipe <code>(A -&gt; B) -&gt; (D -&gt; C)</code> also refers to that result, but that recipe alone
+does not contain the six interpolation steps.</p>
+<p>At half participation the curve reads <code>(5/2,9)</code>. Tests compare the full chain
+with the independently calculated cubic polynomial, retain exact fractions,
+and check dependency identities after numeric encoding and restoration.
+Removing <code>D</code>, or denying the support needed to construct <code>C</code>, leaves a partial
+curve with connected unknowns. At <code>t=0</code>, the known start remains readable even
+when a later control is open.</p>
+<p>This is substantial construction from primitives, but its current affine
+reader is still based on coordinate observations. Simply replacing those
+tuples with new native carriers would not finish the job: the interpolation
+law must relate those carriers in one compatible affine space.</p>
+<h2 id="blocks-counterexamples-found-during-the-audit">Blocks counterexamples found during the audit</h2>
+<p>These are checks on the supplied drawing coordinates. The extent carrier has
+no established calibration to those coordinates. The numerical distance
+comparisons below therefore mean “even if that intended calibration were one
+to one,” not a claim that separate carrier units automatically compare.</p>
+<p><strong>Open offset.</strong> The first source edge runs from <code>(-52,30)</code> to <code>(-12,6)</code>, with
+direction <code>(40,-24)</code>. The candidate runs from <code>(-50,14)</code> to <code>(-8,-10)</code>, with
+direction <code>(42,-24)</code>. Their determinant is <code>48</code>, not zero: they are not
+parallel in this affine chart. The initial displacement <code>(2,-16)</code> also has
+nonzero dot product <code>464</code> with the source direction under an identity metric.
+Its squared length is <code>260</code>, whereas the requested <code>18</code> would give <code>324</code>.</p>
+<p><strong>Curved offset.</strong> The source cubic begins at <code>(-52,28)</code> with first control
+<code>(-18,-40)</code>. Its derivative at the start of its normalized parameter is
+<code>(102,-204)</code>. The supplied candidate begins at <code>(-48,10)</code>, a displacement of
+<code>(4,-18)</code>. Their dot product is <code>4080</code>, so this is not even a normal displacement
+at the start in the drawing's identity metric. Its squared length is <code>340</code>.
+Supplying a second control polygon and a distance carrier has not executed
+an offset construction.</p>
+<p><strong>Insets and discrepancy.</strong> The inset rectangles use drawing gaps of <code>10</code>
+and <code>20</code>, while their requested signed extents are <code>-8</code> and <code>-16</code>. The separate
+offset-residue example attaches an open tension slot; it does not compute the
+geometric discrepancy or import a measured difference as signed tension.</p>
+<p>The corresponding Blocks captions, descriptions and teaching JSON have been
+corrected. The geometry remains as explicitly supplied candidates. Six audit
+cases retain the first two counterexamples before/after transport. The private
+<code>OffsetWitnesses</code> builder is now named <code>OffsetCorrespondences</code> to describe what
+it actually builds. Its structure and the kernel's behavior are unchanged.</p>
+<p>The sparse teaching JSON still includes historical caption-derived hints.
+Those hints and successful graph round trips are not geometric verification.
+The structural-only export and executable readers remain separate evidence.</p>
+<h2 id="next-native-contracts">Next native contracts</h2>
+<p>The <a href="Gojo--docs--GojoGroundedAffineBasisFixture.html">follow-up fixture</a> addresses basis
+justification with a segment, its orthogonal outlet, a selected second span,
+connected origins and explicit native calibrations. Its affine product is a
+selected local law. It does not infer a physical metric or assign up/down meaning.
+The following broader offset sequence remains a useful direction beyond it:</p>
+<ol>
+<li>Retain the source segment and its site identities. Select a local planar,
+   affine/flat interpretation; orthogonal potential alone does not impose it.</li>
+<li>Select relative participation and common reach where the read needs them.
+   An uncalibrated reach can remain open. Opposite participation and reversed
+   frame order remain distinct; choosing screen-up or screen-down is a view choice.</li>
+<li>Construct a transported site corresponding to each selected source site,
+   retaining the reach and a law of consistent transport along the source.
+   Merely asserting that two endpoints have equal distance is insufficient:
+   the side, direction and correspondence matter as well.</li>
+<li>Join the transported sites in source order and witness the relationship
+   between source and target spans. Leave unresolved transport visible.</li>
+<li>Add an optional calibrated read and compare it against independent affine
+   and metric checks. The embedding should read a native construction that
+   already exists, rather than author its answer.</li>
+</ol>
+<p>For Béziers, a justified and crystallized affine context can directly support
+the six-edge construction, including partial points. The follow-up now does
+this; coordinate-free interpolation over other connected native contexts is
+an additional possible route, not a mandatory replacement. A fraction on an
+unrelated carrier still cannot by itself locate a point between two endpoints.</p>
+<p>The <a href="Gojo--docs--GojoMetricConstructionFixtures.html">metric follow-up</a> now supplies the
+selected straight-segment measurement contract and a first corner policy.
+It connects the actual source edge to its outlet, calibrated reach and side,
+calculates the two transported endpoint observations, and records their
+correspondence. It is a construction in an explicitly supplied metric chart;
+it does not yet create an independent coordinate-free native transport carrier.
+The <a href="Gojo--docs--GojoMeasuredOffsetRefinement.html">measured-offset refinement</a> now preserves
+the normal and shared square-constrained scale before a rational endpoint can
+be supplied. Its selected subdivision reads use the existing bounded-affine
+machinery; a shared offset cancels exactly between the two endpoints even when
+their individual positions are bounded.
+The two-edge miter consumes these calculated offsets and permits intersection
+only inside both authored parameter supports. An out-of-support candidate
+remains evidence, with the join unresolved.
+The <a href="Gojo--docs--GojoJoinedOffsetPath.html">joined-path reader</a> adds the check between those
+corners: their trims must leave each edge with strictly positive traversal in
+its source order. Individually accepted corners do not establish this. Failed
+spans retain their candidate topology, while useful neighbouring spans and
+unfinished offset preparations remain available.</p>
+<p>Finite line offsets still need endpoint/cap policies. Curve offsets need
+tangent/normal evolution and a chosen resolution for unresolved geometry.
+Further corner policies and whole-region topology remain separate contracts.
+None is supplied by a generic name such as <code>OffsetRead</code>.</p>
+<h2 id="verification">Verification</h2>
+<p>The new
+<a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxPrimitiveConstructionTests.cs">composition tests</a>
+cover exact results, different affine charts, support failure, missing inputs,
+degenerate sources and identity through restoration. The
+<a href="assets/Tests--Gojo.Encoding.Tests--BlocksOffsetConstructionAuditTests.cs">Blocks audit tests</a>
+read the actual exported candidate graphs. Existing affine, rotation, circle,
+graphic primitive and replay suites cover the earlier mechanisms.</p>
+<p>The <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxMetricConstructionTests.cs">metric construction tests</a>
+add native-quarter rotation, measured offsets and bounded joins, including
+exact fractions, sheared charts, opposed guides, failed premises, shared
+identity, captured history and trace-checked walkthrough syntax.</p>
+<pre><code class="language-powershell">dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxPrimitiveConstructionTests|FullyQualifiedName~BlocksOffsetConstructionAuditTests'
+dotnet test Gojo.slnx
+</code></pre>
+<p>This establishes a checked composition milestone and exposes the remaining
+native construction boundary. It does not establish that every Blocks picture
+or CAD recipe already has a complete primitive derivation.</p></main></html>

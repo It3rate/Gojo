@@ -1,0 +1,695 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gojo Uncertainty Reference</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojo-uncertainty-reference">Gojo Uncertainty Reference</h1>
+<p>September 6, 2026. Design analysis following the
+<a href="Gojo--docs--GojoNumericMilestoneReview-2026-09.html">numeric structure milestone</a>.</p>
+<p><strong>Status:</strong> this is a working inventory and a guide for subsequent fixtures.
+The implementation survey below distinguishes existing mechanisms from missing
+laws. The inventory is not a closed ontology, an <code>UncertaintyKind</code> enum, a new
+syntax grammar, or a claim that every listed mechanism is implemented.
+The <a href="Gojo--docs--GojoSystemPrompt.html">canonical prompt</a> remains the repository authority.
+The subsequent <a href="Gojo--docs--GojoBoundedQuantityFixture.html">bounded-quantity fixture</a> now
+implements the first conditional affine and conservative nonlinear bound reads;
+broader propagation and adaptive policies remain open.
+The later <a href="Gojo--docs--GojoSyntaxDynamicCheckpoint-2026-09.html">syntax and dynamics checkpoint</a>
+develops approximation as a landmark with an open, source-dependent
+interpretation and proposes a calibration experiment without assumed bounds.</p>
+<h2 id="1-the-main-distinction">1. The Main Distinction</h2>
+<p>An uncertain read concerns a source, a question, a perspective, and the evidence
+available to that perspective. It may leave several values, structures,
+histories, or possible outcomes admissible. Another local space can have a
+different useful read without either space being defective.</p>
+<p>Three questions must remain separate:</p>
+<ol>
+<li><strong>What may be true?</strong> Evidence, assumptions, possible completions and their
+   dependencies constrain a descriptive read.</li>
+<li><strong>What is relevant here?</strong> A selected perspective determines which
+   participation and detail the current question needs.</li>
+<li><strong>What should become true, or is allowed?</strong> A goal or specification defines
+   a desired or permitted condition. It is not evidence that the condition
+   currently holds.</li>
+</ol>
+<p>Gojo's broader concern includes uncertainty, incomplete construction,
+unaccounted participation and unresolved change. These overlap, but they are
+not synonyms. A known rational remainder, known blocked transfer, exact
+one-unit mismatch, or intentional clearance can have no numerical uncertainty.
+Conversely, a settled carrier or fully bound pattern can describe a quantity
+that remains uncertain.</p>
+<p>Measurement uncertainty has a narrower established meaning: it characterizes
+the dispersion of values attributed to a specified measurand given available
+information. Gojo also needs uncertainty about relations, applicability,
+identity, access and action. These need not all acquire a numerical dispersion.
+See <a href="https://jcgm.bipm.org/vim/en/2.26.html">JCGM VIM, measurement uncertainty</a>.</p>
+<h2 id="2-working-inventory">2. Working Inventory</h2>
+<p>The rows below describe overlapping circumstances. One observation can have
+several at once. The response depends on their connected explanation, not on
+dispatch through the row's name.</p>
+<h3 id="21-values-observations-and-explanations">2.1 Values, Observations And Explanations</h3>
+<table>
+<thead>
+<tr>
+<th>Circumstance</th>
+<th>What remains open</th>
+<th>Consequence for calculation or exploration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unbound construction</td>
+<td>A participant, relation, parameter or result has not been supplied.</td>
+<td>Preserve the slot and its constraints. Do not substitute zero. Some coarser questions may already be answerable.</td>
+</tr>
+<tr>
+<td>Bounded but unresolved quantity</td>
+<td>The value is somewhere in an explicitly justified set.</td>
+<td>Propagate the admissible joint values; retain the origin and conditions of the bound. A bound alone gives no probability distribution.</td>
+</tr>
+<tr>
+<td>Discrete alternatives</td>
+<td>Several classes, routes, models or configurations fit.</td>
+<td>Preserve candidates and their evidence. Do not average candidates unless the resulting mixture itself has a defined interpretation.</td>
+</tr>
+<tr>
+<td>Vague description</td>
+<td>“About a cup,” “many leaves,” or “warm” does not determine a sharp boundary.</td>
+<td>An explicit context may supply a useful coarse read or bound. The word alone does not supply exact endpoints or a probability law.</td>
+</tr>
+<tr>
+<td>Quantization and representational resolution</td>
+<td>A read cannot distinguish finer participation.</td>
+<td>Preserve available remainder or a stated cell promise. A tick size is not automatically a measurement uncertainty, and an absent digit does not mean zero.</td>
+</tr>
+<tr>
+<td>Observation noise and repeatability</td>
+<td>The observation process varies between events.</td>
+<td>Attach observation events and their possible errors to the source; two readings of one source are not automatically the same reading.</td>
+</tr>
+<tr>
+<td>Calibration and shared systematic effects</td>
+<td>An instrument, conversion or reference may introduce a common unknown contribution.</td>
+<td>Preserve shared causes and coefficients. Contributions may cancel or reinforce; treating them as independent can misstate uncertainty.</td>
+</tr>
+<tr>
+<td>Physical variation</td>
+<td>Different objects, times or outcomes can actually differ.</td>
+<td>Distinguish a population or process from an individual sample. A fixed part's unknown size and a changing process's spread answer different questions.</td>
+</tr>
+<tr>
+<td>Unselected outcome of a stochastic model</td>
+<td>The process description can be complete while its next outcome remains unresolved.</td>
+<td>Carry the supplied probability law and joint assumptions when relevant. Outcome variability and uncertainty about the law's parameters are different.</td>
+</tr>
+<tr>
+<td>Measurand ambiguity</td>
+<td>Which property is being measured, where, when or under which conditions is underspecified.</td>
+<td>Refine the quantity definition before combining apparent measurements. More digits cannot repair different questions.</td>
+</tr>
+<tr>
+<td>Uncertain instance association</td>
+<td>It is unclear whether observations concern the same object, site or event.</td>
+<td>Preserve alternative correspondences. Automatic aliasing can create false cancellation; automatic separation can lose a real shared cause.</td>
+</tr>
+<tr>
+<td>Measurement participation in change</td>
+<td>The act of obtaining information also changes the source.</td>
+<td>Represent the observation and its material interaction separately, including the state transition. A Gojo projection remains observational; a physical measuring process can require an explicit action around it.</td>
+</tr>
+<tr>
+<td>Unknown model parameters</td>
+<td>A relation is selected, but its parameters are not established.</td>
+<td>Keep the parameter as connected unknown participation, shared wherever the same parameter is used.</td>
+</tr>
+<tr>
+<td>Competing relation structures</td>
+<td>Different explanatory structures remain plausible.</td>
+<td>Retain alternatives and seek observations or interventions that distinguish them. A narrow result inside one model does not settle model selection.</td>
+</tr>
+<tr>
+<td>Limited model applicability</td>
+<td>A useful relation may cease to hold outside a scale, condition or horizon.</td>
+<td>Preserve its conditions of use and evidence. Extrapolation is a new claim, not automatic refinement.</td>
+</tr>
+<tr>
+<td>Approximation and omitted influences</td>
+<td>A read deliberately neglects participation that may affect its result.</td>
+<td>State the scope and, when needed, bound the effect or retain a route for refinement. Omission is not a claim of zero influence.</td>
+</tr>
+</tbody>
+</table>
+<p>“Physical” and “perspective based” are useful distinctions, but not exclusive
+bins. Variable production creates physically different bolts; not knowing which
+bolt was selected is uncertainty for an observer. The same variation can be
+irrelevant to one task and decisive to another.</p>
+<p>Metrology's Type A and Type B labels distinguish methods of evaluating
+uncertainty, not a universal split between physical and epistemic uncertainty.
+See <a href="https://www.nist.gov/pml/nist-technical-note-1297/nist-tn-1297-2-classification-components-uncertainty">NIST's classification</a>.</p>
+<h3 id="22-perspective-access-dependence-and-resources">2.2 Perspective, Access, Dependence And Resources</h3>
+<table>
+<thead>
+<tr>
+<th>Circumstance</th>
+<th>What remains open</th>
+<th>Consequence for calculation or exploration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deliberately irrelevant detail</td>
+<td>A view does not request information that may exist.</td>
+<td>Exclude it from that read. Retain a complement or source reference when useful; do not invent a penalty or force exploration.</td>
+</tr>
+<tr>
+<td>Unknown locally, readable elsewhere</td>
+<td>This space lacks an interpretation or observation another space may provide.</td>
+<td>Use an exposed port, explicit basis and provenance. Local opacity does not imply global absence.</td>
+</tr>
+<tr>
+<td>Delayed or unavailable information</td>
+<td>A dependency cannot currently be obtained.</td>
+<td>Preserve what is pending and the conditions of access. Waiting, requesting and estimating are distinct actions.</td>
+</tr>
+<tr>
+<td>Missing or censored observation</td>
+<td>No sample arrived, or a detector reported only a threshold relation.</td>
+<td>Missing is not zero; “below limit” is a constraint, not necessarily the limit value. Missingness can itself depend on the source.</td>
+</tr>
+<tr>
+<td>Stale information and future evolution</td>
+<td>A valid earlier observation may no longer describe the current state.</td>
+<td>Connect state, observation time and transition evidence. Reusing an old value needs an explicit persistence or prediction premise.</td>
+</tr>
+<tr>
+<td>Unknown dependence</td>
+<td>Marginal descriptions exist, but joint behavior is not established.</td>
+<td>Do not assume independence from distinct identities. Use a conservative joint read or keep the dependence question open.</td>
+</tr>
+<tr>
+<td>Non-identifiability</td>
+<td>Several underlying states give the same available observations.</td>
+<td>Seek a different relation or intervention. Repeating the same question more precisely may never distinguish the states.</td>
+</tr>
+<tr>
+<td>Inaccessible under current conditions</td>
+<td>The available ports, instruments or perspective cannot distinguish an answer.</td>
+<td>State the limitation relative to a question and access model. Do not silently promote “unavailable here” to “impossible everywhere.”</td>
+</tr>
+<tr>
+<td>Search or computation incomplete</td>
+<td>A useful result has not been found within available effort.</td>
+<td>Distinguish “not found” from “does not exist.” Preserve bounds, explored alternatives and remaining work when useful.</td>
+</tr>
+<tr>
+<td>Compressed or forgotten history</td>
+<td>Detail or dependency was intentionally discarded.</td>
+<td>Preserve the remaining promise and acknowledge loss. A later read may need wider bounds or renewed observation.</td>
+</tr>
+<tr>
+<td>Unanticipated model gaps</td>
+<td>Existing structure may omit a relevant distinction entirely.</td>
+<td>Keep room for failed predictions and new structure. No finite inventory can pre-encode every future surprise.</td>
+</tr>
+</tbody>
+</table>
+<p>For example, observing only <code>x + y = 5</code> does not identify <code>x</code> and <code>y</code> separately.
+More decimal places in that same sum do not provide the missing relation. This
+is different from measurement noise and from insufficient computation.</p>
+<p>Questions outside present observation, or about another organism's experience,
+need explicit limits on what the local evidence can establish. A numerical
+interval should not be fabricated when no suitable quantity or ordered answer
+space has been defined.</p>
+<h3 id="23-goals-disagreement-and-unresolved-operations">2.3 Goals, Disagreement And Unresolved Operations</h3>
+<table>
+<thead>
+<tr>
+<th>Circumstance</th>
+<th>What remains open or unsettled</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Desired goal</td>
+<td>A specified future condition may not hold or may not be reachable.</td>
+<td>Keep the target separate from evidence about the current state. Explore admissible transformations and preserve unsuccessful attempts.</td>
+</tr>
+<tr>
+<td>Tolerance or permitted variation</td>
+<td>A specification allows a set of outcomes.</td>
+<td>Treat that set as normative. It does not prove the actual item belongs to it or establish how likely each value is.</td>
+</tr>
+<tr>
+<td>Intentional difference or clearance</td>
+<td>A relation wants a nonzero gap.</td>
+<td>Compare against the allowed gap, not automatically against equality. The gap itself need not be uncertain or defective.</td>
+</tr>
+<tr>
+<td>Contradictory evidence or premises</td>
+<td>No interpretation satisfies all currently selected constraints.</td>
+<td>Expose the incompatible participants. Do not assign fault by default, and do not treat an empty possibility set as success.</td>
+</tr>
+<tr>
+<td>Error or mistaken belief</td>
+<td>A value disagrees with a reference, or a relied-on premise may be false.</td>
+<td>Separate a known discrepancy, uncertainty about its size or cause, and an unrecognized mistake. Confidence is not a correctness proof.</td>
+</tr>
+<tr>
+<td>Projection residue</td>
+<td>A selected read leaves participation unrepresented.</td>
+<td>Keep the remainder available. It can be exactly known and does not automatically demand physical change.</td>
+</tr>
+<tr>
+<td>Illegal lanes, blocked transfer and capacity overflow</td>
+<td>A route cannot interpret or accept some participation.</td>
+<td>Preserve the relevant witness and remainder. A blocked amount may be exactly known; material accounting still applies.</td>
+</tr>
+<tr>
+<td>Unsettled carrier tension</td>
+<td>Introduced signed change has not been absorbed or routed.</td>
+<td>Continue or expose local settlement through explicit connections. Uncertainty does not itself inject a delta.</td>
+</tr>
+</tbody>
+</table>
+<p>Measurement error is a difference from a reference; it is not defined as
+“uncertainty we mistakenly consider certain.” That phrase describes an
+important failure of belief, but a discrepancy can also be known exactly.
+See <a href="https://jcgm.bipm.org/vim/en/2.16.html">JCGM VIM, measurement error</a>.</p>
+<h2 id="3-nominal-stops-tolerance-and-planned-clearance">3. Nominal Stops, Tolerance And Planned Clearance</h2>
+<h3 id="31-a-catalogue-is-not-a-measuring-instrument">3.1 A Catalogue Is Not A Measuring Instrument</h3>
+<p>The labels <code>10 mm</code>, <code>11 mm</code>, <code>12 mm</code>, or a series of fractional-inch sizes can
+be nominal stops in a catalogue. Their spacing does not establish the
+resolution of a micrometer or prove that physical parts cannot have an
+intermediate dimension.</p>
+<p>A useful structure connects, as needed:</p>
+<ul>
+<li>the nominal class and the selected standard;</li>
+<li>the actual instance and feature being considered;</li>
+<li>the permitted dimensions under that specification;</li>
+<li>the observation event, calibration and conditions;</li>
+<li>the evidence about the actual feature;</li>
+<li>a comparison or classification witness.</li>
+</ul>
+<p>A bolt has several dimensions. A <code>10.2 mm</code> observation is not interpretable as a
+nominal-size violation until the intended feature and its conditions are
+specified. Finite detail in the measurand definition can itself contribute
+uncertainty; see <a href="https://jcgm.bipm.org/vim/en/2.27.html">JCGM VIM, definitional uncertainty</a>.</p>
+<p>One explanatory measurement relation is</p>
+<pre><code class="language-text">observed diameter = actual feature diameter + calibration contribution
+                    + event-specific observation contribution
+</code></pre>
+<p>This is mathematical notation for a connected relation, not new executable
+Gojo syntax. More complicated measurement processes need different relations.</p>
+<p>If the class and manufacturing history are well supported, the measurement
+process may be a useful first place to investigate. It is still an inference,
+not a law assigning fault. An out-of-spec part, another measured feature, a
+wrong class or an inappropriate calibration remain possible explanations.</p>
+<h3 id="32-tolerance-does-not-establish-actual-size">3.2 Tolerance Does Not Establish Actual Size</h3>
+<p>A tolerance interval specifies permissible values. An uncertainty interval
+describes values supported by information and assumptions. An acceptance rule
+decides how evidence is used to make a conformance decision. These can have
+different boundaries. See <a href="https://www.bipm.org/documents/20126/2071204/JCGM_106_2012_E.pdf">JCGM 106, conformity assessment</a>.</p>
+<p>Using a tolerance as a bound on an actual part requires an explicit premise
+that the part conforms. A catalogue alone does not demonstrate that premise.
+Likewise, a tolerance does not imply a uniform probability distribution or a
+particular process variation. One item may have a fixed but unknown dimension;
+an ensemble of produced items has a different question attached to it.</p>
+<h3 id="33-the-desired-difference-can-be-nonzero">3.3 The Desired Difference Can Be Nonzero</h3>
+<p>For an illustrative diameter model, assume the following are justified bounds
+on two actual features. These numbers are not a fastener standard or a complete
+mechanical fit model:</p>
+<pre><code class="language-text">bolt diameter B in [9.90, 10.00] mm
+hole diameter H in [10.10, 10.20] mm
+diametral clearance C = H - B in [0.10, 0.30] mm
+</code></pre>
+<p>This is a conservative interval when no tighter joint constraint is known.
+If the desired clearance is also <code>[0.10, 0.30] mm</code>, the nonzero difference is
+compatible with the design. A simple violation read for a known clearance is</p>
+<pre><code class="language-text">v(c) = max(c_min - c, 0, c - c_max)
+</code></pre>
+<p>Every allowed clearance has zero violation, despite a positive physical gap.
+Whether that gap is represented as stored tension depends on an explicit
+physical coupling and its reference condition. Mere difference does not inject
+carrier tension.</p>
+<p>For a nonempty possible-clearance set <code>C</code> and a permitted set <code>T</code>:</p>
+<ul>
+<li><code>C</code> contained in <code>T</code>: all represented possibilities satisfy this criterion;</li>
+<li><code>C</code> disjoint from <code>T</code>: none satisfy it;</li>
+<li>otherwise: the available description does not settle conformance.</li>
+</ul>
+<p>An empty <code>C</code> means contradictory premises or a failed construction, not a
+vacuous pass. All three useful decisions remain conditional on the validity of
+the bounds and the selected fit model.</p>
+<h2 id="4-the-two-cups-dependence-is-part-of-the-arithmetic">4. The Two Cups: Dependence Is Part Of The Arithmetic</h2>
+<h3 id="41-same-quantity-versus-same-description">4.1 Same Quantity Versus Same Description</h3>
+<p>Let a particular volume at a particular state be <code>X</code>, expressed in a chosen cup
+unit, with a justified bound <code>[0.9, 1.1]</code>.</p>
+<pre><code class="language-text">X - X = 0
+</code></pre>
+<p>The cancellation is exact for the same finite quantity in a compatible basis.
+It does not require discovering the value of <code>X</code>. Treating the two occurrences
+as independent intervals and returning <code>[-0.2, 0.2]</code> loses known dependence.
+The zero result need not erase the input structure, unit or cancellation
+witness; those may still matter to later reads.</p>
+<p>Now let two separate volumes <code>X</code> and <code>Y</code> each satisfy the same bound:</p>
+<pre><code class="language-text">X in [0.9, 1.1] cups
+Y in [0.9, 1.1] cups
+X - Y in [-0.2, 0.2] cups
+</code></pre>
+<p>The shared description is a reusable view, not an identity link between the
+contents. Distinct identities also do not prove statistical independence: both
+volumes could have been produced by a shared dispenser or constrained to sum
+to a known amount.</p>
+<p>Subtracting the exact whole physical parcel leaves zero under a complete
+transfer model. Real removal can have retained droplets, loss, inflow or other
+process participation; those belong to the action model. Algebraic
+cancellation of an observed value does not prove that an uncertain physical
+transfer completed.</p>
+<h3 id="42-source-identity-and-observation-identity-are-different">4.2 Source Identity And Observation Identity Are Different</h3>
+<p>Two observations of the same physical quantity might have the structure</p>
+<pre><code class="language-text">O1 = Q + b + e1
+O2 = Q + b + e2
+O1 - O2 = e1 - e2
+</code></pre>
+<p>Here <code>Q</code> is the shared quantity at the same modeled state, <code>b</code> a shared bias
+with the same coefficient, and <code>e1</code>, <code>e2</code> distinct observation contributions.
+The common contributions cancel; the event-specific ones need not. If the
+source or calibration changed between observations, that change must appear
+in the relation. Conversely, two references to the exact captured reading
+<code>O1</code> cancel as <code>O1 - O1</code>, regardless of whether <code>O1</code> accurately describes <code>Q</code>.
+An event record also needs the promised captured state: a live mutable reference
+alone does not guarantee preservation of its earlier value.</p>
+<p>This requires distinguishing at least a reusable category, a physical instance,
+its state, an observation event, a shared cause and a read result. These are
+roles in connected structure, not necessarily six new primitive classes.</p>
+<h3 id="43-a-small-dependency-preserving-example">4.3 A Small Dependency-Preserving Example</h3>
+<p>An explanatory affine form is</p>
+<pre><code class="language-text">X = 1 + 0.1 e       where e in [-1, 1]
+Y = 1 + 0.1 f       where f in [-1, 1]
+
+X - X = 0
+X + X = 2 + 0.2 e
+X - Y = 0.1 e - 0.1 f
+</code></pre>
+<p>The same <code>e</code> means the same unresolved contribution; it is not freshly sampled
+at every occurrence. In Gojo this suggests shared slots and contribution
+relations. The notation does not replace ordinary Gojo topology with a
+canonical expression tree.</p>
+<p>Affine arithmetic offers a relevant implementation precedent: shared bounded
+terms retain dependencies, while nonlinear operations require additional
+enclosures and remainders. It is a possible derived read, not a universal model
+of uncertainty. See <a href="https://ic.unicamp.br/~stolfi/EXPORT/projects/affine-arith/Welcome.html">the original researchers' overview</a>.</p>
+<p>For probabilistic reads with finite second moments:</p>
+<pre><code class="language-text">Var(X - Y) = Var(X) + Var(Y) - 2 Cov(X, Y)
+</code></pre>
+<p>Dropping covariance needs justification. NIST's propagation law explicitly
+includes covariance; its general nonlinear formula uses a first-order
+approximation. See <a href="https://www.nist.gov/pml/nist-technical-note-1297/nist-tn-1297-appendix-law-propagation-uncertainty">NIST's law of propagation</a>.</p>
+<p>Pairwise covariance is itself a limited read: nonlinear dependence may require
+the actual relation. An interval is not a standard deviation, a standard
+deviation is not a guaranteed bound, and neither establishes a distribution
+without further assumptions.</p>
+<p>Cancellation also has domain conditions. <code>X / X = 1</code> requires <code>X != 0</code>.
+An untyped open slot is not automatically a finite number, a valid divisor or
+a compatible physical quantity.</p>
+<h2 id="5-ignored-detail-locality-and-crystallization">5. Ignored Detail, Locality And Crystallization</h2>
+<p>Not knowing the number of leaves need not weaken a useful tree read. If that
+detail cannot affect the selected question at its promised resolution, there
+is no reason to force it into the calculation or explore it immediately.
+The structure can retain the source, a carried complement, or a potential
+route for another space to inspect. Deliberately discarding detail is also
+valid when the retained promise acknowledges that loss.</p>
+<p>Approximation can also deliberately communicate this selection: "my hometown
+is about 100 miles away" may direct attention away from exact mileage while
+still contributing distance implications to the larger meaning. The speaker
+might know the finer value. More precise wording may invite finer attention,
+but digit count alone does not prove either importance or accuracy. A concept
+read should preserve the communication context and distinguish the published
+focus from available detail. This offers an exploratory heuristic for
+attention, not a requirement to resolve every approximate phrase.</p>
+<p>There are two different situations:</p>
+<ol>
+<li>All admissible finer completions give the same answer to the selected
+   question. The local answer can be exact at that resolution.</li>
+<li>Omitted participation can affect the answer, but the approximation is useful
+   for a chosen purpose, scale and horizon. The read needs those conditions,
+   and an effect bound or refinement route when the task requires one.</li>
+</ol>
+<p>A planetary-motion view illustrates the second possibility as well as useful
+abstraction: a selected model uses a limited set of quantities and influences.
+Excluding surface detail or distant influences does not claim their physical
+effects are universally zero.</p>
+<p>Relevance therefore changes the requested read and allocation of effort, not
+the physical truth of omitted participation. A tiny uncertainty near a critical
+decision boundary can matter more than a huge unknown that cannot change the
+decision. An exploration policy needs consequences and goals as well as
+uncertainty; maximizing uncertainty reduction alone is not an adequate law.</p>
+<p>Crystallization can stabilize a reusable unit or view promise. It must preserve
+the distinction between that promise and an individual sample's unresolved
+value. Reusing an “about one cup” view should not make every cup share one
+unknown volume. Nor should an approximate quantity make the chosen cup unit
+definition itself approximate unless the calibration is also unresolved.</p>
+<p>A coarse read such as two hundreds ticks with an exactly retained remainder
+of 47 can fully account for a known value 247. The remainder is not random.
+A receiver seeing only the coarse ticks has less information, but what it may
+infer depends on the read's declared cell and domain; an absent remainder is
+not an implicit exact zero or an automatic symmetric error bar.</p>
+<h2 id="6-goals-introduce-a-different-kind-of-question">6. Goals Introduce A Different Kind Of Question</h2>
+<p>A goal can be completely specified even when its feasibility, required action
+and eventual outcome remain unknown. Desire defines a target; it supplies no
+evidence that the target already holds.</p>
+<p>The useful reading of “2 + 2 = 5, with five fixed” is</p>
+<pre><code class="language-text">current a = 2, current b = 2
+desired future a' + b' = 5
+a' = 2 + delta_a, b' = 2 + delta_b
+therefore delta_a + delta_b = 1
+</code></pre>
+<p>The equality <code>2 + 2 = 4</code> remains exact. The future constraint exposes a one-unit
+gap. Its allocation depends on available inputs, legal transformations,
+capacity, costs, history and other connected commitments. If both inputs and
+the addition relation are fixed, the target is unreachable under those
+premises. The system must preserve that conflict rather than report success.</p>
+<p>Three processes need different witnesses:</p>
+<ul>
+<li><strong>Observation or inference:</strong> changes what is justified about a state.</li>
+<li><strong>Material action:</strong> changes the state through explicit import, transfer or
+  settlement, with its accounting and timeline.</li>
+<li><strong>Model revision:</strong> changes the selected explanation, calibration or
+  applicability assumptions.</li>
+</ul>
+<p>All can be useful responses to tension. Changing a belief or a desired answer
+does not demonstrate that the corresponding material goal was achieved.
+Likewise, evaluating a hypothetical transformation is not evidence it occurred.</p>
+<h2 id="7-unknown-here-interpretable-elsewhere">7. Unknown Here, Interpretable Elsewhere</h2>
+<p>A local space can contribute without understanding the larger concept. It
+needs enough of a contract to expose participation, read compatible inputs,
+route outputs and preserve unresolved evidence. Another space may interpret
+what remains opaque here.</p>
+<p>Converting to a common carrier or “raw currency” must itself be an explicit
+projection or transfer with a basis and retained promise. Heat, sound and other
+sources do not become interchangeable merely because each has a scalar read.
+The local view may legitimately discard some distinctions, but should retain
+source correspondence when later interpretation depends on them.</p>
+<p>This does not require access to every source's internal history. Treat external
+inputs through exposed contracts; local reliability, timing, processing and
+variation evidence can remain useful even when ancestry is opaque. Similar
+variation and predictive utility may eventually support learned weighting,
+grouping and pruning. Such a group is a revisable approximation, not proof that
+the sources are identical or causally dependent. Another mechanism may supply
+stronger correspondence when available. The bounded fixture exercises known
+sharing and unknown overlap without implementing that adaptive mechanism.</p>
+<p>There are two separate duplication hazards:</p>
+<ul>
+<li>Material branching must account for accepted, blocked and remaining
+  participation without creating conserved quantity.</li>
+<li>Evidence branching must not make one observation into several independent
+  observations merely because it returns through several routes.</li>
+</ul>
+<p>The second is especially important for a system that learns from local
+agreement. Ten spaces echoing one source can provide evidence of distribution
+or usefulness, but not ten independent measurements of the world. Returning
+feedback should preserve the dependencies needed by its evidence-combination
+read. This does not require a global judge or retaining every historical event
+forever; a compressed account must retain an appropriate dependency promise or
+admit that it no longer supports the stronger inference.</p>
+<h2 id="8-proposed-calculation-contract">8. Proposed Calculation Contract</h2>
+<h3 id="81-preserve-joint-completions-not-just-separate-error-bars">8.1 Preserve Joint Completions, Not Just Separate Error Bars</h3>
+<p>For compatible quantities with a joint-value model, let <code>Omega</code> be the
+admissible joint completions of a selected local structure under its declared
+premises and evidence. A read <code>f</code> should describe <code>f(Omega)</code> at its chosen
+resolution.
+This is a way to state a local law, not a requirement to enumerate every state
+or introduce a global solver. It does not assert that every possible question
+has a simultaneous hidden scalar value. A probability read additionally needs
+its justified law over the selected possibilities; support alone is insufficient.</p>
+<p>Independent marginal intervals can overapproximate <code>Omega</code>, but lose shared
+constraints. For <code>X - X</code>, the two occurrences range together along a diagonal,
+not independently across a square. The representation should permit local
+elimination, exact cancellation and conservative enclosures without erasing
+the relation that justifies them.</p>
+<p>Keep a specification or target set separate from <code>Omega</code>. A target constrains
+success; it must not remove inconvenient current possibilities merely because
+they are unwanted. Explore reachable future structures through explicit
+transformations instead.</p>
+<p>If evidence contradicts itself, retain the conflict. If a quantity or operation
+has no defined domain, retain that missing premise. These differ from a valid
+zero, an empty material remainder and an unbounded set of possible values.</p>
+<h3 id="82-bounds-need-their-own-arithmetic-and-rounding-laws">8.2 Bounds Need Their Own Arithmetic And Rounding Laws</h3>
+<p>For <code>w = w0 + dw</code>, <code>h = h0 + dh</code>, with <code>|dw| &lt;= a</code>, <code>|dh| &lt;= b</code>:</p>
+<pre><code class="language-text">wh - w0 h0 = h0 dw + w0 dh + dw dh
+|wh - w0 h0| &lt;= |h0| a + |w0| b + a b
+</code></pre>
+<p>The last term cannot be discarded when claiming this guaranteed bound. For
+<code>w in [4,6]</code>, <code>h in [9,11]</code>, ordinary positive multiplication gives
+<code>wh in [36,66]</code>. The nominal product is 50, and first-order sensitivity of 15
+misses the possible upper deviation of 16. These intervals assert neither a
+uniform distribution nor that every pair is achievable if additional joint
+constraints exist.</p>
+<p>Consequently:</p>
+<ul>
+<li>Unit compatibility, calibration and domains precede numerical combination.</li>
+<li>A support-set read may select numeric lower and upper bounds without erasing
+  the source frame's order, orientation or standard. An occupied segment and
+  a set of possible unknown values need different connected interpretations.</li>
+<li>Cancellation of unit factors does not by itself cancel uncertain quantities.
+  That requires the corresponding shared sources and relations.</li>
+<li>Picking a coarse output tick is a representation policy, not an uncertainty
+  propagation theorem.</li>
+<li>A guaranteed enclosure rounded onto integer ticks needs outward endpoint
+  rounding. Ordinary point projection with a retained remainder is a different
+  read and cannot silently stand in for that law.</li>
+<li>A denominator whose possibilities include zero needs explicit domain
+  handling; the result may have an undefined branch, be unbounded, or require
+  disconnected alternatives. Do not return a misleading finite interval.</li>
+<li>Shared causes must survive multiplication and other nonlinear operations,
+  even if a derived approximation introduces an explicit remainder.</li>
+<li>Additional consistent evidence under a fixed valid model can refine a read.
+  Actual state changes, revised assumptions or lost information can instead
+  require a wider read and a new correspondence.</li>
+</ul>
+<h3 id="83-structure-to-attach-when-the-question-needs-it">8.3 Structure To Attach When The Question Needs It</h3>
+<p>No mandatory giant record is proposed. Compose the relevant participants:</p>
+<pre><code class="language-text">source instance / selected feature / state or observation event
+    -&gt; exposed surface and calibration
+    -&gt; open quantity or alternative construction
+    -&gt; constraints and shared causes, with their supporting premises
+    -&gt; selected read and carried complement
+    -&gt; result, remainder and provenance
+
+specification or goal -&gt; comparison / experiment / permitted transformation
+                     -&gt; witnessed result and timeline
+</code></pre>
+<p>This is a design sketch, not a newly accepted constructor spelling. The
+connections must explain the reading; a text label such as “tolerance,”
+“independent” or “goal” cannot be its sole semantics. Candidate weights,
+probabilities, confidence and attention can be additional calibrated reads
+when justified. None is a universal replacement for the source structure.</p>
+<h2 id="9-current-gojo-support-and-boundaries">9. Current Gojo Support And Boundaries</h2>
+<table>
+<thead>
+<tr>
+<th>Existing mechanism</th>
+<th>What it contributes now</th>
+<th>What it does not establish</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="assets/Gojo--Patterns--StructuralPattern.cs"><code>StructuralPattern</code></a> and placeholders</td>
+<td>Shared slots, partial constructions and explicit binding.</td>
+<td><code>IsComplete</code> means slots are bound, not that a claim is true or a quantity is certain. Binding a slot to a span does not automatically enforce a numerical interval law.</td>
+</tr>
+<tr>
+<td>Carrier, site and tick-reference identity</td>
+<td>Distinguishes shared participation from merely equal coordinates.</td>
+<td>Sharing a category or a unit does not establish shared sample uncertainty. The graph must connect the appropriate instance, event and cause.</td>
+</tr>
+<tr>
+<td><a href="assets/Gojo--Core--ProjectionResidue.cs"><code>ProjectionResidue</code></a></td>
+<td>Retains exact rational participation left by a selected projection.</td>
+<td>A retained remainder is not a probability or a generic measurement error bar.</td>
+</tr>
+<tr>
+<td><a href="assets/Gojo--ConceptSurface--BoundaryFlowPrimitives.cs"><code>BoundedWholeSurface</code></a></td>
+<td>Connects a selected whole, two boundaries and a partition/resolution witness; tests exercise those reads.</td>
+<td>A bounded whole does not by itself mean an unknown sample drawn from the whole or supply a law for propagating its uncertainty.</td>
+</tr>
+<tr>
+<td><a href="assets/Gojo--Structures--BoundedQuantity.cs"><code>BoundedQuantity</code></a></td>
+<td>Conditional closed bounds, shared-slot affine combination, exact fractional endpoints, conservative products/quotients and conformance-distance reads.</td>
+<td>Does not establish source truth, statistical independence, probability, learned similarity, general nonlinear refinement or autonomous exploration.</td>
+</tr>
+<tr>
+<td><a href="assets/Gojo--Structures--ReadWitness.cs"><code>ReadWitness</code></a> and <a href="assets/Gojo--Structures--FocusSurface.cs"><code>FocusSurface</code></a></td>
+<td>Connect source, selected read, result, complement and provenance where supplied.</td>
+<td>A placeholder for missing evidence is not proof that no complement or uncertainty exists.</td>
+</tr>
+<tr>
+<td><a href="assets/Gojo--Structures--OperationClaim.cs"><code>OperationClaim</code></a></td>
+<td>Compares readable participants and exposes residual structure under selected premises.</td>
+<td>Does not identify fault or globally verify the model. Unresolved reads retain participants; their sentinel scalars are not uncertainty measures or verdicts in isolation.</td>
+</tr>
+<tr>
+<td><a href="assets/Applications--GojoCAD--electronics--components--resistors--ResistanceValueSurface.cs"><code>ResistanceValueSurface</code></a></td>
+<td>A concrete nominal series and a separately connected relative tolerance surface.</td>
+<td><code>RelativeTolerance</code> does not encode exact ohm endpoints, a probability distribution or a demonstrated conformance bound on a physical sample.</td>
+</tr>
+<tr>
+<td><a href="Gojo--docs--GojoLocalBlendFixture.html">Local blend fixture</a></td>
+<td>Partial construction, alternative mixtures, goals, explicit response steps and coarse reads.</td>
+<td>Does not yet supply a general learning rule, guaranteed interval propagation or automatic assignment of responsibility.</td>
+</tr>
+<tr>
+<td><a href="Gojo--docs--GojoNumericFormat.html">Numeric format</a></td>
+<td>Preserves encoded graph structure and within-world aliases across restoration.</td>
+<td>Cannot invent absent dependency relations or confer uncertainty semantics merely by serializing a graph.</td>
+</tr>
+</tbody>
+</table>
+<p>The crucial distinction is <strong>structural completeness versus certainty</strong>. A
+fully constructed bounded-quantity model can remain uncertain; an unfinished
+pattern can already answer a particular question exactly. Syntax and numeric
+transport need to preserve both situations without conflating them.</p>
+<p>The exploratory <a href="Gojo--axioms--ideas--Gojo Streaming Data Frames And Interpretive Graphics.html">streaming-data note</a>
+already asks how unread available detail differs from absent detail, and how
+predicted detail should retain different provenance from observation. The
+distinctions here support that direction without promoting its proposed
+reservoir, attention or confidence mechanisms to implemented behavior.</p>
+<p>The older <a href="Gojo--axioms--Gojo Crystallized Resolution.html">crystallized resolution note</a>
+has been clarified alongside this reference: choosing the coarsest participating
+basis is an output-basis heuristic, not a guaranteed uncertainty bound. This
+documentation change does not add propagation behavior to the kernel.</p>
+<h2 id="10-recommended-next-fixture">10. Recommended Next Fixture</h2>
+<p>The first <a href="Gojo--docs--GojoBoundedQuantityFixture.html">bounded-quantity fixture</a> now exercises
+the cases below in kernel and authored syntax tests, including numeric
+restoration. Its nonlinear reads are conservative enclosures; general tighter
+propagation, arbitrary constraint solving and learned external dependence remain
+future work. The list remains the rationale for that first implementation.</p>
+<p>Start with <strong>two bounded quantities and explicitly shared causes</strong>, not an
+independent-interval wrapper around every scalar. The first fixture should
+already distinguish an instance from its category and its observations.</p>
+<p>The fixture should establish these laws before broader adaptive behavior:</p>
+<ol>
+<li><strong>Same unknown twice:</strong> valid <code>X - X</code> is exactly zero; <code>X + X</code> preserves one
+   shared contribution with doubled participation.</li>
+<li><strong>Two instances of one description:</strong> no automatic cancellation or inference
+   of statistical independence; preserve a conservative difference read.</li>
+<li><strong>Two observations and a common calibration:</strong> cancel only shared
+   contributions with matching coefficients and conditions.</li>
+<li><strong>Normative versus evidential bounds:</strong> a nominal stop or permitted tolerance
+   does not prove actual size. An allowed positive clearance has zero violation.</li>
+<li><strong>Partial versus coarse:</strong> missing fine detail is not zero; retained known
+   residue is not random; a requested coarse answer can already be settled.</li>
+<li><strong>Nonlinear and domain limits:</strong> conservative products, outward rounding,
+   zero-crossing division, incompatible bases and contradictory constraints
+   preserve their unresolved participation.</li>
+<li><strong>Goal versus achieved change:</strong> an exact one-unit target gap produces a
+   proposed or actual witnessed transformation without rewriting addition.</li>
+<li><strong>Transport and feedback:</strong> repeat the dependency-sensitive reads after
+   numeric restoration; returning an observation through a second route does
+   not make it independent evidence.</li>
+</ol>
+<p>Later lossy compression can intentionally weaken the retained dependency
+promise. That should widen or limit the available reads, not silently preserve
+claims whose supporting correspondence was forgotten.</p>
+<p>These are mathematical and representational guardrails. Selecting exploration,
+allocating resistance to change, learning applicability, and deciding which
+history is worth retaining remain local policy questions to develop through
+experiments. They should build on the distinctions above rather than replace
+them with a single uncertainty score.</p></main></html>

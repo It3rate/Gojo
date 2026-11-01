@@ -1,0 +1,243 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Circle calibration, measured offsets and a joined corner</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="circle-calibration-measured-offsets-and-a-joined-corner">Circle calibration, measured offsets and a joined corner</h1>
+<p>Status: September 2026. Implemented selected reads, with syntax fixtures and
+exact conformance tests. These complete three bounded follow-ups from the
+<a href="Gojo--docs--GojoPrimitiveConstructionAudit-2026-09.html">primitive construction audit</a>.</p>
+<p>The <a href="assets/Gojo--docs--examples--metric-construction.html">walkthrough</a> shows the inputs,
+intermediate constructions and an explicitly refused join. Its displayed
+traces and syntax are checked against the executable fixtures. It illustrates
+captured kernel results; the browser does not execute Gojo or discover geometry.</p>
+<h2 id="what-is-supplied-and-what-is-constructed">What is supplied and what is constructed</h2>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Supplied participants</th>
+<th>Calculated result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Circle calibration</td>
+<td>Intrinsic circle and whole subdivision; selected metric chart; centre observation; radius calibration; reference direction and relative side</td>
+<td>Four native quarter landmarks, their metric radial observations, and a surface consumed directly by the existing rotation reader</td>
+</tr>
+<tr>
+<td>Straight offset</td>
+<td>Ordered source edge; selected metric; its orthogonal outlet; native reach mapped to a length span; a relative side guide</td>
+<td>A metric-normal displacement applied equally to both endpoints, with endpoint correspondence and measurement evidence</td>
+</tr>
+<tr>
+<td>Joined offset</td>
+<td>Two source edges sharing the actual corner, metric and reach calibration; two offset requests; explicit parameter supports</td>
+<td>Two calculated offsets, their support intersection, and two trimmed/extended edges sharing one calculated miter site</td>
+</tr>
+</tbody>
+</table>
+<p>Input observations and design choices are legitimate. They are retained as
+inputs instead of being attributed to a construction that did not produce them.
+The metric chart is explicitly supplied in these fixtures. The earlier
+<a href="Gojo--docs--GojoGroundedAffineBasisFixture.html">grounded basis</a> remains a valid source of
+affine coordinates, but does not automatically supply a physical metric.
+Moving its coordinates into this common length chart needs explicit affine
+calibration. Its two independently described units are not silently identified.</p>
+<p>All three reads are observations/constructions. They produce new exposed
+structure without changing carrier value or material tension. A physical
+movement or changed design would require a separate import and settlement.
+Successful witnesses capture numeric inputs, so changing a live calibration
+requires a fresh read; it does not rewrite the old result.</p>
+<h2 id="one-common-metric-contract">One common metric contract</h2>
+<p>The existing rotation metric has been factored into a shared internal reader.
+Its public structural form is unchanged:</p>
+<pre><code class="language-gojo">let $basis = group_on($space, $ux, $uy);
+let $metric = group($basis, frame(
+    ($ux -&gt; $ux) -&gt; $xx,
+    ($ux -&gt; $uy) -&gt; $xy,
+    ($uy -&gt; $uy) -&gt; $yy));
+</code></pre>
+<p>The two actual unit spans identify the ordered coordinate roles. Coordinates
+must use the same holder and coordinate carriers. The axes have compatible
+linear unit shapes; all three pairings use one compatible squared-unit carrier.
+The selected symmetric pairing must be positive definite: <code>xx &gt; 0</code> and
+<code>xx*yy - xy*xy &gt; 0</code>.</p>
+<p>This selects a flat Euclidean metric expressed in a possibly skew chart. It
+does not infer physical perpendicularity from the generic orthogonal outlet.
+For example, after expressing a point as <code>x' = x+y, y' = y</code>, the ordinary
+metric has pairings <code>(1,-1,2)</code>. A normal may then look oblique in the drawing.
+The tests exercise this change of chart and both choices of relative side.</p>
+<p>A reach calibration is an actual relation between a chosen native span
+<code>S(reach,0,n)</code> with <code>n &gt; 0</code> and <code>S(length,0,d)</code> in the metric's common linear
+unit. This first contract requires nonnegative integral target ticks; output
+coordinates can still be exact fractions. It does not silently convert a
+foreign or finer unit. Direction is selected separately from the magnitude.</p>
+<h2 id="from-a-native-circle-to-a-usable-turn">From a native circle to a usable turn</h2>
+<p>Fixture:
+<a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--constructed-circle-rotation.gojo"><code>constructed-circle-rotation.gojo</code></a>.
+Reader: <code>ContourConstruction.TryCalibrateQuarters</code>.</p>
+<p>The circle is first built in the existing way: source point, orthogonal outlet,
+common radial reach, radius attachment, actual seam and partition of a whole.
+The selected metric read then consumes:</p>
+<pre><code class="language-gojo">root group($partition, $metric,
+    $origin -&gt; $centre,
+    $reach -&gt; span($length, 0, 5),
+    $centre -&gt; $direction,
+    $centre -&gt; $side);
+</code></pre>
+<p>The native reach must be the actual radius in that circle. The centre attaches
+to the actual source site. The direction and side relations share the actual
+centre observation. Neither a matching label nor independently equal point
+coordinates establish those connections.</p>
+<p>In the fixture the centre reads <code>(10,20)</code>. The reference point <code>(16,28)</code> selects
+direction <code>(6,8)</code>; it is not a supplied rim landmark. Calibrating the radius to
+five length ticks constructs the first displacement <code>(3,4)</code>. A guide toward
+<code>(10,21)</code> selects the relative side. The metric-normal equal-reach displacement
+is <code>(-4,3)</code>. Their opposites complete the four quarters:</p>
+<table>
+<thead>
+<tr>
+<th>Native participation</th>
+<th>Constructed rim observation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Start</td>
+<td><code>(13,24)</code></td>
+</tr>
+<tr>
+<td>Quarter</td>
+<td><code>(6,23)</code></td>
+</tr>
+<tr>
+<td>Half</td>
+<td><code>(7,16)</code></td>
+</tr>
+<tr>
+<td>Three quarters</td>
+<td><code>(14,17)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Every squared radius is <code>25</code>. In the 360-part fixture these are actual native
+markers <code>0,90,180,270</code>; using four or 3600 parts produces the same metric read.
+The selected homogeneous metric-circle law identifies equal native quarters
+with the two perpendicular radial directions and their opposites. This law is
+an explicit selected interpretation, not a conclusion about every closed path.
+No degree constant, radian value, trigonometric sample or output rim coordinate
+is authored in the fixture.</p>
+<p>The result is the existing rotation surface with the native partition in its
+perimeter position. The start marker retains the actual circle seam; the other
+markers retain their subdivision carrier. We do not invent a second carrier
+and silently equate its sites with the native ones. Native positive cyclic
+order is checked, including rejection of a numerically equal but unshared seam.</p>
+<p>Provenance retains all four native locate witnesses and explicit relations
+from each native radial attachment to its calculated metric observation.
+The existing traversal and two-reflection rotation readers then consume that
+surface. An attached point <code>(12,20)</code> turns to <code>(10,22)</code> on one positive quarter.
+Repeated exposed point references remain shared through application and numeric
+restoration. Traversal steps are edges in the selected cycle: one step here is
+one quarter, not one of the 360 original fine ticks.</p>
+<p>This read requires a partition divisible by four. Tenths remain a valid native
+partition but need another embedding procedure. Arbitrary circle fractions,
+arc length, circumference/radius calibration and general algebraic-coordinate
+evaluation are not implemented by this bridge.</p>
+<h2 id="constructing-a-measured-straight-offset">Constructing a measured straight offset</h2>
+<p>Fixture:
+<a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--measured-segment-offset.gojo"><code>measured-segment-offset.gojo</code></a>.
+Reader: <code>SegmentOffset.TryConstruct</code>.</p>
+<pre><code class="language-gojo">let $edge = $a -&gt; $b;
+let $calibration = $reach -&gt; span($length, 0, 2);
+root group($edge, $metric,
+    orthogonal($edge) -&gt; $calibration,
+    $a -&gt; $side_point);
+</code></pre>
+<p>The outlet belongs to the actual edge. The guide is relative to the actual
+start, and must have some metric-normal participation. Its tangent component
+does not affect the selected side. A tangent-only guide leaves the side open.
+Opposing the guide and reversing the edge are different inputs; reversing an
+edge while retaining the same physical guide can preserve the physical side.
+Neither operation defines world-up or world-left.</p>
+<p>For direction <code>v</code> and pairing <code>G</code>, the reader constructs a direction <code>n</code> such
+that <code>vᵀGn = 0</code>, scales it to the requested metric length, and chooses its sign
+from the guide's pairing with it. It uses the same displacement at both ends:</p>
+<pre><code class="language-text">A' = A + n
+B' = B + n
+B' - A' = B - A
+vᵀGn = 0
+nᵀGn = d²
+</code></pre>
+<p>For <code>(10,20) -&gt; (13,24)</code> at distance two, the selected displacement can be
+<code>(-8/5,6/5)</code>. The squared displacement is exactly four, and its dot product
+with <code>(3,4)</code> is exactly zero. This is stronger than supplying a parallel edge
+or checking endpoint distances separately.</p>
+<p>The result is the calculated ordered edge. Witness provenance is:
+<code>group(endpoint correspondences, displacement, dot product, squared distance)</code>.
+Correspondences retain the captured source and actual output endpoints. A zero
+distance preserves those captured endpoint sites; a collapsed source still
+does not establish a regular direction.</p>
+<p>All normalization arithmetic is rational and uses exact integer square-root
+checks. If a required coordinate is irrational, the read returns a placeholder
+and retains the request as remainder. That is an implementation boundary, not
+measurement uncertainty or evidence that the geometric answer does not exist.
+No guessed floating-point tolerance is attached. The later
+<a href="Gojo--docs--GojoMeasuredOffsetRefinement.html">measured-offset refinement</a> now adds explicit
+preparation and observation stages: retain the normal, its open square equation
+and shared endpoint recipes, then observe guaranteed correlated bounds at a
+chosen subdivision. The exact <code>TryConstruct</code> contract remains unchanged.</p>
+<h2 id="a-shared-corner-with-bounded-straight-supports">A shared corner with bounded straight supports</h2>
+<p>Reader: <code>SegmentOffset.TryJoin</code>, using the same offset fixture.</p>
+<p>Consider the source path <code>(0,0) -&gt; (6,0) -&gt; (6,6)</code>. The actual middle point is
+shared by both source edges. At distance two toward the interior, the first
+calculated offset is <code>(0,2) -&gt; (6,2)</code>, and the second is <code>(4,0) -&gt; (4,6)</code>.
+Those two displaced copies of the old corner are different sites. A join must
+be constructed; equal distances do not already connect them.</p>
+<p>The selected policy intersects the straight supports and permits only the
+parameters admitted by both supplied windows:</p>
+<pre><code class="language-gojo">let $first_whole = span($t, 0, 1);
+let $second_whole = span($u, 0, 1);
+root group($offset_a, $offset_b, group(
+    $first_whole -&gt; $first_whole,
+    $second_whole -&gt; $second_whole));
+</code></pre>
+<p>The calculated intersection is <code>(4,2)</code>, at parameters <code>2/3</code> and <code>1/3</code>. Both lie
+inside their whole segments. The result is two ordered edges with the <strong>same
+constructed joint object</strong>: <code>(0,2) -&gt; joint -&gt; (4,6)</code>. The witnesses retain the
+two independent offset constructions, intersection and parameter evidence,
+and correspondence from each offset edge to its trimmed/extended result.</p>
+<p>On the opposite side the intersection is <code>(8,-2)</code>, at <code>4/3</code> and <code>-1/3</code>.
+The whole-only policy refuses the join. It retains both valid offsets and the
+candidate intersection as evidence, with an unresolved result and remainder.
+Explicit supports <code>[-1,2]</code> authorize this bounded extension. There is no hidden
+unbounded miter or automatic switch to a round corner.</p>
+<p>The two requests must share their actual source corner, metric and reach
+calibration, and select the same relative side along the ordered path. This
+is deliberately stricter than merely equal scalar distances from unrelated
+requests. Separate local spaces would need a contact/calibration correspondence
+before applying this contract. Independently equal-looking corners do not weld.</p>
+<p>Parallel or collinear supports, incomplete geometry, inconsistent sides and
+foreign parameter carriers remain unresolved. Parameter windows limit extension
+in each edge's own calibrated frame; they are not a conventional dimensionless
+miter-length limit. Caps, bevel/round policies, whole-path self-intersections,
+curve-normal evolution and region topology remain separate work.</p>
+<p>The <a href="Gojo--docs--GojoJoinedOffsetPath.html">joined open-path follow-up</a> now composes several
+of these corner reads and checks the remaining span between adjacent trims.
+Both corners can pass while the middle span collapses or reverses; that span
+remains unresolved with its two useful corner results retained.</p>
+<h2 id="syntax-execution-and-verification">Syntax, execution and verification</h2>
+<p>The parser gains no tokens or geometry opcodes. These fixtures use ordinary
+groups, ordered relations, native spans, unit shapes and open result slots.
+The host selects a reader and passes actual results into later requests.
+That selection still needs an explicit execution contract in a future compiler;
+it is not currently inferred from variable names or compiled from a demo.</p>
+<p>The <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxMetricConstructionTests.cs">tests</a> run
+before and after numeric restoration, compare exact results with independent
+integer identities, exercise a skew chart and opposite guide, reject false
+identity/calibration reads, and preserve bounded failures and captured history.
+Existing circle and rotation tests continue to run against the shared metric.</p>
+<pre><code class="language-powershell">dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter 'FullyQualifiedName~GojoSyntaxMetricConstructionTests|FullyQualifiedName~GojoSyntaxCircleConstructionTests|FullyQualifiedName~GojoSyntaxRotationTests'
+dotnet test Gojo.slnx
+</code></pre>
+<p>At this checkpoint the full solution passes 1,557 tests: 782 kernel, 599
+encoding, 155 CAD and 21 gear-ladder cases. Sixty dedicated metric construction
+cases cover this addition. Browser checks cover all eight walkthrough stages
+on desktop and phone, both view directions, the support toggle, syntax panels,
+local links and direct step URLs. Representative layouts were visually inspected.</p></main></html>

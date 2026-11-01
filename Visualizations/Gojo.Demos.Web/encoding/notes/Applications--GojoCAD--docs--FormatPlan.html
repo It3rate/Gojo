@@ -1,0 +1,309 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GojoCAD Format Plan</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojocad-format-plan">GojoCAD Format Plan</h1>
+<p>This plan starts from the ideas in the Gojo concept-surface notes, read spine,
+unit-shape notes, and interpretive graphics notes. It applies them to a
+graphical definition library.</p>
+<p>GojoCAD should not mimic a conventional vector-command model. It should define
+graphic structure in the same way Gojo defines other concepts: connected
+structure first, local reads second, external output later.</p>
+<p>The lower-level recognition direction is captured in
+<a href="Applications--GojoCAD--docs--ReadAlgebra.html">ReadAlgebra.md</a>. That document treats discovery as a derived
+read graph over relation structure, where each local relation read carries
+evidence upward instead of every consumer testing every possible shape.</p>
+<h2 id="1-primitive-graphic-alphabet">1. Primitive Graphic Alphabet</h2>
+<table>
+<thead>
+<tr>
+<th>Graphic need</th>
+<th>Gojo-native structure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Site, marker, endpoint</td>
+<td><code>CarrierLocation</code>, <code>TickRef</code>, <code>Relation.Point(...)</code></td>
+</tr>
+<tr>
+<td>Segment</td>
+<td>ordinary positive-face point-to-point relation</td>
+</tr>
+<tr>
+<td>Directed segment</td>
+<td>inverse-face start plus positive-face end relation</td>
+</tr>
+<tr>
+<td>Ray or line seed</td>
+<td>orthogonal outlet of a zero-length segment</td>
+</tr>
+<tr>
+<td>Radial seed</td>
+<td>orthogonal outlet of a point</td>
+</tr>
+<tr>
+<td>Circumference or contour</td>
+<td>circular unit shape from a point source</td>
+</tr>
+<tr>
+<td>Sheet or region seed</td>
+<td>orthogonal outlet of a nonzero segment</td>
+</tr>
+<tr>
+<td>Area</td>
+<td>product of non-aligned positive participation</td>
+</tr>
+<tr>
+<td>Anti-area, hole, cut</td>
+<td>opposed or inverse area participation</td>
+</tr>
+<tr>
+<td>Partition</td>
+<td>point, segment, reset, repeat, or resolution structure over a carrier</td>
+</tr>
+<tr>
+<td>Arc</td>
+<td>selected partition of a radial or contour carrier</td>
+</tr>
+<tr>
+<td>Polyline, shared-frame</td>
+<td>ordered points or spans referencing one fused/group basis</td>
+</tr>
+<tr>
+<td>Polyline, repeated-step</td>
+<td>appended instances of a span/arc template with connected endpoints</td>
+</tr>
+<tr>
+<td>Closure</td>
+<td>endpoint return through shared site evidence</td>
+</tr>
+<tr>
+<td>Branch or merge</td>
+<td>shared junction site plus connected spans and lane evidence</td>
+</tr>
+<tr>
+<td>Stroke order</td>
+<td>time sequence over selected spans</td>
+</tr>
+<tr>
+<td>Fill presence</td>
+<td>participation carrier attached to a boundary</td>
+</tr>
+<tr>
+<td>Color or stroke width</td>
+<td>deeper basis read from style participation</td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>ladder of carriers and scale/carry/read relations</td>
+</tr>
+</tbody>
+</table>
+<p>These should remain primitives or local reads. They should not be collapsed
+into broad enums such as shape type, curve type, or junction type.</p>
+<h2 id="site-pinning-and-coincidence">Site Pinning And Coincidence</h2>
+<p>Equal tick values are not enough to mean that two graphic elements are joined.
+Two independent locations may render at the same position and still only be a
+crossing, overlap, or unresolved coincidence. A true joint needs shared
+structure: a shared <code>TickRef</code>, a reused point relation, or an explicit relation
+between the participating points.</p>
+<p><code>GraphicStructure.Pin(a,b)</code> is intentionally only ordinary <code>Relation(a,b)</code>.
+It is not a wrapper object or metadata tag. It exists so sample and application
+code can say "these point relations are joined" without hiding the join from
+the read graph.</p>
+<p>Construction helpers such as <code>UnitShape.LinearAt(...)</code>,
+<code>GraphicStructure.LinearCarrierAt(...)</code>, and
+<code>GraphicStructure.CircularCarrierAt(...)</code> avoid duplicated "start equals end"
+parameters when a carrier is seeded at one site. They make the construction
+intent local and inspectable. A <code>UnitShape</code> is still a crystallized basis
+surface, so live retargeting should be represented by an explicit pin or
+attachment relation when the graphic meaning is "this center follows that
+point."</p>
+<p>For circular carriers, a radius attachment is also phase evidence when the
+attached marker is on the circle. The vector from the circle center to the base
+point should define that marker's local angular direction. Without that
+evidence, rendering may default to a horizontal-right anchor, but paths should
+prefer inherited local direction from the incoming segment or carrier basis.</p>
+<h2 id="2-systems-to-support-as-local-reads">2. Systems To Support As Local Reads</h2>
+<p>The following external systems are useful inspirations, not mandatory internal
+models.</p>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>GojoCAD reading</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Point</td>
+<td>grounded site on a carrier</td>
+</tr>
+<tr>
+<td>Segment</td>
+<td>ordinary positive-face span between two point relations</td>
+</tr>
+<tr>
+<td>Polyline, shared-frame</td>
+<td>repeated point data in one fused basis</td>
+</tr>
+<tr>
+<td>Polyline, repeated-step</td>
+<td>repeated span/arc basis instances with explicit joins</td>
+</tr>
+<tr>
+<td>Polygon</td>
+<td>closed polyline plus fill participation</td>
+</tr>
+<tr>
+<td>Circle</td>
+<td>point-radial seed plus radius and contour evidence</td>
+</tr>
+<tr>
+<td>Arc</td>
+<td>contour partition with start/end markers and optional direction</td>
+</tr>
+<tr>
+<td>Quadratic Bezier</td>
+<td>endpoints plus one control-site relation</td>
+</tr>
+<tr>
+<td>Cubic Bezier</td>
+<td>endpoints plus two control-site relations</td>
+</tr>
+<tr>
+<td>Spline</td>
+<td>repeated local curve spans with continuity witnesses</td>
+</tr>
+<tr>
+<td>Clothoid</td>
+<td>path-length span related to curvature span</td>
+</tr>
+<tr>
+<td>Involute circle</td>
+<td>base contour phase related to tangent/unwrapped length</td>
+</tr>
+<tr>
+<td>Branch graph</td>
+<td>shared sites, spans, lane transitions, and flow witnesses</td>
+</tr>
+<tr>
+<td>Corner</td>
+<td>local feature site where spans meet</td>
+</tr>
+<tr>
+<td>Rounded corner</td>
+<td>corner plus radial transition or radius evidence</td>
+</tr>
+<tr>
+<td>Intersection</td>
+<td>co-location plus connection, crossing, pass/block, or residue read</td>
+</tr>
+<tr>
+<td>Fill</td>
+<td>closed or bounded boundary plus area participation</td>
+</tr>
+<tr>
+<td>Hole</td>
+<td>opposed fill participation inside a boundary</td>
+</tr>
+</tbody>
+</table>
+<p>The goal is not mathematical minimalism. The goal is a structure that matches
+how people talk about and refine shapes.</p>
+<p>Shared-frame and repeated-step polylines are different read surfaces, not
+competing truths. A shared-frame polyline repeats coordinate data against one
+basis and now reads as ordered coordinate groups connected by frame segments.
+A repeated-step polyline repeats a structural template by addition: each new
+step instance appends to the current path and can carry its own local length,
+turn, arc, radius, or curvature evidence while preserving template provenance
+through compatible unit descriptors. The current read graph exposes this as an
+ordinary open segment path with shared template provenance, not as a special
+polyline tag.</p>
+<h2 id="3-curve-definitions-before-calculation">3. Curve Definitions Before Calculation</h2>
+<p>Many useful graphic curves can be defined without calculating all their points.</p>
+<h3 id="bezier-like-curve">Bezier-like curve</h3>
+<pre><code class="language-text">selected endpoint span
+control site evidence
+parameter span
+residue: unsampled positions
+</code></pre>
+<h3 id="clothoid-like-curve">Clothoid-like curve</h3>
+<pre><code class="language-text">selected transition span
+path-length carrier
+curvature carrier
+relation: length span -&gt; curvature span
+residue: unsolved placement
+</code></pre>
+<h3 id="involute-like-curve">Involute-like curve</h3>
+<pre><code class="language-text">base circular contour
+phase partition on contour
+tangent or ray outlet at selected phase
+unwrapped length carrier
+relation: phase advancement -&gt; tangent length
+residue: unsampled path
+</code></pre>
+<p>These surfaces can later be sampled, approximated, rendered, or used as AI
+conditioning. The definition remains useful before that happens.</p>
+<h2 id="4-branches-merges-and-junctions">4. Branches, Merges, And Junctions</h2>
+<p>Y and T shapes should be defined by real connection:</p>
+<pre><code class="language-text">junction site
+incoming span(s)
+outgoing span(s)
+lane basis
+lane transition evidence
+read witness or residue
+</code></pre>
+<p>The same topology can read as a split, merge, branch, intersection, crossing,
+blocked junction, inlet, or outlet depending on flow and lane evidence. That
+meaning should come from the local structure, not from a stored junction tag.</p>
+<h2 id="5-resolution-ladder">5. Resolution Ladder</h2>
+<p>Graphics should support low-to-high resolution reads:</p>
+<pre><code class="language-text">presence
+rough mass or contour
+feature sites
+ordered spans
+curve parameters
+sampled points
+solver/export reference
+</code></pre>
+<p>A table with rounded corners can begin as:</p>
+<pre><code class="language-text">table-like surface
+four corner feature sites
+some rounded-corner evidence
+residue for exact size, radius, proportions, and style
+</code></pre>
+<p>Then it can refine into edges, radii, fill, stroke, material, and exact
+external output references. The low-resolution read remains valid while the
+details settle.</p>
+<h2 id="6-attribute-participation">6. Attribute Participation</h2>
+<p>Attribute presence should come before attribute detail.</p>
+<pre><code class="language-text">stroke participates
+stroke width unresolved
+stroke width coarse
+stroke width exact
+
+fill participates
+fill color unresolved
+fill color family
+fill exact RGB
+fill material or lighting evidence
+</code></pre>
+<p>Unknown stroke width is not zero width. Unknown fill color is not transparent.
+Missing detail should remain available as unresolved structure, residue, or
+tension.</p>
+<h2 id="7-near-term-milestones">7. Near-Term Milestones</h2>
+<ol>
+<li>Keep the current point, radial flow, segment, and directed-segment tests
+   passing.</li>
+<li>Continue expanding <code>GraphicReadGraph</code> so GojoDraw and future consumers can
+   consume carried local reads rather than flat shape tests.</li>
+<li>Add a small curve-control surface for quadratic and cubic Bezier-like
+   definitions.</li>
+<li>Add contour partition helpers for arcs and circular phase.</li>
+<li>Add explicit fill and anti-fill format helpers over closed or bounded
+   boundaries.</li>
+<li>Add style participation surfaces for stroke, fill, color, and width.</li>
+<li>Add resolution-ladder examples for coarse-to-fine graphic reads.</li>
+<li>Add local read witnesses for corners, rounded corners, intersections,
+   crossings, branches, and merges.</li>
+</ol>
+<p>Each milestone should prefer relation structure over wrapper classes. Helper
+APIs are acceptable when they only build or inspect ordinary Gojo structure.</p></main></html>

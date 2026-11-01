@@ -1,0 +1,515 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gojo syntax for CAD and electronics: assessment and plan</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojo-syntax-for-cad-and-electronics-assessment-and-plan">Gojo syntax for CAD and electronics: assessment and plan</h1>
+<p>Status: exploratory assessment, September 8, 2026. This is a documentation
+pass, not a new CAD kernel, circuit simulator, importer or grammar revision.
+The companion <a href="Gojo--docs--GojoSignalPatternLearningPlan-2026-09.html">signal learning plan</a>
+covers future observations, changing models and reward.</p>
+<p>The <a href="Gojo--docs--GojoContourRotationAndLocalInterfaces-2026-09.html">contour and local-interface follow-up</a>
+refines the rotation plan after the user's clarification. Begin with connected
+contour/radial/traversal construction; treat angle units and matrices as derived
+reads. It also records the existing implementation more fully and treats
+GojoEcad constructions as experiments rather than compatibility requirements.
+The subsequent <a href="Gojo--docs--GojoContourRotationFixture.html">rotation fixture</a> implements
+the first discrete planar construction and an illustrated example.
+That fixture supplies coordinates and landmarks; the later correction,
+<a href="Gojo--docs--GojoCircleConstructionFixture.html">circle construction before coordinates</a>,
+addresses the missing point/offset/radius/closure/partition sequence.</p>
+<h2 id="assessment">Assessment</h2>
+<p>The existing syntax is a credible structural substrate for these domains.
+Identity, ordered relations, exposed ports, exact selected arithmetic, open
+slots, bounded interpretations, dependencies and retained transformations are
+already useful ingredients. Bézier construction provides a concrete example of
+building a recognizable composite from smaller explicit operations.</p>
+<p>It would nevertheless be premature to call CAD or electronics representation
+complete. There are four different levels of readiness:</p>
+<ol>
+<li><strong>Storage:</strong> can the graph retain the participants and their relationships?</li>
+<li><strong>Authorship and interchange:</strong> can a person or adapter express those
+   relationships consistently and preserve source correspondence?</li>
+<li><strong>Interpretation:</strong> is there a specified, executable read that derives the
+   intended geometry, connection, equation or uncertainty?</li>
+<li><strong>Conformance and evolution:</strong> does that read behave correctly at ambiguous
+   boundaries, under changes, and at the required numerical resolution?</li>
+</ol>
+<p>A general graph's ability to store a circle or SPICE file does not establish
+the last three. The largest gaps found here concern explicit mathematical and
+compositional contracts, more than missing punctuation. There is no evidence
+yet that each CAD or circuit concept needs its own new primitive element type.</p>
+<h2 id="inspection-baseline-and-existing-work">Inspection baseline and existing work</h2>
+<p>Gojo was inspected at <code>8ddc024</code>. The sibling GojoEcad repository was at
+<code>976fe2b</code>, with pre-existing local changes to its first-board KiCad files and
+local history. Those files were left untouched. Its
+pinned dependency record (external repository reference) identifies a
+Gojo assembly from <code>7045a7e29b72c689e3ba7536a3d51e96feb19fcd</code>, captured August 27.
+Current Gojo features must not be attributed automatically to that assembly.
+Sibling links below assume the repositories are checked out beside one another.</p>
+<p>That version boundary is evidence for interpreting the experiments, not a
+requirement to preserve their implementation. We can replace the exploratory
+ECAD shapes while taking the encountered problems and proposed solutions
+seriously.</p>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Implemented foundation</th>
+<th>Boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="Gojo--docs--GojoTextSyntax.html">Text syntax</a>, <a href="Gojo.Encoding--Syntax--README.html">syntax reference</a>, <a href="Gojo--docs--GojoNumericFormat.html">numeric format</a></td>
+<td>Ordinary structure authored as <code>gojo 1</code>, including shared identity, slots, ordered groups, units, actions and witnesses; graph restoration exercised by fixtures.</td>
+<td>No general CAD/SPICE parser, module system, canonical text writer or implicit execution of action names.</td>
+</tr>
+<tr>
+<td><a href="Gojo--docs--GojoAffineConstructionFixture.html">Affine construction fixture</a>, <a href="assets/Gojo--Structures--AffineFrame.cs">AffineFrame</a>, <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxAffineFrameTests.cs">syntax tests</a></td>
+<td>Exact rational interpolation, coordinate differences, selected per-coordinate frame projections, partial controls and explicit Bézier construction.</td>
+<td>Per-coordinate projection is not a general cross-axis rotation or a metric geometry kernel.</td>
+</tr>
+<tr>
+<td><a href="Applications--GojoCAD--README.html">GojoCAD</a>, <a href="assets/Applications--GojoCAD--GraphicStructure.cs">GraphicStructure</a>, <a href="assets/Tests--GojoCAD.Tests--GraphicReadGraphTests.cs">read tests</a></td>
+<td>Sites, directed segments, shared coordinate frames, curve recipes, joins, paths and selected boundaries.</td>
+<td>Recognition of a recipe is not conformance for every degeneracy or a complete 3D solid model.</td>
+</tr>
+<tr>
+<td><a href="Applications--GojoCAD--structures--README.html">CAD structure inventory</a>, <a href="assets/Applications--GojoCAD--structures--GraphicAreaSettlementSurface.cs">area settlement</a> and <a href="assets/Tests--GojoCAD.Tests--GraphicAreaSettlementSurfaceTests.cs">tests</a></td>
+<td>Substantial experiments with planar overlaps, sections, arcs, holes and area settlement.</td>
+<td>Some calculations use doubles, rounding and fixed thresholds; not certified topology under arbitrary resolution.</td>
+</tr>
+<tr>
+<td><a href="Applications--GojoCAD--docs--EcadDocumentaryBundle.html">ECAD documentary plan</a> and <a href="assets/Applications--GojoCAD--structures--EcadDocumentarySurfaces.cs">surfaces</a></td>
+<td>Connected text and selected documentary/net surfaces; planned artifact, dialect, validation and manufacturing relationships.</td>
+<td>The broader document is direction, not proof that all its stages execute.</td>
+</tr>
+<tr>
+<td>GojoEcad parser/import documentation (external repository reference) and importer (external repository reference)</td>
+<td>Lossless source parsing and a narrow board import: selected setup measures, layers, nets, unrotated through-hole pads, straight tracks, vias and participant groups.</td>
+<td>Lossless parsing is much broader than interpreted geometry or circuit behavior.</td>
+</tr>
+<tr>
+<td>GojoEcad worked structures (external repository reference) and tests (external repository reference)</td>
+<td>Common value families, fused via choices, source/fine/coarse correspondence, plated-hole fit evidence and independent crystallized iterations.</td>
+<td>Selected examples, with dependency-specific workarounds; not a general manufacturing uncertainty model.</td>
+</tr>
+<tr>
+<td>GojoCAD <a href="assets/Applications--GojoCAD--electronics--components--resistors--ResistanceValueSurface.cs">resistance values</a></td>
+<td>Preferred nominal values, relative tolerance structure and a separate zero-ohm bridge concept.</td>
+<td>These structures do not yet supply Ohm's law, temperature behavior or transient simulation.</td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="Gojo--docs--GojoSyntaxGeometryReview-2026-09.html">earlier geometry review</a> remains useful
+history, but its missing-construction observations must be read with the later
+affine fixture. Likewise, the
+ECAD projection finding (external repository reference)
+concerns its pinned dependency. Current Gojo's
+<a href="assets/Tests--Gojo.Tests--Core--ProjectionConformanceTests.cs">projection conformance tests</a>
+check physical remainder in the source basis; the old finding is not evidence
+that the current kernel still has that defect.</p>
+<h2 id="what-real-formats-require-us-to-express">What real formats require us to express</h2>
+<p>The official <a href="https://dev-docs.kicad.org/en/file-formats/sexpr-pcb/">KiCad board format</a>
+contains much more than coordinates: layers, setup, nets, footprints, tracks,
+zones and groups are connected concerns. Footprint placements, pad geometry,
+drilling, copper participation and zone boundaries make useful coverage cases.
+This suggests separate geometry, material, connection and design-rule surfaces,
+with correspondence between them.</p>
+<p>The <a href="https://dev-docs.kicad.org/en/file-formats/sexpr-schematic/">schematic format</a>
+adds library definitions and instances, pins, wires, junctions, labels,
+no-connect markers and hierarchical sheet/instance paths. A drawn crossing is
+not sufficient connection evidence. A deliberately unconnected pin is not the
+same as an unknown connection. Instance identity must survive reuse of the
+same symbol or footprint definition.</p>
+<table>
+<thead>
+<tr>
+<th>Source or representation</th>
+<th>Useful sanity check</th>
+<th>What a Gojo representation must retain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KiCad board and project source</td>
+<td>A rotated pad, a via through selected layers, a zone with a hole and an applicable clearance rule</td>
+<td>Exact source and dialect, coordinate frames, layer/material participation, source identities, interpreted rules and unsupported remainder.</td>
+</tr>
+<tr>
+<td>KiCad schematic</td>
+<td>Two instances of a symbol, a labelled net crossing a wire, an explicit no-connect</td>
+<td>Definition versus instance, hierarchical scope, ordered terminal correspondence, intended connections and visible unresolved cases.</td>
+</tr>
+<tr>
+<td>STEP / boundary representation</td>
+<td>A placed part with oriented edges and trimmed surfaces</td>
+<td>Geometry versus incidence, local placements, trims, units, tolerances and assembly correspondence; only the supported interchange subset may be claimed.</td>
+</tr>
+<tr>
+<td>Mesh or sampled boundary</td>
+<td>A coarse approximation of a smooth surface</td>
+<td>Adjacency, winding, source correspondence, approximation bounds when known and unresolved fine detail. A coarse triangle is not evidence that the source surface is planar.</td>
+</tr>
+<tr>
+<td>Constructive or implicit geometry</td>
+<td>Difference of two solids; an inside/outside field</td>
+<td>The construction law, operands, selected metric or field basis, boundary convention and the validity of the derived boundary.</td>
+</tr>
+<tr>
+<td>SPICE netlist and subcircuit</td>
+<td>A resistor divider, then a capacitor and a changing source</td>
+<td>Terminal order, node scope, model definition, parameters, units, initial state, source waveform and requested analysis.</td>
+</tr>
+</tbody>
+</table>
+<p>Open CASCADE's <a href="https://occt3d.com/dev/doc/overview/html/occt_user_guides__step.html">STEP translator</a>
+distinguishes geometry/topology/assembly translation from associated information
+such as names, layers and tolerances handled through its extended document
+tools. Its <a href="https://occt3d.com/dev/doc/overview/html/occt_user_guides__modeling_data.html">modeling guide</a>
+separates geometric objects from their topological uses. These are useful
+comparisons for Gojo; interchange is not just a bag of points.</p>
+<p>SPICE also distinguishes a device instance from a shared model and exposes
+subcircuits through ordered external nodes. Its numeric spelling is
+dialect-sensitive: for example, in the documented MacSpice conventions <code>m</code>
+means milli and <code>Meg</code> means mega. An importer cannot safely treat a value's
+suffix as a generic unit string. See the primary
+<a href="https://www.macspice.com/ug/sec2.html">circuit-description reference</a>.</p>
+<p>The format survey is representative, not an exhaustive STEP, KiCad or SPICE
+conformance audit. Before implementing an adapter, pin an actual format version
+and create coverage fixtures for that version, including unknown constructs.</p>
+<h2 id="preserve-source-without-making-source-spelling-the-semantics">Preserve source without making source spelling the semantics</h2>
+<p>GojoEcad's lossless parser is a strong starting point. Exact source bytes,
+lexemes, spans and unsupported forms can remain available even when the local
+interpretation is incomplete. Keeping <code>1.600</code> and choosing an ordinary read of
+<code>1.6</code> are compatible operations when their correspondence and any lost detail
+are explicit. Decimal source precision is not physical manufacturing tolerance.</p>
+<p>There is an important syntax boundary: the checked
+readable board capture (external repository reference)
+starts with <strong><code>gojo-ecad-readable 2</code></strong>. It is a derived presentation, not a
+document accepted by the current <strong><code>gojo 1</code></strong> parser. We should plan an explicit
+bridge rather than imply these are already one language.</p>
+<p>The bridge should connect source artifact and dialect, parsed occurrence,
+interpreted structure, chosen read basis, remaining unsupported participation
+and export correspondence. External UUIDs and text need lossless identity/text
+surfaces; an import-local <code>$name</code> is not a durable external identifier. Existing
+documentary text and source-byte structures provide precedents, but not yet a
+single agreed text interchange contract.</p>
+<p>Reusable composites will also benefit from named imports, definition/instance
+binding, exposed interfaces and versioned references. These are authorship
+needs to specify after the structural contracts stabilize. Their expansion
+must leave the actual relationships present without requiring a name such as
+“pad”, “circle” or “capacitor” to be the sole meaning.</p>
+<h2 id="geometry-the-important-missing-contracts">Geometry: the important missing contracts</h2>
+<h3 id="frames-affine-objects-and-metrics">Frames, affine objects and metrics</h3>
+<p>The structural starting point for rotation is already present: point-derived
+contour potential, radial attachment, calibration and ordered traversal. The
+<a href="Gojo--docs--GojoContourRotationAndLocalInterfaces-2026-09.html">follow-up review</a> distinguishes
+the tested ingredients from the remaining contour-to-pose contract. That
+construction should establish the turn before it is read through coordinates.</p>
+<p>The current <code>AffineFrame.TryProject</code> reads each target coordinate from one
+source coordinate. This supports explicit calibration and per-coordinate scale
+and offset, but does not provide a general matrix mixing coordinates. A Cartesian
+read of a rotated footprint includes terms such as <code>x' = a*x + b*y + tx</code> and
+<code>y' = c*x + d*y + ty</code>. A derived coordinate reader should make these participating
+axes, coefficients and offsets explicit, with domain/range and inversion
+conditions and correspondence to the turning construction.</p>
+<p>For a later coordinate conformance check, choose a Euclidean frame and the matrix
+<code>[[3/5, -4/5], [4/5, 3/5]]</code>. Placing a local pad point <code>(2, 1) mm</code> at an origin
+of <code>(10, 20) mm</code> gives <code>(52/5, 111/5) mm</code>, exactly. This rotation mixes axes,
+yet needs no transcendental evaluation. The test should derive this read from
+the participating turning structure; merely authoring the matrix does not
+establish the Gojo construction. A displacement <code>(2, 1) mm</code> under
+the same rotation becomes <code>(2/5, 11/5) mm</code>; it does not acquire the origin.</p>
+<p>Preserve the distinction between a point, a displacement and a direction.
+Translation acts on a point; it does not translate the displacement between
+two points. A shared length unit alone does not establish a Euclidean metric,
+perpendicularity, handedness or the transformation of a normal. Dot/cross
+products, determinants, distances and normals need selected laws and compatible
+bases. Singular maps can have a valid lower-dimensional read without a valid
+inverse. Unit products may have an explicit commutative dimensional read while
+the original ordered participation remains intact.</p>
+<p>Circles, arbitrary rotations, roots and curve length also exceed finite
+rational evaluation in general. Retain the defining construction and give
+approximate reads an error/refinement contract. Known rational constructions
+should remain exact. A graphical normal vector and a normal probability
+distribution are separate concepts, neither supplied merely by an opposed face.</p>
+<h3 id="geometry-is-not-topology">Geometry is not topology</h3>
+<p>A vertex may belong to several edge uses; an edge may have different oriented
+uses on neighbouring faces. A face can be a trimmed part of an underlying
+surface, with correspondence between its parameter-space trim and 3D boundary.
+Closed shells, inside/outside, holes and non-manifold cases need explicit
+incidence and validation contracts. Equal coordinates alone cannot create
+shared identity, a watertight seam or a connected solid.</p>
+<p>GojoCAD's existing paths, shared sites and boundary experiments help here, but
+do not yet demonstrate this complete 3D hierarchy. Mesh, constructive-solid
+and implicit representations could expose different local reads of a common
+object. Converting between them should retain which geometry/topology was
+preserved, approximated or left unresolved. A signed field is not automatically
+a signed <em>distance</em> field; distance requires a metric and the appropriate law.</p>
+<h3 id="robust-predicates-and-uncertainty">Robust predicates and uncertainty</h3>
+<p>For orientation, intersection, containment and clearance, specify what a read
+can conclude from its evidence. A useful proposed result distinguishes a
+proven relation, a proven contrary relation, insufficient precision and an
+unsupported/degenerate request. Boundary inclusion is another explicit choice.
+Refinement may make a predicate decidable; uncertainty should not silently turn
+an ambiguous contact into a Boolean success.</p>
+<p>This does not eliminate established computational geometry. CGAL already
+offers <a href="https://doc.cgal.org/latest/Kernel_23/index.html">exact predicates and exact-construction kernels</a>,
+and Open CASCADE explicitly models
+<a href="https://dev.opencascade.org/doc/refman/html/class_shape_fix___shape_tolerance.html">shape tolerances</a>.
+The opportunity is to
+connect geometric precision with physical uncertainty, intent, evidence and
+evolution. It is not established that Gojo can replace robust predicates with
+coarse numbers or outperform existing kernels.</p>
+<p>Keep numerical approximation bounds, imported seam tolerances, manufactured
+variation, sensor uncertainty, preferred nominal values and desired clearance
+separate. A repair that moves geometry to close a gap is an explicit operation
+with displacement and correspondence, not an innocent observation. Refining a
+measurement need not mutate the object being measured.</p>
+<h2 id="worked-example-a-bolt-and-a-hole">Worked example: a bolt and a hole</h2>
+<p>Consider an illustrative smooth round bolt in a smooth round hole. These are
+assumed example bounds, not a manufacturing standard:</p>
+<pre><code class="language-text">bolt diameter Db: [9.90, 10.00] mm
+hole diameter Dh: [10.10, 10.20] mm
+</code></pre>
+<p>Under those bounds, diametral clearance <code>Dh - Db</code> lies in <code>[0.10, 0.30] mm</code>.
+For coaxial circular sections, radial clearance is half of that:
+<code>[0.05, 0.15] mm</code>. Suppose axis offset <code>e</code> lies in <code>[0, 0.04] mm</code>. The minimum
+radial gap in this selected section is <code>g = (Dh - Db)/2 - e</code>, conservatively
+bounded by <code>[0.01, 0.15] mm</code>. A required minimum of <code>0.02 mm</code> is therefore not
+guaranteed across all admitted combinations, although many combinations satisfy
+it. This calculation assumes no additional dependence between the dimensions;
+known dependence should constrain the combinations rather than be discarded.</p>
+<p>The required structure includes two object identities, their measured or
+specified diameter surfaces, the common unit/calibration, axis correspondence,
+the conditional bounds, a selected clearance read and a separate requirement.
+Its witness should retain the assumptions that produced the result.</p>
+<p>If two measurements share a known additive calibration bias <code>b</code>, their
+difference can cancel that bias: <code>(Dh + b) - (Db + b) = Dh - Db</code>. Independent
+biases do not cancel merely because the readings use the same approximate
+category. This is a practical reason to preserve shared uncertainty structurally;
+it does not remove other uncertainty about either manufactured part.</p>
+<p>“About 10 mm” alone would not justify either of the starting intervals. It can
+remain a landmark with an open expectation. A catalogue's nominal size is a
+different surface again. A favourable clearance does not establish compatible
+threads, pitch, handedness, lead-in, roundness, full-length alignment or a
+collision-free insertion path. Those can remain open without making the
+section calculation false.</p>
+<p>Changing the desired gap is a design request. Learning that the drill produces
+a larger hole is an observation. Actually enlarging a hole is a physical
+transformation. They can all create relevant mismatch, but require different
+correspondence and change paths. The unknown source of a mismatch must not be
+declared “the bolt is wrong” by the clearance reader.</p>
+<p>GojoEcad's existing plated-hole example already distinguishes a produced span
+from component acceptance and records directional violation. It is a useful
+fixture to translate into common syntax before adding a large mechanical CAD
+example. The fused via-family example is equally valuable: legal pairs of drill
+and diameter are not necessarily the Cartesian product of two independent lists.</p>
+<h2 id="electronics-a-good-fit-with-specific-physical-obligations">Electronics: a good fit with specific physical obligations</h2>
+<p>Relations and exposed terminals are a natural fit for circuit topology. There
+are nevertheless several different connection claims:</p>
+<ul>
+<li>A schematic or net list says two terminals should connect.</li>
+<li>A chosen ideal circuit model treats them as one node.</li>
+<li>Copper, plating and contact geometry provide a physical path.</li>
+<li>A continuity measurement supports a claim about an actual manufactured board.</li>
+</ul>
+<p>These claims can disagree. A net name does not prove a conductive path; a
+coordinate coincidence does not establish copper contact; a potential read
+need not drain charge from its source. Conversely, two separately represented
+conductors can couple through a field without becoming one node.</p>
+<p>The next electrical composites need an explicit potential reference, oriented
+branch quantities, elapsed time, stored state and compatible units. For ideal
+elements under selected sign conventions, useful starting laws are:</p>
+<pre><code class="language-text">resistor:   vab = R * iab
+capacitor:  q = C * vab,       dq/dt = iab
+inductor:   lambda = L * iab,  d(lambda)/dt = vab
+power:      p = vab * iab
+</code></pre>
+<p>Here <code>lambda</code> is flux linkage. Constant <code>R</code>, <code>C</code> and <code>L</code> are assumptions of
+these simple models. At an ideal node with no separately represented stored
+charge, the signed branch currents sum to zero. Storage must otherwise appear
+in the balance. A passive resistor with <code>R &gt; 0</code> dissipates nonnegative power
+under the associated current/voltage convention. The SPICE
+<a href="https://www.macspice.com/ug/sec3.html">element reference</a> is a useful external
+comparison for terminal conventions and model parameters.</p>
+<p>Gojo tension is not automatically voltage, a passage's capacity is not
+automatically capacitance, and a carrier face is not electrical phase or the
+imaginary unit. Signed physical quantities need explicit representations
+consistent with the kernel's nonnegative carrier value and signed locations,
+faces and tensions. A voltage read and a material charge transfer are different
+operations. A branch must not duplicate conserved charge across multiple
+accepted destinations.</p>
+<p>Constitutive equations, conservation and integration must remain ordinary
+mathematics. Local settlement is a strategy for obtaining an admissible state;
+it does not establish that an arbitrary local update schedule will converge to
+the circuit solution. Inconsistent ideal constraints, floating references,
+algebraic loops, stiffness and discontinuous switching can remain unresolved
+until the selected method has a defined response. Simulation tolerances and
+physical device tolerances also have different meanings.</p>
+<p>For a first static check, an ideal 10 V source across two series 1 kilohm
+resistors gives 5 mA and a midpoint 5 V above the chosen return node, assuming
+no load at that midpoint. A goal of 6 V creates a design mismatch; it does not
+make the conditional 5 V calculation approximate or erroneous. Tolerance,
+loading or a different source can be added as explicit participating premises.</p>
+<p>A useful next dynamic example is a capacitor initially at zero connected through
+a positive resistor to a constant ideal voltage source. Under those assumptions,
+<code>Vc(t) = Vs * (1 - exp(-t/(R*C)))</code>. Its state persists between observations; the
+source input, integration step and observation time are not interchangeable.
+A time-step refinement should approach the selected law without inventing or
+losing accounted charge. This is a proposed reference experiment, not current
+GojoECAD behavior. It connects directly to stage S5 of the signal plan.</p>
+<p>SPICE models can initially be external, versioned black-box contributors with
+declared ports, parameters, state/initial conditions and applicable analyses.
+Their outputs can be compared with selected Gojo reads without claiming to
+understand every internal equation. Later, explicit reusable substructures may
+replace supported models. The
+<a href="https://ngspice.sourceforge.io/docs.html">ngspice documentation</a> describes a
+pipeline from netlist preprocessing and circuit construction through matrix
+assembly and simulation; encoding the first stages alone does not implement
+the latter ones.</p>
+<h2 id="evolution-uncertainty-and-crystallized-composites">Evolution, uncertainty and crystallized composites</h2>
+<p>Confidence should attach to a claim and its basis: a curve may be exactly
+defined while the manufactured part is poorly measured; a net may be clearly
+specified while its copper continuity is uncertain. A single confidence value
+for the whole part or board would discard these distinctions. Evidence may be
+reused through several routes without becoming independent evidence.</p>
+<p>Keep design revisions separate from physical time and evidence arrival. A
+hole's diameter can change while its intended feature identity survives; a
+Boolean cut can split one face into several. Persistent correspondence needs
+one-to-many and many-to-one histories, not only equal coordinates or a reused
+label. Dependencies should identify which fit, contact or prediction claims
+became stale. The current CAD read graph has affected-read navigation, but
+<code>RefreshFrom</code> rebuilds its reads from the root; it is not yet a general
+incremental evaluation engine.</p>
+<p>History need not be retained forever. A compression or crystallization should
+say which useful promises survive, which evidence was summarized and what
+detail is no longer available. Stabilizing a unit's readable tick promise is
+not the same operation as packaging an arbitrary dynamic algorithm. A reusable
+curve or circuit composite needs exposed ports, parameter roles, internal
+correspondence, applicable laws and, where necessary, state and error contracts.</p>
+<p>The Bézier fixture is the model to follow: its control points and six local
+interpolations explain the construction even when a control remains open.
+Later spline/NURBS composites will additionally need degree, knot order,
+weights, parameter domains and denominator/continuity conditions. A SPICE
+subcircuit needs terminal binding and model/state correspondence. These are
+compositional obligations, not a requirement to introduce opaque primitive
+“Bézier” or “SPICE” opcodes.</p>
+<h2 id="concrete-limitations-found-during-inspection">Concrete limitations found during inspection</h2>
+<p>These are source-inspection findings. They were not repaired in this pass.</p>
+<table>
+<thead>
+<tr>
+<th>Location</th>
+<th>Finding and implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AffineFrame.TryProject</code></td>
+<td>One source coordinate per output coordinate; a general coupled transform still needs a selected contract and tests.</td>
+</tr>
+<tr>
+<td><code>GraphicAreaSettlementSurface</code></td>
+<td>Fixed values include <code>Epsilon = 0.01</code>, endpoint distance <code>1.5</code>, minimum mixed-loop area <code>256</code>, six-decimal deduplication and rounded locations. These imply scale-dependent decisions and require review before claiming resolution-independent or certified topology.</td>
+</tr>
+<tr>
+<td>Compact CAD curve recipes</td>
+<td>A pair of spans alone can be ambiguous between a cubic recipe and other relations, especially under degeneracy. The explicit construction fixture addresses this boundary; compact recognizers should not become universal semantic dispatch.</td>
+</tr>
+<tr>
+<td>GojoEcad <code>CreateContacts</code></td>
+<td>Groups participants by net number and fine X/Y coordinates, without a layer/plating test in that grouping. Same-net points on different copper layers need not be electrically connected. Treat this as an insufficient contact predicate for broader imports; the first-board case is not a general connectivity proof.</td>
+</tr>
+<tr>
+<td>GojoEcad pad placement</td>
+<td>Nonzero footprint rotation remains an unsettled case. A rotated-pad fixture should precede wider geometric import claims.</td>
+</tr>
+<tr>
+<td>ECAD readable serialization</td>
+<td><code>gojo-ecad-readable 2</code> and <code>gojo 1</code> are distinct formats. A parser/restore bridge has not been demonstrated.</td>
+</tr>
+<tr>
+<td>Current inspected CAD/electronics surfaces</td>
+<td>Nominal component structure and documentary evidence do not establish a general circuit-law or transient evaluator.</td>
+</tr>
+</tbody>
+</table>
+<p>Missing verification evidence is an open claim. It is not automatically
+material tension. Likewise a failed geometric/electrical read may motivate a
+change, but the change still needs its own explicit operation and accounting.</p>
+<h2 id="recommended-representation-fixtures">Recommended representation fixtures</h2>
+<p>These are proposed tests, not implementation commitments for this pass. Each
+should have an authored syntax example, numeric restoration, a selected read,
+negative cases and a plain-language explanation before wider abstraction.</p>
+<table>
+<thead>
+<tr>
+<th>Order</th>
+<th>Fixture</th>
+<th>What it should establish</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>Import one exact board measure and one fused via family</td>
+<td>Source spelling versus value versus nominal choice; physical projection remainder; unsupported source retained; an explicit bridge into common syntax.</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Place a pad in a translated and rotated footprint</td>
+<td>Ground the turn in connected contour/radial or equivalent structure, then check its coordinate read; preserve point/displacement, inverse/degenerate cases and source-to-board correspondence.</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Same XY on different layers, then add a plated connection</td>
+<td>Distinguish intended net, geometric coincidence, layer membership, physical contact and selected ideal-node equivalence. An unknown layer must not imply connection.</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>Bolt/hole or lead/plated-hole fit</td>
+<td>Nominal family, tolerance evidence, desired clearance, shared uncertainty and unresolved pose; recompute affected claims after a design or evidence change.</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>A trimmed curve boundary with shared and merely coincident endpoints</td>
+<td>Parameter-to-geometry correspondence, orientation, boundary closure and partial construction; retain ambiguity instead of silently welding sites.</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>A copper region with a hole and a nearby keepout</td>
+<td>Selected metric and clearance, robust predicate outcomes, scale/refinement behavior, topology-changing repair recorded as an action.</td>
+</tr>
+<tr>
+<td>C7</td>
+<td>A resistor divider, then an RC transient</td>
+<td>First exact static equations and gauge/sign/unit checks; then retained physical state, charge accounting, integration refinement and separate prediction assessment.</td>
+</tr>
+<tr>
+<td>C8</td>
+<td>Revise a footprint or split a face, then export</td>
+<td>Definition/instance identity, multiple successor correspondence, stale evidence, bounded history and version-specific source/export preservation.</td>
+</tr>
+</tbody>
+</table>
+<p>For rotation, start with R1–R3 in the
+<a href="Gojo--docs--GojoContourRotationAndLocalInterfaces-2026-09.html#revised-experiment-order-and-stopping-points">follow-up construction plan</a>.
+Retain C1–C4 as concrete application checks that exercise shared gaps without
+requiring a full solid model or nonlinear simulator. C5–C8 can
+then justify broader contracts from concrete examples. A viewer is worthwhile
+for rotation, contact, fit and changing topology; pure unit arithmetic already
+has sufficient numerical fixtures.</p>
+<p>The acceptance boundaries should remain separate: source round-trip, restored
+Gojo structure, external application acceptance, geometric validity, design-rule
+compliance, simulated behavior and measured physical behavior each answer a
+different question. Passing one is evidence for its selected claim, not a
+global declaration that the design is correct.</p>
+<h2 id="verification-of-this-assessment">Verification of this assessment</h2>
+<p>The documentation pass changed no runtime code, grammar or fixtures. Existing
+tests were run with the following focused solution command:</p>
+<pre><code class="language-powershell">dotnet test Gojo.slnx --no-restore --filter &quot;FullyQualifiedName~GojoCAD.Tests|FullyQualifiedName~GojoSyntaxForecastTests|FullyQualifiedName~GojoSyntaxAffineFrameTests|FullyQualifiedName~GojoSyntaxBoundedQuantityTests|FullyQualifiedName~ProjectionConformanceTests&quot; --verbosity quiet
+</code></pre>
+<p>All 260 selected cases passed: 155 CAD, 79 encoding and 26 kernel cases.
+This verifies the selected existing examples, not the proposed fixtures or
+broader CAD/circuit conformance. Core4 and GojoEcad were inspected as source;
+their tests were not rerun or their dependencies changed. Local links in the
+new documents and updated entrypoints were checked. External references were
+reviewed on September 8, 2026.</p></main></html>

@@ -1,0 +1,292 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Landmark interpretation and local calibration response</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="landmark-interpretation-and-local-calibration-response">Landmark interpretation and local calibration response</h1>
+<p>Status: exploratory selected contracts, September 7, 2026. This extends the
+<a href="Gojo--docs--GojoSyntaxDynamicCheckpoint-2026-09.html">syntax checkpoint</a>. The response law
+below is an experiment, not a general truth, confidence or negotiation law.</p>
+<p>The subsequent <a href="Gojo--docs--GojoTwoSpaceFeedbackFixture.html">two-space fixture</a> now connects
+two such adapting calibrations through published observations, versioned
+receipts and per-space histories. Its stepped demo exercises agreement,
+oscillation, delayed delivery and separate local evidence.</p>
+<p>Authored experiment: <a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--landmark-calibration.gojo">landmark-calibration.gojo</a>.
+Execution: <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxCalibrationTests.cs">syntax tests</a>,
+<a href="assets/Tests--Gojo.Tests--Core--LocalCalibrationTests.cs">mathematical conformance</a>, and
+<a href="assets/Gojo--Structures--LocalCalibration.cs">selected kernel readers</a> with their
+<a href="assets/Gojo--Structures--LocalCalibration.Response.cs">response/application extension</a>.</p>
+<h2 id="a-report-two-explanations-and-a-useful-next-observation">A report, two explanations, and a useful next observation</h2>
+<p>Imagine a source reporting “about ten.” We record the landmark ten exactly;
+we have not thereby measured the actual quantity or learned a tolerance.
+Later, a second source supplies an observation of two, with an explicit
+connection to the same subject. For this small experiment we choose to read
+that second observation as exact. It remains an external premise.</p>
+<p>Two candidate interpretations agree with that pair:</p>
+<table>
+<thead>
+<tr>
+<th>Candidate</th>
+<th style="text-align: right;">Report ten</th>
+<th style="text-align: right;">Later report twenty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Divide the reported landmark by five</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>Subtract eight from the reported landmark</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">12</td>
+</tr>
+</tbody>
+</table>
+<p>The first pair cannot distinguish them. We retain both. The next report makes
+different predictions <em>before</em> its feedback arrives. An observation of four
+then leaves zero mismatch for the proportional interpretation and minus eight
+for the offset interpretation. No helper declares a winner, establishes a
+source's honesty, or invents the range around either prediction. Below eight,
+the offset model predicts a negative count; the selected count floor refuses
+that result while retaining it for inspection.</p>
+<p>The authored proportional interpretation is ordinary connected structure:</p>
+<pre><code class="language-gojo">let $proportional = group($source, $context,
+    span($reported, 0, 5) -&gt; span($quantity, 0, 1),
+    point($quantity, 0), ?proportional_expectation, ?support);
+</code></pre>
+<p>The open expectation is a real remaining question even when a selected
+calculation yields exactly two. The <code>$</code> names help us read the example; tests
+rename them all and obtain the same behavior.</p>
+<h2 id="one-chosen-response-including-its-failures">One chosen response, including its failures</h2>
+<p>The adaptive candidate uses an endpoint controlled by a carrier. Ten actuator
+ticks correspond to one quantity tick at the endpoint. Starting with fifty
+actuator ticks gives the calibration <code>0..10 -&gt; 0..5</code>: report ten predicts five.
+The later observation of two creates a mismatch of minus three.</p>
+<p>The focus explicitly permits changing this endpoint. For report ten, changing
+the actuator by one tick changes the prediction by one tenth. A full response
+therefore requests minus thirty actuator ticks. The carrier receives that draw
+as signed tension and settles at twenty. Its new calibration is <code>0..10 -&gt; 0..2</code>.
+The old version still predicts five for the old report; its captured value has
+not drifted along with the actuator.</p>
+<p>On the next report of twenty, the adjusted calibration predicts four, the
+unchanged initial calibration predicts ten, and the offset candidate predicts
+twelve. This is a small check beyond fitting the training event, not evidence
+of general learning performance. If new feedback instead says eight, a full
+response changes the actuator to forty. That fits the new event and would now
+predict four for the old report. The earlier success has not become a law.</p>
+<p>With the authored half response, the same initial problem gives this trace:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Applied steps</th>
+<th style="text-align: right;">Actuator</th>
+<th style="text-align: right;">Prediction for report ten</th>
+<th style="text-align: right;">Residual against two</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">-3</td>
+</tr>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">3.5</td>
+<td style="text-align: right;">-1.5</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">2.8</td>
+<td style="text-align: right;">-0.8</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">2.4</td>
+<td style="text-align: right;">-0.4</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">2.2</td>
+<td style="text-align: right;">-0.2</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">2.1</td>
+<td style="text-align: right;">-0.1</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">2.1</td>
+<td style="text-align: right;">-0.1</td>
+</tr>
+</tbody>
+</table>
+<p>These decimals are explanatory spellings of exact rational reads. At the last
+step the requested correction is minus half an actuator tick, which truncates
+to zero. The plan retains that half tick and its corresponding minus one
+twentieth of a quantity tick. The unresolved residual is still minus one tenth.
+A separately authored acceptable residual band of plus or minus one tenth
+also permits stopping, but then the requested correction itself is zero. That
+is a different structural reason, not a changed definition of approximation.</p>
+<p>Finally, let one exposed reference request four and another request eight for
+the same report of twenty. The chosen full response alternates the actuator
+between twenty and forty. Four applications exhaust the selected budget;
+the remaining mismatch and both observations remain present. This is a
+counterexample to automatic convergence. The references do not themselves
+adapt in this fixture, so it is not yet two mutually negotiating spaces.</p>
+<h2 id="structure-before-execution">Structure before execution</h2>
+<p>The first fixture uses these ordinary ordered surfaces. These are local read
+contracts, not new primitive kinds or syntax keywords.</p>
+<pre><code class="language-text">observation = group(source port, event site, sample, subject slot, context)
+candidate   = group(source port, context, calibration, output floor,
+                    expectation, supporting evidence)
+prediction request = group(observation, candidate)
+comparison request = group(prediction witness, feedback observation,
+                           feedback calibration, observation correspondence)
+
+parameter recipe = group(candidate template, open target endpoint,
+                         actuator, actuator-to-endpoint calibration)
+captured state = act(recipe, endpoint binding, bound candidate,
+                     captured actuator tension, captured actuator value)
+response request = group(captured state, comparison witness,
+                         relaxation calibration, acceptable residual band, focus)
+application request = group(response plan, current captured state,
+                            local application history, count controller)
+</code></pre>
+<p>An observation's sample is an exact record of what was published. Its subject
+slot connects observations believed to concern the same underlying quantity;
+this is supplied correspondence, not proof of an external fact. Event identity
+is separate from source identity. Candidate source and context must match the
+selected observation. A missing calibration, sample or reference stays open.</p>
+<p>A prediction is conditional on its candidate. Expectation may remain an open
+slot even when the candidate computes an exact value. No tolerance, spread,
+normal distribution or confidence is inferred from the landmark. The output
+floor is an explicit admissibility constraint, not an uncertainty bound. A
+negative count prediction remains visible when that constraint rejects it.</p>
+<p>Calibration endpoints are exact grounded scalar reads: points, locations or
+the existing rational participation form. Thus a partially constructed target
+frame can bind to a fractional endpoint without fractional carrier state.
+Maps use the ordinary affine law. Constant maps retain their input as residue.</p>
+<p>Feedback is another exposed observation. Comparing it requires an explicit
+calibration and a correspondence from the prediction's observation to that
+feedback observation, with the same subject and context. A mismatch says what
+the selected statement fails to account for; it does not assign blame.</p>
+<p>This comparison contract requires a nonconstant feedback calibration. A
+constant candidate can still make a conditional prediction, with its lost
+input retained as residue; a constant feedback map would discard the very
+observation selected to challenge that prediction and is refused here.</p>
+<p>The versioned binding uses <code>StructuralPattern.Refine</code>: rebuild paths containing
+bound slots, retain untouched references, and preserve shared changed relations
+within one refinement. Existing <code>StructuralPattern.Apply</code> still instantiates
+the relation tree. This explicit distinction matters when a source port or
+candidate version is itself relation structure. Equal reconstructed structure
+does not substitute for the retained source reference. Refinement operates on
+acyclic relation templates and does not snapshot the entire reachable world.</p>
+<h2 id="chosen-response-law">Chosen response law</h2>
+<p>Only one target endpoint is adjustable in this first recipe. If the sample is
+at fraction <code>u</code> of the source frame, and one actuator tick changes that endpoint
+by <code>k</code> output ticks, the selected model's sensitivity is <code>s = u*k</code>.</p>
+<p>For feedback residual <code>e</code>, the authored relaxation calibration supplies
+<code>0 &lt; alpha &lt;= 1</code>. Outside the authored acceptance band, request
+<code>delta = alpha*e/s</code>. Inside the band, request zero while retaining the actual
+residual. When sensitivity is zero and a change is required, the response is
+unresolved. There is no forced step or arbitrary direction.</p>
+<p>The plan retains the exact requested delta, its whole-tick truncation, the
+derived inverse response frame, predicted remaining mismatch and both actuator
+and output rounding residues. Planning is observation. Applying is a separate
+signed-tension input. Mathematical policy calculations can be exact while the
+policy's usefulness and premises remain uncertain.</p>
+<p>The predicted residual assumes the proposed whole-tick change is absorbed.
+Application records the actual before/after states and any unpaid draw; a new
+prediction must use that actual after state. For example, asking the initial
+count model to match minus two requests minus seventy actuator ticks. Fifty
+are absorbed, twenty remain as negative tension, and the actual prediction is
+zero. The still-impossible count has not been silently admitted.</p>
+<p>The signed accounting is explicit in the before/after evidence:
+<code>requested -70 = value change -50 + remaining tension -20</code>.</p>
+<p>Applications require the exact current state version and a matching value and
+tension snapshot. Ordered local history links each before state to the prior
+after state. Repeating a delivered plan, using a stale version or exhausting
+the selected count controller does not inject another delta. Reusing an old
+observation in a deliberately new optimization step is allowed; its identity
+remains shared and the additional attempt is not independent evidence.</p>
+<p>This is a caller-owned, sequential state/history contract. The caller must
+retain and supply the current version and history together; discarding history
+or replaying an older world is not detected by a hidden global registry.
+The checks validate current selected arithmetic and historical state-chain
+correspondence, not the authenticity of arbitrary imported history. The count
+controller limits application attempts, including zero steps. It is neither a
+material resource budget nor a confidence measure. An external actuator change
+requires a new capture and an explicitly selected new experiment/history.
+Unrecorded external changes that return to the same scalar state cannot be
+detected by these value/tension checks alone.</p>
+<p>The first application boundary is one free forward actuator. Attached
+settlement worlds need a broader mutation/rollback contract and are refused
+here. An excessive negative request can leave an unpaid draw as tension.
+The next capture preserves that debt; this response law does not silently
+treat a pending actuator as a fresh unconstrained calibration.</p>
+<p>For this boundary, “free” also excludes an already materialized opposed face,
+whose balancing would involve another participant. There is no concurrent
+mutation guarantee. Representability is checked before the single-carrier
+mutation; no projection mutates a source or drains a feedback observation.</p>
+<p>Templates and retained maps are owned as fixed premises for a version.
+Capturing a state copies the actuator observations, not every reachable
+mutable reference. Externally retargeting a retained calibration in place is
+outside this contract. Publish changed premises as a new version, as in the
+<a href="Gojo--docs--GojoCurveReplayWalkthrough.html">curve replay fixture</a>.</p>
+<h2 id="execution-and-eventual-compilation">Execution and eventual compilation</h2>
+<p>The parser constructs the experiment. A caller selects event order and invokes
+prediction, comparison, response-planning and application readers. The authored
+repeat connects the propose/apply request templates and their feedback slots;
+the tests bind and execute those same templates.
+There is no general evaluator or scheduler. Each request exposes operands,
+bases, unknowns, controller, focus and permitted mutation. Numeric restoration
+must preserve those connections. A future compiler can specialize these
+selected laws while preserving the same version, domain and accounting checks;
+this fixture supplies neither a compiler nor a claim that every graph executes.</p>
+<p>The driver supplies synthetic reports and feedback through ports. Their exact
+toy values make the checks inspectable; real feedback would bring its own
+uncertainty. Which source to trust, when to explore another relation, and how
+to distribute response among participants remain open policy questions.</p>
+<h2 id="fixture-inventory-and-verification">Fixture inventory and verification</h2>
+<p>The eight roots retain observations; candidate interpretations and a feedback
+map; the adjustable recipe; policies, focus, history seed and controllers;
+the response request; the application request; the repeat; and its shared
+request slots. Ordinary version-1 forms suffice. No parser keyword or numeric
+format version changes.</p>
+<p>The tests cover:</p>
+<ul>
+<li>Exact affine arithmetic, reversed frames, fractional endpoints, separately
+  calibrated feedback bases, degenerate source frames and overflow refusal.</li>
+<li>Open interpretation and expectation, underdetermined candidates, missing
+  feedback, and strict source/context/subject/correspondence boundaries.</li>
+<li>Full and half responses, later-event prediction, changed feedback, an
+  independently measured one-tick perturbation, and reversed sensitivity.</li>
+<li>Resolution stall versus chosen acceptance, zero sensitivity, conflicting
+  demands, exhausted budgets, stale plans, repeated delivery and unpaid draw.</li>
+<li>Rejection of inconsistent arithmetic and mutation outside the selected
+  free-actuator boundary, with the original history and physical state intact.</li>
+<li>Complete numeric restoration of authored graphs, a pending next plan with
+  prior history, a completed conflict timeline and outstanding actuator debt.</li>
+</ul>
+<p>The generic numeric inventory also discovers this fixture and checks the
+complete retained graph through two restorations. Transport preserves local
+correspondences inside the packet; independent restored worlds have distinct
+identities. History owned by this experiment retains its fixed source/map
+premises, while value/tension observations are copied.</p>
+<p>Verification on September 7: <code>dotnet test Gojo.slnx</code> passes <strong>1,324 tests</strong>:
+782 kernel, 366 encoding, 155 CAD and 21 gear-ladder. This adds 40 cases,
+including discovery of the seventeenth authored syntax fixture by the numeric
+inventory. The existing public gallery is unchanged; this step's examples are
+numeric traces in this walkthrough rather than another browser demo.</p>
+<p>This is the first two checkpoint experiments plus a bounded conflict probe.
+The next experiment should connect <strong>two adapting spaces</strong> through explicit
+publication and feedback surfaces, then exercise delayed and provisional
+results. Only after those interactions are observable should we experiment
+with distributing responsiveness, changing connections, or pruning history.
+There is no universal blame, trust, convergence or learning rule in this pass.</p></main></html>

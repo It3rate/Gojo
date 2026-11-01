@@ -1,0 +1,78 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GojoCAD Electronics Component Encodings</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojocad-electronics-component-encodings">GojoCAD Electronics Component Encodings</h1>
+<p>This folder is the first experimental component-encoding area for electronics
+inside GojoCAD. It is not a SPICE model library, schematic-symbol catalog,
+footprint library, or BOM schema. Its job is to describe how simple electronic
+components can be represented as inspectable Gojo structure.</p>
+<p>The working rule is the same as the rest of GojoCAD:</p>
+<pre><code class="language-text">component meaning lives in connected carriers, relations, unit shapes,
+read witnesses, residue, tension, and timelines
+</code></pre>
+<p>A component helper may build or inspect these structures, but the helper should
+not own the component meaning. If a helper disappeared, the terminals,
+parameters, capacities, transforms, unresolved ports, and read witnesses should
+still be locally traversable.</p>
+<h2 id="component-surface">Component Surface</h2>
+<p>A component should start as connected participation rather than a code-side
+type. The lowest useful component surface is:</p>
+<pre><code class="language-text">component instance
+  terminal / pin / port participations
+  internal relation surface between terminals
+  domain parameter surfaces
+  capacity / rating surfaces
+  transform or flow surfaces
+  source witnesses and lexical labels
+  residue / tension
+</code></pre>
+<p>The same component can then support several reads. A resistor may be read as a
+resistance relation, a pull-up, a load, a current limiter, a BOM line, a
+footprint instance, or a documentation claim. Those reads should share lower
+structure instead of becoming unrelated tags.</p>
+<h2 id="values-are-reads-over-resolution">Values Are Reads Over Resolution</h2>
+<p>Component values should not smuggle in precision that the source did not give.
+A label such as <code>10K 5%</code> is not an exact hidden interval with exact endpoints.
+It is a nominal resistor-ladder read plus a relative resolution read. A later
+meter reading can refine or contradict that coarse source, but the nominal
+source itself should remain lower resolution.</p>
+<p>The general shape is:</p>
+<pre><code class="language-text">selected component parameter
+  read through a domain basis
+  produce a nominal / capacity / transform / measured result
+  preserve residue where the source is coarse, incomplete, or incompatible
+</code></pre>
+<p>Use exact integer/rational structure when the source actually supplies it. Use
+resolution ladders, repeated transforms, and residue-bearing reads when the
+source is conventional, approximate, or only precise inside a domain scale.</p>
+<h2 id="component-families">Component Families</h2>
+<p>Initial component families should stay small:</p>
+<pre><code class="language-text">resistors
+  resistance relation, preferred-value transforms, tolerance resolution,
+  power/voltage capacity, temperature coefficient, zero-ohm bridge read
+
+capacitors
+  charge/voltage storage relation, capacitance value ladder, tolerance,
+  voltage capacity, dielectric and temperature residue
+
+inductors
+  current/field storage relation, inductance value ladder, current capacity,
+  saturation and resistance residue
+
+transistors
+  controlled route, control terminal, channel relation, rating/capacity reads,
+  unresolved model family residue
+</code></pre>
+<p>These names are folder and documentation names, not final ontological tags. The
+goal is to grow a set of local surfaces that a schematic reader, board reader,
+language reader, or solver adapter can inspect.</p>
+<h2 id="solver-boundary">Solver Boundary</h2>
+<p>A circuit solver should be an output/read surface over selected structure, not
+the canonical component model. A solver may project an E-series resistor into a
+larger internal carrier, equation basis, or sampled numeric approximation, but
+that projection should record its basis and residue.</p>
+<pre><code class="language-text">selected circuit structure
+read through solver basis
+produce solver-local values or equations
+preserve value-resolution, missing model, and unsupported-feature residue
+</code></pre>
+<p>This keeps the Gojo component structure honest. The source value can remain an
+E6 transform position such as "22 E6 steps", while a specific solver read can
+derive whatever representation it needs.</p></main></html>

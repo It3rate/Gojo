@@ -125,6 +125,7 @@
     <Project Path="Applications/GojoDraw/GojoDraw.csproj" />
   </Folder>
   <Folder Name="/Visualizations/">
+    <Project Path="Visualizations/Gojo.PrimitiveExplorer.Browser/Gojo.PrimitiveExplorer.Browser.csproj" />
     <Project Path="Visualizations/Gojo.PrimitiveExplorer/Gojo.PrimitiveExplorer.csproj" />
     <Project Path="Visualizations/Gojo.Blocks/Gojo.Blocks.csproj" />
     <Project Path="Visualizations/Gojo.Blocks.Browser/Gojo.Blocks.Browser.csproj" />

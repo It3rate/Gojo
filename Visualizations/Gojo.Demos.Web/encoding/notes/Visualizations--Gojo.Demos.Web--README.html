@@ -1,0 +1,210 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gojo Demos Web Directory</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojo-demos-web-directory">Gojo Demos Web Directory</h1>
+<p>Static landing page for <code>https://gojo.inklingai.ca/</code>.</p>
+<p>The production bundle mounts the browser applications beneath this page:</p>
+<ul>
+<li><code>/quickdraw/</code> — drawing studies, starting with capital letters and church
+  drawings at <code>/quickdraw/line-art/</code>;</li>
+<li><code>/ornaments/</code> — ornament collections, source comparisons and native downloads;
+  start with the <a href="Visualizations--Gojo.Demos.Web--ornaments--README.html">collection publishing guide</a></li>
+<li><code>/minds/</code> — captured Gojo experiments, step viewer, research notes and the
+  experiment/development roadmap</li>
+<li><code>/syntax/</code> — illustrated syntax notebook, with thumbnails, stepped examples
+  and actual fixture source dialogs</li>
+<li><code>/blocks/</code> — Gojo Blocks</li>
+<li><code>/gears/</code> — Gojo Gear Demo</li>
+<li><code>/gearLadder/</code> — Gojo Gear Shape Ladder</li>
+<li><code>/sketch/</code> — GojoCAD SketchViewer</li>
+<li><code>/core4/</code> — frozen archive of the earlier Core4, Core2 Patterns and Foom
+  Numbers browser demos</li>
+</ul>
+<p>Deploy this landing page, the four current application directories and the
+Core4 archive as one Static Web Apps bundle using
+<code>GOJO_SWA_CLI_DEPLOYMENT_TOKEN</code>.</p>
+<p>The <a href="Visualizations--Gojo.Demos.Web--syntax--README.html">syntax notebook</a> is a static website. Rebuild it using
+the script below; no browser-application build is needed for an editorial
+change. Run the fixture and browser checks documented there before publication.</p>
+<pre><code class="language-powershell">node Visualizations/Gojo.Demos.Web/tools/build-syntax.mjs
+</code></pre>
+<p>Rebuild Minds from the captured results and its roadmap source:</p>
+<pre><code class="language-powershell">node Visualizations/Gojo.Demos.Web/tools/build-minds.mjs
+node Visualizations/Gojo.Demos.Web/tools/build-minds.mjs --check
+</code></pre>
+<p>This does not rerun experiments. To record another run, use the command in
+<code>experiments/Minds/README.md</code> first. The roadmap's single prose source is
+<code>experiments/Minds/docs/ExperimentRoadmap.json</code>; the build writes both its Markdown document
+and the public HTML. The notes and viewer are adapted from the original Minds
+artifacts. All five recorded conditions remain selectable at
+<code>/minds/two-space/?run=half</code> (also <code>full</code>, <code>quarter</code>, <code>fresh</code>, <code>reference</code>).</p>
+<p>Experiment 02 is at <code>/minds/feedback-limits/</code>. The selected dated result directory
+is explicit in <code>experiments/Minds/results/feedback-limits/publication.json</code>. The build copies
+all case fixtures, event tapes and both implementations' records for every
+repetition, then adds the findings and protocol pages. It never selects only
+the cases that agreed or silently publishes the newest run.</p>
+<p>Experiment 03 is at <code>/minds/predictions/</code>. Its explicit selection is
+<code>experiments/Minds/results/predictions/publication.json</code>; every case, before/after event
+journal, reference calculation and missing outcome is published. The Minds
+landing page links to each completed experiment with a short description.</p>
+<p>Production deployment must include all four current browser applications and
+the Core4 archive. Publishing any one directory alone would remove other
+routes. The ignored publish-deploy-root directory is a cached bundle, not a
+reproducible source checkout. Its runtime manifests can differ from the live
+deployment even when the entry-page HTML matches. The Core4 runtime payloads
+are intentionally kept frozen in that cache; the tracked <code>/core4/</code> index is
+overlaid during preparation and the preparation step fails if the archive is
+missing.</p>
+<p>Prepare the syntax addition from the current public application manifests:</p>
+<pre><code class="language-powershell">node Visualizations/Gojo.Demos.Web/tools/prepare-syntax-deploy.mjs
+</code></pre>
+<p>This builds publish-deploy/syntax-site, retains the live browser loaders and
+their resource hashes, fetches missing or changed assets, verifies compressed
+counterparts, and overlays the syntax directory, home page and site config.
+It excludes obsolete fingerprinted WASM files absent from the current runtime
+manifests from the staged bundle, keeping the cache and frozen Core4 archive
+intact. This prevents old application versions from consuming the hosting quota.
+It also overlays Minds and the ornament collections, so subsequent publications
+retain <code>/minds/</code> and <code>/ornaments/</code>.
+It retains the Quick Draw study category and its selected downloads at <code>/quickdraw/</code>.
+It writes a backup and a public-asset hash manifest to the OS temporary folder.
+The cached smooth, performance and six-rung variants were not deployed when
+this gallery was added; their runtime endpoints return 404. The preparation
+script checks these endpoints and stops if an additional live route needs
+to be included. A home-page fallback is not evidence that an application exists.</p>
+<p>After the full bundle has been assembled, use the existing deployment token
+through the CLI environment (never print it or put it on the command line):</p>
+<pre><code class="language-powershell">$env:SWA_CLI_DEPLOYMENT_TOKEN = $env:GOJO_SWA_CLI_DEPLOYMENT_TOKEN
+npx --yes @azure/static-web-apps-cli deploy Visualizations/Gojo.Demos.Web/publish-deploy/syntax-site `
+  --swa-config-location Visualizations/Gojo.Demos.Web/publish-deploy/syntax-site `
+  --env production --app-name gojo --resource-group inkling --no-use-keychain
+</code></pre>
+<p>The preparation script performs the local assembly; the deploy command above
+publishes it. Verify the live gallery, prior application entry points and
+preserved manifest hashes after publication. /syntax/* is excluded from the
+root fallback so a missing example or source file does not masquerade as the
+home page.</p>
+<p>The same exclusion applies to <code>/minds/*</code>. Verify the Minds index, roadmap,
+five viewer selections and downloadable observations after publishing.</p>
+<h2 id="quick-draw-studies">Quick Draw studies</h2>
+<p>The <code>/quickdraw/</code> category links to studies through the ordered catalogue in
+<code>tools/quickdraw-studies.json</code>. Each entry has a stable child route, title,
+description and explicitly prepared public source directory. Add further
+studies to that catalogue without changing existing URLs or the homepage link.</p>
+<p>The alphabet and church inspector starts the category at <code>/quickdraw/line-art/</code>.
+Its source is <code>experiments/quickDraw/results/line-art/public</code>. That directory's
+<code>public-files.json</code> selection lists its entry page and native downloads;
+unselected research files are not copied to the site.</p>
+<p>The church cleanup comparison at <code>/quickdraw/church-cleanup/</code> shows the original
+drawing and saved final shape proposal for all 36 verified pilot samples, 12 per
+page. Its captured display is generated from the <code>church-shape-cleanup.v3</code>
+checkpoint in the GojoQuickDraw dataset, with source archive hashes and native
+restore flags checked. Run <code>tools/build-church-cleanup.py --dataset $dataset</code>
+to refresh the display, then run it again with <code>--check</code> and rebuild the
+Quick Draw category. The published coordinates are rounded to one display
+unit; the authoritative evidence and native records remain in the dataset.</p>
+<p>The construction study at <code>/quickdraw/construction/</code> uses
+<code>experiments/quickDraw/results/construction-resolution/review</code>. It contains
+fourteen churches, 26 individual capitals and the alphabet atlas: 41 designs
+at five resolutions, 205 executed programs and 945 construction steps.
+The inspector contains only captured native reads; the browser neither
+reconstructs recipes nor invents dependencies. A lossless shared-subtree
+transport reduces the embedded payload, with every expanded value checked
+against the original checkpoint. Use <code>tools/check-construction.cjs</code> to verify
+all steps, comparison paths, retained references and native downloads.
+Its <code>restored-native-construction</code> contract verifies restored/replayed flags
+and selected archive links before copying.</p>
+<p>All 205 executable archives remain available from GitHub, pinned to commit
+<code>2921c2ec6e9d8aefb9719f64be0a340d87abfd08</code>. Their compressed and decoded hashes
+are recorded in <code>quickdraw/construction/publication.json</code>; the browser checker
+fetches every archive and verifies its integrity and cross-origin availability.
+Only clicking a download contacts GitHub. Drawing and resolution controls use
+the embedded captured reads. The twelve earlier construction download URLs
+remain available on this site alongside the 17 line-art downloads.</p>
+<pre><code class="language-powershell">node Visualizations/Gojo.Demos.Web/tools/build-quickdraw.mjs
+node Visualizations/Gojo.Demos.Web/tools/build-quickdraw.mjs --check
+node Visualizations/Gojo.Demos.Web/tools/check-quickdraw.cjs
+</code></pre>
+<p>Use <code>--dry-run</code> to validate the selection and report its size without writing.
+The builder checks restored-scene flags, local-path leakage, archive links and
+gzip integrity, then records source and published hashes in <code>publication.json</code>.
+The adapter adds a <code>/quickdraw/&lt;id&gt;/</code> base URL so each route works with or
+without a trailing slash. The construction publication additionally applies
+the lossless transport and immutable archive URLs described above. Geometry
+and decoded native archives are retained unchanged.
+Standalone <code>.json.gz</code> downloads do not require an uncompressed counterpart.
+The inspector's download button saves decoded <code>.gojo.json</code> bytes, handling both
+ordinary gzip files and Azure's automatic HTTP gzip decoding. Browser checks
+verify the actual saved filename and contents as well as all stored archives.
+The optional <code>readSurface: "restored-native-inspector"</code> catalogue entry enables
+native scene/archive checks; future static studies can use their own captured
+presentation without pretending to contain this inspector format. The browser
+check uses the existing <code>GOJO_PLAYWRIGHT_MODULE</code>, <code>GOJO_BROWSER</code> and
+<code>GOJO_BASE_URL</code> overrides to verify local or production navigation, alphabet
+reads, archive hashes and phone layout.
+Set <code>GOJO_WEB_ROOT</code> to the prepared bundle directory to check the assembled
+deployment locally before uploading it.</p>
+<p>Run the shared preparation and production deployment above after the inspector
+checks pass. Verify the alphabet, hover reads and native downloads on the live
+route, along with the previous application routes. <code>/quickdraw/*</code> is excluded
+from the homepage fallback so a missing download returns a real 404.</p>
+<p>The 23 October 2026 alphabet publication has 21 category files (912,114 bytes).
+Its complete production bundle is 261,317,702 bytes, leaving 826,298 bytes under
+the last verified 262,144,000-byte allowance. Include future studies in the full
+bundle measurement before publication.</p>
+<p>Adding the construction study brings the complete prepared bundle to
+261,718,196 bytes, leaving 425,804 bytes under that allowance. The category has
+two studies, with all 29 selected native downloads retained. The captured
+construction read is compressed inside its standalone HTML; each native
+program is stored once as gzip rather than publishing the larger execution
+witnesses as well.</p>
+<p>Replacing that first study with the five-resolution checkpoint brings the
+complete production bundle to 262,087,860 bytes, leaving 56,140 bytes under
+the same allowance. No hosting-plan change or removal of other site content
+was needed. Re-measure the whole bundle before any further publication;
+there is very little remaining capacity. The earlier paragraph records the
+size of the initial construction publication, not the current bundle.</p>
+<p>Adding the 36-drawing church cleanup comparison brings the prepared bundle to
+262,135,748 bytes across 2,065 files, leaving 8,252 bytes under the last
+verified allowance. The gallery's compressed display data is 36,472 bytes.
+The larger detailed inspector and native archives remain in the research
+dataset; this site edition preserves the full set of visual comparisons.</p>
+<h2 id="growing-the-ornament-series">Growing the ornament series</h2>
+<p>The collection catalogue and permanent <code>/ornaments/&lt;id&gt;/</code> routes let new
+studies join the index without changing old links or the homepage. Keep each
+study's captured results separate, and publish only selected completed studies.
+See <a href="Visualizations--Gojo.Demos.Web--ornaments--README.html">the authoring guide</a> for the entry format and checks.</p>
+<p>On 19 October 2026, Azure reported a 262,144,000-byte (250 MiB) content limit
+for this site. The complete accepted bundle was 241,884,697 bytes after removing
+obsolete cached runtime assemblies, leaving about 20 MB. This is a hosting
+constraint, separate from the collection layout. Before publishing a large
+series, measure the whole bundle and either increase the site's allowance or
+move large image, SVG and native-packet downloads to dedicated asset storage.
+Keep the collection URLs stable and update the publication adapter and integrity
+checks to use the chosen asset location. No hosting-plan change was made for
+the first collection.</p>
+<p>The refined collection is published at <code>/ornaments/flowing-grammar/</code>, with all
+108 main designs and 108 executed-unit SVGs. Its compact publication adapter
+retains mode and unit selection and omits unavailable archive/history controls
+together with their links. On 19 October 2026 the complete prepared bundle
+with this addition was 257,403,979 bytes, within the 262,144,000-byte allowance.
+The existing applications, frozen Core4 archive, Minds, syntax and original
+Bourgoin collection remain in the same deployment.</p>
+<p>The interior-first lattice collection is added at <code>/ornaments/lattice-interiors/</code>.
+Its compact publication adapter includes all 100 final coloured and outline
+views, captured facts, ratings, overview and rejected examples, while retaining
+the larger construction/native archives in the research checkout. The selected
+collection adds about 3.9 MB. The complete production bundle must still be
+measured on each publication; its remaining capacity is now below 1 MB under
+the last verified allowance. No hosting-plan change is needed for this edition.</p>
+<p>The twelve compound interior ornament designs join the catalogue at
+<code>/ornaments/interior-ornament/</code>, with a finished-design sheet and a retained-mesh
+view for every design. This bounded publication keeps large history and native
+archives in the linked research checkout. Existing <code>gallery.html</code> aliases now
+redirect to their canonical collection pages while preserving query and fragment;
+this avoids storing duplicate large gallery pages. All previous collection
+routes, downloads and browser applications remain included. Measure the whole
+prepared bundle before every deployment; the documented 250 MiB allowance still
+applies.</p>
+<p>The complete prepared bundle for this publication is 260,405,197 bytes,
+leaving 1,738,803 bytes under that allowance. The alias reduction retains the
+previous URLs and makes this edition smaller than the preceding deployment.</p>
+<h2 id="primitive-encoding">Primitive encoding</h2>
+<p>The /encoding/ section contains the shared-code Primitive Explorer and HTML versions of its Markdown notes. See ../Gojo.PrimitiveExplorer.Browser/README.md for build and browser checks. The deployment preparation requires a current browser publish and generated notes; it preserves the other live applications.</p></main></html>

@@ -1,0 +1,494 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Controlled flow through two passages</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="controlled-flow-through-two-passages">Controlled flow through two passages</h1>
+<p>Round 7, 31 October 2026. This experiment executes a whole handoff directly on
+the primitive value stores. It adds a joint before/after law to the existing
+positional arrays, local port mappings, and packed connection rows.</p>
+<p>The later <a href="ConditionalExperiments.html">conditional experiment</a> begins with a
+simple recap and composes these passages into a two-way choice with continuations.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --passages
+dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
+</code></pre>
+<p>The small rule is: <strong>when the control is present, move the source's whole
+contents into an empty receiver</strong>. A closed passage retains the source. An
+occupied receiver blocks under this chosen no-merge rule. V=1 still means an
+unknown nonzero amount; it does not establish one unit or a capacity of one.</p>
+<h2 id="the-three-things-being-encoded">The three things being encoded</h2>
+<table>
+<thead>
+<tr>
+<th>Thing</th>
+<th>Contents</th>
+<th>Changes during a passage step?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Value array</td>
+<td>One V bit at each site; fixed O/D supplied by array position</td>
+<td>Source and receiver may change together</td>
+</tr>
+<tr>
+<td>Connection row</td>
+<td>Three local port positions in order <code>[source, control, receiver]</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>Shared transition law</td>
+<td>Allowed combinations of all three bits before and after</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>The connector owns no amount. A control is observed without consuming it.
+The example's O=0 and D=0 are inherited by every value from its containing
+array. Tests also exercise the other three fixed O/D contexts.</p>
+<h2 id="one-passage-exact-locations-and-bits">One passage: exact locations and bits</h2>
+<p>All three values occupy <code>(orientation group 0, direction group 0, width 1)</code>.
+Ports and bindings are published in allocation order for these examples.</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th style="text-align: right;">Local port</th>
+<th style="text-align: right;">Binding</th>
+<th style="text-align: right;">Index in value array</th>
+<th style="text-align: right;">Physical value bit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S: source</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>C: control</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>T: receiver</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<p>The row is <code>[0,1,2]</code>, with two bits per reference:</p>
+<pre><code class="language-text">packed row = 0 + (1 &lt;&lt; 2) + (2 &lt;&lt; 4) = 0x24
+</code></pre>
+<p>Each row reference follows this owner's existing <code>port -&gt; binding -&gt; address</code>
+mapping. These are local port positions, not the even/odd endpoint numbers
+used by the earlier calculated-read table. The containing table supplies that
+interpretation; no reference-kind tag is stored in every row.</p>
+<p>The value array packs S in its lowest bit:</p>
+<pre><code class="language-text">state code = S + 2*C + 4*T
+</code></pre>
+<p>These are the V bits of three participants, not the O/D/V bits of one participant.</p>
+<p>We show tuples as <code>[S,C,T]</code>, in role order. A conventional binary numeral prints
+the high bit first, so its order is <code>TCS</code>. Thus tuple <code>[1,1,0]</code> is code 3,
+binary <code>011</code>; tuple <code>[0,1,1]</code> is code 6, binary <code>110</code>.</p>
+<h2 id="the-complete-transition-law">The complete transition law</h2>
+<table>
+<thead>
+<tr>
+<th>Before tuple <code>[S,C,T]</code></th>
+<th style="text-align: right;">Before code</th>
+<th>After tuple</th>
+<th style="text-align: right;">After code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[0,0,0]</code></td>
+<td style="text-align: right;">0</td>
+<td><code>[0,0,0]</code></td>
+<td style="text-align: right;">0</td>
+<td>Empty source</td>
+</tr>
+<tr>
+<td><code>[1,0,0]</code></td>
+<td style="text-align: right;">1</td>
+<td><code>[1,0,0]</code></td>
+<td style="text-align: right;">1</td>
+<td>Closed control retains contents</td>
+</tr>
+<tr>
+<td><code>[0,1,0]</code></td>
+<td style="text-align: right;">2</td>
+<td><code>[0,1,0]</code></td>
+<td style="text-align: right;">2</td>
+<td>Open passage, empty source</td>
+</tr>
+<tr>
+<td><code>[1,1,0]</code></td>
+<td style="text-align: right;">3</td>
+<td><code>[0,1,1]</code></td>
+<td style="text-align: right;">6</td>
+<td>Whole handoff</td>
+</tr>
+<tr>
+<td><code>[0,0,1]</code></td>
+<td style="text-align: right;">4</td>
+<td><code>[0,0,1]</code></td>
+<td style="text-align: right;">4</td>
+<td>Receiver already occupied</td>
+</tr>
+<tr>
+<td><code>[1,0,1]</code></td>
+<td style="text-align: right;">5</td>
+<td><code>[1,0,1]</code></td>
+<td style="text-align: right;">5</td>
+<td>No merge</td>
+</tr>
+<tr>
+<td><code>[0,1,1]</code></td>
+<td style="text-align: right;">6</td>
+<td><code>[0,1,1]</code></td>
+<td style="text-align: right;">6</td>
+<td>Source already emptied</td>
+</tr>
+<tr>
+<td><code>[1,1,1]</code></td>
+<td style="text-align: right;">7</td>
+<td><code>[1,1,1]</code></td>
+<td style="text-align: right;">7</td>
+<td>No merge</td>
+</tr>
+</tbody>
+</table>
+<p>Eight possible before-states and eight possible after-states require 64
+admission bits, or eight bytes. A bit is addressed by:</p>
+<pre><code class="language-text">law bit = before + 8*after
+law bytes, in storage order = 01 02 04 00 10 20 48 80
+</code></pre>
+<p>For the handoff, bit <code>3 + 8*6 = 51</code> is set: byte 6, bit 3. Byte 6 also admits
+the unchanged <code>6 -&gt; 6</code>, giving <code>0x48</code>. Every row in the passage table shares
+these law bytes. The executor reads these bits; it does not dispatch on an
+addition/transfer opcode.</p>
+<p>The executable passage grammar accepts only laws that preserve C and either
+hold S/T or hand the whole contents forward into an empty T. It rejects bitmaps
+that create, discard, reverse, or duplicate participation. Alternative law
+bits can permit a handoff when C=0; that behavior is also tested. This is a
+small passage grammar, not a general material-transition interpreter.</p>
+<h2 id="a-resolved-passage-step">A resolved passage step</h2>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Value byte before</th>
+<th>Value byte after</th>
+<th>Connection byte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Execute with C closed</td>
+<td><code>01</code></td>
+<td><code>01</code></td>
+<td><code>24</code></td>
+</tr>
+<tr>
+<td>Supply a new control observation C=1</td>
+<td><code>01</code></td>
+<td><code>03</code></td>
+<td><code>24</code></td>
+</tr>
+<tr>
+<td>Execute the passage</td>
+<td><code>03</code></td>
+<td><code>06</code></td>
+<td><code>24</code></td>
+</tr>
+<tr>
+<td>Execute again</td>
+<td><code>06</code></td>
+<td><code>06</code></td>
+<td><code>24</code></td>
+</tr>
+</tbody>
+</table>
+<p>Supplying a control observation is separate from moving material. The passage
+step validates a resolved before-observation against the current three sites,
+then writes the source and receiver under the owner's lock. It never writes
+the control. A single owner passage/scope observation cannot observe only half
+the handoff. Separate read calls can straddle a step and are not a shared snapshot.</p>
+<p>A successful step can be unchanged, such as a closed passage or an empty
+source. Its returned after-state tells the caller what happened. A failed step
+leaves every site unchanged.</p>
+<h2 id="when-the-control-is-uncertain">When the control is uncertain</h2>
+<p>The stored C bit is still concrete. The observer can deliberately read S and T
+while leaving C unobserved. This is selected by a read-time visibility mask
+<code>101</code>: read roles 0 and 2, omit role 1. The implementation does not load the
+omitted value bit. The visibility mask is a query, not another stored primitive.</p>
+<p>A joint support mask then describes complete possible states. Bit n means
+state n is admitted. It is a read result, separate from the actual value array.</p>
+<table>
+<thead>
+<tr>
+<th>Read</th>
+<th>Complete candidate tuples <code>[S,C,T]</code></th>
+<th>Candidate codes</th>
+<th>Support byte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before: S present, T empty, C unobserved</td>
+<td><code>[1,0,0]</code> or <code>[1,1,0]</code></td>
+<td>1 or 3</td>
+<td><code>0A</code></td>
+</tr>
+<tr>
+<td>Predicted after</td>
+<td><code>[1,0,0]</code> or <code>[0,1,1]</code></td>
+<td>1 or 6</td>
+<td><code>42</code></td>
+</tr>
+</tbody>
+</table>
+<p>This means <strong>contents stay at S, or move to T</strong>. It does not permit both stores
+empty or both stores occupied. Independent uncertainty masks for S and T would
+lose that constraint; the complete candidates preserve it.</p>
+<p><code>TryStep</code> refuses an unresolved before-observation before consulting hidden
+value bits. Prediction alone never changes actual storage:</p>
+<table>
+<thead>
+<tr>
+<th>Actual C in the fixture</th>
+<th>Actual byte</th>
+<th>Observer's before support</th>
+<th>Attempt while C unobserved</th>
+<th>After C is revealed and a fresh step executes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>01</code></td>
+<td><code>0A</code></td>
+<td>Refused; stays <code>01</code></td>
+<td>Resolved hold; stays <code>01</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>03</code></td>
+<td><code>0A</code></td>
+<td>Refused; stays <code>03</code></td>
+<td>Resolved handoff; becomes <code>06</code></td>
+</tr>
+</tbody>
+</table>
+<p>An empty support means no admitted state, not a measured zero. A custom law
+with several after-states also remains prediction-only until a separate rule
+resolves the choice. This experiment does not randomly select an alternative.</p>
+<h2 id="two-passages-in-a-chain">Two passages in a chain</h2>
+<pre><code class="language-text">        C1                    C2
+         |                     |
+A -- passage P1 --&gt; B -- passage P2 --&gt; T
+</code></pre>
+<p>One owner stores five ordinary V bits. Both passages use the same eight law
+bytes. B is the actual shared intermediate site: P1's receiver is P2's source.</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th style="text-align: right;">Port and binding</th>
+<th>Packed address <code>(O group,D group,width,index)</code></th>
+<th style="text-align: right;">Value bit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td style="text-align: right;">0</td>
+<td><code>(0,0,1,0)</code></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>C1</td>
+<td style="text-align: right;">1</td>
+<td><code>(0,0,1,1)</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>B</td>
+<td style="text-align: right;">2</td>
+<td><code>(0,0,1,2)</code></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>C2</td>
+<td style="text-align: right;">3</td>
+<td><code>(0,0,1,3)</code></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>T</td>
+<td style="text-align: right;">4</td>
+<td><code>(0,0,1,4)</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Passage</th>
+<th>Ordered port row</th>
+<th>Reference width</th>
+<th style="text-align: right;">First bit in connection array</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td><code>[0,1,2]</code></td>
+<td>3 bits</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>P2</td>
+<td><code>[2,3,4]</code></td>
+<td>3 bits</td>
+<td style="text-align: right;">9</td>
+</tr>
+</tbody>
+</table>
+<p>Rows have no intervening padding:</p>
+<pre><code class="language-text">row P1 = 0 + (1 &lt;&lt; 3) + (2 &lt;&lt; 6) = 0x088
+row P2 = 2 + (3 &lt;&lt; 3) + (4 &lt;&lt; 6) = 0x11A
+combined = 0x088 | (0x11A &lt;&lt; 9) = 0x23488
+connection bytes = 88 34 02
+</code></pre>
+<p>There are 18 meaningful connection bits; only the end of the last byte is
+unused. The five value bits fit in one byte. Including the shared law, these
+payload arrays occupy 12 bytes (one value byte, three row bytes, eight law
+bytes). The existing host objects, local port/binding maps and allocation
+liveness are additional; this is not a claim that the complete runtime uses
+12 bytes or that every future rung needs this same layout.</p>
+<p>With both controls open, execute P1 and then P2:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Tuple <code>[A,C1,B,C2,T]</code></th>
+<th>Byte</th>
+<th>Conventional binary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Start</td>
+<td><code>[1,1,0,1,0]</code></td>
+<td><code>0B</code></td>
+<td><code>00001011</code></td>
+</tr>
+<tr>
+<td>Execute P1</td>
+<td><code>[0,1,1,1,0]</code></td>
+<td><code>0E</code></td>
+<td><code>00001110</code></td>
+</tr>
+<tr>
+<td>Execute P2</td>
+<td><code>[0,1,0,1,1]</code></td>
+<td><code>1A</code></td>
+<td><code>00011010</code></td>
+</tr>
+<tr>
+<td>Repeat either passage</td>
+<td><code>[0,1,0,1,1]</code></td>
+<td><code>1A</code></td>
+<td><code>00011010</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each handoff moves the same whole contents along one passage. It is not a copy
+into a second amount. The connection bytes stay <code>88 34 02</code> throughout.</p>
+<p>If C2 starts closed, the progression is <code>03 -&gt; 06 -&gt; 06</code>: contents reach B and
+remain there. Supplying C2=1 changes the control bit, giving <code>0E</code>; executing P2
+then gives <code>1A</code>. Calling P2 before P1 instead gives <code>0B -&gt; 0B -&gt; 0E</code>. Order is
+explicit and observable; there is no automatic scheduler or hidden chain run.</p>
+<h2 id="an-uncertain-control-across-both-passages">An uncertain control across both passages</h2>
+<p>Keep the joint read over the whole selected five-site scope. Its state code is:</p>
+<pre><code class="language-text">state = A + 2*C1 + 4*B + 8*C2 + 16*T
+</code></pre>
+<p>There are 32 possible scope states, so a 32-bit read mask suffices. This mask
+is a set of candidate states, not a new stored flow value or a global world.
+Scope prediction replaces the selected passage's bits inside each complete
+candidate and carries all the other bits forward unchanged.</p>
+<p>With C1 unobserved and C2 known open:</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Complete candidate tuples <code>[A,C1,B,C2,T]</code></th>
+<th>State codes, hex</th>
+<th>Joint support, hex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before</td>
+<td><code>[1,0,0,1,0]</code> or <code>[1,1,0,1,0]</code></td>
+<td><code>09</code>, <code>0B</code></td>
+<td><code>00000A00</code></td>
+</tr>
+<tr>
+<td>Predict P1</td>
+<td><code>[1,0,0,1,0]</code> or <code>[0,1,1,1,0]</code></td>
+<td><code>09</code>, <code>0E</code></td>
+<td><code>00004200</code></td>
+</tr>
+<tr>
+<td>Then predict P2</td>
+<td><code>[1,0,0,1,0]</code> or <code>[0,1,0,1,1]</code></td>
+<td><code>09</code>, <code>1A</code></td>
+<td><code>04000200</code></td>
+</tr>
+</tbody>
+</table>
+<p>The prediction says the contents remain at A or reach T. It does not leave a
+possible copy at B after the second passage with C2 open. In the fixture the
+actual array stays <code>0B</code> throughout prediction and the refused uncertain step.
+After revealing C1, resolved execution follows <code>0B -&gt; 0E -&gt; 1A</code>.</p>
+<p>With both controls unobserved:</p>
+<pre><code class="language-text">joint support: 00000A0A -&gt; 00004242 -&gt; 04000242
+state codes:   {01,03,09,0B} -&gt; {01,06,09,0E} -&gt; {01,06,09,1A}
+</code></pre>
+<p>Now the contents can remain at A, stop at B, or reach T. Every complete
+candidate has exactly one of those three material sites occupied. The
+prediction assumes controls retain their sampled states across the chosen
+steps. A control change would be another explicit input.</p>
+<p>Tests also connect both passages to the same uncertain control. Keeping its
+shared site in the scope prevents it from being treated as open for P1 and
+closed for P2 within one unchanged-control prediction.</p>
+<h2 id="limits-and-checks">Limits and checks</h2>
+<p>This is one owner-local, fixed-context experiment. The two passages do not
+reach into another structure's private values. Boundary transfer, wider values,
+sign/orientation release, merge/split, and cyclic scheduling remain later work.</p>
+<p>Rows can outlive storage changes. Every read and step rechecks compatible fixed
+O/D, one owned V bit, and distinct bindings, including aliases published through
+different ports. Unsupported rows have no admitted read and cannot write. A
+step compares its resolved before-observation with current state under the
+same lock used for both writes. A stale competing passage cannot consume an
+already emptied source. This is current-state validation, not a versioned
+history or a guarantee that equal states belong to the same observation event.</p>
+<p>The whole-handoff law promises movement of all the unmeasured contents at this
+resolution. The encoding can check permitted site transitions and prevent
+duplication; it cannot independently measure or reconstruct a finer amount.
+No fine integer world is hidden behind these bits.</p>
+<p>Focused tests cover the complete law in all four contexts, exact packed bytes,
+blocking/reopening, repeated and competing steps, uncertain controls, both
+chain orders, shared-control correspondence, scope reordering, stale reads,
+aliases, migration, and refusal of missing, ambiguous or invalid transitions.</p>
+<p>Verification: all 141 primitive tests pass, including 32 passage cases. The
+<code>--passages</code> demonstration runs successfully. Full <code>dotnet test Gojo.slnx</code>
+verification passes with 5,697 tests across 14 projects, no failures and no
+skipped tests.</p></main></html>

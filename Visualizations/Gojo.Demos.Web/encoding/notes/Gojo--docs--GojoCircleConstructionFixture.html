@@ -1,0 +1,195 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Circle construction before coordinates</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="circle-construction-before-coordinates">Circle construction before coordinates</h1>
+<p>Status: implemented exploratory construction contract, September 2026.</p>
+<p><a href="assets/Gojo--docs--examples--contour-rotation.html">Open the twelve construction stages</a>.</p>
+<p>The follow-up <a href="Gojo--docs--GojoPrimitiveConstructionAudit-2026-09.html">primitive construction audit</a>
+checks this standard against parallel segments, Béziers and other graphic
+elements. It includes a constructed-parallelogram-to-Bézier syntax fixture
+and records where native construction is still missing.
+The next <a href="assets/Gojo--docs--examples--grounded-affine-basis.html">basis-to-Bézier walkthrough</a>
+shows a justified affine basis, partial points and independent viewing choices.</p>
+<p>The first rotation example supplied a plane, metric and radial endpoint
+coordinates. It tested a later turning operation but skipped how a contour,
+radius and landmarks come into being. This fixture starts before that basis.</p>
+<h2 id="the-structure-to-build">The structure to build</h2>
+<pre><code class="language-text">source       = P(origin,0)
+outward      = O(source)
+contour      = carrier with point-orthogonal unit provenance
+offset       = outward -&gt; (common reach -&gt; contour)
+radial       = group(source -&gt; radial start,
+                     radial start -&gt; radial end,
+                     radial end -&gt; contour reference site)
+whole        = contour reference site -&gt; end of one traversal
+closure      = end of one traversal -&gt; same contour reference site
+circle       = group(offset, radial, whole, closure)
+partition    = group(circle, subdivided whole -&gt; whole)
+mark request = group(partition, selected subdivision site)
+</code></pre>
+<p><code>crystal(outward)</code> stabilizes the already-readable contour-potential grammar;
+it does not by itself crystallize a complete physical circle or an angle unit.
+The common reach can initially be an open slot. Selecting an offset gives a
+level path; creating and attaching a radius supplies a local measure for that
+reach and a reference site. The radial carrier is derived from a collapsed
+segment at the same source. Its direction is established by attachment, with
+no X axis, Y axis or world bearing. Choosing its span <code>0..1</code> uses the selected
+radius as one native radial tick, without assigning millimetres to it.</p>
+<p>The whole uses contour coordinates <code>0..1</code> plus an explicit return connection.
+Zero and one are different positions in the <em>unwrapped traversal</em>. The closure
+connects the end back to the actual starting site. The entire path is therefore
+not a zero-length segment merely because it returns to the same site.</p>
+<p>Only after a whole is present do <code>subdivision(unit_of(contour),n)</code> and its
+explicit whole-to-whole correspondence provide equal native contour parts.
+This selects subdivision of the circumference, not arbitrary placement of
+numbered markers. Four parts, ten parts and 360 parts are different reads of
+the same whole. Counting 360 unrelated landmarks would not establish degrees.</p>
+<p>This is a selected homogeneous planar offset-contour contract. It records the
+construction and its exact intrinsic partitions; it does not discover a plane,
+solve a field, or infer an isotropic distance law for every possible container.
+A point's orthogonal possibility remains broader than a completed circle.
+The analogous segment-offset path belongs to the same source/outlet/offset
+idea, but the circle reader must refuse a segment source.</p>
+<h2 id="where-the-landmarks-come-from">Where the landmarks come from</h2>
+<p>The <a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--circle-construction.gojo">authored syntax</a>
+uses ordinary version-1 constructors throughout. It exposes the offset before
+its reach is bound, the radius binding, the circle pattern, four subdivisions
+and seven selected landmark requests. The caller applies the radius binding
+with <code>StructuralPattern.Refine</code>, preserving shared references, before asking
+for the complete circle and its partitions.</p>
+<pre><code class="language-gojo">let $fourths = carrier(subdivision(unit_of($contour), 4));
+let $four = group($circle_pattern, span($fourths, 0, 4) -&gt; $whole);
+root group($four, point($fourths, 1));
+</code></pre>
+<p>The first line supplies a finer tick promise. The second connects its complete
+four-part span to the actual whole circumference. Both are needed: compatible
+units alone do not identify which whole is being partitioned. The selected
+equal subdivision is a construction rule; the code does not infer equal
+spacing from an arbitrary list of landmarks.</p>
+<p>A landmark read at subdivision tick <code>k</code> of <code>n</code> retains
+<code>k/n = completed traversals + wrapped whole participation</code>. For example:</p>
+<table>
+<thead>
+<tr>
+<th>Selected construction</th>
+<th>Wrapped contour position</th>
+<th>Signed completed traversals</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>First of four parts</td>
+<td>1/4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>First of ten parts</td>
+<td>1/10</td>
+<td>0</td>
+</tr>
+<tr>
+<td>90 of 360 parts</td>
+<td>1/4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>900 of 3,600 parts</td>
+<td>1/4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>637 of 3,600 parts</td>
+<td>637/3600</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Four of four parts</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>One part backwards in a four-part basis</td>
+<td>3/4</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<p>These are exact intrinsic positions under the selected construction. Their
+precision does not assert measurement accuracy. The last row uses signed
+quotient/remainder accounting: <code>-1/4 = -1 + 3/4</code>; it did not travel a whole
+circuit backwards. The captured request preserves the actual signed travel.</p>
+<p>Away from the seam, the reader creates a new radial carrier with the same
+point-derived linear unit promise, connects its start to the source and its
+end to the selected contour site, and retains a source-radius-to-new-radius
+correspondence. Its reach therefore follows the established offset. It does
+not borrow the original radius's endpoint identity for a different site.
+At the seam, closure returns the actual shared reference site and original
+radial attachment. Fine and coarse markers elsewhere may have corresponding
+positions without being the same raw tick reference.</p>
+<h2 id="implemented-procedures">Implemented procedures</h2>
+<p><a href="assets/Gojo--Structures--ContourConstruction.cs">ContourConstruction</a> supplies four
+selected reads over ordinary relation structure:</p>
+<ul>
+<li><code>TryReadOffset</code>: reads a point-derived shared offset. An open reach remains
+  valid partial structure and appears in the witness's remainder.</li>
+<li><code>TryReadCircle</code>: requires that the radius bind that same reach, that both
+  radial ends be attached, and that the whole close at the actual reference.</li>
+<li><code>TryReadPartition</code>: requires both the subdivision unit promise and the
+  explicit correspondence to this circle's whole.</li>
+<li><code>TryLocate</code>: derives the selected native site and its radial attachment,
+  retaining wrapped participation, signed traversals and radius correspondence.</li>
+</ul>
+<p>Successful reads capture exposed numeric sites and reference sharing. Carrier
+identities and stable unit promises are retained; private attachment worlds
+are not traversed. The selected-source field is a backlink, while the captured
+request in provenance supports historical rereading. No carrier value or
+tension is changed. These construction reads do not model physical motion or
+autonomous settlement.</p>
+<p>The native construction does not yet execute a bridge into the earlier
+<a href="Gojo--docs--GojoContourRotationFixture.html">coordinate-based plate experiment</a>. That
+experiment's <code>(13,24)</code> endpoint remains supplied geometry. Claiming that the
+new intrinsic tick <code>637/3600</code> is that old endpoint would require an actual
+calibrated read; no such correspondence is invented here.</p>
+<h2 id="degrees-radians-and-scale">Degrees, radians and scale</h2>
+<p>The later <a href="Gojo--docs--GojoMetricConstructionFixtures.html">metric construction fixture</a>
+now supplies a bounded native-to-coordinate bridge. It calculates four quarter
+rim observations from this circle, an explicit metric and radius calibration,
+then passes them to the existing rotation reader. General fractions such as
+<code>637/3600</code> and an arc-length/radius correspondence remain outside that bridge.</p>
+<p>A 360-way equal division can establish the degree convention with provenance
+back to the whole. A degree is therefore not an unexplained scalar inserted
+before construction. An arbitrary count of 360 marks would not suffice.</p>
+<p>A radian read requires arc length compared with radius length on a compatible
+length basis. Native circumference fractions do not yet supply that length
+correspondence. The Euclidean relationship involving pi can be a later
+calibrated or learned mathematical construction, with its applicability and
+resolution retained. This fixture contains no pi constant or trigonometric
+evaluation. Subdividing the radius is possible with the same existing unit
+mechanism, but doing so alone does not establish arc length.</p>
+<p>Similarly, a later radial-to-millimetre calibration can supply physical scale.
+It is separate from partitioning the circumference. A finer contour subdivision
+does not imply a larger or more accurately measured circle. Clockwise, world
+orientation and X/Y coordinates require further attachment to an observer or
+coordinate frame.</p>
+<h2 id="what-the-old-anchor-meant">What the old anchor meant</h2>
+<p>In <code>let $anchor = $origin -&gt; $centre;</code>, the right-hand side created a new
+ordered relation. <code>$anchor</code> was only a file-local name for that relation. It
+was not an alias for either endpoint, a special anchor primitive, or a
+pre-existing point on the circumference.</p>
+<p><code>$origin</code> was the source point and <code>$centre</code> was its supplied X/Y representation.
+The later fixture now calls the relation <code>$centre_representation</code>. The native
+construction needs no such extra representation: its source point is the
+centre, and the radius-to-contour attachment establishes its reference site.</p>
+<h2 id="verification-and-limits">Verification and limits</h2>
+<p><a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxCircleConstructionTests.cs">GojoSyntaxCircleConstructionTests</a>
+checks open construction, closure identity, radial attachment, subdivision,
+signed traversal, large counts, wrong sources and lookalike connections,
+captured evidence and numeric restoration. It also checks the twelve demo
+stages and displayed syntax against the authored fixture and selected readers.</p>
+<p>This is an exact selected construction. Uncertain radial geometry, physical
+offset discovery, continuous length parameterization, general segment offsets,
+3D frames and learned calibration remain further work. The browser chooses
+screen coordinates, radius and orientation only to illustrate the intrinsic
+relations; its SVG transforms do not supply kernel results.</p>
+<p>At this checkpoint, <code>dotnet test Gojo.slnx</code> passes 1,446 tests: 782 kernel,
+488 encoding, 155 CAD and 21 gear-ladder cases. There are 25 dedicated native
+circle cases. Desktop and phone browser checks cover all twelve construction
+stages, both disclosures, links, keyboard controls and direct step URLs;
+representative stages were visually inspected.</p></main></html>

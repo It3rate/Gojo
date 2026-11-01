@@ -1,0 +1,114 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Finite calculation and coarse publication</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="finite-calculation-and-coarse-publication">Finite calculation and coarse publication</h1>
+<p><code>Gojo.Structures.FiniteReadSurface</code> is a small, opt-in fixture for calculating
+with limited available information. It uses guarded <code>long</code> operations without
+<code>Int128</code>, <code>BigInteger</code>, an exact overflow remainder, or an exact-reader fallback.
+The <code>long</code> is the host storage envelope; each receiver can select a much smaller
+capacity. This fixture does not yet pack those domains into smaller lanes.</p>
+<h2 id="native-structure">Native structure</h2>
+<p>The capacity is a <code>BoundedWholeSurface</code>:</p>
+<pre><code class="language-text">G(axis, Point(axis,minimum) -&gt; Point(axis,maximum), Segment(axis,0,quantum))
+</code></pre>
+<p>The domain must include zero and the quantum must be positive. Inputs and
+outputs use a shared exposed tick basis <code>Segment(axis,0,1)</code>. Quantum selects
+the publication granularity in those ticks; it does not secretly rescale them.</p>
+<p>Publication uses the existing <code>QualifiedReadSurface</code> / <code>ReadWitness</code> spine:</p>
+<pre><code class="language-text">selected:   exposed source or operand publications
+basis:      Segment(axis,0,1)
+value:      frozen bounded nominal tick
+variation: lower endpoint -&gt; upper endpoint
+coverage:  unresolved (no confidence inferred)
+scope:     frozen capacity and quantum
+excluded:  zero displacement if exact, otherwise source -&gt; variation
+provenance: native operation equation -&gt; finite scope
+</code></pre>
+<p>Only the finite support reader gives the variation pair these endpoint roles.
+A <code>Placeholder</code> in the lower role means the lower bound is unavailable; one in
+the upper role means the upper bound is unavailable. Neither is numeric
+infinity. Arbitrary placeholders elsewhere acquire no new meaning.</p>
+<p>The source and equation remain connected for correspondence. They are not
+queried to recover a lost answer. A producer can retain finer private data or
+discard it; the publication does not promise a refinement route. The fixture
+does not make a privacy boundary or remove externally retained source graphs.</p>
+<h2 id="selected-arithmetic-law">Selected arithmetic law</h2>
+<p><code>Publish</code> clips to the domain endpoints. An unclipped value is rounded toward
+zero to a multiple of the quantum. The support becomes a conservative rounding
+cell, not an exact discarded difference. A clipped endpoint is preserved even
+when it is not a multiple of the quantum.</p>
+<p><code>Add</code>, <code>Subtract</code> and <code>Multiply</code> consume already materialized finite
+publications. They do not execute pending supplier equations. Operand nominal
+ticks and any known support endpoints must fit the selected receiving domain
+and axis. Missing calibration, incompatible axes or inadmissible endpoints
+produce an unresolved native witness with the attempted contract attached.</p>
+<p>Addition/subtraction propagate available interval endpoints. Multiplication
+encloses closed intervals using four guarded corner products. Open product
+inputs conservatively leave both endpoints open, except that an exact zero
+factor establishes zero. These are support rules, not distributions. They do
+not assume statistical independence or estimate probabilities.</p>
+<table>
+<thead>
+<tr>
+<th>Calculation in <code>[0,15]</code>, quantum 1</th>
+<th style="text-align: right;">Published nominal</th>
+<th>Exposed support</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>12 + 3</code></td>
+<td style="text-align: right;">15</td>
+<td><code>[15,15]</code></td>
+</tr>
+<tr>
+<td><code>14 + 3</code></td>
+<td style="text-align: right;">15</td>
+<td><code>[15,?]</code></td>
+</tr>
+<tr>
+<td>Previous publication minus 3</td>
+<td style="text-align: right;">12</td>
+<td><code>[12,?]</code></td>
+</tr>
+<tr>
+<td>Two independent high-clipped publications subtracted</td>
+<td style="text-align: right;">0</td>
+<td><code>[?,?]</code></td>
+</tr>
+<tr>
+<td>The same publication subtracted from itself</td>
+<td style="text-align: right;">0</td>
+<td><code>[0,0]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Clipping order is observable. <code>(14 + 3) - 3</code> has nominal 12, while
+<code>14 + (3 - 3)</code> has nominal 14. A compiler must preserve publication sites;
+exact-algebra reassociation is not generally valid for this selected law.</p>
+<p>For signed capacity <code>[-127,127]</code>, quantum 4, publishing 10 gives nominal 8
+and support <code>[8,11]</code>; publishing -10 gives -8 and <code>[-11,-8]</code>. Publishing zero
+gives nominal zero and <code>[-3,3]</code>. The cell means the service no longer
+distinguishes those values, even if its supplier knows the original value.
+An explicit mathematical cancellation can still establish zero before a
+separate coarse publication, which can deliberately discard that specificity.</p>
+<h2 id="sufficient-local-reads">Sufficient local reads</h2>
+<p><code>QualifiedReadSurface.TryReadPublishedValue</code> reads only a materialized nominal
+observation and its exposed basis. Unlike <code>TryReadValue</code>, it does not call
+<code>ReadCurrent</code> or evaluate a connected supplier. Support is a separate question.</p>
+<p><code>FiniteReadSurface.TryGreaterThan</code> inspects only the published support. A
+high-clipped product with support <code>[15,?]</code> settles <code>&gt; 10</code> as true. It cannot
+settle <code>&gt; 20</code>; its nominal 15 alone is not evidence for false. The return value
+distinguishes a settled Boolean answer from unresolved demand. No supplier
+traversal or wider calculation is triggered by the unresolved answer.</p>
+<p>This read-only fixture does not set carrier values, introduce physical tension,
+or mutate a creature. A later explicit Gojo response can connect exposed loss
+to demand, select another service, or request mutation. Those responses still
+need their own structure and tests.</p>
+<h2 id="scope-and-verification">Scope and verification</h2>
+<p>Focused conformance lives in <code>Tests/Gojo.Tests/Core/FiniteReadSurfaceTests.cs</code>.
+The existing exact equation, projection and bounded-quantity readers keep
+their exactness/range contracts. The phototaxis backend still uses those
+existing laws; it has not silently switched to finite arithmetic.</p>
+<p>Division, explicit averages, general shared-variable interval solving, lazy
+arbitrary circuits, runtime budgets, automatic precision selection, packed
+storage and loss-driven evolution remain future work. An average should be
+built under its own finite contract; it must not silently recover a clipped
+sum by consulting an exact shadow calculation.</p></main></html>

@@ -42,7 +42,7 @@ for(const app of applications){
   await fs.cp(source,path.join(stage,app),{recursive:true});
 }
 const originalFiles=await walk(stage);
-const loaders=originalFiles.filter(f=>f.endsWith(path.join('_framework','dotnet.js')));
+const loaders=originalFiles.filter(f=>f.endsWith(path.join('_framework','dotnet.js'))&&!path.relative(stage,f).startsWith('encoding'+path.sep));
 if(loaders.length<7)throw new Error('A complete browser deployment including the Core4 archive is required');
 function target(relative){
   const file=path.resolve(stage,relative);
@@ -158,3 +158,40 @@ for(const file of await walk(path.join(web,'core4')))
 console.log('Prepared static overlays. Preserved '+baseline.size+' existing public assets.');
 console.log('Deployment directory: '+stage);
 console.log('Backup and public-asset manifest: '+backup);
+
+await fs.access(path.join(web,'encoding','index.html'));
+await fs.rm(target('encoding'),{recursive:true,force:true});
+for(const file of await walk(path.join(web,'encoding'))) await write(path.relative(web,file),await fs.readFile(file));
+const explorerBuild=path.resolve(web,'../Gojo.PrimitiveExplorer.Browser/publish-browser/wwwroot');
+await fs.access(path.join(explorerBuild,'_framework','dotnet.js'));
+await fs.rm(target('encoding/explorer'),{recursive:true,force:true});
+await fs.cp(explorerBuild,target('encoding/explorer'),{recursive:true});
+
+// Keep manifest-addressed resources and frozen archives. Remove only redundant
+// transport siblings whose decoded asset is also present, not data downloads.
+let transportBytes=0;
+for(const file of await walk(stage)){
+ const relative=path.relative(stage,file).replaceAll(path.sep,'/');
+ if(relative.startsWith('core4/')||!relative.includes('/_framework/')||!relative.endsWith('.gz')&&!relative.endsWith('.br')||baseline.has(relative)) continue;
+ const plain=file.replace(/\.(gz|br)$/,'');
+ try { await fs.access(plain); } catch { continue; }
+ transportBytes+=(await fs.stat(file)).size; await fs.unlink(target(relative));
+}
+console.log('Removed redundant compressed runtime siblings: '+transportBytes+' bytes; all manifest resources retained.');
+
+// Repeated publishes can leave old fingerprinted WASM files in the output.
+const explorerFramework=target('encoding/explorer/_framework');
+const loaderText=await fs.readFile(path.join(explorerFramework,'dotnet.js'),'utf8');
+const first=loaderText.indexOf('/*json-start*/'),last=loaderText.indexOf('/*json-end*/');
+if(first<0||last<first)throw new Error('Missing explorer runtime manifest');
+const explorerNames=new Set();
+function namesIn(value){if(!value||typeof value!=='object')return;if(typeof value.name==='string')explorerNames.add(value.name);for(const child of Object.values(value))namesIn(child);}
+namesIn(JSON.parse(loaderText.slice(first+14,last)));
+if(explorerNames.size<5)throw new Error('Incomplete explorer resource list');
+for(const file of await walk(explorerFramework)){
+ const name=path.basename(file).replace(/\.(br|gz)$/,'');
+ if(name.endsWith('.wasm')&&!explorerNames.has(name))await fs.unlink(target(path.relative(stage,file)));
+}
+const totalBytes=(await Promise.all((await walk(stage)).map(async f=>(await fs.stat(f)).size))).reduce((a,b)=>a+b,0);
+if(totalBytes>262144000)throw new Error('Bundle exceeds hosting quota: '+totalBytes);
+console.log('Complete bundle bytes: '+totalBytes);

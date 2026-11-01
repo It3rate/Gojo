@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Explicit material refinement</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="explicit-material-refinement">Explicit material refinement</h1>
+<p>Status: implemented bounded local transfer, September 6, 2026.</p>
+<p><code>ResolutionOf(u,n)</code> defines a coarse tick containing <code>n</code> source ticks.
+<code>SubdivisionOf(u,n)</code> defines a finer tick, <code>n</code> of which correspond to one
+source tick. Both require positive factors, preserve opposed flow and unit
+descriptors, and check stored factor overflow. Exact divisible inverse scales
+reduce; general rational unit normalization is not implied.</p>
+<p>The finer unit's algebra is ordinary relation structure:</p>
+<pre><code class="language-text">S(Unknown,0,n) -&gt; source unit surface
+</code></pre>
+<p>It differs from the coarse <code>source -&gt; S(Unknown,0,n)</code> and from a quotient's
+denominator factor group. Its native value still counts whole ticks.</p>
+<h2 id="selected-transfer">Selected transfer</h2>
+<p><a href="assets/Gojo--Structures--RefinementTransfer.cs"><code>RefinementTransfer</code></a> reads:</p>
+<pre><code class="language-text">request = group(calibration, L(source,requested))
+calibration = S(source,0,A) -&gt; S(target,0,B)
+</code></pre>
+<p>The two carriers must be concrete, distinct, on the same flow face, and have
+exactly equal native promises after the indicated resolution:
+<code>ResolutionOf(source.UnitShape,A) == ResolutionOf(target.UnitShape,B)</code>.
+No unit-name convention, affine offset, or implicit dimensional conversion
+supplies missing correspondence.</p>
+<p>With <code>g = gcd(A,B)</code>, one material packet contains <code>A/g</code> source ticks and
+<code>B/g</code> target ticks. The operation accepts the largest whole number of packets
+supported by the nonnegative request and source value. In source ticks:</p>
+<pre><code class="language-text">request = accepted + unavailable + remainder
+accepted * B = delivered * A
+</code></pre>
+<p>Unavailable is request beyond available source value; remainder is available
+participation below one representable packet. Neither is invented on the
+receiver. Unused source value remains in place.</p>
+<p>A witness connects the request, calibration, negative source/positive target
+deltas, both residual components and before/after local state. The direct
+deltas are range-checked before either is injected. Both enter before ordinary
+local settlement. A receiver clamp may retain part of the injection as tension;
+the transfer witness does not falsely equate delivered ticks with final value.</p>
+<p>This is not an atomic transaction over arbitrary connected worlds. A later
+attached operation can still fail its own range check after the direct
+injections. Capture and apply while the local world is not concurrently changing.</p>
+<h2 id="borrow">Borrow</h2>
+<p><code>TryBorrow(calibration,out witness)</code> observes negative receiver tension and
+requests the smallest whole calibration packets that can pay it. Available
+source value limits acceptance. For a ten-part fine basis:</p>
+<pre><code class="language-text">coarse = 2; fine value = 0; fine tension = -3
+borrow one coarse tick
+coarse = 1; fine value = 7; fine tension = 0
+</code></pre>
+<p>With no coarse value the unpaid fine draw remains tension. This is an explicit
+selected passage, not automatic borrowing across every nearby ladder.
+Arbitrary signed/offset material conversion and general fractional tension
+storage remain outside this operation.</p>
+<h2 id="syntax-and-evidence">Syntax and evidence</h2>
+<p>The <a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--material-refinement.gojo">authored fixture</a>
+uses <code>subdivision(unit,parts)</code>, ordinary spans and groups. Parsing builds the
+request. A caller explicitly applies it or asks for borrowing; parsing never
+drains a carrier.</p>
+<p><a href="assets/Tests--Gojo.Tests--Core--RefinementTransferTests.cs">Kernel tests</a> reconstruct
+coarse/fine participation over radices 2 through 7, available values, fine
+remainders, paid draws and exhaustion. They also cover receiver clamps, open
+requests, incompatible calibration and pre-transfer overflow refusal.
+<a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxMaterialRefinementTests.cs">Syntax tests</a>
+run the same refine/coarsen/borrow sequence both directly and after numeric
+restoration. The legacy radix ladder now also checks exact composite and scale
+overflow instead of silently saturating.</p></main></html>

@@ -1,0 +1,220 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gojo text syntax</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojo-text-syntax">Gojo text syntax</h1>
+<p>This folder contains the first executable text surface for constructing Gojo
+structure. It is an authoring and inspection notation, not a parallel object
+model and not yet a canonical language.</p>
+<p>The complete working specification is
+<a href="Gojo--docs--GojoTextSyntax.html"><code>GojoTextSyntax.md</code></a>. That document explains
+the structural commitments, every currently implemented constructor, the
+action-scope examples, ladder digits, and the questions that remain open.</p>
+<p>The current <a href="Gojo--docs--GojoSyntaxDynamicCheckpoint-2026-09.html">syntax and dynamics checkpoint</a>
+separates implemented structure and reads from the adaptive policies still to
+be explored. Its <a href="Gojo--docs--GojoLandmarkCalibrationFixture.html">landmark calibration follow-up</a>
+now exercises open interpretation, competing candidates and a selected local
+response with retained versions, stalls, debt and conflicting feedback.</p>
+<p>The <a href="Gojo--docs--GojoSyntaxReview-2026-09.html">September 2026 design review</a>
+checks these commitments against the parser, kernel, and Blocks examples. It
+led to the <a href="Gojo--docs--GojoLocalBlendFixture.html">local blend fixture</a>, which
+exercises partial components, mixed contributions, local mismatch, explicit
+feedback, and stale evidence. It adds no syntax constructors or general
+learning policy.</p>
+<p>The <a href="Gojo--docs--GojoSyntaxGeometryReview-2026-09.html">graphic structure review</a>
+exercises parameters, directed segments, partial sections, Bézier construction
+and frieze generators. <code>group_on(holder, ...)</code> supplies an explicit group holder
+when shared authored frame identity matters; it is ordinary group structure.</p>
+<p>The <a href="Gojo--docs--GojoAffineConstructionFixture.html">affine construction follow-up</a>
+adds selected exact interpolation, displacement and coordinate-map reads in
+the kernel. Its syntax fixtures exercise curves, continuity claims and motif
+correspondence with partial inputs and numeric restoration. No new parser
+constructors or execution loop are required.</p>
+<p>The <a href="Gojo--docs--GojoComplexInterpretations-2026-09.html">complex interpretation fixture</a>
+adds selected coefficient arithmetic, opposed-face and contour foundations,
+and fractional-power constraints with separate branch selection. Existing
+groups, shared sites, signed locations and count spans express all of this;
+no imaginary literal or implicit read dispatch is introduced.</p>
+<h2 id="what-the-parser-does">What the parser does</h2>
+<p><code>GojoSyntax.Parse(...)</code> accepts a versioned text document and expands it
+directly into ordinary Gojo <code>IElement</code> structures:</p>
+<pre><code class="language-gojo">gojo 1;
+
+let $distance = carrier();
+let $shared_site = tick(7);
+
+root point($distance, $shared_site);
+root span($distance, 0, 20);
+</code></pre>
+<p>There are no decimal literals. Values are integer ticks on a carrier. A local
+<code>$alias</code> preserves identity while the source is parsed and then disappears; it
+is not a crystallization. A named <code>?slot</code> becomes a shared, inspectable
+<code>Placeholder</code>.</p>
+<h2 id="action-and-witness-distinction">Action and witness distinction</h2>
+<p>Possible lanes, permitted actions, and witnessed applications remain separate:</p>
+<pre><code class="language-gojo">gojo 1;
+
+let $magnitude = carrier();
+let $positive_lanes = basis($magnitude, P, FI);
+let $pf = lane(PF);
+let $pi = lane(PI);
+
+let $inverse_pf = lane_action(
+    $pf,
+    $pi,
+    $pf -&gt; $pi,
+    ?why_the_action_is_legal
+);
+
+root group($positive_lanes, $inverse_pf);
+root act(
+    $pf,
+    $inverse_pf,
+    $pi,
+    ?unaccounted_change,
+    ?application_provenance
+);
+</code></pre>
+<p><code>lane_action(...)</code> makes the directed action discoverable. <code>act(...)</code> records a
+selected/action/result witness. It does not mutate a carrier. Material change
+still requires explicit tension, transfer, settlement, output, or patch
+structure.</p>
+<h2 id="partition-ladder-example">Partition-ladder example</h2>
+<pre><code class="language-gojo">gojo 1;
+
+let $fine = carrier();
+let $whole = carrier(unit_of($fine));
+let $carry = point($fine, 20) -&gt; point($whole, 1);
+
+let $raw = point($fine, 32);
+let $relative = group(
+    point($whole, 1),
+    point($fine, 12),
+    $carry
+);
+
+root group($raw, $relative, $carry);
+</code></pre>
+<p>The parser preserves both reads. It does not silently normalize <code>32</code> into one
+whole tick plus twelve fine ticks. A normalization read should expose its
+basis, remainder, result, and provenance. Material carry additionally needs
+accepted participation and settlement evidence.</p>
+<h2 id="executable-semantic-fixtures">Executable semantic fixtures</h2>
+<p>Small fixtures exercise the first action semantics without adding a hidden
+executor:</p>
+<ul>
+<li><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--ambient-access.gojo"><code>ambient-access.gojo</code></a>
+  keeps a four-lane ambient basis while one tool exposes only <code>PF</code> and no
+  inverse capability. A blocked attempt retains <code>PI</code> as residue. A wider tool
+  exposes the action to that already-possible lane.</li>
+<li><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--preservation.gojo"><code>preservation.gojo</code></a>
+  distinguishes product observation, a same-identity before/after timeline,
+  explicit fork topology, erasure without a claimed inverse, and rollback that
+  depends on retained history.</li>
+<li><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--local-blend.gojo"><code>local-blend.gojo</code></a>
+  connects a partial component and partial filter to two calibrated inputs,
+  an alternative mixture, a goal, focus, and response routes. Its tests execute
+  prediction and signed gain perturbations, retain a stalled step and history,
+  and demonstrate equal outputs that remain different structures. See the
+  <a href="Gojo--docs--GojoLocalBlendFixture.html">execution and limits</a>.</li>
+<li><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--landmark-calibration.gojo"><code>landmark-calibration.gojo</code></a>
+  separates a reported landmark from its candidate calibration and open
+  expectation. Its authored request templates drive one selected parameter
+  response; current-version checks, attempt budgets and numeric restoration
+  keep the failures inspectable. The <a href="Gojo--docs--GojoLandmarkCalibrationFixture.html">walkthrough</a>
+  includes later-event predictions and a conflicting-demand counterexample.</li>
+<li><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--two-space-feedback.gojo"><code>two-space-feedback.gojo</code></a>
+  connects two adapting calibrations through published observations, explicit
+  basis/subject/context correspondence, local inboxes and response budgets.
+  Its <a href="Gojo--docs--GojoTwoSpaceFeedbackFixture.html">walkthrough and demo</a>
+  exercise agreement, oscillation, delayed and pending messages, separate local
+  evidence, and restoration with one response applied and another in transit.</li>
+</ul>
+<p>The access form is:</p>
+<pre><code class="language-text">access(ambient, exposed_ports, capability_ports,
+       blocked_attempt_ports, residue, provenance)
+</code></pre>
+<p>The history forms are:</p>
+<pre><code class="language-text">step(time, start, end, before, transition, after, residue)
+timeline(time, initial[, step...])
+</code></pre>
+<p>These are structure constructors. <code>access</code> does not make absent mathematics
+false, and <code>timeline</code> does not execute its transition.</p>
+<h2 id="current-implementation-and-next-design-priorities">Current implementation and next design priorities</h2>
+<p>The <a href="Gojo--docs--GojoUnitQuotientReads.html">explicit unit quotient read</a>
+adds an authored denominator/cancellation experiment with retained standards.
+<a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--unit-quotients.gojo"><code>unit-quotients.gojo</code></a>
+uses the existing <code>group</code>, <code>ports</code>, <code>point</code>, <code>resolution</code> and binding forms.
+Cancellation is an explicit witnessed read; neither parsing nor ordinary unit
+compatibility silently reorders the expression.</p>
+<p>The <a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--quantity-quotients.gojo">quantity fixture</a>
+adds <code>quotient_unit(expression)</code> for complete stable reciprocal/quotient units.
+Ordinary groups express numeric division requests with samples, output and
+standard; tests invoke the kernel reader. Signed division, unresolved domains,
+calibration refusal and staged resolution retain their accounting. Capturing a
+unit performs no implicit cancellation. This extends the syntax alongside the
+kernel; it does not introduce a parser execution loop.</p>
+<p>The <a href="Gojo--docs--GojoMathConformance.html">mathematical conformance checkpoint</a>
+corrects the audited general-ratio remainder and range bugs, validates positive
+resolution factors, and adds an executable
+<a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--math-conformance.gojo"><code>math-conformance.gojo</code></a>
+fixture. It covers signed arithmetic, source residue, inversions, repeated units,
+coarse reads, partial patterns and explicit carry activation. It adds no syntax
+constructors. Fractional source remainder is expressible with existing
+<code>at($source,n) -&gt; point($source,d)</code> structure; whole-tick imports refuse it
+before mutation.</p>
+<p>Subsequent fixtures now cover
+<a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--quotient-composition.gojo">nested quotient composition</a>,
+<a href="Gojo--docs--GojoMaterialRefinement.html">explicit material refinement and borrow</a>,
+and <a href="Gojo--docs--GojoBoundedQuantityFixture.html">conditional bounded-quantity arithmetic</a>.
+They retain standards, conservation, shared causes, unresolved domains and
+read residue. The bounds are supplied premises, not the universal meaning of
+an approximate number.</p>
+<p><a href="Gojo--docs--GojoNumericFormat.html">Version-1 numeric graph transport</a> is
+implemented. It preserves the retained graph, including shared placeholders,
+unit descriptors, attachment ownership, carrier state, witnesses and timelines.
+All current authored fixtures and exported Blocks specimens pass two numeric
+restorations in the inventory suite. The format captures a quiescent local
+world; it does not serialize external processes or provide distributed identity.
+Legacy diagnostic snapshots remain distinct and are refused for restoration.</p>
+<p>The <a href="Gojo--docs--GojoCurveReplayWalkthrough.html">curve replay fixture</a> also
+exercises versioned premises, application dependencies, pending work and resume
+after restoration. This supports controlled dynamic experiments, while the
+driver still chooses actions and execution order.</p>
+<p>The next priorities are:</p>
+<ol>
+<li><strong>Contextual interpretation.</strong> Preserve a reported landmark, open actual
+   quantity, candidate calibrations and later feedback. Let interpretation
+   become more useful without inventing a tolerance or rewriting the report.</li>
+<li><strong>A selected local response law.</strong> Connect prediction and feedback to an
+   explicit parameter perturbation. Compare later predictions, retain
+   alternatives and expose stalls and ambiguous explanations.</li>
+<li><strong>Connected feedback.</strong> Exercise a few local spaces with delayed, repeated
+   and conflicting evidence, visible execution budgets and pending states.
+   General convergence and credit assignment remain open.</li>
+<li><strong>Changing participation and memory.</strong> Test route admission, utility,
+   weakening and recovery before promoting a pruning or compression policy.
+   Deliberate loss must have an explicit retained-information contract.</li>
+<li><strong>Further mathematical reads.</strong> Develop soft expectations or distribution
+   shapes, broader component/inverse laws and cyclic behavior when a concrete
+   experiment needs them; existing exact mathematics remains conditional on
+   its declared basis and domain.</li>
+<li><strong>Authoring improvements.</strong> Introduce reusable definitions, shorthand and a
+   readable writer as repeated structures show what improves inspection.
+   Aliases remain outside the source of meaning. Compact transport and a
+   general executor are separate projects.</li>
+</ol>
+<h2 id="most-useful-feedback-now">Most useful feedback now</h2>
+<p>The foundational arithmetic is constrained by mathematics. Adaptive policy is
+not uniquely determined by it. Useful feedback now concerns:</p>
+<ul>
+<li>How should feedback from neighboring spaces change connection participation
+  and responsiveness while keeping their separate evidence visible?</li>
+<li>What supports introducing, weakening, or pruning a route without treating
+  agreement between correlated sources as independent evidence?</li>
+<li>Which partial-pattern and focus forms deserve shorter notation after more
+  than one experiment has exercised them?</li>
+<li>What should make a local space revise an interpretation, request a different
+  observation, retain several candidates, or decide that finer detail is
+  irrelevant to its question?</li>
+<li>Which historical promises require exact capture, and which can be preserved
+  more usefully by deliberate lossy compression into a structure or algorithm?</li>
+</ul>
+<p>The checkpoint proposes small fixtures for these questions. They do not require
+freezing the language or choosing a universal learning policy first.</p></main></html>

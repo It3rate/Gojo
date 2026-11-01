@@ -1,0 +1,187 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mathematical conformance checkpoint</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="mathematical-conformance-checkpoint">Mathematical conformance checkpoint</h1>
+<p>Status: implemented corrections and executable conformance fixtures, September
+5, 2026. This follows the <a href="Gojo--docs--GojoLowLevelMathStatus-2026-09.html">low-level audit</a>.
+It strengthens exact local mathematics before broader feedback discovery.</p>
+<p>Follow-up: the <a href="Gojo--docs--GojoNumericMilestoneReview-2026-09.html">September 6 milestone review</a>
+records explicit nested quotient composition, material refinement/borrow,
+complete numeric transport and additional exact-range corrections. Counts below
+remain evidence for this earlier checkpoint, not current solution totals.</p>
+<h2 id="corrected-projection-accounting">Corrected projection accounting</h2>
+<p>For source frame <code>[a,b]</code>, target frame <code>[c,d]</code>, and input <code>x</code>, write
+<code>A = b-a</code>, <code>B = d-c</code>. The current integer read is:</p>
+<pre><code class="language-text">q = truncate_toward_zero((x-a) * B / A)
+y = c + q
+r = (x-a) - q * A / B
+x = a + (y-c) * A / B + r
+</code></pre>
+<p>The last two equations require nonzero <code>A</code> and <code>B</code>. <code>r</code> is in <strong>source ticks</strong>.
+The old implementation placed <code>((x-a)*B) % A</code> on the source carrier. That
+numerator still needs division by <code>B</code>; it is generally the wrong amount.</p>
+<table>
+<thead>
+<tr>
+<th>Source span → target span; input</th>
+<th style="text-align: right;">Integer target</th>
+<th style="text-align: right;">Correct source residue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3 → 2; 10</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>3 → 10; 1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1/10</td>
+</tr>
+<tr>
+<td>10 → 3; 7</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1/3</td>
+</tr>
+<tr>
+<td>3 → 2; -10</td>
+<td style="text-align: right;">-6</td>
+<td style="text-align: right;">-1</td>
+</tr>
+<tr>
+<td>3 → -10; 1</td>
+<td style="text-align: right;">-3</td>
+<td style="text-align: right;">1/10</td>
+</tr>
+</tbody>
+</table>
+<p>Whole residue remains <code>L(source,n)</code>. Fractional residue is ordinary structure:</p>
+<pre><code class="language-text">L(source,n) -&gt; P(source,d)
+</code></pre>
+<p>In this residue context, it means <code>n</code> counts at the <code>d</code>-part subdivision of one
+source tick. The denominator is positive and the fraction reduced. Both sides
+refer to the actual input carrier, including when a port accepts a compatible
+carrier or an unbound source basis. No new element kind or fractional carrier
+state is introduced. The builder and narrow reader are
+<a href="assets/Gojo--Core--ProjectionResidue.cs"><code>ProjectionResidue</code></a>; <code>TryReadProjection</code> reads
+the target plus this whole-or-fractional residue. <code>TryGetCarrierLocations</code>
+continues to require two direct locations.</p>
+<p>This is already writable as <code>at($source,1) -&gt; point($source,10)</code>. It is a
+contextual scaled remainder, not a claim that every relation has rational
+semantics or that general reciprocal-unit algebra exists. Generic dual and
+reversal operations do not constitute a rational inverse API.</p>
+<p>A zero source span refuses projection and retains the input in the fallback;
+it must not activate an import. A zero target span is a constant affine read:
+it reports the target's start coordinate and retains the whole original input,
+because it accounts for no varying source participation. Thus <code>[2,5] -&gt; [7,7]</code>
+reads 7, not 0. Constant operand ports remain usable.</p>
+<h2 id="observation-and-material-import">Observation and material import</h2>
+<p>Observation preserves the original source and never adds its residue to source
+tension. Operation reads keep each operand's remainder. Follow steps distinguish
+unapplied claim mismatch from the response route's source remainder. Boundary
+projection keeps source residue even if the target lane is blocked: blocked
+target participation and source remainder are both visible.</p>
+<p>Scalar carrier tension stores whole ticks. Existing scalar value and structural
+imports therefore refuse fractional source remainder <strong>before applying any
+collected slot update</strong>. Existing values, coordinates and source tension remain
+intact. An observational read still provides the target and fraction. This
+changes previously accepted imports whose accounting was incorrect. Whole
+remainders continue through signed tension; the 3 → 2 import of 10 now yields
+target 6 and source tension 1.</p>
+<p>This is a current material-storage boundary, not a ban on fractional amounts.
+An explicitly finer source basis can make participation whole, or future
+material routes can retain and settle the scaled structure directly. That
+needs an explicit accounting mechanism. Silently rounding a fraction or calling
+its numerator whole-tick tension is not valid.</p>
+<h2 id="numeric-range-and-resolution">Numeric range and resolution</h2>
+<p>Projection, exact structural ratio scaling, and operation sum/product
+accumulation use exact wide intermediate arithmetic, then check coordinates
+when storing them. Examples that now succeed include minimum signed ticks in
+a 1:1 read, an 8-billion input through a 4-billion:4-billion frame, cancellation
+in a large sum, and a large product with a final zero factor. Projection and
+direct operation output frames support endpoint differences wider than <code>long</code>
+when stored results fit. Carrier reads preserve the unsigned magnitude of the
+minimum signed location and apply direction before checking final signed range.</p>
+<p>This does not change storage to arbitrary precision. Locations, residue
+numerators and positive denominators still fit signed 64-bit ticks; carrier
+values retain unsigned storage. Unrepresentable final coordinates, fractions
+or resolution factors throw instead of wrapping or saturating. Other readers
+that require a single signed extent now check its subtraction; this is not a
+promise that every kernel operation accepts every wide frame. Each retained
+intermediate Gojo result must fit its own representation, even if a later
+operation could cancel it.</p>
+<p><code>ResolutionOf(unit,n)</code> and text <code>resolution(unit,n)</code> require <code>n &gt; 0</code>. Factor 1
+preserves the source unit. Nested factors multiply; overflow fails instead of
+saturating into a different unit promise. The parser reports invalid factors
+and nested overflow as located syntax errors.</p>
+<p>Resolution order is observable. For 17 + 28, summing before a ten-tick read
+gives 4 coarse ticks and 5 fine ticks. Reading each operand first gives 3 coarse
+ticks plus separate fine residues 7 and 8. Both reconstruct 45. Neither result
+licenses discarding its residue or treating coarsening as an algebraic identity.</p>
+<h2 id="conformance-evidence">Conformance evidence</h2>
+<ul>
+<li><a href="assets/Tests--Gojo.Tests--Core--ProjectionConformanceTests.cs">Projection tests</a>:
+  5,000 signed/offset frame combinations checked by input reconstruction;
+  fractional examples; direction and range; zero spans; whole versus fractional
+  import; later-slot rejection without an earlier partial update; shared-site
+  structural scaling; follow remainders.</li>
+<li><a href="assets/Tests--Gojo.Tests--Core--OperationConformanceTests.cs">Operation tests</a>: signed
+  sums and products against integer arithmetic, distributivity of exact reads,
+  wide accumulation and final overflow, per-operand fractional residue, and
+  <code>(3+2i)(5+4i) = 7+22i</code> under the existing opposed-face product law. Fused
+  expansion retains four terms; the test explicitly re-reads their source pairs
+  through the concrete product law before summing. Their displayed participation
+  faces are not mistaken for completed scalar folds.</li>
+<li><a href="assets/Tests--Gojo.Tests--Core--ResolutionConformanceTests.cs">Resolution tests</a>:
+  positive factors, stable-unit overflow, 471 signed direct/staged coarse reads,
+  and addition before versus after coarsening with complete accounting.</li>
+<li><a href="assets/Tests--Gojo.Tests--ConceptSurface--BoundaryProjectionConformanceTests.cs">Boundary projection tests</a>:
+  legal and illegal target lanes both preserve fractional source residue.</li>
+<li><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--math-conformance.gojo">Text fixture</a>
+  and <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxMathConformanceTests.cs">17 syntax cases</a>:
+  executable signed operations, ratios, distinct inversions, squared/cubed
+  units, crystallization, resolution, partial construction, explicit carry
+  activation, orthogonal shape distinctions, incompatible scalar crystallization
+  refusal, component identity, and numeric validation.</li>
+</ul>
+<p>The fixture roots 0–13 contain participants, sum, product, two ratios, scaled
+residue, dual/reversal examples, units, resolution ladder, partial operation,
+carry recipe, orthogonal shapes, incompatible additive shape, and three
+component/site reads. Indexes organize tests; relations carry interpretation.
+Parsing constructs them; tests call readers or attach the authored carry route.</p>
+<h2 id="what-remains-unfinished">What remains unfinished</h2>
+<p>These checks establish a bounded mathematical foundation. They are not a proof
+of conformance for every experimental structure in Blocks or Gojo. The next
+low-level work should address:</p>
+<ol>
+<li><strong>Reciprocal unit participation and cancellation.</strong> Repeated numerator units
+   work. The subsequent <a href="Gojo--docs--GojoUnitQuotientReads.html">explicit quotient read</a> now
+   expresses ordered denominator factors and witnesses local cancellation for
+   <code>distance/time * time -&gt; distance</code>. Its follow-up captures stable ordered
+   reciprocal <code>UnitShape</code> promises and observes native-basis numeric quotients
+   through authored syntax. Explicit nested composition and reduced output reads
+   now work; automatic operation integration remains incomplete. Carrier dual
+   is not a reciprocal.</li>
+<li><strong>Material refinement and borrow.</strong> Explicit calibrated packet transfer,
+   coarsening and local borrowing now work. General fractional settlement and
+   automatic finer-basis admission remain incomplete.</li>
+<li><strong>Uncertainty propagation.</strong> Exact remainder is not a measured interval or
+   correlated uncertainty. Bounds, approximate products and inequalities need
+   connected claims, premises, and refinement tests.</li>
+<li><strong>Broader component algebras.</strong> The opposed-face example does not establish
+   complete complex, vector or tensor arithmetic. Metrics, rotations, inverses
+   and component transformations need declared laws.</li>
+<li><strong>Authoring and persistence.</strong> No new constructor was needed here, but the
+   parser lacks a direct unbound carrier-basis form and arbitrary unit descriptor
+   construction. Open element slots work; unknown integer or unit arguments
+   remain partial patterns around concrete constructors. Numeric graph transport
+   now preserves placeholders, shared references, attachments and retained
+   history. Canonical text writing and distributed identity remain separate.</li>
+</ol>
+<p>Keep these mathematical boundaries ahead of a general feedback allocator or
+learning policy. Local uncertainty needs reliable accounting underneath it.</p>
+<h2 id="verification">Verification</h2>
+<p><code>dotnet test Gojo.slnx --nologo</code> passes: <strong>1,021 tests</strong>, no failures or skips
+(674 kernel, 179 encoding, 20 gear-ladder, 148 CAD). This adds 59 cases to the
+previous checkpoint, including the generated conformance matrices within those
+cases. Eight earlier expectations that endorsed incorrect source remainders or
+fractional-to-whole tension imports were corrected. Documentation links and
+<code>git diff --check</code> pass.</p></main></html>

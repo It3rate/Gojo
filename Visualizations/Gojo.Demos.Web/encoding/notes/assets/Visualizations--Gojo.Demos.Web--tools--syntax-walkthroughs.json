@@ -1,0 +1,77 @@
+{
+  "featured": ["contour-rotation", "calibrated-contour-rotation", "grounded-affine-basis", "bezier-construction", "frieze-patterns", "curve-replay"],
+  "walkthroughs": [
+    {
+      "id": "metric-construction",
+      "title": "Metric construction",
+      "category": "Structure",
+      "blurb": "Calibrate a circle, construct measured offsets, and join two straight supports.",
+      "source": "metric-construction.html",
+      "fixture": "measured-segment-offset.gojo",
+      "stepCount": 8,
+      "thumbnailStep": 6
+    },
+    {
+      "id": "measured-offsets",
+      "title": "Measured offsets",
+      "category": "Uncertainty",
+      "blurb": "Keep a shared unfinished scale, refine its bounds, and cancel the common displacement.",
+      "source": "measured-offsets.html",
+      "fixture": "measured-offset-refinement.gojo",
+      "stepCount": 5,
+      "thumbnailStep": 3
+    },
+    {
+      "id": "joined-offsets",
+      "title": "Joined offsets",
+      "category": "Structure",
+      "blurb": "Join several measured offsets and check whether their connecting spans remain valid.",
+      "source": "joined-offsets.html",
+      "fixture": "joined-offset-path.gojo",
+      "stepCount": 6,
+      "thumbnailStep": 3
+    },
+    {
+      "id": "contour-rotation",
+      "title": "Circle construction",
+      "category": "Structure",
+      "blurb": "Start with a point, attach a radius, and partition a return into landmarks.",
+      "source": "contour-rotation.html",
+      "fixture": "circle-construction.gojo",
+      "stepCount": 12,
+      "thumbnailStep": 8
+    },
+    {
+      "id": "calibrated-contour-rotation",
+      "title": "Calibrated contour rotation",
+      "category": "Structure",
+      "blurb": "Use a supplied basis and radial landmarks to turn a shape with its contour.",
+      "source": "calibrated-contour-rotation.html",
+      "fixture": "contour-rotation.gojo",
+      "stepCount": 9,
+      "thumbnailStep": 2
+    },
+    {
+      "id": "grounded-affine-basis",
+      "title": "Affine basis construction",
+      "category": "Structure",
+      "blurb": "Build and calibrate a coordinate space, then keep even a partial curve readable.",
+      "source": "grounded-affine-basis.html",
+      "fixture": "grounded-affine-basis.gojo",
+      "stepCount": 10,
+      "thumbnailStep": 7,
+      "thumbnailViewBox": "200 55 200 195"
+    },
+    {
+      "id": "curve-replay",
+      "title": "Bézier curve replay",
+      "category": "Change",
+      "blurb": "Move a control, expose stale answers, and follow the local calculations to a new sample.",
+      "source": "curve-replay.html",
+      "fixture": "bezier-replay.gojo",
+      "route": "curve-replay/walkthrough",
+      "stepCount": 4,
+      "thumbnailStep": 3
+    }
+  ]
+}

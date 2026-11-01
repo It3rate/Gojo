@@ -1,0 +1,241 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bounded quantities, shared causes and selected detail</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="bounded-quantities-shared-causes-and-selected-detail">Bounded quantities, shared causes and selected detail</h1>
+<p>This fixture extends the <a href="Gojo--docs--GojoUncertaintyReference.html">uncertainty reference</a>.
+Status: implemented first fixture, September 6, 2026. The first law is a
+guaranteed enclosure under explicit local premises.
+It does not require access to an external source's private history or supply a
+probability, confidence-update, clustering or attention-allocation rule.</p>
+<h2 id="structural-contract">Structural contract</h2>
+<p>The following notation describes ordinary version-1 Gojo structure. It precedes
+the helper names; no operation tags or new primitive kinds are required.</p>
+<pre><code class="language-text">bounded sample = group(sample slot or exact sample, support span, evidence)
+contribution   = bounded sample -&gt; (source frame -&gt; target frame)
+affine read    = group(exact offset, ports(contributions...), provenance)
+</code></pre>
+<p>The support span is read as a closed real-valued enclosure in its carrier's
+tick calibration. Its authored endpoint order remains present. This selected
+quantity read is distinct from reading the same span as occupied material.
+A bare span does not assert that any particular part conforms to a tolerance.</p>
+<p>The sample slot identifies a local unresolved quantity. The evidence can be
+opaque or incomplete. Repeating that slot preserves dependency; using separate
+slots supplies no statistical-independence claim. Several bounds on the same
+slot are intersected in the same explicit source basis. Empty intersection,
+unbound calibration, mismatched basis and unsupported slot faces remain
+unresolved, even if a later coefficient would cancel the quantity.</p>
+<p>Every contribution has an ordinary affine calibration:</p>
+<pre><code class="language-text">S(source,a,b) -&gt; S(target,c,d)
+y = c + (x-a)(d-c)/(b-a)
+</code></pre>
+<p>Exact offsets and endpoints use the existing rational participation shape
+<code>L(C,n) -&gt; P(C,d)</code> when they need a positive subdivision. They do not create
+fractional carrier state. The backend may calculate rational coefficients, but
+the resulting shared slots, intersected supports and calibrated contributions
+must remain ordinary Gojo structure with the original input as evidence.</p>
+<p>Further selected operations use exposed source surfaces:</p>
+<pre><code class="language-text">combination = ports(affine source -&gt; calibration, ...) -&gt; P(output,1)
+product     = ports(left affine source, right affine source) -&gt; S(output,0,1)
+quotient    = group(numerator affine source, denominator affine source,
+                    output carrier, standard)
+conformance = group(quantity observation, permitted span, specification evidence)
+</code></pre>
+<p>Combination retains the shared causes in another affine read. Product and
+quotient retain their input structures and provide conservative enclosures;
+they do not silently manufacture independent affine causes for nonlinear
+results. Native output units must match the selected operation. Division
+checks the denominator's domain before any same-source cancellation.</p>
+<p>Each successful read produces a common <code>ReadWitness</code>. The result contains exact
+lower and upper endpoints and an enclosing whole-tick span. Rounding is outward;
+the lower and upper rounding excesses remain separate exact participations.
+The result is observational and introduces no carrier tension.</p>
+<p>Conformance observes the distance from a nonempty possible-value interval to
+the permitted interval. Zero maximum violation settles this criterion for all
+represented possibilities. Positive minimum violation excludes conformance.
+A zero minimum with positive maximum preserves an unresolved decision. It
+does not say which premise or participant should change.</p>
+<p>The quantity result retains variation inside tolerance. For example, a known
+two-tick discrepancy has zero violation against <code>[-3,3]</code> and two ticks of
+violation against <code>[0,0]</code>. The accepted coarse read never overwrites that
+underlying discrepancy.</p>
+<h2 id="implemented-local-reads">Implemented local reads</h2>
+<p><a href="assets/Gojo--Structures--BoundedQuantity.cs"><code>BoundedQuantity</code></a> builds samples and affine
+surfaces and reads exact endpoints. Its
+<a href="assets/Gojo--Structures--BoundedQuantity.Affine.cs">affine implementation</a> collects
+calibrated contributions by explicit slot identity. The
+<a href="assets/Gojo--Structures--BoundedQuantity.Operations.cs">selected operations</a> provide:</p>
+<table>
+<thead>
+<tr>
+<th>Entry point</th>
+<th>Selected operation</th>
+<th>Result or unresolved condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TryObserve</code></td>
+<td>Offset plus a flat group of calibrated bounded samples</td>
+<td>Exact affine coefficients and a conservative closed enclosure</td>
+</tr>
+<tr>
+<td><code>TryCombine</code></td>
+<td>An ordered group of affine-source/calibration pairs into a unit output point</td>
+<td>Another affine surface retaining shared causes and all domain premises</td>
+</tr>
+<tr>
+<td><code>TryMultiply</code></td>
+<td>Two affine inputs into a native product frame</td>
+<td>Four-corner enclosure, with a tighter nonnegative same-function square read</td>
+</tr>
+<tr>
+<td><code>TryDivide</code></td>
+<td>Two affine inputs, native quotient output and standard</td>
+<td>Rational enclosure; zero-containing denominator support remains open before cancellation</td>
+</tr>
+<tr>
+<td><code>TryObserveConformance</code></td>
+<td>A quantity observation and a permitted span</td>
+<td>Minimum/maximum violation distance; a readable result need not mean conformance</td>
+</tr>
+<tr>
+<td><code>TryReadBounds</code></td>
+<td>A successful witness's result</td>
+<td>Exact endpoints and their minimal outward integer enclosure; malformed or open results fail</td>
+</tr>
+</tbody>
+</table>
+<p>For a cause <code>x_i</code> with several explicit supports, let <code>[l_i,u_i]</code> be their
+intersection in one source basis. After applying each calibration, the affine
+read has the form</p>
+<pre><code class="language-text">y = k + sum(a_i * x_i)
+lower = k + sum(min(a_i * l_i, a_i * u_i))
+upper = k + sum(max(a_i * l_i, a_i * u_i))
+</code></pre>
+<p>Coefficients for a shared slot are combined first. Distinct slots are allowed
+to vary across a Cartesian enclosure; this gives a conservative bound without
+asserting statistical independence. Exact rational arithmetic precedes
+endpoint rounding. Known sample bindings must satisfy their support, and even
+zero coefficients retain their domain conditions.</p>
+<p>The normalized affine surface encodes each combined coefficient with an
+ordinary zero-origin calibration and retains the original constraints as
+evidence. No private dependency table must accompany numeric transport.
+Intermediate fractions use wide arithmetic; each persisted coordinate,
+numerator, denominator and frame endpoint must fit the kernel's stored range.
+An unrepresentable result throws overflow rather than silently saturating.</p>
+<h2 id="authored-fixture">Authored fixture</h2>
+<p><a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--bounded-quantities.gojo">The version-1 source</a>
+uses existing constructors throughout. Parsing constructs the graph; the
+test driver selects the mathematical read or material action. No additional
+parser keyword or implicit scheduler was introduced.</p>
+<table>
+<thead>
+<tr>
+<th>Root</th>
+<th>Connected experiment</th>
+<th>Observed result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>One cup description, one repeated sample, two distinct samples, and a binding</td>
+<td>In hundredths of a cup: <code>[90,110]</code>, exact self-difference <code>0</code>, separate difference <code>[-20,20]</code>, repeated sum <code>[180,220]</code>; binding refines without rewriting the original</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Two observations sharing quantity and calibration contributions</td>
+<td>Each is <code>[84,116]</code>; their difference retains event noise <code>[-2,2]</code>; two occurrences of the same event cancel</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Open calibration, conflicting supports, zero-crossing division, valid self-division, square</td>
+<td>Binding repairs calibration; contradiction and zero division stay open; nonzero self-division is <code>1</code>; a shared square is nonnegative</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Bolt/hole evidence, permitted clearance and nominal size stops</td>
+<td>Clearance is <code>[0.10,0.30] mm</code>; permitted clearance has zero violation; a stricter band leaves a mixed decision; the catalogue supplies no actual-value bound</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Distance 113 miles through an explicit hundred-mile communication focus</td>
+<td>One coarse tick is published and the known 13-mile remainder and original distance are retained</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Current <code>2 + 2</code>, desired <code>5</code>, a one-unit reserve and an explicit transfer</td>
+<td>The initial gap is <code>1</code>; transfer changes one input to <code>3</code>; total stock stays <code>5</code>; the timeline retains before, actual transfer witness, after and remaining violation</td>
+</tr>
+<tr>
+<td>6</td>
+<td>One observation returning along two exposed routes</td>
+<td>Averaging the aliases retains its original bounds; subtracting the original observation cancels even after restoring the computed witness</td>
+</tr>
+</tbody>
+</table>
+<h2 id="current-limits">Current limits</h2>
+<ul>
+<li>Bounds are conditional mathematical promises, not externally verified facts.
+  Their supporting evidence may remain opaque or partial. The reader does not
+  inspect that evidence to infer authority, independence or ancestry.</li>
+<li>The first sample supports use integer endpoints but describe closed
+  real-valued intervals in the selected tick calibration. Exact fractional
+  samples, offsets, projected endpoints and rounding excesses use structured
+  rational participation. Open/disconnected sets, general discrete-candidate
+  constraints and automatic nominal classification remain future work.</li>
+<li>A sample slot must have a forward placeholder face. Carrier frames are
+  concrete forward faces; signed coordinates and reversed frames are supported.
+  Opposed-face quantity laws require a separate explicit extension.</li>
+<li>Samples of a shared unknown use one source carrier. Compatible units on
+  distinct carriers do not infer reference equality. Cross-basis contribution
+  and output conversion require an explicit calibration.</li>
+<li>The affine surface is a flat local construction; combination emits another
+  flat surface. The reader does not recursively execute arbitrary expression
+  graphs or traverse provenance in search of operands.</li>
+<li>Nonlinear reads preserve the source relation but need not produce tight
+  bounds. For <code>x in [-1,1]</code>, this product read encloses <code>(1+x)(1-x)</code> in <code>[0,4]</code>,
+  while a stronger reader could derive <code>[0,1]</code>. It does not return a fake new
+  independent affine cause or treat every point in the enclosure as attainable.
+  Further affine composition of that nonlinear result is not implicit.</li>
+<li>Division refuses an enclosure containing zero even when an additional,
+  currently unexpressed constraint could exclude zero. Native unit promises
+  and standard evidence remain required; no unit simplification bypasses the
+  numeric domain check.</li>
+<li>Emitted endpoints and normalized coefficients capture the selected read.
+  They do not automatically update after an upstream change. Source and
+  correspondence remain attached for a fresh read or explicit dependency
+  mechanism; live references alone are not an immutable historical sample.</li>
+<li>Confidence, learned similarity, utility-based weighting/atrophy, automatic
+  attention and selection of a useful response remain exploratory policies.</li>
+</ul>
+<h2 id="focus-and-opaque-sources">Focus and opaque sources</h2>
+<p>“About 100 miles” can communicate that finer distance is outside the current
+focus. It need not mean the speaker lacks a finer observation. A focus can
+expose a coarse read and retain the fine complement without manufacturing
+physical uncertainty. That attention implication is contextual; a precise
+number alone does not prove importance or accuracy.</p>
+<p>Outside sources may remain black boxes. A local space can retain observed
+reliability, timing, processing or shared-variation evidence through exposed
+surfaces, without traversing an entire ancestry. Learned similarity can guide
+selection, weighting or pruning; it does not justify exact alias cancellation.
+An explicit source correspondence may also be supplied by another mechanism.</p>
+<p>An error inside a permitted tolerance can cease to demand correction for that
+task. Its known magnitude, uncertainty and acceptability remain separately
+readable. Losing that separation would prevent a stricter later query.</p>
+<h2 id="verification">Verification</h2>
+<p><a href="assets/Tests--Gojo.Tests--Core--BoundedQuantityTests.cs">Kernel conformance tests</a> cover
+shared and distinct slots, event-specific noise, opaque evidence, intersected
+and contradictory supports, partial binding, reversed calibration, exact
+fractions, outward rounding, unsupported faces/bases, stored range limits,
+nonlinear bounds, division domains and tolerance decisions. A 500-case signed
+calibration matrix checks rational extrema. A further 625 shared-source
+assignments check product and quotient enclosure by evaluating concrete samples.</p>
+<p><a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxBoundedQuantityTests.cs">Syntax tests</a> execute
+all seven authored experiments before restoration and after one and two numeric
+round trips. They also restore a completed material timeline and a computed
+affine witness, then verify their historical values and dependency-sensitive
+reads. The existing inventory includes the new fixture automatically.</p>
+<p><code>dotnet test Gojo.slnx --nologo</code> passes <strong>1,148 tests</strong>, with no failures or skips:
+745 kernel, 234 encoding, 21 gear ladder and 148 CAD. This adds 47 cases to the
+preceding checkpoint, including the generated matrices inside individual cases.
+All ten syntax fixtures and all 208 exported Blocks specimens pass the existing
+two-round-trip graph inventory. This is evidence for the stated local laws,
+not a general convergence, learning or complete uncertainty-algebra claim.</p></main></html>

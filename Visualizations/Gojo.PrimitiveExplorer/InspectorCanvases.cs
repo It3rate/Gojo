@@ -8,12 +8,19 @@ namespace Gojo.PrimitiveExplorer;
 
 internal static class Palette
 {
+#if BROWSER
+    public const string UiFont = "avares://Avalonia.Fonts.Inter/Assets#Inter";
+    public const string CodeFont = UiFont;
+#else
+    public const string UiFont = "Segoe UI";
+    public const string CodeFont = "Cascadia Mono,Consolas";
+#endif
     public static readonly IBrush Paper = Brush("#F7F5EE"), Ink = Brush("#213B3A"), Muted = Brush("#677C78"),
         Teal = Brush("#167C6C"), Orange = Brush("#C77336"), Dark = Brush("#152D2D"), Pale = Brush("#DCEDE6"), White = Brush("#FFFFFF"), Line = Brush("#CCD8D0");
     public static IBrush Brush(string hex) => new SolidColorBrush(Color.Parse(hex));
     public static FormattedText Text(string text, double size, IBrush ink, bool mono = false, bool bold = false) =>
         new(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
-            new Typeface(mono ? "Cascadia Mono,Consolas" : "Segoe UI", FontStyle.Normal, bold ? FontWeight.SemiBold : FontWeight.Normal), size, ink);
+            new Typeface(mono ? CodeFont : UiFont, FontStyle.Normal, bold ? FontWeight.SemiBold : FontWeight.Normal), size, ink);
     public static void DrawText(DrawingContext c, string text, double x, double y, double size, IBrush ink, bool mono = false, bool bold = false) =>
         c.DrawText(Text(text, size, ink, mono, bold), new(x, y));
     public static double Wrap(DrawingContext? c, string text, double x, double y, double width, double size, IBrush ink)

@@ -1,0 +1,60 @@
+gojo 1;
+
+// Establish a native line from a point, then an ordered segment on that line.
+// No page direction, Euclidean metric or world coordinate grid is selected.
+let $origin = point(carrier(),0);
+let $line = crystal(orthogonal($origin -> $origin));
+let $a = point($line,0);
+let $b = point($line,6);
+let $edge = $a -> $b;
+let $origin_attachment = $origin -> $a;
+
+// Choose a line participation through the segment's orthogonal possibility.
+// Its opposite is structurally available; neither direction means screen-up.
+let $outlet = orthogonal($edge);
+let $cross = crystal(orthogonal($a -> $a));
+let $cross_start = point($cross,0);
+let $d = point($cross,4);
+let $cross_span = $cross_start -> $d;
+let $selection = $outlet -> $cross_span;
+let $common_origin = $a -> $cross_start;
+
+// In a selected affine product read, these are independent coordinate roles.
+// The reader checks their attachments and freezes the ordered native spans.
+// It does not infer a physical metric or discover independence from measurements.
+let $foundation = group($edge, $selection, $common_origin);
+root group($origin_attachment, $foundation);
+root group($edge, $outlet -> ?cross_span, $common_origin);
+
+// Crystallizing the foundation supplies ?basis. One coordinate tick then
+// means one WHOLE selected leg, with the native calibration retained.
+// These requests read native participation through that established basis.
+root group(?basis, group(at($line,0), at($cross,0)));
+root group(?basis, group(at($line,6), at($cross,0)));
+root group(?basis, group(at($line,0), at($cross,4)));
+root group(?basis, group(at($line,6), at($cross,4)));
+root group(?basis, group(at($line,3), at($cross,2)));
+root group(?basis, group(at($line,3), ?unobserved_cross));
+root group(?basis, ?unobserved_point);
+
+// The opposite ordered cross-span selects another valid coordinate convention.
+// Signed locations, reversed frames and an opposed carrier face remain distinct.
+let $opposite_cross = $cross_start -> point($cross,-4);
+root group($edge, $outlet -> $opposite_cross, $common_origin);
+
+// The original six-edge procedure consumes points in the justified basis.
+let $parameter = carrier();
+let $domain = span($parameter,0,1000);
+let $grade = group(?sample, $domain, $domain, ?basis);
+let $ab = ports(?start, ?control_a, $grade) -> ?q0;
+let $bc = ports(?control_a, ?control_b, $grade) -> ?q1;
+let $cd = ports(?control_b, ?end, $grade) -> ?q2;
+let $abc = ports(?q0, ?q1, $grade) -> ?r0;
+let $bcd = ports(?q1, ?q2, $grade) -> ?r1;
+let $result = ports(?r0, ?r1, $grade) -> ?curve_point;
+let $construction = action(
+    ports(?start, ?control_a, ?control_b, ?end, $grade),
+    frame($ab,$bc,$cd,$abc,$bcd,$result),
+    ports(?curve_point), ?interpolation_residue_policy, $domain);
+root group($construction, frame(bind(?sample,at($parameter,500))),
+    frame(?basis,?start,?control_a,?control_b,?end));

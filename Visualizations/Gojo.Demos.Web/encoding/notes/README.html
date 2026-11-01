@@ -1,0 +1,451 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Three bits, before a yardstick</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="three-bits-before-a-yardstick">Three bits, before a yardstick</h1>
+<p>Round 2, 30 October 2026. This replaces the rejected primitive-runtime experiment.
+The starting object is simply <strong>orientation, direction, zero/nonzero</strong>. The word
+contains no identifiers, connections, carriers, units, receipts or hidden magnitudes.
+The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
+following the user's corrected scope rather than the earlier runtime handoff.</p>
+<p>The <strong><a href="ExplorerGuide.html">Primitive Explorer</a></strong>
+provides 15 interactive visual layers over these experiments. Hover the diagrams
+or packed bits to trace their correspondence; change controls or step a passage
+or repeated body to inspect its actual encoding and result.</p>
+<pre><code class="language-powershell">dotnet run --project Visualizations/Gojo.PrimitiveExplorer
+</code></pre>
+<p>The latest <strong><a href="RepetitionExperiments.html">repetition and composition experiment</a></strong>
+adds reusable bodies, phase cycles, stopping reads, request/completion ports,
+five-stage waits, and independent placement changes. A separate radial-path
+contract supports circle and polygon structures without assigned geometric
+values. Its charts expose exactly which references and laws supply the meaning,
+including open spiral/contact requirements and branching/rejoining cases.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --repetition
+</code></pre>
+<p>The preceding <strong><a href="SaturationExperiments.html">saturation and geometry experiment</a></strong>
+exercises forward flow, side escape, competing outlets, and retained pending
+contents. It also reads a rectangle from shared unknown reaches in a declared
+perpendicular frame, with tests that reject false closure and degenerate reads.
+The chart separates executable behavior from proposed radiation and hardening.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --saturation
+</code></pre>
+<p>The preceding <strong><a href="ConditionalExperiments.html">conditional experiment</a></strong> starts with a
+plain-language recap, then routes one source through a Yes or No outlet and
+continues through the passage attached to that outlet. Complementary law tables
+make the choice; a grouped local step keeps one control observation throughout
+selection. The document includes exact encodings and unresolved predictions.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --conditionals
+</code></pre>
+<p>The preceding <strong><a href="PassageExperiments.html">controlled-passage experiment and encoding chart</a></strong>
+moves whole unmeasured contents through one passage and a two-passage chain.
+An eight-byte shared transition law keeps the source and receiver's changes
+joint; uncertain controls predict linked alternatives without changing stored
+values. Run it with:</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --passages
+</code></pre>
+<p>The preceding <strong><a href="ConnectionExperiments.html#round-6-one-site-two-sites-and-one-site-used-twice">structural-potential experiment</a></strong>
+compares one empty site, two connected empty sites, and one site used in two
+input roles. All can read zero, but their response to change and uncertainty
+differs. The chart shows each exact row and packed byte. Run it with:</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --potential
+</code></pre>
+<p>The preceding <strong><a href="ConnectionExperiments.html">connection experiments</a></strong> use one packed
+ordered-row format for a qualitative occupancy ladder, calculated and retained
+addition results, and a four-ended opposed-flow fixture. Read laws are explicit
+bitmaps shared by their rows. Two endpoint roles remain present when both values
+read zero; the encoding does not turn them into a single participant.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --relations
+</code></pre>
+<p>The underlying storage experiment puts constants in <strong>array positions</strong>, with no stored O/D
+headers. A stable port follows a value as it moves to arrays that give it more
+owned bits. Old slots stay dirty but cannot be read as live values. See the
+<strong><a href="StablePortExperiment.html">positional arrays and stable ports chart</a></strong> for the
+exact layout and a four-step example. Run it with:</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --ports
+</code></pre>
+<p>The earlier four experiments cover shared context headers, retained opposition,
+explicit local connections, and direction memory in the <strong><a href="EncodingChart.html">Round 3 encoding
+chart</a></strong>. Those examples remain executable; their physical
+header-bit attachments are not the new positional layout. All of these remain
+small exploratory layouts, not a general runtime or changes to the Gojo kernel.</p>
+<pre><code class="language-text">O D V
+│ │ └─ 0: zero             1: nonzero, magnitude unspecified
+│ └─── 0: positive         1: negative, within this orientation
+└───── 0: positive-right   1: positive-left
+</code></pre>
+<p><code>V=1</code> does <strong>not</strong> mean the quantity one. Direction and orientation remain separate
+even at zero. <code>?</code> below means some nonzero magnitude, not an unknown zero/nonzero bit.</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Orientation</th>
+<th>Direction</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>000</td>
+<td>positive-right</td>
+<td>positive</td>
+<td>zero</td>
+</tr>
+<tr>
+<td>001</td>
+<td>positive-right</td>
+<td>positive</td>
+<td>nonzero</td>
+</tr>
+<tr>
+<td>010</td>
+<td>positive-right</td>
+<td>negative</td>
+<td>zero</td>
+</tr>
+<tr>
+<td>011</td>
+<td>positive-right</td>
+<td>negative</td>
+<td>nonzero</td>
+</tr>
+<tr>
+<td>100</td>
+<td>positive-left</td>
+<td>positive</td>
+<td>zero</td>
+</tr>
+<tr>
+<td>101</td>
+<td>positive-left</td>
+<td>positive</td>
+<td>nonzero</td>
+</tr>
+<tr>
+<td>110</td>
+<td>positive-left</td>
+<td>negative</td>
+<td>zero</td>
+</tr>
+<tr>
+<td>111</td>
+<td>positive-left</td>
+<td>negative</td>
+<td>nonzero</td>
+</tr>
+</tbody>
+</table>
+<p>The code operates directly on these bits. A host byte holds a word in its low
+three bits; packing stores successive words at bit offsets <code>0, 3, 6, ...</code>, low
+bit first. The eight words above pack as hexadecimal <strong>88 C6 FA</strong>: exactly three
+bytes. Position in the stream supplies order. There is no header or per-word
+metadata; the caller supplies the word count when the final byte has padding.</p>
+<h2 id="what-can-be-read">What can be read</h2>
+<p>Within one orientation:</p>
+<pre><code class="language-text">negative nonzero &lt; zero &lt; positive nonzero
+</code></pre>
+<p>Identical words are equal at this perspective. The two direction-marked zeros
+have distinct encodings but compare equal in this magnitude read. Positive
+direction is therefore greater than or equal to negative direction; both empty
+is the equality case. Presence makes a positive value greater, and a negative
+value smaller, than its corresponding zero.</p>
+<p>This comparison cannot distinguish two positive nonzero magnitudes, or two
+negative nonzero magnitudes. Equal encodings do not assert equal hidden amounts.
+There is no stored hidden amount to consult.</p>
+<p>As explicitly selected by the user, different orientations remain incomparable
+until reoriented. Reorientation flips <strong>O and D together</strong>, retaining the
+represented sense in the opposite orientation: <code>001 -&gt; 111</code>. Reversing direction
+alone flips <strong>D</strong>: <code>001 -&gt; 011</code>. Both preserve V, including the zero cases.
+This supplies no scale conversion or translation between different origins.</p>
+<h2 id="the-first-addition">The first addition</h2>
+<p>For a chosen common orientation, the full table is:</p>
+<table>
+<thead>
+<tr>
+<th>+</th>
+<th>+0</th>
+<th>+?</th>
+<th>−0</th>
+<th>−?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>+0</strong></td>
+<td>+0</td>
+<td>+?</td>
+<td>{+0, −0}</td>
+<td>−?</td>
+</tr>
+<tr>
+<td><strong>+?</strong></td>
+<td>+?</td>
+<td>+?</td>
+<td>+?</td>
+<td>{+?, −?, +0, −0}</td>
+</tr>
+<tr>
+<td><strong>−0</strong></td>
+<td>{+0, −0}</td>
+<td>+?</td>
+<td>−0</td>
+<td>−?</td>
+</tr>
+<tr>
+<td><strong>−?</strong></td>
+<td>−?</td>
+<td>{+?, −?, +0, −0}</td>
+<td>−?</td>
+<td>−?</td>
+</tr>
+</tbody>
+</table>
+<p>Same-direction nonzero addition stays nonzero: this read cannot expose increased
+magnitude. Zero adds no magnitude. Opposing nonzero inputs leave negative, zero,
+and positive all possible because their relative magnitudes are unavailable.</p>
+<p>For zero results this experiment keeps a settled direction when both operands
+agree, and permits both zero encodings when they do not. That is a conservative
+starting rule, not an invented preferred positive zero. The two zero words still
+describe one zero magnitude read.</p>
+<p><code>Add</code> is a <strong>prediction</strong>, returning a plain list of possible three-bit answers.
+It does not execute a physical merge. This list is the result of the question,
+not an extra field attached to each value. Across orientations
+it returns no selected answer; <code>Compare</code> returns no selected ordering. Neither
+case manufactures a zero. There is no unknown sentinel squeezed into the eight
+concrete words.</p>
+<p>Subtraction reverses the second direction and applies the same addition. Thus
+two read-equal <code>+?</code> words do <strong>not</strong> justify exact cancellation: <code>+? − +?</code> remains
+uncertain. This is not ordinary scalar equality with unrestricted substitution.
+The words have forgotten the information that would establish cancellation.</p>
+<h2 id="one-flow-two-opposed-reads">One flow, two opposed reads</h2>
+<p>The next experiment adds a shared read without adding bits to the word:</p>
+<pre><code class="language-text">negative read &lt;- [one O D V word] -&gt; positive read
+</code></pre>
+<p><code>ReadSide(shared, negative)</code> derives occupancy in the chosen side of the word's
+orientation. For <code>001</code>, the positive read is <code>001</code> and the negative read is <code>010</code>:
+positive nonzero, negative zero. For <code>011</code>, these become <code>000</code> and <code>011</code>.
+At zero both sides read empty. The shared word retains its zero direction even
+though these side reads do not distinguish it.</p>
+<p>Only the shared word owns state. Every fresh side read refers to that one word,
+so the two sides cannot acquire independently drifting amounts. A saved read
+is a past observation, not a second live side. No identity field is needed for
+this arrangement. Shared storage supplies the correspondence while it persists;
+it does not imply a constant value or recognition after separation and recontact.
+This exclusivity is the selected one-flow law, not a claim that every connected
+Gojo structure must collapse to one scalar.</p>
+<h2 id="prediction-joining-and-actual-flow">Prediction, joining, and actual flow</h2>
+<p>Four different things are now exercised:</p>
+<ol>
+<li><strong>Structure:</strong> one shared word and its opposed read surfaces.</li>
+<li><strong>Joining:</strong> consuming two independent flows into one flow.</li>
+<li><strong>Prediction:</strong> what their coarse words permit us to say before joining.</li>
+<li><strong>Execution:</strong> actual settlement, followed by an observation of its result.</li>
+</ol>
+<p>The same coarse inputs can have different actual outcomes:</p>
+<table>
+<thead>
+<tr>
+<th>Coarse inputs</th>
+<th>Prediction</th>
+<th>Demonstration world</th>
+<th>Actual observation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+? and -?</td>
+<td>negative, zero, or positive</td>
+<td>+5 joins -2</td>
+<td>+?</td>
+</tr>
+<tr>
+<td>+? and -?</td>
+<td>negative, zero, or positive</td>
+<td>+2 joins -2</td>
+<td>zero</td>
+</tr>
+<tr>
+<td>+? and -?</td>
+<td>negative, zero, or positive</td>
+<td>+2 joins -5</td>
+<td>-?</td>
+</tr>
+</tbody>
+</table>
+<p><code>FineFlowFixture</code> is explicitly separate, <strong>net-only</strong> demonstration apparatus. Its signed
+integers stand in for finer physical material in one selected local,
+positive-right basis. <code>Join</code> adds those amounts and empties the two consumed
+stores, leaving one returned amount. The three-bit predictor receives only
+observations, never those integers. There is no fine magnitude stored beside
+an ODV word, no random choice among predictions, and no assumption that read-equal
+amounts cancel. The apparatus chooses positive direction when observing exact
+zero; scalar zero does not establish that direction. It therefore supplies
+positive-zero inputs, rather than pretending to realize every zero-direction code.</p>
+<p>This fold deliberately discards the matched opposing participation. It cannot
+distinguish empty zero from a balanced pair after consuming the inputs. The
+new <code>RetainedFlowFixture</code> keeps the opposed stores connected under one net read
+and demonstrates that they can still supply a passage when the net is zero.
+Zero net therefore does not establish absence of available participation.</p>
+<p>This fixture selects immediate finite additive settlement. That makes the
+actual sign definite in each run. General connectedness alone does not guarantee
+settlement; delayed or unsettled flow is outside this first experiment.
+Host integer overflow refuses the operation before consuming anything.</p>
+<p>A closed computation with only the two coarse words cannot recover the missing
+relative magnitude. Actual settlement must come from a participating world or a
+later, richer flow encoding. The integer apparatus demonstrates that boundary;
+it is not the proposed primitive runtime or a universal yardstick.</p>
+<h2 id="a-first-conditional">A first conditional</h2>
+<p>The smallest additional connection shape here is three openings in fixed order:</p>
+<pre><code class="language-text">                       negative outlet (position 0)
+settled shared flow -&gt; zero outlet     (position 1)
+                       positive outlet (position 2)
+</code></pre>
+<p><code>SignPassage</code> stores one presence bit per opening: bit 0 negative, bit 1 zero,
+bit 2 positive. Thus <code>111</code> permits every sign, <code>100</code> permits only positive,
+and <code>000</code> closes every opening. These are <strong>connection bits</strong>, not another ODV
+measure word. Their interpretation comes from this declared local layout.
+There are no destination identifiers or instruction tags. This is an exploratory
+fixed layout, not a general network encoding or a new fundamental kind of connector.</p>
+<p><code>Select</code> reads one settled word and selects its open position. Both zero
+direction codes select the same zero position. Closed means no selected passage,
+not a zero result. Sign positions are relative to the observed orientation;
+no comparison or connection across orientations is inferred.</p>
+<p>The demonstration's routing layout is <code>[flow, negative, zero, positive]</code>.
+Execution moves the actual amount into exactly one matching open outlet and
+empties the source. A blocked flow stays at its source. Unselected outlets
+remain unchanged. Signed participation is conserved in the fixture's chosen
+basis; prediction neither moves nor duplicates it. A passage checks the incoming
+sign; settlement into an already occupied receiver can yield a different sign.</p>
+<p>Prediction can report all possible branches before a merge, but it executes
+none of them. After the merge, only the actual observation selects a branch.
+Removing the negative opening holds a negative result; reopening it releases
+that same held flow. The opening does not decide which sign the merge produces.
+This is early conditional behavior: the layout constrains what can happen, and
+the runtime flow determines which available path is used.</p>
+<p>The zero branch needs particular care. In this <strong>net-only fixture</strong>, an observed
+zero can select its position, but the fixture has retained no material for it
+to transport. The returned selection demonstrates the read;
+it does not create a nonzero pulse. The caller invokes this read after settlement.
+Autonomous detection of completion, distinguishing no observation from an actual
+zero, and powering an action on zero need further structure. Missing settlement
+must never be supplied as a zero word.</p>
+<p>The later retained-participation experiment demonstrates a different case:
+balanced opposition remains available underneath a zero net read. A control
+connection matching a zero bit can also open a passage for material from a
+different source. Neither behavior creates material from an empty scalar zero.</p>
+<h2 id="a-passage-can-resemble-a-bond">A passage can resemble a bond</h2>
+<pre><code class="language-text">[independent store] -&gt; [sign openings] -&gt; [independent store]
+</code></pre>
+<p><code>FineFlowFixture.Transfer</code> uses the same openings to move all permitted source
+flow into its receiver. An unrestricted passage can leave <code>[+5, -2]</code> as <code>[0, +3]</code>,
+matching the net outcome of a join. The two stores still exist independently.
+Later local inputs and a closed passage can leave both occupied, even oppositely.
+A passage that usually stays open can often behave like one flow; that observed
+behavior does not supply the guarantee of a single shared store.</p>
+<p>For this foothold, the demonstration stops using the consumed input slots and
+makes subsequent opposed reads from one result. <code>Join</code> clears those slots; it
+does not prevent their reuse or enforce ownership. The guarantee comes from
+the opposed reads addressing one shared word. Communication preserves two
+stores and an intervening opening. Later
+work can build these openings from ordinary connected structures, rather than
+giving connectors an unrelated set of primitive capabilities.</p>
+<h2 id="four-next-experiments-actual-attachment-sites">Four next experiments: actual attachment sites</h2>
+<p><code>ContextTable</code> stores fixed O/D bits once per table. Entries own one, two, or
+three bits according to the selected layout. Updating an entry cannot change
+its inherited constants; explicit <code>Release</code> moves those distinctions into the
+entry. It preserves observations and moves no material. Shared header positions
+are actual shared sites, while equal bits at different positions remain distinct.</p>
+<p><code>RetainedFlowFixture</code> supplies two joined columns, each with positive and
+negative participation beneath a single net read. The coarse observation is
+two packed context tables in one byte. Empty zero is <code>20</code> hex; occupied opposing
+sides in A with empty B are <code>64</code> hex. The latter does not establish balance:
+its net sign is predicted as uncertain until the fine demonstration world is
+observed. That world's magnitude stores are separate apparatus, not hidden
+extra fields on the encoded word.</p>
+<p><code>LocalConnection</code> represents a passage as an ordered pair of three-bit local
+bit offsets: six bits of topology, no third amount. A grouped positive/negative
+passage uses two such links and a selected simultaneous transfer law. A
+conditional passage adds the actual control-site offset and its matching face,
+for ten bits total; its opening is calculated from that site rather than stored
+again. Material endpoints identify the stores exposed by V bits. Shared O/D
+bits can be observed for control but cannot receive material in this layout.
+The <a href="EncodingChart.html">chart</a> gives every endpoint, raw byte and fixed convention.</p>
+<p><code>DirectionMemory</code> uses the existing D bit to retain direction when its input
+resolves no magnitude. Its executable frame packs input and memory into six
+bits; the selected fixed transition law supplies the feedback wiring. A
+separate threshold reader demonstrates different sensing resolutions. It does
+not change the existing exact-zero meaning of V in <code>ThreeBitMeasure</code>.</p>
+<p>No orthogonal flag is added. Moving equal opposing participation preserves the
+source net under the selected paired transfer law; moving one side changes it.
+The behavior follows from the participating structure and the chosen read.
+Neither geometric coincidence nor arbitrary adjacency establishes a passage.
+Changing a table layout requires explicit rebinding of affected endpoint offsets.</p>
+<h2 id="where-this-stops">Where this stops</h2>
+<p>We can communicate a local distinction, preserve orientation and direction,
+compare at this coarse perspective, and combine some inputs. We cannot recover
+relative nonzero amounts or predict which opposing input dominates. Nothing here
+claims to model actual bacterial communication. That analogy motivates asking
+what a receiver can learn without a shared yardstick. The new demonstration
+separates coarse prediction, actual flow, shared state, and filtered communication;
+additional sensing is not hidden in the bits.</p>
+<p>The historical Core4 <code>Measure</code>/<code>Relation</code> sources and current Gojo core informed
+the separation of raw magnitude, ordered perspective and inversion. Their
+carrier/graph machinery has not been imported. Multiplication, units, calibrated
+refinement, general connective structures and a primitive runtime remain later
+work. Round 5 adds qualitative occupancy correspondence and conservative
+calculated reads, not a general geometric or material-flow interpreter.</p>
+<p>Run the encodings, predictions, actual merges, opposed reads and passages:</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure
+dotnet run --project experiments/PrimitiveMeasure -- --connections
+dotnet run --project experiments/PrimitiveMeasure -- --ports
+dotnet run --project experiments/PrimitiveMeasure -- --relations
+dotnet run --project experiments/PrimitiveMeasure -- --potential
+dotnet run --project experiments/PrimitiveMeasure -- --passages
+dotnet run --project experiments/PrimitiveMeasure -- --conditionals
+dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
+</code></pre>
+<p>The focused tests cover every operand pair, preserved zero encodings, explicit
+reorientation, uncertain cancellation, packing, shared-side exclusivity, the
+separation of prediction from actual settlement, conditional openings, material
+conservation, blocked flow, and refusal before overflow can consume an input.
+Finer integers occur only in the explicitly named demonstration apparatus and
+tests; the primitive word and its predictor still contain no such values.</p>
+<p>The positional tests also cover widths through 64 bits, inherited constants,
+direct packed access, dirty retired slots, all eight ODV words migrating without
+changing their port reads, alias ports, owner isolation, and failed moves leaving
+existing values unchanged. Wider payload codes add capacity, not finer knowledge.</p>
+<p>The connection tests cover ordered and repeated endpoints, explicit law bytes,
+all coarse addition inputs, qualitative occupancy correspondence, held samples,
+shared candidate reads, cross-structure ports, and retained opposed flow. A zero
+read does not erase its endpoint roles, and an unresolved read is not stored as
+a measured zero.</p>
+<p>Verification for the Round 5 checkpoint: all 96 focused tests pass and the new
+<code>--relations</code> demonstration runs successfully. Full verification with
+<code>dotnet test Gojo.slnx</code> also passes, with 5,652 tests across 14 projects and no
+failures or skipped tests.</p>
+<p>Verification for Round 6: the <code>--potential</code> demonstration runs successfully;
+all 109 focused tests pass, including 13 structural-potential cases. Full
+<code>dotnet test Gojo.slnx</code> verification passes with 5,665 tests across 14 projects,
+with no failures or skipped tests. Direct internal addressing is discussed as
+an alternative; the executable experiment retains the current local mappings.</p>
+<p>Verification for Round 7: the <code>--passages</code> demonstration runs successfully;
+all 141 focused tests pass, including 32 passage cases. Full
+<code>dotnet test Gojo.slnx</code> verification passes with 5,697 tests across 14 projects,
+with no failures or skipped tests. The passage chart records actual value bytes,
+connection rows and linked uncertainty for one passage and a two-passage chain.</p>
+<p>Verification for Round 8: the <code>--conditionals</code> demonstration runs successfully;
+all 179 focused tests pass, including 38 new conditional cases. Full
+<code>dotnet test Gojo.slnx</code> verification passes with 5,735 tests across 14 projects,
+with no failures or skipped tests. The conditional chart starts with an overview
+and records exact connections, actual bit changes, and uncertain predictions
+for complementary selection followed by attached continuations.</p>
+<p>Verification for Round 9: the <code>--saturation</code> demonstration runs successfully;
+all 205 focused tests pass, including 26 new saturation and geometry cases.
+Full <code>dotnet test Gojo.slnx</code> verification passes with 5,761 tests across 14
+projects, with no failures or skipped tests. The new chart covers 17 situations,
+exact passage and geometry encodings, and the distinction between implemented
+routing, constrained boundary reads, and proposed radiation or route retention.</p>
+<p>Verification for Round 10: the <code>--repetition</code> demonstration completes;
+all 250 primitive tests pass, including 45 new repetition/composition and
+contour cases. Full <code>dotnet test Gojo.slnx</code> verification passes with 5,806 tests
+across 14 projects, no failures or skipped tests. The new chart covers reusable
+bodies, phase/turn correspondence, waits, independent placement changes,
+circle/polygon constraints, conditional rejoining, barriers, and open contact
+or shrinkage requirements. The existing kernel and primitive passage laws are
+unchanged.</p></main></html>

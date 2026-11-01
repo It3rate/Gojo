@@ -1,0 +1,162 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A justified affine basis, then a Bézier</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="a-justified-affine-basis-then-a-bezier">A justified affine basis, then a Bézier</h1>
+<p>Status: implemented exploratory construction contract, September 2026.</p>
+<p><a href="assets/Gojo--docs--examples--grounded-affine-basis.html">Open the ten-stage walkthrough</a>.
+The <a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--grounded-affine-basis.gojo">authored syntax</a>
+uses existing carriers, relations, crystallization, bindings and interpolation
+requests. The <a href="assets/Gojo--Structures--AffineBasisConstruction.cs">selected reader</a> supplies
+the basis construction and its witnessed coordinate reads.</p>
+<h2 id="what-this-changes-in-the-earlier-audit">What this changes in the earlier audit</h2>
+<p>An affine or Cartesian-like space is a legitimate Gojo construction. It can
+be a particularly convenient crystallized basis for curves. The missing step
+was justification of that basis, not avoidance of coordinates or a requirement
+to reconstruct every curve directly from point-orthogonal potential.</p>
+<p>The previous three-point parallelogram fixture starts with three coordinate
+observations in an existing basis. It does not derive that basis. Constructing
+a frame from three observed points in a dimensional container is another valid
+route, once the relevant affine relationships and independence are established
+or retained as open premises. Different point identities alone do not prove
+non-collinearity. This fixture instead starts with a native segment and a
+selected participation through its orthogonal outlet.</p>
+<p>Direction and its opposite precede a drawing's up/down or left/right labels.
+An observer can turn a drawing, view it from the back, or choose another
+coordinate convention. Those are different operations: a view change leaves
+the presented structure unchanged; a coordinate change uses an explicit
+calibration. Neither automatically selects an opposed carrier face.</p>
+<h2 id="structure-before-coordinates">Structure before coordinates</h2>
+<p>The construction read is:</p>
+<pre><code class="language-text">first span    = A -&gt; B                         on one native carrier
+outlet        = O(first span)
+second span   = C0 -&gt; D                        on a line originating at A
+selection     = outlet -&gt; second span
+common origin = A -&gt; C0
+foundation    = group(first span, selection, common origin)
+</code></pre>
+<p><code>A</code> and <code>C0</code> are representations on different carriers connected by the actual
+origin relation. Their numeric equality alone would not create that connection.
+The second carrier retains linear-unit provenance from <code>A</code>. Its native start
+is zero; its end can be positive or negative. The first span can also be
+reversed, with the second line grounded at its selected start.</p>
+<p>The syntax establishes the earlier sources too:</p>
+<pre><code class="language-gojo">let $origin = point(carrier(),0);
+let $line = crystal(orthogonal($origin -&gt; $origin));
+let $a = point($line,0);
+let $b = point($line,6);
+let $edge = $a -&gt; $b;
+let $outlet = orthogonal($edge);
+let $cross = crystal(orthogonal($a -&gt; $a));
+let $cross_start = point($cross,0);
+let $d = point($cross,4);
+let $cross_span = $cross_start -&gt; $d;
+let $selection = $outlet -&gt; $cross_span;
+let $common_origin = $a -&gt; $cross_start;
+let $foundation = group($edge, $selection, $common_origin);
+</code></pre>
+<p>This is a <strong>selected affine product interpretation</strong>: the two spans establish
+independent coordinate roles, and their combinations follow the affine law.
+The reader checks the connected premises of that construction. It does not
+discover physical independence, infer it from unrelated carriers, or establish
+a metric. This is the same distinction as choosing a mathematical model and
+separately testing how well it fits observations.</p>
+<p>The orthogonal outlet is broader than a geometric right angle. A signal may
+contain participation accounted for by the first span and participation outside
+that order. A read can retain both. This fixture consumes an already selected
+decomposition; it does not automatically discover how to separate arbitrary
+sensor inputs into those components.</p>
+<h2 id="crystallization-retains-the-native-calibration">Crystallization retains the native calibration</h2>
+<p><code>AffineBasisConstruction.TryCrystallize</code> validates the foundation, captures its
+numeric sites and shared references, and constructs:</p>
+<pre><code class="language-text">u unit            = stable described unit of the first ordered native span
+v unit            = stable described unit of the second ordered native span
+coordinate basis  = group_on(space, S(u,0,1), S(v,0,1))
+calibrations      = group(first span -&gt; S(u,0,1), second span -&gt; S(v,0,1))
+crystallized basis = group(captured foundation, coordinate basis, calibrations)
+</code></pre>
+<p>The calibration sources are the actual captured spans, and their targets are
+the actual unit spans in the coordinate basis. The unit descriptors retain
+the ordered native spans as stable promises. A matching label, detached
+lookalike span, or compatible bare unit cannot replace those connections.</p>
+<p>In the fixture, one <code>u</code> unit represents six first-carrier ticks and one <code>v</code>
+unit represents four second-carrier ticks. The reader uses the ordinary exact
+affine calibration law, so native observations <code>(3,2)</code> read <code>(1/2,1/2)</code>.
+This does not equate the two physical lengths, supply metres, or make a
+subdivision count a measurement-accuracy claim. The coordinates use the existing
+integer/rational Gojo encoding and preserve the existing overflow behavior.</p>
+<p>The unit spans calibrate coordinates; they do not restrict points to a unit
+square. Native <code>(3/2,6)</code> reads <code>(1/4,3/2)</code> without rounding or clamping. A
+curve's permitted parameter support is a separate part of its interpolation
+grade. The drawn grid is a viewing guide, not a finite set of allowed sites.</p>
+<p>The original source is retained as a witness backlink. The captured foundation
+does not follow later source tick changes. Changing the first source span from
+six to twelve ticks and crystallizing again yields another basis: native six
+still reads one in the old basis and one half in the new one. Mutating the
+captured span without updating its stable unit promise makes that surface fail
+the construction read; it does not silently redefine an established unit.</p>
+<h2 id="reads-opposite-conventions-and-partial-points">Reads, opposite conventions and partial points</h2>
+<p><code>TryLocate</code> reads <code>group(crystallized basis, native coordinate observations)</code>.
+It captures the observation and projects each component through the retained
+calibrations, returning the ordinary result/remainder/provenance witness.</p>
+<pre><code class="language-gojo">root group(?basis, group(at($line,3), at($cross,2)));
+root group(?basis, group(at($line,3), ?unobserved_cross));
+root group(?basis, ?unobserved_point);
+</code></pre>
+<p>The first request reads <code>(1/2,1/2)</code>. The second reads <code>(1/2,?)</code>, with its missing
+second coordinate connected to its source and calibration. The last produces
+two distinct open coordinate roles; an omitted point is not evidence that its
+coordinates are equal. A failed complete read can still return useful partial
+structure. The unknowns are not bounds, tolerance intervals or distributions.</p>
+<p>Selecting the second span from zero to <code>-4</code> gives an equally valid convention.
+The same native observation <code>(3,2)</code> then reads <code>(1/2,-1/2)</code>. Reading either
+result back through its own inverse calibration gives the same native values.
+Both bases can coexist, with independent identities and explicit correspondence.
+Negative signed locations here do not change the carrier's flow face.</p>
+<p>Changing only second-carrier participation leaves <code>u</code> fixed. In a rotated
+picture it may move along both screen axes; that is a consequence of the view,
+not a change in what the first structural coordinate accounts for.</p>
+<h2 id="reusing-the-six-edge-bezier">Reusing the six-edge Bézier</h2>
+<p><code>AffineFrame</code> now accepts the complete crystallized basis as well as its
+existing explicit coordinate-basis form. It validates the construction and
+uses the exposed coordinate basis while retaining the complete basis in the
+request and witness. It does not construct another basis for each curve sample.</p>
+<p>The fixture reads native <code>(0,0)</code>, <code>(0,4)</code>, <code>(6,4)</code> and <code>(6,0)</code> through that
+basis to supply the controls. These are combinations of the selected native
+leg endpoints in the established product space. The six interpolation edges
+are the existing de Casteljau construction. No curve-specific opcode is added.</p>
+<p>The standard convention gives controls <code>(0,0), (0,1), (1,1), (1,0)</code>. Halfway,
+the curve is <code>(1/2,3/4)</code>. The opposite second-axis convention gives
+<code>(1/2,-3/4)</code> for the corresponding read. The tests independently compare the
+interpolation chain with the cubic Bernstein polynomial in both conventions.</p>
+<p>Leaving the second control's <code>v</code> coordinate open preserves a calculable <code>u</code>
+curve; the half sample is <code>(1/2,?)</code>. Leaving that whole control unbound preserves
+the procedure and its dependencies. Interior samples are open, while parameter
+endpoints still read their known endpoint because the missing control is not
+needed there. These are valid partial constructions, not broken curves.</p>
+<p>The product basis also constructs a parallel pair: <code>(0,0)-&gt;(1,0)</code> and
+<code>(0,1)-&gt;(1,1)</code> have equal ordered displacement. This is a formal affine
+translation. A physical normal-distance offset still needs the appropriate
+metric, calibration and applicability evidence.</p>
+<h2 id="walkthrough-and-verification">Walkthrough and verification</h2>
+<p>The walkthrough keeps its view controls separate from the coordinate convention.
+Turn the view or view it from the back: coordinate readouts remain unchanged.
+The back view mirrors horizontally in the observer's frame, preserving top and
+bottom at every view turn.
+Choose the opposite convention: the second coordinate changes sign through its
+calibration while the represented sample stays in place. The drawing chooses
+equal screen sizes for the two coordinate units solely for legibility.</p>
+<p>Its second-input slider and Bézier parameter slider select finite observations.
+The embedded trace is checked against the kernel for both conventions, five
+curve samples, complete/partial/missing controls, and all six intermediate nodes.
+This is an illustrated construction experiment, not a running physical solver.</p>
+<p>The <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxGroundedBasisTests.cs">focused tests</a>
+also cover missing or collapsed spans, false origin attachments, foreign unit
+origins, malformed calibrations, reversed frames, shared tick aliases,
+crystallization stability and numeric restoration.</p>
+<pre><code class="language-powershell">dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter FullyQualifiedName~GojoSyntaxGroundedBasisTests
+dotnet test Gojo.slnx
+</code></pre>
+<p>An open second span remains a valid pattern, but this two-coordinate contract
+cannot crystallize it into a complete basis yet. A useful one-coordinate read
+can instead use the known span through the existing frame machinery. Broader
+multi-dimensional basis discovery, partial signal decomposition, measured
+metrics, path-dependent transport, endpoint/corner policies and automatic
+live replay remain separate extensions. They are not prerequisites for using
+this justified affine basis for the constructions it already supports.</p></main></html>

@@ -1,0 +1,169 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A control moves: keeping current answers and earlier evidence distinct</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="a-control-moves-keeping-current-answers-and-earlier-evidence-distinct">A control moves: keeping current answers and earlier evidence distinct</h1>
+<p>Status: implemented fixture and local replay extension, September 2026.</p>
+<p>Start with the <a href="assets/Gojo--docs--examples--curve-replay.html">visual walkthrough</a>, or the example
+below. The visual illustrates checked fixture values; its buttons select
+stages rather than execute Gojo in the browser.</p>
+<h2 id="the-real-world-example">The real-world example</h2>
+<p>Imagine drawing a curved handle. Its cubic Bézier curve has controls
+<code>(0,0), (4,8), (8,0), (12,4)</code>. We calculate one point on it at parameter
+<code>t=1/2</code>: <code>(6,3.5)</code>. This parameter midpoint is not necessarily halfway along
+the curve's length.</p>
+<p>Now move the first inner control from <code>(4,8)</code> to <code>(4,16)</code>. The recalculated
+point is <code>(6,6.5)</code>. The control moved eight local drawing units; this particular
+sample moved three. Different samples respond by different amounts.</p>
+<p>The interesting interval is after the control changes and before that sample
+has been recalculated. The old value is still exactly the answer for the old
+curve. It is stale as an answer for the new curve.</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Current control A</th>
+<th>Current sample</th>
+<th>Earlier sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Original observations</td>
+<td><code>(4,8)</code></td>
+<td><code>(6,3.5)</code></td>
+<td>Retained with its inputs</td>
+</tr>
+<tr>
+<td>Edit published</td>
+<td><code>(4,16)</code></td>
+<td>Pending</td>
+<td><code>(6,3.5)</code> remains historical evidence</td>
+</tr>
+<tr>
+<td>First affected calculations refreshed</td>
+<td><code>(4,16)</code></td>
+<td>Pending</td>
+<td>Still retained</td>
+</tr>
+<tr>
+<td>Remaining calculations refreshed</td>
+<td><code>(4,16)</code></td>
+<td><code>(6,6.5)</code></td>
+<td>Still <code>(6,3.5)</code>, with the earlier inputs</td>
+</tr>
+</tbody>
+</table>
+<p>This same distinction appears when a sensor publishes a new reading, an
+estimate changes, or a local space revises an interpretation. A downstream
+answer can remain mathematically correct for its earlier premises while no
+longer answering the current question. An unchanged visible answer can also
+need refreshed provenance if its supporting observations change.</p>
+<h2 id="what-the-fixture-actually-does">What the fixture actually does</h2>
+<p>The <a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--bezier-replay.gojo">syntax fixture</a>
+connects a control-publication port, six interpolation instructions, an
+independent observation, initial bindings, an explicit edit, and open replay
+and timeline roles. The <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxReplayTests.cs">tests</a>
+fill those roles with ordinary focus, application, dependency, stale-dependency,
+replay and time-step structures.</p>
+<p>Each cubic sample uses six local interpolations. Each takes two inputs and a
+parameter contract, and publishes one result. Later interpolations consume
+those actual outputs:</p>
+<pre><code class="language-mermaid">flowchart LR
+    A[Control A publication] --&gt; AB[Start / A interpolation]
+    A --&gt; BC[A / B interpolation]
+    AB --&gt; ABC[Left second interpolation]
+    BC --&gt; ABC
+    BC --&gt; BCD[Right second interpolation]
+    CD[B / end interpolation] --&gt; BCD
+    ABC --&gt; Sample[Curve sample]
+    BCD --&gt; Sample
+</code></pre>
+<p>The control change affects five of the six calculations. The B/end
+interpolation remains <code>(10,2)</code> and is carried forward. A separate observation
+using an independently authored <code>(4,8)</code> point also remains unchanged. Sharing
+a coordinate basis, or currently having identical coordinates, does not turn
+that other point into the edited control.</p>
+<p>The exercise proceeds as follows:</p>
+<ol>
+<li><strong>Observe the original construction.</strong> Use the exact affine reader for each
+   interpolation. Record the inputs, output, and mathematical witness in a
+   transform application. Preserve the original application frame.</li>
+<li><strong>Publish the edit through the same role.</strong> Bind a new control version to
+   the publication input. Connect the old and new versions explicitly. Build
+   a focus change and the control publication's replay record.</li>
+<li><strong>Read the affected region.</strong> Follow producer-output/consumer-input
+   connections inside the selected dependency frame. Keep the two unaffected
+   applications in the current frame; withhold all affected old applications
+   from it. Keep them in the earlier frame and affected slice.</li>
+<li><strong>Pause with explicit pending work.</strong> Immediately after publication, the
+   first two consumers have stale dependencies. The full affected slice also
+   retains the later consumers beyond that immediate boundary.</li>
+<li><strong>Resume in local steps.</strong> Recalculate an interpolation, publish its new
+   result, and expose the next stale dependencies. A consumer waits until all
+   its affected producers have been refreshed. If two inputs changed, one
+   consumer replay discharges both incoming stale edges.</li>
+<li><strong>Publish the final sample and retain the transition.</strong> The current frame
+   regains all eight applications, with the two unaffected applications still
+   the same objects. The sample is <code>(6,6.5)</code>. The timeline connects every pause
+   and replay to the earlier state. An unrelated residue remains even after
+   the curve's dependencies have been refreshed.</li>
+</ol>
+<p>No global solver chooses a result here. The caller chooses which exposed local
+read to perform, and the existing arithmetic supplies its result. The replay
+mechanism checks structural progress and records supplied observations; it
+does not independently certify their mathematical or real-world truth.</p>
+<h2 id="why-the-old-inputs-must-also-be-retained">Why the old inputs must also be retained</h2>
+<p>Keeping only a pointer to a live control is insufficient history. If that
+control's shared tick moves from 8 to 16, an old witness that still points to it
+now appears to have used 16, even though its stored sample remains 3.5.</p>
+<p>The main fixture uses explicit old and new coordinate versions, connected by
+the edit, rather than retargeting the historical input. This retains the same
+publication role while distinguishing the observations supplied through it.
+The test also captures the complete original application frame numerically
+and checks that publishing and replaying the new version leaves it unchanged.</p>
+<p>A separate counterexample deliberately retargets a live tick through an
+explicit structural import. It demonstrates the drift in the live reference,
+then restores a packet captured before the change and recovers the original
+input and result. A packet captured only after the drift could not recover the
+lost earlier tick value.</p>
+<p>The authored versions are not intrinsically immutable objects. Code that
+deliberately retargeted the old version would still change it. The exact
+history promise therefore requires retained versions under that ownership
+contract, or an actual captured packet. Shared axes do not supply immutable
+historical coordinates by themselves.</p>
+<h2 id="problems-exposed-and-corrected">Problems exposed and corrected</h2>
+<p>The original dependency discovery could equate structurally equal point
+groups and could treat input-binding targets as produced output. The example
+revealed false edges, including dependencies on the independent lookalike and
+backward edges between calculations that merely shared inputs.</p>
+<p>Discovery now follows participant references, shared grounded tick sites and
+output-role bindings. Rebuilding a point wrapper around the same carrier and
+tick still exposes that shared site; independently authored equal ticks do not.
+Explicit dependency evidence remains available when two different exposed
+participants are deliberately connected. Three older operation-output tests
+now explicitly publish the consumed result through the declared output port;
+numeric resemblance to a calculated target alone is not that connection.</p>
+<p>The earlier residue-only resume helper could also leave one stale record
+behind when two changed producers fed the same consumer. It now removes all
+stale records for that replayed consumer and preserves unrelated residue.</p>
+<p>For a longer chain, the immediate stale records alone do not describe every
+downstream connection. The new
+<a href="assets/Gojo--Structures--TransformSurface.Replay.cs"><code>TryResumeDependencyReplay</code></a>
+therefore takes the retained affected slice explicitly. It checks readiness
+against that selected graph, recomputes the next stale boundary, and keeps the
+slice and preceding partial replay in provenance. The older residue-only
+helper remains usable for discharging known stale edges; it does not claim to
+discover further downstream obligations.</p>
+<h2 id="what-this-proves-and-what-remains-open">What this proves, and what remains open</h2>
+<p>The fixture demonstrates one explicit edit, local dependency discovery,
+partial progress, exact recomputation, and historical correspondence. It checks
+the complete process before and after numeric restoration. It also restores a
+paused replay together with its dependency context and successfully continues
+from that restored state.</p>
+<p>It does not add an autonomous observer or scheduler. A caller must announce
+the changed focus, retain the relevant dependency scope, and choose the next
+read. Nor does it supply a policy for concurrent edits, feedback cycles,
+conflicting observations, or compression of history.</p>
+<p>Staleness is one form of incomplete local knowledge. This exercise keeps it
+separate from a measurement distribution or uncertain control range. Here the
+new coordinates are exact; what is temporarily unavailable is an observation
+whose inputs all belong to the refreshed construction. The same lifecycle
+can later carry bounded or distribution-valued observations without changing
+that distinction.</p></main></html>

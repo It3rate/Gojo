@@ -1,0 +1,1971 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Concept Shapes Codex</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="concept-shapes-codex">Concept Shapes Codex</h1>
+<p>This is a design note for building primitive mechanical and physical
+concept structures out of existing Gojo primitives. It follows the same rule as
+the rest of Gojo:</p>
+<pre><code class="language-text">meaning lives in inspectable structure
+</code></pre>
+<p>The note uses the names <code>ConceptShape</code>, <code>ConceptSurface</code>, and <code>ConceptUnit</code>
+as thinking handles. None of these names should imply a meaning-owning wrapper
+object. A future helper can create and read ordinary Gojo relation groups, but
+the graph must remain the source of meaning.</p>
+<p>The point of this document is to strip the concept layer back down to physical
+Gojo elements: carriers, carrier faces, signed locations, points, spans,
+orthogonals, additive groups, products, relations, slots, repeats, residue,
+tension, and timelines. Mechanical words such as bridge, funnel, filter, slot,
+clamp, latch, and hinge should fall out as local reads over those structures.</p>
+<h2 id="1-central-claim">1. Central Claim</h2>
+<p><code>UnitShape</code> crystallizes calibrated tick meaning into a stable tick promise:</p>
+<pre><code class="language-text">one tick of this carrier participates like this
+</code></pre>
+<p>A primitive concept shape should do something similar at a larger scale:</p>
+<pre><code class="language-text">this local connected structure affords this kind of topology,
+flow, parameter openness, and settlement
+</code></pre>
+<p>The analogy is useful, but a concept shape is not a unit shape. A unit shape
+describes one tick. A concept shape describes a local arrangement that may
+contain many carriers, relations, open sites, reads, tensions, and timelines.</p>
+<p>The important shared move is deparameterization. A calibrated thing can be
+crystallized to a lower-resolution promise while leaving detailed partition,
+scale, radius, material, or precision for later.</p>
+<p>Examples:</p>
+<pre><code class="language-text">calibrated inch carrier
+  -&gt; UnitShape for inch-like tick participation
+
+specific bridge geometry
+  -&gt; low-resolution passage between sides through a neck
+
+specific valve design
+  -&gt; passage with a controllable capacity partition
+
+specific corner geometry
+  -&gt; orthogonal meeting with an unresolved transition parameter
+</code></pre>
+<p>The primitive concept is not the English word. The word is a read at some
+resolution.</p>
+<h2 id="2-layers-of-meaning">2. Layers Of Meaning</h2>
+<p>The concept layer should be separated into layers so the primitive vocabulary
+does not become a flat table of composed behaviors.</p>
+<pre><code class="language-text">physical primitive
+  carrier, face, signed site, point, span, orthogonal, product, group
+
+structural primitive
+  shared site, endpoint pair, join, boundary, closure, branch, open outlet
+
+concept shape
+  low-resolution composition of physical and structural primitives
+
+concept surface record
+  selected structure, reads, parameters, constraints, witnesses, timeline
+
+word read
+  local interpretation such as bridge, funnel, filter, slot, latch
+
+specific design
+  parameterized and settled structure beyond ordinary language
+</code></pre>
+<p>This keeps the small generator set clean while still letting the surface record
+be rich enough to support engineering concepts.</p>
+<h2 id="3-relation-to-unitshape">3. Relation To UnitShape</h2>
+<p><code>UnitShape</code> already performs a kind of conceptual compression. It can preserve
+the source of a tick without preserving every measurement detail.</p>
+<p>Important properties to borrow:</p>
+<ul>
+<li>The result remains inspectable.</li>
+<li>The result is not a symbolic tag.</li>
+<li>Descriptors can preserve provenance without owning algebraic meaning.</li>
+<li>Resolution is explicit structure, not an invisible decimal.</li>
+<li>Lower resolution is not failure.</li>
+<li>Missing detail can remain open rather than invalid.</li>
+</ul>
+<p>Concept shapes should behave similarly.</p>
+<p>For example:</p>
+<pre><code class="language-text">corner
+  low resolution:
+    two structures meet orthogonally
+
+  later parameter:
+    transition radius
+
+  later settlement:
+    radius driven toward zero -&gt; sharp-ish corner
+    radius resolves positive -&gt; fillet-ish corner
+    transition resolves linear -&gt; chamfer-ish corner
+</code></pre>
+<p>There is no need for a primitive <code>SharpCorner</code>. Sharpness is a parameterized
+read over the primitive corner structure.</p>
+<h2 id="4-conceptsurface-record">4. ConceptSurface Record</h2>
+<p>A rich record can be useful for inspection:</p>
+<pre><code class="language-text">ConceptSurface(root)
+  selected structure
+  topology surface
+  exposed read / focus surface
+  flow or traversal surface
+  parameter surface
+  constraint surface
+  settlement witness
+  refinement timeline
+</code></pre>
+<p>This is an ordered group shape, not a concept class. It is acceptable for a
+helper to build and read this shape:</p>
+<pre><code class="language-csharp">ConceptSurface.Create(...)
+ConceptSurface.TryRead(...)
+</code></pre>
+<p>but the helper must not decide that a structure "is a bridge" through a hidden
+enum. The word read should be local and optional.</p>
+<p>The record should be thought of as a notebook page attached to a graph, not as
+the graph's meaning.</p>
+<h2 id="5-physical-primitive-alphabet">5. Physical Primitive Alphabet</h2>
+<p>The strict primitive alphabet starts with what Gojo already has or nearly has.</p>
+<table>
+<thead>
+<tr>
+<th>Primitive</th>
+<th>Current Gojo shape</th>
+<th>Concept role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Carrier</td>
+<td><code>new Carrier()</code></td>
+<td>participating axis, reservoir, line, contour, value site, or conceptual basis.</td>
+</tr>
+<tr>
+<td>Flow face evidence</td>
+<td><code>FlowFaceSurface.Forward/Inverse(...)</code></td>
+<td>opposed participation carried as explicit face structure, not negative value.</td>
+</tr>
+<tr>
+<td>Signed location</td>
+<td><code>new CarrierLocation(C,n)</code></td>
+<td>site on a face; negative location is not inverse face.</td>
+</tr>
+<tr>
+<td>Shared coordinate</td>
+<td>same <code>TickRef</code></td>
+<td>same physical site, not coincidence of equal values.</td>
+</tr>
+<tr>
+<td>Point</td>
+<td><code>Relation.Point(C,n)</code></td>
+<td>grounded site, landmark, focus, endpoint, boundary.</td>
+</tr>
+<tr>
+<td>Directed segment</td>
+<td><code>Relation.Segment(C,a,b)</code></td>
+<td>ordered extent, traversal, projection basis, frame.</td>
+</tr>
+<tr>
+<td>Orthogonal outlet</td>
+<td><code>Relation.OrthogonalOutlet(source)</code></td>
+<td>new participation escaping source order.</td>
+</tr>
+<tr>
+<td>Point orthogonal</td>
+<td><code>UnitShape.CircularFrom(point)</code></td>
+<td>radial or contour potential, unmarked and unpartitioned.</td>
+</tr>
+<tr>
+<td>Zero-segment orthogonal</td>
+<td><code>UnitShape.LinearFrom(zeroSegment)</code></td>
+<td>line or ray potential from collapsed basis.</td>
+</tr>
+<tr>
+<td>Segment orthogonal</td>
+<td><code>UnitShape.SheetFrom(segment)</code></td>
+<td>sheet, panel, or area-like potential.</td>
+</tr>
+<tr>
+<td>Product</td>
+<td><code>UnitShape.Product(...)</code></td>
+<td>non-aligned combined participation.</td>
+</tr>
+<tr>
+<td>Opposed unit face</td>
+<td><code>UnitShape.OpposedFaceOf(...)</code></td>
+<td>opposed kind, anti-participation seed.</td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td><code>UnitShape.ResolutionOf(...)</code></td>
+<td>coarse tick promise.</td>
+</tr>
+<tr>
+<td>Additive group</td>
+<td><code>Relation.OrderedGroup(...)</code></td>
+<td>gathered participants or selection.</td>
+</tr>
+<tr>
+<td>Projection relation</td>
+<td>segment-to-segment relation</td>
+<td>scale, map, adapter, reducer/expander seed.</td>
+</tr>
+<tr>
+<td>Reset/boundary relation</td>
+<td>point/segment return relation</td>
+<td>wrap, clamp, carry, boundary, residue exposure.</td>
+</tr>
+<tr>
+<td>Placeholder</td>
+<td><code>Placeholder</code></td>
+<td>open parameter or unresolved concept site.</td>
+</tr>
+<tr>
+<td>Descriptor slot</td>
+<td><code>UnitShape.DescriptorSlot(n)</code></td>
+<td>algebraic provenance placeholder.</td>
+</tr>
+<tr>
+<td>Repeat surface</td>
+<td><code>RepeatSurface</code></td>
+<td>repeated primitive: teeth, holes, detents, pores, threads.</td>
+</tr>
+<tr>
+<td>Time sequence</td>
+<td><code>TimeStepSequence</code></td>
+<td>refinement, traversal, use, and settlement witness.</td>
+</tr>
+</tbody>
+</table>
+<p>Anything that cannot be made from this alphabet should be treated as a missing
+Gojo structure or as a higher-level read, not smuggled in as a concept enum.</p>
+<h2 id="6-four-signed-face-quadrants">6. Four Signed Face Quadrants</h2>
+<p>Gojo should keep three ideas separate:</p>
+<pre><code class="language-text">carrier face
+signed site on that face
+traversal law attached to structure
+</code></pre>
+<p>This produces four signed face quadrants:</p>
+<table>
+<thead>
+<tr>
+<th>Quadrant</th>
+<th>Shape</th>
+<th>Conceptual reading</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>forward positive</td>
+<td><code>L(C,+n)</code></td>
+<td>ordinary forward participation.</td>
+</tr>
+<tr>
+<td>forward negative</td>
+<td><code>L(C,-n)</code></td>
+<td>participation located against the local goal or flow.</td>
+</tr>
+<tr>
+<td>inverse positive</td>
+<td><code>L(C*,+n)</code></td>
+<td>opposed participation on the inverse face.</td>
+</tr>
+<tr>
+<td>inverse negative</td>
+<td><code>L(C*,-n)</code></td>
+<td>opposed participation against its face's local flow.</td>
+</tr>
+</tbody>
+</table>
+<p>The forward negative site is not the same as an inverse positive site.</p>
+<p>One useful intuition:</p>
+<pre><code class="language-text">if the goal of a line is to move toward the end of its flow,
+negative sites get larger as they move farther away from that goal
+</code></pre>
+<p>This lets Gojo express constraints without symbolic signs:</p>
+<pre><code class="language-text">positive-only span
+  unsigned amount, permitted growth, open capacity, forward travel
+
+negative-only span
+  deficit, retreat, distance from goal, behind-origin pressure
+
+inverse-positive span
+  opposed material participation or reverse face
+
+inverse-negative span
+  opposed deficit, reverse-side lack, or against-opposed-flow site
+</code></pre>
+<p>Concept structures can use any one quadrant or combine quadrants. A one-way
+constraint may be expressible by exposing only one quadrant. A reduction can be
+expressed as participation against an input span. An interference read may
+appear as negative gap participation rather than as a failed boolean.</p>
+<h3 id="constructing-unsigned-and-signed-quantities">Constructing Unsigned And Signed Quantities</h3>
+<p>A uint-like carrier can be modeled by exposing only the positive face or
+positive segment:</p>
+<pre><code class="language-text">allowed parameter:
+  Segment(C,0,n) on the forward face
+</code></pre>
+<p>A signed number-like structure can be modeled by pairing forward positive and
+forward negative participation:</p>
+<pre><code class="language-text">positive side:
+  Segment(C,0,+n)
+
+negative side:
+  Segment(C,0,-n)
+</code></pre>
+<p>That is not the same as a carrier and its inverse face. The inverse face is
+opposed participation, not merely negative scalar notation.</p>
+<p>This matters for concept shapes:</p>
+<pre><code class="language-text">clearance
+  positive gap site
+
+interference
+  negative gap site
+
+opposed surface
+  inverse face contact
+
+reverse-side interference
+  inverse negative gap site
+</code></pre>
+<h2 id="7-sites-points-and-shared-coordinates">7. Sites, Points, And Shared Coordinates</h2>
+<p>A <code>CarrierLocation</code> is a signed site. A <code>Relation.Point(C,n)</code> grounds that site
+on its carrier.</p>
+<p>For concept shapes, points act as:</p>
+<ul>
+<li>focus sites</li>
+<li>endpoints</li>
+<li>origins</li>
+<li>boundaries</li>
+<li>landmarks</li>
+<li>contact candidates</li>
+<li>attach points</li>
+<li>pivot sites</li>
+<li>closure sites</li>
+</ul>
+<p>Equal numeric ticks are not enough to mean shared physical structure. If two
+points should be the same physical site, they should share a <code>TickRef</code> or be
+connected by explicit relation structure.</p>
+<pre><code class="language-text">same numeric value:
+  two sites happen to read 10
+
+same TickRef:
+  two locations share one coordinate reference
+</code></pre>
+<p>This is crucial for:</p>
+<ul>
+<li>joins</li>
+<li>corners</li>
+<li>closure</li>
+<li>hinges</li>
+<li>matching surfaces</li>
+<li>alignment</li>
+<li>datums</li>
+<li>repeated marks that must move together</li>
+</ul>
+<p>A concept shape should use shared coordinates when the claim is physical
+identity, and relation/projection when the claim is correspondence.</p>
+<h2 id="8-extents-and-the-missing-unoriented-span">8. Extents And The Missing Unoriented Span</h2>
+<p><code>Relation.Segment(C,a,b)</code> is directed. That is correct for projection and
+traversal. Many concept seeds, however, need a weaker structure:</p>
+<pre><code class="language-text">there is an extent between two sites
+but no start and end have been chosen
+</code></pre>
+<p>This is different from:</p>
+<pre><code class="language-text">Segment(C,a,b)
+</code></pre>
+<p>because the segment commits order.</p>
+<p>Current approximations:</p>
+<pre><code class="language-text">endpoint pair:
+  OrderedGroup(root, Point(C,a), Point(C,b))
+
+declared reversible extent:
+  OrderedGroup(root, Segment(C,a,b), Segment(C,b,a))
+
+boundary span:
+  Segment(C,min,max) used as an envelope rather than a traversal
+</code></pre>
+<p>The first is closest to a primitive undirected extent. It treats the two points
+as an unordered or not-yet-ordered pair.</p>
+<p>Ordering an extent is a design act:</p>
+<pre><code class="language-text">unordered extent
+  -&gt; directed segment
+
+unordered bridge passage
+  -&gt; one-way funnel
+
+unordered group
+  -&gt; ordered contour traversal
+</code></pre>
+<p>This act can be recorded in a refinement timeline. It may be a parameter
+binding, a local read decision, or a settlement event.</p>
+<h2 id="9-unordered-before-ordered">9. Unordered Before Ordered</h2>
+<p>Gojo's current ordered/additive groups preserve construction order. That is
+useful, but many concept surfaces start as unordered incidence:</p>
+<pre><code class="language-text">these sites participate together
+but no traversal order has been selected
+</code></pre>
+<p>Examples:</p>
+<ul>
+<li>two endpoints of an unoriented extent</li>
+<li>several candidate branch outlets before flow is chosen</li>
+<li>a set of contact patches</li>
+<li>matching landmarks before datum order is chosen</li>
+<li>attachment options around a neck</li>
+</ul>
+<p>The important distinction:</p>
+<pre><code class="language-text">unordered membership
+  participants are present together
+
+ordered traversal
+  participant sequence has become meaningful
+
+declared reversible traversal
+  both directions are structurally available
+
+agnostic traversability
+  traversal exists, but no direction law is attached
+</code></pre>
+<p>Agnostic is not reversible. Reversible is a stronger claim.</p>
+<h2 id="10-orthogonal-generation">10. Orthogonal Generation</h2>
+<p>Orthogonal structure is one of the strongest bridges between current Gojo and
+concept shapes.</p>
+<h3 id="point-orthogonal">Point Orthogonal</h3>
+<pre><code class="language-text">source:
+  Point(C,0)
+
+orthogonal:
+  OrthogonalOutlet(Point(C,0))
+</code></pre>
+<p><code>UnitShape.CircularFrom(point)</code> gives a contour, radial, or level-line carrier
+seed. It does not yet know radius, direction, start marker, or mesh behavior.</p>
+<p>Conceptual readings:</p>
+<ul>
+<li>radial potential</li>
+<li>unmarked contour</li>
+<li>possible perimeter</li>
+<li>fanout seed</li>
+<li>inflow seed</li>
+<li>field around a point</li>
+<li>pivot-centered possibility</li>
+</ul>
+<p>A single point gives unmarked radial/contour potential. Later structure can
+calibrate:</p>
+<pre><code class="language-text">radius
+  relation from center/radial endpoint to perimeter marker
+
+start marker
+  point on the contour
+
+direction
+  relation to another marker, contour, handed structure, or repeated order
+
+partition
+  repeat or resolution structure around the contour
+</code></pre>
+<h3 id="zero-segment-orthogonal">Zero-Segment Orthogonal</h3>
+<pre><code class="language-text">source:
+  Segment(C,0,0)
+
+orthogonal:
+  OrthogonalOutlet(Segment(C,0,0))
+</code></pre>
+<p><code>UnitShape.LinearFrom(zeroSegment)</code> gives a line or ray seed. It has a collapsed
+basis, which is more directed than a bare point but still not fully measured.</p>
+<p>Conceptual readings:</p>
+<ul>
+<li>line potential</li>
+<li>ray seed</li>
+<li>guide axis</li>
+<li>possible slot axis</li>
+<li>zero-width hinge or pivot line</li>
+</ul>
+<h3 id="segment-orthogonal">Segment Orthogonal</h3>
+<pre><code class="language-text">source:
+  Segment(C,a,b)
+
+orthogonal:
+  OrthogonalOutlet(Segment(C,a,b))
+</code></pre>
+<p><code>UnitShape.SheetFrom(segment)</code> gives sheet, panel, or area potential.</p>
+<p>Conceptual readings:</p>
+<ul>
+<li>sheet</li>
+<li>face</li>
+<li>panel</li>
+<li>wall</li>
+<li>side field</li>
+<li>region seed</li>
+<li>surface normal possibility</li>
+</ul>
+<h3 id="radial-fanout-vs-group-fanout">Radial Fanout vs Group Fanout</h3>
+<p>Do not collapse these:</p>
+<pre><code class="language-text">additive fanout
+  many participants attached to one holder
+
+radial fanout
+  orthogonal potential from a point
+
+branch fanout
+  one shared site connected to multiple spans
+</code></pre>
+<p>They can all be read as "fanout" in language, but they are different Gojo
+structures.</p>
+<p>An additive group gathers participation. A radial outlet creates physical or
+topological potential. A branch join connects actual routes.</p>
+<h2 id="11-products-area-and-anti-participation">11. Products, Area, And Anti-Participation</h2>
+<p>When two non-aligned positive carriers combine, the result can be area-like or
+interaction-like:</p>
+<pre><code class="language-text">positive carrier A
++ positive carrier B
+  -&gt; product participation
+</code></pre>
+<p>The low-resolution concept is not yet a grid, rectangle, polar sector, sampled
+field, or measured area. It is simply combined non-aligned participation.</p>
+<p>Opposed or inverse participation creates anti-area or anti-fill-like seeds:</p>
+<pre><code class="language-text">positive A * inverse B
+  -&gt; opposed product participation
+
+positive region + opposed/void participation
+  -&gt; hole, pocket, cut, absence, subtractive feature seed
+</code></pre>
+<p>Absence should not be a bare missing object. It should be read over envelope,
+boundary, opposed participation, or anti-fill structure.</p>
+<h2 id="12-additive-groups-and-selection">12. Additive Groups And Selection</h2>
+<p>Additive or ordered groups are useful for gathered participants:</p>
+<pre><code class="language-text">OrderedGroup(root, A, B, C)
+</code></pre>
+<p>Current groups preserve order. A read may ignore order, but the structure still
+has construction order. This is acceptable for many surfaces, but a future
+unordered-group helper would make concept seeds cleaner.</p>
+<p>Group roles:</p>
+<ul>
+<li>selection</li>
+<li>participant gathering</li>
+<li>side membership</li>
+<li>additive property set</li>
+<li>candidate options</li>
+<li>repeated evidence</li>
+<li>local focus record</li>
+</ul>
+<p>Groups are not physical radial flow. They are attached participation. Use
+orthogonals or branch topology when the concept needs physical expansion.</p>
+<h2 id="13-relation-laws">13. Relation Laws</h2>
+<p>The primitive relation laws should not duplicate settlement outcomes. Use
+relation laws for structural possibilities:</p>
+<table>
+<thead>
+<tr>
+<th>Relation law</th>
+<th>Gojo shape family</th>
+<th>What it can seed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gather</td>
+<td>additive/ordered group</td>
+<td>selection, attribute set, sides, evidence.</td>
+</tr>
+<tr>
+<td>Project / scale</td>
+<td>segment-to-segment relation</td>
+<td>adapter, reducer, expander, gauge, read.</td>
+</tr>
+<tr>
+<td>Oppose</td>
+<td>inverse face or opposed span relation</td>
+<td>contact, cancellation, anti-fill, conflict.</td>
+</tr>
+<tr>
+<td>Reset / boundary</td>
+<td>point or segment return</td>
+<td>wrap, clamp, residue, counter, capacity.</td>
+</tr>
+<tr>
+<td>Branch</td>
+<td>shared site to multiple spans</td>
+<td>split, merge, manifold, junction.</td>
+</tr>
+<tr>
+<td>Close</td>
+<td>endpoint/origin closure</td>
+<td>contour, loop, cycle, enclosure.</td>
+</tr>
+<tr>
+<td>Repeat</td>
+<td>repeat surface/controller</td>
+<td>teeth, detents, threads, pores, marks.</td>
+</tr>
+<tr>
+<td>Timeline</td>
+<td>time step sequence</td>
+<td>refinement, process, settlement witness.</td>
+</tr>
+</tbody>
+</table>
+<p>Do not make <code>pass relation</code> and <code>block relation</code> separate relation kinds if
+<code>pass</code> and <code>block</code> also appear as settlement outcomes. Instead:</p>
+<pre><code class="language-text">relation law:
+  project, oppose, reset, branch, close
+
+settlement outcome:
+  passes, blocks, stores, routes, cancels, leaves residue
+</code></pre>
+<h2 id="14-topological-assembly">14. Topological Assembly</h2>
+<p>Topology comes from actual connection.</p>
+<table>
+<thead>
+<tr>
+<th>Topology</th>
+<th>Construction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shared point</td>
+<td>several structures use the same point or shared <code>TickRef</code>.</td>
+</tr>
+<tr>
+<td>Endpoint join</td>
+<td>one extent endpoint is physically connected to another endpoint.</td>
+</tr>
+<tr>
+<td>Origin join</td>
+<td>several branches originate at the same site.</td>
+</tr>
+<tr>
+<td>Continuation</td>
+<td>end-to-origin or aligned projection.</td>
+</tr>
+<tr>
+<td>Turn</td>
+<td>continuation through orthogonal or angled structure.</td>
+</tr>
+<tr>
+<td>Branch</td>
+<td>one site connected to multiple extents or outlets.</td>
+</tr>
+<tr>
+<td>Merge</td>
+<td>branch topology plus inward traversal law.</td>
+</tr>
+<tr>
+<td>Split</td>
+<td>branch topology plus outward traversal law.</td>
+</tr>
+<tr>
+<td>Crossing</td>
+<td>co-located structures, with or without exchange relation.</td>
+</tr>
+<tr>
+<td>Closure</td>
+<td>endpoint returns to origin, or boundary reset loops.</td>
+</tr>
+<tr>
+<td>Envelope</td>
+<td>boundary plus inside/outside or fill/void relation.</td>
+</tr>
+<tr>
+<td>Passage</td>
+<td>two sides connected through a local point/span.</td>
+</tr>
+<tr>
+<td>Open outlet</td>
+<td>attachable site with expected flow but no receiver yet.</td>
+</tr>
+</tbody>
+</table>
+<p>Topology is not a word. A <code>T</code> topology can become split, merge, junction,
+inlet, outlet, valve, or blocked branch depending flow, focus, parameters, and
+witnesses.</p>
+<h2 id="15-traversal-and-flow">15. Traversal And Flow</h2>
+<p>Traversal is an attached structural law, not the same thing as carrier face.</p>
+<p>Layers:</p>
+<pre><code class="language-text">carrier face
+  forward or inverse
+
+signed site
+  positive or negative location on that face
+
+traversal law
+  agnostic, directed, declared reversible, blocked, controlled
+</code></pre>
+<p>Useful traversal states:</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agnostic traversable</td>
+<td>connection exists; no preferred direction is encoded.</td>
+</tr>
+<tr>
+<td>Directed</td>
+<td>one traversal direction has structure.</td>
+</tr>
+<tr>
+<td>Declared reversible</td>
+<td>both directions are explicitly available as one surface or paired routes.</td>
+</tr>
+<tr>
+<td>One-way</td>
+<td>directed route exists; reverse leaves residue or has no receiver.</td>
+</tr>
+<tr>
+<td>Controlled</td>
+<td>parameter or gate controls traversal resolution/capacity.</td>
+</tr>
+<tr>
+<td>Material transfer</td>
+<td>source participation is routed or drained.</td>
+</tr>
+<tr>
+<td>Observation read</td>
+<td>source is read without material drain.</td>
+</tr>
+</tbody>
+</table>
+<p>Material transfer and observation are not the same. A sensor tap and a drain
+can share topology while settling differently.</p>
+<h2 id="16-focus-as-exposed-read">16. Focus As Exposed Read</h2>
+<p>Focus does not always need a permanent field. Often the focus is simply the
+read being exposed.</p>
+<p>Examples:</p>
+<pre><code class="language-text">read bridge neck capacity
+  the bridge is being used as choke-relevant
+
+read bridge pass basis
+  the bridge is being used as filter-relevant
+
+read bridge output fanout
+  the bridge is being used as nozzle/sprayer-relevant
+
+read corner transition parameter
+  the corner is being used as fillet/chamfer/sharpness-relevant
+</code></pre>
+<p>An explicit focus surface is still useful when a concept surface is stored for
+later inspection:</p>
+<pre><code class="language-text">focus surface:
+  Point(neck,0)
+
+or:
+  Segment(slotAxis,a,b)
+
+or:
+  read relation into a capacity carrier
+</code></pre>
+<p>Writable focus parameters are stronger. They do not only observe the structure;
+they can control it.</p>
+<pre><code class="language-text">readable capacity
+  notice bridge capacity
+
+writable capacity parameter
+  control bridge capacity, making valve/filter/choke behavior explicit
+</code></pre>
+<h2 id="17-absence-omission-void-and-open-outlet">17. Absence, Omission, Void, And Open Outlet</h2>
+<p>Concept shapes need to distinguish several cases that look similar in ordinary
+code:</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Omitted</td>
+<td>no structure is present or implied.</td>
+</tr>
+<tr>
+<td>Open / unimplemented</td>
+<td>an attachment site exists; expected flow has no receiver yet.</td>
+</tr>
+<tr>
+<td>Void / anti-participation</td>
+<td>explicit opposed, empty, subtractive, or anti-fill structure.</td>
+</tr>
+<tr>
+<td>Unknown wildcard</td>
+<td>a read placeholder such as <code>Carrier.Unknown</code>, not a physical open site.</td>
+</tr>
+<tr>
+<td>Stable site potential</td>
+<td>an input-side attach point where future perturbation may settle.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<pre><code class="language-text">collector region -&gt; neck
+</code></pre>
+<p>If there is no outlet structure, this might mean:</p>
+<pre><code class="language-text">omitted output
+  the design does not speak about output
+
+open outlet
+  the neck expects a receiver later
+
+void outlet
+  flow leaves into explicit absence or anti-fill
+
+unknown receiver
+  a wildcard read frame, not a physical attachment site
+</code></pre>
+<p>These should not be collapsed.</p>
+<p>An open outlet is especially useful:</p>
+<pre><code class="language-text">open outlet
+  site gathers unresolved orthogonal or directed tension
+  later attached structure can receive that flow
+</code></pre>
+<p>This is close to "there is a socket for meaning here." It should be visible as
+an attachment site, not hidden as an omitted argument.</p>
+<p>The reverse idea also matters:</p>
+<pre><code class="language-text">open inlet / stable site potential
+  site is ready to receive future input and settle it
+</code></pre>
+<p>Seats, detents, sockets, and nests often start as input-side open sites before
+anything has used them.</p>
+<h2 id="18-parameters-and-constraints">18. Parameters And Constraints</h2>
+<p>Parameters are open Gojo structure:</p>
+<ul>
+<li>placeholder</li>
+<li>descriptor slot</li>
+<li>unbound carrier</li>
+<li>unbound endpoint</li>
+<li>unresolved span</li>
+<li>controller</li>
+<li>resolution ladder</li>
+<li>open attachment site</li>
+</ul>
+<p>Constraints should be expressed by faces, spans, relations, resolution, and
+settlement rather than symbolic predicates.</p>
+<p>Examples:</p>
+<pre><code class="language-text">nonnegative length
+  expose positive face only
+
+deficit
+  expose negative site on forward face
+
+opposed amount
+  expose inverse face
+
+bounded amount
+  Segment(parameter,min,max)
+
+reduction
+  output relation uses against-input or inverse/negative participation
+
+capacity
+  partition a whole passage or expose a boundary/reset relation
+
+one-way
+  provide one directed traversal and leave reverse unresolved or blocked
+
+filter
+  provide pass basis and preserve nonmatching residue
+</code></pre>
+<p>Parameterization can change the natural word read:</p>
+<pre><code class="language-text">bridge + inward directed flow
+  funnel
+
+bridge + outward fanout
+  sprayer
+
+bridge + capacity read
+  choke point
+
+bridge + writable capacity
+  valve
+
+bridge + pass basis
+  filter
+
+corner + transition radius -&gt; 0
+  sharp corner
+
+corner + positive radial transition
+  fillet
+
+corner + linear transition span
+  chamfer
+</code></pre>
+<h2 id="19-ticks-partitions-and-whole-resolution">19. Ticks, Partitions, And Whole Resolution</h2>
+<p>Ticks and partitions should not be confused.</p>
+<pre><code class="language-text">3 ticks
+  three units of participation
+
+3 partitions
+  one whole divided into three addressable parts
+</code></pre>
+<p>If a carrier has value <code>3</code>, that does not tell us whether it is <code>3 out of 10</code>
+or <code>3 out of 100</code>. It is count, not proportion.</p>
+<p>A partition requires a whole:</p>
+<pre><code class="language-text">whole span
+  Segment(C,0,whole)
+
+partition count
+  divide the whole into n addressable parts
+</code></pre>
+<p>For concept shapes this matters because many low-resolution parameters are
+about whole surfaces:</p>
+<pre><code class="language-text">valve capacity
+  whole passage partitioned into coarse open states
+
+switch
+  two coarse partitions: off/on or closed/open
+
+valve
+  three or more coarse partitions: low/medium/high or increasingly open
+
+detent
+  contour whole partitioned into repeated stable sites
+
+scale
+  whole measure partitioned into readable marks
+</code></pre>
+<p>If there are no partitions, a single tick may represent the whole concept at
+the current resolution. If a measurement is <code>3 inches at 1/8 inch resolution</code>,
+the tick represents an eighth-inch, not a third of a whole.</p>
+<p>Concept shapes should state whether they are using:</p>
+<pre><code class="language-text">count ticks
+  amount of unit participation
+
+whole partitions
+  resolution of one bounded whole
+</code></pre>
+<h2 id="20-capacity-by-coarse-partition">20. Capacity By Coarse Partition</h2>
+<p>Capacity does not need exact precision at the primitive layer. A valve can be
+represented as a passage with a coarse partitioned capacity surface.</p>
+<p>Examples:</p>
+<pre><code class="language-text">switch-like:
+  2 partitions
+  closed/open
+
+valve-like:
+  3 partitions
+  low/medium/high
+
+fine valve:
+  n partitions or resolution ladder
+</code></pre>
+<p>The purpose of the first few partitions is not to claim exact values. It is to
+say:</p>
+<pre><code class="language-text">this concept is variable and can refine
+</code></pre>
+<p>A capacity surface can later become:</p>
+<ul>
+<li>fixed switch</li>
+<li>valve</li>
+<li>filter pore resolution</li>
+<li>choke capacity</li>
+<li>adjustable nozzle</li>
+<li>gauge scale</li>
+<li>tolerance band</li>
+</ul>
+<h2 id="21-settlement-outcomes">21. Settlement Outcomes</h2>
+<p>Settlement outcomes are not topology primitives, but they are essential
+witnesses.</p>
+<p>Useful outcomes:</p>
+<table>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pass</td>
+<td>perturbation projects through with low residue.</td>
+</tr>
+<tr>
+<td>Block</td>
+<td>perturbation cannot project through available structure.</td>
+</tr>
+<tr>
+<td>Route</td>
+<td>tension moves to another carrier.</td>
+</tr>
+<tr>
+<td>Store</td>
+<td>tension remains intentionally available.</td>
+</tr>
+<tr>
+<td>Cancel</td>
+<td>opposed participation reduces before residue remains.</td>
+</tr>
+<tr>
+<td>Settle</td>
+<td>structure reaches a stable local site.</td>
+</tr>
+<tr>
+<td>Release</td>
+<td>stored tension routes after threshold or unlock.</td>
+</tr>
+<tr>
+<td>Latch</td>
+<td>reverse route remains blocked after entry.</td>
+</tr>
+<tr>
+<td>Residue</td>
+<td>read remainder remains visible.</td>
+</tr>
+<tr>
+<td>Tension</td>
+<td>transferred unresolved change remains visible.</td>
+</tr>
+</tbody>
+</table>
+<p>Composed concepts:</p>
+<pre><code class="language-text">friction
+  contact + tangent attempt + stored slip tension
+
+preload
+  contact/gap relation + intentional stored tension
+
+filter
+  passage + pass basis + nonmatching residue
+
+detent
+  repeat + stable settlement sites + threshold/residue witness
+
+snap
+  threshold + transition timeline + release/settlement witness
+
+latch
+  one-way entry + blocked reverse + release route
+</code></pre>
+<p>These should not be in the generator list. They should be built.</p>
+<h2 id="22-refinement-timelines">22. Refinement Timelines</h2>
+<p>Concepts are often processes of thought and design, not static snapshots.</p>
+<p>A refinement timeline can record:</p>
+<pre><code class="language-text">initial low-resolution shape
+  bridge-like passage
+
+step 0
+  expose capacity read
+
+step 1
+  bind capacity partition count
+
+step 2
+  perturb with flow demand
+
+step 3
+  preserve residue at neck
+
+step 4
+  refine as choke, valve, or filter
+</code></pre>
+<p>Use <code>TimeStepSequence</code> style structure:</p>
+<pre><code class="language-text">time span
+before evidence
+transition evidence
+after evidence
+residue evidence
+</code></pre>
+<p>This allows concept solving to look like equation solving:</p>
+<pre><code class="language-text">low-resolution seed
+  -&gt; local reads
+  -&gt; residue/tension
+  -&gt; parameter binding
+  -&gt; narrowed shape
+  -&gt; higher-resolution design
+</code></pre>
+<h2 id="23-assembly-recipe">23. Assembly Recipe</h2>
+<p>To build a primitive concept shape:</p>
+<ol>
+<li>Choose the physical atoms.</li>
+</ol>
+<pre><code class="language-text">carrier faces
+signed sites
+points
+spans or endpoint pairs
+orthogonal outlets
+products
+groups
+</code></pre>
+<ol start="2">
+<li>Decide whether each extent is unordered, directed, or reversible.</li>
+</ol>
+<pre><code class="language-text">endpoint pair
+directed segment
+paired reversible segments
+</code></pre>
+<ol start="3">
+<li>Connect topology through shared sites or relations.</li>
+</ol>
+<pre><code class="language-text">shared TickRef
+shared point
+end-to-origin relation
+orthogonal relation
+boundary relation
+closure relation
+</code></pre>
+<ol start="4">
+<li>Expose reads instead of labels.</li>
+</ol>
+<pre><code class="language-text">capacity read
+gap read
+pass basis read
+residue read
+transition read
+</code></pre>
+<ol start="5">
+<li>Add open parameters only where the primitive needs a future refinement.</li>
+</ol>
+<pre><code class="language-text">unbound endpoint
+placeholder receiver
+partition count
+threshold carrier
+repeat controller
+</code></pre>
+<ol start="6">
+<li>Preserve use or refinement evidence.</li>
+</ol>
+<pre><code class="language-text">residue
+tension
+timeline
+selected sample
+settlement witness
+</code></pre>
+<ol start="7">
+<li>Let word reads be local.</li>
+</ol>
+<pre><code class="language-text">same graph + different read = different word
+</code></pre>
+<h2 id="24-example-bridge-family">24. Example: Bridge Family</h2>
+<h3 id="primitive-passage">Primitive Passage</h3>
+<p>Low-resolution structure:</p>
+<pre><code class="language-text">side A
+side B
+neck point or neck extent
+side A connected to neck
+side B connected to neck
+</code></pre>
+<p>No preferred traversal is required.</p>
+<p>Concept read:</p>
+<pre><code class="language-text">bridge / passage / connector seed
+</code></pre>
+<h3 id="bridge">Bridge</h3>
+<p>Focus:</p>
+<pre><code class="language-text">neck
+</code></pre>
+<p>Flow:</p>
+<pre><code class="language-text">agnostic traversable
+</code></pre>
+<p>No capacity, direction, or side size is required.</p>
+<h3 id="connector">Connector</h3>
+<p>Focus:</p>
+<pre><code class="language-text">neck as transfer element
+</code></pre>
+<p>Side shape is less important than attachment.</p>
+<h3 id="funnel">Funnel</h3>
+<p>Add:</p>
+<pre><code class="language-text">input side radial-in or branch-in relation
+directed traversal toward neck
+optional open outlet at neck
+</code></pre>
+<p>If the outlet is omitted, this may read more like a collector or peninsula. If
+an open outlet is present, it says the funnel expects a receiver.</p>
+<h3 id="sprayer">Sprayer</h3>
+<p>Reverse focus:</p>
+<pre><code class="language-text">neck -&gt; output radial fanout
+</code></pre>
+<p>Add output spread parameter for nozzle behavior.</p>
+<h3 id="filter">Filter</h3>
+<p>Add:</p>
+<pre><code class="language-text">pass basis
+nonmatching residue witness
+</code></pre>
+<p>The passage is not the filter. The filter is passage plus selective read.</p>
+<h3 id="choke">Choke</h3>
+<p>Add:</p>
+<pre><code class="language-text">capacity partition
+demand perturbation
+residue/tension at neck
+</code></pre>
+<p>The choke word comes from the capacity read and tension witness.</p>
+<h3 id="valve">Valve</h3>
+<p>Add writable capacity:</p>
+<pre><code class="language-text">capacity parameter
+coarse partition: closed/open or low/medium/high
+</code></pre>
+<p>The valve can refine from switch-like to continuously adjustable by increasing
+resolution.</p>
+<h2 id="25-example-corner-family">25. Example: Corner Family</h2>
+<h3 id="primitive-corner">Primitive Corner</h3>
+<p>Low-resolution structure:</p>
+<pre><code class="language-text">span or extent A
+span or extent B
+shared endpoint or origin
+orthogonal or angled relation
+</code></pre>
+<p>Flow is unspecified. It may be a boundary change, turn, stress site, hinge
+candidate, or visual corner.</p>
+<h3 id="sharp-corner">Sharp Corner</h3>
+<p>Do not create a primitive sharp-corner tag.</p>
+<p>Add:</p>
+<pre><code class="language-text">transition parameter
+perturbation toward zero
+</code></pre>
+<p>Sharpness is a read over the transition parameter.</p>
+<h3 id="fillet">Fillet</h3>
+<p>Add:</p>
+<pre><code class="language-text">positive radial transition
+radius parameter
+arc or contour relation
+</code></pre>
+<h3 id="chamfer">Chamfer</h3>
+<p>Add:</p>
+<pre><code class="language-text">linear transition extent
+offset parameters on both legs
+</code></pre>
+<h3 id="hinge-candidate">Hinge Candidate</h3>
+<p>Add:</p>
+<pre><code class="language-text">shared pivot site
+rotation/contour potential
+translation constraint
+</code></pre>
+<p>The same primitive corner can refine toward a hinge under a different read.</p>
+<h2 id="26-example-slot-family">26. Example: Slot Family</h2>
+<h3 id="primitive-slot">Primitive Slot</h3>
+<p>Structure:</p>
+<pre><code class="language-text">unoriented or directed length extent
+orthogonal gap/width extent
+side boundaries
+</code></pre>
+<p>Flow:</p>
+<pre><code class="language-text">motion allowed along length
+motion constrained across width
+</code></pre>
+<h3 id="guide">Guide</h3>
+<p>Add:</p>
+<pre><code class="language-text">candidate moving element
+gap read
+low-residue traversal along length
+</code></pre>
+<h3 id="clamp-slot">Clamp Slot</h3>
+<p>Add:</p>
+<pre><code class="language-text">gap reduction
+opposed contact
+stored tension
+</code></pre>
+<h3 id="ratchet-slot">Ratchet Slot</h3>
+<p>Add:</p>
+<pre><code class="language-text">repeated asymmetric stops
+directed traversal
+blocked reverse witness
+</code></pre>
+<h3 id="keyed-slot">Keyed Slot</h3>
+<p>Add:</p>
+<pre><code class="language-text">asymmetric matching surface
+orientation residue for nonmatching entry
+</code></pre>
+<h2 id="27-example-fastener-family">27. Example: Fastener Family</h2>
+<h3 id="primitive-shortening-relation">Primitive Shortening Relation</h3>
+<p>Structure:</p>
+<pre><code class="language-text">body A
+body B
+span between bodies
+relation that moves one endpoint toward the other
+</code></pre>
+<p>Flow:</p>
+<pre><code class="language-text">shortening
+</code></pre>
+<p>Settlement:</p>
+<pre><code class="language-text">intentional stored tension across contact surfaces
+</code></pre>
+<h3 id="clamp">Clamp</h3>
+<p>If the focus is opposed surfaces and preload:</p>
+<pre><code class="language-text">clamp
+</code></pre>
+<h3 id="screw-bolt">Screw / Bolt</h3>
+<p>Add:</p>
+<pre><code class="language-text">repeat/helical relation
+rotation carrier
+axial travel carrier
+seat/head contact
+thread receiver
+</code></pre>
+<h3 id="rivet">Rivet</h3>
+<p>Add:</p>
+<pre><code class="language-text">one-way deformation
+no normal release path
+</code></pre>
+<p>The primitive is not a fastener tag. It is shortening plus settlement.</p>
+<h2 id="28-example-radial-family">28. Example: Radial Family</h2>
+<h3 id="radial-potential">Radial Potential</h3>
+<p>Structure:</p>
+<pre><code class="language-text">Point(center,0)
+OrthogonalOutlet(Point(center,0))
+</code></pre>
+<p>No radius, direction, or partition exists yet.</p>
+<h3 id="circle-contour">Circle / Contour</h3>
+<p>Add:</p>
+<pre><code class="language-text">contour carrier from point orthogonal
+radius calibration
+optional marker on contour
+</code></pre>
+<h3 id="arc">Arc</h3>
+<p>Add:</p>
+<pre><code class="language-text">start marker
+end marker
+possibly direction relation
+</code></pre>
+<h3 id="detent-ring">Detent Ring</h3>
+<p>Add:</p>
+<pre><code class="language-text">repeat controller on contour
+stable site witness
+threshold/release evidence
+</code></pre>
+<h3 id="nozzle-spread">Nozzle Spread</h3>
+<p>Use radial-out fanout from a neck:</p>
+<pre><code class="language-text">neck point
+output radial/arc extent
+spread parameter
+</code></pre>
+<h3 id="funnel-intake">Funnel Intake</h3>
+<p>Use radial-in convergence:</p>
+<pre><code class="language-text">collector arc or region
+directed relation toward neck
+</code></pre>
+<h2 id="29-example-contact-family">29. Example: Contact Family</h2>
+<h3 id="contact-seed">Contact Seed</h3>
+<p>Structure:</p>
+<pre><code class="language-text">surface A
+surface B or B inverse face
+gap carrier or shared contact site
+</code></pre>
+<p>Contact can be unresolved before use.</p>
+<h3 id="clearance">Clearance</h3>
+<p>Read:</p>
+<pre><code class="language-text">positive gap
+</code></pre>
+<h3 id="interference">Interference</h3>
+<p>Read:</p>
+<pre><code class="language-text">negative gap or opposed residue
+</code></pre>
+<h3 id="bearing">Bearing</h3>
+<p>Add:</p>
+<pre><code class="language-text">normal support
+tangential traversal
+low slip residue
+</code></pre>
+<h3 id="friction">Friction</h3>
+<p>Add:</p>
+<pre><code class="language-text">tangential motion attempt
+stored slip tension
+</code></pre>
+<h3 id="seal">Seal</h3>
+<p>Add:</p>
+<pre><code class="language-text">closed boundary
+blocked passage basis
+leakage residue read
+</code></pre>
+<h2 id="30-example-repeat-family">30. Example: Repeat Family</h2>
+<p>Repeat is not a named concept. It is a primitive controller skeleton.</p>
+<h3 id="teeth">Teeth</h3>
+<pre><code class="language-text">selected tooth shape
+repeat controller around contour
+contact/read relation
+</code></pre>
+<h3 id="detents">Detents</h3>
+<pre><code class="language-text">selected stable site
+repeat controller
+settlement threshold
+</code></pre>
+<h3 id="threads">Threads</h3>
+<pre><code class="language-text">selected inclined surface
+repeat around contour
+projection to axial travel
+</code></pre>
+<h3 id="pores">Pores</h3>
+<pre><code class="language-text">selected pass/void site
+repeat over sheet or boundary
+pass basis residue
+</code></pre>
+<h3 id="marks">Marks</h3>
+<pre><code class="language-text">selected readable point
+repeat over scale carrier
+observer read
+</code></pre>
+<h2 id="31-word-reads">31. Word Reads</h2>
+<p>Words should be local reads, not enum values.</p>
+<p>Example:</p>
+<pre><code class="language-text">base structure:
+  two sides connected through a neck
+
+focus neck, no direction:
+  bridge
+
+focus transfer element:
+  connector
+
+focus input, inward flow:
+  funnel
+
+focus output, outward radial flow:
+  sprayer
+
+focus pass basis:
+  filter
+
+focus capacity residue:
+  choke
+
+focus writable capacity:
+  valve
+</code></pre>
+<p>This allows one graph to support several valid reads. The read resolution and
+exposed focus decide the word.</p>
+<h2 id="32-descriptor-re-grounding">32. Descriptor Re-Grounding</h2>
+<p>Descriptors can carry context without owning meaning. The same algebraic ghost
+can be re-grounded:</p>
+<pre><code class="language-text">physical bridge
+  two regions connected by a passage
+
+bridge round
+  two funding states connected by a financing passage
+
+data filter
+  samples pass through selected basis and nonmatching samples become residue
+
+sales funnel
+  many candidates converge through narrowing stages
+</code></pre>
+<p>The descriptors change. The structural pattern remains inspectable.</p>
+<p>A concept shape may use descriptors to remember where the metaphor came from,
+but the relation graph must still carry the read.</p>
+<h2 id="33-missing-core-gojo-structure">33. Missing Core Gojo Structure</h2>
+<p>This section lists missing or weak structures that would make concept shapes
+cleaner. These are proposed extensions, not current requirements.</p>
+<h3 id="331-unoriented-extent">33.1 Unoriented Extent</h3>
+<p>Problem:</p>
+<pre><code class="language-text">Relation.Segment(C,a,b)
+</code></pre>
+<p>commits direction. Many primitive concepts need extent without start/end.</p>
+<p>Proposed structure:</p>
+<pre><code class="language-text">UnorientedExtent(root, pointA, pointB)
+  OrderedGroup(root, pointA, pointB)
+</code></pre>
+<p>The helper read treats the two endpoints as an unordered pair. Internally this
+can still be an ordinary relation group.</p>
+<p>Implementation sketch:</p>
+<pre><code class="language-csharp">public static Relation Extent(Carrier root, Relation endpointA, Relation endpointB)
+public static bool TryReadExtent(Relation surface, out Relation endpointA, out Relation endpointB)
+public static Relation Orient(Relation extent, bool reversed = false)
+</code></pre>
+<p>Use:</p>
+<ul>
+<li>primitive span-as-one-thing</li>
+<li>corner legs before traversal is chosen</li>
+<li>bridge neck before direction is chosen</li>
+<li>focus range without flow</li>
+<li>datum distance without measurement direction</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>ad hoc endpoint ordered groups</li>
+<li>pretending every extent is a directed segment</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li><code>Relation.Segment</code> by giving a lower-resolution precursor.</li>
+</ul>
+<h3 id="332-unordered-group-read">33.2 Unordered Group Read</h3>
+<p>Problem:</p>
+<p>Current ordered/additive groups preserve order. Some concept seeds need
+membership without traversal.</p>
+<p>Proposed structure:</p>
+<pre><code class="language-text">participants attached to holder
+read ignores order and duplicate traversal
+</code></pre>
+<p>Implementation sketch:</p>
+<pre><code class="language-csharp">public static Relation UnorderedGroup(Carrier root, params IElement[] members)
+public static bool TryReadUnorderedMembers(Relation group, out IElement[] members)
+</code></pre>
+<p>This does not require a hidden set. The helper can build ordinary attachment
+relations and provide an order-neutral read.</p>
+<p>Use:</p>
+<ul>
+<li>contact patch set</li>
+<li>candidate attachment options</li>
+<li>unordered endpoints</li>
+<li>datum candidates</li>
+<li>feature evidence before traversal</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>relying on construction order when order has no meaning</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li><code>OrderedGroup</code> and additive participation with an explicit order-neutral
+  read.</li>
+</ul>
+<h3 id="333-declared-reversible-traversal">33.3 Declared Reversible Traversal</h3>
+<p>Problem:</p>
+<p>Agnostic traversable and reversible are different. Reversible means both
+directions are intentionally available.</p>
+<p>Proposed structure:</p>
+<pre><code class="language-text">ReversibleTraversal(root)
+  forward segment/relation
+  reverse segment/relation
+  shared endpoints
+</code></pre>
+<p>Implementation sketch:</p>
+<pre><code class="language-csharp">public static Relation Reversible(Carrier root, Relation forward, Relation reverse)
+public static bool TryReadReversible(Relation surface, out Relation forward, out Relation reverse)
+</code></pre>
+<p>Use:</p>
+<ul>
+<li>two-way connector</li>
+<li>bidirectional guide</li>
+<li>reversible hinge read</li>
+<li>declared two-way road-like bridge</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>treating absence of direction as two-way flow</li>
+<li>duplicating route pairs with no shared surface</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li>directed <code>Segment</code> and projection relations.</li>
+</ul>
+<h3 id="334-open-attachment-site">33.4 Open Attachment Site</h3>
+<p>Problem:</p>
+<p>Omitted structure, unknown wildcard, void, and open receiver currently blur
+together.</p>
+<p>Proposed structure:</p>
+<pre><code class="language-text">OpenAttachment(root)
+  site
+  expected incoming/outgoing surface
+  receiver slot
+  unresolved residue/tension site
+</code></pre>
+<p>This says:</p>
+<pre><code class="language-text">flow is expected here
+but no receiver has been installed yet
+</code></pre>
+<p>Implementation sketch:</p>
+<pre><code class="language-csharp">public static Relation OpenOutlet(Carrier root, IElement site, IElement expectedFlow)
+public static Relation OpenInlet(Carrier root, IElement site, IElement expectedFlow)
+public static bool TryReadOpenAttachment(...)
+</code></pre>
+<p>Use:</p>
+<ul>
+<li>funnel outlet waiting for conduit</li>
+<li>socket waiting for plug</li>
+<li>stable site potential</li>
+<li>sensor port waiting for observer</li>
+<li>future branch connection</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>using <code>Carrier.Unknown</code> as if it were a physical open socket</li>
+<li>omitting output and losing the distinction between absent and unimplemented</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li>placeholders, descriptor slots, and orthogonal outlets.</li>
+</ul>
+<h3 id="335-explicit-void-anti-fill-surface">33.5 Explicit Void / Anti-Fill Surface</h3>
+<p>Problem:</p>
+<p>Absence can mean omitted, unresolved, or explicit void. A hole needs explicit
+anti-participation or bounded absence.</p>
+<p>Proposed structure:</p>
+<pre><code class="language-text">VoidSurface(root)
+  boundary
+  opposed/anti-fill participation
+  optional pass-through axis
+</code></pre>
+<p>Implementation sketch:</p>
+<pre><code class="language-csharp">public static Relation Void(Carrier root, IElement boundary, IElement antiFill)
+public static bool TryReadVoid(...)
+</code></pre>
+<p>Use:</p>
+<ul>
+<li>holes</li>
+<li>pockets</li>
+<li>cutouts</li>
+<li>negative space</li>
+<li>excluded regions</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>treating missing fill as a hole</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li>product/opposed unit shapes and boundary reads.</li>
+</ul>
+<h3 id="336-whole-partition-surface">33.6 Whole Partition Surface</h3>
+<p>Problem:</p>
+<p>Tick count and partition count are easy to confuse.</p>
+<p>Proposed structure:</p>
+<pre><code class="language-text">PartitionSurface(root)
+  whole surface/span
+  partition axis
+  partition count/controller
+  optional selected partition
+</code></pre>
+<p>Implementation sketch:</p>
+<pre><code class="language-csharp">public static Relation Partition(Carrier root, IElement whole, Carrier axis, long count)
+public static bool TryReadPartition(...)
+</code></pre>
+<p>Use:</p>
+<ul>
+<li>valve positions</li>
+<li>detent count</li>
+<li>scale marks</li>
+<li>coarse capacity</li>
+<li>fractional read of a whole concept</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>raw count spans when the intended meaning is whole division</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li><code>ResolutionLadder</code>, <code>RepeatSurface</code>, and <code>UnitShape.ResolutionOf</code>.</li>
+</ul>
+<h3 id="337-quadrant-helpers">33.7 Quadrant Helpers</h3>
+<p>Problem:</p>
+<p>The four signed face quadrants are already expressible, but easy to misuse.</p>
+<p>Proposed helper layer:</p>
+<pre><code class="language-csharp">FaceSite.ForwardPositive(C,n)
+FaceSite.ForwardNegative(C,n)
+FaceSite.InversePositive(C,n)
+FaceSite.InverseNegative(C,n)
+</code></pre>
+<p>or relation helpers:</p>
+<pre><code class="language-csharp">Relation.FacePoint(carrier, face, signedTicks)
+Relation.FaceSpan(carrier, face, startTicks, endTicks)
+</code></pre>
+<p>Use:</p>
+<ul>
+<li>nonnegative constraints</li>
+<li>deficit reads</li>
+<li>opposed participation</li>
+<li>interference</li>
+<li>reverse-side pressure</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>collapsing negative ticks and inverse faces</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li><code>CarrierLocation</code>, <code>Carrier.Inverse</code>, and <code>Relation.DirectedSegment</code>.</li>
+</ul>
+<h3 id="338-read-as-focus-surface">33.8 Read-As-Focus Surface</h3>
+<p>Problem:</p>
+<p>Focus is often the read being exposed, but stored concept surfaces sometimes
+need to preserve that read.</p>
+<p>Proposed structure:</p>
+<pre><code class="language-text">ReadFocus(root)
+  selected structure
+  read surface
+  result or residue carrier
+</code></pre>
+<p>Implementation sketch:</p>
+<pre><code class="language-csharp">public static Relation ReadFocus(Carrier root, IElement selected, Relation read)
+public static bool TryReadFocus(...)
+</code></pre>
+<p>Use:</p>
+<ul>
+<li>capacity-focused bridge</li>
+<li>residue-focused choke</li>
+<li>pass-basis-focused filter</li>
+<li>transition-focused corner</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>separate focus metadata</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li>live outputs, equation reads, and concept-surface records.</li>
+</ul>
+<h3 id="339-material-transfer-vs-observation-route">33.9 Material Transfer vs Observation Route</h3>
+<p>Problem:</p>
+<p>Same topology can mean material transfer or observation.</p>
+<p>Current foothold:</p>
+<pre><code class="language-text">AttachLiveOutput
+</code></pre>
+<p>is closer to observation/read than material drain.</p>
+<p>Proposed distinction:</p>
+<pre><code class="language-text">MaterialRoute
+  source tension/value can be consumed or redistributed
+
+ObservationRoute
+  source is read without material drain
+</code></pre>
+<p>Implementation sketch:</p>
+<pre><code class="language-csharp">Relation.MaterialRoute(input, outputPort)
+Relation.ObservationRoute(input, outputPort)
+</code></pre>
+<p>Use:</p>
+<ul>
+<li>sensor tap vs drain</li>
+<li>gauge vs outlet</li>
+<li>visual window vs hole</li>
+<li>measurement fixture vs cutting fixture</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>treating all fanout as material distribution</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li>live output and settlement route relations.</li>
+</ul>
+<h3 id="3310-capacity-saturation-surface">33.10 Capacity / Saturation Surface</h3>
+<p>Problem:</p>
+<p>Chokes, valves, filters, queues, and overloads need capacity without boolean
+pass/fail tags.</p>
+<p>Proposed structure:</p>
+<pre><code class="language-text">CapacitySurface(root)
+  passage or receiver
+  whole capacity
+  partition/resolution
+  overflow/residue carrier
+</code></pre>
+<p>Implementation sketch:</p>
+<pre><code class="language-csharp">public static Relation Capacity(Carrier root, IElement passage, IElement wholeCapacity, IElement overflow)
+public static bool TryReadCapacity(...)
+</code></pre>
+<p>Use:</p>
+<ul>
+<li>choke point</li>
+<li>valve opening</li>
+<li>maximum load</li>
+<li>queue</li>
+<li>filter pore capacity</li>
+<li>overload protection</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li><code>Allow</code> / <code>Block</code> as primitive flags</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li>boundary/reset relations, partition surfaces, and tension reads.</li>
+</ul>
+<h3 id="3311-stable-site-potential">33.11 Stable Site Potential</h3>
+<p>Problem:</p>
+<p>Gojo can witness settlement after perturbation, but representing a site as a
+potential well before use is still fuzzy.</p>
+<p>Proposed structure:</p>
+<pre><code class="language-text">StablePotential(root)
+  site
+  approach surface
+  return or holding relation
+  threshold/residue slot
+</code></pre>
+<p>Use:</p>
+<ul>
+<li>detent site before click</li>
+<li>seat before object arrives</li>
+<li>socket before plug arrives</li>
+<li>latch catch before latch arrives</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>pretending stable sites only exist after use</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li>open inlet, threshold surfaces, and settlement witness.</li>
+</ul>
+<h3 id="3312-conditional-gate-surface">33.12 Conditional / Gate Surface</h3>
+<p>Problem:</p>
+<p>Some concepts need "this route is available only through this parameter" while
+remaining structural.</p>
+<p>Proposed structure:</p>
+<pre><code class="language-text">GateSurface(root)
+  candidate route
+  controlling parameter surface
+  pass residue
+  blocked residue
+</code></pre>
+<p>This should not be a boolean enum. The parameter should be a carrier/span/read
+whose current resolution exposes how much route is available.</p>
+<p>Use:</p>
+<ul>
+<li>valve</li>
+<li>switch</li>
+<li>latch release</li>
+<li>filter enable</li>
+<li>directional clutch</li>
+</ul>
+<p>Replaces:</p>
+<ul>
+<li>hidden <code>if</code> dispatch in concept reads</li>
+</ul>
+<p>Extends:</p>
+<ul>
+<li>capacity, partition, and settlement witnesses.</li>
+</ul>
+<h2 id="34-what-the-missing-structures-replace">34. What The Missing Structures Replace</h2>
+<table>
+<thead>
+<tr>
+<th>Missing structure</th>
+<th>Replaces</th>
+<th>Extends</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unoriented extent</td>
+<td>pretending every extent is directed</td>
+<td><code>Relation.Segment</code> with a lower-resolution precursor</td>
+</tr>
+<tr>
+<td>Unordered group read</td>
+<td>accidental meaning from construction order</td>
+<td><code>OrderedGroup</code> and additive participation</td>
+</tr>
+<tr>
+<td>Declared reversible traversal</td>
+<td>confusing agnostic with bidirectional</td>
+<td>directed segments and projection routes</td>
+</tr>
+<tr>
+<td>Open attachment site</td>
+<td>confusing omitted, unknown, and unimplemented</td>
+<td>placeholders and orthogonal outlets</td>
+</tr>
+<tr>
+<td>Explicit void surface</td>
+<td>treating absence as a hole</td>
+<td>opposed products and boundary reads</td>
+</tr>
+<tr>
+<td>Whole partition surface</td>
+<td>confusing count with division of a whole</td>
+<td>resolution ladders and repeats</td>
+</tr>
+<tr>
+<td>Quadrant helpers</td>
+<td>collapsing negative and inverse</td>
+<td>carrier locations and inverse faces</td>
+</tr>
+<tr>
+<td>Read-as-focus surface</td>
+<td>external focus metadata</td>
+<td>live/equation reads</td>
+</tr>
+<tr>
+<td>Material vs observation route</td>
+<td>treating all fanout as transfer</td>
+<td>live output and route settlement</td>
+</tr>
+<tr>
+<td>Capacity surface</td>
+<td>primitive pass/block flags</td>
+<td>boundary/reset and tension reads</td>
+</tr>
+<tr>
+<td>Stable potential</td>
+<td>only post-settlement stable-site witnesses</td>
+<td>open inlet and threshold reads</td>
+</tr>
+<tr>
+<td>Gate surface</td>
+<td>hidden boolean dispatch</td>
+<td>capacity/partition/control surfaces</td>
+</tr>
+</tbody>
+</table>
+<h2 id="35-minimal-primitive-set-after-cleanup">35. Minimal Primitive Set After Cleanup</h2>
+<p>After removing composed reads, the small primitive set is:</p>
+<pre><code class="language-text">1. carrier face
+   forward / inverse
+
+2. signed site
+   positive / negative location on a face
+
+3. shared coordinate
+   TickRef-backed physical identity
+
+4. point
+   grounded site
+
+5. extent
+   directed segment today, future unoriented extent
+
+6. orthogonal
+   point, zero-segment, segment outlets
+
+7. product
+   aligned and non-aligned combined participation
+
+8. group
+   gathered participants, ordered today, future unordered read
+
+9. incidence
+   shared point, endpoint join, origin join, continuation
+
+10. boundary / closure
+    limits, wraps, closed contours, envelopes
+
+11. projection / scale
+    relation between spans or frames
+
+12. openness
+    placeholder, descriptor slot, open attachment site
+
+13. repeat
+    repeated selected structure over controller
+
+14. witness
+    residue, tension, timeline
+</code></pre>
+<p>Everything else should be built from these.</p>
+<h2 id="36-design-rule">36. Design Rule</h2>
+<p>The rule for deciding whether something is primitive:</p>
+<pre><code class="language-text">if removing the word still leaves the Gojo graph with the same local
+physical affordance, the word is not primitive
+</code></pre>
+<p>Examples:</p>
+<pre><code class="language-text">funnel
+  not primitive
+  build from radial/branch convergence + directed traversal + neck/open outlet
+
+filter
+  not primitive
+  build from passage + pass basis + nonmatching residue
+
+friction
+  not primitive
+  build from contact + tangent motion attempt + stored tension
+
+detent
+  not primitive
+  build from repeat + stable potential/witness + threshold
+
+sharp corner
+  not primitive
+  build from corner + transition parameter driven toward zero
+</code></pre>
+<h2 id="37-practical-direction">37. Practical Direction</h2>
+<p>The best next documentation or code step would be:</p>
+<ol>
+<li>Add small helper docs or tests for the four face quadrants.</li>
+<li>Add an <code>UnorientedExtent</code> helper as ordinary relation structure.</li>
+<li>Add an <code>OpenAttachment</code> helper to separate omitted, unknown, void, and
+   unimplemented receiver.</li>
+<li>Add a <code>PartitionSurface</code> helper to separate tick count from whole
+   partition.</li>
+<li>Add tests showing that bridge, funnel, filter, and choke are different
+   reads over related structures rather than separate concept tags.</li>
+</ol>
+<p>The first code should avoid word classifiers. The tests should inspect:</p>
+<ul>
+<li>topology</li>
+<li>chosen read/focus</li>
+<li>parameter slots</li>
+<li>residue/tension witness</li>
+<li>refinement timeline</li>
+</ul>
+<p>The goal is not to make Gojo know English words. The goal is to make the
+structure rich enough that words become honest local reads.</p></main></html>

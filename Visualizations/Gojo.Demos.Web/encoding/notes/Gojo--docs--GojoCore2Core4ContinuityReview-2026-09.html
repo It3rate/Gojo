@@ -1,0 +1,317 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Core2, Core4 and current Gojo: retained capabilities and gaps</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="core2-core4-and-current-gojo-retained-capabilities-and-gaps">Core2, Core4 and current Gojo: retained capabilities and gaps</h1>
+<p>Review date: September 10, 2026. Current Gojo baseline: <code>c29fbf6</code>, including
+the joined-offset path construction. Historical source checkouts inspected:
+Core4 at <code>c91c7d6</code>, and ResoEngine/Core2 at <code>d14f058</code>. These are source and
+test comparisons, not a claim that the archived binaries were rebuilt or that
+all historical tests were rerun. Local checkout additions around deployment
+are not treated as changes to the historical mathematical implementations.
+Historical source links assume Core4 and ResoEngine remain beside the Gojo
+checkout; they are reference material, not current project dependencies.</p>
+<p><strong>September 11 follow-up:</strong> the <a href="Gojo--docs--GojoComplexInterpretations-2026-09.html">complex interpretation work</a>
+now restores selected complex coefficient arithmetic through opposed-face and
+contour constructions, exact square-root alternatives and partial fractional-
+power equations. The gap descriptions below record the September 10 baseline;
+general complex root families, analytic branch tracking and split-complex
+arithmetic remain outside the new implementation.</p>
+<h2 id="main-assessment">Main assessment</h2>
+<p>Gojo retains much of the early primitive intent, but it is not a feature-complete
+replacement for every old demo. Three kinds of change are easy to confuse:</p>
+<ol>
+<li><strong>Re-expressed:</strong> the capability exists, but a different connected structure
+   now carries it. Points, directed segments, units, projection and partial
+   constructions mostly belong here.</li>
+<li><strong>Implemented under a narrower or older contract:</strong> useful behavior exists,
+   but does not yet meet every law of the new construction work. Several
+   GojoCAD area and rounding helpers belong here.</li>
+<li><strong>Historical capability without a complete current equivalent:</strong> the older
+   implementation still exists, but its behavior has not been rebuilt in Gojo.
+   Trolley navigation, the letter-formation system, complex fractional-power
+   branch selection and resistive-network relaxation are significant examples.</li>
+</ol>
+<p>The narrower syntax demonstrations should not be mistaken for the entire
+Gojo library. Conversely, a name or shape in Blocks does not establish that
+its construction or dynamics have been implemented.</p>
+<h2 id="which-older-demos-are-we-comparing">Which older demos are we comparing?</h2>
+<p>The <a href="https://gojo.inklingai.ca/core4/">archived website</a> contains three engines:
+Core4 Interactive Probe, Core2 Pattern Visualizer, and the separate Foom Numbers
+tour. Foom is earlier related work, not another name for Core2.</p>
+<p>The Core2 desktop page registration (external repository reference)
+lists 20 pages: pinning and shared carriers, resolution, symbolic operations,
+boundary continuation, friezes, booleans, fractional powers, units and letter
+formation. Its browser registration (external repository reference)
+includes only six: Letter A Goal Pins, Letter Formation Dynamics, Resolution
+Modes, Boolean Operations, Orthogonal Boolean and Parallel Boolean. Absence
+from that browser menu is therefore not evidence that a desktop experiment
+was deleted.</p>
+<p>Core4 has a separate primitive example collection (external repository reference),
+site examples (external repository reference), and runtime
+experiments in topology, calibration and circuits. The current Gojo solution
+does not reference those projects. The archive preserves access to them;
+it does not make them current Gojo behavior.</p>
+<h2 id="primitive-and-construction-correspondence">Primitive and construction correspondence</h2>
+<table>
+<thead>
+<tr>
+<th>Earlier family / demo</th>
+<th>Current Gojo counterpart</th>
+<th>Assessment and remaining difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scalar and Proportion; dominant amount over recessive support</td>
+<td>Signed carrier locations, explicit spans/calibrations, projection residue and quantity quotient reads</td>
+<td><strong>Re-expressed.</strong> Native carrier state is integral; exact rational observations retain their basis. A denominator no longer doubles as a universal encoding of resolution, orientation and missing information.</td>
+</tr>
+<tr>
+<td>Axis / directed segment</td>
+<td><code>S(C,a,b)</code>, opposed-face directed segments, endpoint identity and selected face-product reads</td>
+<td><strong>Retained with changed semantics.</strong> Ordered endpoints remain fundamental. Negative coordinates, opposed flow and reversed traversal are separate operations.</td>
+</tr>
+<tr>
+<td>Pinning Axis / Axis Pinning Geometry / Shared Carrier Shapes</td>
+<td>Shared <code>TickRef</code> sites, point/segment relations, ports, explicit contact and correspondence</td>
+<td><strong>Structural capability retained; old explorer not ported.</strong> A pin can be represented without recreating the old pin-mode taxonomy. Topology is not inferred from equal coordinates.</td>
+</tr>
+<tr>
+<td>Orthogonal Axes / Core4 Primitive Bases</td>
+<td>Orthogonal outlets, unit-shape products, directed-face participation, selected affine and metric bases</td>
+<td><strong>Re-expressed, not a literal six-form migration.</strong> Orthogonal participation is contextual. The old unit-sign rules that selected a carrier rank do not define the current metric.</td>
+</tr>
+<tr>
+<td>Area, anti-area and expanded quadrants</td>
+<td>Product units, fill/anti-fill participation, boundary and lane surfaces, graphic area structures</td>
+<td><strong>Retained in several separate reads.</strong> Dimensional product, occupied area, orientation and rendered region are no longer one obligatory <code>Area</code> wrapper or one fixed grade ladder.</td>
+</tr>
+<tr>
+<td>Circle / radial carrier / geometry at a pin</td>
+<td>Point-derived circular unit possibility; reach, radius attachment, actual seam, subdivision and metric-quarter construction</td>
+<td><strong>More explicit construction.</strong> An angle convention and rendered grid need not be assumed at the start. Arbitrary intrinsic fractions still lack a complete exact metric embedding.</td>
+</tr>
+<tr>
+<td>Frozen basis and live attachment</td>
+<td>Stable <code>UnitShape</code>, crystallization, source/read surfaces, shared-site ports and explicit live outputs</td>
+<td><strong>Retained and separated.</strong> Stable tick meaning and a live sampled value are different. Reading a source does not silently move material.</td>
+</tr>
+<tr>
+<td>Resolution Modes</td>
+<td>Resolution/subdivision unit shapes, calibrated refinement reads, residue and explicit material refinement</td>
+<td><strong>Retained with stronger accounting.</strong> The former rounding-rule menu is not a complete one-for-one API migration. Current projection and enclosure reads state their rounding and remainder contracts separately.</td>
+</tr>
+<tr>
+<td>Units / Quantity</td>
+<td>Ordered product and quotient unit structure, explicit dimensional matching, selected standards and calibrations</td>
+<td><strong>Retained and expanded.</strong> Repetition and authored order survive an explicit commutative dimensional read. Compatible dimensions do not imply compatible scale or observation identity.</td>
+</tr>
+<tr>
+<td>Parallel and Orthogonal Boolean galleries / containment</td>
+<td>Scoped span support, overlap, exclusive and uncovered reads; lane occupancy and participation witnesses; CAD area settlement</td>
+<td><strong>Retained in selected scopes.</strong> Exact span reads and approximate planar geometry coexist. This is not one universal Boolean/solid kernel.</td>
+</tr>
+<tr>
+<td>Boundary Repetition / Landmark Continuation</td>
+<td>Carrier wrap/clamp and routes; repeat/controller/timeline surfaces; explicit contour traversal</td>
+<td><strong>Partly re-expressed.</strong> A generic old bounce/continuation option does not automatically have a corresponding current propagation law.</td>
+</tr>
+<tr>
+<td>Frieze Gallery / Pattern Editor / Pinning Editor / Square Wave Dynamics</td>
+<td>Motif ports, affine transform composition, glide/reflection/translation, repeat structure and selected feedback</td>
+<td><strong>Core construction retained; application breadth reduced.</strong> The new fixtures check selected generators. The former fire/commit program editor and its full pattern catalog are not reproduced.</td>
+</tr>
+<tr>
+<td>Fractional Power / complex and split-complex axes</td>
+<td>Repeated integer products, explicit quotient reads, exact square-root checks and open square-constrained geometry</td>
+<td><strong>Substantial gap.</strong> No equivalent general complex/split-complex fractional-power branch API or branch-following workbench was found in the current solution.</td>
+</tr>
+<tr>
+<td>Symbolic Workbench</td>
+<td>Text syntax, partial patterns/bindings, equation surfaces, claims, transforms and replay</td>
+<td><strong>Different purpose.</strong> Gojo syntax authors the numeric graph; it does not replace the old symbolic reduction/search workbench. A parsed request does not itself choose or run its reader.</td>
+</tr>
+</tbody>
+</table>
+<p>Current evidence for these rows includes the
+<a href="Gojo--docs--GojoSystemPrompt.html">core representation</a>,
+<a href="assets/Tests--Gojo.Tests--Core--DirectedSegmentTests.cs">directed-segment tests</a>,
+<a href="assets/Tests--Gojo.Tests--Core--UnitAlgebraConformanceTests.cs">unit conformance</a>,
+<a href="assets/Tests--Gojo.Tests--Core--QuantityQuotientTests.cs">quotient reads</a>,
+<a href="assets/Tests--Gojo.Tests--Core--RefinementReadTests.cs">refinement tests</a>,
+<a href="assets/Gojo--Reads--RelationReads.cs">span reads</a>,
+<a href="assets/Gojo--ConceptSurface--ParticipationSettlementSurface.cs">participation settlement</a>,
+<a href="assets/Applications--GojoCAD--GraphicStructure.cs">graphic constructors</a>,
+<a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxGeometryTests.cs">geometry syntax tests</a>,
+and <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxAffineFrameTests.cs">affine composition tests</a>.</p>
+<h2 id="changes-that-affect-interpretation-not-just-naming">Changes that affect interpretation, not just naming</h2>
+<h3 id="a-directed-pair-does-not-imply-the-old-complex-algebra">A directed pair does not imply the old complex algebra</h3>
+<p>Core2's Axis (external repository reference) defaults to a complex
+two-slot algebra and can select a split-complex table. Its
+algebra table (external repository reference) specifies where
+each cross-product goes. Its
+pin interpreter (external repository reference) also
+uses the sign of a proportion's support to select carrier rank and orthogonal
+breakout.</p>
+<p>Gojo has explicitly opposed carrier-face products and selected folds, tested
+as such. These should not be silently interpreted as the same complex or
+split-complex algebra. A negative scalar location, the dual of a carrier, a
+reversed relation and an inverse unit have distinct meanings. Reintroducing
+complex arithmetic would require its own connected basis and product law,
+with ordinary complex conformance tests. The shapes alone do not supply it.</p>
+<p>The early intuition that a direction has an opposite survives. The historical
+rule coupling denominator signs, dimensional lift and imaginary participation
+does not survive as a universal kernel law.</p>
+<h3 id="the-former-unresolved-ratio-ladder-has-been-replaced">The former unresolved ratio ladder has been replaced</h3>
+<p>Core2 Proportion.Fold (external repository reference) maps
+<code>0/0</code> to its scalar zero fallback and nonzero-over-zero to a positive or negative
+overflow sentinel. The original proportion still exists, but that folded read
+can hide its unresolved character.</p>
+<p>Current Gojo retains missing operands as slots, unavailable quotient results,
+residue, blocked lanes or unsettled tension according to the actual cause.
+Our measured offset can keep <code>65*s*s = 4</code> with a nonnegative scale domain
+without inventing a zero or a floating-point exact answer. This is a substantive
+improvement in how intermediate constructions remain usable.</p>
+<p>Approximation is also no longer assumed to carry an intrinsic hard tolerance.
+Nominal landmarks, allowed variation, conditional bounds, selected resolution
+and learned expectations remain different structures. The
+<a href="Gojo--docs--GojoUncertaintyReference.html">uncertainty reference</a> describes that separation.</p>
+<h3 id="a-visible-boolean-result-may-have-had-a-narrower-law-even-then">A visible Boolean result may have had a narrower law even then</h3>
+<p>Core2 Area.Union (external repository reference) calls <code>Envelope</code>,
+whose own comment says it is an axis-wise convex envelope, not a union that
+preserves separate regions. Two disjoint rectangles can consequently acquire
+filled space between them under that particular helper. This does not say all
+Core2 Boolean implementations behaved that way; its separate axis projection
+and gallery mechanisms need their own reads.</p>
+<p>Gojo's scoped span operations explicitly retain covered, overlapping,
+exclusive and uncovered participation. Its CAD area implementation can preserve
+separate loops and openings, but has a different numerical boundary discussed
+below. Similar pictures should be compared by their selected laws, not by
+matching the word “union.”</p>
+<h2 id="important-behavior-that-exists-in-gojo-outside-the-new-syntax-fixtures">Important behavior that exists in Gojo outside the new syntax fixtures</h2>
+<p>The recent statement that “caps, rounded joins and regions remain future work”
+is true <strong>for the new exact measured-offset/path contract</strong>. It is too broad
+as a statement about the whole repository.</p>
+<p>Current <a href="assets/Applications--GojoCAD--structures--GraphicBoundaryConceptSurface.cs">GraphicBoundaryConceptSurface</a>
+already finds cusp candidates, rounds selected line/line and line/arc corners,
+and builds circular caps at selected line tips. The corresponding
+<a href="assets/Tests--GojoCAD.Tests--GraphicBoundaryConceptSurfaceTests.cs">tests</a> exercise them.</p>
+<p>Current <a href="assets/Applications--GojoCAD--structures--GraphicAreaSettlementSurface.cs">GraphicAreaSettlementSurface</a>
+splits segment/arc boundaries, resolves positive and anti-area loops, preserves
+holes, and assembles outlines. Its
+<a href="assets/Tests--GojoCAD.Tests--GraphicAreaSettlementSurfaceTests.cs">tests</a> include separated
+composites, rings, crescents, overlapping boundaries and rounded H-like forms.
+These are executable behaviors, not only labeled pictures.</p>
+<p>However, this code also uses <code>double</code>, trigonometry and fixed constants such as
+<code>Epsilon = 0.01</code>, <code>SampleDistance = 0.55</code> and
+<code>EndpointSettlementDistance = 1.5</code>. The line/line rounding helper limits trim
+distance to 45% of the shorter incident length, computes an effective radius
+and rounds output coordinates. These are useful implementation choices, but
+they do not amount to an exposed, scale-aware uncertainty or admissibility law.
+The presence of structural result and participation witnesses does not by
+itself make every internal numerical choice an exact construction.</p>
+<p>This is an <strong>integration and conformance gap within current Gojo</strong>, not a lost
+Core2 feature. The useful next move is to reconnect those existing cases to
+explicit metric, support, resolution, correspondence and rejected-candidate
+structure. Reimplementing them as if no prior code existed would waste work.</p>
+<p>Similarly, <code>GraphicStructure</code> can retain transition/clothoid and
+arc/unwound-length involute recipes. That alone is not evidence of a general
+clothoid or involute solver. The
+<a href="Gojo--docs--GojoPrimitiveConstructionAudit-2026-09.html">construction audit</a> distinguishes
+supplied geometry, recipes and calculated results.</p>
+<h2 id="historical-dynamics-without-complete-current-replacements">Historical dynamics without complete current replacements</h2>
+<table>
+<thead>
+<tr>
+<th>Earlier working experiment</th>
+<th>What the old source actually contains</th>
+<th>Current position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core2 letter formation</td>
+<td>Goals/desires, tension evaluation, per-site proposals, joined-site resolution, momentum and jitter in an iterative stepper</td>
+<td>General slots, claims, transforms and local calibration now exist, but the letter system itself was not ported.</td>
+</tr>
+<tr>
+<td>Core4 connected topology / trolley</td>
+<td>T/Y/H junctions, triangle closure, terminal reflection, continuation selection from local basis agreement, partial reflection and diamond-merge behavior</td>
+<td>Gojo has shared topology and selected traversal/route reads. No current equivalent covers this entire carried-calibration traversal suite.</td>
+</tr>
+<tr>
+<td>Core4 resistive circuit</td>
+<td>Connected node grouping, fixed potentials, resistance-weighted local relaxation and current/drop observations</td>
+<td>Gojo has routing/capacity primitives and electronics descriptive structures. Those do not yet implement the same network physics.</td>
+</tr>
+<tr>
+<td>Core4 PatternState / Calibrater</td>
+<td>Rolling three-sample windows, deltas, ratios, reversal history, smoothing and fit pressures</td>
+<td>Current Gojo has prospective affine forecasts and later assessment. Broader pattern-family discovery remains a documented plan.</td>
+</tr>
+<tr>
+<td>Earlier optimized backends</td>
+<td>Separate Core4-era kernel/SIMD and demo projects</td>
+<td>They are not current solution targets or evidence that the new syntax already compiles into those backends.</td>
+</tr>
+</tbody>
+</table>
+<p>The letter stepper (external repository reference)
+is real application behavior. It also contains explicit proposal types,
+numeric response constants and random jitter. It is evidence of a useful
+experiment, not evidence that general letter recognition or adaptive local
+intelligence had already emerged from the old primitive kernel.</p>
+<p>The trolley tests (external repository reference)
+and topology tests (external repository reference)
+are particularly valuable recovery material: they specify concrete situations,
+not just aspirations. We should preserve the problems and useful expected
+behavior while rebuilding the representation.</p>
+<p>The resistive-circuit tests (external repository reference)
+include a 12-to-0 potential network with unequal branches whose middle
+potentials settle to 9 and 6. That is a concrete old capability. Current
+<a href="assets/Applications--GojoCAD--electronics--components--resistors--ResistanceValueSurface.cs">resistor value structures</a>
+and <a href="assets/Tests--GojoCAD.Tests--EcadDocumentarySurfaceTests.cs">ECAD documentary tests</a>
+describe nominal values, tolerances, terminals and nets; they are not a
+replacement for the relaxation procedure. Two-space calibration is also a
+different law, despite the similar visual motif of neighbours balancing.</p>
+<p>Core2's fractional-power tests (external repository reference)
+are another clear loss of application coverage: they test <code>sqrt(-1)</code> candidates
+<code>i</code> and <code>-i</code>, plus selection near a reference branch. They also explicitly defer
+negative fractional exponents, so the old implementation was not complete
+either. Current <a href="assets/Tests--Gojo.Tests--Equations--EquationPowerTests.cs">integer power tests</a>
+and constrained geometric square roots do not cover those branch semantics.</p>
+<p>For signals, the <a href="Gojo--docs--GojoSignalPatternLearningPlan-2026-09.html">existing plan</a> already
+records the Core4 code and its caveats. For example, its <code>LastSlope</code> is a sample
+difference rather than a rate divided by elapsed time. Current
+<a href="assets/Gojo--Structures--LocalCalibration.Forecast.cs">forecast construction</a> explicitly
+separates source time, arrival, issuance and later assessment. That is better
+experimental discipline, while still covering fewer signal-model families.</p>
+<h2 id="what-i-would-recover-next">What I would recover next</h2>
+<p>The strongest direction is a capability ledger attached to concrete fixtures,
+not a promise that every old class will return. For each family retain its old
+example, current structural equivalent, known false reads and remaining law.
+This review is the first version of that ledger.</p>
+<p>For the current construction work, I would prioritize:</p>
+<ol>
+<li><strong>Bring the existing CAD corner and region helpers into the audit.</strong> Start
+   with a rounded corner whose requested radius cannot fit, and two boundaries
+   that are close but not the same site. Expose the adjustment or refusal,
+   rather than leaving it inside fixed thresholds.</li>
+<li><strong>Recover a small topology sequence from the old tests:</strong> shared T junction,
+   terminal reflection, then a loop/merge. Distinguish geometric contact,
+   permissible traversal and conserved transfer in each fixture.</li>
+<li><strong>Keep the larger deferred capabilities explicit:</strong> inverse/root alternatives,
+   letter-like goal formation, a passive resistor network and signal-family
+   discovery. Each needs its own selected law and comparison experiment before
+   claiming migration parity.</li>
+</ol>
+<p>There is no need to abandon the recent primitive work. Its stronger treatment
+of identity, construction evidence, mathematical conformance and partial
+results gives us a better basis for recovering those capabilities. But it is
+accurate to say that the older demos explored a broader application surface
+than current Gojo has fully re-established.</p>
+<h2 id="verification-boundary">Verification boundary</h2>
+<p>The current solution passes 1,617 tests at this checkpoint. Publication checks
+also exercise all 18 indexed syntax examples and seven full walkthroughs,
+including copied source, page assets, desktop/phone layouts and step links.
+Historical implementations and tests were inspected, not executed in this
+review. No mathematical implementation was changed as part of the comparison.
+The three newly published construction pages present traces already checked
+against current Gojo tests; their browsers do not execute the kernel.</p></main></html>

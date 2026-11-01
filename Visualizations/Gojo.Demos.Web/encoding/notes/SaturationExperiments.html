@@ -1,0 +1,522 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Saturation branches and pre numeric rectangles</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="saturation-branches-and-pre-numeric-rectangles">Saturation branches and pre numeric rectangles</h1>
+<p>Round 9 extends the examples in <a href="ConditionalExperiments.html">ConditionalExperiments.md</a>.
+There are two executable parts: routing blocked contents through existing passage
+rows, and reading a rectangle from shared unknown reaches in an explicitly
+perpendicular frame. The latter is a small geometry constraint experiment;
+it does not simulate radiation or derive perpendicularity from a blocked bit.</p>
+<p>The useful result is that a connection can preserve <strong>what must correspond</strong>
+without specifying how much is there. A blocked passage also preserves what
+has not moved. Those two capabilities give us a base for exploring new routes
+without pretending we already have a law that grows them.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --saturation
+dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
+</code></pre>
+<h2 id="the-simple-picture">The simple picture</h2>
+<p>Imagine contents waiting at a junction. An ordinary passage tries to hand them
+to the next site. If that site cannot accept them, a second passage can hand them
+to a side site. If neither accepts, the contents stay where they are.</p>
+<p>The junction has no extra amount of its own. It consists of existing value sites
+and connection rows referring to them. A row is a stored relation, rather than
+a third material store or a coincidence inferred from positions in memory.</p>
+<p>An <strong>eight-byte transition law</strong> is a bitmap of allowed complete before/after
+patterns for three roles: source, control, and target. The existing law allows
+a whole handoff into an empty target. It cannot combine two occupied stores,
+so occupancy acts as capacity <em>for this law</em>. Nonzero alone never means full.</p>
+<p>A branch from one site and an extension of a whole line need different
+correspondence. A branch only identifies its departure site. A parallel line
+requires a shared offset across the original line. The rectangle experiment
+supplies that stronger relation explicitly.</p>
+<h2 id="situations-and-what-they-establish">Situations and what they establish</h2>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Structural requirement</th>
+<th>Result and limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Continue beyond a landmark</td>
+<td>A passage connects the pending site to a site beyond it</td>
+<td>Executed. A threshold observation need not force a turn.</td>
+</tr>
+<tr>
+<td>Escape when forward is blocked</td>
+<td>Forward attempt followed by a side passage controlled by forward occupancy</td>
+<td>Executed for all eight states.</td>
+</tr>
+<tr>
+<td>Allow only one side</td>
+<td>Only that side has a passage</td>
+<td>Executed routing mechanism; an L drawing additionally needs an angle relation.</td>
+</tr>
+<tr>
+<td>Allow both sides</td>
+<td>Two rows share one source</td>
+<td>Executed with explicit priority. One handoff does not fill both branches.</td>
+</tr>
+<tr>
+<td>First side is occupied</td>
+<td>Second passage remains available</td>
+<td>Executed. Priority can fall through to the next accepting outlet.</td>
+</tr>
+<tr>
+<td>Both sides are occupied</td>
+<td>Neither passage can accept</td>
+<td>Executed. Pending contents remain.</td>
+</tr>
+<tr>
+<td>Forward capacity is uncertain</td>
+<td>Keep both complete possible states</td>
+<td>Executed prediction. Neither alternative is secretly selected for mutation.</td>
+</tr>
+<tr>
+<td>No escape route exists</td>
+<td>Keep the blocked source and its existing relations</td>
+<td>Executed repeatedly. Waiting does not invent an outlet or a larger amount.</td>
+</tr>
+<tr>
+<td>Add an escape later</td>
+<td>Explicitly attach another ordinary passage row</td>
+<td>Tested. The previously held contents can then move. Attachment is supplied, not learned.</td>
+</tr>
+<tr>
+<td>End branch versus whole-line radiation</td>
+<td>Single-site attachment versus correspondence over a span</td>
+<td>Different requirements. Current routing alone cannot distinguish their geometry.</td>
+</tr>
+<tr>
+<td>Parallel boundary on one side</td>
+<td>A common offset and parallel correspondence</td>
+<td>Executed as rectangle boundary constraints, with unknown positive reaches. Radiation dynamics remain open.</td>
+</tr>
+<tr>
+<td>Parallel boundaries on both sides</td>
+<td>Two offset constructions relative to the same source span</td>
+<td>Proposed composition. Each may have a different reach; symmetry requires shared reach.</td>
+</tr>
+<tr>
+<td>Nonuniform radiation</td>
+<td>Offsets may differ along the source</td>
+<td>May form a bent or irregular boundary. A parallel-line read is unjustified.</td>
+</tr>
+<tr>
+<td>Radiation without hardening</td>
+<td>Transient participation remains accounted for without committing a reusable route</td>
+<td>Proposed dynamics. Absence of a retained route is not disappearance of material.</td>
+</tr>
+<tr>
+<td>Encounter another structure</td>
+<td>An exposed receiving surface and compatible acceptance/coupling law</td>
+<td>Existing passages model acceptance once attached. Discovery, attachment and hardening are not automatic.</td>
+</tr>
+<tr>
+<td>Rectangle by path or parallel pairs</td>
+<td>Same joined corners, frame, and reused reaches</td>
+<td>Both assembly orders produce the same boundary bytes. Process history and interior fill are separate.</td>
+</tr>
+<tr>
+<td>Circle from a point</td>
+<td>A radial rule plus equal-radius correspondence across directions</td>
+<td>Not established by the current four-lane fixture. Radiation alone is insufficient.</td>
+</tr>
+</tbody>
+</table>
+<p>An L, T or Y therefore needs both routing and geometric constraints. The same
+branching graph can be drawn as a T or Y. A bitmap that chooses an outlet does
+not, by itself, establish the angle of that outlet.</p>
+<h2 id="exact-overflow-encoding">Exact overflow encoding</h2>
+<p>All three value sites live in one owner with constant O=0, D=0 and one V bit.
+Ports and bindings are initially in the same order as the packed value bits.
+The connector follows the existing local port mapping; this experiment does
+not change the addressing scheme.</p>
+<table>
+<thead>
+<tr>
+<th>Local port</th>
+<th>Value bit</th>
+<th>Meaning in this example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>P, pending contents</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>F, forward receiver</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>L, side receiver</td>
+</tr>
+</tbody>
+</table>
+<p>The value byte is <code>P + 2F + 4L</code>. The upper five bits are unused.
+Each connection reference uses two bits, low reference first, low bit first.</p>
+<table>
+<thead>
+<tr>
+<th>Visit order</th>
+<th>Table law</th>
+<th>Row roles as local ports</th>
+<th>Row byte</th>
+<th>Law bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>First</td>
+<td>Unconditional handoff</td>
+<td><code>[P,L,F] = [0,2,1]</code></td>
+<td><code>18</code></td>
+<td><code>01 00 04 00 12 20 48 80</code></td>
+</tr>
+<tr>
+<td>Second</td>
+<td>Handoff when control is present</td>
+<td><code>[P,F,L] = [0,1,2]</code></td>
+<td><code>24</code></td>
+<td><code>01 02 04 00 10 20 48 80</code></td>
+</tr>
+</tbody>
+</table>
+<p>The first row uses L in its required control position, but its law ignores that
+position's value. It preserves L. This reuses the three-role format without
+creating a dummy value. The second row uses F as an actual control read.
+Both visits are one atomic local step: there is no externally visible partial
+update between them.</p>
+<table>
+<thead>
+<tr>
+<th>Before <code>[P,F,L]</code></th>
+<th>Value byte before</th>
+<th>Value byte after</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[0,0,0]</code></td>
+<td><code>00</code></td>
+<td><code>00</code></td>
+<td>Empty remains empty</td>
+</tr>
+<tr>
+<td><code>[1,0,0]</code></td>
+<td><code>01</code></td>
+<td><code>02</code></td>
+<td>Forward accepts</td>
+</tr>
+<tr>
+<td><code>[0,1,0]</code></td>
+<td><code>02</code></td>
+<td><code>02</code></td>
+<td>No pending contents</td>
+</tr>
+<tr>
+<td><code>[1,1,0]</code></td>
+<td><code>03</code></td>
+<td><code>06</code></td>
+<td>Forward cannot accept; side accepts</td>
+</tr>
+<tr>
+<td><code>[0,0,1]</code></td>
+<td><code>04</code></td>
+<td><code>04</code></td>
+<td>Existing side contents remain</td>
+</tr>
+<tr>
+<td><code>[1,0,1]</code></td>
+<td><code>05</code></td>
+<td><code>06</code></td>
+<td>Forward accepts despite occupied side</td>
+</tr>
+<tr>
+<td><code>[0,1,1]</code></td>
+<td><code>06</code></td>
+<td><code>06</code></td>
+<td>No pending contents</td>
+</tr>
+<tr>
+<td><code>[1,1,1]</code></td>
+<td><code>07</code></td>
+<td><code>07</code></td>
+<td>Both receivers block; pending contents remain</td>
+</tr>
+</tbody>
+</table>
+<p>The last row is the important saturation case. Repeating it does not increase
+the encoded amount, emit a field, or create a new row. Continuing input would
+need an explicit storage or merge law; this passage cannot consume it. A coarse
+V could stay 1 while an actual physical amount grows, but that growth is not
+demonstrated by this fixture. The bit cannot report how much more arrived or
+how long it has waited.</p>
+<p>With P present, L absent, and F unobserved, the possible starting value bytes
+are <code>{01,03}</code>. The possible final bytes are <code>{02,06}</code>. Their support masks are
+<code>0A -&gt; 44</code>: <strong>bit n in a support mask means value pattern n is possible</strong>.
+The mask is a prediction, not another material store. <code>TryStep</code> refuses this
+unresolved input and leaves the actual stored byte unchanged.</p>
+<p>The tests check all 256 possible starting support masks against the union of
+their resolved cases. They also check conserved occupied stores for all eight
+actual states. That verifies whole-handoff bookkeeping at this resolution;
+it does not measure hidden physical amounts.</p>
+<h2 id="two-available-outlets">Two available outlets</h2>
+<p>For <code>[P,C,L,R]</code>, two unconditional rows <code>[0,1,2]</code> then <code>[0,1,3]</code> pack together as
+<code>24 0D</code>. Reversing their order packs as <code>34 09</code>. The law is unchanged.</p>
+<table>
+<thead>
+<tr>
+<th>Starting byte</th>
+<th>Left first</th>
+<th>Right first</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01</code></td>
+<td><code>04</code></td>
+<td><code>08</code></td>
+<td>One source chooses one empty outlet</td>
+</tr>
+<tr>
+<td><code>05</code></td>
+<td><code>0C</code></td>
+<td><code>0C</code></td>
+<td>L already occupied; R receives the new contents</td>
+</tr>
+<tr>
+<td><code>0D</code></td>
+<td><code>0D</code></td>
+<td><code>0D</code></td>
+<td>Both occupied; source retained</td>
+</tr>
+</tbody>
+</table>
+<p>C is preserved and ignored by these unconditional rows. Visiting both rows
+does not duplicate the source, because the first successful handoff empties it.
+This is explicit priority, not a symmetric split. A symmetric unresolved choice
+would preserve candidate routes; an actual split needs a law accounting for
+the portions. Merely turning both output bits on would lose that distinction.</p>
+<h2 id="a-rectangle-with-no-assigned-lengths">A rectangle with no assigned lengths</h2>
+<p>The new <code>OrthogonalPathFixture</code> is an observation-only geometry contract.
+It has four connection arrays. Their positions mean straight travel in
+<code>+u</code>, <code>+v</code>, <code>-u</code>, <code>-v</code>, where u and v are perpendicular unit directions in one
+plane. Absolute orientation is unspecified. This fixed interpretation is the
+experiment's geometry rulebook; it is an additional premise, not a deduction
+from O, D, blocked flow, or the names of the arrays.</p>
+<p>Local references 0 through 3 are corner roles. References 4 and 5 are exposed
+reads of two shared nonnegative reaches, A and B. Each currently reads nonzero.
+The same reach reference means the same unknown length for this simultaneous
+read. Equal bits at different reach references do not mean equal lengths.
+The fixture assumes those supplied observations stay stable during the read;
+it is not an atomic snapshot service across independently changing structures.</p>
+<pre><code class="language-text">       3 &lt;----- A ----- 2
+       |               ^
+       B               B
+       v               |
+       0 ----- A ----&gt; 1
+</code></pre>
+<p>Every row is <code>[start corner, end corner, reach reference]</code>. References use
+three bits. Each directional array starts its own packed stream.</p>
+<table>
+<thead>
+<tr>
+<th>Directional array</th>
+<th>Row</th>
+<th>Packed bytes</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0, +u</td>
+<td><code>[0,1,4]</code></td>
+<td><code>08 01</code></td>
+<td>Corner 0 to 1, reach A</td>
+</tr>
+<tr>
+<td>1, +v</td>
+<td><code>[1,2,5]</code></td>
+<td><code>51 01</code></td>
+<td>Corner 1 to 2, reach B</td>
+</tr>
+<tr>
+<td>2, -u</td>
+<td><code>[2,3,4]</code></td>
+<td><code>1A 01</code></td>
+<td>Corner 2 to 3, the same A</td>
+</tr>
+<tr>
+<td>3, -v</td>
+<td><code>[3,0,5]</code></td>
+<td><code>43 01</code></td>
+<td>Corner 3 to 0, the same B</td>
+</tr>
+</tbody>
+</table>
+<p>Each array has nine meaningful bits and seven final padding bits. These are
+four separate arrays, so their bytes differ from packing four rows consecutively
+in a single array. Two constant-context reach values require two V bits. The
+corner references carry correspondence, not coordinates or extra magnitudes.
+Existing owner-local read mappings and array lengths still provide the context;
+these payload bytes are not a self-describing file format.</p>
+<p>The connected rows tell us more than four nonzero values could:</p>
+<ul>
+<li>The end of each edge is the actual start reference of the next.</li>
+<li>The opposite edges use the same reach, in opposite directions.</li>
+<li>The table positions impose perpendicular adjacent directions.</li>
+<li>A and B are nonzero in the <strong>reach</strong> interpretation, so neither dimension collapses.</li>
+</ul>
+<p>Consequently the boundary is a rectangle of unknown size and aspect ratio.
+Nothing here chooses a universal unit or reads either length. Supplying a
+different nonzero length later remains consistent with this coarse read.
+Sharing A across all four edges would further constrain the boundary to a square.</p>
+<p>The same boundary can be assembled around the perimeter, or by attaching the
+two opposed A edges and then the two opposed B edges. Tests verify identical
+final bytes. This establishes equality of this boundary read, not equality of
+the two construction processes or their future capabilities.</p>
+<p>The reader deliberately refuses stronger conclusions in these cases:</p>
+<table>
+<thead>
+<tr>
+<th>Changed structure or observation</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Four separate nonzero reach references</td>
+<td>Joined cycle, but opposite lengths are unresolved; no guaranteed rectangle</td>
+</tr>
+<tr>
+<td>Last edge ends at corner 1 instead of corner 0</td>
+<td>No four-corner cycle</td>
+</tr>
+<tr>
+<td>Missing or extra edge in a directional array</td>
+<td>Outside this narrow four-edge read</td>
+</tr>
+<tr>
+<td>A or B has true zero reach</td>
+<td>Degenerate boundary; no nondegenerate rectangle</td>
+</tr>
+<tr>
+<td>A may be zero or nonzero</td>
+<td>Both degenerate and nondegenerate outcomes remain possible</td>
+</tr>
+<tr>
+<td>Reach has no admitted observation</td>
+<td>No admitted result, not a measured zero</td>
+</tr>
+<tr>
+<td>An O/D change is offered as a quarter-turn</td>
+<td>Rejected: perspective bits are not geometric angle codes</td>
+</tr>
+</tbody>
+</table>
+<p>A zero reach does not delete a corner or its edge row. The potential construction
+survives even though the present rectangle read fails. Nonzero <em>material</em> at a
+joint would not establish nonzero width; that conclusion requires the explicit
+reach interpretation used here.</p>
+<p>A connected cycle with independent reaches is a closure claim, not proof that
+those reaches satisfy it. The conservative reader leaves that case unresolved
+instead of silently adjusting unknown lengths until the claim becomes true.</p>
+<h2 id="other-construction-families-to-compare-next">Other construction families to compare next</h2>
+<p>These are geometric constraints to encode next, not additional implemented
+constructors. They identify what the connections would have to preserve.</p>
+<table>
+<thead>
+<tr>
+<th>Construction</th>
+<th>Required correspondence</th>
+<th>What would follow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repeat a path twice</td>
+<td>Move A, quarter-turn, move B, quarter-turn; reuse A and B on the second pass</td>
+<td>The rectangle boundary used above. The second turn inside the repeated block matters.</td>
+</tr>
+<tr>
+<td>Two pairs of parallels</td>
+<td>Each family has common direction; the two families are perpendicular; both separations are nonzero</td>
+<td>A nondegenerate rectangle. Without perpendicularity the family is a parallelogram.</td>
+</tr>
+<tr>
+<td>Four points on a circle</td>
+<td>Two distinct diameters of one positive-radius circle; connect their endpoints in cyclic order</td>
+<td>A rectangle. Four arbitrary circle points do not suffice.</td>
+</tr>
+<tr>
+<td>Even quarter spacing on that circle</td>
+<td>Adjacent directions are quarter-turns and all radii correspond</td>
+<td>A square.</td>
+</tr>
+<tr>
+<td>Flow away from one point</td>
+<td>No selected axis; a radial continuation is permitted</td>
+<td>Radial potential. A circular contour additionally needs common-radius correspondence.</td>
+</tr>
+</tbody>
+</table>
+<p>For the circle construction, the two diameters must remain distinct: coincident
+diameters collapse the four-point boundary. Again, nonzero radius alone does
+not supply every nondegeneracy condition. This is a useful counterexample to
+using one participation bit as a universal shape-validity bit.</p>
+<h2 id="what-multiplication-would-mean">What multiplication would mean</h2>
+<p>Following a path concatenates spans. In a calibrated reading, its total length
+adds the traversed lengths, including around a corner. That total differs from
+the displacement between its endpoints.</p>
+<p>Extending every position of a span through a common transverse interval gives
+a product of two spans. With perpendicular directions and suitable coverage,
+its calibrated area is length times width. The far boundary is a parallel line;
+the region between them is the swept strip. A parallel line by itself does not
+establish that its interior has been swept or filled.</p>
+<p>The rectangle fixture establishes only the boundary constraints. It does not
+create area material by multiplying a bit, and it does not distribute one
+source amount across all the points of a line. A future sweep connection needs
+to state whether it transfers material, observes a potential, or couples sites,
+and must account for any accepted, blocked and remaining participation.</p>
+<h2 id="retaining-material-and-retaining-a-route">Retaining material and retaining a route</h2>
+<p>These are two distinct forms of persistence. A closed passage already retains
+pending contents. Retaining a successful connection would preserve a route for
+later use, even after those contents have left. Both can exist independently.</p>
+<p>A useful next structural experiment would start with an attachment to the
+source and an open destination. Local constraints would admit possible
+continuations. A compatible receiving surface could complete one of those
+connections; an explicit retention rule could keep that ordinary row for reuse.
+Without retention, transient participation must still remain represented or
+leave through an accounted-for transfer. No route may be silently created from
+a repeated failed passage.</p>
+<p>Current packed endpoint rows require concrete references. Growth toward a
+not-yet-selected receiver therefore needs an explicitly open end, distinct
+from an attached site whose value reads zero. Address 0 already names a real
+local endpoint; using it as an unknown destination would create a false
+connection. Another valid experiment could allocate a fresh local endpoint and
+connect to it immediately, without claiming a known geometric position. These
+are different cases: an existing endpoint with unresolved location, an absent
+endpoint, and a prewired passage that is merely closed.</p>
+<p>For a single-site branch, the source attachment is one site. For a whole-line
+extension, it must include correspondence along the span and a shared offset
+law. That extra relation is what can justify a parallel contour. Uniformity,
+choice of side, attraction to another surface, splitting, capture, and the cost
+of retaining a route still need explicit laws. Opposite signs alone do not
+prove that two structures can merge usefully.</p>
+<p>This keeps the proposed learning loop concrete: expose unmet participation,
+try a locally admissible connection, observe what it accepts and what remains,
+and optionally retain the connection. The current examples establish routing
+and some geometric constraints; automatic discovery and hardening remain the
+next experimental question.</p>
+<h2 id="verification">Verification</h2>
+<p>The <code>--saturation</code> demonstration completes successfully. All 205 primitive
+tests pass, including 26 new cases. Full solution verification with
+<code>dotnet test Gojo.slnx</code> passes: 5,761 tests across 14 projects, no failures or
+skipped tests. The Gojo kernel and existing primitive laws are unchanged.</p></main></html>

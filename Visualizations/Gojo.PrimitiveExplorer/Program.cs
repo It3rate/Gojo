@@ -15,12 +15,14 @@ namespace Gojo.PrimitiveExplorer;
 internal static class Program
 {
     internal static string? CaptureDirectory;
+#if !BROWSER
     [STAThread]
     public static void Main(string[] args)
     {
         CaptureDirectory = args.FirstOrDefault(a => a.StartsWith("--capture="))?[10..];
         AppBuilder.Configure<ExplorerApp>().UsePlatformDetect().StartWithClassicDesktopLifetime(args);
     }
+#endif
 }
 
 internal sealed class ExplorerApp : Application
@@ -28,12 +30,20 @@ internal sealed class ExplorerApp : Application
     public override void Initialize() { RequestedThemeVariant = ThemeVariant.Light; Styles.Add(new FluentTheme()); }
     public override void OnFrameworkInitializationCompleted()
     {
+#if BROWSER
+        if (ApplicationLifetime is ISingleViewApplicationLifetime single) single.MainView = new ExplorerWindow();
+#else
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) desktop.MainWindow = new ExplorerWindow();
+#endif
         base.OnFrameworkInitializationCompleted();
     }
 }
 
+#if BROWSER
+internal sealed class ExplorerWindow : UserControl
+#else
 internal sealed class ExplorerWindow : Window
+#endif
 {
     private readonly ExplorerSession session = new();
     private readonly FocusLink focus = new();
@@ -53,8 +63,10 @@ internal sealed class ExplorerWindow : Window
 
     public ExplorerWindow()
     {
+#if !BROWSER
         Title = "Gojo · Primitive Explorer"; Width = 1530; Height = 980; MinWidth = 1220; MinHeight = 820;
-        Background = Palette.Paper; FontFamily = new FontFamily("Segoe UI"); WindowStartupLocation = WindowStartupLocation.CenterScreen;
+#endif
+        Background = Palette.Paper; FontFamily = new FontFamily(Palette.UiFont);
         page = session.Read(); encoding = new(page, focus); structure = new(page, focus);
         numericScroll = new ScrollViewer { Content = encoding, HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled };
         var shell = new Grid { RowDefinitions = new("78,*"), Background = Palette.Paper };
@@ -87,7 +99,7 @@ internal sealed class ExplorerWindow : Window
         Grid.SetRow(structure, 1); picturePanel.Children.Add(structure);
         var focusPanel = new Border { MinHeight = 86, Background = Palette.White, BorderBrush = Palette.Line, BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Padding = new Thickness(16), Child = selection };
         Grid.SetRow(focusPanel, 2); picturePanel.Children.Add(focusPanel);
-        events.FontFamily = new FontFamily("Cascadia Mono,Consolas"); events.Margin = new Thickness(8, 12, 0, 8); events.MinHeight = 54; Grid.SetRow(events, 3); picturePanel.Children.Add(events);
+        events.FontFamily = new FontFamily(Palette.CodeFont); events.Margin = new Thickness(8, 12, 0, 8); events.MinHeight = 54; Grid.SetRow(events, 3); picturePanel.Children.Add(events);
         var foot = new Grid { ColumnDefinitions = new("*,Auto"), Margin = new Thickness(0, 16, 0, 0) }; Grid.SetRow(foot, 3); main.Children.Add(foot);
         var reading = new StackPanel { Spacing = 7 }; reading.Children.Add(result); reading.Children.Add(boundary); foot.Children.Add(reading);
         var links = new StackPanel { Spacing = 6, Margin = new Thickness(18, 0, 0, 0) }; var source = Button("Encoding notes ↗"); source.Click += (_, _) => OpenNotes(); links.Children.Add(source);
@@ -107,10 +119,15 @@ internal sealed class ExplorerWindow : Window
         KeyDown += (_, e) => { if (e.Key == Key.Escape) focus.Clear(); };
         play.Click += (_, _) => { if (timer.IsEnabled) Stop(); else { timer.Start(); play.Content = "Pause"; } };
         timer.Tick += (_, _) => { if (session.Steps >= 48) Stop(); else page.Actions.FirstOrDefault(a => a.Label.StartsWith("Advance"))?.Run(); };
+#if !BROWSER
         Closed += (_, _) => timer.Stop();
+#endif
         Refresh(); focus.Clear();
+#if !BROWSER
         if (Program.CaptureDirectory is not null) Opened += async (_, _) => await CaptureAll(Program.CaptureDirectory);
+#endif
     }
+
 
     private void Stop() { timer.Stop(); play.Content = "Play"; }
     private void Refresh()
@@ -141,15 +158,20 @@ internal sealed class ExplorerWindow : Window
 
     private void OpenNotes()
     {
+#if BROWSER
+        BrowserProgram.OpenNotes(page.Source.Replace(".md", ".html"));
+#else
         var dir = new DirectoryInfo(AppContext.BaseDirectory);
         while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "Gojo.slnx"))) dir = dir.Parent;
         if (dir is null) { selection.Text = "Open the matching experiment document in the Gojo repository: " + page.Source; return; }
         var path = Path.Combine(dir.FullName, "experiments", "PrimitiveMeasure", page.Source);
         Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
+#endif
     }
 
     // Visual QA uses the same live control tree, layout and render backend as
     // the interactive window. No screenshot-specific diagram implementation.
+#if !BROWSER
     private async Task CaptureAll(string directory)
     {
         try
@@ -201,6 +223,7 @@ internal sealed class ExplorerWindow : Window
         finally { Close(); }
     }
 
+#endif
     private static TextBlock Text(string value, double size, bool bold = false, IBrush? ink = null) => new()
     { Text = value, FontSize = size, FontWeight = bold ? FontWeight.SemiBold : FontWeight.Normal, Foreground = ink ?? Palette.Ink, TextWrapping = TextWrapping.Wrap };
     private static Button Button(string label) => new() { Content = label, FontSize = 12, Padding = new Thickness(12, 9), CornerRadius = new CornerRadius(7), Background = Palette.White, Foreground = Palette.Ink, BorderBrush = Palette.Line, BorderThickness = new Thickness(1) };

@@ -1,0 +1,606 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gojo syntax review — September 2026</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojo-syntax-review-september-2026">Gojo syntax review — September 2026</h1>
+<p>Status: design review and exploratory recommendations, September 5, 2026.
+Current implementation reviewed: local main at 67a0d6b.
+This document does not define new accepted syntax or new kernel laws.</p>
+<p>Updated after the user's response: partial construction is a core commitment;
+local refinement may blend contributions without selecting a winner; mismatch
+does not assign blame; and adaptive memory may deliberately lose or revise
+history. The resulting <a href="Gojo--docs--GojoLocalBlendFixture.html">local blend fixture</a> is now
+executable with existing syntax and kernel mechanisms. The implementation
+observations below still refer to the original review baseline unless stated
+otherwise.</p>
+<p>The subsequent <a href="Gojo--docs--GojoLowLevelMathStatus-2026-09.html">low-level math audit</a> takes
+priority over expanding feedback discovery. It identifies a confirmed
+general-ratio remainder-basis mismatch and separates expressible structures
+from mathematically established reads. The earlier successful fixtures do not
+establish complete arithmetic coverage.</p>
+<h2 id="assessment">Assessment</h2>
+<p>Keep the current direction. The first syntax is a useful construction notation:
+it produces ordinary Gojo structure, separates aliases from crystallization,
+preserves explicit shared sites, and avoids pretending that spelling an action
+executes it. The namespace cleanup was appropriate, and the access/preservation
+fixtures exposed questions that punctuation alone could not settle.</p>
+<p>The main unfinished work is the contract between authoring, partial knowledge,
+local interpretation, and actual change. A language that constructs points,
+groups, and timelines is only the first part of a language for a live Gojo
+system. It must eventually preserve what was requested, what was available,
+what was predicted, what was tested, what actually changed, and what remains
+unresolved.</p>
+<p>The immediate recommendation is to exercise that whole cycle with a small
+slot-based value and two local surfaces. This refines the existing
+multi-component priority; it does not replace it with a general language
+implementation.</p>
+<h2 id="1-what-the-three-passes-established">1. What the three passes established</h2>
+<table>
+<thead>
+<tr>
+<th>Pass</th>
+<th>Useful result</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>First parser, c23e01a</td>
+<td>Versioned source, integer ticks, aliases, placeholders, relation constructors, units, lane/action/repeat forms, ladder examples</td>
+<td>Construction is not a complete graph serializer or a live execution protocol</td>
+</tr>
+<tr>
+<td>Organization, 2434a71</td>
+<td>Structures and Syntax have separate namespaces; README and numeric direction are explicit</td>
+<td>Separation of folders does not by itself establish the semantic boundaries</td>
+</tr>
+<tr>
+<td>Access and preservation, 67a0d6b</td>
+<td>Ambient basis versus exposure/capability; explicit fork topology; before/after and rollback recipes</td>
+<td>The examples record claims and supplied outcomes; they do not prove general arithmetic, execution, conservation, or immutable history</td>
+</tr>
+</tbody>
+</table>
+<p>The staged approach was effective: begin with exact examples, let structural
+questions emerge, and resist premature compact notation. Continue that approach,
+but require the next examples to include an unresolved input, an actual local
+calculation or transformation, and a meaningful failed read.</p>
+<h2 id="2-locality-belongs-to-a-view">2. Locality belongs to a view</h2>
+<p>The planetary example supplies a useful design criterion. A body may contain
+vast internal complexity while an orbital read depends on a small set of
+exposed relations. That is local in the selected order of interaction even
+though its participants are large.</p>
+<p>A local view should connect:</p>
+<pre><code class="language-text">selected source
+  -&gt; exposed participation and basis
+  -&gt; resolution / calibration / applicable constraints
+  -&gt; available reads and actions
+  -&gt; result and unaccounted participation
+  -&gt; correspondence and history when needed
+</code></pre>
+<p>The interior of Earth need not be serialized into an orbital calculation.
+Neither should omitted interior structure become zero, nonexistent, or
+automatically unknown. A view can intentionally make no claim about it.
+If a later read needs that detail, it needs a suitable exposed surface and
+correspondence, not permission to reinterpret every hidden internal tick.</p>
+<p>This is already close to the intended roles of
+<a href="assets/Gojo--Structures--FocusSurface.cs">FocusSurface</a>,
+<a href="assets/Gojo--Structures--BasisReadSurface.cs">BasisReadSurface</a>, and the
+<a href="Gojo--docs--GojoReadSpine.html">read spine</a>. They should inform authoring conveniences before
+a new module or object taxonomy is invented. A file namespace can prevent name
+collisions, but it does not create this structural boundary.</p>
+<p>Local simplicity also does not guarantee global convergence or cheap search.
+Competing constraints, cyclic dependencies, incompatible bases, and unsettled
+routes can remain. The useful claim is that composition exposes those
+conditions and can preserve valid partial results.</p>
+<h2 id="3-unknown-structure-needs-more-than-a-question-mark-token">3. Unknown structure needs more than a question-mark token</h2>
+<p>Version 1 does preserve placeholder identity in element positions:</p>
+<pre><code class="language-gojo">gojo 1;
+root ?a -&gt; ?a;
+root ?a -&gt; ?b;
+</code></pre>
+<p>These differ before any binding exists. That is a strong foundation.</p>
+<p>The open-position support is uneven, however. Executable probes show:</p>
+<table>
+<thead>
+<tr>
+<th>Construction</th>
+<th>Current result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>?a -&gt; ?a</code></td>
+<td>Accepted</td>
+</tr>
+<tr>
+<td><code>repeat(?s,?controller,?transition,?feedback,?residue)</code></td>
+<td>Accepted</td>
+</tr>
+<tr>
+<td><code>point(carrier(), ?tick)</code></td>
+<td>Rejected</td>
+</tr>
+<tr>
+<td><code>carrier(?unit)</code></td>
+<td>Rejected</td>
+</tr>
+<tr>
+<td><code>basis(carrier(), ?boundary, F)</code></td>
+<td>Rejected</td>
+</tr>
+<tr>
+<td><code>value($c, ?magnitude, lane(PF), basis($c,P,F))</code></td>
+<td>Rejected</td>
+</tr>
+<tr>
+<td>An <code>access</code> call with <code>?capabilities</code> instead of a port group</td>
+<td>Rejected</td>
+</tr>
+</tbody>
+</table>
+<p>These are not all bugs. A concrete carrier must have a stable unit shape, and a
+concrete location needs a readable coordinate. Allowing an unknown to masquerade
+as an integer or silently changing a carrier's unit later would weaken Gojo.</p>
+<p>The missing authoring mechanism is a partial structural pattern: known
+participants connected to an open role, its relevant basis/constraints, and the
+surface through which a candidate can be supplied. Where a concrete kernel
+element cannot yet exist, retain the open construction rather than substitute
+zero or create an invalid concrete element.</p>
+<p>For example, an unknown endpoint can be a real placeholder participating in a
+span-like pattern and exposed endpoint port. Binding a concrete point refines
+that pattern. An unknown carrier unit may require a placeholder for the future
+carrier and connected unit requirements before carrier construction occurs.
+Neither requires a string-valued type field.</p>
+<p>Do not make all of the following the same unknown:</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Structural distinction to preserve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Known zero</td>
+<td>A concrete zero through the selected basis</td>
+</tr>
+<tr>
+<td>Open role</td>
+<td>An expected participant has no settled binding</td>
+</tr>
+<tr>
+<td>Bounded uncertainty</td>
+<td>Constraints or a range are known; the exact participant is not</td>
+</tr>
+<tr>
+<td>Several candidates</td>
+<td>Alternative bindings have their own evidence</td>
+</tr>
+<tr>
+<td>Omitted from view</td>
+<td>The read makes no claim about that participation</td>
+</tr>
+<tr>
+<td>Hidden but retained</td>
+<td>Another part of the source contains it; this interface does not expose it</td>
+</tr>
+<tr>
+<td>Blocked attempt</td>
+<td>A proposed binding or transfer was tested and could not enter</td>
+</tr>
+<tr>
+<td>Stale evidence</td>
+<td>A previous result depends on an earlier source or basis</td>
+</tr>
+<tr>
+<td>Orthogonal remainder</td>
+<td>The selected structural order cannot account for it</td>
+</tr>
+<tr>
+<td>Tension</td>
+<td>Incoming change awaits settlement</td>
+</tr>
+</tbody>
+</table>
+<p>These are interpretive reads, not a proposed universal enum. An open role can
+also have a candidate, a failed previous claim, and provenance simultaneously.</p>
+<p>Unknown participation is room for prediction, but not every open role creates
+an obligation to solve it immediately. A request, goal, claim pressure, or
+controller should make that obligation visible. Transformations can also
+revise previously known participation when new evidence arrives; they should
+not be restricted to empty slots.</p>
+<h2 id="4-preserve-candidates-before-applying-bindings">4. Preserve candidates before applying bindings</h2>
+<p><a href="assets/Gojo--Patterns--StructuralPattern.cs">StructuralPattern.ReadSlotBindings</a>
+currently selects the first binding for each slot. Given bindings of the same
+slot to 3 and 7, its selected binding frame contains only 3.</p>
+<p>That is usable for a frame whose binding has already been selected. It is not a
+candidate-comparison law. Passing all hypotheses into this helper would let
+enumeration order decide the answer and would hide the rejected possibility.</p>
+<p>A prediction surface should instead preserve:</p>
+<pre><code class="language-text">same open role
+  -&gt; candidate binding A -&gt; local prediction -&gt; claim/residue -&gt; provenance
+  -&gt; candidate binding B -&gt; local prediction -&gt; claim/residue -&gt; provenance
+  -&gt; calibrated contributions, mixtures, or a selected experiment
+</code></pre>
+<p>This does not imply that one candidate will eventually be the answer. A local
+space may filter and combine many inputs, discover new relations, and retain
+several useful mixtures. Choosing a place to experiment is different from
+choosing a winning interpretation. First-binding-wins is a temporary helper
+convention and must not become a settlement rule.</p>
+<p>Contributions need their own basis and response evidence. Alternatives may
+remain plausible at a coarser resolution, become blocked by one tool, or become
+stale after a source change. None of those means they never existed. Useful
+connections may eventually strengthen, decay, redirect, or be pruned, but that
+requires explicit local utility and participation mechanics.</p>
+<p><a href="assets/Gojo--Structures--RefinementRead.cs">RefinementRead</a>,
+<a href="assets/Gojo--Structures--OperationClaim.cs">OperationClaim</a>, the equation/search
+structures, and transform replay already provide pieces to build on. There is
+no need to introduce a second global inference engine in the parser.</p>
+<h2 id="5-a-recognized-witness-is-not-proof-of-its-claim">5. A recognized witness is not proof of its claim</h2>
+<p><code>act(selected, operation, result, residue, provenance)</code> creates a
+<a href="assets/Gojo--Structures--ReadWitness.cs">ReadWitness</a>. Its result is supplied by the author.</p>
+<p>A probe supplied an affine doubling frame, input 2, and claimed output 999.
+The syntax accepted the witness. The existing projection read independently
+produced 4; an equality claim exposed mismatch 995.</p>
+<p>This is useful capability if 999 is a hypothesis or target. It becomes a problem
+only when another component treats the presence of a witness as verification.</p>
+<p>The mismatch of 995 does not establish that 999 is the mistaken participant.
+It concerns the whole selected statement. Input, operation, transform, basis,
+or expected output may need revision. Within the given exact doubling frame,
+2 still maps to 4; uncertain applicability does not change that arithmetic.
+The direction is local predictive utility and wider connected feedback, not
+an omniscient pass/fail stage. Support history may make one relation resist
+change more than another, but the response law is not yet established.</p>
+<p>Preserve the following stages separately:</p>
+<ol>
+<li>An available operation recipe.</li>
+<li>A request or proposed application with bindings and selected scope.</li>
+<li>A locally computed prediction and its basis/residue.</li>
+<li>A comparison against the requested or observed result.</li>
+<li>An accepted application or settlement, where applicable.</li>
+<li>Before/after and remaining evidence.</li>
+</ol>
+<p>A future spelling such as <code>witness(...)</code> might communicate the current
+constructor more clearly than <code>act(...)</code>. That is a naming recommendation,
+not a new grammar rule. More important is to avoid turning <code>act</code> into an
+implicit executor while existing source uses it for claims.</p>
+<p>Do not add a Boolean <code>verified</code> field as the only proof. Connect the actual
+read, operation, inputs, result, and claim evidence. A capability witness is
+also not a transfer receipt: admission, allocation, and settlement remain
+separate.</p>
+<p>There is existing executable footing:
+<a href="assets/Gojo--Structures--TransformSurface.cs">TransformSurface.TryCreateOperationOutputRead</a>
+reads supported operations through application bindings, and
+<a href="assets/Tests--Gojo.Tests--Core--TransformSurfaceTests.cs">its tests</a> exercise operation
+outputs and producer-consumer dependencies. General application construction,
+however, still accepts supplied result evidence. These guarantees should not
+be conflated.</p>
+<h2 id="6-shape-recognition-needs-a-stated-read-context">6. Shape recognition needs a stated read context</h2>
+<p>The neutral grouping mechanism is appropriate. <code>group</code>, <code>ports</code>, and
+<code>frame</code> expanding to the same ordered structure is not inherently wrong:
+their role can come from their connected use.</p>
+<p>Current broad readers need care:</p>
+<ul>
+<li>A five-slot group of unrelated placeholders is accepted by both
+  <code>ReadWitness.TryRead</code> and <code>TransformSurface.TryRead</code>.</li>
+<li><code>ReadWitness.TryRead</code> accepts five or more entries and reads the first five.</li>
+<li><code>timeline(clock, initial, ?a -&gt; ?b)</code> parses, and the timeline reader returns
+  one entry, even though the step reader does not recognize it as a step.</li>
+<li>The timeline reader can filter non-relation tail elements out of a manually
+  built group.</li>
+</ul>
+<p>A structure supporting several contextual reads can be legitimate. The
+problem is promoting a weak shape read into an exact semantic or execution
+claim without its context and obligations.</p>
+<p>The adjustment should be structural: connected role bindings, explicit
+read surfaces, correspondence, and local validation where execution needs it.
+Do not solve it with a hidden class discriminator or a marker that merely
+spells "this is a transform."</p>
+<p>Readers for permissive inspection can keep a lower-resolution interpretation
+and return unconsumed structure as residue. Readers used to commit changes
+must establish the required ports, source correspondence, basis, and action
+evidence. The existing narrow application/focus/dependency readers are useful
+precedents. Exact arity alone is insufficient when unrelated surfaces share
+the same arity.</p>
+<h2 id="7-construction-activation-perturbation-and-observation-differ">7. Construction, activation, perturbation, and observation differ</h2>
+<p>A point coordinate is not carrier state. Parsing <code>point($c,5)</code> leaves
+<code>$c.Value</code> at zero. Likewise constructing a wrap relation does not attach it.</p>
+<p>A probe parsed:</p>
+<pre><code class="language-gojo">gojo 1;
+let $c = carrier();
+root $c;
+root point($c,10) -&gt; point($c,0);
+</code></pre>
+<p>Calling <code>Add(13)</code> on the carrier before attachment left value 13 and tension 0.
+Attaching the relation then settled it to value 3 and tension 10.</p>
+<p>This means the same authored relation can be a dormant recipe, a perspective,
+or an active part of a local settlement world. A future live format must retain
+which relation surfaces participate actively; replaying every relation as an
+attachment would activate observations and historical recipes accidentally.</p>
+<p>The live boundary also needs participation and utility over time. Exploratory
+connections, useful established connections, and connections losing utility
+can have different local response histories. Growth, decay, pruning, and
+redirection belong in inspectable structure. Merely recording an attachment
+bit would not capture this intended adaptive behavior.</p>
+<p>The desired separation is:</p>
+<pre><code class="language-text">decode structure
+  -&gt; resolve identity and external references
+  -&gt; establish the selected live connections
+  -&gt; introduce an explicit input/change frame
+  -&gt; settle the affected local world
+  -&gt; produce read/application/transfer witnesses
+  -&gt; retain history and remainder
+</code></pre>
+<p>These are responsibilities, not proposed mandatory keywords. Parsing should
+remain inspectable without causing material change.</p>
+<p>The input frame should distinguish signed tension input from structural site
+retargeting. Shared sites must move consistently, and grouped imports should
+keep their existing validate-before-commit behavior. Same-step batching and
+general scheduling remain kernel direction; syntax must not pretend those
+laws are complete.</p>
+<p>For replay, distinguish fresh instance construction, restoring a checkpoint,
+applying a new change, and recognizing an already-applied event. Otherwise
+loading the same change twice can introduce duplicate participation. Event
+identity and source correspondence can support this without making a global
+controller the owner of semantics.</p>
+<h2 id="8-identity-needs-an-explicit-expansion-and-application-contract">8. Identity needs an explicit expansion and application contract</h2>
+<p>The promise that aliases preserve identity needs a precise boundary:
+they reuse the same parsed value when referenced, but a constructor may read
+that value and build another surface.</p>
+<p>For example, <code>value(...,$lane,...)</code> reads the supplied lane into a compact
+boundary/flow summary and constructs a new lane marker. A probe confirmed that
+the result does not retain the supplied lane relation's identity.
+<code>lane_action</code> similarly reconstructs source and target marker surfaces through
+its current helper. The operation argument may separately retain original
+lane references, so this is not a claim that every original reference is lost.</p>
+<p>That is acceptable for a documented summary-construction macro. It is not a
+general graph-preserving rewrite of an arbitrary lane carrying additional
+evidence. Future exact forms should either retain the supplied surface or
+expose an explicit projection/correspondence to the reconstructed surface.</p>
+<p>There is a second issue in pattern application: applying even an empty binding
+frame to a relation that uses the same point twice rebuilds two separate point
+relations, while retaining their shared tick reference. Thus:</p>
+<pre><code class="language-text">before: same point relation used twice
+after:  distinct point relations sharing one tick reference
+</code></pre>
+<p>Both are valid structures, but they differ in identity. A general syntax
+instantiator should not acquire that behavior accidentally. It needs a stated
+policy for preserved identity, fresh instance identity, shared sites, and
+correspondence. A memoized traversal can preserve intended sharing, but the
+decision of what is copied versus shared comes first.</p>
+<p>File-local <code>$aliases</code> and <code>?slots</code> also need scope when reusable templates
+arrive. Two independent instances should not share an open result merely
+because both source files call it <code>?result</code>. Deliberate imports or bindings
+should create sharing.</p>
+<p>The user's source-space model sharpens that requirement: two exposed uses of
+the same source value should carry the source reference and basis that explain
+their identity. It does not imply merging independently constructed sites
+because their coordinates match. Within a selected source space, repeated use
+of the same construct need not allocate a second construct; cross-space
+correspondence must remain explicit. Carrier, point-relation, and TickRef
+identity are still distinct current kernel reads.</p>
+<h2 id="9-durable-history-needs-frozen-evidence-and-live-correspondence">9. Durable history needs frozen evidence and live correspondence</h2>
+<p>The preservation fixture correctly demonstrates that literal before/after
+points retain their ticks when carrier live value changes.</p>
+<p>That is a narrower guarantee than immutable history. A probe moved a shared
+TickRef from 5 to 7 after recording it in a timeline; the historical point then
+read 7. Literal points also contain accessible tick references, even if the
+syntax does not give them an alias.</p>
+<p>A useful history boundary should keep:</p>
+<pre><code class="language-text">live source identity
+  -&gt; captured before evidence
+  -&gt; selected transition/application
+  -&gt; captured after evidence
+  -&gt; correspondence to the live structure
+  -&gt; unresolved and competing evidence
+</code></pre>
+<p>The captured evidence must not silently change with later live mutation.
+Snapshotting must preserve internal sharing where it mattered, while keeping
+the snapshot's mutable storage independent of the live source.</p>
+<p>Crystallization solves the stable-tick-promise problem. It does not
+automatically freeze an arbitrary graph or preserve every detail needed for
+rollback. Use it where the retained promise is sufficient; use explicit
+snapshot/correspondence structure where history needs more.</p>
+<p>Rollback from retained information remains different from a mathematical
+inverse. A later correction can preserve new evidence about the old read when
+exact event history is the promised contract. This is not a universal
+append-only memory requirement. Adaptive memory may deliberately compress,
+abstract, revise, or forget history in service of a more useful algorithm.
+The retained promise, correspondence, and loss need to be explicit at the
+claimed resolution. Incidental reference drift is different from a chosen
+memory transformation, and lossy memory cannot promise exact historical
+rollback.</p>
+<h2 id="10-define-the-numeric-fidelity-contract-early">10. Define the numeric fidelity contract early</h2>
+<p>Deferring binary layout and compression was sensible. Deferring the
+preservation laws until after all syntax experiments would be costly.</p>
+<p>The current <a href="assets/Gojo--Core--Serialization--GojoEncodedSnapshot.cs">GojoEncodedSnapshot</a>
+is explicitly diagnostic. Its encoder has no Placeholder case; unhandled
+elements become None references.</p>
+<p>Measured consequences:</p>
+<ul>
+<li>Capturing a bare placeholder produces no root.</li>
+<li>In <code>?a -&gt; ?a</code>, both operands become None.</li>
+<li>In <code>?a -&gt; ?b</code>, both operands also become None.</li>
+<li>The relation rows may retain different relation IDs, but the shared-versus-
+  distinct slot topology is gone.</li>
+</ul>
+<p>The encoding-layer wrapper retains an opened source structure in memory.
+That does not make its packed rows lossless when transported independently.
+An existing diagnostic test explicitly expects missing placeholder references;
+this is a known scope of that format, not evidence that unknowns are preserved.</p>
+<p>A future format should first prove these invariants:</p>
+<table>
+<thead>
+<tr>
+<th>Invariant</th>
+<th>Required distinction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reference identity</td>
+<td>Same slot twice versus two slots; same point versus coincident point</td>
+</tr>
+<tr>
+<td>Slot duality</td>
+<td>Same abstract slot with opposed face versus unrelated slots</td>
+</tr>
+<tr>
+<td>Physical state</td>
+<td>Carrier value and signed tension, independent of location coordinates</td>
+</tr>
+<tr>
+<td>Connectivity</td>
+<td>Ordered relation references, shared ticks, exposed and active surfaces</td>
+</tr>
+<tr>
+<td>Unit promise</td>
+<td>Stable unit shape, repeated participation, descriptors and calibration</td>
+</tr>
+<tr>
+<td>Partial knowledge</td>
+<td>Open, omitted, unresolved reference, residue, and known zero</td>
+</tr>
+<tr>
+<td>Change</td>
+<td>Recipe, proposed application, actual settlement, dependency and event identity</td>
+</tr>
+<tr>
+<td>History</td>
+<td>Stable evidence plus live correspondence</td>
+</tr>
+<tr>
+<td>View completeness</td>
+<td>What this captured view includes, and what it does not claim</td>
+</tr>
+</tbody>
+</table>
+<p>Transport IDs should refer to physical structure within an explicit document or
+import scope. Runtime allocation counters are not yet a durable cross-file
+identity scheme. A new instance may legitimately allocate fresh identities;
+restoring or updating an existing instance needs a correspondence policy.</p>
+<p>Small wire tags for physical record kinds such as carrier, relation, or
+placeholder are compatible with this approach. They describe storage shape.
+They must not become a semantic opcode table in which "multiply," "planet,"
+or "unknown" supplies meaning absent from the graph.</p>
+<p>Likewise a temporary source tree or source-span index is acceptable tooling.
+The prohibition is against making it the canonical semantics. Source mappings
+will be useful for diagnostics and editing even if local aliases disappear
+from the Gojo graph.</p>
+<p>The first writer need not choose a globally canonical graph labeling or the
+shortest string. It should write an unambiguous expanded form that preserves
+sharing and can be read back under a declared identity policy. Readability and
+compression can improve afterward.</p>
+<h2 id="11-grammar-adjustments-worth-making">11. Grammar adjustments worth making</h2>
+<p>Retain versioning, explicit carriers, shared ticks, ordered relations, and
+deterministic constructor expansion.</p>
+<p>Make three usability changes in the next experiments:</p>
+<ol>
+<li><strong>Use named source fields for large common surfaces, if examples justify
+   them.</strong> Five to eight positional arguments are easy to swap and expensive to
+   inspect. Names may be authoring cues that expand into a documented ordered
+   graph; they must not become a metadata-owned meaning layer.</li>
+<li><strong>Separate open patterns from concrete constructors.</strong> Let partial
+   participation survive without forcing it into an integer, carrier, or
+   unit-shape slot before it is ready.</li>
+<li><strong>Expose references and correspondence before building a polished writer.</strong>
+   A readable format that silently duplicates shared structures is not an
+   efficient substitute.</li>
+</ol>
+<p>Be cautious with an unparenthesized <code>A -&gt; B -&gt; C</code>. Version 1 defines
+<code>((A -&gt; B) -&gt; C)</code>; a reader may imagine two path edges instead. These are
+different topologies. Keep the association explicit in examples. If a path
+convenience is added, specify its exact edges and shared junctions.</p>
+<p>The absence of decimal literals is consistent with the current authoring
+surface. Imported decimal text can still be source provenance while calibrated
+integer participation carries the Gojo value. The grammar must not turn
+rounding or unsupported range into invented precision.</p>
+<p>Do not derive a new operator vocabulary from every Blocks caption. Shared
+common shapes should earn concise constructors through repeated examples.</p>
+<h2 id="12-how-blocks-should-guide-the-work">12. How Blocks should guide the work</h2>
+<p>Blocks is the best inventory of the phenomena the notation should make easy
+to expose: site, duality, flow, boundary, extent, partition, unit promise,
+calibration, repetition, occupancy, residue, and refinement.</p>
+<p>Its teaching motifs are not all executable laws. For example, the glossary's
+repeat specimen is a partitioned segment; its timeline specimen is also a
+partitioned segment. The supplied captions explain the intended concept, but
+these particular specimens do not construct a RepeatSurface or
+TimeStepSequence. The stretch specimen similarly needs its actual relation
+mechanism distinguished from its teaching caption.</p>
+<p>Use a coverage table for selected Blocks examples:</p>
+<pre><code class="language-text">teaching phenomenon
+  -&gt; actual current structure
+  -&gt; concise authored form
+  -&gt; expanded graph
+  -&gt; available local read or transformation
+  -&gt; unresolved/false-read case
+</code></pre>
+<p>That preserves the value of the demos while preventing UI labels from quietly
+becoming kernel meaning. It also avoids treating the present examples as a
+closed list of primitives.</p>
+<h2 id="13-the-next-fixture-revised-and-executed">13. The next fixture, revised and executed</h2>
+<p>The <a href="Gojo--docs--GojoLocalBlendFixture.html">local blend fixture</a> follows the user's
+clarification that exploration need not select one winner. It exercises:</p>
+<ol>
+<li>A two-component pattern with one real open slot and connected expectations,
+   plus a filter with an open endpoint participant.</li>
+<li>Two exposed source reads contributing through different calibrated ports;
+   hidden ambient participation remains outside this read.</li>
+<li>An independently retained alternative mixture, including equal outputs that
+   remain different structures and separate under a new input.</li>
+<li>A goal and focus, a locally computed prediction, and conditional claim
+   mismatch without automatic blame or carrier mutation.</li>
+<li>An explicit response route into a gain carrier through tension, a new
+   endpoint binding, a stalled response with residue, and a separately chosen
+   route revision.</li>
+<li>Refinement witnesses, before/after response evidence, a timeline, captured
+   source values and correspondence, and a local stale-input comparison.</li>
+<li>A coarser read that preserves fine remainder rather than inventing detail.</li>
+</ol>
+<p>All use existing version-1 constructors and kernel mechanisms. The test driver
+chooses the experiment schedule; it is not a production autonomous learner.
+Sensory reads are non-draining observations, and the gain response is a new
+perturbation. The fixture does not claim a general material output allocation
+law, graph invalidation service, or live-system serializer. Blocked action
+semantics remain in the earlier access fixture. The diagnostic snapshot's
+placeholder loss remains an explicit blocker for exact numeric persistence.</p>
+<p>The next structural experiment should connect an outward signal to feedback
+from neighboring spaces and expose connection participation, support history,
+and competing response routes. Identity-preserving persistence and explicit
+lossy-memory contracts can proceed alongside that work. Compact spelling should
+follow these exercised laws; a standalone complex literal need not define the
+component ontology.</p>
+<h2 id="14-evidence-and-scope-of-this-review">14. Evidence and scope of this review</h2>
+<p>The subsequent <a href="Gojo--docs--GojoMathConformance.html">mathematical conformance work</a> fixes
+concrete kernel arithmetic and resolution-validation bugs and adds a text
+fixture. Consult that checkpoint for current guarantees; the verification
+counts and implementation scope below describe the earlier review stages.</p>
+<p>Inspected the version-1 parser and fixtures, access surface, carrier/tick/
+placeholder/relations, packed snapshot encoder, structural pattern helpers,
+witness/basis/focus/refinement/transform/timeline mechanisms, focused tests,
+Blocks tutorial/glossary structure builders, and the active supporting docs.</p>
+<p>A local C# probe harness exercised the reported boundaries against the current
+implementation. It is retained in the ignored local artifact directory
+<code>artifacts/syntax-review-2026-09-05</code>. Its 17 observations include seven
+open-position cases and the identity, witness, history, snapshot, and activation
+checks described above. These are characterizations of current behavior, not
+regression tests endorsing the limitations.</p>
+<p>Changes made during the initial review were documentation only: this review, a solution
+link, clarification of unresolved capability arguments, supplied action results,
+observational normalization, aliasing, and diagnostic placeholder loss. No
+parser, kernel, or runtime behavior was changed in that initial pass. The
+follow-up adds the local blend fixture and its executable tests, updates this
+review, and reconciles the canonical prompt and design notes with the user's
+clarifications. It adds no parser constructors or production learning policy.</p>
+<p>Verification at the initial documentation-review checkpoint:</p>
+<ul>
+<li><code>dotnet test Gojo.slnx --nologo</code>: 951 passed, 0 failed, 0 skipped.</li>
+<li>Probe harness: completed successfully with 17 recorded observations.</li>
+<li><code>git diff --check</code>: passed.</li>
+<li>All source links in this review resolve locally.</li>
+</ul>
+<p>Verification after the local blend follow-up:</p>
+<ul>
+<li><code>dotnet test Gojo.slnx --nologo</code>: 962 passed, 0 failed, 0 skipped,
+  including 11 new local blend cases.</li>
+<li>The fixture uses the existing parser and kernel. No new runtime learning
+  policy or syntax constructor was introduced.</li>
+<li>Reviewed local documentation links resolve; <code>git diff --check</code> passes.</li>
+</ul></main></html>

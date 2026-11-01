@@ -1,0 +1,686 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GojoCAD Read Algebra</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="gojocad-read-algebra">GojoCAD Read Algebra</h1>
+<p>GojoCAD structure is the source of meaning. A read algebra is an inspection
+surface generated from that structure at a chosen purpose, resolution, and
+time. It should make local discoveries easier to reuse without becoming a
+parallel model that owns the concept.</p>
+<p>The read result should usually be a graph, not a strict tree. Gojo structures
+share carriers, locations, unit shapes, and <code>TickRef</code> sites, so the read must
+preserve shared evidence instead of duplicating it into unrelated branches.</p>
+<pre><code class="language-text">GojoCAD relation graph
+  canonical structure
+  carriers, locations, relations, unit shapes, residue, tension
+
+derived read graph
+  temporary inspection surface
+  local observations with links back to source structure
+  ambiguity, partial detail, sampled choices, and unresolved residue
+</code></pre>
+<p>If a read becomes important enough to persist, it should crystallize back into
+ordinary Gojo structure as a witness relation. Until then, throwing away the
+read graph must not change what the structure means.</p>
+<h2 id="recognition-direction">Recognition Direction</h2>
+<p>Recognition should be algebraic and bottom-up. Instead of testing every known
+shape at every relation, the reader should inspect the relation's left side,
+carry those findings into the right side, and narrow the possible reads by
+local compatibility.</p>
+<p>For example:</p>
+<pre><code class="language-text">Relation(left, right)
+  read left
+  read right
+  combine compatible local findings
+  carry resulting findings upward
+</code></pre>
+<p>The carried result can include several compatible reads. A relation of two
+coincident points can be an ordinary zero span, a line seed candidate, and a
+future orthogonal source. A parent relation may refine one of those readings
+without erasing the others.</p>
+<h2 id="lower-primitive-table">Lower Primitive Table</h2>
+<table>
+<thead>
+<tr>
+<th>Left read</th>
+<th>Right read</th>
+<th>Local constraint</th>
+<th>Carried read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CarrierLocation(c,t)</code></td>
+<td>carrier <code>c</code></td>
+<td>same carrier identity</td>
+<td>point</td>
+</tr>
+<tr>
+<td>point <code>P(c,a)</code></td>
+<td>point <code>P(c,b)</code></td>
+<td>same positive carrier, <code>a != b</code></td>
+<td>positive segment/span</td>
+</tr>
+<tr>
+<td>point <code>P(c,a)</code></td>
+<td>point <code>P(c,b)</code></td>
+<td>same positive carrier, <code>a == b</code></td>
+<td>zero span, coincident site, line seed candidate</td>
+</tr>
+<tr>
+<td>point <code>P(c-,a)</code></td>
+<td>point <code>P(c,b)</code></td>
+<td>inverse and positive faces of same carrier</td>
+<td>directed segment, fused carrier-face read</td>
+</tr>
+<tr>
+<td>point <code>P(c,a)</code></td>
+<td>point <code>P(c-,b)</code></td>
+<td>positive and inverse faces of same carrier</td>
+<td>directed/fused face with reversed order evidence</td>
+</tr>
+<tr>
+<td>point</td>
+<td>unknown zero span</td>
+<td>right side is <code>Unknown[0] -&gt; Unknown[0]</code></td>
+<td>point orthogonal outlet, radial seed</td>
+</tr>
+<tr>
+<td>zero span</td>
+<td>unknown zero span</td>
+<td>left read preserved as coincident segment</td>
+<td>line/ray orthogonal outlet</td>
+</tr>
+<tr>
+<td>nonzero segment</td>
+<td>unknown zero span</td>
+<td>left read preserved as span</td>
+<td>sheet/region orthogonal outlet</td>
+</tr>
+<tr>
+<td>point on circular carrier</td>
+<td>circular carrier basis</td>
+<td>unit shape is <code>CircularFrom(origin)</code></td>
+<td>circumference marker, contour partition</td>
+</tr>
+<tr>
+<td>point on circular carrier</td>
+<td>point on same circular carrier</td>
+<td>distinct ticks</td>
+<td>circumference span, arc candidate</td>
+</tr>
+<tr>
+<td>point on base carrier</td>
+<td>point on circular carrier</td>
+<td>circular origin is on base carrier or attached through a shared site</td>
+<td>radius/contour attachment</td>
+</tr>
+<tr>
+<td>non-origin point on linear carrier</td>
+<td>point on another carrier</td>
+<td>linear carrier has an origin unit shape</td>
+<td>linear basis witness for direction and scale</td>
+</tr>
+<tr>
+<td>observed carrier</td>
+<td>unit shape surface/descriptors</td>
+<td>carrier participates in a point or span read</td>
+<td>carrier unit/provenance evidence</td>
+</tr>
+<tr>
+<td>ordered coordinate group</td>
+<td>two or more carrier locations share one frame holder</td>
+<td>ordered group participants are locations</td>
+<td>shared-frame point</td>
+</tr>
+<tr>
+<td>shared-frame point</td>
+<td>shared-frame point</td>
+<td>same coordinate carrier basis, distinct coordinate tuple</td>
+<td>shared-frame segment</td>
+</tr>
+<tr>
+<td>shared-frame point + shared-frame span</td>
+<td>center and span endpoints use the same coordinate basis</td>
+<td>center differs from both arc endpoints</td>
+<td>shared-frame arc</td>
+</tr>
+<tr>
+<td>shared-frame span + shared-frame point</td>
+<td>chord endpoints and control use the same coordinate basis</td>
+<td>control differs from both endpoints</td>
+<td>quadratic curve</td>
+</tr>
+<tr>
+<td>shared-frame span + shared-frame span</td>
+<td>chord and control span use the same coordinate basis without shared endpoints</td>
+<td>cubic curve</td>
+<td></td>
+</tr>
+<tr>
+<td>shared-frame span + shared-frame span</td>
+<td>spans share one endpoint</td>
+<td>transition curve / corner smoothing control</td>
+<td></td>
+</tr>
+<tr>
+<td>transition curve + length span</td>
+<td>transition and length evidence use the same coordinate basis</td>
+<td>linear curvature transition witness</td>
+<td>clothoid transition</td>
+</tr>
+<tr>
+<td>shared-frame arc + length span</td>
+<td>base arc and unwound length use the same coordinate basis</td>
+<td>tangent/unwinding evidence</td>
+<td>involute circle</td>
+</tr>
+<tr>
+<td>path span + path span</td>
+<td>spans share a <code>TickRef</code>, endpoint, or grounded site</td>
+<td>carrier-native transition control</td>
+<td></td>
+</tr>
+<tr>
+<td>carrier transition + path span</td>
+<td>transition plus length/grade evidence stays in carrier coordinates</td>
+<td>carrier-native clothoid witness</td>
+<td></td>
+</tr>
+<tr>
+<td>circular span + path span</td>
+<td>circular phase plus tangent/unwound length evidence</td>
+<td>carrier-native involute circle</td>
+<td></td>
+</tr>
+<tr>
+<td>segment</td>
+<td>point on same carrier</td>
+<td>point tick falls inside segment ticks</td>
+<td>segment partition tick</td>
+</tr>
+<tr>
+<td>circumference span</td>
+<td>point on same circular carrier</td>
+<td>point tick falls inside span read</td>
+<td>contour partition tick</td>
+</tr>
+<tr>
+<td>span</td>
+<td>span</td>
+<td>shared endpoint, carrier location, or <code>TickRef</code></td>
+<td>connected path fragment</td>
+</tr>
+<tr>
+<td>connected non-branching span component</td>
+<td>two terminal endpoint sites, interior sites valence two</td>
+<td>segment path / repeated-step path</td>
+<td></td>
+</tr>
+<tr>
+<td>connected shared-frame segments</td>
+<td>two terminal frame points, interior frame points valence two</td>
+<td>shared-frame polyline</td>
+<td></td>
+</tr>
+<tr>
+<td>connected path component</td>
+<td>endpoints group into terminal, valence-two, branch, or loop sites</td>
+<td>path graph topology read</td>
+<td></td>
+</tr>
+<tr>
+<td>span group</td>
+<td>shared site</td>
+<td>local valence greater than two</td>
+<td>branch, merge, junction candidate</td>
+</tr>
+<tr>
+<td>any read</td>
+<td>style participation</td>
+<td>style carrier attaches to selected read</td>
+<td>styled read with unresolved or exact detail</td>
+</tr>
+<tr>
+<td>any read</td>
+<td>resolution participation</td>
+<td>carrier/unit ladder relates to selected read</td>
+<td>coarser or finer read surface</td>
+</tr>
+</tbody>
+</table>
+<p>This table is not a shape enum. Each row is a local composition rule. The read
+may carry multiple rows upward when the structure supports them.</p>
+<h2 id="read-order-and-bands">Read Order And Bands</h2>
+<p>Order matters because higher reads depend on lower evidence. The reader should
+advance in bands, where each band can consume everything already carried and
+add more reads without erasing earlier possibilities.</p>
+<p>The order should stay algebraic rather than becoming a giant classifier:</p>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Current role</th>
+<th>Example reads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>local primitive relation reads</td>
+<td>point, frame point, point pair, span, frame segment, zero span, directed segment, radial seed, circular marker/span</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>incidence, unit, and partition reads</td>
+<td>carrier unit/provenance, point attachment, shared site, segment partition, contour partition, segment connection</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>second-order control reads</td>
+<td>radius attachment, linear basis witness/alignment, segment join/flow/unit/junction, future perpendicular/equal-length witnesses</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>contour and curvature controls</td>
+<td>tangent continuity, curvature continuity, rounded corner, clothoid/involute witnesses</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td>boundary, area, and topology controls</td>
+<td>closed boundary, boundary join/flow, area, anti-area, branch, merge, crossing/intersection</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td>resolution and concept conditioning</td>
+<td>coarse-to-fine ladders, named concept hints, feature settlement witnesses</td>
+</tr>
+</tbody>
+</table>
+<p>Bands <code>0</code>, <code>1</code>, <code>2</code>, and the initial boundary/area reads in band <code>4</code> are executable
+right now. <code>GraphicReadGraph.Bands</code>
+exposes the non-empty read bands in order. The band number is a read-pass
+grade, not a symbolic shape tag; the source relation structure still carries
+the meaning.</p>
+<p>Current executable control surface:</p>
+<table>
+<thead>
+<tr>
+<th>Read</th>
+<th>Band</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PointAttachmentRead</code></td>
+<td><code>1</code></td>
+<td>a direct relation joins points on distinct carriers</td>
+</tr>
+<tr>
+<td><code>CarrierUnitRead</code></td>
+<td><code>1</code></td>
+<td>observed carrier unit-shape surface and descriptor provenance</td>
+</tr>
+<tr>
+<td><code>SharedSiteRead</code></td>
+<td><code>1</code></td>
+<td>multiple point reads share a <code>TickRef</code> or normalized carrier location</td>
+</tr>
+<tr>
+<td><code>SegmentConnectionRead</code></td>
+<td><code>1</code></td>
+<td>segment endpoints meet at a shared site</td>
+</tr>
+<tr>
+<td><code>SharedFramePointRead</code></td>
+<td><code>0</code></td>
+<td>ordered coordinate tuple over a shared frame/group holder</td>
+</tr>
+<tr>
+<td><code>SharedFrameSegmentRead</code></td>
+<td><code>0</code></td>
+<td>relation between two shared-frame coordinate tuples in the same coordinate basis</td>
+</tr>
+<tr>
+<td><code>SharedFrameArcRead</code></td>
+<td><code>0</code></td>
+<td>shared-frame center plus endpoint span that define an arc in a coordinate frame</td>
+</tr>
+<tr>
+<td><code>SharedFrameQuadraticCurveRead</code></td>
+<td><code>0</code></td>
+<td>shared-frame chord plus one control point</td>
+</tr>
+<tr>
+<td><code>SharedFrameCubicCurveRead</code></td>
+<td><code>0</code></td>
+<td>shared-frame chord plus control span</td>
+</tr>
+<tr>
+<td><code>SharedFrameCurveTransitionRead</code></td>
+<td><code>0</code></td>
+<td>two shared-frame spans that share a junction and can flow through it as one transition</td>
+</tr>
+<tr>
+<td><code>SharedFrameClothoidTransitionRead</code></td>
+<td><code>0</code></td>
+<td>transition plus length/grade evidence for a linear-curvature curve</td>
+</tr>
+<tr>
+<td><code>SharedFrameInvoluteCircleRead</code></td>
+<td><code>0</code></td>
+<td>base arc plus unwound/tangent length evidence</td>
+</tr>
+<tr>
+<td><code>CarrierCurveTransitionRead</code></td>
+<td><code>0</code></td>
+<td>two ordinary path spans sharing a junction, with carrier evidence preserved instead of projected into XY</td>
+</tr>
+<tr>
+<td><code>CarrierClothoidTransitionRead</code></td>
+<td><code>0</code></td>
+<td>carrier transition plus length/grade span for a linear-curvature transition witness</td>
+</tr>
+<tr>
+<td><code>CarrierInvoluteCircleRead</code></td>
+<td><code>0</code></td>
+<td>circular span plus tangent/unwound path span</td>
+</tr>
+<tr>
+<td><code>GraphicRepeatTemplateRead</code></td>
+<td><code>0</code></td>
+<td>repeat template with slot-shaped input ports, selected structure, and output ports</td>
+</tr>
+<tr>
+<td><code>GraphicRepeatRead</code></td>
+<td><code>0</code></td>
+<td>repeat surface whose selected template has feedback from output ports to later input ports</td>
+</tr>
+<tr>
+<td><code>RadiusAttachmentRead</code></td>
+<td><code>2</code></td>
+<td>a base-carrier point fixes radius evidence for a circular marker</td>
+</tr>
+<tr>
+<td><code>LinearBasisWitnessRead</code></td>
+<td><code>2</code></td>
+<td>a non-origin point on a linear carrier attaches to another projected point, fixing direction and scale when possible</td>
+</tr>
+<tr>
+<td><code>LinearBasisAlignmentRead</code></td>
+<td><code>2</code></td>
+<td>non-origin points on two linear carriers attach, carrying same-flow or opposed-flow basis evidence</td>
+</tr>
+<tr>
+<td><code>SegmentJoinRead</code></td>
+<td><code>2</code></td>
+<td>exactly two segment endpoints participate at one shared site; this is join evidence, not yet corner evidence</td>
+</tr>
+<tr>
+<td><code>SegmentJoinFlowRead</code></td>
+<td><code>2</code></td>
+<td>local carrier and tick-flow evidence for each side of a two-endpoint join</td>
+</tr>
+<tr>
+<td><code>SegmentJoinUnitCompatibilityRead</code></td>
+<td><code>2</code></td>
+<td>unit-shape compatibility and descriptor provenance across a two-endpoint join</td>
+</tr>
+<tr>
+<td><code>SegmentJunctionRead</code></td>
+<td><code>2</code></td>
+<td>at least three segment endpoints participate at one shared site</td>
+</tr>
+<tr>
+<td><code>ClosedSegmentBoundaryRead</code></td>
+<td><code>4</code></td>
+<td>connected segment endpoints form a closed boundary cycle, before any fill or area style participates</td>
+</tr>
+<tr>
+<td><code>BoundaryJoinRead</code></td>
+<td><code>4</code></td>
+<td>a two-endpoint join participates as a site on a closed boundary; this can feed later corner, smoothing, or area reads</td>
+</tr>
+<tr>
+<td><code>BoundaryJoinFlowRead</code></td>
+<td><code>4</code></td>
+<td>join-flow evidence lifted to a closed boundary site</td>
+</tr>
+<tr>
+<td><code>BoundaryJoinUnitCompatibilityRead</code></td>
+<td><code>4</code></td>
+<td>join unit-compatibility evidence lifted to a closed boundary site</td>
+</tr>
+<tr>
+<td><code>AreaParticipationRead</code></td>
+<td><code>4</code></td>
+<td>a point on a fill carrier whose orthogonal source contains a closed boundary</td>
+</tr>
+<tr>
+<td><code>AreaRead</code></td>
+<td><code>4</code></td>
+<td>a closed boundary matched with positive or inverse area participation</td>
+</tr>
+<tr>
+<td><code>PathJunctionRead</code></td>
+<td><code>4</code></td>
+<td>at least three path-segment endpoints meet at one shared attachment site</td>
+</tr>
+<tr>
+<td><code>BranchRead</code></td>
+<td><code>4</code></td>
+<td>a directed path junction with one incoming endpoint and two or more outgoing endpoints</td>
+</tr>
+<tr>
+<td><code>MergeRead</code></td>
+<td><code>4</code></td>
+<td>a directed path junction with two or more incoming endpoints and one outgoing endpoint</td>
+</tr>
+<tr>
+<td><code>PathGraphRead</code></td>
+<td><code>4</code></td>
+<td>connected path endpoints lifted to terminal, valence-two, branch, or closed-loop topology without naming the object</td>
+</tr>
+<tr>
+<td><code>OpenSegmentPathRead</code></td>
+<td><code>4</code></td>
+<td>non-branching open path over ordinary segment reads and their joins</td>
+</tr>
+<tr>
+<td><code>SharedFramePolylineRead</code></td>
+<td><code>4</code></td>
+<td>non-branching open path over shared-frame segment reads</td>
+</tr>
+</tbody>
+</table>
+<h2 id="second-order-control-reads">Second-Order Control Reads</h2>
+<p>Second-order controls are not usually the visible primitive. They guide how
+visible primitives resolve: where a basis points, how far a radius reaches,
+which spans connect, whether a boundary closes, or which local ambiguity should
+remain as tension.</p>
+<p>Useful families to preserve:</p>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Control examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>incidence / attachment</td>
+<td>coincident points, point-on-segment, point-on-circumference, endpoint-to-endpoint, endpoint-to-contour point, branch node, merge node, intersection witness</td>
+</tr>
+<tr>
+<td>direction / basis</td>
+<td>second point fixes a linear carrier, parallel carriers, anti-parallel carriers, perpendicular carriers, tangent-to-circumference, normal/radius alignment, angle relation, directed-flow alignment</td>
+</tr>
+<tr>
+<td>metric</td>
+<td>equal length, proportional length, fixed radius, radius from attachment, equal radius, shared tick scale, partition ratio, circumference period, resolution ladder</td>
+</tr>
+<tr>
+<td>contour / curvature</td>
+<td>arc span, tangent continuity, curvature continuity, clothoid transition witness, involute relation, spline control relation, corner, rounded-corner control, cusp/sharp-corner witness</td>
+</tr>
+<tr>
+<td>area / boundary</td>
+<td>closed boundary, directed boundary, fill area, anti-area/cutout, inside/outside relation, winding direction, containment, shared boundary edge, area partition</td>
+</tr>
+<tr>
+<td>topology / graph</td>
+<td>branch, merge, Y split, T junction, crossing without connection, crossing with connection, stroke order, path ordering, connected component witness</td>
+</tr>
+<tr>
+<td>repetition / grade</td>
+<td>repeated partition, grid/lattice basis, symmetry, mirror, rotational symmetry, array along segment, array around circumference, low-to-high resolution read</td>
+</tr>
+</tbody>
+</table>
+<p>These should be derived from relation evidence as far as possible. A future
+parallel read, for example, should be a relation between carrier bases or their
+witnesses; it should not be a stored <code>Parallel</code> enum. The current area read
+comes from closure plus fill participation: a closed boundary remains only a
+boundary until a fill carrier participates through an orthogonal boundary
+source. It does not start as an opaque polygon type.</p>
+<p>Current join flow evidence is deliberately weaker than corner evidence. A
+two-endpoint join can share a carrier with opposed local flow, share a carrier
+with same-side local flow, or transition between carriers. A boundary read may
+later use that evidence to distinguish straight continuation, turn, cusp,
+rounding, or unresolved tension.</p>
+<p>Branch and merge reads use directed endpoint flow before naming the topology.
+The lower read is <code>PathJunctionRead</code>: three or more path endpoints share a
+site. It becomes a branch only when all participating endpoints are directed
+and the local flow has exactly one incoming side with multiple outgoing sides.
+It becomes a merge only when the directed evidence reverses that count. Mixed
+or undirected junctions stay inspectable as unresolved junction topology.</p>
+<p>Carrier unit evidence is deliberately weaker than kind-transfer evidence. Two
+joined carriers can share one unit identity, share compatible descriptor
+provenance through separate carrier instances, have the same bare algebra with
+different descriptors, or have different algebra altogether. This is the lower
+evidence needed before a future read can say "same path turned" or "one kind
+settled into another kind."</p>
+<h2 id="polyline-basis-patterns">Polyline Basis Patterns</h2>
+<p>A polyline can be defined through at least two useful basis patterns.</p>
+<p>The shared-frame pattern repeats data in one fused basis:</p>
+<pre><code class="language-text">shared XY/group basis
+point 0 -&gt; x0, y0
+point 1 -&gt; x1, y1
+point 2 -&gt; x2, y2
+</code></pre>
+<p>Every point references the same coordinate surface. This is useful for global
+measurement, intersection, fill, projection, and direct editing.</p>
+<p>The repeated-step pattern repeats a structural template:</p>
+<pre><code class="language-text">step template
+  start site
+  local span / arc / radius / length evidence
+  end site
+
+step 0 instance
+step 1 instance appended to step 0 end
+step 2 instance appended to step 1 end
+</code></pre>
+<p>Each step can have its own carrier instance, direction, length, arc, or radius.
+The instances can still share template provenance through compatible
+<code>UnitShape</code> descriptors. This is repetition by addition: a new instance is
+appended to the current path, and route continuity comes from the ordered
+attachment of one step's end to the next step's start.</p>
+<p>The stronger repeat-control foothold is now explicit:</p>
+<pre><code class="language-text">input ports:   start, incoming basis, angle, length
+selected:      relative angle/length step structure
+output ports:  end, outgoing basis
+feedback:      end -&gt; next start, outgoing -&gt; next incoming basis
+controller:    repeat count / phase / later equation
+</code></pre>
+<p>The expanded geometry still gives ordinary connected segment, circular marker,
+radius, and linear witness reads. The repeat surface preserves the repeated
+template and feedback relation without turning the path into a code-side loop.
+Renderers should treat repeat-control surfaces as control evidence, not as
+ordinary visible controller geometry, until a dedicated repeat visualizer
+exists.</p>
+<p>This distinction helps separate turn evidence from kind-transfer evidence:</p>
+<pre><code class="language-text">turn
+  route continuity
+  carrier/basis transition
+  compatible carried unit provenance
+
+change of kind
+  source-to-target transfer or settlement participation
+  different unit descriptor provenance or algebra
+  optional residue/tension from incomplete conversion
+
+both
+  route continuity plus transfer evidence
+</code></pre>
+<p>The same geometry can support more than one read. The read graph should carry
+both route and unit/provenance evidence upward rather than forcing a single
+label early.</p>
+<p>The executable path layer now follows this split:</p>
+<pre><code class="language-text">SharedFramePolylineRead
+  emerges from ordered coordinate groups and frame segments
+  all points refer back to the same coordinate carrier basis
+
+OpenSegmentPathRead
+  emerges from ordinary segment joins
+  can read as a shared-carrier path or as repeated step instances when join
+  unit compatibility carries shared template provenance
+</code></pre>
+<p>The repeated-step read is intentionally based on connected segment instances
+and their unit descriptors, not on a special polyline marker.</p>
+<h2 id="evidence-to-carry-upward">Evidence To Carry Upward</h2>
+<p>A useful read graph node should preserve enough local evidence for parent reads
+to narrow without rediscovering the entire subtree:</p>
+<pre><code class="language-text">source element
+recognized local reads
+source carrier locations
+shared TickRef sites
+carrier face evidence
+unit-shape evidence
+child read links
+attachments to neighboring reads
+unresolved residue or tension-like missing detail
+sampled values used by this read pass
+</code></pre>
+<p>The sampled values belong to the read pass, not to the structure. They are
+useful for rendering or provisional interpretation, but they are not facts
+unless crystallized back into Gojo structure.</p>
+<h2 id="navigating-with-new-information">Navigating With New Information</h2>
+<p>When new information appears, the reader should navigate from the affected
+local site instead of rescanning as a flat classifier:</p>
+<ol>
+<li>Re-read the touched relation, carrier, location, or unit shape.</li>
+<li>Update the local read node and any evidence it carries.</li>
+<li>Follow shared carriers, <code>TickRef</code> sites, parent relations, and attachment
+   edges to the next affected reads.</li>
+<li>Preserve unresolved or incompatible evidence as ambiguity, residue, or
+   tension-like read state.</li>
+<li>Let consumers render, solve, export, or condition AI from the current read
+   graph at their requested resolution.</li>
+</ol>
+<p>This makes discovery incremental. A point can become a segment endpoint, then a
+partition, then a branch site, without the renderer needing to ask every
+possible shape question again.</p>
+<p>The first executable surface exposes this as:</p>
+<pre><code class="language-text">GraphicReadGraph.Bands
+  non-empty ordered read bands, currently primitive -&gt; incidence -&gt; control
+
+GraphicReadGraph.NavigateFrom(changed, radius)
+  local nodes around a changed relation, carrier, location, or TickRef
+
+GraphicReadGraph.AffectedReadsFrom(changed, radius)
+  reads carried by that local neighborhood
+
+GraphicReadGraph.RefreshFrom(changed, radius)
+  a rebuilt read graph plus previous/current affected neighborhoods
+</code></pre>
+<p>This is still explicit refresh rather than live eventing. It gives consumers a
+bounded neighborhood to reconsider when a shared site moves or new structure is
+attached, while the canonical source remains the relation graph.</p>
+<h2 id="direction-for-gojodraw">Direction For GojoDraw</h2>
+<p>GojoDraw should eventually consume this read graph rather than running its own
+flat recognizers. Rendering then becomes a boundary lens:</p>
+<pre><code class="language-text">GojoCAD structure
+  -&gt; derived read graph
+  -&gt; render recognized reads
+  -&gt; sample or draw partial/tension-like detail when exact detail is absent
+</code></pre>
+<p>Recognized structure should render as present. Missing radius, period,
+orientation, style, or sampled points should produce partial, sampled, or
+unresolved visualization instead of a failed draw branch.</p></main></html>

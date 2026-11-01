@@ -1,0 +1,239 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Local blend syntax fixture</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="local-blend-syntax-fixture">Local blend syntax fixture</h1>
+<p>Status: executable experiment, September 5, 2026. It uses the existing version-1
+syntax and kernel; it does not establish a general learning or blame-allocation
+law. The companion <a href="Gojo--docs--GojoSyntaxReview-2026-09.html">review</a> explains the design
+questions that led here.</p>
+<p>This document records the initial experiment and its scoped capture. The later
+<a href="Gojo--docs--GojoSyntaxDynamicCheckpoint-2026-09.html">syntax and dynamics checkpoint</a>
+summarizes completed numeric transport, uncertainty and replay work, and the
+adaptive mechanisms still to be tested.</p>
+<p>Source: <a href="assets/Tests--Gojo.Encoding.Tests--Fixtures--Syntax--local-blend.gojo">local-blend.gojo</a>.
+Execution: <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxLocalBlendTests.cs">GojoSyntaxLocalBlendTests</a>.</p>
+<h2 id="what-this-experiment-establishes">What this experiment establishes</h2>
+<p>A partially constructed input and an open filter can be authored as ordinary
+relations, then refined through binding. Two exposed inputs contribute through
+different calibrated frames. Another mixture remains available even when one
+mixture is being changed. A requested output gives the experiment a focus;
+local calculation exposes mismatch without identifying a guilty participant.</p>
+<p>The test driver explicitly introduces a response into a gain carrier through
+<code>Add</code> or <code>Remove</code>, which use the existing signed-tension settlement. A new
+endpoint observation then binds the partial filter into a new concrete model.
+The previous model, captured input, prediction, claim, and response remain
+inspectable through refinement reads and a timeline.</p>
+<p>The feedback recipe keeps three stages connected: the introduced delta enters
+the gain carrier; its settled value is observed through the endpoint calibration;
+the resulting endpoint supplies the next filter binding. A delta is not itself
+the next endpoint. The repeat feedback bundle records these stages; the test
+driver executes them explicitly rather than treating this bundle as a simple
+slot-to-slot feedback frame.</p>
+<p>Parsing constructs the recipe. The test driver supplies the observation and
+perturbation schedule. No parser action executes feedback, chooses a mixture,
+or learns a response rule implicitly.</p>
+<h2 id="the-authored-structure">The authored structure</h2>
+<p>The fixture has six public roots. This positional layout belongs to this
+experiment; it is not a universal component schema.</p>
+<table>
+<thead>
+<tr>
+<th>Root</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Access surface: ambient light, heat, and sound; only light and heat exposed</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Two-component input pattern, partial and complete binding frames, second-input expectation</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Partial mixture, shared open endpoint, initial endpoint binding, independent alternative mixture</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Goal, expected signal, error basis, gain carrier and initial point, endpoint calibration, two response routes</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Focus inside a repeat recipe, open controller, adjustment action, feedback, initial timeline</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Four-fine-ticks-to-one-coarse-tick read</td>
+</tr>
+</tbody>
+</table>
+<p>Names such as <code>light</code> describe the experiment to its author. Source carriers,
+references, exposed ports, and calibrated relations carry the local meaning.
+The mixture need not represent a campfire, kettle, or any other interpretation
+that another space might build from its output.</p>
+<p>The input pattern is simply:</p>
+<pre><code class="language-gojo">let $input_pattern = ?first -&gt; ?second;
+let $partial = frame(bind(?first, $light_read));
+let $expectation = ?second -&gt; span($heat, 0, 20);
+</code></pre>
+<p>The expectation is visible structure. The fixture does not claim that this
+relation automatically enforces an interval constraint. Applying the partial
+frame preserves the second placeholder. It cannot be read as a complete
+two-input equation. Binding that role to a concrete zero, however, produces a
+different, readable structure: zero participation is not missing participation.</p>
+<p>A partial filter does not need an invalid <code>point(C, ?integer)</code> constructor:</p>
+<pre><code class="language-gojo">let $heat_filter =
+    span($heat, 0, 10) -&gt; (point($signal, 0) -&gt; ?heat_endpoint);
+</code></pre>
+<p>The missing endpoint is a whole point participant. Binding it to a grounded
+point completes the target frame. Its slot identity connects the model,
+experiment focus, and eventual refinement binding.</p>
+<p>The additive topology is:</p>
+<pre><code class="language-gojo">let $mixture = ($light_filter -&gt; $heat_filter) -&gt; point($signal, 1);
+</code></pre>
+<p>This is the existing operation structure used by the equation helpers. No
+stored <code>blend</code> or <code>sum</code> opcode is added. Exposing it in expanded notation makes
+the exact relation order available for inspection before adding shorthand.</p>
+<h2 id="numeric-trace-and-uncertainty">Numeric trace and uncertainty</h2>
+<p>The selected sample is light 6 and heat 10. Mixture A reads half the light plus
+<code>g/10</code> of the heat. Initially <code>g = 5</code>, so its two contributions are 3 and 5.
+Mixture B reads all the light plus four tenths of the heat, producing 10.
+The external requested signal is also 10.</p>
+<table>
+<thead>
+<tr>
+<th>Observation or action</th>
+<th style="text-align: right;">Gain g</th>
+<th style="text-align: right;">A's signal</th>
+<th style="text-align: right;">Requested minus A</th>
+<th>Response evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initial observation</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2</td>
+<td>Both input contributions remain connected</td>
+</tr>
+<tr>
+<td>Half-response perturbation, then new observation</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1</td>
+<td>One positive gain tick introduced</td>
+</tr>
+<tr>
+<td>Another half-response attempt</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1</td>
+<td>Zero whole gain ticks; one error tick remains as route residue</td>
+</tr>
+<tr>
+<td>Explicit change to the full-response route</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0</td>
+<td>One positive gain tick introduced</td>
+</tr>
+</tbody>
+</table>
+<p>The stalled step is a valid outcome at this resolution. Its remainder is
+retained; the test driver explicitly tries the separately authored full-response
+route. There is no hidden minimum step, automatic resolution increase, or
+claim that this is always the right response.</p>
+<p>Mixture B remains intact throughout. Both models eventually produce 10 for
+this sample. For light 8 and heat 10, A at gain 7 instead produces 11 and B
+produces 12. Equal results on one sample do not imply model equality or a
+reason to collapse identity.</p>
+<p>The scalar formula describes the exact cases in this trace. At fractional
+participation the kernel's selected integer read retains residue: with light
+7, half-light reads as 3 signal ticks with one light tick unrepresented.
+The observation retains that projection residue separately from its claim
+mismatch of 2 signal ticks. Claim mismatch is conditional on that coarse
+prediction; it is not an exact discrepancy computed from imaginary precision.</p>
+<p>The four-tick coarse output read similarly sees both 8 and 10 as 2 coarse
+ticks, retaining 0 and 2 fine ticks respectively. The coarse view cannot tell
+those finer results apart without its remainder. It remains a valid coarse
+read when finer information is retained elsewhere.</p>
+<h2 id="why-the-response-is-an-experiment">Why the response is an experiment</h2>
+<p>The goal records why this model is being explored. The focus exposes the heat
+endpoint as the participant to perturb, carries the light filter and alternative
+model as complement, and connects the proposed next endpoint by correspondence.
+This is a chosen local experiment, not evidence that the heat relation caused
+the mismatch.</p>
+<p>In the selected sample, changing the gain by one tick changes the predicted
+signal by one tick. The response calibration is therefore easy to inspect.
+Changing the heat input changes that sensitivity. A general system must read
+and refine such response assumptions; it cannot reuse this ratio as a universal
+gradient or settlement law.</p>
+<p>The error carrier is the basis of the claim read. Computing a mismatch does
+not put that quantity into its live value or tension. The response route reads
+the mismatch and justifies a new actuator perturbation. This is not material
+transfer of error or drainage of sensory participation. The sources and signal
+carrier are not mutated by observation, and observing the same input through
+two alternatives does not duplicate conserved material.</p>
+<p>A negative-feedback case lowers the requested signal to 6. The same selected
+route introduces a negative gain delta through <code>Remove</code>, leaving the request
+and source reads unchanged. This tests signed response mechanics without
+asserting that the request deserves to be held fixed in all situations.</p>
+<p>The existing <code>OperationFollow</code> also supplies useful response mechanics, but
+its follower is the current claim participant. Here the feedback receiver is
+a separate gain carrier, so the fixture uses an explicit error-to-gain port
+and ordinary tension input. This keeps that extra relationship in the graph.</p>
+<h2 id="evidence-and-identity-boundary">Evidence and identity boundary</h2>
+<p>The execution constructs a <code>RefinementRead</code> for each observation, containing
+the endpoint binding and a <code>ReadWitness</code>. That witness retains the calculated
+prediction, raw operation read, projection residue, claim residual, requested
+goal, gain observation, and source-to-captured-input correspondence. The
+feedback witness retains before, introduced delta, after, remaining carrier
+tension, route residue, and the observation that motivated it.</p>
+<p>Source input aliases retain their carrier and TickRef identity. A
+<code>CarrierLocation</code> is a value type; boxed location reference equality is not the
+identity law. The captured observations deliberately copy current tick values
+into separate TickRefs. Moving the live light reference later leaves the old
+input and prediction unchanged, and a local claim through the retained
+correspondence exposes that the old input no longer matches the current one.</p>
+<p>This is a scoped capture for two distinct inputs, the expected value, and the
+gain-driven refinement. It is not an arbitrary graph snapshot or a general
+invalidation service. Shared topology in a more general capture needs a
+memoized correspondence policy. Retargeting other shared calibration sites
+is outside this fixture's historical stability guarantee.</p>
+<p>Subsequent <a href="Gojo--docs--GojoNumericFormat.html">numeric graph transport</a> now preserves active
+attachment ownership, shared unknowns and their connected expectations. The
+inventory tests round-trip this fixture's authored graph. That coverage is
+distinct from automatically capturing every later execution state; live
+references that already drifted cannot recreate an earlier observation.
+External reference revival, event deduplication and identity across independent
+packets still need explicit connection contracts. Legacy diagnostic snapshots
+remain unsuitable for restoration. Deliberate lossy memory also needs its own
+retained-information contract.</p>
+<h2 id="what-should-follow">What should follow</h2>
+<p>The <a href="Gojo--docs--GojoMathConformance.html">mathematical conformance checkpoint</a> now corrects
+general-ratio accounting and range bugs and exercises more kernel and authored
+arithmetic. Later fixtures add explicit unit quotient composition, material
+refinement/borrow and conditional bounded uncertainty. See the current
+<a href="Gojo--docs--GojoSyntaxDynamicCheckpoint-2026-09.html">checkpoint</a> for their limits and the
+recommended sequence into local adaptation. The blend alone is not evidence
+of a complete structural arithmetic surface.</p>
+<p>Beyond the initial calibration experiment, connection work should expose
+participation and utility, along with the local observations and response
+routes that alter it. A useful experiment would let an outward signal receive
+feedback from two neighboring spaces, with different support histories and
+incompatible demands. Retain
+competing response routes and measure what each locally changes before adding
+any automatic strengthening or pruning.</p>
+<p>This still leaves substantive questions: how support changes responsiveness;
+which local constraints admit a new connection; how correlated observations
+avoid being counted as independent support; what keeps a mutually reinforcing
+but unhelpful loop open to correction; and what a compressed memory promises to
+retain. A scalar confidence field, a fixed decay timer, or a global winner
+selector would choose answers before those laws exist.</p>
+<p>Blocks remains an experimental inventory for additional cases. Its current
+motifs can reveal gaps and overspecification as readily as they reveal common
+primitives. The fixture therefore uses ordinary component structure rather
+than promoting a particular Blocks shape into a canonical value taxonomy.</p>
+<p>Focused verification:</p>
+<pre><code class="language-powershell">dotnet test Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj --filter FullyQualifiedName~GojoSyntaxLocalBlendTests
+</code></pre></main></html>

@@ -1,0 +1,353 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Plan for learning useful patterns in signals</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="plan-for-learning-useful-patterns-in-signals">Plan for learning useful patterns in signals</h1>
+<p>Status: exploratory plan, September 8, 2026. No new implementation or syntax
+contract is introduced here. The inspected Gojo baseline is commit <code>8ddc024</code>.
+This plan follows the <a href="Gojo--docs--GojoProspectiveCalibrationFixture.html">prospective calibration fixture</a>
+and complements the <a href="Gojo--docs--GojoCadEcadSyntaxAssessment-2026-09.html">CAD and electronics assessment</a>.</p>
+<h2 id="the-objective-and-the-boundary-already-crossed">The objective and the boundary already crossed</h2>
+<p>The objective is to discover locally useful continuations of changing inputs,
+test them against later observations, and eventually let usefulness change the
+participation of their structures. Agreement between neighbours is useful
+communication, but does not by itself establish predictive skill. A model that
+describes yesterday's samples has made a different claim from one that predicted
+today's sample before it arrived.</p>
+<p>The present forecast fixture establishes that distinction within one explicitly
+chosen affine family. It does not discover the family, learn confidence, or
+optimize reward. We should retain that honest boundary while expanding the
+inventory of possible continuations.</p>
+<p>Locality means the relations selected for an explanation. A space predicting a
+planet's motion may deliberately omit its weather. A space predicting a circuit
+voltage may omit the detailed motion of individual charges. These exclusions
+are part of the model's scope; they are neither claims that the omitted effects
+are zero nor obligations to investigate every unknown.</p>
+<h2 id="existing-work-worth-carrying-forward">Existing work worth carrying forward</h2>
+<table>
+<thead>
+<tr>
+<th>Existing source</th>
+<th>What it provides</th>
+<th>What it does not establish</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Historical Core4 PatternState (external repository reference) and tests (external repository reference)</td>
+<td>Three-sample windows, differences, change in differences, ratios, reversals, range, smoothed fit pressures and time since reversal.</td>
+<td>A discovered period, a uniquely identified generating law, or current Gojo semantics.</td>
+</tr>
+<tr>
+<td>Historical Core4 Calibrater (external repository reference)</td>
+<td>Experiments with changing local origins, units and responses to samples.</td>
+<td>A specification to port unchanged.</td>
+</tr>
+<tr>
+<td>Current <a href="Gojo--Equations--README.html">equation structures</a>, <a href="Gojo--docs--GojoAffineConstructionFixture.html">affine constructions</a> and <a href="Gojo--docs--GojoBoundedQuantityFixture.html">bounded quantities</a></td>
+<td>Composable arithmetic, selected exact reads, explicit operands, open structure and conditional bounds.</td>
+<td>An automatic search through signal models or a general distribution algebra.</td>
+</tr>
+<tr>
+<td><a href="Gojo--docs--GojoLandmarkCalibrationFixture.html">Landmark calibration</a></td>
+<td>Alternative interpretations of a report, feedback and explicit response.</td>
+<td>Evidence that an approximate landmark contains a tolerance or that its source is trustworthy.</td>
+</tr>
+<tr>
+<td><a href="Gojo--docs--GojoTwoSpaceFeedbackFixture.html">Two-space feedback</a></td>
+<td>Local requests, response strength, retained disagreements and actual settlement.</td>
+<td>Predictive learning from static agreement.</td>
+</tr>
+<tr>
+<td><a href="assets/Gojo--Structures--LocalCalibration.Forecast.cs">LocalCalibration.Forecast</a> and <a href="assets/Tests--Gojo.Encoding.Tests--GojoSyntaxForecastTests.cs">syntax tests</a></td>
+<td>Receipts, a fit from selected past samples, future issuance, later assessment, copied numeric operands and replay.</td>
+<td>Autonomous family selection, a general delivery scheduler, delayed reward allocation or history compression.</td>
+</tr>
+</tbody>
+</table>
+<p>The sibling Core4 links assume the local repositories remain beside Gojo. They
+are historical evidence, not dependencies of this plan. The
+<a href="Gojo--docs--LegacyCore4IdeaInventory.html">legacy inventory</a> provides broader context.</p>
+<p>Several details in Core4 deserve reinterpretation before reuse. <code>LastSlope</code>
+is a difference between samples, not a rate divided by elapsed source time.
+Ratios depend on a meaningful origin and need an explicit unresolved result
+near a zero denominator. Additive and ratio residuals need a common evaluation
+basis before their sizes can be compared. The implementation has availability
+flags but also returns zero-valued reads for incomplete windows; a Gojo
+continuation must preserve the unavailable observation. Its integer smoothing
+can lose small adjustments, so any later material response must account for
+unabsorbed change. These are audit questions for a future adaptation, not
+changes to historical code in this pass.</p>
+<h2 id="what-a-signal-observation-needs-to-retain">What a signal observation needs to retain</h2>
+<p>The next fixtures should retain the existing separation between source time
+and local availability, and make the following connected roles explicit:</p>
+<ul>
+<li>The source port, observed subject, quantity basis and context.</li>
+<li>The acquisition time or interval, clock calibration and timing uncertainty.</li>
+<li>When the observation became available locally, separately from when it happened.</li>
+<li>Whether the value is instantaneous, an interval average, an integral, an
+  event count or another selected read. These give different equations.</li>
+<li>The value, open parts, source resolution and any justified expectation model.</li>
+<li>Shared origin with other observations when that relationship is known, without
+  requiring the receiver to investigate an entire external provenance chain.</li>
+<li>Any filter, resampling, delay or coordinate transformation used to obtain the read.</li>
+</ul>
+<p>For example, a sensor's one-second average and its end-of-second value can
+differ even if both arrive labelled with the same time. A reported zero and a
+missing sample must not coincide structurally. A prediction for a time interval
+also needs a different target contract from the existing single future point.</p>
+<p>The current receipt contract admits one stream in increasing source-time order.
+Multiple clocks, out-of-order arrivals, corrections to old measurements and
+interval-valued observations are extensions to specify, not existing promises.</p>
+<h2 id="heuristics-to-investigate">Heuristics to investigate</h2>
+<p>These are ways to propose candidate structure. None should silently declare
+the source's true algorithm. Their assumptions, windows and unresolved cases
+belong with their evidence.</p>
+<table>
+<thead>
+<tr>
+<th>Observed feature</th>
+<th>Candidate mechanism</th>
+<th>Useful evidence and principal trap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Little change</td>
+<td>Hold the last value; constant local level</td>
+<td>Always keep this inexpensive baseline. A short flat interval can hide a turning point or an unobserved event.</td>
+</tr>
+<tr>
+<td>Similar increments</td>
+<td>Affine continuation using actual elapsed time</td>
+<td>Compare rates when time gaps differ. Continued increase alone does not imply constant slope.</td>
+</tr>
+<tr>
+<td>Similar changes in rate</td>
+<td>Quadratic or another local polynomial</td>
+<td>Use time-aware divided differences. Higher order fits can explain a short window and extrapolate badly.</td>
+</tr>
+<tr>
+<td>Similar ratios</td>
+<td>Multiplicative growth about a selected baseline</td>
+<td>Compare equal durations or model duration explicitly. Ratios of raw values change when an arbitrary offset is added.</td>
+</tr>
+<tr>
+<td>Up, down, up</td>
+<td>Reversal events and a possible repeating phase</td>
+<td>Retain candidate extrema and their timing. Three samples show at most local reversal evidence, not a reliable period.</td>
+</tr>
+<tr>
+<td>Repeated shapes at a lag</td>
+<td>Autocorrelation or direct lagged correspondence</td>
+<td>Detrend when justified; preserve gaps and window length. A repeated source, harmonic or trend can produce misleading agreement.</td>
+</tr>
+<tr>
+<td>Concentrated frequency content</td>
+<td>Sinusoidal components or a periodic template</td>
+<td>A spectrum proposes frequency content, not a causal decomposition. Windowing, offset and aliasing matter.</td>
+</tr>
+<tr>
+<td>Similar values at the same cycle position</td>
+<td>Phase folding and a within-cycle template</td>
+<td>Keep phase alignment, cycle count and cycle-to-cycle variation. Do not force a changing period into one immutable template.</td>
+</tr>
+<tr>
+<td>Ramps followed by sharp returns</td>
+<td>Piecewise affine segments and reset events</td>
+<td>Distinguish a sawtooth reset, a triangle's change of slope, saturation and missing data.</td>
+</tr>
+<tr>
+<td>Frequency or shape changes over time</td>
+<td>Windowed spectra, wavelets or local phase tracking</td>
+<td>Short windows locate change better but provide less evidence for slow repetition.</td>
+</tr>
+<tr>
+<td>One channel follows another</td>
+<td>Delayed coupling, a filter or a driven response</td>
+<td>Keep the delay and common-source alternatives. Correlation alone does not identify causal direction.</td>
+</tr>
+<tr>
+<td>Compact recurrences explain future samples</td>
+<td>Autoregressive/state-space candidates; later sparse equation discovery</td>
+<td>A convenient state representation need not be unique or match the physical source's internals.</td>
+</tr>
+</tbody>
+</table>
+<p>For concrete reference methods, NIST describes
+<a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda35c.htm">autocorrelation</a>
+and <a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda33r.htm">spectral plots</a>.
+SciPy's <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html">peak detection</a>
+shows how distance, prominence and width can constrain candidate extrema.
+These are selected read policies, not universal thresholds embedded in numbers.</p>
+<p>Unevenly timed samples deserve their own fixtures. The generalized
+<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.lombscargle.html">Lomb–Scargle method</a>
+fits sinusoidal terms at candidate frequencies using the supplied times and can
+fit a floating offset. It is a useful comparison method, not permission to
+ignore the observation process or a requirement that Gojo store floating-point
+arrays as its canonical signal structure.</p>
+<p><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.ShortTimeFFT.html">Short-time Fourier analysis</a>
+and <a href="https://pywavelets.readthedocs.io/en/latest/ref/cwt.html">continuous wavelets</a>
+are references for time-local frequency/scale evidence. Filtering and
+<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html">local polynomial smoothing</a>
+can make features readable, but a centred window using later samples is a
+retrospective read. It cannot supply an earlier online forecast without
+recording the resulting delay. Derived evidence should retain its source window.</p>
+<p>The later <a href="https://arxiv.org/abs/1509.03580">SINDy work by Brunton, Proctor and Kutz</a>
+is relevant to choosing a small set of governing terms from a larger candidate
+family. This is a future comparison point once timing, state, derivatives,
+noise assumptions and prospective testing are established; it is not the
+immediate next implementation.</p>
+<h2 id="how-repeating-and-combined-structures-could-look">How repeating and combined structures could look</h2>
+<p>The following is mathematical planning notation, not additional <code>gojo 1</code>
+grammar or an implemented signal reader.</p>
+<p>The <a href="Gojo--docs--GojoContourRotationAndLocalInterfaces-2026-09.html">contour-grounded rotation review</a>
+also clarifies the geometric side of phase. A numeric period or trigonometric
+formula does not by itself construct a physical contour or rotation. The
+participating recurrence/traversal and its calibration must remain explicit;
+angular units are selected reads of that construction.</p>
+<p>For a fixed positive period <code>T</code>, define an unwrapped cycle coordinate
+<code>u(t) = phi0 + (t - t0)/T</code>. Its integer cycle count and wrapped phase
+<code>phi = u - floor(u)</code> are different reads. The convention here is <code>0 &lt;= phi &lt; 1</code>.
+Retain the unwrapped correspondence: wrapping a phase does not erase elapsed
+time or discard physical material.</p>
+<p>An ideal sinusoid can then be described by a baseline, amplitude and phase
+law: <code>x(t) = b + A sin(2*pi*phi(t))</code>. A sawtooth is a ramp over this phase with
+an explicit reset; a triangle connects an ascending and descending ramp;
+a pulse adds duty and boundary conventions. Ideal sawtooth and pulse signals
+have discontinuities. A continuously evolving physical source may instead have
+finite transition times. SciPy explicitly notes that its ideal
+<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.sawtooth.html">sawtooth</a>
+is not band-limited and has infinitely many harmonics, which can alias when
+sampled. Matching a few samples therefore does not identify the underlying wave.</p>
+<p>Use an exact rational ramp first. For illustration, samples <code>0, 1, 2</code> are
+consistent with indefinite linear growth and a three-step ramp that returns
+to zero on the next sample. These candidates predict <code>3</code> and <code>0</code>, respectively.
+The families should make different future claims and wait for evidence;
+neither deserves certainty because it explains three observations. Periods and
+phases may remain several competing candidates even after one reset.</p>
+<p>A uniformly sampled, baseline-subtracted sinusoid also has the recurrence
+<code>z[n+1] = 2*cos(omega*dt)*z[n] - z[n-1]</code>. This gives a compact local state
+candidate. It does not remove the need to identify the coefficient, specify
+sampling, or compare alternative frequencies. General sine, cosine and their
+irrational results need a defining construction plus a justified approximation
+and refinement contract. Finite rational ticks must not masquerade as exact
+values of arbitrary transcendental functions.</p>
+<p>Combinations need distinct topology:</p>
+<ul>
+<li><strong>Superposition:</strong> both component contributions participate in one sum.</li>
+<li><strong>Alternatives:</strong> competing explanations predict the same exposed quantity;
+  their predictions are not automatically added together.</li>
+<li><strong>Modulation:</strong> one evolving structure changes another's amplitude or phase.</li>
+<li><strong>Filtering and delay:</strong> an output depends on a retained history of an input.</li>
+<li><strong>Regime change:</strong> different laws apply on connected time regions, with
+  explicit transition evidence and possibly unresolved boundaries.</li>
+</ul>
+<p>A sum of nearby frequencies may exhibit beating. A strong harmonic may be
+mistaken for the fundamental. A small portion of a long sinusoid may resemble a
+line. These are useful adversarial fixtures because more than one explanation
+can remain valid at the available resolution and horizon. Uniform samples also
+permit aliases: no fitting strategy can recover detail absent from the
+observation contract without additional assumptions or evidence.</p>
+<h2 id="uncertainty-attention-and-assessment">Uncertainty, attention and assessment</h2>
+<p>Keep a conditional prediction separate from uncertainty about its premises.
+An exactly calculated prediction of eleven does not establish an eleven-centred
+tolerance. A coarse tick or an approximate landmark does not imply a uniform
+interval, a Gaussian, or known variance. Any future soft expectation should
+connect its centre or landmark, shape, scale, context and supporting evidence;
+unknown shape or scale remains open. Phase uncertainty may straddle a wrap
+boundary or have several modes, so a single ordinary interval can be a poor read.</p>
+<p>Shared uncertainty must retain correspondence. Two computations using the same
+sample are not two independent observations; the difference of an observation
+with itself can cancel where two independent approximate observations cannot.
+When external overlap is unknown, retain that uncertainty. Historical utility
+and correlated variation may later support reducing redundant participation,
+but ten agreeing routes are not automatically ten independent confirmations.</p>
+<p>Uncertainty also communicates relevance. “About 100 miles” may deliberately
+discourage refinement. A focus or utility surface should decide whether a more
+detailed prediction would matter; residual uncertainty alone should not trigger
+exploration. Keep measurement error, omitted effects, approximation error,
+model mismatch and goal shortfall available as different interpretations.</p>
+<p>Candidate comparisons should use the same target, exposed quantity basis,
+available evidence cutoff and chosen horizon. Keep each signed mismatch for
+direction, but assess predictive quality using a declared nonnegative loss or
+another justified utility read: errors of <code>+5</code> and <code>-5</code> must not cancel into a
+claim of perfect prediction. Scaling between different quantities needs an
+explicit basis. Assessments should also retain coverage, missing outcomes,
+cost and applicability; a candidate that forecasts only easy cases needs that
+selection visible.</p>
+<h2 id="proposed-experiment-sequence">Proposed experiment sequence</h2>
+<p>Each row is a future fixture with a deliberately narrow host policy. Passing it
+would support the stated contract, not establish autonomous intelligence.</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Small experiment</th>
+<th>Evidence required before widening scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1: competing continuations</td>
+<td>Hold-last, affine and selected multiplicative candidates see a growing sequence and then a reversal. Include unequal sample intervals.</td>
+<td>Predictions precede outcomes; candidates share the comparison basis; no automatic winner from training fit; unavailable or invalid ratios remain open.</td>
+</tr>
+<tr>
+<td>S2: phase and events</td>
+<td>Rational sawtooth, triangle and pulse templates compete with a continuing ramp.</td>
+<td>Period, phase, reset and cycle count are inspectable; endpoint conventions agree; missed samples are not resets; all intervals and event times survive restoration.</td>
+</tr>
+<tr>
+<td>S3: ambiguity</td>
+<td>A sinusoid-like sample sequence with aliases, unknown phase, gaps and timing error.</td>
+<td>Several candidates may survive; justified refinement narrows rather than invents evidence; no claim of exact transcendental evaluation from rounded samples.</td>
+</tr>
+<tr>
+<td>S4: composition</td>
+<td>Offset plus trend plus repetition; then two nearby frequencies, a changed amplitude and a changed period.</td>
+<td>Sum, modulation and alternatives remain different structures; predictions are evaluated at short and longer horizons; shared sources are not counted repeatedly.</td>
+</tr>
+<tr>
+<td>S5: driven dynamics</td>
+<td>Predict a capacitor response to a known changing input under a selected RC model.</td>
+<td>Input history, stored state, elapsed time and observation are distinct; held-out input changes test the response; prediction alone does not actuate the circuit.</td>
+</tr>
+<tr>
+<td>S6: usefulness and response</td>
+<td>Neighbouring spaces propose actions with different immediate and delayed outcomes.</td>
+<td>Action/outcome correspondence, reward timing, costs and unresolved credit remain explicit; local parameter changes enter through an authorized response/settlement path.</td>
+</tr>
+<tr>
+<td>S7: compact reusable explanations</td>
+<td>Retain a successful recurrence or composite while reducing old sample detail.</td>
+<td>Preserved domain, state initialization, error expectations and source summary are inspectable; lossy compression is acknowledged; changed conditions can reopen alternatives.</td>
+</tr>
+</tbody>
+</table>
+<p>S1 is the recommended next learning fixture when implementation resumes. S2
+can initially avoid new transcendental mathematics. S5 shares prerequisites
+with the CAD/ECAD plan, and should wait for its physical-state contract. Reward
+optimization is deliberately later than basic prospective comparison.</p>
+<h2 id="reward-internal-freedom-and-eventual-execution">Reward, internal freedom and eventual execution</h2>
+<p>A useful endpoint does not uniquely determine an internal algorithm. An
+inverting local space followed by a reinverting neighbour may predict or act
+just as successfully as a direct representation. Complexity, resource use or
+adaptability might later distinguish them; a requirement that every intermediate
+value resemble the external signal would be unjustified.</p>
+<p>Reward is not simply prediction accuracy. A system can accurately predict an
+undesirable outcome and should act to change it; successful action can also
+invalidate its earlier no-action forecast. Record which intervention scenario
+each forecast described. Short and long reward horizons may conflict, and an
+endpoint reward does not uniquely assign causal credit. These choices need
+explicit experimental policies before they can be learned locally.</p>
+<p>Keep future execution possible by putting parameters, state transitions,
+dependencies, availability cutoffs, readout, permitted mutations and retained
+witnesses in the structure. Parsing an action is still not executing it. A
+future compiler can specialize a selected, well-defined read; it cannot infer
+missing laws from a name such as “sine”, “learner” or “reward”. No compiler,
+signal engine, new grammar or learning policy is part of this documentation pass.</p>
+<h2 id="verification-boundary">Verification boundary</h2>
+<p>This plan is grounded in the inspected source and existing fixtures. The
+forecast, affine and bounded-quantity syntax tests were included in the passing
+focused run recorded in the
+<a href="Gojo--docs--GojoCadEcadSyntaxAssessment-2026-09.html#verification-of-this-assessment">companion assessment</a>.
+The proposed signal experiments were not implemented or executed. Core4 was
+reviewed as historical source. External method references were reviewed on
+September 8, 2026; they provide comparison methods rather than Gojo conformance.</p></main></html>
