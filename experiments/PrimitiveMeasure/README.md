@@ -6,7 +6,17 @@ contains no identifiers, connections, carriers, units, receipts or hidden magnit
 The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
 following the user's corrected scope rather than the earlier runtime handoff.
 
-The latest **[conditional experiment](ConditionalExperiments.md)** starts with a
+The latest **[saturation and geometry experiment](SaturationExperiments.md)**
+exercises forward flow, side escape, competing outlets, and retained pending
+contents. It also reads a rectangle from shared unknown reaches in a declared
+perpendicular frame, with tests that reject false closure and degenerate reads.
+The chart separates executable behavior from proposed radiation and hardening.
+
+```powershell
+dotnet run --project experiments/PrimitiveMeasure -- --saturation
+```
+
+The preceding **[conditional experiment](ConditionalExperiments.md)** starts with a
 plain-language recap, then routes one source through a Yes or No outlet and
 continues through the passage attached to that outlet. Complementary law tables
 make the choice; a grouped local step keeps one control observation throughout
@@ -387,3 +397,10 @@ all 179 focused tests pass, including 38 new conditional cases. Full
 with no failures or skipped tests. The conditional chart starts with an overview
 and records exact connections, actual bit changes, and uncertain predictions
 for complementary selection followed by attached continuations.
+
+Verification for Round 9: the `--saturation` demonstration runs successfully;
+all 205 focused tests pass, including 26 new saturation and geometry cases.
+Full `dotnet test Gojo.slnx` verification passes with 5,761 tests across 14
+projects, with no failures or skipped tests. The new chart covers 17 situations,
+exact passage and geometry encodings, and the distinction between implemented
+routing, constrained boundary reads, and proposed radiation or route retention.
