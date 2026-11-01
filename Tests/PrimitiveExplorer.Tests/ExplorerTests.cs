@@ -1,0 +1,96 @@
+using Gojo.PrimitiveExplorer;
+
+namespace Gojo.PrimitiveExplorer.Tests;
+
+public sealed class ExplorerTests
+{
+    [Fact]
+    public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
+    {
+        var session = new ExplorerSession();
+        for (var chapter = 0; chapter < ExplorerSession.Chapters.Length; chapter++)
+        {
+            session.Navigate(chapter);
+            var counts = session.Read().Choices.Select(c => c.Values.Length).ToArray();
+            void Visit(int depth)
+            {
+                if (depth == counts.Length)
+                {
+                    foreach (var steps in new[] { 0, 1, 3, 12, 36 })
+                    {
+                        session.Steps = steps;
+                        var page = session.Read();
+                        Assert.NotEmpty(page.Result); Assert.NotEmpty(page.Boundary); Assert.NotEmpty(page.Drawing);
+                        foreach (var block in page.Blocks)
+                        {
+                            Assert.InRange(block.UsedBits, 0, block.Bytes.Length * 8);
+                            foreach (var mark in block.Marks)
+                            {
+                                Assert.InRange(mark.Offset, 0, block.UsedBits);
+                                Assert.InRange(mark.Width, 0, block.UsedBits - mark.Offset);
+                            }
+                            for (var bit = block.UsedBits; bit < block.Bytes.Length * 8; bit++) Assert.Equal(0, (block.Bytes[bit / 8] >> (bit % 8)) & 1);
+                        }
+                    }
+                    return;
+                }
+                for (var choice = 0; choice < counts[depth]; choice++) { session.Read().Choices[depth].Change(choice); Visit(depth + 1); }
+            }
+            Visit(0);
+        }
+    }
+
+    [Fact]
+    public void Uncertain_conditional_preserves_actual_storage_and_both_predicted_routes()
+    {
+        var session = new ExplorerSession(); session.Navigate(9); session.Control = 2; session.Steps = 1;
+        var page = session.Read();
+        Assert.Equal(new byte[] { 3 }, page.Blocks.Single(b => b.Title == "Actual value array").Bytes);
+        var prediction = BitConverter.ToUInt32(page.Blocks.Single(b => b.Title.StartsWith("Joint prediction")).Bytes);
+        Assert.Equal((1u << 6) | (1u << 8), prediction);
+        Assert.Contains("refused", page.Result);
+    }
+
+    [Theory]
+    [InlineData(0, 1, 0, true)]
+    [InlineData(2, 1, 0, false)]
+    [InlineData(0, 2, 0, false)]
+    [InlineData(0, 0, 0, false)]
+    [InlineData(0, 1, 1, false)]
+    public void Shape_drawing_cannot_override_missing_rectangle_evidence(int mode, int control, int seam, bool expected)
+    {
+        var session = new ExplorerSession(); session.Navigate(11); session.Mode = mode; session.Control = control; session.Variant = seam;
+        Assert.Equal(expected, session.Read().Result.StartsWith("Rectangle guaranteed"));
+    }
+
+    [Fact]
+    public void Shared_reach_highlights_both_matching_fields_but_not_the_other_pair()
+    {
+        var session = new ExplorerSession(); session.Navigate(11); var page = session.Read();
+        var marks = page.Blocks.Take(4).Select(b => b.Marks.Where(m => m.Keys.Contains("reach4")).ToArray()).ToArray();
+        Assert.Single(marks[0]); Assert.Empty(marks[1]); Assert.Single(marks[2]); Assert.Empty(marks[3]);
+        Assert.All(new[] { marks[0][0], marks[2][0] }, m => { Assert.Equal(6, m.Offset); Assert.Equal(3, m.Width); });
+    }
+
+    [Fact]
+    public void Opening_contour_seam_removes_circle_and_polygon_guarantees()
+    {
+        var session = new ExplorerSession(); session.Navigate(12); session.Mode = 3;
+        Assert.StartsWith("Regular 5-gon", session.Read().Result);
+        session.Variant = 1;
+        Assert.StartsWith("No guaranteed", session.Read().Result);
+        Assert.DoesNotContain(session.Read().Blocks, b => b.Title == "Seam binding");
+    }
+
+    [Fact]
+    public void Repetition_uses_kernel_trace_and_waiting_composition_retains_actual_bindings()
+    {
+        var session = new ExplorerSession(); session.Navigate(13); session.Mode = 1; session.Steps = 10;
+        Assert.Contains("A@0 → B@1 → A@2 → B@3", session.Read().Result);
+        Assert.Contains("DONE", session.Read().Events.Last());
+        session.Variant = 4; session.Steps = 20;
+        Assert.Contains("unresolved, held", session.Read().Events.Last());
+        session.Navigate(14); session.Steps = 33;
+        Assert.Equal(new byte[] { 0, 1, 1, 2, 2, 3 }, session.Read().Blocks.Single(b => b.Title.StartsWith("Retained instance")).Bytes);
+    }
+}

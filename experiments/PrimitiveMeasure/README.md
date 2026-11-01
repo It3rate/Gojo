@@ -6,6 +6,15 @@ contains no identifiers, connections, carriers, units, receipts or hidden magnit
 The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
 following the user's corrected scope rather than the earlier runtime handoff.
 
+The **[Primitive Explorer](../../Visualizations/Gojo.PrimitiveExplorer/README.md)**
+provides 15 interactive visual layers over these experiments. Hover the diagrams
+or packed bits to trace their correspondence; change controls or step a passage
+or repeated body to inspect its actual encoding and result.
+
+```powershell
+dotnet run --project Visualizations/Gojo.PrimitiveExplorer
+```
+
 The latest **[repetition and composition experiment](RepetitionExperiments.md)**
 adds reusable bodies, phase cycles, stopping reads, request/completion ports,
 five-stage waits, and independent placement changes. A separate radial-path
