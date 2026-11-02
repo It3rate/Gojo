@@ -7,13 +7,17 @@ The current Gojo kernel is unchanged. This is an exploratory lower-level encodin
 following the user's corrected scope rather than the earlier runtime handoff.
 
 The **[Primitive Explorer](../../Visualizations/Gojo.PrimitiveExplorer/README.md)**
-provides 19 interactive visual layers over these experiments. Hover the diagrams
+provides 21 interactive visual layers over these experiments. Hover the diagrams
 or packed bits to trace their correspondence; change controls or step a passage
 or repeated body to inspect its actual encoding and result.
 
 ```powershell
 dotnet run --project Visualizations/Gojo.PrimitiveExplorer
 ```
+
+The [shared seam and ladder experiment](SeamLadders.md) compares two houses
+with the same corners, inspects the roof cut through the room port, and keeps
+an open stroke alongside its proposed closure.
 
 The [two-owner path experiment](PathExchange.md) compares ordinary endpoint
 pairs with packed chains, then reverses one interior step while a host reads

@@ -23,12 +23,46 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const base = process.env.GOJO_BASE_URL || 'http://127.0.0.1:' + server.address().port;
     const output = process.env.GOJO_CAPTURE_DIR || require('os').tmpdir(); await fs.mkdir(output, { recursive: true });
     const pathExchange = process.argv.includes('--path-exchange');
-    await page.goto(base + '/encoding/explorer/?layer=' + (pathExchange ? 19 : 16));
+    const seamLadders = process.argv.includes('--seam-ladders');
+    await page.goto(base + '/encoding/explorer/?layer=' + (seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (seamLadders) {
+      const capture = name => page.screenshot({ path: path.join(output, name + '.png') });
+      const result = () => page.screenshot({ clip: { x: 262, y: 882, width: 1080, height: 50 } });
+      const original = await result();
+      await select(330, 1);
+      const cut = await result();
+      assert.ok(!original.equals(cut), 'Adding the cut should change the room read comparison.');
+      await capture('roof-cut');
+      await select(330, 2);
+      assert.ok(!cut.equals(await result()), 'The explicit room binding should change the result.');
+      await capture('room-binding');
+      await select(480, 2); // reverse the supplied sample while both rooms read M
+      await capture('opposed-sample');
+      await select(660, 0); // signed sum over both face walks
+      await capture('combined-boundary');
+      const opened = page.waitForEvent('popup');
+      await page.mouse.click(1430, 902);
+      const notes = await opened;
+      await notes.waitForLoadState();
+      assert.match(await notes.title(), /Two uses of a seam/);
+      assert.ok((await notes.locator('main').innerText()).includes('20 D4 86 0A'));
+      await notes.close();
+      await page.goto(base + '/encoding/explorer/?layer=21');
+      await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(5000);
+      await capture('stroke-completed');
+      const proposed = await result();
+      await select(330, 1);
+      assert.ok(!proposed.equals(await result()), 'Reversing the rung should change the source and result.');
+      await capture('template-gapped');
+      assert.deepEqual(errors, []);
+      console.log('Seam cut, room correspondence, both stroke views and HTML encoding chart exercised.');
+      return;
     }
     if (pathExchange) {
       const capture = async name => page.screenshot({ path: path.join(output, 'path-exchange-' + name + '.png') });

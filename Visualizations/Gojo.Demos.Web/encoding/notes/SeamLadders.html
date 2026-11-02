@@ -1,0 +1,212 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Two uses of a seam</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="two-uses-of-a-seam">Two uses of a seam</h1>
+<p>In each house the roof and room meet at A and B. In the left
+house, both faces use the same seam edge. In the right house the room has its
+own edge between the very same sites. Add an interior landmark M through the
+roof and watch what the attached room reader sees. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=20">Open the two houses</a></p>
+<pre><code class="language-text">        P
+       / \
+      A---B      roof walks A → B → P → A
+      |   |      room walks B → A → C → D → B
+      C---D
+</code></pre>
+<p>Both walks run counterclockwise in the drawing. They cross their common
+interface in opposite senses along its length. A house-local catalogue owns
+the edges. Each face takes an ordered range of signed uses from it. Each seam
+reader stays bound to its original use position as the owner adds a rung.</p>
+<h2 id="try-three-changes">Try three changes</h2>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Shared edge</th>
+<th>Independent edges</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cut the roof seam</td>
+<td>Roof reads A → M → B. Room reads B → M → A.</td>
+<td>Roof reads A → M → B. Room still reads B → A.</td>
+</tr>
+<tr>
+<td>Also bind the room to M</td>
+<td>Both readers already have M.</td>
+<td>An explicit binding lets the room recover B → M → A.</td>
+</tr>
+<tr>
+<td>Select the combined boundary</td>
+<td>Five distinct edge references survive.</td>
+<td>Seven edge references survive, including two coincident seam edges with opposite signs.</td>
+</tr>
+</tbody>
+</table>
+<p>M is an asserted interior landmark. Its distance from A or B is unspecified.
+The rung adds a finer observation while both original A–B endpoint reads
+remain available. The room binding in the second house grants correspondence
+at M. The two edges still have independent state.</p>
+<p>The whole-house boundary read adds one signed occurrence for each edge use,
+grouped by <strong>edge reference</strong>. In the first house the seam contributes +1 and
+−1 to the same entry. Both face walks and the seam itself remain intact.
+In the second house those contributions go to different entries. A projection
+that combined coincident lines could give the two buildings the same outline.
+That would answer a different question about their geometry.</p>
+<h2 id="encoding-chart">Encoding chart</h2>
+<p>Site positions are A=0, B=1, P=2, C=3, D=4, M=5. Edge 0 is A → B. Edges 1–5
+are B → P, P → A, A → C, C → D, D → B. Only the independent house has edge
+6, another A → B. The house is one small owner with two face surfaces. Public
+reads give the landmark sequence and a coarse flow observation. The inspector
+also shows the owner's arrays. All fields start at the low bit.</p>
+<table>
+<thead>
+<tr>
+<th>Array</th>
+<th>Shared edge bytes</th>
+<th>Independent edge bytes</th>
+<th>What the fields mean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Edge rows</td>
+<td><code>48 24 60 23 03</code></td>
+<td><code>48 24 60 23 83 00</code></td>
+<td>Pairs of 3-bit site references</td>
+</tr>
+<tr>
+<td>Signed uses</td>
+<td><code>20 14 86 0A</code></td>
+<td><code>20 D4 86 0A</code></td>
+<td>Seven 4-bit uses in face order. Use = 2 × edge position + reversal bit.</td>
+</tr>
+<tr>
+<td>Face ranges</td>
+<td><code>D8 0E</code></td>
+<td><code>D8 0E</code></td>
+<td>Half-open ranges [0,3) and [3,7), two 3-bit fields per range</td>
+</tr>
+<tr>
+<td>Cut through roof</td>
+<td><code>28</code></td>
+<td><code>28</code></td>
+<td>Row [0,5] connects roof edge 0 to landmark M</td>
+</tr>
+<tr>
+<td>Optional room correspondence</td>
+<td>empty</td>
+<td><code>06</code></td>
+<td>Row [6,0] connects room edge 6 to roof cut <strong>row</strong> 0</td>
+</tr>
+<tr>
+<td>Initial flow samples</td>
+<td><code>55 05</code></td>
+<td><code>55 15</code></td>
+<td>Each edge has fixed O=0 and owns V followed by D</td>
+</tr>
+</tbody>
+</table>
+<p>The room's seam use changes from 1 to 13 between houses. Its reversal bit
+stays set. Only the edge reference above that bit changes. Adding the cut or
+its binding writes the small new row in the chart. The authored edges, uses
+and existing sample words keep their bits.</p>
+<h2 id="a-second-meter-distinguishes-the-operations">A second meter distinguishes the operations</h2>
+<p>Choose the roof meter or source control. The room meter always keeps its
+frame. Each port reorients the same stored sample if its reference frame is
+opposed. Flipping a meter toggles that read again. Reversing the supplied
+source changes D on the roof edge.</p>
+<table>
+<thead>
+<tr>
+<th>Selected observation</th>
+<th>Roof word</th>
+<th>Room sharing the sample</th>
+<th>Room with its own sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>As wired</td>
+<td>001</td>
+<td>111</td>
+<td>111</td>
+</tr>
+<tr>
+<td>Flip roof meter</td>
+<td>111</td>
+<td>111</td>
+<td>111</td>
+</tr>
+<tr>
+<td>Reverse roof flow sample</td>
+<td>011</td>
+<td>101</td>
+<td>111</td>
+</tr>
+<tr>
+<td>Zero roof flow sample</td>
+<td>000</td>
+<td>110</td>
+<td>111</td>
+</tr>
+</tbody>
+</table>
+<p>In the last row, 110 has V=0. O and D describe the chosen frame and its
+encoding convention. The zero read alone supplies no evidence of physical
+motion. The playground supplies observations directly as experimental input.
+A material handoff would require its own passage, capacity and settlement.
+Sharing or binding a landmark supplies no such handoff.</p>
+<h2 id="an-open-stroke-and-a-proposed-o">An open stroke and a proposed O</h2>
+<p>Layer 21 uses the same range reader. Here the rung changes which edge uses
+participate. The catalogue supplies edges A → B, B → C, C → D, D → A.
+View 0 reads only the first three. View 1 includes the fourth, which spans the
+gap. Closure checks every interior join and compares the two end sites.
+<a href="https://gojo.inklingai.ca/encoding/explorer/?layer=21">Open the stroke and interpretation</a></p>
+<table>
+<thead>
+<tr>
+<th>Layout</th>
+<th>Bytes</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Two windows over the signed uses</td>
+<td><code>18 08</code></td>
+<td>[0,3) and [0,4)</td>
+</tr>
+<tr>
+<td>Open source → completed view</td>
+<td><code>02</code></td>
+<td>One-bit view references [0,1]</td>
+</tr>
+<tr>
+<td>Closed template → gapped variant</td>
+<td><code>01</code></td>
+<td>One-bit view references [1,0]</td>
+</tr>
+</tbody>
+</table>
+<p>Starting from the open stroke, D → A belongs to a proposed completion. The
+observed walk still ends at D. Starting from a supplied closed template, the
+derived variant omits the final interval. Its gap is an authored omission.
+Switching rung direction preserves both underlying windows. The renderer
+illustrates curved strokes. Recognition of a letter and selection of a
+physically allowed bridge would each need further evidence.</p>
+<h2 id="fragmentation-as-a-cue-for-attention">Fragmentation as a cue for attention</h2>
+<p>Repeated splits, moves and retargeting may leave many live ranges or retired
+slots. They carry different evidence. A heavily revised path may deserve a
+look at whether two alternatives should remain as rungs, or whether one
+frequently reused read has become stable enough to crystallize. A large
+number of ranges can also describe a perfectly stable branched structure.
+Retired slots can reflect earlier layout changes after the uncertainty has
+already settled. For a future experiment, compare local edit history and
+reread cost with the cost of keeping those alternatives available. Preserve
+each live port's correspondence during compaction. This pass records the
+hypothesis and supplies no automatic compaction or confidence policy.</p>
+<h2 id="reproduce-the-comparison">Reproduce the comparison</h2>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -c Release -- --seam-ladders
+dotnet test Tests/PrimitiveMeasure.Tests -c Release --filter FullyQualifiedName~HouseSeamTests
+</code></pre>
+<p>The tests cover face closure, signed cancellation by edge identity, retained
+port reads across a cut, scoped landmark correspondence, meter reversal, a
+changed sample, zero participation and both directions of the stroke rung.</p></main></html>

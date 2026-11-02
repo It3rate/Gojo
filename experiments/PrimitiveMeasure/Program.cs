@@ -1,5 +1,22 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--seam-ladders"))
+{
+    foreach (var sameEdge in new[] { true, false })
+    {
+        var house = new HouseSeam(sameEdge);
+        var room = house.Room;
+        house.AddRoofCut();
+        Console.WriteLine($"Room uses edge {room.Edge}, signed use {room.SignedUse}. Use bytes {Convert.ToHexString(house.UseBytes())}.");
+        Console.WriteLine($"Roof cut read {string.Join(" -> ", house.Roof.Landmarks())}. Room cut read {string.Join(" -> ", room.Landmarks())}.");
+        var bound = house.BindRoomToRoofCut();
+        house.SetRoofSample(true);
+        Console.WriteLine($"Added binding {bound}. Room now reads {string.Join(" -> ", room.Landmarks())}, flow word {Convert.ToString(room.Flow(), 2).PadLeft(3, '0')}.");
+        Console.WriteLine($"Signed edge counts [{string.Join(", ", house.EdgeBalance())}].");
+    }
+    return;
+}
+
 if (args.Contains("--path-exchange"))
 {
     PathExchangeExperiment.Run();

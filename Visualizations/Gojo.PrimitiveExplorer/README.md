@@ -53,6 +53,8 @@ corresponding experiment document in the repository.
 | Cycles: claims & flow | Strict-order contradictions versus repeating activation; absent, uncertain and missing closing observations |
 | Work & read budgets | Larger rings; packed bytes, construction/read time, allocations and unresolved partial inspection |
 | Two communicating paths | Host seams and private paths, optional packing, stale claims, side attachment and repair |
+| Two uses of a seam | Shared versus independent edges, cut correspondence, boundary cancellation and meter orientation |
+| Stroke & interpretation | Add a proposed closing use or omit an interval of a template while retaining the source read |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

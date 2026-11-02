@@ -139,7 +139,7 @@ internal sealed class StructureCanvas : Control
         var pt = new Point((screen.X - dx) / scale, (screen.Y - dy) / scale);
         foreach (var item in page.Drawing.Where(d => d.Kind == "node").Reverse())
             if (new Rect(item.X - NodeWidth(item) / 2, item.Y - 23, NodeWidth(item), 46).Contains(pt)) return item;
-        foreach (var item in page.Drawing.Where(d => d.Kind == "edge").Reverse())
+        foreach (var item in page.Drawing.Where(d => d.Kind is "edge" or "stroke").Reverse())
         {
             var vx = item.X2 - item.X; var vy = item.Y2 - item.Y;
             var t = Math.Clamp(((pt.X - item.X) * vx + (pt.Y - item.Y) * vy) / Math.Max(1, vx * vx + vy * vy), 0, 1);
@@ -163,6 +163,7 @@ internal sealed class StructureCanvas : Control
             var ink = selected ? Palette.Orange : item.Active ? Palette.Teal : Palette.Muted;
             var pen = new Pen(ink, selected ? 3.5 : item.Active ? 2.5 : 1.7, item.Uncertain ? DashStyle.Dash : null);
             if (item.Kind == "circle") c.DrawEllipse(null, pen, new(item.X, item.Y), item.X2, item.X2);
+            if (item.Kind == "stroke") c.DrawLine(pen, new(item.X, item.Y), new(item.X2, item.Y2));
             if (item.Kind == "edge")
             {
                 c.DrawLine(pen, new(item.X, item.Y), new(item.X2, item.Y2));
