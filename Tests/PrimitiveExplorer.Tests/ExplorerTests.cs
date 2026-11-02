@@ -5,6 +5,19 @@ namespace Gojo.PrimitiveExplorer.Tests;
 public sealed class ExplorerTests
 {
     [Fact]
+    public void Closing_guard_holds_actual_flow_but_does_not_erase_topological_closure()
+    {
+        var session = new ExplorerSession(); session.Navigate(16); session.Control = 2; session.Steps = 6;
+        var page = session.Read();
+        Assert.Equal(new byte[] { 4 }, page.Blocks.Single(b => b.Title == "Actual activation and guard bits").Bytes);
+        Assert.Contains("unchanged", page.Events.Last());
+        session.Control = 1; session.Steps = 3;
+        Assert.Equal(new byte[] { 9 }, session.Read().Blocks.Single(b => b.Title == "Actual activation and guard bits").Bytes);
+        session.Mode = 1;
+        Assert.StartsWith("Contradiction", session.Read().Result);
+    }
+
+    [Fact]
     public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
     {
         var session = new ExplorerSession();

@@ -49,6 +49,13 @@ corresponding experiment document in the repository.
 | Circles & polygons | Circle, triangle, square, pentagon, hexagon, alternating-part rectangle; radius and seam |
 | Repetition & stopping | Reused bodies, phase/contour correspondence, feedback, continuous or observed-contact stop |
 | Composed patterns | Five waiting stages and independent displacement; continuous body in a moving frame |
+| Closure & boundaries | Open, closed, reversed, disconnected, coincident, patch, self-loop and retraced structures |
+| Cycles: claims & flow | Strict-order contradictions versus repeating activation; absent, uncertain and missing closing observations |
+| Work & read budgets | Larger rings; packed bytes, construction/read time, allocations and unresolved partial inspection |
+
+The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
+include concrete endpoint/use encodings and initial scaling results. Browser
+links can start at a layer, for example `/encoding/explorer/?layer=16`.
 
 ## What the pictures mean
 

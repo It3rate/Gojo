@@ -5,12 +5,16 @@ contains no identifiers, connections, carriers, units, receipts or hidden magnit
 The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
 following the user's corrected scope rather than the earlier runtime handoff.</p>
 <p>The <strong><a href="ExplorerGuide.html">Primitive Explorer</a></strong>
-provides 15 interactive visual layers over these experiments. Hover the diagrams
+provides 18 interactive visual layers over these experiments. Hover the diagrams
 or packed bits to trace their correspondence; change controls or step a passage
 or repeated body to inspect its actual encoding and result.</p>
 <pre><code class="language-powershell">dotnet run --project Visualizations/Gojo.PrimitiveExplorer
 </code></pre>
-<p>The latest <strong><a href="RepetitionExperiments.html">repetition and composition experiment</a></strong>
+<p>The latest <strong><a href="BoundaryExperiments.html">boundary and circulation playground</a></strong>
+adds signed closure, parity counterexamples, explicit patch boundaries, the
+same loop under strict-order and passage laws, and measured storage/read costs
+with an explicit work budget. Unknown reads stay separate from actual flow.</p>
+<p>The preceding <strong><a href="RepetitionExperiments.html">repetition and composition experiment</a></strong>
 adds reusable bodies, phase cycles, stopping reads, request/completion ports,
 five-stage waits, and independent placement changes. A separate radial-path
 contract supports circle and polygon structures without assigned geometric

@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--boundary-scaling"))
+{
+    BoundaryScaling.Run();
+    return;
+}
+
 if (args.Contains("--repetition"))
 {
     RepetitionExamples.Run();

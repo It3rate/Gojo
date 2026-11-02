@@ -74,7 +74,8 @@ public sealed partial class ExplorerSession
 {
     public static readonly string[] Chapters = ["Three bits", "Prediction & shared flow", "Storage & ports", "Read laws & Boolean logic",
         "Refinement & correspondence", "Retained opposition", "Memory at zero", "Structural potential", "Passages & chains",
-        "Conditionals", "Saturation & outlets", "Rectangle constraints", "Circles & polygons", "Repetition & stopping", "Composed patterns"];
+        "Conditionals", "Saturation & outlets", "Rectangle constraints", "Circles & polygons", "Repetition & stopping", "Composed patterns",
+        "Closure & boundaries", "Cycles: claims & flow", "Work & read budgets"];
     public int Chapter { get; private set; }
     public int A = 1, B = 3, Mode, Control = 1, Variant, Steps;
     public event Action? Changed;
@@ -84,7 +85,8 @@ public sealed partial class ExplorerSession
     {
         0 => WordPage(), 1 => PredictionPage(), 2 => StoragePage(), 3 => LawPage(), 4 => RefinementPage(),
         5 => OppositionPage(), 6 => MemoryPage(), 7 => PotentialPage(), 8 => PassagePage(false), 9 => PassagePage(true),
-        10 => SaturationPage(), 11 => RectanglePage(), 12 => ContourPage(), 13 => RepetitionPage(), _ => CompositionPage()
+        10 => SaturationPage(), 11 => RectanglePage(), 12 => ContourPage(), 13 => RepetitionPage(), 14 => CompositionPage(),
+        15 => BoundaryPage(), 16 => CyclePage(), _ => WorkPage()
     };
     private void Choose(ExplorerPage p, string label, string[] choices, int selected, Action<int> change) =>
         p.Choices.Add(new(label, choices, selected, n => { change(n); Steps = 0; Refresh(); }));

@@ -67,6 +67,9 @@ internal sealed class ExplorerWindow : Window
         Title = "Gojo · Primitive Explorer"; Width = 1530; Height = 980; MinWidth = 1220; MinHeight = 820;
 #endif
         Background = Palette.Paper; FontFamily = new FontFamily(Palette.UiFont);
+#if BROWSER
+        session.Navigate(BrowserProgram.InitialLayer() - 1);
+#endif
         page = session.Read(); encoding = new(page, focus); structure = new(page, focus);
         numericScroll = new ScrollViewer { Content = encoding, HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled };
         var shell = new Grid { RowDefinitions = new("78,*"), Background = Palette.Paper };
@@ -207,6 +210,21 @@ internal sealed class ExplorerWindow : Window
                 }, DispatcherPriority.Render);
             }
             // Exercise a real hit on the rectangle canvas and its linked bit strip.
+            foreach (var (chapter, mode, control, variant, steps, name) in new[] {
+                (15, 2, 1, 0, 0, "reversed-boundary"), (15, 4, 1, 0, 0, "coincident-sites"),
+                (15, 5, 1, 0, 0, "supplied-patch"), (16, 0, 2, 0, 5, "uncertain-cycle"),
+                (16, 1, 1, 0, 0, "order-contradiction"), (17, 2, 1, 1, 0, "measured-budget") })
+            {
+                session.Navigate(chapter); session.Mode = mode; session.Control = control; session.Variant = variant; session.Steps = steps; session.Refresh();
+                if (chapter == 17) page.Actions.Single(a => a.Label.StartsWith("Measure")).Run();
+                numericScroll.Offset = default; focus.Clear(); await Task.Delay(250);
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    var content = (Control)Content!;
+                    using var bitmap = new RenderTargetBitmap(new PixelSize((int)content.Bounds.Width, (int)content.Bounds.Height), new Vector(96, 96));
+                    bitmap.Render(content); bitmap.Save(Path.Combine(directory, name + ".png"));
+                }, DispatcherPriority.Render);
+            }
             session.Navigate(11); await Task.Delay(350);
             var scale = Math.Min(structure.Bounds.Width / 720, structure.Bounds.Height / 480);
             var hit = structure.Hit(new Point((structure.Bounds.Width - 720 * scale) / 2 + 350 * scale, (structure.Bounds.Height - 480 * scale) / 2 + 90 * scale));
@@ -217,7 +235,7 @@ internal sealed class ExplorerWindow : Window
                 var content = (Control)Content!; using var bitmap = new RenderTargetBitmap(new PixelSize((int)content.Bounds.Width, (int)content.Bounds.Height), new Vector(96, 96));
                 bitmap.Render(content); bitmap.Save(Path.Combine(directory, "linked-selection.png"));
             }, DispatcherPriority.Render);
-            File.WriteAllText(Path.Combine(directory, "capture-complete.txt"), "15 live Avalonia chapters and linked-selection capture rendered successfully. Native direction button, uncertainty selector, step button and diagram hit all verified.");
+            File.WriteAllText(Path.Combine(directory, "capture-complete.txt"), $"{ExplorerSession.Chapters.Length} live Avalonia chapters and linked-selection capture rendered successfully. Native direction button, uncertainty selector, step button and diagram hit all verified.");
         }
         catch (Exception ex) { File.WriteAllText(Path.Combine(directory, "capture-error.txt"), ex.ToString()); Environment.ExitCode = 1; }
         finally { Close(); }
