@@ -7,13 +7,24 @@ The current Gojo kernel is unchanged. This is an exploratory lower-level encodin
 following the user's corrected scope rather than the earlier runtime handoff.
 
 The **[Primitive Explorer](../../Visualizations/Gojo.PrimitiveExplorer/README.md)**
-provides 21 interactive visual layers over these experiments. Hover the diagrams
+provides 22 interactive visual layers over these experiments. Hover the diagrams
 or packed bits to trace their correspondence; change controls or step a passage
 or repeated body to inspect its actual encoding and result.
 
 ```powershell
 dotnet run --project Visualizations/Gojo.PrimitiveExplorer
 ```
+
+The [two-owner fork](ForkExperiment.md) uses public vacancy reads, physically
+held offers, gated material handoffs and an arrival reply. An optional
+three-state refusal meter has a one-way connection to the seam transitions.
+
+For experiments that claim adaptation, identify the authored wiring, the
+external input schedule, and the local route from evidence to retained state
+or a change in connections. Evaluate utility afterward on common input tapes.
+Replay with the instruments disconnected to check which outcomes the
+operating structure can produce by itself. A researcher's choice to build a
+new rung belongs in the record as an authored intervention.
 
 The [shared seam and ladder experiment](SeamLadders.md) compares two houses
 with the same corners, inspects the roof cut through the room port, and keeps

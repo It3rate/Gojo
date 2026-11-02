@@ -48,6 +48,12 @@ public sealed class PulseCircuit
         return owner.Connect(state);
     }
 
+    public PortStructure.Outlet ExportOutlet(int state)
+    {
+        if (!states.Contains(state)) throw new ArgumentOutOfRangeException(nameof(state));
+        return owner.ExportOutlet(state);
+    }
+
     public int AddTable(PassageLaw law)
     {
         ArgumentNullException.ThrowIfNull(law);

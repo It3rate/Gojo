@@ -24,12 +24,44 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const output = process.env.GOJO_CAPTURE_DIR || require('os').tmpdir(); await fs.mkdir(output, { recursive: true });
     const pathExchange = process.argv.includes('--path-exchange');
     const seamLadders = process.argv.includes('--seam-ladders');
-    await page.goto(base + '/encoding/explorer/?layer=' + (seamLadders ? 20 : pathExchange ? 19 : 16));
+    const fork = process.argv.includes('--fork');
+    await page.goto(base + '/encoding/explorer/?layer=' + (fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (fork) {
+      const capture = name => page.screenshot({ path: path.join(output, 'fork-' + name + '.png') });
+      const footer = () => page.screenshot({ clip: { x: 262, y: 881, width: 1060, height: 44 } });
+      const step = async () => {
+        const before = await footer();
+        for (let attempt = 0; attempt < 3; attempt++) {
+          await page.mouse.click(862, 244);
+          for (let poll = 0; poll < 8; poll++) {
+            await page.waitForTimeout(180);
+            if (!before.equals(await footer())) return;
+          }
+        }
+        throw Error('Advance did not change the beat readout');
+      };
+      await capture('initial');
+      const initial = await footer();
+      await step(); await step();
+      const refused = await footer();
+      assert.ok(!initial.equals(refused), 'The stale offer should be inspected by beat 2.');
+      await capture('refused');
+      await step(); await step(); await step();
+      await capture('arrival');
+      assert.ok(!refused.equals(await footer()), 'Release and delivery should change the observed counts.');
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430, 902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(), /fork with two owners/);
+      assert.ok((await notes.locator('main').innerText()).includes('58 40 01'));
+      assert.deepEqual(errors, []);
+      console.log('Fork refusal, release, arrival and HTML encoding notes exercised. Frames in ' + output);
+      return;
     }
     if (seamLadders) {
       const capture = name => page.screenshot({ path: path.join(output, name + '.png') });

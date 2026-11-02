@@ -1,5 +1,26 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--fork"))
+{
+    foreach (var tape in new[] { new ForkTape(false, false, 2, 4), new(false, false, 2), new(true, false), new(true, true) })
+    {
+        var machine = new ForkFixture(tape.LeftBusy, tape.RightBusy);
+        var meter = machine.AttachRefusalCounter();
+        var frames = new List<ForkFrame> { machine.Snapshot() };
+        Console.WriteLine(tape);
+        for (var beat = 1; beat <= 5; beat++)
+        {
+            tape.Apply(machine, beat);
+            var frame = machine.Advance();
+            frames.Add(frame);
+            meter.Sample();
+            Console.WriteLine($"beat {beat}  fork={frame.Fork:X2} exits={frame.Exits:X2} receipt={frame.Receipt:X2} refusal-meter={meter.Reading}");
+        }
+        Console.WriteLine(ForkCounts.From(frames));
+    }
+    return;
+}
+
 if (args.Contains("--seam-ladders"))
 {
     foreach (var sameEdge in new[] { true, false })

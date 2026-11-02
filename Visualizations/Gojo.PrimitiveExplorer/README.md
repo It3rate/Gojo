@@ -55,6 +55,7 @@ corresponding experiment document in the repository.
 | Two communicating paths | Host seams and private paths, optional packing, stale claims, side attachment and repair |
 | Two uses of a seam | Shared versus independent edges, cut correspondence, boundary cancellation and meter orientation |
 | Stroke & interpretation | Add a proposed closing use or omit an interval of a template while retaining the source read |
+| A fork with two owners | Stale vacancy report, held offer, material handoff, arrival reply, wire cuts and passive refusal meter |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser
