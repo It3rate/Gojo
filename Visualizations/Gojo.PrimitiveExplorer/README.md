@@ -52,6 +52,7 @@ corresponding experiment document in the repository.
 | Closure & boundaries | Open, closed, reversed, disconnected, coincident, patch, self-loop and retraced structures |
 | Cycles: claims & flow | Strict-order contradictions versus repeating activation; absent, uncertain and missing closing observations |
 | Work & read budgets | Larger rings; packed bytes, construction/read time, allocations and unresolved partial inspection |
+| Two communicating paths | Host seams and private paths, optional packing, stale claims, side attachment and repair |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--path-exchange"))
+{
+    PathExchangeExperiment.Run();
+    return;
+}
+
 if (args.Contains("--boundary-scaling"))
 {
     BoundaryScaling.Run();

@@ -22,12 +22,35 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const errors = []; page.on('pageerror', e => errors.push(e.message));
     const base = process.env.GOJO_BASE_URL || 'http://127.0.0.1:' + server.address().port;
     const output = process.env.GOJO_CAPTURE_DIR || require('os').tmpdir(); await fs.mkdir(output, { recursive: true });
-    await page.goto(base + '/encoding/explorer/?layer=16');
+    const pathExchange = process.argv.includes('--path-exchange');
+    await page.goto(base + '/encoding/explorer/?layer=' + (pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (pathExchange) {
+      const capture = async name => page.screenshot({ path: path.join(output, 'path-exchange-' + name + '.png') });
+      await capture('initial');
+      await select(330, 1);
+      const verdict = () => page.screenshot({ clip: { x: 262, y: 884, width: 1060, height: 40 } });
+      const before = await verdict();
+      const advance = async () => { await page.mouse.click(820, 244); await page.waitForTimeout(600); };
+      await advance(); await capture('withdrawn');
+      const withdrawn = await verdict();
+      assert.ok(!before.equals(withdrawn), 'Editing B should withdraw closure');
+      await advance(); await advance(); await capture('settled');
+      assert.ok(!withdrawn.equals(await verdict()), 'Checking B should change the unresolved result');
+      const opened = page.waitForEvent('popup');
+      await page.mouse.click(1430, 902);
+      const notes = await opened;
+      await notes.waitForLoadState();
+      assert.match(await notes.title(), /Two private paths/);
+      assert.ok(await notes.locator('table').count() >= 4);
+      assert.deepEqual(errors, []);
+      console.log('Path exchange loaded with HTML notes. Inspect initial, withdrawn and settled frames in ' + output);
+      return;
     }
     await select(330, 2); // reverse the middle use
     await page.screenshot({ path: path.join(output, 'browser-boundary.png') });
