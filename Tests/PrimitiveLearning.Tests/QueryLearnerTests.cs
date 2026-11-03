@@ -6,6 +6,14 @@ namespace PrimitiveLearning.Tests;
 public sealed class QueryLearnerTests
 {
     [Fact]
+    public void Frozen_glyph_reader_pays_only_for_the_question_ink_cannot_answer()
+    {
+        var results = GlyphProbeStudy.Run();
+        Assert.Equal(new GlyphProbeStudy.Score("Frozen",32,32,0,16,112),results[1]);
+        Assert.Equal(new GlyphProbeStudy.Score("Always query",32,32,0,32,96),results[2]);
+        Assert.Equal(new GlyphProbeStudy.Score("Never query",32,16,16,0,64),results[3]);
+    }
+    [Fact]
     public void LaterBenefitAndPaidCostTeachDifferentPublicContexts()
     {
         var learner = Create(); Train(learner);

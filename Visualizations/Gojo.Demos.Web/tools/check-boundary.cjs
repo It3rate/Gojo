@@ -28,12 +28,41 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const capitals = process.argv.includes('--capitals');
     const straight = process.argv.includes('--straight-capitals');
     const curves = process.argv.includes('--curved-capitals');
-    await page.goto(base + '/encoding/explorer/?layer=' + (curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const gap = process.argv.includes('--glyph-gap');
+    await page.goto(base + '/encoding/explorer/?layer=' + (gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (gap) {
+      const capture = name => page.screenshot({path:path.join(output,name+'.png')});
+      const result = () => page.screenshot({clip:{x:264,y:881,width:980,height:33}});
+      const picture = () => page.screenshot({clip:{x:834,y:405,width:460,height:245}});
+      await capture('cut-in-O');
+      const initial = await result();
+      await select(480,2); assert.ok(!initial.equals(await result()),'Moving the cut must change the arrival.');
+      const forward = await result();
+      await select(630,1); assert.ok(!forward.equals(await result()),'Reversal must swap the tips.');
+      await select(790,2); await capture('return-walk');
+      await select(330,1); await capture('open-walk');
+      await page.keyboard.press('ArrowRight'); await page.waitForTimeout(250); // D, with fewer controls
+      await capture('D-ends');
+      await select(490,0);
+      await select(655,0);
+      const shallow = await picture();
+      await select(655,1); assert.ok(!shallow.equals(await picture()),'Two compatible bow depths should be visible.');
+      await capture('D-bow');
+      await select(490,1); await capture('D-corners');
+      await select(490,4); await capture('D-straight');
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(),/Across a glyph gap/);
+      assert.match(await notes.locator('main').innerText(),/112/);
+      assert.deepEqual(errors,[]);
+      console.log('Glyph cut, reverse walk, return, D alternatives, bow depth and HTML notes checked.');
+      return;
     }
     if (curves) {
       const capture = name => page.screenshot({path:path.join(output,name+'.png')});

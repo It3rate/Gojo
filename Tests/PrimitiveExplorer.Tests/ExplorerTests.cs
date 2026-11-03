@@ -5,6 +5,27 @@ namespace Gojo.PrimitiveExplorer.Tests;
 public sealed class ExplorerTests
 {
     [Fact]
+    public void The_gap_page_separates_ink_construction_and_trial_rows()
+    {
+        var session = new ExplorerSession(); session.Navigate(26);
+        session.Control = 0;
+        Assert.DoesNotContain(session.Read().Drawing, item=>item.PathData != null && item.Uncertain);
+        session.Control = 2;
+        Assert.Contains(session.Read().Drawing, item=>item.PathData != null && item.Uncertain);
+        Assert.Contains("Followed",Assert.Single(session.Read().Events));
+        session.Mode = 1;
+        Assert.Contains("No construction passage",Assert.Single(session.Read().Events));
+        session.Mode = 2;
+        session.B = 3;
+        var bare = session.Read();
+        Assert.DoesNotContain(bare.Blocks,b=>b.Title=="Trial correspondence");
+        session.B = 2;
+        var trial=session.Read();
+        Assert.Equal(bare.Result,trial.Result);
+        Assert.Contains(trial.Blocks,b=>b.Title=="Trial correspondence");
+        Assert.Contains(trial.Drawing,i=>i.Label=="Fits both ends");
+    }
+    [Fact]
     public void Curve_guides_follow_the_selection_and_construction_ink_stays_separate()
     {
         var session = new ExplorerSession(); session.Navigate(25);
@@ -134,10 +155,10 @@ public sealed class ExplorerTests
         for (var chapter = 0; chapter < ExplorerSession.Chapters.Length; chapter++)
         {
             session.Navigate(chapter);
-            var counts = session.Read().Choices.Select(c => c.Values.Length).ToArray();
             void Visit(int depth)
             {
-                if (depth == counts.Length)
+                var choices = session.Read().Choices;
+                if (depth == choices.Count)
                 {
                     foreach (var steps in new[] { 0, 1, 3, 12, 36 })
                     {
@@ -157,7 +178,7 @@ public sealed class ExplorerTests
                     }
                     return;
                 }
-                for (var choice = 0; choice < counts[depth]; choice++) { session.Read().Choices[depth].Change(choice); Visit(depth + 1); }
+                for (var choice = 0; choice < choices[depth].Values.Length; choice++) { choices[depth].Change(choice); Visit(depth + 1); }
             }
             Visit(0);
         }

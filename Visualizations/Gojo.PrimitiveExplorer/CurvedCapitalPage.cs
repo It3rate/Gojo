@@ -34,7 +34,7 @@ public sealed partial class ExplorerSession
     }
 
     private static void DrawPen(ExplorerPage p, CurveInk ink, string name, Point centre, double scale,
-        bool interior, bool source, string? tile = null)
+        bool interior, bool source, string? tile = null, string prefix = "", double tangentScale = 1)
     {
         var sites = CurveSites(name);
         var range = ink.Probe;
@@ -45,7 +45,7 @@ public sealed partial class ExplorerSession
         {
             var endpoints = ink.Catalogue.Edge(i);
             var a = Place(sites[endpoints[0]]); var b = Place(sites[endpoints[1]]);
-            var key = tile ?? "edge" + i;
+            var key = tile ?? prefix + "edge" + i;
             var ghost = i >= ink.InkCount;
             var note = ghost ? "Construction-only part of the retained contour." : $"Ink span {i} goes from site {endpoints[0]} to {endpoints[1]}.";
             var h = ink.Heading(i);
@@ -81,8 +81,8 @@ public sealed partial class ExplorerSession
                     "C" or "G" or "C · closure sought" => 190, "S" => 114,
                     "J" or "U" => 68, _ => 133
                 };
-                var start = a + Direction(h[0]) * (reach * scale);
-                var end = b - Direction(h[1]) * (reach * scale);
+                var start = a + Direction(h[0]) * (reach * scale * tangentScale);
+                var end = b - Direction(h[1]) * (reach * scale * tangentScale);
                 var path = FormattableString.Invariant($"M {a.X} {a.Y} C {start.X} {start.Y} {end.X} {end.Y} {b.X} {b.Y}");
                 p.Drawing.Add(new("curve",key,"",note,a.X,a.Y,b.X,b.Y,true) { PathData = path });
             }
@@ -93,14 +93,14 @@ public sealed partial class ExplorerSession
         for (var i = 0; i < sites.Length; i++)
         {
             if (!interior && !tips.Contains(i)) continue;
-            var at = Place(sites[i]); p.Circle("site"+i,$"Local ink site {i}.",at.X,at.Y,3);
+            var at = Place(sites[i]); p.Circle(prefix+"site"+i,$"Local ink site {i}.",at.X,at.Y,3);
             p.Label("s"+i,at.X+12,at.Y-15);
         }
         if (source && ink.SourceRead.HasValue)
         {
             var seam = Place(sites[ink.Catalogue.Edge(radial.Keys.Min())[0]]);
-            p.Stroke("radial","One common reach from the centre.",centre.X,centre.Y,seam.X,seam.Y,true);
-            p.Circle("radial","Centre of the radial source.",centre.X,centre.Y,3);
+            p.Stroke(prefix+"radial","One common reach from the centre.",centre.X,centre.Y,seam.X,seam.Y,true);
+            p.Circle(prefix+"radial","Centre of the radial source.",centre.X,centre.Y,3);
         }
     }
 

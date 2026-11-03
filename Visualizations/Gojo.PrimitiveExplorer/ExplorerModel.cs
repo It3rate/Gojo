@@ -87,7 +87,7 @@ public sealed partial class ExplorerSession
         "Conditionals", "Saturation & outlets", "Rectangle constraints", "Circles & polygons", "Repetition & stopping", "Composed patterns",
         "Closure & boundaries", "Cycles: claims & flow", "Work & read budgets", "Two communicating paths",
         "Two uses of a seam", "Stroke & interpretation", "A fork with two owners",
-        "Capitals without a box", "Two orders of E", "Straight capital atlas", "Curves in capitals"];
+        "Capitals without a box", "Two orders of E", "Straight capital atlas", "Curves in capitals", "Across a glyph gap"];
     public int Chapter { get; private set; }
     public int A = 1, B = 3, Mode, Control = 1, Variant, Steps;
     public event Action? Changed;
@@ -100,7 +100,7 @@ public sealed partial class ExplorerSession
         10 => SaturationPage(), 11 => RectanglePage(), 12 => ContourPage(), 13 => RepetitionPage(), 14 => CompositionPage(),
         15 => BoundaryPage(), 16 => CyclePage(), 17 => WorkPage(), 18 => PathExchangePage(),
         19 => HousePage(), 20 => StrokePage(), 21 => ForkPage(), 22 => CapitalPage(), 23 => LandmarkPage(),
-        24 => StraightCapitalPage(), _ => CurvedCapitalPage()
+        24 => StraightCapitalPage(), 25 => CurvedCapitalPage(), _ => GlyphCompletionPage()
     };
     private Choice Choose(ExplorerPage p, string label, string[] choices, int selected, Action<int> change, bool browseWithArrows = false)
     {

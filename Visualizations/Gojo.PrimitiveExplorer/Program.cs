@@ -161,9 +161,12 @@ internal sealed class ExplorerWindow : Window
         if (selectors.Count != page.Choices.Count ||
             !previous.Choices.Select(c => c.Label).SequenceEqual(page.Choices.Select(c => c.Label)))
         {
-            controls.Children.Clear();
-            selectors.Clear();
-            for (var i = 0; i < page.Choices.Count; i++) AddSelector(i);
+            var keep = 0;
+            while (keep < Math.Min(selectors.Count,page.Choices.Count) &&
+                previous.Choices[keep].Label == page.Choices[keep].Label) keep++;
+            while (controls.Children.Count > keep) controls.Children.RemoveAt(controls.Children.Count - 1);
+            selectors.RemoveRange(keep,selectors.Count - keep);
+            for (var i = keep; i < page.Choices.Count; i++) AddSelector(i);
         }
         for (var i = 0; i < selectors.Count; i++)
         {

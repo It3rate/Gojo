@@ -40,6 +40,7 @@ public static class CurvedCapitals
         .Select(e => (e.Name, Ink:e.Ink.Read(), Origin:e.Ink.ReadOrigin()))
         .Where(e => e.Ink.BendSupport != 3).ToArray();
     public static CurveInk Ink(int index) => Examples[index].Ink;
+    public static CurveInk Ink(string name) => Examples.Single(e => e.Name == name).Ink;
     public static string[] Compatible(PenRead observation, PenOrigin? origin = null) => Models
         .Where(e => observation.Fits(e.Ink) && (!origin.HasValue || origin == e.Origin))
         .Select(e => e.Name).ToArray();

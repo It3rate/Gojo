@@ -7,6 +7,8 @@ going left. Restore the interior law to see where the turn happens. Next try
 dashed arc completes the source circle while the ink still has two ends.
 [Open the experiment](https://gojo.inklingai.ca/encoding/explorer/?layer=26)
 
+Continue with [Across a glyph gap](GlyphCompletion.md) to try alternative interiors on the same D and move a cut around a retained O.
+
 ## How to build each letter
 
 - **D** Draw the upright. From its top, move right and keep turning clockwise as you advance until you arrive at its foot heading left.

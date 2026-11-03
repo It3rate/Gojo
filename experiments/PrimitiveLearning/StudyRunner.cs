@@ -33,6 +33,11 @@ public static class StudyRunner
 
     public static int Run(string[] args)
     {
+        if (args is ["--glyph-cuts"])
+        {
+            foreach (var result in GlyphProbeStudy.Run()) Console.WriteLine(result);
+            return 0;
+        }
         if (args.Length == 2 && args[0] == "--inspect-query")
         {
             var restored = QueryLearner.FromRoot((Relation)GojoNumericFormat.Decode(File.ReadAllBytes(args[1]))[0]);
