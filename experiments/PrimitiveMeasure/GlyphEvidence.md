@@ -71,6 +71,8 @@ The merge-Y and corner-T share the very same passage rows. The T's two upper arm
 
 ## Which constructions would test the limits next?
 
+The shared-line i/j and the open/closed 4 now have executable trials. [Try the new constructions](WritingLine.md)
+
 * **i and j** would test attaching a separate dot to a stem in the writing frame without creating an ink bridge. A shared baseline and a mid-height landmark would let two glyphs compare ascenders and descenders across their separate local origins.
 * **a, g, 4 and 7** would test multiple hands per label. A single-storey and double-storey construction or an open and closed 4 can have different loop counts. A crossed and uncrossed 7 can have different segment evidence.
 * An unmarked gap in a handwritten bowl would test choosing between an observed gap, a possible closing stroke and a deliberately open letter. The experiment offers complete comparison forms. It does not extract missing spans from a photograph, learn an alphabet or prove which hand produced a mark.

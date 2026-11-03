@@ -31,12 +31,50 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const gap = process.argv.includes('--glyph-gap');
     const bowl = process.argv.includes('--bowl-reach');
     const glyph = process.argv.includes('--glyph-clues');
-    await page.goto(base + '/encoding/explorer/?layer=' + (glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const writing = process.argv.includes('--writing-line');
+    await page.goto(base + '/encoding/explorer/?layer=' + (writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (writing) {
+      const capture = name => page.screenshot({path:path.join(output,name+'.png')});
+      const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});
+      const diagram = () => page.screenshot({clip:{x:834,y:416,width:460,height:210}});
+      async function trace(x) {
+        await page.mouse.click(x,245); await page.mouse.move(1517,960); await page.waitForTimeout(300);
+      }
+      const before = await result(); await trace(775); await capture('collected-Y');
+      const collected = await result();
+      assert.ok(!before.equals(collected),'Both contributions should reach the OR surface.');
+      await select(480,1); await trace(775); await capture('one-slot-Y');
+      assert.ok(!collected.equals(await result()),'Only one pulse fits the shared receiving slot.');
+      await select(480,2); await select(800,1); await trace(920); await capture('switched-Y');
+      await select(800,2); await capture('unseen-switch');
+      await select(330,1); await select(480,1); await capture('baseline-j');
+      const grounded = await result();
+      await select(650,1);
+      assert.ok(!grounded.equals(await result()),'Withholding the line must reopen i and j.');
+      await select(650,4); await capture('hook-j');
+      assert.ok(grounded.equals(await result()),'The hook should independently distinguish j.');
+      await select(650,0); await select(805,1); await capture('unassigned-dot');
+      assert.ok(!grounded.equals(await result()),'An unassigned dot cannot certify a dotted letter.');
+      await select(805,2); await capture('swapped-dots');
+      await select(330,2); await capture('open-four');
+      await select(650,1); const hidden = await diagram(), family = await result();
+      await select(480,1);
+      assert.ok(hidden.equals(await diagram()) && family.equals(await result()),'The cut view should agree for both hands.');
+      await select(650,0); await capture('closed-four');
+      assert.ok(!family.equals(await result()),'Revealing the join should distinguish the hand.');
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(),/One stem, two inputs/);
+      assert.match(await notes.locator('main').innerText(),/03 → 14/);
+      assert.deepEqual(errors,[]);
+      console.log('Y collection, capacity and selection, i/j evidence, both 4 hands, and HTML notes checked.');
+      return;
     }
     if (glyph) {
       const capture = name => page.screenshot({path:path.join(output,name+'.png')});

@@ -63,6 +63,7 @@ corresponding experiment document in the repository.
 | Across a glyph gap | Move one cut in O, query or follow the retained arc, and try different interiors against the same ends of D. [Experiment and reader results](../../experiments/PrimitiveMeasure/GlyphCompletion.md) |
 | Push a bowl outward | Push two initially coincident D bows, then compare two B constructions with a wider lower bowl. Inspect the tip connections, waiting request and observer's read. [Encoding chart and results](../../experiments/PrimitiveMeasure/BowlReach.md) |
 | Glyph clues & junctions | Withhold glyph evidence, draw possible completions, and trace different entrances and exits through the same Y or T. [Evidence and route charts](../../experiments/PrimitiveMeasure/GlyphEvidence.md) |
+| One stem, two inputs | Compare three Y receivers, move dot assignments on a shared writing line, and hide the upper join of a 4. [Encoding charts and results](../../experiments/PrimitiveMeasure/WritingLine.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

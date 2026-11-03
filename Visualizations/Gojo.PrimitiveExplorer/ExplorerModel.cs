@@ -87,11 +87,11 @@ public sealed partial class ExplorerSession
         "Conditionals", "Saturation & outlets", "Rectangle constraints", "Circles & polygons", "Repetition & stopping", "Composed patterns",
         "Closure & boundaries", "Cycles: claims & flow", "Work & read budgets", "Two communicating paths",
         "Two uses of a seam", "Stroke & interpretation", "A fork with two owners",
-        "Capitals without a box", "Two orders of E", "Straight capital atlas", "Curves in capitals", "Across a glyph gap", "Push a bowl outward", "Glyph clues & junctions"];
+        "Capitals without a box", "Two orders of E", "Straight capital atlas", "Curves in capitals", "Across a glyph gap", "Push a bowl outward", "Glyph clues & junctions", "One stem, two inputs"];
     public int Chapter { get; private set; }
     public int A = 1, B = 3, Mode, Control = 1, Variant, Steps;
     public event Action? Changed;
-    public void Navigate(int chapter) { Chapter = Math.Clamp(chapter, 0, Chapters.Length - 1); bowlOwners = null; A = Chapter == 28 ? 0 : 1; B = Chapter == 3 ? 1 : 3; Mode = Variant = Steps = 0; Control = Chapter == 28 ? 0 : 1; Changed?.Invoke(); }
+    public void Navigate(int chapter) { Chapter = Math.Clamp(chapter, 0, Chapters.Length - 1); bowlOwners = null; A = Chapter switch { 28 => 0, 29 => 3, _ => 1 }; B = Chapter switch { 3 => 1, 29 => 0, _ => 3 }; Mode = Variant = Steps = 0; Control = Chapter >= 28 ? 0 : 1; Changed?.Invoke(); }
     public void Refresh() => Changed?.Invoke();
     public ExplorerPage Read() => Chapter switch
     {
@@ -100,7 +100,7 @@ public sealed partial class ExplorerSession
         10 => SaturationPage(), 11 => RectanglePage(), 12 => ContourPage(), 13 => RepetitionPage(), 14 => CompositionPage(),
         15 => BoundaryPage(), 16 => CyclePage(), 17 => WorkPage(), 18 => PathExchangePage(),
         19 => HousePage(), 20 => StrokePage(), 21 => ForkPage(), 22 => CapitalPage(), 23 => LandmarkPage(),
-        24 => StraightCapitalPage(), 25 => CurvedCapitalPage(), 26 => GlyphCompletionPage(), 27 => BowlReachPage(), _ => GlyphEvidencePage()
+        24 => StraightCapitalPage(), 25 => CurvedCapitalPage(), 26 => GlyphCompletionPage(), 27 => BowlReachPage(), 28 => GlyphEvidencePage(), _ => WritingLinePage()
     };
     private Choice Choose(ExplorerPage p, string label, string[] choices, int selected, Action<int> change, bool browseWithArrows = false)
     {
