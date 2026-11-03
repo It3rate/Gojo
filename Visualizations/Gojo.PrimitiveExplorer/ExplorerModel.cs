@@ -38,9 +38,9 @@ public sealed class ExplorerPage(string title, string intro, string source)
         Details[key] = detail;
     }
     public void Label(string label, double x, double y) => Drawing.Add(new("label", "", label, "", x, y));
-    public void Stroke(string key, string detail, double x, double y, double x2, double y2, bool dashed)
+    public void Stroke(string key, string detail, double x, double y, double x2, double y2, bool dashed, bool emphasized = true)
     {
-        Drawing.Add(new("stroke", key, "", detail, x, y, x2, y2, Active: !dashed, Uncertain: dashed));
+        Drawing.Add(new("stroke", key, "", detail, x, y, x2, y2, Active: emphasized && !dashed, Uncertain: dashed));
         Details[key] = detail;
     }
     public void Circle(string key, string detail, double x, double y, double radius, bool uncertain = false)
@@ -82,7 +82,7 @@ public sealed partial class ExplorerSession
         "Conditionals", "Saturation & outlets", "Rectangle constraints", "Circles & polygons", "Repetition & stopping", "Composed patterns",
         "Closure & boundaries", "Cycles: claims & flow", "Work & read budgets", "Two communicating paths",
         "Two uses of a seam", "Stroke & interpretation", "A fork with two owners",
-        "Capitals without a box", "Two orders of E"];
+        "Capitals without a box", "Two orders of E", "Straight capital atlas"];
     public int Chapter { get; private set; }
     public int A = 1, B = 3, Mode, Control = 1, Variant, Steps;
     public event Action? Changed;
@@ -94,7 +94,7 @@ public sealed partial class ExplorerSession
         5 => OppositionPage(), 6 => MemoryPage(), 7 => PotentialPage(), 8 => PassagePage(false), 9 => PassagePage(true),
         10 => SaturationPage(), 11 => RectanglePage(), 12 => ContourPage(), 13 => RepetitionPage(), 14 => CompositionPage(),
         15 => BoundaryPage(), 16 => CyclePage(), 17 => WorkPage(), 18 => PathExchangePage(),
-        19 => HousePage(), 20 => StrokePage(), 21 => ForkPage(), 22 => CapitalPage(), _ => LandmarkPage()
+        19 => HousePage(), 20 => StrokePage(), 21 => ForkPage(), 22 => CapitalPage(), 23 => LandmarkPage(), _ => StraightCapitalPage()
     };
     private void Choose(ExplorerPage p, string label, string[] choices, int selected, Action<int> change) =>
         p.Choices.Add(new(label, choices, selected, n => { change(n); Steps = 0; Refresh(); }));

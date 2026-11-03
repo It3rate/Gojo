@@ -1,14 +1,15 @@
 """Generate browser notes from Markdown; install markdown==3.8.2 first."""
 from pathlib import Path
-import re, html, shutil
+import re, html, shutil, tempfile
 import markdown
 from urllib.parse import unquote
 root=Path(__file__).resolve().parents[3]
-web=root/'Visualizations/Gojo.Demos.Web/encoding'
+destination=root/'Visualizations/Gojo.Demos.Web/encoding'
+# Rewrite linked examples in a private build directory before updating files
+# exposed to browsers and file watchers. Unchanged assets keep their handles.
+stage=tempfile.TemporaryDirectory(prefix='gojo-encoding-notes-')
+web=Path(stage.name)
 notes=web/'notes'; notes.mkdir(parents=True,exist_ok=True)
-assert notes.resolve().is_relative_to(web.resolve())
-for generated in notes.rglob('*'):
-    if generated.is_file(): generated.unlink()
 source=root/'experiments/PrimitiveMeasure'
 files=list(source.glob('*.md'))
 # The explorer guide links back into this same document set.
@@ -40,8 +41,7 @@ for file in files:
     title=html.escape(next((l.lstrip('# ') for l in text.splitlines() if l.startswith('# ')),file.stem))
     (notes/names[file.resolve()]).write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title><style>'+style+'</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main>'+body+'</main></html>',encoding='utf-8')
 links=''.join('<li><a href="notes/'+names[f.resolve()]+'">'+html.escape(f.stem)+'</a></li>' for f in files)
-(web/'index.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gojo encoding</title><style>'+style+'</style><nav><a href="/">Gojo home</a></nav><h1>Gojo encoding</h1><p>From three bits of participation to connected flow, shapes and repeated patterns.</p><h2><a href="explorer/">Open the interactive Primitive Explorer →</a></h2><p>Inspect 24 layers. Hover diagrams and bits to trace their correspondence; change observations and advance flow. Best on a desktop-sized screen.</p><p><a href="explorer/?layer=23">Capitals without a box →</a></p><h2>Encoding notes</h2><ul>'+links+'</ul></html>',encoding='utf-8')
-print('Generated',len(files),'HTML documents and encoding landing page.')
+(web/'index.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gojo encoding</title><style>'+style+'</style><nav><a href="/">Gojo home</a></nav><h1>Gojo encoding</h1><p>From three bits of participation to connected flow, shapes and repeated patterns.</p><h2><a href="explorer/">Open the interactive Primitive Explorer →</a></h2><p>Inspect 25 layers. Hover diagrams and bits to trace their correspondence; change observations and advance flow. Best on a desktop-sized screen.</p><p><a href="explorer/?layer=25">Straight capital atlas →</a></p><h2>Encoding notes</h2><ul>'+links+'</ul></html>',encoding='utf-8')
 
 # HTML examples have their own relative links. Preserve their source-relative
 # meaning rather than leaving them relative to the flattened asset directory.
@@ -66,3 +66,16 @@ for asset in (notes/'assets').glob('*.html'):
         else: result='https://github.com/It3rate/Gojo/tree/4229d552/'
         return prefix+html.escape(result,quote=True)+quote
     asset.write_text(re.sub(r'((?:href|src)=["\'])([^"\']+)(["\'])',html_link,asset.read_text(encoding='utf-8')),encoding='utf-8')
+
+for candidate in web.rglob('*'):
+    if candidate.is_file():
+        target=destination/candidate.relative_to(web)
+        target.parent.mkdir(parents=True,exist_ok=True)
+        if not target.exists() or target.read_bytes()!=candidate.read_bytes():
+            shutil.copyfile(candidate,target)
+for old in (destination/'notes').rglob('*'):
+    if old.is_file() and not (web/old.relative_to(destination)).exists():
+        assert old.resolve().is_relative_to((destination/'notes').resolve())
+        old.unlink()
+stage.cleanup()
+print('Generated',len(files),'HTML documents and encoding landing page.')

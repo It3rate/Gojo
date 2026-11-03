@@ -40,14 +40,7 @@ public sealed partial class ExplorerSession
         var counts = ink.Incidence();
         // One possible realization in screen coordinates. N rotated a quarter turn
         // uses precisely the Z drawing. Coordinates never enter the experiment.
-        (int X, int Y)[] points = label switch
-        {
-            "H" => [(-66,-90),(-66,0),(-66,90),(66,-90),(66,0),(66,90)],
-            "A" => [(0,-90),(-35,0),(-70,90),(35,0),(70,90)],
-            "E" => [(-60,-90),(-60,0),(-60,90),(65,-90),(45,0),(65,90)],
-            "N" => [(-66,90),(-66,-90),(66,90),(66,-90)],
-            _ => [(-90,-66),(90,-66),(-90,66),(90,66)]
-        };
+        var points = CapitalDrawing(label);
         (int X, int Y) Screen(int x, int y)
         {
             for (var turn = 0; turn < Variant; turn++) (x,y) = (-y,x);

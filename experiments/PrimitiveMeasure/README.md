@@ -7,13 +7,17 @@ The current Gojo kernel is unchanged. This is an exploratory lower-level encodin
 following the user's corrected scope rather than the earlier runtime handoff.
 
 The **[Primitive Explorer](../../Visualizations/Gojo.PrimitiveExplorer/README.md)**
-provides 24 interactive visual layers over these experiments. Hover the diagrams
+provides 25 interactive visual layers over these experiments. Hover the diagrams
 or packed bits to trace their correspondence; change controls or step a passage
 or repeated body to inspect its actual encoding and result.
 
 ```powershell
 dotnet run --project Visualizations/Gojo.PrimitiveExplorer
 ```
+
+The [straight capital atlas](StraightCapitals.md) covers 15 letters under a
+positive-right, positive-up convention with bottom-left zero. It traces actual
+loop spans and distinguishes a projected crossing from a shared ink junction.
 
 The [frame-free capital study](FrameFreeCapitals.md) encodes H, A, E, N and Z
 as connected runs, compares constructions before and after supplying a local

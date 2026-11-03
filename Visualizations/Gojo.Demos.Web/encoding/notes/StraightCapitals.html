@@ -1,0 +1,261 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Straight capital atlas</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="straight-capital-atlas">Straight capital atlas</h1>
+<p>Start with A and select <strong>Trace closed walks</strong>. A second reader follows three
+existing ink spans around the upper loop. Change to X and then Joined X to see
+how two strokes can have the same drawing and different connectivity.
+<a href="https://gojo.inklingai.ca/encoding/explorer/?layer=25">Open the atlas</a></p>
+<h2 id="which-letters-are-included">Which letters are included?</h2>
+<p>The study uses ordinary straight-stroke Latin block capitals A, E, F, H, I,
+K, L, M, N, T, V, W, X, Y and Z. There are 15 letter labels and 17 supplied
+constructions. I has plain and barred forms. X has a projected crossing and a
+joined variant. B, C, D, G, J, O, P, Q, R, S and U use curves in the selected
+style. Angular substitutions for those letters would expand the roster.</p>
+<h2 id="the-orientation-agreement">The orientation agreement</h2>
+<p>Every new example starts with the same letter convention. Two ordered
+construction spans share a local origin. The first span goes right, and the
+second goes up in a supplied perpendicular direction. The origin is where
+the leftmost horizontal projection and the lowest vertical projection meet.
+For V those two projections come from different ink sites. There need be no
+ink at that origin. Each letter has its own zero in this shared convention.</p>
+<p>The ink supplies two kinds of correspondence to that frame.</p>
+<ol>
+<li>Each authored run reports whether its horizontal and vertical projections
+   increase, stay constant or decrease along its selected traversal.</li>
+<li>A row [site,axis] says that the site's projection on this axis is zero.
+   An X contact identifies the left edge and a Y contact the bottom.</li>
+</ol>
+<p>This gives “positive right” an operational meaning. N's outer runs go up.
+Z's outer runs go right. Moving the origin alone would leave that distinction
+unsettled. The run observations supply it. The experiment assumes this
+orientation and these observations at construction. A future page reader
+could try to establish them from neighbouring glyphs. No lengths, heights,
+pixel samples or trained classifier enter the matcher.</p>
+<h2 id="results-across-the-complete-roster">Results across the complete roster</h2>
+<p>The bracketed site references below follow the ink along each straight run.
+Shared references are actual junctions. Unbound results use this incidence,
+run order up to reversal, and any explicitly supplied projected crossings.
+The default column adds the conventional frame. Matching checks the same
+site/run correspondence against the directional evidence, including reversed
+run use. Letter labels are attached to the reference models for reporting.</p>
+<table>
+<thead>
+<tr>
+<th>Construction</th>
+<th>Runs</th>
+<th>Compatible unbound</th>
+<th>Compatible by default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>[0,1,2] [0,3,4] [1,3]</td>
+<td>A</td>
+<td>A</td>
+</tr>
+<tr>
+<td>E</td>
+<td>[0,1,2] [0,3] [1,4] [2,5]</td>
+<td>E</td>
+<td>E</td>
+</tr>
+<tr>
+<td>F</td>
+<td>[0,1,2] [0,3] [1,4]</td>
+<td>F</td>
+<td>F</td>
+</tr>
+<tr>
+<td>H</td>
+<td>[0,1,2] [3,4,5] [1,4]</td>
+<td>H, I</td>
+<td>H</td>
+</tr>
+<tr>
+<td>I</td>
+<td>[0,1]</td>
+<td>I</td>
+<td>I</td>
+</tr>
+<tr>
+<td>Barred I</td>
+<td>[0,1,2] [3,4,5] [1,4]</td>
+<td>H, I</td>
+<td>I</td>
+</tr>
+<tr>
+<td>K</td>
+<td>[0,1,2] [1,3] [1,4]</td>
+<td>K</td>
+<td>K</td>
+</tr>
+<tr>
+<td>L</td>
+<td>[0,1] [1,2]</td>
+<td>L, V</td>
+<td>L</td>
+</tr>
+<tr>
+<td>M</td>
+<td>[0,1] [1,2] [2,3] [3,4]</td>
+<td>M, W</td>
+<td>M</td>
+</tr>
+<tr>
+<td>N</td>
+<td>[0,1] [1,2] [2,3]</td>
+<td>N, Z</td>
+<td>N</td>
+</tr>
+<tr>
+<td>T</td>
+<td>[0,1,2] [1,3]</td>
+<td>T</td>
+<td>T</td>
+</tr>
+<tr>
+<td>V</td>
+<td>[0,1] [1,2]</td>
+<td>L, V</td>
+<td>V</td>
+</tr>
+<tr>
+<td>W</td>
+<td>[0,1] [1,2] [2,3] [3,4]</td>
+<td>M, W</td>
+<td>W</td>
+</tr>
+<tr>
+<td>X</td>
+<td>[0,1,2] [3,4,5], projected pair [1,4]</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>Joined X</td>
+<td>[0,1,2] [3,1,4]</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>[0,1] [2,1] [1,3]</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>[0,1] [1,2] [2,3]</td>
+<td>N, Z</td>
+<td>Z</td>
+</tr>
+</tbody>
+</table>
+<p>The enlarged roster changes what can be concluded about H. It was unique
+among the earlier five examples. Adding the barred I introduces a second
+construction with the same ink connections. Pen order can vary independently
+for every example. These are compatibility results within a supplied catalogue
+of straight runs. Inferring a decomposition from an actual drawing remains a
+different experiment. <a href="FrameFreeCapitals.html">Earlier frame-free study</a></p>
+<h2 id="joints-turns-and-crossings">Joints, turns and crossings</h2>
+<p>At a site the reader counts run ends and through runs. The number of incident
+arms is ends + 2 × through. T gives three arms from one through run and one
+end. Y gives three ends. K gives four arms from one through run and two ends.
+Joined X gives four arms from two through runs. These counts describe topology;
+choosing a route for a signal would require a passage law.</p>
+<p>An ordinary X has two ink components. One crossing row associates the two
+distinct interior sites 1 and 4 at a common projection. No material shortcut
+between strands follows. In Joined X both runs contain site 1 and have a single
+connected component. The matcher reads the projected pair from the supplied
+table; it never discovers a connection from coincident screen coordinates.</p>
+<p>A two-arm joint between distinct runs can also prove a corner. The two signed
+projection patterns must differ even after one is reversed for the coarse
+reader to rule out collinearity. This proves the bend of L or the apex of V.
+A site where three or more arms meet is reported as a branch separately.
+With weaker sign evidence, the angle can stay open.</p>
+<h2 id="a-loop-as-a-higher-layer-read">A loop as a higher-layer read</h2>
+<p>The existing graph read counts independent cycles. The added surface also
+returns a walk through the participating span occurrences. For fully ordered
+runs the reader grows a forest of ink spans. Each edge whose endpoints are
+already connected supplies one independent cycle together with the return
+path through the forest. A witness row records [run, span slot, reversed].
+The owner keeps the original runs and their tail spans.</p>
+<table>
+<thead>
+<tr>
+<th>A loop use</th>
+<th>Original span</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[2,0,0]</td>
+<td>crossbar run 2, slot 0</td>
+<td>1 → 3</td>
+</tr>
+<tr>
+<td>[1,0,1]</td>
+<td>right leg run 1, slot 0</td>
+<td>3 → 0</td>
+</tr>
+<tr>
+<td>[0,0,0]</td>
+<td>left leg run 0, slot 0</td>
+<td>0 → 1</td>
+</tr>
+</tbody>
+</table>
+<p>The read closes at the same reference it started from. The packed witness is
+<code>42 04 00</code> with two bits per field. Its positive-context presence port returns
+support <code>02</code>. A test connects that port directly to an ordinary controlled
+passage. Giving one crossbar end an independent site removes closure and
+returns support <code>01</code>, which holds the passage. The loop-only read admits A
+alone in this 15-label roster. This conclusion depends on the reference set.
+For a partial order with admissible completions the cycle rank remains
+readable, while exact walk and joint witnesses require settled orders. A
+contradictory run supplies no admitted loop observation.</p>
+<h2 id="exact-frame-bytes">Exact frame bytes</h2>
+<p>The frame rows [0,1] and [0,2] use two-bit construction references and pack
+as <code>84</code>. For each run the signed X and Y changes occupy two bits apiece. O is
+fixed by the frame. The low bit is V and the next bit is D. Values 00, 01
+and 11 mean unchanged, positive nonzero and negative nonzero. Reversing a
+run flips D for each participating component. The zero convention stays 00.</p>
+<table>
+<thead>
+<tr>
+<th>Ink</th>
+<th>X/Y observations in run order</th>
+<th>Motion bytes</th>
+<th>Zero contact bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>(−,−), (+,−), (+,0)</td>
+<td><code>DF 01</code></td>
+<td><code>82 C2 00</code></td>
+</tr>
+<tr>
+<td>N</td>
+<td>(0,+), (+,−), (0,+)</td>
+<td><code>D4 04</code></td>
+<td><code>10 64</code></td>
+</tr>
+<tr>
+<td>Z</td>
+<td>(+,0), (−,−), (+,0)</td>
+<td><code>F1 01</code></td>
+<td><code>20 76</code></td>
+</tr>
+</tbody>
+</table>
+<p>Zero contact rows use the local ink site's reference width for both fields.
+The separate X crossing uses two three-bit references [1,4], byte <code>21</code>.
+In the atlas, the large diagram, miniature roster and dashed construction
+arrows are example realizations. A check independently verifies that every
+illustrated span and every zero contact honours its supplied qualitative
+encoding.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -c Release -- --straight-capitals
+dotnet test Tests/PrimitiveMeasure.Tests -c Release --filter FullyQualifiedName~StraightCapitalTests
+</code></pre></main></html>

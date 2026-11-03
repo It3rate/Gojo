@@ -5,6 +5,40 @@ namespace Gojo.PrimitiveExplorer.Tests;
 public sealed class ExplorerTests
 {
     [Fact]
+    public void Every_atlas_drawing_honours_the_qualitative_travel_and_origin_contacts()
+    {
+        var s = new ExplorerSession(); s.Navigate(24);
+        var names = Gojo.Experiments.PrimitiveMeasure.StraightCapitals.Names;
+        for (var i = 0; i < names.Count; i++)
+        {
+            s.Mode = i;
+            var page = s.Read();
+            var graph = Gojo.Experiments.PrimitiveMeasure.StraightCapitals.Build(names[i]);
+            var points = new Dictionary<int,(double X,double Y)>();
+            for (var r = 0; r < graph.RunCount; r++)
+            {
+                var sites = graph.Run(r).Sites();
+                var lines = page.Drawing.Where(d => d.Kind == "stroke" && d.Key == "run" + r).ToArray();
+                Assert.Equal(sites.Length-1, lines.Length);
+                for (var k = 0; k < lines.Length; k++)
+                {
+                    var line = lines[k];
+                    static int Word(double change) => change == 0 ? 0 : change > 0 ? 1 : 3;
+                    Assert.Equal(new[] { Word(line.X2-line.X), Word(line.Y-line.Y2) }, graph.Frame!.Motion(r));
+                    points[sites[k]] = (line.X,line.Y); points[sites[k+1]] = (line.X2,line.Y2);
+                }
+            }
+            var zero = graph.Frame!.ZeroLinks().Select(row => (row[0],row[1])).ToHashSet();
+            foreach (var (site, pt) in points)
+            {
+                Assert.Equal(pt.X == points.Values.Min(p => p.X), zero.Contains((site,0)));
+                Assert.Equal(pt.Y == points.Values.Max(p => p.Y), zero.Contains((site,1)));
+            }
+            foreach (var crossing in graph.ProjectedCrossings()) Assert.Equal(points[crossing[0]], points[crossing[1]]);
+        }
+    }
+
+    [Fact]
     public void Rotated_N_and_upright_Z_have_the_same_ink_and_both_candidates_without_ground()
     {
         var s = new ExplorerSession(); s.Navigate(22); s.Mode = 3;

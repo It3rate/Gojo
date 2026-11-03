@@ -6,15 +6,32 @@ namespace Gojo.Experiments.PrimitiveMeasure;
 public sealed class StrokeGraph
 {
     private readonly LandmarkRun[] runs;
-    private readonly EndpointRows writing = new(), axes = new();
+    private readonly EndpointRows writing = new(), axes = new(), crossings = new();
+    public LetterGround? Frame { get; }
+    public int SiteBits { get; }
     public int RunCount => runs.Length;
     public int RunBits { get; }
     public int PenBits { get; }
     public int AxisCount => axes.Count(2, RunBits);
-    public StrokeGraph(LandmarkRun[] runs, int[] penUses, int[][] groundLinks)
+    public StrokeGraph(LandmarkRun[] runs, int[] penUses, int[][] groundLinks,
+        LetterGround? frame = null, int[][]? projectedCrossings = null)
     {
         this.runs = runs.ToArray();
         if (runs.Length == 0) throw new ArgumentException("Supply an ink run.");
+        var sites = runs.SelectMany(r => r.Sites()).ToHashSet();
+        SiteBits = OrderedBoundary.Bits(sites.Max() + 1);
+        Frame = frame;
+        if (frame != null && (frame.RunCount != runs.Length || frame.ZeroLinks().Any(row => !sites.Contains(row[0]))))
+            throw new ArgumentException("The frame must refer to the supplied ink.");
+        foreach (var pair in projectedCrossings ?? [])
+        {
+            if (pair.Length != 2 || pair[0] == pair[1] || pair.Any(s => !sites.Contains(s)))
+                throw new ArgumentException("A projected crossing references two distinct ink sites.");
+            bool HasInterior(int site) => runs.Any(r => r.IsChain && r.Sites()[1..^1].Contains(site));
+            if (!pair.All(HasInterior) || runs.Any(r => pair.All(r.Sites().Contains)))
+                throw new ArgumentException("This crossing surface requires separate interior cuts on distinct strands.");
+            crossings.Append(SiteBits, pair);
+        }
         RunBits = OrderedBoundary.Bits(runs.Length);
         PenBits = RunBits + 2;
         foreach (var code in penUses)
@@ -34,6 +51,22 @@ public sealed class StrokeGraph
     public int[][] GroundLinks() => Enumerable.Range(0, AxisCount).Select(i => axes.Read(new(2, RunBits, i))).ToArray();
     public byte[] PenBytes() => writing.PackedBytes(1, PenBits);
     public byte[] GroundBytes() => axes.PackedBytes(2, RunBits);
+    public int[][] ProjectedCrossings() => Enumerable.Range(0, crossings.Count(2, SiteBits))
+        .Select(i => crossings.Read(new(2, SiteBits, i))).ToArray();
+    public byte[] CrossingBytes() => crossings.PackedBytes(2, SiteBits);
+
+    private int[][] KnownAxes()
+    {
+        var links = GroundLinks().ToList();
+        if (Frame != null)
+            for (var i = 0; i < RunCount; i++)
+            {
+                var motion = Frame.Motion(i);
+                if (motion[0] == 0) links.Add([i,1]);
+                if (motion[1] == 0) links.Add([i,0]);
+            }
+        return links.ToArray();
+    }
 
     // Each run is a path connecting its members in every admitted order.
     // The count of independent undirected cycles is edges - vertices + components.
@@ -66,7 +99,9 @@ public sealed class StrokeGraph
     {
         if (RunCount != model.RunCount || Incidence() != model.Incidence()) return false;
         var expected = model.runs.Select(r => r.IsChain ? r.Sites() : throw new ArgumentException("Expected fully ordered model runs.")).ToArray();
-        var ground = GroundLinks(); var modelGround = model.GroundLinks();
+        var ground = KnownAxes(); var modelGround = model.KnownAxes();
+        var projected = ProjectedCrossings(); var modelProjected = model.ProjectedCrossings();
+        var zero = Frame?.ZeroLinks(); var modelZero = model.Frame?.ZeroLinks();
         // Runs in this construction have positive reach. A single such run
         // cannot lie along both perpendicular axes of the same selected basis.
         static bool ConflictingAxes(int[][] links) =>
@@ -76,7 +111,12 @@ public sealed class StrokeGraph
 
         bool Match(int at, bool[] used, Dictionary<int,int> mapping)
         {
-            if (at == RunCount) return true;
+            if (at == RunCount)
+            {
+                // A correspondence of cuts never identifies their ink references.
+                return projected.All(pair => modelProjected.Any(other =>
+                    other.Contains(mapping[pair[0]]) && other.Contains(mapping[pair[1]])));
+            }
             for (var m = 0; m < RunCount; m++)
             {
                 if (used[m] || runs[at].Count != expected[m].Length) continue;
@@ -84,11 +124,19 @@ public sealed class StrokeGraph
                 foreach (var order in runs[at].Orders())
                 foreach (var reverse in new[] { false, true })
                 {
+                    if (Frame != null && model.Frame != null &&
+                        !Frame.Motion(at).SequenceEqual(model.Frame.Motion(m, reverse))) continue;
                     var extended = new Dictionary<int,int>(mapping);
                     var fits = true;
                     for (var i = 0; i < order.Length && fits; i++)
                     {
                         var target = expected[m][reverse ? order.Length - 1 - i : i];
+                        if (zero != null && modelZero != null &&
+                            zero.Any(z => z[0] == order[i] && !modelZero.Any(t => t[0] == target && t[1] == z[1])))
+                        {
+                            fits = false;
+                            break;
+                        }
                         if (extended.TryGetValue(order[i], out var mapped)) fits = mapped == target;
                         else if (extended.ContainsValue(target)) fits = false;
                         else extended.Add(order[i], target);
@@ -111,32 +159,9 @@ public static class CapitalStudy
     public static string[] Candidates(StrokeGraph input) =>
         Labels.Where((_, i) => input.Fits(Models[i])).ToArray();
 
-    // Names select authored examples only. Fits receives the graph alone.
     public static StrokeGraph Build(string label, bool ground = false, bool otherHand = false, bool partialE = false)
     {
-        int[][] paths = label switch
-        {
-            "H" => [[0,1,2], [3,4,5], [1,4]],
-            "A" => [[0,1,2], [0,3,4], [1,3]],
-            "E" => [[0,1,2], [0,3], [1,4], [2,5]],
-            "N" or "Z" => [[0,1], [1,2], [2,3]],
-            _ => throw new ArgumentOutOfRangeException(nameof(label))
-        };
-        var bits = OrderedBoundary.Bits(paths.SelectMany(p => p).Max() + 1);
-        var runs = paths.Select(path => new LandmarkRun(bits, path)).ToArray();
-        if (label == "E" && partialE) runs[0] = new LandmarkRun(bits, [2,0,1], [[0,1],[0,2]]);
-        var single = label is "N" or "Z";
-        var sequence = Enumerable.Range(0, paths.Length);
-        if (otherHand) sequence = sequence.Reverse();
-        var tape = sequence.Select((run, i) => (run << 2) | ((!single || i == 0) ? 2 : 0) | (otherHand ? 1 : 0)).ToArray();
-        int[][] axes = !ground ? [] : label switch
-        {
-            "H" => [[0,1], [1,1], [2,0]],
-            "A" => [[2,0]],
-            "E" => [[0,1], [1,0], [2,0], [3,0]],
-            "N" => [[0,1], [2,1]],
-            _ => [[0,0], [2,0]]
-        };
-        return new StrokeGraph(runs, tape, axes);
+        if (!Labels.Contains(label)) throw new ArgumentOutOfRangeException(nameof(label));
+        return StraightCapitals.EarlierStudy(label, ground, otherHand, partialE);
     }
 }

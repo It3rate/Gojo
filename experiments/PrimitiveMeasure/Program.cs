@@ -1,5 +1,19 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--straight-capitals"))
+{
+    foreach (var name in StraightCapitals.Names)
+    {
+        var bare = StraightCapitals.Build(name, convention: false);
+        var ink = StraightCapitals.Build(name);
+        var layer = new StrokeFeatures(ink);
+        Console.WriteLine($"{name,-9} unbound={string.Join("/", StraightCapitals.Candidates(bare)),-9} conventional={string.Join("/", StraightCapitals.Candidates(ink)),-5} " +
+            $"corners={layer.Joints.Count(j => j.ProvedCorner)} branches={layer.Joints.Count(j => j.Arms >= 3)} separateCrossings={ink.ProjectedCrossings().Length} loops={layer.Loops.Count}");
+        foreach (var loop in layer.Loops) Console.WriteLine($"  closed sites {string.Join(" -> ", loop.Sites())}, use bytes {Convert.ToHexString(loop.Bytes())}");
+    }
+    return;
+}
+
 if (args.Contains("--capitals"))
 {
     foreach (var label in CapitalStudy.Labels)

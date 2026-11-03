@@ -26,12 +26,34 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const seamLadders = process.argv.includes('--seam-ladders');
     const fork = process.argv.includes('--fork');
     const capitals = process.argv.includes('--capitals');
-    await page.goto(base + '/encoding/explorer/?layer=' + (capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const straight = process.argv.includes('--straight-capitals');
+    await page.goto(base + '/encoding/explorer/?layer=' + (straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (straight) {
+      const capture = name => page.screenshot({path:path.join(output, name + '.png')});
+      const footer = () => page.screenshot({clip:{x:262,y:883,width:1060,height:45}});
+      await select(475, 2); await capture('A-loop');
+      await select(328, 9); // N
+      const bound = await footer();
+      await select(646, 0); await capture('unbound-N');
+      assert.ok(!bound.equals(await footer()), 'Removing the convention should recover the N/Z alternatives.');
+      await select(475, 1); await select(328, 13); await capture('projected-X');
+      const joints = () => page.screenshot({clip:{x:650,y:345,width:835,height:366}});
+      const crossing = await joints();
+      await select(328, 14); await capture('joined-X');
+      assert.ok(!crossing.equals(await joints()), 'Joining the two cuts must change the joint read.');
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(), /Straight capital atlas/);
+      assert.ok((await notes.locator('main').innerText()).includes('42 04 00'));
+      assert.deepEqual(errors, []);
+      console.log('Straight capital atlas: loop, ground withdrawal, separate and joined crossings, HTML chart checked.');
+      return;
     }
     if (capitals) {
       const capture = name => page.screenshot({ path: path.join(output, name + '.png') });
