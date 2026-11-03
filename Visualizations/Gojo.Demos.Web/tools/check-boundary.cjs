@@ -38,10 +38,10 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
       const capture = name => page.screenshot({path:path.join(output, name + '.png')});
       const footer = () => page.screenshot({clip:{x:262,y:883,width:1060,height:45}});
       // This app renders into one canvas. Compare the visible construction
-      // sentence, independently of the control that supplied the selection.
-      const recipe = () => page.screenshot({clip:{x:420,y:156,width:1020,height:20}});
+      // sentence above the ink, independently of the control that selected it.
+      const recipe = () => page.screenshot({clip:{x:660,y:316,width:820,height:42}});
       async function clickLetter(column, row, offset = 0) {
-        await page.mouse.click(1090 + column * 55 + offset, 390 + row * 53);
+        await page.mouse.click(1088 + column * 48 + offset, 433 + row * 46);
         await page.waitForTimeout(180);
         return recipe();
       }
@@ -53,6 +53,10 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
         throw Error(action + ' did not show the expected construction.');
       }
       const a = await recipe();
+      await page.mouse.move(1136, 433); // preview E while A is still selected
+      await expectRecipe(a, 'Hovering another letter');
+      await page.mouse.click(340, 448); // pin an encoding bit
+      await expectRecipe(a, 'Pinning an encoding bit');
       const e = await clickLetter(1, 0);
       const f = await clickLetter(2, 0, 16); // white space inside the F tile
       const z = await clickLetter(1, 3);
@@ -85,6 +89,9 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
       assert.match(await notes.title(), /Straight capital atlas/);
       assert.ok((await notes.locator('main').innerText()).includes('42 04 00'));
       assert.equal(await notes.locator('#how-to-build-each-letter ~ ul').first().locator('li').count(), 17);
+      await notes.close();
+      await page.setViewportSize({width:1220, height:900});
+      await capture('compact-construction-guide');
       assert.deepEqual(errors, []);
       console.log('Straight capital atlas: clickable glyphs, repeated arrows, wraparound, open and closed dropdown focus, loop, crossings, ground and 17 published recipes checked.');
       return;

@@ -28,12 +28,15 @@ public sealed partial class ExplorerSession
 
     private ExplorerPage CapitalPage()
     {
+        var label = CapitalStudy.Labels[Mode];
         var p = new ExplorerPage("Which capitals can a stroke graph distinguish?",
-            "Rotate the illustration with the ground unbound. The reader sees shared sites and ordered runs. On N or Z, try attaching a local ground.", "FrameFreeCapitals.md");
+            "Rotate the illustration with the ground unbound. The reader sees shared sites and ordered runs. On N or Z, try attaching a local ground.", "FrameFreeCapitals.md")
+        {
+            DrawingGuide = ($"How to draw {label} upright", CapitalRecipes.Value[label])
+        };
         Choose(p, "Construction", CapitalStudy.Labels.ToArray(), Mode, n => Mode = n, browseWithArrows: true);
         Choose(p, "Rotate illustration", ["Original", "Quarter turn", "Half turn", "Three quarters"], Variant, n => Variant = n);
         Choose(p, "Local ground", ["Attach along / perpendicular", "Unbound"], Control, n => Control = n);
-        var label = CapitalStudy.Labels[Mode];
         var ink = CapitalStudy.Build(label, ground: Control == 0);
         InkBlocks(p, ink);
         var candidates = CapitalStudy.Candidates(ink);

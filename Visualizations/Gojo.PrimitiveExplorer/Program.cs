@@ -50,6 +50,7 @@ internal sealed class ExplorerWindow : Window
     private readonly FocusLink focus = new();
     private readonly StackPanel controls = new() { Orientation = Orientation.Horizontal, Spacing = 12 };
     private readonly StackPanel nav = new() { Spacing = 4 };
+    private readonly TextBlock diagramTitle = Text("", 11, true), diagramGuide = Text("", 16);
     private readonly TextBlock title = Text("", 30, true), intro = Text("", 14), result = Text("", 15, true), boundary = Text("", 12),
         selection = Text("", 12), events = Text("", 12), status = Text("", 11), number = Text("", 12);
     private readonly EncodingCanvas encoding;
@@ -105,8 +106,10 @@ internal sealed class ExplorerWindow : Window
         var numericPanel = new Grid { RowDefinitions = new("42,*") };
         numericPanel.Children.Add(new Border { Background = Palette.Dark, Padding = new Thickness(18, 12), Child = Text("01  /  NUMERIC ENCODING", 11, true, Palette.White) });
         Grid.SetRow(numericScroll, 1); numericPanel.Children.Add(numericScroll); inspectors.Children.Add(numericPanel);
-        var picturePanel = new Grid { RowDefinitions = new("42,*,Auto,Auto") }; Grid.SetColumn(picturePanel, 2); inspectors.Children.Add(picturePanel);
-        picturePanel.Children.Add(new Border { Background = Palette.Pale, Padding = new Thickness(16, 12), Child = Text("02  /  STRUCTURE & EFFECT", 11, true) });
+        var picturePanel = new Grid { RowDefinitions = new("Auto,*,Auto,Auto") }; Grid.SetColumn(picturePanel, 2); inspectors.Children.Add(picturePanel);
+        diagramGuide.MinHeight = 44;
+        var caption = new StackPanel { Spacing = 4, Children = { diagramTitle, diagramGuide } };
+        picturePanel.Children.Add(new Border { MinHeight = 42, Background = Palette.Pale, Padding = new Thickness(16, 12), Child = caption });
         Grid.SetRow(structure, 1); picturePanel.Children.Add(structure);
         var focusPanel = new Border { MinHeight = 86, Background = Palette.White, BorderBrush = Palette.Line, BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Padding = new Thickness(16), Child = selection };
         Grid.SetRow(focusPanel, 2); picturePanel.Children.Add(focusPanel);
@@ -146,6 +149,10 @@ internal sealed class ExplorerWindow : Window
         var previous = page;
         rebuild = true; page = session.Read();
         title.Text = page.Title; intro.Text = page.Intro; result.Text = page.Result; boundary.Text = page.Boundary;
+        diagramTitle.Text = page.DrawingGuide?.Title ?? "02  /  STRUCTURE & EFFECT";
+        diagramTitle.FontSize = page.DrawingGuide.HasValue ? 18 : 11;
+        diagramGuide.IsVisible = page.DrawingGuide.HasValue;
+        diagramGuide.Text = page.DrawingGuide?.Text;
         number.Text = $"LAYER {session.Chapter + 1:00} / {ExplorerSession.Chapters.Length:00}"; number.Foreground = Palette.Teal;
         status.Text = page.Status; status.Foreground = Palette.Muted;
         events.Text = page.Events.Count == 0 ? "Change a control to inspect the cause and effect.\nThe diagrams do not write back into the kernel." : string.Join('\n', page.Events.TakeLast(3));

@@ -19,6 +19,7 @@ public sealed class ExplorerPage(string title, string intro, string source)
 {
     public string Title { get; } = title;
     public string Intro { get; } = intro;
+    public (string Title, string Text)? DrawingGuide { get; init; }
     public string Source { get; } = source;
     public string Result { get; set; } = "";
     public string Boundary { get; set; } = "";

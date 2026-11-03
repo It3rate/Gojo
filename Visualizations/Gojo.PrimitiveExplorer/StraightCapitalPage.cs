@@ -48,8 +48,9 @@ public sealed partial class ExplorerSession
     {
         var name = StraightCapitals.Names[Mode];
         var recipes = CapitalRecipes.Value;
-        var p = new ExplorerPage("The straight capital atlas", $"{name}  ·  {recipes[name]}", "StraightCapitals.md")
+        var p = new ExplorerPage("The straight capital atlas", "Choose a letter to see how to draw it. Use Inspect to explore where the strokes meet or form a loop.", "StraightCapitals.md")
         {
+            DrawingGuide = ($"How to draw {name}", recipes[name]),
             Status = "Click a letter in the grid. In Construction, use ← or ↑ for the previous form and → or ↓ for the next."
         };
         var construction = Choose(p, "Construction", StraightCapitals.Names.ToArray(), Mode, n => Mode = n, browseWithArrows: true);

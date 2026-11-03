@@ -15,7 +15,8 @@ style. Angular substitutions for those letters would expand the roster.
 
 ## How to build each letter
 
-Click a letter in the grid to select that construction. With the Construction
+Click a letter in the grid. The **How to draw** panel directly above the drawing
+shows its recipe and stays visible as you inspect the ink and bits. With the Construction
 selector focused, Right or Down goes forward and Left or Up goes back. The
 arrows wrap between A and Z, including both versions of I and X along the way.
 The inspection and ground settings carry over as you compare letters.

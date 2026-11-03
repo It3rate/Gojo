@@ -26,8 +26,8 @@ public sealed class ExplorerTests
 
             var selected = session.Read();
             Assert.Equal(name, Assert.Single(selected.Drawing, d => d.Selects.HasValue && d.Active).Label);
-            Assert.StartsWith(name + "  ·  ", selected.Intro);
-            var recipe = selected.Intro.Split("  ·  ")[1];
+            var (heading, recipe) = selected.DrawingGuide!.Value;
+            Assert.Equal("How to draw " + name, heading);
             Assert.EndsWith(recipe, tile.Detail);
             Assert.True(recipes.Add(recipe));
             Assert.Equal(1, selected.Choices[1].Selected);
@@ -78,6 +78,9 @@ public sealed class ExplorerTests
         var rotated = s.Read();
         s.Mode = 4; s.Variant = 0;
         var z = s.Read();
+        Assert.Equal("How to draw N upright", original.DrawingGuide!.Value.Title);
+        Assert.Equal(original.DrawingGuide, rotated.DrawingGuide);
+        Assert.Equal("How to draw Z upright", z.DrawingGuide!.Value.Title);
         static (double,double,double,double)[] Geometry(ExplorerPage p) => p.Drawing.Where(d => d.Kind == "stroke")
             .Select(d => (d.X,d.Y,d.X2,d.Y2)).ToArray();
         Assert.Equal(Geometry(rotated), Geometry(z)); Assert.NotEqual(Geometry(original), Geometry(rotated));
