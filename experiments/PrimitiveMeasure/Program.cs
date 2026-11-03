@@ -1,5 +1,18 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--bowl-reach"))
+{
+    foreach (var (name,body) in new[]{("Adjustable D",BowlReach.AdjustableD()),("Radial D",BowlReach.RadialD()),
+        ("Ends-only D",BowlReach.EndsOnlyD()),("Independent B",BowlReach.B(false)),("Linked B",BowlReach.B(true))})
+    {
+        var prediction = BowlMotionReader.Predict(body.Before);
+        body.Push();
+        var after = body.ReadTips();
+        Console.WriteLine($"{name}: {body.Before} -> {after}; predicted={prediction:X2} " +
+            $"observed={BowlMotionReader.Compare(body.Before,after):X2} waiting={body.Waiting} bits={Convert.ToHexString(body.StoreBytes())}");
+    }
+    return;
+}
 if (args.Contains("--curved-capitals"))
 {
     for (var i = 0; i < CurvedCapitals.Names.Count; i++)

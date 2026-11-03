@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Push a bowl outward</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="push-a-bowl-outward">Push a bowl outward</h1>
+<p>Pin the top and bottom of a D's stem. Imagine a short stick extending at right angles from the middle of the stem to the farthest point of the bow. Push that tip farther out. Which constructions allow the stick to lengthen while the stem stays put? <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=28">Try layer 28</a></p>
+<h2 id="try-one-push">Try one push</h2>
+<ul>
+<li><strong>D · overlay.</strong> At rest the solid and dashed outlines coincide. Click <strong>Push outward</strong>. The solid bow widens. The dashed bow is half a circle whose diameter is the pinned stem. Its radius already fixes its reach, so the request waits at its intake. Switch <strong>Inspect encoding</strong> to see where the request settled in either owner. <strong>Reset</strong> restores both.</li>
+<li><strong>B · compare.</strong> Each B starts with the same drawing, with a wider lower bowl. Push the upper tip. On the left only the upper bowl widens. On the right both widen. The right-hand bowls share the change of setting while keeping their own starting widths. The dotted outlines show where the tips started.</li>
+<li><strong>D · ends only.</strong> The two perpendicular end headings and the stem are available. Try the same push. There is a waiting request, but no published tip to compare before and after. “We saw the tip stay” and “we couldn't see a tip” produce different reads.</li>
+</ul>
+<h2 id="what-connects-to-what">What connects to what</h2>
+<p>Each owner supplies one request in site 0. Its first passage moves that request into waiting site 1. Its second passage reads a guard. An empty guard passes the request into the selected dial. An occupied guard leaves it waiting. A tip row reads its dial and publishes either the resting or the farther landmark. Two tip rows can read one dial without consuming its contents twice.</p>
+<p>The owner assigns local site 2 to the open guard, 3 to the pin guard and 4 to the half-span dial. The stem pin connects a straight stem span, site 4 and guard 3. Independent dials follow at sites 5 and 6. The offer row is always <code>[0,2,1]</code>. All addresses below occupy three bits per field. In a tip row the fields are <strong>ink span, dial, resting tip, farther tip</strong>. In a width passage they are <strong>waiting site, guard, destination</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Owner</th>
+<th>Tip rows</th>
+<th>Width passage</th>
+<th>Owner byte before → after</th>
+<th>Observed tips</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adjustable D</td>
+<td><code>[1,5,3,1]</code></td>
+<td><code>[1,2,5]</code></td>
+<td><code>09 → 28</code></td>
+<td>Upper moves out</td>
+</tr>
+<tr>
+<td>Radial D</td>
+<td><code>[1,4,3,1]</code></td>
+<td><code>[1,3,4]</code></td>
+<td><code>09 → 0A</code></td>
+<td>Upper stays</td>
+</tr>
+<tr>
+<td>D ends only</td>
+<td>None</td>
+<td>None</td>
+<td><code>09 → 0A</code></td>
+<td>Upper unreadable</td>
+</tr>
+<tr>
+<td>Independent B</td>
+<td><code>[2,5,3,1]</code>, <code>[3,6,4,2]</code></td>
+<td><code>[1,2,5]</code></td>
+<td><code>09 → 28</code></td>
+<td>Upper moves alone</td>
+</tr>
+<tr>
+<td>Linked B</td>
+<td><code>[2,5,3,1]</code>, <code>[3,5,4,2]</code></td>
+<td><code>[1,2,5]</code></td>
+<td><code>09 → 28</code></td>
+<td>Both move</td>
+</tr>
+</tbody>
+</table>
+<p>Read the bytes in hex, with site 0 in the low bit. For example, <code>28</code> has sites 3 and 5 occupied. The two B owners have the same live byte after the push. The lower tip's connection to dial 6 or dial 5 explains the different results.</p>
+<p>The outward ray stores the landmarks in physical order <code>[0,3,1,4,2]</code>. Starting at the stem, these mean <em>stem, upper rest, upper farther, lower rest, lower farther</em>. Thus a tip moving from landmark 3 to landmark 1 moved outward. No subtraction of landmark names or measurement of the distance is involved. The drawing chooses spacings for illustration. Here the B bowls have equal heights and the lower one has greater reach. This particular construction says nothing about their relative areas in another hand.</p>
+<h2 id="what-a-second-structure-can-tell">What a second structure can tell</h2>
+<p>The motion reader sees the published tips before and after. Its initial possibilities come from running four supplied examples through the same push. It combines the outcomes of examples compatible with the visible starting tips. This is a small test of what an intervention reveals, with its repertoire supplied in advance.</p>
+<table>
+<thead>
+<tr>
+<th>Visible sample</th>
+<th>Before pushing</th>
+<th>After pushing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Either complete D</td>
+<td><code>03</code> stay or widen</td>
+<td><code>02</code> widens, or <code>01</code> stays</td>
+</tr>
+<tr>
+<td>D ends only</td>
+<td><code>03</code> stay or widen</td>
+<td><code>03</code> still unresolved</td>
+</tr>
+<tr>
+<td>Either B</td>
+<td><code>0A</code> upper alone or both</td>
+<td><code>02</code> upper alone, or <code>08</code> both</td>
+</tr>
+</tbody>
+</table>
+<p>The movement mask gives one bit to each joint outcome. From the low end they are <em>neither</em>, <em>upper alone</em>, <em>lower alone</em>, <em>both</em>. On this particular push the two complete D outlines and the two B drawings become distinguishable. Observing two tips move together once leaves open whether they would move together under another intervention.</p>
+<h2 id="where-momentum-could-enter">Where momentum could enter</h2>
+<p>The perpendicular from the stem to the tip measures the bow's <strong>reach</strong>. A straight initial run along the departure heading, a rate of turning during travel, and a delay before turning could each affect that reach. They would make different predictions about the ink between the endpoints. The present trial takes the outward request as given and encodes only the ordering of tip positions. A later driven pen could generate such a request, then use these same tips to check its consequence.</p>
+<p>Run the same trial from the repository with <code>dotnet run --project experiments/PrimitiveMeasure -c Release -- --bowl-reach</code>. For the earlier test of what the two end headings alone allow, see <a href="GlyphCompletion.html">Across a glyph gap</a>.</p></main></html>

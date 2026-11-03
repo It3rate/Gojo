@@ -3,6 +3,8 @@
 Two arrows can constrain a missing path. A construction can supply one. This
 experiment puts those situations side by side. [Open layer 27](https://gojo.inklingai.ca/encoding/explorer/?layer=27)
 
+To hold the stem fixed and try changing the reach of a D or B, see [Push a bowl outward](BowlReach.md).
+
 ## Try D first
 
 Choose **D · ends only**. The left drawing shows the stem and the two headings.

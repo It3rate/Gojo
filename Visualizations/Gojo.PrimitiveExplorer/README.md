@@ -61,6 +61,7 @@ corresponding experiment document in the repository.
 | Straight capital atlas | 15 straight-stroke letters, directed ground, zero contacts, corners, branches, crossings and a traceable loop read |
 | Curves in capitals | Eleven further letters, rounded and cornered D, C as open ink or a gap in O, and one-arc radial O |
 | Across a glyph gap | Move one cut in O, query or follow the retained arc, and try different interiors against the same ends of D. [Experiment and reader results](../../experiments/PrimitiveMeasure/GlyphCompletion.md) |
+| Push a bowl outward | Push two initially coincident D bows, then compare two B constructions with a wider lower bowl. Inspect the tip connections, waiting request and observer's read. [Encoding chart and results](../../experiments/PrimitiveMeasure/BowlReach.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

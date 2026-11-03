@@ -5,6 +5,28 @@ namespace Gojo.PrimitiveExplorer.Tests;
 public sealed class ExplorerTests
 {
     [Fact]
+    public void Inspecting_the_other_bowl_keeps_the_actual_push_and_reset_restores_both()
+    {
+        var session = new ExplorerSession(); session.Navigate(27);
+        var page = session.Read();
+        var curves = page.Drawing.Where(d => d.PathData != null).ToArray();
+        Assert.Equal(2,curves.Length);
+        Assert.Equal(curves[0].PathData,curves[1].PathData);
+        page.Actions.Single(a=>a.Label=="Push outward").Run();
+        var moved = session.Read();
+        Assert.Contains("Tip moved out",moved.Result);
+        Assert.Equal(2,moved.Drawing.Where(d=>d.PathData!=null).Select(d=>d.PathData).Distinct().Count());
+        moved.Choices[1].Change(1);
+        Assert.Contains("Tip stayed",session.Read().Result);
+        session.Read().Actions.Single(a=>a.Label=="Reset").Run();
+        Assert.DoesNotContain(session.Read().Blocks,b=>b.Title=="Reader after the push");
+        session.Read().Choices[0].Change(1);
+        session.Read().Actions.Single(a=>a.Label=="Push outward").Run();
+        Assert.Contains("Upper moved alone",session.Read().Result);
+        session.Read().Choices[1].Change(1);
+        Assert.Contains("Both tips moved",session.Read().Result);
+    }
+    [Fact]
     public void The_gap_page_separates_ink_construction_and_trial_rows()
     {
         var session = new ExplorerSession(); session.Navigate(26);

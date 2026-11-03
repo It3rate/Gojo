@@ -29,12 +29,50 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const straight = process.argv.includes('--straight-capitals');
     const curves = process.argv.includes('--curved-capitals');
     const gap = process.argv.includes('--glyph-gap');
-    await page.goto(base + '/encoding/explorer/?layer=' + (gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const bowl = process.argv.includes('--bowl-reach');
+    await page.goto(base + '/encoding/explorer/?layer=' + (bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (bowl) {
+      const capture = name => page.screenshot({path:path.join(output,name+'.png')});
+      const picture = () => page.screenshot({clip:{x:834,y:416,width:460,height:180}});
+      const result = () => page.screenshot({clip:{x:264,y:881,width:980,height:33}});
+      async function press(x) {
+        await page.mouse.click(x,246); await page.mouse.move(1520,966); await page.waitForTimeout(350);
+      }
+      await capture('D-before');
+      const d = await picture();
+      await press(625); await capture('D-pushed');
+      assert.ok(!d.equals(await picture()),'The adjustable and radial D should separate.');
+      const widened = await picture(), free = await result();
+      await select(480,1);
+      assert.ok(widened.equals(await picture()),'Inspecting either D should keep both outlines.');
+      assert.ok(!free.equals(await result()),'The pinned owner should report a different outcome.');
+      await press(705);
+      assert.ok(d.equals(await picture()),'Reset should restore the original common outline.');
+      await select(330,1); await capture('B-before');
+      const b = await picture();
+      await press(625); await capture('B-pushed');
+      assert.ok(!b.equals(await picture()),'The B tips should respond.');
+      const top = await result();
+      await select(480,1); await capture('B-linked');
+      assert.ok(!top.equals(await result()),'The shared B should report both tips moving.');
+      await select(330,2); await capture('D-ends-only');
+      const bare = await picture(), waiting = await result();
+      await press(462);
+      assert.ok(bare.equals(await picture()),'Pushing an unreadable tip must leave the interior open.');
+      assert.ok(!waiting.equals(await result()),'The waiting request should still be reported.');
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(),/Push a bowl outward/);
+      assert.match(await notes.locator('main').innerText(),/09 → 28/);
+      assert.deepEqual(errors,[]);
+      console.log('D overlay, pin, reset, independent and linked B, unreadable tip and HTML notes checked.');
+      return;
     }
     if (gap) {
       const capture = name => page.screenshot({path:path.join(output,name+'.png')});
