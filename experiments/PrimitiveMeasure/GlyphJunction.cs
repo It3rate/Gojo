@@ -7,6 +7,7 @@ public sealed class GlyphJunction
     private readonly EndpointRows arms = new();
     private readonly EndpointRows outlet = new();
     private CalculatedPort? collected;
+    private int[]? receivingPorts;
     public StrokeGraph Ink { get; }
     public PassageFixture Flow { get; }
     public IPrimitiveReadPort Stem => Surface(2);
@@ -86,13 +87,28 @@ public sealed class GlyphJunction
         flow.Add(flow.Forward,0,3,2);
         flow.Add(flow.Forward,1,3,4);
         var reads = new ReadConnections();
-        var first = reads.Import(flow.Owner.Connect(flow.Ports[2]));
-        var second = reads.Import(flow.Owner.Connect(flow.Ports[4]));
+        joint.receivingPorts = [flow.Ports[2], flow.Ports[4]];
+        var first = reads.Import(flow.Owner.Connect(joint.receivingPorts[0]));
+        var second = reads.Import(flow.Owner.Connect(joint.receivingPorts[1]));
         var presence = reads.Connect(reads.AddTable(ConnectionLaws.Presence()),2,first,second);
         joint.outlet.Append(2,2,presence.Endpoint);
         joint.collected = presence;
         joint.Collection = reads;
         return joint;
+    }
+
+    /// <summary>The collector wires both contributors behind one receiving intake.
+    /// On the experiment's serial clock the first accepted whole fills that inbox.
+    /// The connector owns the row witnesses. The receiver needs only its intake.</summary>
+    public PortSeams ConnectDraw(PortStructure.Intake intake, bool rightFirst = false)
+    {
+        if (receivingPorts is null)
+            throw new InvalidOperationException("This stem has no collecting slots.");
+        var outlets = receivingPorts.Select(Flow.Owner.ExportOutlet).ToArray();
+        var seam = new PortSeams(outlets, [intake], PassageLaw.Controlled(whenPresent: false));
+        seam.Link(rightFirst ? 1 : 0, 0);
+        seam.Link(rightFirst ? 0 : 1, 0);
+        return seam;
     }
     public static GlyphJunction TCorners(byte initial)
     {

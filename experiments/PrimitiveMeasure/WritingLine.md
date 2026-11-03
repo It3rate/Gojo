@@ -25,7 +25,36 @@ The five private sites are left inlet 0, right inlet 1, first receiver 2, gate 3
 | Switch selects right | `0D` · gate set, left waits | Present |
 | Two receiving slots with OR | `14` · both received | Present |
 
-The same ink arms participate in all three. The transition bitmap constrains legal changes of state. The read bitmap constrains what a receiver can conclude about the occupied slots. Retaining the two contributions is one implementation of a coarse OR output. An irreversible fusion, or the response of a downstream device that draws from that output, would require its own accounting.
+The same ink arms participate in all three. The transition bitmap constrains legal changes of state. The read bitmap constrains what a receiver can conclude about the occupied slots. The collecting construction retains both contributions.
+
+## Reading, remembering and drawing from the stem
+
+Imagine two cups behind a screen. A lamp on the screen comes on when either cup contains water. Two neighbors can see the lamp. Either can remember that it was on. Pouring from a cup is a separate connection. Even a model made entirely of bits can let both neighbors remember the same cupful and allow only one of them to receive it.
+
+In the executable draw experiment the Y publishes its ordinary presence read. A material receiver offers one intake with a gate and an inbox. The connector binds both Y slots to that intake. The receiver sees its own inbox and can observe the public stem. The connector's row witnesses and the private bytes below are available to the experimenter for inspection.
+
+| Connection | What the bits do |
+|---|---|
+| Live observation | The stem OR reads Y sites 2 and 4. A second reader can follow the same port. Neither read changes either site. |
+| Held sample | An identity row connects the stem read to a separate memory site. A sample pulse copies its resolved O/D/V word there. Further changes at the stem become visible in memory on the next sample. |
+| Material draw | Outlet 0 binds Y site 2. Outlet 1 binds Y site 4. Both lead to intake 0 on the other owner. Left-first rows `[0,0] [1,0]` pack as `04`. Reversing their order gives `01`. Each request pulses both rows in stored order. An accepted whole occupies the inbox and blocks the next arrival. |
+| Coupled response | A local sensor has its own waiting activation. It reads the stem as a guard on a passage from *ready* to *seen*. Even with the material intake closed, the sensor can move its own activation while both contributions remain at the Y. |
+| Delivery signal | Each seam row publishes its last before/after pair to an event read. Mask `00 00 00 00 02 00 00 00` selects the transition from an occupied source and empty inbox to an empty source and occupied inbox. OR across the two event reads answers “did anything arrive on this request?” Before the first request that observation is missing. Readers can inspect a witnessed delivery repeatedly. A later refused request reports no delivery even while the stem still reports presence. |
+
+Here is one left-first run. The receiver has three sites in low-bit order, *gate, inbox, shelf*. Between successful draws it moves the first arrival from inbox to shelf through a local passage. All store values are hex. The live bit and held bit are observations in a fixed positive frame.
+
+| Action | Y store | Receiver store | Live bit | Held bit |
+|---|---:|---:|---:|---:|
+| Collect both arrivals and sample once | `14` | `00` | 1 | 1 |
+| Draw once | `10` | `02` | 1 | 1 |
+| Try again with the inbox full | `10` | `02` | 1 | 1 |
+| Move inbox to shelf | `10` | `04` | 1 | 1 |
+| Draw again | `00` | `06` | 0 | 1 |
+| Sample again | `00` | `06` | 0 | 0 |
+
+With right-first wiring the first draw leaves Y store `04`. The public sequence stays the same. If both neighbors see a single remaining arrival and then each requests it, the first successful handoff drains it. A remembered 1 supplies evidence of the earlier observation and grants no reservation.
+
+The conservation check follows whole arrivals on a serial clock. Their magnitudes can differ. Splitting a partly drained arrival would require finer accounting. The wiring supplies the accounting policy in these experiments. Inferring which policy fits an unfamiliar source remains open. To run these checks use `dotnet test Tests/PrimitiveMeasure.Tests --filter FullyQualifiedName~CollectorDrawTests`.
 
 ## i and j share a writing line
 

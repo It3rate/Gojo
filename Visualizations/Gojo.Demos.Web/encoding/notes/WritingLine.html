@@ -67,7 +67,98 @@
 </tr>
 </tbody>
 </table>
-<p>The same ink arms participate in all three. The transition bitmap constrains legal changes of state. The read bitmap constrains what a receiver can conclude about the occupied slots. Retaining the two contributions is one implementation of a coarse OR output. An irreversible fusion, or the response of a downstream device that draws from that output, would require its own accounting.</p>
+<p>The same ink arms participate in all three. The transition bitmap constrains legal changes of state. The read bitmap constrains what a receiver can conclude about the occupied slots. The collecting construction retains both contributions.</p>
+<h2 id="reading-remembering-and-drawing-from-the-stem">Reading, remembering and drawing from the stem</h2>
+<p>Imagine two cups behind a screen. A lamp on the screen comes on when either cup contains water. Two neighbors can see the lamp. Either can remember that it was on. Pouring from a cup is a separate connection. Even a model made entirely of bits can let both neighbors remember the same cupful and allow only one of them to receive it.</p>
+<p>In the executable draw experiment the Y publishes its ordinary presence read. A material receiver offers one intake with a gate and an inbox. The connector binds both Y slots to that intake. The receiver sees its own inbox and can observe the public stem. The connector's row witnesses and the private bytes below are available to the experimenter for inspection.</p>
+<table>
+<thead>
+<tr>
+<th>Connection</th>
+<th>What the bits do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Live observation</td>
+<td>The stem OR reads Y sites 2 and 4. A second reader can follow the same port. Neither read changes either site.</td>
+</tr>
+<tr>
+<td>Held sample</td>
+<td>An identity row connects the stem read to a separate memory site. A sample pulse copies its resolved O/D/V word there. Further changes at the stem become visible in memory on the next sample.</td>
+</tr>
+<tr>
+<td>Material draw</td>
+<td>Outlet 0 binds Y site 2. Outlet 1 binds Y site 4. Both lead to intake 0 on the other owner. Left-first rows <code>[0,0] [1,0]</code> pack as <code>04</code>. Reversing their order gives <code>01</code>. Each request pulses both rows in stored order. An accepted whole occupies the inbox and blocks the next arrival.</td>
+</tr>
+<tr>
+<td>Coupled response</td>
+<td>A local sensor has its own waiting activation. It reads the stem as a guard on a passage from <em>ready</em> to <em>seen</em>. Even with the material intake closed, the sensor can move its own activation while both contributions remain at the Y.</td>
+</tr>
+<tr>
+<td>Delivery signal</td>
+<td>Each seam row publishes its last before/after pair to an event read. Mask <code>00 00 00 00 02 00 00 00</code> selects the transition from an occupied source and empty inbox to an empty source and occupied inbox. OR across the two event reads answers “did anything arrive on this request?” Before the first request that observation is missing. Readers can inspect a witnessed delivery repeatedly. A later refused request reports no delivery even while the stem still reports presence.</td>
+</tr>
+</tbody>
+</table>
+<p>Here is one left-first run. The receiver has three sites in low-bit order, <em>gate, inbox, shelf</em>. Between successful draws it moves the first arrival from inbox to shelf through a local passage. All store values are hex. The live bit and held bit are observations in a fixed positive frame.</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th style="text-align: right;">Y store</th>
+<th style="text-align: right;">Receiver store</th>
+<th style="text-align: right;">Live bit</th>
+<th style="text-align: right;">Held bit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Collect both arrivals and sample once</td>
+<td style="text-align: right;"><code>14</code></td>
+<td style="text-align: right;"><code>00</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Draw once</td>
+<td style="text-align: right;"><code>10</code></td>
+<td style="text-align: right;"><code>02</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Try again with the inbox full</td>
+<td style="text-align: right;"><code>10</code></td>
+<td style="text-align: right;"><code>02</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Move inbox to shelf</td>
+<td style="text-align: right;"><code>10</code></td>
+<td style="text-align: right;"><code>04</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Draw again</td>
+<td style="text-align: right;"><code>00</code></td>
+<td style="text-align: right;"><code>06</code></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Sample again</td>
+<td style="text-align: right;"><code>00</code></td>
+<td style="text-align: right;"><code>06</code></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>With right-first wiring the first draw leaves Y store <code>04</code>. The public sequence stays the same. If both neighbors see a single remaining arrival and then each requests it, the first successful handoff drains it. A remembered 1 supplies evidence of the earlier observation and grants no reservation.</p>
+<p>The conservation check follows whole arrivals on a serial clock. Their magnitudes can differ. Splitting a partly drained arrival would require finer accounting. The wiring supplies the accounting policy in these experiments. Inferring which policy fits an unfamiliar source remains open. To run these checks use <code>dotnet test Tests/PrimitiveMeasure.Tests --filter FullyQualifiedName~CollectorDrawTests</code>.</p>
 <h2 id="i-and-j-share-a-writing-line">i and j share a writing line</h2>
 <p>Select <strong>i and j</strong>, then <strong>Right stem</strong>. In this hand i ends on the writing line and j descends below it. Select <strong>Hide baseline</strong>. Both models fit the published dot and the coarse stem. Switch to <strong>Dots and hook</strong>. The turned end supplies independent evidence for j while the baseline stays withheld.</p>
 <table>
