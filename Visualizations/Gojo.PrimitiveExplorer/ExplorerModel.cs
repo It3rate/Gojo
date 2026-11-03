@@ -11,6 +11,7 @@ public sealed record DrawingItem(string Kind, string Key, string Label, string D
     double X, double Y, double X2 = 0, double Y2 = 0, bool Active = false, bool Uncertain = false)
 {
     public (Choice Choice, int Index)? Selects { get; init; }
+    public string? PathData { get; init; }
 }
 public sealed record Choice(string Label, string[] Values, int Selected, Action<int> Change, bool BrowseWithArrows = false);
 public sealed record ExplorerAction(string Label, Action Run);
@@ -86,7 +87,7 @@ public sealed partial class ExplorerSession
         "Conditionals", "Saturation & outlets", "Rectangle constraints", "Circles & polygons", "Repetition & stopping", "Composed patterns",
         "Closure & boundaries", "Cycles: claims & flow", "Work & read budgets", "Two communicating paths",
         "Two uses of a seam", "Stroke & interpretation", "A fork with two owners",
-        "Capitals without a box", "Two orders of E", "Straight capital atlas"];
+        "Capitals without a box", "Two orders of E", "Straight capital atlas", "Curves in capitals"];
     public int Chapter { get; private set; }
     public int A = 1, B = 3, Mode, Control = 1, Variant, Steps;
     public event Action? Changed;
@@ -98,7 +99,8 @@ public sealed partial class ExplorerSession
         5 => OppositionPage(), 6 => MemoryPage(), 7 => PotentialPage(), 8 => PassagePage(false), 9 => PassagePage(true),
         10 => SaturationPage(), 11 => RectanglePage(), 12 => ContourPage(), 13 => RepetitionPage(), 14 => CompositionPage(),
         15 => BoundaryPage(), 16 => CyclePage(), 17 => WorkPage(), 18 => PathExchangePage(),
-        19 => HousePage(), 20 => StrokePage(), 21 => ForkPage(), 22 => CapitalPage(), 23 => LandmarkPage(), _ => StraightCapitalPage()
+        19 => HousePage(), 20 => StrokePage(), 21 => ForkPage(), 22 => CapitalPage(), 23 => LandmarkPage(),
+        24 => StraightCapitalPage(), _ => CurvedCapitalPage()
     };
     private Choice Choose(ExplorerPage p, string label, string[] choices, int selected, Action<int> change, bool browseWithArrows = false)
     {

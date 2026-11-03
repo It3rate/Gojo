@@ -122,6 +122,8 @@ internal sealed class EncodingCanvas : Control
 
 internal sealed class StructureCanvas : Control
 {
+    private readonly Dictionary<DrawingItem, Geometry> curves = [];
+    private static readonly Pen CurveHit = new(Palette.Ink, 14);
     private ExplorerPage page;
     private readonly FocusLink focus;
     private double scale = 1, dx, dy;
@@ -151,7 +153,14 @@ internal sealed class StructureCanvas : Control
             e.Handled = true;
         };
     }
-    public void SetPage(ExplorerPage next) { page = next; InvalidateVisual(); }
+    public void SetPage(ExplorerPage next)
+    {
+        page = next;
+        curves.Clear();
+        foreach (var item in page.Drawing.Where(d => d.PathData != null))
+            curves[item] = Geometry.Parse(item.PathData!);
+        InvalidateVisual();
+    }
     internal DrawingItem? Hit(Point screen)
     {
         var pt = new Point((screen.X - dx) / scale, (screen.Y - dy) / scale);
@@ -163,6 +172,8 @@ internal sealed class StructureCanvas : Control
         // near its centre so the same site can light up in every attached run.
         foreach (var item in page.Drawing.Where(d => d.Kind == "circle" && d.X2 <= 8).Reverse())
             if (Math.Pow(pt.X - item.X, 2) + Math.Pow(pt.Y - item.Y, 2) <= Math.Pow(item.X2 + 3, 2)) return item;
+        foreach (var (item, path) in curves.Reverse())
+            if (path.StrokeContains(CurveHit, pt)) return item;
         foreach (var item in page.Drawing.Where(d => d.Kind is "edge" or "stroke").Reverse())
         {
             var vx = item.X2 - item.X; var vy = item.Y2 - item.Y;
@@ -196,6 +207,7 @@ internal sealed class StructureCanvas : Control
                 c.DrawText(label, new(item.X - label.Width / 2, rect.Bottom - label.Height - 2));
             }
             if (item.Kind == "circle") c.DrawEllipse(null, pen, new(item.X, item.Y), item.X2, item.X2);
+            if (item.PathData != null) c.DrawGeometry(null, pen, curves[item]);
             if (item.Kind == "stroke") c.DrawLine(pen, new(item.X, item.Y), new(item.X2, item.Y2));
             if (item.Kind == "edge")
             {

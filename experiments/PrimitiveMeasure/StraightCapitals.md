@@ -12,6 +12,7 @@ K, L, M, N, T, V, W, X, Y and Z. There are 15 letter labels and 17 supplied
 constructions. I has plain and barred forms. X has a projected crossing and a
 joined variant. B, C, D, G, J, O, P, Q, R, S and U use curves in the selected
 style. Angular substitutions for those letters would expand the roster.
+Their curved constructions are available in the [curved capitals experiment](CurvedCapitals.md).
 
 ## How to build each letter
 

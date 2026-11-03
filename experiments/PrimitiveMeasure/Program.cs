@@ -1,5 +1,18 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--curved-capitals"))
+{
+    for (var i = 0; i < CurvedCapitals.Names.Count; i++)
+    {
+        var ink = CurvedCapitals.Ink(i);
+        var read = ink.Read();
+        Console.WriteLine($"{CurvedCapitals.Names[i],-26} loops={read.Loops} {read.Enter} -> {read.Leave} " +
+            $"bend={read.BendSupport:X2} spans={Convert.ToHexString(ink.Catalogue.EdgeBytes())} drives={Convert.ToHexString(ink.DriveBytes())} " +
+            $"coarse matches=[{string.Join(", ", CurvedCapitals.Compatible(ink.Read(false)))}]");
+    }
+    return;
+}
+
 if (args.Contains("--straight-capitals"))
 {
     foreach (var name in StraightCapitals.Names)

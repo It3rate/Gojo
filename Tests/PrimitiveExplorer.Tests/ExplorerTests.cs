@@ -5,6 +5,30 @@ namespace Gojo.PrimitiveExplorer.Tests;
 public sealed class ExplorerTests
 {
     [Fact]
+    public void Curve_guides_follow_the_selection_and_construction_ink_stays_separate()
+    {
+        var session = new ExplorerSession(); session.Navigate(25);
+        var names = Gojo.Experiments.PrimitiveMeasure.CurvedCapitals.Names;
+        for (var i = 0; i < names.Count; i++)
+        {
+            session.Mode = i;
+            var page = session.Read();
+            Assert.False(string.IsNullOrWhiteSpace(page.DrawingGuide!.Value.Text));
+            Assert.Equal(names.Count, page.Drawing.Count(item => item.Selects.HasValue));
+        }
+        session.Mode = names.ToList().IndexOf("C · gap in O");
+        var ink = session.Read();
+        Assert.Single(ink.Drawing, item => item.Key == "edge0" && item.PathData != null && !item.Uncertain);
+        Assert.DoesNotContain(ink.Drawing, item => item.Key == "edge1");
+        session.Variant = 1;
+        var source = session.Read();
+        Assert.Single(source.Drawing, item => item.Key == "edge1" && item.PathData != null && item.Uncertain);
+        Assert.Equal(ink.Result, source.Result);
+        session.Control = 0;
+        Assert.DoesNotContain(session.Read().Drawing, item => item.Key == "edge0" && item.PathData != null);
+    }
+
+    [Fact]
     public void Each_letter_tile_selects_its_own_recipe_and_preserves_the_comparison_settings()
     {
         var session = new ExplorerSession();

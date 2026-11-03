@@ -24,6 +24,7 @@
   <ItemGroup>
     <Compile Include="../Gojo.PrimitiveExplorer/*.cs" Link="Shared/%(Filename)%(Extension)" />
     <EmbeddedResource Include="../../experiments/PrimitiveMeasure/StraightCapitals.md" LogicalName="StraightCapitals.md" />
+    <EmbeddedResource Include="../../experiments/PrimitiveMeasure/CurvedCapitals.md" LogicalName="CurvedCapitals.md" />
     <Compile Include="../../experiments/PrimitiveMeasure/*.cs" Exclude="../../experiments/PrimitiveMeasure/Program.cs" Link="Primitive/%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

@@ -27,12 +27,47 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const fork = process.argv.includes('--fork');
     const capitals = process.argv.includes('--capitals');
     const straight = process.argv.includes('--straight-capitals');
-    await page.goto(base + '/encoding/explorer/?layer=' + (straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const curves = process.argv.includes('--curved-capitals');
+    await page.goto(base + '/encoding/explorer/?layer=' + (curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (curves) {
+      const capture = name => page.screenshot({path:path.join(output,name+'.png')});
+      const witnesses = () => page.screenshot({clip:{x:265,y:886,width:980,height:25}});
+      const clickTile = async (column,row) => {
+        await page.mouse.click(1071+column*51,435+row*46);
+        await page.waitForTimeout(220);
+      };
+      await capture('rounded-D');
+      await select(495,0);
+      const coarse = await witnesses();
+      await clickTile(1,0);
+      assert.ok(coarse.equals(await witnesses()),'The two D forms should agree with the interior withdrawn.');
+      await select(495,1);
+      assert.ok(!coarse.equals(await witnesses()),'The two interior corners should narrow the comparison.');
+      await capture('angular-D');
+      await clickTile(0,1); // retained circle with one arc omitted
+      await select(675,1); await capture('gapped-O');
+      const openInk = await witnesses();
+      await select(495,2);
+      assert.ok(!openInk.equals(await witnesses()),'Reading the retained radial source should narrow the compatible C constructions.');
+      await capture('gapped-O-source');
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(),/Curves in capitals/);
+      assert.equal(await notes.locator('#how-to-build-each-letter ~ ul').first().locator('li').count(),17);
+      await notes.close();
+      await clickTile(2,1); // O
+      await capture('radial-O');
+      await page.keyboard.press('ArrowRight');
+      await capture('two-bowls-B');
+      assert.deepEqual(errors,[]);
+      console.log('Curved capitals: D evidence withdrawal and restoration, C source overlay, radial O, keyboard selection and construction notes checked.');
+      return;
     }
     if (straight) {
       const capture = name => page.screenshot({path:path.join(output, name + '.png')});

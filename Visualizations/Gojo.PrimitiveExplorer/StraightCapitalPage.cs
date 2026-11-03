@@ -5,11 +5,11 @@ namespace Gojo.PrimitiveExplorer;
 public sealed partial class ExplorerSession
 {
     // The atlas and its published notes read the same verbal recipes.
-    private static readonly Lazy<Dictionary<string, string>> CapitalRecipes = new(ReadCapitalRecipes);
+    private static readonly Lazy<Dictionary<string, string>> CapitalRecipes = new(() => ReadCapitalRecipes("StraightCapitals.md"));
 
-    private static Dictionary<string, string> ReadCapitalRecipes()
+    private static Dictionary<string, string> ReadCapitalRecipes(string source)
     {
-        using var notes = new StreamReader(typeof(ExplorerSession).Assembly.GetManifestResourceStream("StraightCapitals.md")!);
+        using var notes = new StreamReader(typeof(ExplorerSession).Assembly.GetManifestResourceStream(source)!);
         var recipes = new Dictionary<string, string>();
         while (notes.ReadLine() is { } heading && heading != "## How to build each letter") { }
         while (notes.ReadLine() is { } line && !line.StartsWith("## ", StringComparison.Ordinal))
