@@ -30,7 +30,7 @@ public sealed partial class ExplorerSession
     {
         var p = new ExplorerPage("Which capitals can a stroke graph distinguish?",
             "Rotate the illustration with the ground unbound. The reader sees shared sites and ordered runs. On N or Z, try attaching a local ground.", "FrameFreeCapitals.md");
-        Choose(p, "Construction", CapitalStudy.Labels.ToArray(), Mode, n => Mode = n);
+        Choose(p, "Construction", CapitalStudy.Labels.ToArray(), Mode, n => Mode = n, browseWithArrows: true);
         Choose(p, "Rotate illustration", ["Original", "Quarter turn", "Half turn", "Three quarters"], Variant, n => Variant = n);
         Choose(p, "Local ground", ["Attach along / perpendicular", "Unbound"], Control, n => Control = n);
         var label = CapitalStudy.Labels[Mode];

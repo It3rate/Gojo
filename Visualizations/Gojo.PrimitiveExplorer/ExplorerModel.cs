@@ -8,8 +8,11 @@ public sealed record BitMark(int Offset, int Width, string[] Keys, string Label)
 public sealed record EncodingBlock(string Title, string Note, byte[] Bytes, int UsedBits,
     BitMark[] Marks, string Key);
 public sealed record DrawingItem(string Kind, string Key, string Label, string Detail,
-    double X, double Y, double X2 = 0, double Y2 = 0, bool Active = false, bool Uncertain = false);
-public sealed record Choice(string Label, string[] Values, int Selected, Action<int> Change);
+    double X, double Y, double X2 = 0, double Y2 = 0, bool Active = false, bool Uncertain = false)
+{
+    public (Choice Choice, int Index)? Selects { get; init; }
+}
+public sealed record Choice(string Label, string[] Values, int Selected, Action<int> Change, bool BrowseWithArrows = false);
 public sealed record ExplorerAction(string Label, Action Run);
 
 public sealed class ExplorerPage(string title, string intro, string source)
@@ -96,8 +99,12 @@ public sealed partial class ExplorerSession
         15 => BoundaryPage(), 16 => CyclePage(), 17 => WorkPage(), 18 => PathExchangePage(),
         19 => HousePage(), 20 => StrokePage(), 21 => ForkPage(), 22 => CapitalPage(), 23 => LandmarkPage(), _ => StraightCapitalPage()
     };
-    private void Choose(ExplorerPage p, string label, string[] choices, int selected, Action<int> change) =>
-        p.Choices.Add(new(label, choices, selected, n => { change(n); Steps = 0; Refresh(); }));
+    private Choice Choose(ExplorerPage p, string label, string[] choices, int selected, Action<int> change, bool browseWithArrows = false)
+    {
+        var choice = new Choice(label, choices, selected, n => { change(n); Steps = 0; Refresh(); }, browseWithArrows);
+        p.Choices.Add(choice);
+        return choice;
+    }
     private void Stepper(ExplorerPage p, int maximum = 40, string label = "Advance one beat")
     {
         p.Actions.Add(new(label, () => { Steps = Math.Min(maximum, Steps + 1); Refresh(); }));

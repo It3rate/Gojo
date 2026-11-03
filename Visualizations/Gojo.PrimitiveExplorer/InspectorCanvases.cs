@@ -125,18 +125,38 @@ internal sealed class StructureCanvas : Control
     private ExplorerPage page;
     private readonly FocusLink focus;
     private double scale = 1, dx, dy;
+    private readonly Cursor hand = new(StandardCursorType.Hand);
+    public event Action<Choice, int>? ChoicePicked;
     public StructureCanvas(ExplorerPage page, FocusLink focus)
     {
         this.page = page; this.focus = focus; MinHeight = 280; Focusable = true;
         focus.Changed += InvalidateVisual;
-        PointerMoved += (_, e) => { var hit = Hit(e.GetPosition(this)); focus.Point(hit?.Key, hit?.Detail); };
+        PointerMoved += (_, e) =>
+        {
+            var hit = Hit(e.GetPosition(this));
+            Cursor = hit?.Selects is null ? null : hand;
+            focus.Point(hit?.Key, hit?.Detail);
+        };
         PointerExited += (_, _) => focus.Point(null);
-        PointerPressed += (_, e) => { focus.Pin(Hit(e.GetPosition(this))?.Key); e.Handled = true; Focus(); };
+        PointerPressed += (_, e) =>
+        {
+            var hit = Hit(e.GetPosition(this));
+            if (hit?.Selects is not null) return;
+            focus.Pin(hit?.Key); e.Handled = true; Focus();
+        };
+        Tapped += (_, e) =>
+        {
+            if (Hit(e.GetPosition(this))?.Selects is not { } pick) return;
+            ChoicePicked?.Invoke(pick.Choice, pick.Index);
+            e.Handled = true;
+        };
     }
     public void SetPage(ExplorerPage next) { page = next; InvalidateVisual(); }
     internal DrawingItem? Hit(Point screen)
     {
         var pt = new Point((screen.X - dx) / scale, (screen.Y - dy) / scale);
+        foreach (var tile in page.Drawing.Where(d => d.Selects.HasValue))
+            if (TileBounds(tile).Contains(pt)) return tile;
         foreach (var item in page.Drawing.Where(d => d.Kind == "node").Reverse())
             if (new Rect(item.X - NodeWidth(item) / 2, item.Y - 23, NodeWidth(item), 46).Contains(pt)) return item;
         // Interior landmarks lie on top of strokes. Prefer the small marker
@@ -153,6 +173,7 @@ internal sealed class StructureCanvas : Control
             if (Math.Abs(Math.Sqrt(Math.Pow(pt.X - item.X, 2) + Math.Pow(pt.Y - item.Y, 2)) - item.X2) < 12) return item;
         return null;
     }
+    private static Rect TileBounds(DrawingItem tile) => new(tile.X - tile.X2 / 2, tile.Y - tile.Y2 / 2, tile.X2, tile.Y2);
     private static double NodeWidth(DrawingItem item) => Math.Clamp(Palette.Text(item.Label, 12, Palette.Ink).Width + 26, 58, 192);
     public override void Render(DrawingContext c)
     {
@@ -166,6 +187,14 @@ internal sealed class StructureCanvas : Control
             var selected = focus.Key == item.Key && item.Key.Length > 0;
             var ink = selected ? Palette.Orange : item.Active ? Palette.Teal : Palette.Muted;
             var pen = new Pen(ink, selected ? 3.5 : item.Active ? 2.5 : 1.7, item.Uncertain ? DashStyle.Dash : null);
+            if (item.Kind == "tile")
+            {
+                var rect = TileBounds(item);
+                c.DrawRectangle(item.Active ? Palette.Pale : Palette.White,
+                    new Pen(selected ? Palette.Orange : item.Active ? Palette.Teal : Palette.Line, item.Active ? 2 : 1), rect, 6, 6);
+                var label = Palette.Text(item.Label, 10, Palette.Ink, bold: item.Active);
+                c.DrawText(label, new(item.X - label.Width / 2, rect.Bottom - label.Height - 2));
+            }
             if (item.Kind == "circle") c.DrawEllipse(null, pen, new(item.X, item.Y), item.X2, item.X2);
             if (item.Kind == "stroke") c.DrawLine(pen, new(item.X, item.Y), new(item.X2, item.Y2));
             if (item.Kind == "edge")

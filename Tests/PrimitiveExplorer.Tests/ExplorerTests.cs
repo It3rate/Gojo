@@ -5,6 +5,37 @@ namespace Gojo.PrimitiveExplorer.Tests;
 public sealed class ExplorerTests
 {
     [Fact]
+    public void Each_letter_tile_selects_its_own_recipe_and_preserves_the_comparison_settings()
+    {
+        var session = new ExplorerSession();
+        session.Navigate(24);
+        session.Variant = 1;
+        session.Control = 0;
+        var names = Gojo.Experiments.PrimitiveMeasure.StraightCapitals.Names;
+        var recipes = new HashSet<string>();
+        foreach (var name in names.Reverse())
+        {
+            var page = session.Read();
+            var tiles = page.Drawing.Where(d => d.Selects.HasValue).ToArray();
+            Assert.Equal(names, tiles.Select(t => t.Label));
+            var tile = Assert.Single(tiles, t => t.Label == name);
+            var (choice, index) = tile.Selects!.Value;
+            Assert.Same(page.Choices[0], choice);
+            Assert.True(choice.BrowseWithArrows);
+            choice.Change(index);
+
+            var selected = session.Read();
+            Assert.Equal(name, Assert.Single(selected.Drawing, d => d.Selects.HasValue && d.Active).Label);
+            Assert.StartsWith(name + "  ·  ", selected.Intro);
+            var recipe = selected.Intro.Split("  ·  ")[1];
+            Assert.EndsWith(recipe, tile.Detail);
+            Assert.True(recipes.Add(recipe));
+            Assert.Equal(1, selected.Choices[1].Selected);
+            Assert.Equal(0, selected.Choices[2].Selected);
+        }
+    }
+
+    [Fact]
     public void Every_atlas_drawing_honours_the_qualitative_travel_and_origin_contacts()
     {
         var s = new ExplorerSession(); s.Navigate(24);

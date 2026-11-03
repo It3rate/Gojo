@@ -4,6 +4,23 @@ namespace Gojo.PrimitiveExplorer;
 
 public sealed partial class ExplorerSession
 {
+    // The atlas and its published notes read the same verbal recipes.
+    private static readonly Lazy<Dictionary<string, string>> CapitalRecipes = new(ReadCapitalRecipes);
+
+    private static Dictionary<string, string> ReadCapitalRecipes()
+    {
+        using var notes = new StreamReader(typeof(ExplorerSession).Assembly.GetManifestResourceStream("StraightCapitals.md")!);
+        var recipes = new Dictionary<string, string>();
+        while (notes.ReadLine() is { } heading && heading != "## How to build each letter") { }
+        while (notes.ReadLine() is { } line && !line.StartsWith("## ", StringComparison.Ordinal))
+        {
+            if (!line.StartsWith("- **", StringComparison.Ordinal)) continue;
+            var end = line.IndexOf("** ", 4, StringComparison.Ordinal);
+            if (end > 4) recipes.Add(line[4..end], line[(end + 3)..]);
+        }
+        return recipes;
+    }
+
     // Presentation only. The primitive project cannot access this realization.
     private static (int X, int Y)[] CapitalDrawing(string name) => name switch
     {
@@ -29,12 +46,15 @@ public sealed partial class ExplorerSession
 
     private ExplorerPage StraightCapitalPage()
     {
-        var p = new ExplorerPage("The straight capital atlas",
-            "Choose a letter, trace its joints or loop, then withdraw the ground. The reader compares the remaining ink with every construction in the roster.", "StraightCapitals.md");
-        Choose(p, "Construction", StraightCapitals.Names.ToArray(), Mode, n => Mode = n);
+        var name = StraightCapitals.Names[Mode];
+        var recipes = CapitalRecipes.Value;
+        var p = new ExplorerPage("The straight capital atlas", $"{name}  ·  {recipes[name]}", "StraightCapitals.md")
+        {
+            Status = "Click a letter in the grid. In Construction, use ← or ↑ for the previous form and → or ↓ for the next."
+        };
+        var construction = Choose(p, "Construction", StraightCapitals.Names.ToArray(), Mode, n => Mode = n, browseWithArrows: true);
         Choose(p, "Inspect", ["Whole glyph", "Joints and crossings", "Trace closed walks"], Variant, n => Variant = n);
         Choose(p, "Letter convention", ["Withdraw ground", "Bottom-left · positive right"], Control, n => Control = n);
-        var name = StraightCapitals.Names[Mode];
         var ink = StraightCapitals.Build(name, Control == 1);
         var layer = new StrokeFeatures(ink);
         var candidates = StraightCapitals.Candidates(ink);
@@ -95,20 +115,24 @@ public sealed partial class ExplorerSession
             p.Circle(key, detail, cx+xy.X, cy+xy.Y, Variant == 1 && (js.Length > 1 || j.Arms > 1) ? 8 : 3);
             p.Label(string.Join("/", js.Select(site => "s" + site.Site)), cx+xy.X+16, cy+xy.Y-17);
         }
-        p.Label("15 straight-stroke capitals", 516, 38);
-        var basic = StraightCapitals.Names.Where(s => s.Length == 1).ToArray();
-        for (var i = 0; i < basic.Length; i++)
+        p.Label("Choose a letter  ·  15 capitals, 17 forms", 512, 38);
+        for (var i = 0; i < construction.Values.Length; i++)
         {
-            var sample = StraightCapitals.Build(basic[i], false);
-            var xy = CapitalDrawing(basic[i]);
-            var x = 378 + (i % 5) * 67; var y = 100 + (i / 5) * 76;
+            var form = construction.Values[i];
+            var sample = StraightCapitals.Build(form, false);
+            var xy = CapitalDrawing(form);
+            var x = 378 + (i % 5) * 67; var y = 88 + (i / 5) * 64;
+            var key = "roster" + form;
+            var detail = $"Select {form}. {recipes[form]}";
+            p.Drawing.Add(new DrawingItem("tile", key, form, detail, x, y + 5, 61, 58, Active: i == Mode)
+                { Selects = (construction, i) });
             for (var r = 0; r < sample.RunCount; r++)
             {
                 var sites = sample.Run(r).Sites();
                 for (var s = 1; s < sites.Length; s++)
                 {
                     var a = xy[sites[s-1]]; var b = xy[sites[s]];
-                    p.Stroke("roster" + basic[i], "Catalogue example " + basic[i], x+a.X*.19,y+a.Y*.19,x+b.X*.19,y+b.Y*.19,false,candidates.Contains(basic[i]));
+                    p.Stroke(key, detail, x+a.X*.19,y+a.Y*.19,x+b.X*.19,y+b.Y*.19,false,i == Mode || candidates.Contains(form));
                 }
             }
         }

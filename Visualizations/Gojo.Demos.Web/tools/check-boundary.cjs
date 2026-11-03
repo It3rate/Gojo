@@ -37,6 +37,39 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     if (straight) {
       const capture = name => page.screenshot({path:path.join(output, name + '.png')});
       const footer = () => page.screenshot({clip:{x:262,y:883,width:1060,height:45}});
+      // This app renders into one canvas. Compare the visible construction
+      // sentence, independently of the control that supplied the selection.
+      const recipe = () => page.screenshot({clip:{x:420,y:156,width:1020,height:20}});
+      async function clickLetter(column, row, offset = 0) {
+        await page.mouse.click(1090 + column * 55 + offset, 390 + row * 53);
+        await page.waitForTimeout(180);
+        return recipe();
+      }
+      async function expectRecipe(expected, action) {
+        for (let i = 0; i < 12; i++) {
+          if (expected.equals(await recipe())) return;
+          await page.waitForTimeout(120);
+        }
+        throw Error(action + ' did not show the expected construction.');
+      }
+      const a = await recipe();
+      const e = await clickLetter(1, 0);
+      const f = await clickLetter(2, 0, 16); // white space inside the F tile
+      const z = await clickLetter(1, 3);
+      assert.equal(new Set([a,e,f,z].map(image => image.toString('base64'))).size, 4, 'Clicking the letters should change their recipes.');
+      for (const [key, expected] of [['ArrowRight',a], ['ArrowDown',e], ['ArrowDown',f], ['ArrowLeft',e], ['ArrowUp',a], ['ArrowLeft',z]]) {
+        await page.keyboard.press(key); await expectRecipe(expected, key + ' from the grid selection');
+      }
+      await select(328, 0); // commit in the real dropdown, then keep browsing without a click
+      for (const [key, expected] of [['ArrowDown',e], ['ArrowRight',f], ['ArrowUp',e], ['ArrowLeft',a]]) {
+        await page.keyboard.press(key); await expectRecipe(expected, key + ' on the closed Construction dropdown');
+      }
+      await page.mouse.click(328, 245); // compare live while the list is open
+      await page.keyboard.press('ArrowRight'); await expectRecipe(e, 'Right in the open list');
+      await page.keyboard.press('ArrowDown'); await expectRecipe(f, 'Down in the open list');
+      await page.keyboard.press('Enter');
+      await page.keyboard.press('ArrowLeft'); await expectRecipe(e, 'Left after committing the open list');
+      await clickLetter(0, 0);
       await select(475, 2); await capture('A-loop');
       await select(328, 9); // N
       const bound = await footer();
@@ -51,8 +84,9 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
       const notes = await opened; await notes.waitForLoadState();
       assert.match(await notes.title(), /Straight capital atlas/);
       assert.ok((await notes.locator('main').innerText()).includes('42 04 00'));
+      assert.equal(await notes.locator('#how-to-build-each-letter ~ ul').first().locator('li').count(), 17);
       assert.deepEqual(errors, []);
-      console.log('Straight capital atlas: loop, ground withdrawal, separate and joined crossings, HTML chart checked.');
+      console.log('Straight capital atlas: clickable glyphs, repeated arrows, wraparound, open and closed dropdown focus, loop, crossings, ground and 17 published recipes checked.');
       return;
     }
     if (capitals) {

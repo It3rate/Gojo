@@ -13,6 +13,37 @@ constructions. I has plain and barred forms. X has a projected crossing and a
 joined variant. B, C, D, G, J, O, P, Q, R, S and U use curves in the selected
 style. Angular substitutions for those letters would expand the roster.
 
+## How to build each letter
+
+Click a letter in the grid to select that construction. With the Construction
+selector focused, Right or Down goes forward and Left or Up goes back. The
+arrows wrap between A and Z, including both versions of I and X along the way.
+The inspection and ground settings carry over as you compare letters.
+
+Read these directions with the letter upright. A point *partway along* a line
+can be anywhere between its ends. The line continues through that point. Two
+lines that *share* a point meet at the same ink site. The lengths, exact
+slopes and spacing can vary. These recipes describe how the parts fit
+together. The writing history separately records when the pen lifts.
+
+- **A** From one shared tip, draw a leg down-left and another down-right. Join a point partway down each leg with a horizontal bar. The bar closes the triangle above it.
+- **E** Draw a vertical spine. Extend a horizontal arm to the right from its top, another from partway down, and a third from its bottom.
+- **F** Draw a vertical spine. Extend two horizontal arms to the right, one from the top and one from partway down. Leave the bottom end free.
+- **H** Draw two separate vertical legs. Join a point partway down the left leg to a point partway down the right with a horizontal bar. Both legs continue past the bar.
+- **I** Draw one straight vertical stroke from top to bottom.
+- **Barred I** Draw two horizontal bars, one above the other. Join an interior point on each with a vertical stem. Both bars extend to either side of the stem.
+- **K** Draw a vertical spine. From the same point partway down it, send one diagonal up-right and another down-right. The spine runs through the joint.
+- **L** Draw straight down. At the bottom, turn right and draw a horizontal foot.
+- **M** Start at the lower left and go straight up. Go down-right to an interior valley, then up-right to the other peak. Finish straight down.
+- **N** Start at the lower left and go straight up. Draw a diagonal down-right to the bottom of the other upright, then go straight up again.
+- **T** Draw one horizontal bar. From a point between its ends, draw a vertical stem down. The bar continues on both sides of the joint.
+- **V** Start at the upper left. Go down-right to one low point, then up-right from that same point.
+- **W** Start at the upper left. Go down-right, up-right, down-right and up-right. This makes two valleys on the bottom with a peak between them.
+- **X** Draw a diagonal from upper left to lower right. Cross it with one from lower left to upper right. Each keeps its own point at the crossing, so you can only follow the same diagonal through.
+- **Joined X** Draw the same two crossing diagonals. Give them one shared point where they cross. You can now trace a path from either diagonal onto the other.
+- **Y** From the upper left and upper right, draw two diagonals down to one shared point. From that joint, draw a vertical stem down.
+- **Z** Start at the upper left and go horizontally right. Go diagonally down-left to the bottom, then horizontally right again.
+
 ## The orientation agreement
 
 Every new example starts with the same letter convention. Two ordered

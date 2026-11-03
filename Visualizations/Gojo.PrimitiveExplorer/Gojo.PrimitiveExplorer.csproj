@@ -11,5 +11,6 @@
     <PackageReference Include="Avalonia.Skia" Version="11.3.17" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.17" />
     <ProjectReference Include="../../experiments/PrimitiveMeasure/PrimitiveMeasure.csproj" />
+    <EmbeddedResource Include="../../experiments/PrimitiveMeasure/StraightCapitals.md" LogicalName="StraightCapitals.md" />
   </ItemGroup>
 </Project>

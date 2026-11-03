@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -56,6 +57,7 @@ internal sealed class ExplorerWindow : Window
     private readonly ScrollViewer numericScroll;
     private ExplorerPage page;
     private readonly List<Button> chapters = [];
+    private readonly List<ComboBox> selectors = [];
     private bool rebuild;
     private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(650) };
     private readonly Button play = Button("Play");
@@ -71,6 +73,12 @@ internal sealed class ExplorerWindow : Window
         session.Navigate(BrowserProgram.InitialLayer() - 1);
 #endif
         page = session.Read(); encoding = new(page, focus); structure = new(page, focus);
+        structure.ChoicePicked += (choice, index) =>
+        {
+            var select = selectors[page.Choices.IndexOf(choice)];
+            select.Focus(NavigationMethod.Directional);
+            select.SelectedIndex = index;
+        };
         numericScroll = new ScrollViewer { Content = encoding, HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled };
         var shell = new Grid { RowDefinitions = new("78,*"), Background = Palette.Paper };
         var mast = new Grid { ColumnDefinitions = new("220,*,Auto"), Margin = new Thickness(24, 14) };
@@ -135,19 +143,30 @@ internal sealed class ExplorerWindow : Window
     private void Stop() { timer.Stop(); play.Content = "Play"; }
     private void Refresh()
     {
+        var previous = page;
         rebuild = true; page = session.Read();
         title.Text = page.Title; intro.Text = page.Intro; result.Text = page.Result; boundary.Text = page.Boundary;
         number.Text = $"LAYER {session.Chapter + 1:00} / {ExplorerSession.Chapters.Length:00}"; number.Foreground = Palette.Teal;
         status.Text = page.Status; status.Foreground = Palette.Muted;
         events.Text = page.Events.Count == 0 ? "Change a control to inspect the cause and effect.\nThe diagrams do not write back into the kernel." : string.Join('\n', page.Events.TakeLast(3));
-        controls.Children.Clear();
-        foreach (var choice in page.Choices)
+        // Replacing a focused ComboBox during SelectionChanged sends the next
+        // arrow to the chapter list. Reuse the live controls across reads.
+        if (selectors.Count != page.Choices.Count ||
+            !previous.Choices.Select(c => c.Label).SequenceEqual(page.Choices.Select(c => c.Label)))
         {
-            var stack = new StackPanel { Spacing = 5 }; stack.Children.Add(Text(choice.Label, 11, true));
-            var select = new ComboBox { ItemsSource = choice.Values, SelectedIndex = choice.Selected, MinWidth = 140, MaxWidth = 270, FontSize = 12, Background = Palette.White, Foreground = Palette.Ink };
-            select.SelectionChanged += (_, _) => { if (!rebuild && select.SelectedIndex >= 0 && select.SelectedIndex != choice.Selected) { Stop(); choice.Change(select.SelectedIndex); } };
-            stack.Children.Add(select); controls.Children.Add(stack);
+            controls.Children.Clear();
+            selectors.Clear();
+            for (var i = 0; i < page.Choices.Count; i++) AddSelector(i);
         }
+        for (var i = 0; i < selectors.Count; i++)
+        {
+            var select = selectors[i];
+            var choice = page.Choices[i];
+            if (select.ItemsSource is not string[] items || !items.SequenceEqual(choice.Values))
+                select.ItemsSource = choice.Values;
+            select.SelectedIndex = choice.Selected;
+        }
+        while (controls.Children.Count > selectors.Count) controls.Children.RemoveAt(controls.Children.Count - 1);
         foreach (var action in page.Actions)
         {
             var b = Button(action.Label); b.VerticalAlignment = VerticalAlignment.Bottom; b.Click += (_, _) => { Stop(); action.Run(); }; controls.Children.Add(b);
@@ -157,6 +176,42 @@ internal sealed class ExplorerWindow : Window
         for (var i = 0; i < chapters.Count; i++) { chapters[i].Background = i == session.Chapter ? Palette.Pale : Brushes.Transparent; chapters[i].Foreground = i == session.Chapter ? Palette.Teal : Palette.Ink; }
         rebuild = false;
         focus.Point(null);
+    }
+
+    private void AddSelector(int index)
+    {
+        var stack = new StackPanel { Spacing = 5 };
+        stack.Children.Add(Text(page.Choices[index].Label, 11, true));
+        var select = new ComboBox { MinWidth = 140, MaxWidth = 270, FontSize = 12, Background = Palette.White, Foreground = Palette.Ink };
+        select.SelectionChanged += (_, _) =>
+        {
+            if (rebuild || select.SelectedIndex < 0) return;
+            var choice = page.Choices[index];
+            if (select.SelectedIndex == choice.Selected) return;
+            Stop();
+            if (choice.BrowseWithArrows) focus.Clear();
+            choice.Change(select.SelectedIndex);
+        };
+        select.AddHandler(KeyDownEvent, (_, e) =>
+        {
+            var choice = page.Choices[index];
+            if (!choice.BrowseWithArrows || e.KeyModifiers != KeyModifiers.None) return;
+            var count = choice.Values.Length;
+            var next = e.Key switch
+            {
+                Key.Left or Key.Up => (select.SelectedIndex + count - 1) % count,
+                Key.Right or Key.Down => (select.SelectedIndex + 1) % count,
+                Key.Home => 0,
+                Key.End => count - 1,
+                _ => -1
+            };
+            if (next < 0) return;
+            e.Handled = true;
+            select.SelectedIndex = next;
+        }, RoutingStrategies.Tunnel);
+        stack.Children.Add(select);
+        controls.Children.Add(stack);
+        selectors.Add(select);
     }
 
     private void OpenNotes()
