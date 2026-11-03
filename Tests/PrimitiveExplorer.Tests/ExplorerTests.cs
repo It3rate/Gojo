@@ -5,6 +5,23 @@ namespace Gojo.PrimitiveExplorer.Tests;
 public sealed class ExplorerTests
 {
     [Fact]
+    public void A_proposed_completion_cannot_supply_the_hidden_vertical_observation()
+    {
+        var session = new ExplorerSession(); session.Navigate(28);
+        session.Read().Choices[2].Change(1);
+        var b = session.Read();
+        Assert.Equal(["b","p"],b.Choices[3].Values);
+        b.Choices[3].Change(1);
+        var p = session.Read();
+        Assert.Equal(b.Result,p.Result);
+        Assert.DoesNotContain(p.Blocks,block=>block.Title=="Vertical witness");
+        Assert.Contains(p.Blocks,block=>block.Title=="Horizontal witness");
+        Assert.NotEqual(b.Drawing.First(item=>item.PathData!=null).PathData,
+            p.Drawing.First(item=>item.PathData!=null).PathData);
+        p.Choices[2].Change(0);
+        Assert.Equal(["b"],session.Read().Choices[3].Values);
+    }
+    [Fact]
     public void Inspecting_the_other_bowl_keeps_the_actual_push_and_reset_restores_both()
     {
         var session = new ExplorerSession(); session.Navigate(27);

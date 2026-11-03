@@ -30,12 +30,49 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const curves = process.argv.includes('--curved-capitals');
     const gap = process.argv.includes('--glyph-gap');
     const bowl = process.argv.includes('--bowl-reach');
-    await page.goto(base + '/encoding/explorer/?layer=' + (bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const glyph = process.argv.includes('--glyph-clues');
+    await page.goto(base + '/encoding/explorer/?layer=' + (glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (glyph) {
+      const capture = name => page.screenshot({path:path.join(output,name+'.png')});
+      const result = () => page.screenshot({clip:{x:262,y:882,width:1000,height:36}});
+      const picture = () => page.screenshot({clip:{x:1120,y:432,width:140,height:166}});
+      await capture('glyph-b');
+      const full = await result();
+      await select(655,8); await capture('withheld-loop');
+      assert.ok(!full.equals(await result()),'Withholding closure and extension should admit p.');
+      const partial = await result(), b = await picture();
+      await select(815,1); await capture('proposed-p');
+      assert.ok(partial.equals(await result()),'Drawing p must preserve the set of candidates.');
+      assert.ok(!b.equals(await picture()),'The two completions should draw different tails.');
+      await select(655,0); await select(483,4); await capture('digit-six');
+      await select(483,5); await capture('digit-nine');
+      await select(483,9); await capture('digit-eight');
+      await select(483,11); await capture('unmatched-double-bowl');
+      const rejected = await result();
+      await select(655,8); await capture('false-completion');
+      assert.ok(!rejected.equals(await result()),'Hiding the second loop should revive the two false completions.');
+      assert.ok(partial.equals(await result()),'The held-out sample should admit the same b and p.');
+      await select(330,1); await select(482,2);
+      await page.mouse.click(626,245); await page.waitForTimeout(400); await capture('merge-Y');
+      const merge = await result();
+      await select(330,2); await capture('branch-Y');
+      assert.ok(!merge.equals(await result()),'Reusing Y as a branch must change the read.');
+      await select(330,5); const both = await result(); await select(658,2);
+      assert.ok(!both.equals(await result()),'Reading the optional gate should narrow the prediction.');
+      await page.mouse.click(783,245); await page.waitForTimeout(400); await capture('turn-T');
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(),/Glyph clues and junctions/);
+      assert.match(await notes.locator('main').innerText(),/03 → 06/);
+      assert.deepEqual(errors,[]);
+      console.log('Glyph evidence withdrawal, two drawn completions, Y routes, T gate and HTML notes checked.');
+      return;
     }
     if (bowl) {
       const capture = name => page.screenshot({path:path.join(output,name+'.png')});

@@ -34,9 +34,9 @@ public sealed partial class ExplorerSession
     }
 
     private static void DrawPen(ExplorerPage p, CurveInk ink, string name, Point centre, double scale,
-        bool interior, bool source, string? tile = null, string prefix = "", double tangentScale = 1)
+        bool interior, bool source, string? tile = null, string prefix = "", double tangentScale = 1, Point[]? placement = null)
     {
-        var sites = CurveSites(name);
+        var sites = placement ?? CurveSites(name);
         var range = ink.Probe;
         Point Place(Point pos) => new(centre.X + pos.X * scale, centre.Y + pos.Y * scale);
         var wires = ink.DriveLinks().ToDictionary(row => row[0], row => row[1]);

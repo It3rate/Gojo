@@ -11,6 +11,7 @@ public sealed class PassageFixture
     public PassageConnections Present { get; }
     public PassageConnections Absent { get; }
     private readonly List<(PassageConnections Table, ConnectionRow Row)> steps = [];
+    public IReadOnlyList<(PassageConnections Table, ConnectionRow Row)> Steps => steps.AsReadOnly();
 
     public PassageFixture(int count, byte initial)
     {

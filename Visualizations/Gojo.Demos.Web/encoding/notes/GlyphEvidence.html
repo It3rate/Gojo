@@ -1,0 +1,218 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Glyph clues and junctions</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="glyph-clues-and-junctions">Glyph clues and junctions</h1>
+<p>Take a <strong>b</strong>. Keep its bowl on the right and hide whether the straight tail rises or drops. Both <strong>b</strong> and <strong>p</strong> fit. Now take a <strong>Y</strong>. Keep every stroke in place and change which arm introduces flow. The same joint can collect two approaches into the stem or let one arrival choose a branch. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=29">Open layer 29</a></p>
+<h2 id="what-the-reader-can-use">What the reader can use</h2>
+<p>The straight atlas already exposes ordered spans, joints, shared ink sites, projected crossings, connected components, independent loops with walk witnesses, and travel in a local upright frame. It records a separate writing order with lifts and reversed uses. The curve experiments add departure and arrival headings, turning during a span, corners between spans, radial sources and closure goals. A retained return across a C gap and the change in reach of a pushed D are further questions one can ask particular owners. These observations have different scopes. A closed walk alone does not establish the filled interior, the pen's route, or the identity of a letter. <a href="StraightCapitals.html">Straight capitals</a> · <a href="CurvedCapitals.html">Curves in capitals</a> · <a href="GlyphCompletion.html">Across a glyph gap</a> · <a href="BowlReach.html">Push a bowl outward</a></p>
+<p>This reader asks five questions at once. How many independent loops and free ends are there? Does the single free tail turn during its end span? Is the marked side of the bowl to the right of the tail joint? Is the free tip above that joint? A dotted or disconnected mark, for example, would need additional observations. The scope here is eleven supplied forms in one upright hand.</p>
+<table>
+<thead>
+<tr>
+<th>Sample</th>
+<th style="text-align: right;">Loops</th>
+<th style="text-align: right;">Free ends</th>
+<th>Tail at the free end</th>
+<th>Bowl relative to joint</th>
+<th>Tail tip relative to joint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>straight</td>
+<td>right</td>
+<td>above</td>
+</tr>
+<tr>
+<td>d</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>straight</td>
+<td>left</td>
+<td>above</td>
+</tr>
+<tr>
+<td>p</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>straight</td>
+<td>right</td>
+<td>below</td>
+</tr>
+<tr>
+<td>q</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>straight</td>
+<td>left</td>
+<td>below</td>
+</tr>
+<tr>
+<td>6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>curved</td>
+<td>right</td>
+<td>above</td>
+</tr>
+<tr>
+<td>9</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td>curved</td>
+<td>left</td>
+<td>below</td>
+</tr>
+<tr>
+<td>o, 0, O</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>8</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>c</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>For <strong>b</strong>, the ink spans are <code>[1,0]</code> up the shared straight side, <code>[0,3]</code> and <code>[3,1]</code> around the bowl, and <code>[0,2]</code> up to the free tip. There is a closed walk through the first three. Only site 2 occurs once among the span ends. Ordered horizontal sites <code>[0,3]</code> put the marked bowl site to the right of the joint. Ordered vertical sites <code>[0,2]</code> put the free tip above it. For <strong>p</strong> the tail attaches at site 1, and its vertical order is <code>[2,1]</code>. These are order comparisons without distances. A renderer chooses one spacing for a proposed completion.</p>
+<h3 id="try-withdrawing-evidence">Try withdrawing evidence</h3>
+<p>Select <strong>b</strong>, change <strong>Evidence</strong>, then use <strong>Try completion</strong> to draw each admitted construction. The left nodes are observations and the drawing is a proposal. Changing the proposal never contributes new evidence to the left.</p>
+<table>
+<thead>
+<tr>
+<th>Evidence withdrawn from b</th>
+<th>Surviving labels in this hand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>None</td>
+<td>b</td>
+</tr>
+<tr>
+<td>Vertical extension</td>
+<td>b, p</td>
+</tr>
+<tr>
+<td>Bowl side</td>
+<td>b, d</td>
+</tr>
+<tr>
+<td>Both axis reads</td>
+<td>b, d, p, q</td>
+</tr>
+<tr>
+<td>Whether the tail bends</td>
+<td>b, 6</td>
+</tr>
+<tr>
+<td>Closure and vertical extension</td>
+<td>b, p</td>
+</tr>
+<tr>
+<td>All except closure and free ends</td>
+<td>b, d, p, q, 6, 9</td>
+</tr>
+<tr>
+<td>All except closure</td>
+<td>b, d, p, q, 6, 9, o, 0, O</td>
+</tr>
+<tr>
+<td>All five</td>
+<td>All eleven</td>
+</tr>
+</tbody>
+</table>
+<p>Choose <strong>Hide loop &amp; extension</strong>. The reader sees one free end, a straight tail and a right-hand bowl landmark. Both surviving constructions <strong>predict one loop</strong>, even though the loop count was withheld. They disagree about whether to extend the tail up or down. The loop prediction appears underneath the drawing and its observation stays unreported. In the round family the trial deliberately supplies one radial construction for o, zero and capital O. Reading all five clues still leaves all three names. A shared writing line, relative size, a slashed variant, or surrounding characters would supply a different basis. Size alone would still leave identical forms possible.</p>
+<h3 id="a-plausible-completion-that-fails">A plausible completion that fails</h3>
+<p>Select <strong>Two bowls + tail</strong> under <strong>Observation</strong>. This held-out construction adds a second curved return on the opposite side of the same stem. It still has one straight free tail and the same marked site on the right. Hide the loop count and extension. The reader again proposes b and p, both with one loop. Restore all five clues. The observed count is two and <strong>no catalogue entry fits</strong>.</p>
+<p>There are two different strengths of prediction here. A complete nonempty finite ink graph with exactly one free end must contain at least one cycle. Every finite tree with an edge has at least two leaves. The stronger claim of <em>exactly</em> one loop came from the available examples and failed on the extra return. Seeing one tip through a crop would not establish the complete free-end count used in this argument.</p>
+<h2 id="a-route-through-a-joint">A route through a joint</h2>
+<p>The three local arm ports are <strong>left, right, stem</strong>. Each stores a reference to an ink run, a span slot on that run, and a reversal bit for travel <strong>toward</strong> the joint. An arrival selects a start site and an oriented approach. An output follows its bound span away from the joint. A whole glyph can admit several starts. Writing it with one pen would also require choosing the order of those starts and any lifts.</p>
+<table>
+<thead>
+<tr>
+<th>Incidence</th>
+<th>Left inlet</th>
+<th>Right inlet</th>
+<th>Stem inlet</th>
+<th>Packed arm bindings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Y, three run ends meet</td>
+<td><code>[0,0,0]</code></td>
+<td><code>[1,0,0]</code></td>
+<td><code>[2,0,1]</code></td>
+<td><code>40 20 01</code></td>
+</tr>
+<tr>
+<td>T, the bar continues through the joint</td>
+<td><code>[0,0,0]</code></td>
+<td><code>[0,1,1]</code></td>
+<td><code>[1,0,1]</code></td>
+<td><code>00 15 01</code></td>
+</tr>
+</tbody>
+</table>
+<p>There are two bits per field, low bit first. Actual transitions use the existing one-bit passage store. Its four sites in order are the left arm, right arm, stem and gate. The examples below use hex for whole store bytes. When both inlets need the same empty slot, the first passage row gets the first opportunity.</p>
+<table>
+<thead>
+<tr>
+<th>Reading of the joint</th>
+<th>Passage rows [source, gate, destination]</th>
+<th>Actual trace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Y as merge</td>
+<td>Open <code>[0,3,2]</code>, then open <code>[1,3,2]</code></td>
+<td>Left alone <code>01 → 04</code>; right alone <code>02 → 04</code>. Both offered <code>03 → 06</code> leaves the second waiting</td>
+</tr>
+<tr>
+<td>Y as branch</td>
+<td>If clear <code>[2,3,0]</code>, if set <code>[2,3,1]</code></td>
+<td>From the stem, clear <code>04 → 01</code> or set <code>0C → 0A</code></td>
+</tr>
+<tr>
+<td>T as two corners</td>
+<td>Open <code>[0,3,2]</code>, then open <code>[1,3,2]</code></td>
+<td>Arrival from either end of the bar turns down the stem</td>
+</tr>
+<tr>
+<td>T as blockage from below</td>
+<td>Open <code>[0,3,1]</code></td>
+<td>From the stem <code>04 → 04</code> stays held. From the left <code>01 → 02</code> passes across</td>
+</tr>
+<tr>
+<td>T as an optional turn</td>
+<td>If clear <code>[0,3,1]</code>, if set <code>[0,3,2]</code></td>
+<td>From the left, clear <code>01 → 02</code> travels across or set <code>09 → 0C</code> turns down</td>
+</tr>
+</tbody>
+</table>
+<p>Withhold the gate on the optional T. The reader predicts the right arm <strong>or</strong> the stem. Those two possible futures stay separate. Set the gate to run one actual trace. At this resolution an arriving pulse occupies an arm slot. The illustration draws its oriented use of an existing span. It does not integrate motion along a stroke or automatically color every branch.</p>
+<p>The merge-Y and corner-T share the very same passage rows. The T's two upper arms belong to successive slots of one straight run. The Y's belong to two different diagonal runs. One reader can therefore see the same collection behavior and another can see different shapes. This is a reusable example of a concept above the individual mark.</p>
+<h2 id="which-constructions-would-test-the-limits-next">Which constructions would test the limits next?</h2>
+<ul>
+<li><strong>i and j</strong> would test attaching a separate dot to a stem in the writing frame without creating an ink bridge. A shared baseline and a mid-height landmark would let two glyphs compare ascenders and descenders across their separate local origins.</li>
+<li><strong>a, g, 4 and 7</strong> would test multiple hands per label. A single-storey and double-storey construction or an open and closed 4 can have different loop counts. A crossed and uncrossed 7 can have different segment evidence.</li>
+<li>An unmarked gap in a handwritten bowl would test choosing between an observed gap, a possible closing stroke and a deliberately open letter. The experiment offers complete comparison forms. It does not extract missing spans from a photograph, learn an alphabet or prove which hand produced a mark.</li>
+</ul></main></html>
