@@ -56,6 +56,8 @@ corresponding experiment document in the repository.
 | Two uses of a seam | Shared versus independent edges, cut correspondence, boundary cancellation and meter orientation |
 | Stroke & interpretation | Add a proposed closing use or omit an interval of a template while retaining the source read |
 | A fork with two owners | Stale vacancy report, held offer, material handoff, arrival reply, wire cuts and passive refusal meter |
+| Capitals without a box | H, A, E, N and Z, shared interior sites, rotation and optional local ground |
+| Two orders of E | Partial and contradictory spatial comparisons, possible completions and independent pen history |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

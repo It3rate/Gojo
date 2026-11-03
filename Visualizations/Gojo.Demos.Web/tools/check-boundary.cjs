@@ -25,12 +25,42 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const pathExchange = process.argv.includes('--path-exchange');
     const seamLadders = process.argv.includes('--seam-ladders');
     const fork = process.argv.includes('--fork');
-    await page.goto(base + '/encoding/explorer/?layer=' + (fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const capitals = process.argv.includes('--capitals');
+    await page.goto(base + '/encoding/explorer/?layer=' + (capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (capitals) {
+      const capture = name => page.screenshot({ path: path.join(output, name + '.png') });
+      const footer = () => page.screenshot({ clip: { x: 262, y: 883, width: 1060, height: 45 } });
+      await capture('capital-H');
+      await select(328, 3);
+      const unbound = await footer();
+      await select(485, 1);
+      await capture('rotated-N');
+      assert.ok(unbound.equals(await footer()), 'Turning the illustration should preserve candidates.');
+      await select(630, 0);
+      await capture('grounded-N');
+      assert.ok(!unbound.equals(await footer()), 'The supplied ground should change the N/Z read.');
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430, 902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(), /Capitals without a construction box/);
+      assert.ok((await notes.locator('main').innerText()).includes('62 EA'));
+      await notes.close();
+      await page.goto(base + '/encoding/explorer/?layer=24');
+      await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(5000);
+      await select(330, 1);
+      const partial = await footer();
+      await select(536, 1); await capture('partial-E');
+      assert.ok(partial.equals(await footer()), 'Switching writers should preserve the spatial result.');
+      await select(330, 2); await capture('conflicting-E');
+      assert.ok(!partial.equals(await footer()), 'Contradictory evidence should change the read.');
+      assert.deepEqual(errors, []);
+      console.log('Capital comparisons, rotation, local ground, pen history, conflict and HTML notes exercised.');
+      return;
     }
     if (fork) {
       const capture = name => page.screenshot({ path: path.join(output, 'fork-' + name + '.png') });

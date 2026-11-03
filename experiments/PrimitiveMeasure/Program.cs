@@ -1,5 +1,18 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--capitals"))
+{
+    foreach (var label in CapitalStudy.Labels)
+    {
+        var ink = CapitalStudy.Build(label);
+        var incidence = ink.Incidence();
+        Console.WriteLine($"{label}: sites {incidence.Sites}, shared {incidence.SharedSites}, cycles {incidence.Cycles}, candidates {string.Join("/", CapitalStudy.Candidates(ink))}; with supplied ground {string.Join("/", CapitalStudy.Candidates(CapitalStudy.Build(label, ground: true)))}");
+    }
+    var partialSpine = CapitalStudy.Build("E", partialE: true).Run(0);
+    Console.WriteLine($"E spine: P/Q {partialSpine.Compare(0,1)}, Q/R {partialSpine.Compare(1,2)}");
+    return;
+}
+
 if (args.Contains("--fork"))
 {
     foreach (var tape in new[] { new ForkTape(false, false, 2, 4), new(false, false, 2), new(true, false), new(true, true) })

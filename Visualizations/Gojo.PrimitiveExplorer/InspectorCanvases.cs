@@ -139,6 +139,10 @@ internal sealed class StructureCanvas : Control
         var pt = new Point((screen.X - dx) / scale, (screen.Y - dy) / scale);
         foreach (var item in page.Drawing.Where(d => d.Kind == "node").Reverse())
             if (new Rect(item.X - NodeWidth(item) / 2, item.Y - 23, NodeWidth(item), 46).Contains(pt)) return item;
+        // Interior landmarks lie on top of strokes. Prefer the small marker
+        // near its centre so the same site can light up in every attached run.
+        foreach (var item in page.Drawing.Where(d => d.Kind == "circle" && d.X2 <= 8).Reverse())
+            if (Math.Pow(pt.X - item.X, 2) + Math.Pow(pt.Y - item.Y, 2) <= Math.Pow(item.X2 + 3, 2)) return item;
         foreach (var item in page.Drawing.Where(d => d.Kind is "edge" or "stroke").Reverse())
         {
             var vx = item.X2 - item.X; var vy = item.Y2 - item.Y;

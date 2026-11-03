@@ -81,7 +81,8 @@ public sealed partial class ExplorerSession
         "Refinement & correspondence", "Retained opposition", "Memory at zero", "Structural potential", "Passages & chains",
         "Conditionals", "Saturation & outlets", "Rectangle constraints", "Circles & polygons", "Repetition & stopping", "Composed patterns",
         "Closure & boundaries", "Cycles: claims & flow", "Work & read budgets", "Two communicating paths",
-        "Two uses of a seam", "Stroke & interpretation", "A fork with two owners"];
+        "Two uses of a seam", "Stroke & interpretation", "A fork with two owners",
+        "Capitals without a box", "Two orders of E"];
     public int Chapter { get; private set; }
     public int A = 1, B = 3, Mode, Control = 1, Variant, Steps;
     public event Action? Changed;
@@ -93,7 +94,7 @@ public sealed partial class ExplorerSession
         5 => OppositionPage(), 6 => MemoryPage(), 7 => PotentialPage(), 8 => PassagePage(false), 9 => PassagePage(true),
         10 => SaturationPage(), 11 => RectanglePage(), 12 => ContourPage(), 13 => RepetitionPage(), 14 => CompositionPage(),
         15 => BoundaryPage(), 16 => CyclePage(), 17 => WorkPage(), 18 => PathExchangePage(),
-        19 => HousePage(), 20 => StrokePage(), _ => ForkPage()
+        19 => HousePage(), 20 => StrokePage(), 21 => ForkPage(), 22 => CapitalPage(), _ => LandmarkPage()
     };
     private void Choose(ExplorerPage p, string label, string[] choices, int selected, Action<int> change) =>
         p.Choices.Add(new(label, choices, selected, n => { change(n); Steps = 0; Refresh(); }));

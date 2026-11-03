@@ -5,6 +5,24 @@ namespace Gojo.PrimitiveExplorer.Tests;
 public sealed class ExplorerTests
 {
     [Fact]
+    public void Rotated_N_and_upright_Z_have_the_same_ink_and_both_candidates_without_ground()
+    {
+        var s = new ExplorerSession(); s.Navigate(22); s.Mode = 3;
+        var original = s.Read();
+        s.Variant = 1;
+        var rotated = s.Read();
+        s.Mode = 4; s.Variant = 0;
+        var z = s.Read();
+        static (double,double,double,double)[] Geometry(ExplorerPage p) => p.Drawing.Where(d => d.Kind == "stroke")
+            .Select(d => (d.X,d.Y,d.X2,d.Y2)).ToArray();
+        Assert.Equal(Geometry(rotated), Geometry(z)); Assert.NotEqual(Geometry(original), Geometry(rotated));
+        Assert.Equal(original.Blocks.SelectMany(b => b.Bytes), rotated.Blocks.SelectMany(b => b.Bytes));
+        Assert.Equal("Compatible among H, A, E, N and Z: N or Z.", z.Result);
+        Assert.Equal(rotated.Result, z.Result);
+        s.Control = 0;
+        Assert.Equal("Compatible among H, A, E, N and Z: Z.", s.Read().Result);
+    }
+    [Fact]
     public void Closing_guard_holds_actual_flow_but_does_not_erase_topological_closure()
     {
         var session = new ExplorerSession(); session.Navigate(16); session.Control = 2; session.Steps = 6;
