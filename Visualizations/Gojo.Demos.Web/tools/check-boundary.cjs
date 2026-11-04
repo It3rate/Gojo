@@ -32,12 +32,33 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const bowl = process.argv.includes('--bowl-reach');
     const glyph = process.argv.includes('--glyph-clues');
     const writing = process.argv.includes('--writing-line');
-    await page.goto(base + '/encoding/explorer/?layer=' + (writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const paired = process.argv.includes('--paired-reach');
+    await page.goto(base + '/encoding/explorer/?layer=' + (paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (paired) {
+      const picture = () => page.screenshot({clip:{x:670,y:390,width:780,height:265}});
+      const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});
+      const initial = await picture();
+      await page.mouse.click(925,245); await page.mouse.move(1517,960); await page.waitForTimeout(400);
+      assert.ok(!initial.equals(await picture()), 'The waiting pulse should reach the inbox.');
+      await page.screenshot({path:path.join(output,'paired-reach.png')});
+      const either = await result();
+      await select(480, 1);
+      assert.ok(!either.equals(await result()), 'Independent tips admit both and neither.');
+      await select(480, 0); await select(330, 1); await select(645, 1);
+      await page.screenshot({path:path.join(output,'paired-mark.png')});
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(), /Two reaches, one choice/);
+      assert.match(await notes.locator('main').innerText(), /04 05/);
+      assert.deepEqual(errors, []);
+      console.log('Joint reach read, material handoff, alternative mark links and HTML notes checked.');
+      return;
     }
     if (writing) {
       const capture = name => page.screenshot({path:path.join(output,name+'.png')});

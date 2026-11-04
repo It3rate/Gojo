@@ -188,6 +188,22 @@ public sealed class ExplorerTests
     }
 
     [Fact]
+    public void The_same_public_relation_narrows_on_the_rail_and_on_dot_membership()
+    {
+        var session = new ExplorerSession();
+        session.Navigate(30);
+        Assert.Equal("Far · Left only or Right only.", session.Read().Result);
+        session.Read().Actions.Single(a => a.Label == "Try handoff").Run();
+        Assert.Equal(new byte[] { 2 }, session.Read().Blocks.Single(b => b.Title == "Receiver").Bytes);
+        session.Read().Choices.Single(c => c.Label == "Left evidence").Change(1);
+        Assert.Equal("Far · Right only.", session.Read().Result);
+        session.Read().Choices.Single(c => c.Label == "Construction").Change(1);
+        Assert.Equal("Dot ownership · Right only.", session.Read().Result);
+        session.Read().Choices.Single(c => c.Label == "Left evidence").Change(3);
+        Assert.Equal("Dot ownership · no supported reading.", session.Read().Result);
+    }
+
+    [Fact]
     public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
     {
         var session = new ExplorerSession();

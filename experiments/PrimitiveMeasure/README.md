@@ -15,6 +15,8 @@ or repeated body to inspect its actual encoding and result.
 dotnet run --project Visualizations/Gojo.PrimitiveExplorer
 ```
 
+The [paired reach experiment](PairedReach.md) tests overlap on an ordered rail, uncertain dot ownership and a peer that uses a joint read to release its own waiting pulse.
+
 The [straight capital atlas](StraightCapitals.md) covers 15 letters under a
 positive-right, positive-up convention with bottom-left zero. It traces actual
 loop spans and distinguishes a projected crossing from a shared ink junction.

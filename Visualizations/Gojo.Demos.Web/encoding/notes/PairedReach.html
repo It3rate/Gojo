@@ -1,0 +1,104 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Two reaches, one choice</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="two-reaches-one-choice">Two reaches, one choice</h1>
+<p>Slide two strips out from the same edge. Each tip can stop at <strong>Near</strong> or <strong>Far</strong>. Suppose exactly one goes to Far. Cover the tips. You can still mark where the overlap ends. Both strips cover Near, and only one reaches Far. Which strip is longer stays open. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=31">Try layer 31</a></p>
+<pre><code class="language-text">                   Origin       Near               Far
+Possibility 1      |============|==================|   left
+                   |============|                      right
+
+Possibility 2      |============|                      left
+                   |============|==================|   right
+</code></pre>
+<p>The spaces on the page are illustrative. The gauge supplies a common outward rail and two occupied spans that run from its first stop through their respective tips. Near and Far name distinct ordered stops. The experiment supplies no distance, unit or spacing.</p>
+<h2 id="what-crosses-the-boundary">What crosses the boundary</h2>
+<p>A public read keeps one bit for each <strong>complete possibility</strong>. In low-bit order these are <em>neither, left only, right only, both</em>. The mask <code>06</code> admits the two middle cases. It takes four bits to describe the alternatives for these two V roles. Each element still has its original three-bit O/D/V encoding.</p>
+<table>
+<thead>
+<tr>
+<th>Set the experiment to</th>
+<th>Public answer at Far</th>
+<th>Can the neighbor say exactly one reaches Far?</th>
+<th>Where can the overlap end?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exactly one</td>
+<td>Left only or right only · <code>06</code></td>
+<td>Yes</td>
+<td>Near</td>
+</tr>
+<tr>
+<td>Independent</td>
+<td>Any of the four pairs · <code>0F</code></td>
+<td>Open</td>
+<td>Near or Far</td>
+</tr>
+<tr>
+<td>Together</td>
+<td>Neither or both · <code>09</code></td>
+<td>No</td>
+<td>Near or Far. The two tips agree in this gauge.</td>
+</tr>
+<tr>
+<td>Exactly one, left observed off</td>
+<td>Right only · <code>04</code></td>
+<td>Yes</td>
+<td>Near. The right strip is longer.</td>
+</tr>
+<tr>
+<td>Attached left observer supplies no reading</td>
+<td>No supported pair · <code>00</code></td>
+<td>No reading</td>
+<td>No reading</td>
+</tr>
+</tbody>
+</table>
+<p><em>Independent</em> allows all combinations. It supplies no probabilities. With any of the first three settings an observer asking only about the left tip gets “maybe.” The right tip gives the same individual answer. Splitting the joint read into two such answers loses precisely what distinguishes these constructions.</p>
+<h2 id="encoding-chart">Encoding chart</h2>
+<table>
+<thead>
+<tr>
+<th>What is connected</th>
+<th>Stored or calculated bits</th>
+<th>How to read them</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Outward rail</td>
+<td>Site rows <code>[2] [0] [3] [1]</code> → <code>72</code></td>
+<td>Origin, Near, Far, Beyond in physical storage order. The site addresses themselves have no length ordering.</td>
+</tr>
+<tr>
+<td>Left and right tip dials</td>
+<td>Rows <code>[0,3] [0,3]</code> → <code>CC</code></td>
+<td>Each dial selects its resting or extended stop. Both spans start at the rail origin.</td>
+</tr>
+<tr>
+<td>Pair of dial settings</td>
+<td>Allowed mask <code>06</code></td>
+<td>The low V bit belongs to the left role, the next to the right. Setting pair index <code>1</code> or <code>2</code> is admitted.</td>
+</tr>
+<tr>
+<td>Read at one stop</td>
+<td>Four two-bit output fields</td>
+<td>Each field says which strips reach that stop under one complete setting. At Near all fields say both (<code>FF</code>). At Far the map preserves the input pair (<code>E4</code>). Beyond both tips all fields say neither (<code>00</code>).</td>
+</tr>
+<tr>
+<td>Compare tips</td>
+<td>Four fields → <code>E7</code></td>
+<td>The two output questions are “left reaches at least as far as right” and its converse. Both true means equal projected reach.</td>
+</tr>
+<tr>
+<td>Neighbor asks “exactly one?”</td>
+<td>Truth mask <code>06</code></td>
+<td>Test the entire public set against the question. When every admitted pair answers yes the output support is <code>02</code>, the ordinary resolved positive presence word.</td>
+</tr>
+</tbody>
+</table>
+<p>A zero <strong>map</strong> at Beyond gives one supported answer, <em>neither</em>, when a valid setting exists. A zero <strong>support mask</strong> admits no answer. A missing observation, an incompatible O/D observation, or evidence contradicted by the authored setting law can each produce that coarse result. Their source bindings and premises differ. An unwired observation imposes no extra constraint. A probe from a different rail requires an explicit correspondence before its address means anything here.</p>
+<h2 id="one-loose-dot">One loose dot</h2>
+<p>Switch the construction to <strong>One loose dot</strong>. Rows <code>[4,0] [4,2]</code> (bytes <code>04 05</code>, three bits per site) connect the same mark to two candidate stem heads. The two participation roles follow row order. With mask <code>06</code> exactly one link is active. A neighbor can act on “the mark belongs to one head” while either individual owner remains plausible. Witnessing that the left link is absent settles the right. Reversing the query to look for a link from a head back to the mark gives a different ordered relation. This is an authored membership experiment with separate ink components.</p>
+<h2 id="can-the-read-do-work">Can the read do work?</h2>
+<p>Choose <strong>Far</strong> and <strong>Try handoff</strong>. A peer connects the published relation to a guard on its own waiting pulse. Exactly-one support opens the passage to an offer. A second owner receives that whole pulse through its inbox. Reading the gauge again leaves the same possibilities, and a second request cannot deliver the pulse twice. Switch to independent settings and the unresolved guard leaves the pulse waiting. The tests also rewire the guard to ask “left reaches Far?” and exercise that same hold. <a href="WritingLine.html#reading-remembering-and-drawing-from-the-stem">Material handoff and held samples</a></p>
+<p>A separate test moves two independent local dials through their own passages. A single live comparison port reports <em>left farther</em>, then <em>right farther</em>, then <em>equal projected reach</em>. Each change follows from where a tip lands on the rail. No comparison of uncalibrated V magnitudes occurs.</p>
+<p>This bounded construction needs two dial settings per role and a supplied ordered rail. Arbitrary origins, partly ordered rails and discovery of the exactly-one law remain open. To run the behavior checks use <code>dotnet test Tests/PrimitiveMeasure.Tests --filter FullyQualifiedName~PairedReachTests</code>.</p></main></html>
