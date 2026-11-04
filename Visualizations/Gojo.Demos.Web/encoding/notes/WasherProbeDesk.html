@@ -1,0 +1,295 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Which test should run next?</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="which-test-should-run-next">Which test should run next?</h1>
+<p>At a factory test station, a controller tries identically loaded washer dispensers from one production batch. On each test it can listen for the dispenser’s confirmation signal, look at the tray’s occupancy lamp, or listen for a metal washer falling through the chute. It wants to learn how the batch behaves without opening a dispenser. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=35">Open the test station in layer 35</a></p>
+<p><strong>Start in All sensors and click Run next test.</strong> The controller asks for one washer and listens for a receipt. With the default batch it hears one. Four of the twelve possible designs could have done that. On its next test it withholds the first receipt and listens on the second beat. Now try a batch with a cut return wire. The first test gives silence, so the next question changes to “did anything reach the tray?” You choose the hidden batch for the experiment. The controller gets only the sensor reading.</p>
+<p><strong>Every test uses a fresh dispenser with the same loading and wiring.</strong> Within a test, a washer that falls stays in that tray. The setup makes observations comparable across tests and keeps the cost visible. A trial can spend several beats and release real parts. An unanswered test still spends its beats. <a href="WasherCounter.html">Earlier single-order experiment</a></p>
+<h2 id="four-things-to-try">Four things to try</h2>
+<table>
+<thead>
+<tr>
+<th>At the station</th>
+<th>What to look for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>With <strong>All sensors</strong>, choose <strong>Can two fall?</strong></td>
+<td>The desk skips its usual opening question. It holds back the first receipt and listens to the chute on beat two. One reading settles the material question even though the return lead may still be unknown.</td>
+</tr>
+<tr>
+<td>Select <strong>Old rack · chute</strong>, <strong>Retry · 2 · wired</strong>, and <strong>Tell batches apart</strong>. Run to a stop. Switch to <strong>Chute only</strong> and repeat.</td>
+<td>The original rack leaves two designs. The extra socket opens the return wire on beat one and listens for a second fall. Now the chute can reveal an electrical fault.</td>
+</tr>
+<tr>
+<td>Select <strong>Protect stock</strong> and ask <strong>Can two fall?</strong></td>
+<td>The desk blocks a test if <em>any</em> surviving design might release a second washer on that order. It can gather safer evidence first. In some batches the very action needed to resolve the risk remains forbidden.</td>
+</tr>
+<tr>
+<td>Select <strong>First read missing</strong>, then <strong>Inspect stuck lamp</strong>.</td>
+<td>A missing sample leaves all prior candidates alive. The inspection preset uses an empty dispenser whose lamp is stuck on. A later chute reading contradicts a prediction shared by every survivor. You can see the set become empty.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-makes-a-choice">What makes a choice</h2>
+<p>Each candidate has one contact in the desk’s twelve-bit memory. Each test socket has a row of measured predictions. The following path is local to this desk.</p>
+<pre><code class="language-text">live candidate bits AND a socket’s measured ON contacts  ──► possible ON
+live candidate bits AND their complement                 ──► possible OFF
+both possible ──► informative socket
+informative + wired + untried + affordable + safe ──► gate can open
+one shared activation ──► first open socket ──► real test ──► one sensor
+sensor support ──► retain compatible candidates ──► choose again
+</code></pre>
+<p>The desk prefers a test that directly answers its selected yes/no question when one is legal. <strong>Shorter test</strong> then uses physical row order, shortest first. <strong>Even split</strong> counts the contacts on the smaller side of each eligible partition and favors the largest such count, breaking ties in row order. Neither choice uses a probability of a fault. Two explanations that have exactly the same readings still occupy two contacts.</p>
+<p>The ten outgoing passages share one activation site. Their packed endpoint rows are <code>[0,1,2]</code>, <code>[0,3,4]</code> through <code>[0,19,20]</code>, each ordered as credit, gate, socket. The first open passage moves the credit. Its socket drives a test with the encoded request and return wires and samples the specified sensor on the last beat. A return passage re-arms the desk. One scheduled trial can run, however many gates open together. The desk records the cost and tried socket before it reads the result. In this experiment a socket is tried at most once per episode.</p>
+<table>
+<thead>
+<tr>
+<th>Sensor support</th>
+<th>What the desk retains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01</code> observed off</td>
+<td>Prior AND complement of the socket’s ON contacts</td>
+</tr>
+<tr>
+<td><code>10</code> observed on</td>
+<td>Prior AND the socket’s ON contacts</td>
+</tr>
+<tr>
+<td><code>00</code> missing or <code>11</code> unresolved</td>
+<td>Entire prior. These are different witnesses on the timeline.</td>
+</tr>
+</tbody>
+</table>
+<p>Asking only questions that divide the survivors has a blind spot. Either possible answer fits at least one survivor. <strong>Inspect stuck lamp</strong> also permits testing a shared prediction when there is no remaining legal split. In the empty, stuck-on example, silence on the return wire and a lit lamp leave four plausible loaded dispensers with cut leads. All four predict a washer will fall on the first request. The chute stays quiet. That is evidence against the joint premises of the rack, batch and readings. It does not locate the fault by itself.</p>
+<h2 id="the-tenth-socket">The tenth socket</h2>
+<p>The first nine tests delayed the return wire until the final sample. A sweep over arbitrary wire schedules found a pair those tests could never separate through the chute. Both dispensers start with two washers and serve every request. Only one has a working receipt lead.</p>
+<table>
+<thead>
+<tr>
+<th>Beat</th>
+<th>Command from the station</th>
+<th>Working lead</th>
+<th>Cut lead</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Send the request and allow its receipt back.</td>
+<td>A washer falls and the desk stops asking.</td>
+<td>A washer falls and the desk keeps asking.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Leave the request wire open and listen at the chute.</td>
+<td>Quiet.</td>
+<td>A second washer falls.</td>
+</tr>
+</tbody>
+</table>
+<p>This extra socket turns a property of one signal into a visible difference at another through feedback. The old rack remains selectable. Finding the missing experiment was an <strong>offline comparison</strong>, followed by a human-authored addition to the rack. Once the socket is installed, the desk itself decides when the surviving candidates justify using it.</p>
+<h2 id="exact-encoding">Exact encoding</h2>
+<p>The twelve candidate positions below are stable within this rack. “Once” remembers a successful delivery and can replay the receipt. “Retry” tries to release fresh stock on each request. Each cell lists the positions for zero, one and two washers respectively.</p>
+<table>
+<thead>
+<tr>
+<th>Batch return lead</th>
+<th>Once</th>
+<th>Retry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Working</td>
+<td>0, 1, 2</td>
+<td>3, 4, 5</td>
+</tr>
+<tr>
+<td>Cut</td>
+<td>6, 7, 8</td>
+<td>9, 10, 11</td>
+</tr>
+</tbody>
+</table>
+<p>A socket occupies four bytes. Bits 0–2 drive the forward wire and bits 3–5 drive the return wire, earliest beat at the low end of each field. Bits 6–7 select receipt (0), lamp (1) or falling-washer pulse (2). Bits 8–19 hold the twelve ON predictions. Bits 20–31 identify trials that could release a second washer. The last driven forward beat fixes the sampling time. Each reference design was run once per socket to fill the two contact masks, for 120 calibration runs.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Socket</th>
+<th>Last reading</th>
+<th style="text-align: right;">Program hex</th>
+<th style="text-align: right;">ON mask hex</th>
+<th style="text-align: right;">Double-release mask hex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0</td>
+<td>Receipt, beat 1</td>
+<td style="text-align: right;">09</td>
+<td style="text-align: right;">036</td>
+<td style="text-align: right;">000</td>
+</tr>
+<tr>
+<td style="text-align: right;">1</td>
+<td>Lamp, beat 1</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">DB6</td>
+<td style="text-align: right;">000</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>Chute, beat 1</td>
+<td style="text-align: right;">89</td>
+<td style="text-align: right;">DB6</td>
+<td style="text-align: right;">000</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>Receipt, beat 2</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">026</td>
+<td style="text-align: right;">820</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>Lamp, beat 2</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">DB6</td>
+<td style="text-align: right;">820</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td>Chute, beat 2</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">820</td>
+<td style="text-align: right;">820</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td>Chute, beat 2 after an early receipt</td>
+<td style="text-align: right;">8B</td>
+<td style="text-align: right;">800</td>
+<td style="text-align: right;">800</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td>Receipt, beat 3</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">006</td>
+<td style="text-align: right;">820</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td>Lamp, beat 3</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">DB6</td>
+<td style="text-align: right;">820</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td>Chute, beat 3</td>
+<td style="text-align: right;">A7</td>
+<td style="text-align: right;">000</td>
+<td style="text-align: right;">820</td>
+</tr>
+</tbody>
+</table>
+<p>For example, socket 6 is stored as <code>8B 00 08 80</code> in low-byte-first order. Socket 5 can spend the second washer in batches 5 and 11. Socket 6 can spend it only in batch 11. The same three public surfaces are available in both cases. The timing of the feedback changes the physical risk.</p>
+<h2 id="learning-boundaries-and-cost">Learning boundaries and cost</h2>
+<p>An independent sweep ran each of the twelve designs on <strong>all 4,096 six-beat forward/return schedules</strong>. It compared every sampled beat for each of the 66 pairs of designs on each sensor. For every pair and sensor that differed anywhere in those traces, at least one of the ten short sockets produced a distinguishing sample. The shorter rack missed the early-receipt case. Completeness here is relative to this family, these sensors and this six-beat check.</p>
+<table>
+<thead>
+<tr>
+<th>Available sensors</th>
+<th style="text-align: right;">Distinguishable groups among 12</th>
+<th style="text-align: right;">Least beats that guarantee the observable group</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>None</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Receipt</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>Lamp</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Chute</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>Receipt and lamp</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>Receipt and chute</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>Lamp and chute</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>All three</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">5</td>
+</tr>
+</tbody>
+</table>
+<p>The last column comes from a separate offline search over fresh tests, with reliable readings and stock protection off. A strategy must work on either answer. Each test costs its own beats plus the greater cost of its two continuations. This search never drives a socket in the desk.</p>
+<p>Even with all sensors, the four empty designs share one observable group. Likewise a working dispenser that remembers its first delivery behaves the same with one or two washers initially loaded. A lit tray lamp reports occupancy, so watching it for longer cannot expose the spare washer. Agreement at a port can answer a useful question while preserving uncertainty about the mechanism inside.</p>
+<p>There is a concrete price to choosing locally. With receipts alone, a five-beat strategy can start with socket 3 (two beats). If it hears a receipt, it follows with socket 7 (three beats). After silence, it uses socket 0 (one beat). That distinguishes all four receipt behaviors. Both local priorities start with socket 0 instead. In a four-beat window their choices can favor different batches. After an initial receipt, <strong>Shorter test</strong> can identify a one-washer retry dispenser on its second test. <strong>Even split</strong> can instead identify the behavior of a remembering dispenser. Neither rule guarantees the best use of every budget.</p>
+<h2 id="reproducible-trials">Reproducible trials</h2>
+<p>The episode sweep covers all twelve hidden batches, all eight combinations of sensors, budgets from zero to nine beats, stock protection on or off, both priorities, and three questions. It repeats each setting with a reliable first read, a lost first read and an unresolved first read. That gives <strong>34,560 episodes</strong> and <strong>44,302 executed tests</strong>. The real batch remained among the survivors in every episode. Every material trace conserved its initial stock, and every protected test released at most one washer.</p>
+<table>
+<thead>
+<tr>
+<th>Local priority</th>
+<th style="text-align: right;">Episodes</th>
+<th style="text-align: right;">Requested read resolved</th>
+<th style="text-align: right;">Beats spent</th>
+<th style="text-align: right;">Washers released</th>
+<th style="text-align: right;">Reliable episodes missing an affordable guaranteed result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shorter test</td>
+<td style="text-align: right;">17,280</td>
+<td style="text-align: right;">5,904</td>
+<td style="text-align: right;">28,608</td>
+<td style="text-align: right;">16,266</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>Even split</td>
+<td style="text-align: right;">17,280</td>
+<td style="text-align: right;">5,918</td>
+<td style="text-align: right;">28,668</td>
+<td style="text-align: right;">16,226</td>
+<td style="text-align: right;">12</td>
+</tr>
+</tbody>
+</table>
+<p>For <strong>Tell batches apart</strong>, “resolved” means the remaining designs have identical behavior at all installed sensors under the complete test bank. With no sensors that question reaches its coarsest possible resolution immediately. For the other two questions, every survivor must agree on the requested yes/no property. The totals weight the enumerated settings equally. They are counts of what was identifiable under specified constraints, rather than estimated factory success rates.</p>
+<p><a href="assets/experiments--PrimitiveMeasure--data--washer-probes.zip">Download the trials and distinguishing witnesses</a>. The episode CSV records the tested sockets in execution order, sensor supports, remaining design bits, material used and the offline cost bound. In <code>first_read</code>, −1 means the sensor worked normally, 0 withholds the first sample, and 3 supplies unresolved support. In the second CSV, each of 198 rows gives one design pair and sensor, the shortest observed distinguishing prefix, and all sockets that distinguish it. An earliest beat of zero means no difference was observed in the six-beat sweep.</p>
+<pre><code class="language-text">dotnet run --project experiments/PrimitiveMeasure -c Release -- --washer-probes
+dotnet run --project experiments/PrimitiveMeasure -c Release -- --washer-probes --rows
+dotnet run --project experiments/PrimitiveMeasure -c Release -- --washer-probe-witnesses
+</code></pre>
+<p>The desk learns which calibrated explanations survive and can act on a partial answer. Its family, sensors, choice rules and stock guarantees are supplied. Variable loading between trials, intermittent faults without an explicit missing-sample witness, invention of new sensors, and automatic repair of a rejected model would each require more structure.</p></main></html>

@@ -36,12 +36,40 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const rails = process.argv.includes('--rail-contacts');
     const border = process.argv.includes('--border-score');
     const washer = process.argv.includes('--washer-counter');
-    await page.goto(base + '/encoding/explorer/?layer=' + (washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const probeDesk = process.argv.includes('--washer-probes');
+    await page.goto(base + '/encoding/explorer/?layer=' + (probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (probeDesk) {
+      const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});
+      async function run(n) {
+        for(let i=0;i<n;i++) { await page.mouse.click(940,245); await page.waitForTimeout(130); }
+        await page.mouse.move(1517,960); await page.waitForTimeout(220);
+      }
+      const initial = await result(); await run(1);
+      assert.ok(!initial.equals(await result()), 'A public sample narrows the candidate set.');
+      await page.screenshot({path:path.join(output,'washer-probe-desk.png')});
+      await select(330,3); await run(3); const oldRack = await result();
+      await select(330,2); await run(3);
+      assert.ok(!oldRack.equals(await result()), 'The feedback test separates the two chute histories.');
+      await select(330,6); await run(1); const lost = await result();
+      await select(330,0); await run(1);
+      assert.ok(!lost.equals(await result()), 'A missing sample preserves both alternatives.');
+      await select(330,7); await run(6);
+      await page.screenshot({path:path.join(output,'washer-probe-conflict.png')});
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(), /Which test should run next/);
+      const archive = await notes.getByRole('link', {name:/Download the trials and distinguishing/}).getAttribute('href');
+      const data = await notes.request.get(new URL(archive,notes.url()).href);
+      assert.equal(data.status(),200); assert.equal((await data.body()).readUInt32LE(),0x04034b50);
+      assert.deepEqual(errors, []);
+      console.log('Verified adaptive probe choice, the added socket, missing samples, inspection, notes and data.');
+      return;
     }
     if (washer) {
       const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});

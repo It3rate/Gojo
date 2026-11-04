@@ -266,6 +266,31 @@ public sealed class ExplorerTests
     }
 
     [Fact]
+    public void Factory_test_desk_preserves_a_missing_read_and_can_find_a_contradiction()
+    {
+        var s = new ExplorerSession();
+        s.Navigate(34);
+        Assert.Contains("12 of 12",s.Read().Result);
+        s.Read().Actions[0].Run();
+        Assert.Contains("4 of 12",s.Read().Result);
+        Assert.Equal(new byte[]{9},s.Read().Blocks.Single(b=>b.Title=="Last test program").Bytes);
+        s.Read().Choices[0].Change(6);
+        s.Read().Actions[0].Run();
+        Assert.Contains("12 of 12",s.Read().Result);
+        Assert.Equal(new byte[]{0},s.Read().Blocks.Single(b=>b.Title=="Last sensor sample").Bytes);
+        s.Read().Choices[0].Change(7);
+        s.Steps = 10;
+        Assert.Contains("conflict",s.Read().Result);
+        s.Read().Choices[0].Change(3);
+        s.Read().Choices[1].Change(5);
+        s.Steps = 10;
+        Assert.Contains("2 of 12",s.Read().Result);
+        s.Read().Choices[0].Change(2);
+        s.Steps = 10;
+        Assert.Contains("1 of 12",s.Read().Result);
+    }
+
+    [Fact]
     public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
     {
         var session = new ExplorerSession();

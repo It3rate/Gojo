@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace Gojo.Experiments.PrimitiveMeasure;
 
-/// <summary>One outstanding order, initially two occupied stock sites and an empty tray.
+/// <summary>One outstanding order, two stock sites and an initially empty tray.
 /// Request and receipt wires are observations. Only the two seam rows move stock.</summary>
 public sealed class WasherCounter
 {
@@ -17,14 +17,15 @@ public sealed class WasherCounter
     private readonly ConnectionRow parkRow;
     private readonly IPrimitiveReadPort request, admit, dropped, receipt, returned, nextServed, nextDone, lamp;
 
-    public WasherCounter(byte admission)
+    public WasherCounter(byte admission, int initialStock = 2)
     {
         if (admission is not (RememberDelivery or ServeEveryRequest))
             throw new ArgumentOutOfRangeException(nameof(admission));
+        if (initialStock is < 0 or > 2) throw new ArgumentOutOfRangeException(nameof(initialStock));
         done = desk.Create(0,0,1,0);
         served = counter.Create(0,0,1,0);
-        int first = counter.Publish(counter.Create(0,0,1,1));
-        int second = counter.Publish(counter.Create(0,0,1,1));
+        int first = counter.Publish(counter.Create(0,0,1,initialStock >= 1 ? 1u : 0u));
+        int second = counter.Publish(counter.Create(0,0,1,initialStock == 2 ? 1u : 0u));
         gate = tray.Create(0,0,1,0);
         int gatePort = tray.Publish(gate);
         int inbox = tray.Publish(tray.Create(0,0,1,0));

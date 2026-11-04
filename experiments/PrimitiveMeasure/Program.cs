@@ -1,5 +1,15 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--washer-probe-witnesses"))
+{
+    WasherProbeAudit.Witnesses(Console.Out);
+    return;
+}
+if (args.Contains("--washer-probes"))
+{
+    WasherProbeAudit.Trials(Console.Out,args.Contains("--rows"));
+    return;
+}
 if (args.Contains("--washer-counter"))
 {
     WasherSurvey.Trials(Console.Out,args.Contains("--rows"));

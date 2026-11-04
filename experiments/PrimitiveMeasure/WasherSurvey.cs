@@ -12,15 +12,16 @@ public static class WasherSurvey
 
     /// <summary>Independent bit read over a known schedule, without constructing
     /// or stepping a counter. Each link word uses one availability bit per beat.</summary>
-    public static WasherHistory Predict(byte law, int forward, int back, int beats)
+    public static WasherHistory Predict(byte law, int forward, int back, int beats, int initialStock = 2)
     {
+        if (initialStock is < 0 or > 2) throw new ArgumentOutOfRangeException(nameof(initialStock));
         int mask = Mask(beats);
-        int available = forward & mask;
+        int available = initialStock == 0 ? 0 : forward & mask;
         int first = First(available);
         int eligible = law switch
         {
             WasherCounter.RememberDelivery => available,
-            WasherCounter.ServeEveryRequest => first | First(available ^ first),
+            WasherCounter.ServeEveryRequest => initialStock == 1 ? first : first | First(available ^ first),
             _ => throw new ArgumentOutOfRangeException(nameof(law))
         };
         int receipt = First(eligible & back);

@@ -25,6 +25,8 @@ The [paired reach experiment](PairedReach.md) tests overlap on an ordered rail, 
 
 [When two rails meet](RailContacts.md) follows two independent owners through docking, comparison, an unresolved longer-span choice and a guarded material draw.
 
+[Which test should run next?](WasherProbeDesk.md) lets a factory test desk choose probes from its remaining possible designs. Compare a local choice with what the budget and sensor wiring can establish.
+
 [Did the washer drop?](WasherCounter.md) compares a parts dispenser that remembers a successful release with one that serves every retry. Receipt and tray observations constrain which deliveries are possible.
 
 [Read a repeating border](BorderScore.md) builds ornaments from sibling motion streams, compares predicted and executed phase returns, and tests hidden ink and fill pressure over ordinal spans.
