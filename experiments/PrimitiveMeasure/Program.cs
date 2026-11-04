@@ -1,5 +1,10 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--washer-counter"))
+{
+    WasherSurvey.Trials(Console.Out,args.Contains("--rows"));
+    return;
+}
 if (args.Contains("--border-scores") || args.Contains("--border-windows"))
 {
     if (args.Contains("--border-scores")) BorderSurvey.Scores(Console.Out,args.Contains("--rows"));

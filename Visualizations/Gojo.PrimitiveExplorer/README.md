@@ -67,6 +67,7 @@ corresponding experiment document in the repository.
 | Two reaches, one choice | Compare two unmeasured tips on one rail, then use the same joint read for a dot with two possible owners. [Encoding chart and handoff](../../experiments/PrimitiveMeasure/PairedReach.md) |
 | When two rails meet | Seat stops from independent rails, compare spans and let the result govern a material draw. [Encoding chart and four capability checks](../../experiments/PrimitiveMeasure/RailContacts.md) |
 | Read a repeating border | Unwind sibling streams, hide or lift ink, try equal links and use uncovered spans or lane spacing to request a branch. [Encoding and trial data](../../experiments/PrimitiveMeasure/BorderScore.md) |
+| Did the washer drop? | Step a parts dispenser through a lost request or receipt. Compare the actual tray with what the ordering desk can infer. [Encoding and trial data](../../experiments/PrimitiveMeasure/WasherCounter.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

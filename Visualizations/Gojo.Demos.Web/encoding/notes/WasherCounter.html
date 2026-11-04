@@ -1,0 +1,186 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Did the washer drop?</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="did-the-washer-drop">Did the washer drop?</h1>
+<p>A desk asks a dispenser for <strong>one washer</strong>. After one beat the desk has heard nothing. Did the request get lost on the way out? Or did the washer fall into the tray and the receipt get lost on the way back? The desk has the same evidence in both cases. Asking again is reasonable. Whether asking again dispenses a second washer depends on one bit in the release rule. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=34">Open the interactive counter</a></p>
+<p><strong>Try it in three steps</strong></p>
+<ol>
+<li>Start with <strong>Inside the machine</strong>, <strong>Receipt lost</strong>, and <strong>Remember delivery</strong>. The first beat has already happened. One washer is in the tray. Click <strong>Next beat</strong>. The desk gets its receipt while the second washer stays in stock. Switch to <strong>Serve every request</strong> and click <strong>Next beat</strong> again. The desk gets the same receipt, this time with two washers in the tray.</li>
+<li>Choose <strong>Desk only</strong>. Switch between <strong>Request lost</strong> and <strong>Receipt lost</strong>. At beat one the evidence is identical. Choose <strong>Desk + tray lamp</strong>. Now the desk can distinguish an empty tray from an occupied one. Once a washer is present, the lamp stays lit even if a second one falls.</li>
+<li>Choose <strong>Test both rules</strong>. The first two receipts are lost. Click <strong>Next beat</strong> twice. On beat three the remembering counter can still send a receipt. The other has exhausted its stock. Try <strong>Release pulses</strong> and <strong>Tray lamp</strong> on the same schedule. Each control change returns to beat one.</li>
+</ol>
+<h2 id="what-is-actually-connected">What is actually connected?</h2>
+<p>There are three working owners. The desk holds one confirmation bit. The counter holds two stock sites and a memory of successful delivery. The tray has an intake gate, an inbox and a shelf. A two-wire fixture sets which signals can travel on a given beat. The desk retries once per beat while it is waiting.</p>
+<pre><code class="language-text">desk waiting ── request wire ──► release rule ◄── remembered delivery
+                                    │
+                              opens the intake
+                                    ▼
+counter stock 0 ──┐              tray inbox ──► tray shelf
+                  ├── one intake ────▲
+counter stock 1 ──┘
+
+either successful handoff ──► remember delivery
+successful handoff OR recognized retry ── receipt wire ──► desk confirmation
+tray inbox OR tray shelf ──► optional occupancy lamp
+</code></pre>
+<p>A stock site starts with a whole washer. Moving its contents empties that site and fills an empty tray site. The washer's weight and size have no encoding. A receipt can cross a wire repeatedly without emptying the tray. The distinction comes from the connection itself. The stock uses a material passage, and the receipt samples an event or a retained observation.</p>
+<table>
+<thead>
+<tr>
+<th>Encoding</th>
+<th>Bits and roles</th>
+<th>What changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Each local site</td>
+<td>Fixed positive-right orientation and positive direction in the bucket. Its stored bit is V.</td>
+<td>An empty material site reads ODV <code>000</code>, an occupied site <code>001</code>. Signal sites use the same two words for off and on.</td>
+</tr>
+<tr>
+<td>Release rule</td>
+<td>Select bit <code>L + 2R</code>. L is an arrived request. R is the remembered delivery.</td>
+<td><code>0010</code> serves the first request. <code>1010</code> also serves a request after a delivery.</td>
+</tr>
+<tr>
+<td>Stock → tray</td>
+<td>Two one-bit endpoint pairs, low field first. <code>[outlet 0, intake 0]</code>, then <code>[outlet 1, intake 0]</code>. Packed byte <code>04</code> hex.</td>
+<td>The first eligible stock site fills the common inbox. A second arrival on that beat encounters an occupied site.</td>
+</tr>
+<tr>
+<td>Material law</td>
+<td>State index <code>S + 2C + 4T</code> for source, gate and target. Bit <code>before + 8 × after</code> admits a transition.</td>
+<td>Only <code>011 → 110</code> transfers. In both words the middle bit is the open gate. Every other state holds.</td>
+</tr>
+<tr>
+<td>Receipt</td>
+<td><code>moved OR (request AND NOT admitted)</code>. OR truth mask <code>1110</code>.</td>
+<td>A denied repeat can reuse a recorded delivery. An admitted request that found empty stock produces no receipt.</td>
+</tr>
+<tr>
+<td>Feedback</td>
+<td><code>remembered OR moved</code> at the counter and <code>confirmed OR returned</code> at the desk.</td>
+<td>Both sample after settlement, before either latch changes. Only the desk's first returned receipt ends the order.</td>
+</tr>
+<tr>
+<td>Tray lamp</td>
+<td>OR of the two material site reads.</td>
+<td>The lamp can tell empty from occupied. Both one washer and two turn it on. Reading it leaves both sites intact.</td>
+</tr>
+</tbody>
+</table>
+<p>For the two supplied laws, a denied <em>arrived</em> request always denotes a remembered delivery. Adding another reason for denial, such as a safety interlock, would require retaining that distinction on the receipt path.</p>
+<p>The four release bits have this order. Only the last row differs.</p>
+<table>
+<thead>
+<tr>
+<th>Request L</th>
+<th>Remembered R</th>
+<th>Remember delivery</th>
+<th>Serve every request</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>hold</td>
+<td>hold</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>admit</td>
+<td>admit</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>hold</td>
+<td>hold</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>hold and replay receipt</td>
+<td>admit and try to release</td>
+</tr>
+</tbody>
+</table>
+<p>Every beat first parks the preceding inbox contents if the shelf is free, samples the request and gate, gives the two stock outlets their turns, and samples receipt and feedback. The shelf and inbox provide two actual places where a washer can settle. Each owner sees only the surfaces wired to it.</p>
+<h2 id="one-probe-three-different-answers">One probe, three different answers</h2>
+<p>Keep the forward wire open for three beats. Open the return wire only on the third. The packed words are forward <code>111</code> and return <code>100</code>, with the earliest beat in the low bit. The table runs in time order from top to bottom.</p>
+<table>
+<thead>
+<tr>
+<th>Beat</th>
+<th>Remember delivery</th>
+<th>Serve every request</th>
+<th>What the desk hears</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>First washer falls. Receipt lost.</td>
+<td>First washer falls. Receipt lost.</td>
+<td>Silence from both.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Receipt replayed and lost. One washer in tray.</td>
+<td>Second washer falls. Receipt lost.</td>
+<td>Silence from both.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Receipt replayed. One washer remains in stock.</td>
+<td>Stock empty. No transfer or receipt.</td>
+<td>Receipt from the remembering counter only.</td>
+</tr>
+</tbody>
+</table>
+<p>The earliest distinguishing beat depends on which port you can see. Watching the falling washers distinguishes these rules on beat two. Listening at the desk takes at least three beats. Reading the occupancy lamp cannot distinguish the rules on any shared schedule in this fixture. Both trays become occupied on the same first delivered request, and both retain their contents. This is a property distinction with a physical consequence. A branch driven only by that lamp has no evidence on which to react to a double delivery.</p>
+<h2 id="what-the-bits-predict-and-what-the-desk-knows">What the bits predict, and what the desk knows</h2>
+<p>With <strong>known wire words</strong>, there is a direct read independent of the runtime. Let <code>F</code> select forward-open beats and <code>B</code> return-open beats. For a nonnegative window word, <code>first(x) = x &amp; -x</code> isolates the earliest set bit, or yields zero.</p>
+<ul>
+<li>The remembering counter drops a washer at <code>first(F)</code>. Its first heard receipt is <code>first(F &amp; B)</code>. Further requests can replay the receipt after a lost return.</li>
+<li>The other counter has two stock sites. Its eligible releases are the first two set bits of <code>F</code>. Its first heard receipt is the earliest of these with an open return wire. Cut the release word after that beat because the desk stops requesting. If neither return gets through, both eligible releases stand.</li>
+</ul>
+<p>With <strong>unknown wire words</strong>, the desk instead asks which whole release/receipt histories fit its evidence. It knows the chosen table and starting state. It supplies the receipts it heard, a visibility mask, and optionally the current lamp bit. The reader retains each compatible pair of event words once. A hidden beat admits either observation. An observed silent beat admits only silence. No candidate moves a washer. Two heard receipts for this single order, or a heard receipt with an empty final tray, yield an empty candidate set.</p>
+<p>For instance, after two observed silent beats the remembering rule admits zero or one delivered washer. The other admits zero, one or two. With its lamp lit the latter still admits one or two. A guess about a missed receipt cannot narrow that range. With the wiring itself unknown, either rule can also explain every possible desk-only receipt word in the six-beat corpus if each may have its own hidden wire schedule. Holding the wire schedule fixed across the two machines is what makes a distinguishing probe possible.</p>
+<h2 id="trial-results">Trial results</h2>
+<p>The sweep exhausts all 64 forward words and all 64 return words over six beats. Each schedule ran once with each rule, for 8,192 executions. The independent bit read matched every release beat and every heard receipt. Stock plus tray held two washers after every beat. Each row below counts schedules. These counts have no assumed real-world failure probability.</p>
+<table>
+<thead>
+<tr>
+<th>Release rule</th>
+<th style="text-align: right;">Schedules</th>
+<th style="text-align: right;">Desk confirmed</th>
+<th style="text-align: right;">Two washers delivered</th>
+<th style="text-align: right;">At least one delivered, desk still waiting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Remember delivery</td>
+<td style="text-align: right;">4,096</td>
+<td style="text-align: right;">3,367</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">665</td>
+</tr>
+<tr>
+<td>Serve every request</td>
+<td style="text-align: right;">4,096</td>
+<td style="text-align: right;">2,928</td>
+<td style="text-align: right;">1,824</td>
+<td style="text-align: right;">1,104</td>
+</tr>
+</tbody>
+</table>
+<p>Pairing the two executions of each schedule and comparing <strong>entire traces</strong> distinguishes the two rule tables on 1,824 schedules at the release port, 439 at the desk receipt port, and zero at the occupancy lamp. At three beats there is exactly one distinguishing schedule at the desk, the <code>111 / 100</code> probe above.</p>
+<p><a href="assets/experiments--PrimitiveMeasure--data--washer-trials.zip">Download the 8,192 trial rows as CSV in a ZIP</a>. Each row gives the release mask, the two link words, predicted and observed event words, and final stock and tray site bits. Numbers in the CSV are decimal packed words. A two-bit tray word of <code>3</code> means both tray sites are occupied.</p>
+<pre><code class="language-text">dotnet run --project experiments/PrimitiveMeasure -c Release -- --washer-counter
+dotnet run --project experiments/PrimitiveMeasure -c Release -- --washer-counter --rows
+</code></pre>
+<h2 id="what-this-establishes">What this establishes</h2>
+<p>One local bit of retained evidence is sufficient to suppress duplicate fulfillment <strong>for one outstanding order</strong>. Eventual delivery still requires the request to arrive. Confirmation requires a usable return on a beat with a receipt. The model uses a serial clock, fresh memory, initially full stock, and wires that can lose pulses. The three-versus-two-beat distinction depends on this capacity and on the absence of restocking. The next order would need its own boundary. Clearing memory while an old retry can still arrive would let that retry release fresh stock.</p>
+<p>The release rules, feedback connections and probe schedules are authored. The experiment measures which differences are visible from a given port. It leaves discovering the rules and choosing a probe autonomously as separate work.</p></main></html>

@@ -241,6 +241,31 @@ public sealed class ExplorerTests
     }
 
     [Fact]
+    public void The_desk_view_discloses_a_lost_receipt_only_when_a_tray_read_is_wired()
+    {
+        var session = new ExplorerSession();
+        session.Navigate(33);
+        var page = session.Read();
+        Assert.Contains("Tray holds 1",page.Result);
+        page.Choices[0].Change(1);
+        var silent = session.Read();
+        Assert.Contains("0 or 1",silent.Result);
+        silent.Choices[1].Change(1);
+        var missed = session.Read();
+        Assert.Equal(silent.Result,missed.Result);
+        Assert.Equal(silent.Drawing,missed.Drawing);
+        Assert.Equal(silent.Blocks.SelectMany(b=>b.Bytes),missed.Blocks.SelectMany(b=>b.Bytes));
+        missed.Choices[0].Change(2);
+        Assert.Contains("counts: 0.",session.Read().Result);
+        session.Read().Choices[1].Change(0);
+        Assert.Contains("counts: 1.",session.Read().Result);
+        session.Read().Choices[0].Change(0);
+        session.Read().Choices[2].Change(1);
+        session.Read().Actions[0].Run();
+        Assert.Contains("Tray holds 2",session.Read().Result);
+    }
+
+    [Fact]
     public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
     {
         var session = new ExplorerSession();

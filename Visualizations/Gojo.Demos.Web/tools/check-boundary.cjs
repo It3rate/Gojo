@@ -35,12 +35,41 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const paired = process.argv.includes('--paired-reach');
     const rails = process.argv.includes('--rail-contacts');
     const border = process.argv.includes('--border-score');
-    await page.goto(base + '/encoding/explorer/?layer=' + (border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const washer = process.argv.includes('--washer-counter');
+    await page.goto(base + '/encoding/explorer/?layer=' + (washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (washer) {
+      const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});
+      async function advance() {
+        await page.mouse.click(765,245); await page.mouse.move(1517,960); await page.waitForTimeout(250);
+      }
+      await advance(); const remembered = await result();
+      await select(645,1); await advance();
+      assert.ok(!remembered.equals(await result()), 'Serving every request changes the retry delivery.');
+      await page.screenshot({path:path.join(output,'washer-counter.png')});
+      await select(330,1); const silence = await result();
+      await select(480,1);
+      assert.ok(silence.equals(await result()), 'Both causes leave the desk with the same silent beat.');
+      await select(330,2); const lampOff = await result(); await select(480,0);
+      assert.ok(!lampOff.equals(await result()), 'The tray lamp resolves the first silent beat.');
+      await select(330,3); await advance(); await advance(); const receipts = await result();
+      await page.screenshot({path:path.join(output,'washer-probe.png')});
+      await select(645,1); await advance(); await advance();
+      assert.ok(!receipts.equals(await result()), 'The third beat separates the receipts while occupancy still agrees.');
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(), /Did the washer drop/);
+      const archive = await notes.getByRole('link', {name:/Download the 8,192 trial rows/}).getAttribute('href');
+      const data = await notes.request.get(new URL(archive,notes.url()).href);
+      assert.equal(data.status(),200); assert.equal((await data.body()).readUInt32LE(),0x04034b50);
+      assert.deepEqual(errors, []);
+      console.log('Verified physical releases, masked desk evidence, tray lamp, controlled probe, notes and trial download.');
+      return;
     }
     if (border) {
       const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});
