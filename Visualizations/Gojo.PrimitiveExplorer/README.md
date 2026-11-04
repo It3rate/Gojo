@@ -70,6 +70,7 @@ corresponding experiment document in the repository.
 | Did the washer drop? | Step a parts dispenser through a lost request or receipt. Compare the actual tray with what the ordering desk can infer. [Encoding and trial data](../../experiments/PrimitiveMeasure/WasherCounter.md) |
 | Which test should run next? | Watch a factory controller choose its next probe, preserve competing designs, and stop at a sensor or stock limit. [Encoding and trial data](../../experiments/PrimitiveMeasure/WasherProbeDesk.md) |
 | Can a test earn a socket? | Shift a wire pulse, compare fresh reference machines twice, and see the retained test print a border or distinguish a dispenser. [Encoding and trial data](../../experiments/PrimitiveMeasure/TimingSocket.md) |
+| Ornament workshop | Print a rosette, palmette frieze, fret, half-drop field or nested rose arcade. Change the punch tape and finishing law or inspect one repeat. [Line plates and wiring](../../experiments/PrimitiveMeasure/OrnamentWorkshop.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

@@ -1,5 +1,7 @@
 # Ornament collections
 
+The [ornament workshop](https://gojo.inklingai.ca/encoding/explorer/?layer=37) is a live pen press with five line plates. Its [plate book](../../../experiments/PrimitiveMeasure/OrnamentWorkshop.md) includes the SVG impressions and construction notes.
+
 `/ornaments/interior-ornament/` presents twelve compound interior designs:
 flowers, fans and scrolls within woven, bowed and interlocking meshes. The
 bounded edition includes all twelve final SVGs, all twelve even-outline mesh

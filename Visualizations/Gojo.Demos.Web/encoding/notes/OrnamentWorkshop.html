@@ -1,0 +1,73 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ornament workshop</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="ornament-workshop">Ornament workshop</h1>
+<p>Imagine a line-drawing press with two independently driven pen arms. Both start at the same fork. They can follow different engraved paths to a shared eye, where a third tool can add a closing mark or start another press. A punched drum changes which arms participate on the next repeat. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=37">Open the live workshop</a></p>
+<p>The workshop opens on the finished drawing. <strong>Next pass</strong> starts at the first cell and shows the ground, branch strokes and finish in order. <strong>Next repeat</strong> completes a cell including its inner work. <strong>One repeat</strong> enlarges the current cell, and <strong>Show joints</strong> marks the actual fork and eye. Hover over a stroke to highlight its tool in the encoding panel. The plates below are full-size vector drawings from the same settled runs.</p>
+<h2 id="i-compass-rosette">I · Compass rosette</h2>
+<p>Start with a twelve-sided rim. Repeat a lance around its centre, bow its two flanks in opposite directions, and curl them back toward the same outer eye. A small crown closes each successful arrival. Try <strong>First only</strong> to see how much of the radial construction remains legible with one flank missing. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=37&amp;plate=1">Work on the rosette</a> · <a href="assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-1.svg">Full-size SVG</a></p>
+<p><img alt="Twelve lances radiate from a small petalled hub into a double polygonal rim." src="assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-1.svg" /></p>
+<h2 id="ii-palmette-and-volute">II · Palmette and volute</h2>
+<p>A running stem dips under each fan. Leaves branch from a common shoulder, a small scroll turns back at each side, and a spear grows above the meeting point. The second course reflects the first vertically while the repeat drum keeps its phase across the row break. Compare <strong>Original timing</strong> and <strong>Earned timing</strong>. The same two-beat programs that tested the border plotters now decide where the second half-fan is printed. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=37&amp;plate=2">Work on the palmette</a> · <a href="assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-2.svg">Full-size SVG</a></p>
+<p><img alt="Two opposed friezes of fan leaves and curled stems alternate full and half palmettes." src="assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-2.svg" /></p>
+<h2 id="iii-double-return-fret">III · Double-return fret</h2>
+<p>Run two rectilinear bands between ruled edges. Each permitted course steps out from the fork, turns back four times inside its hook and meets the returning course at a diamond clasp. Click <strong>Pair steps</strong>. The long horizontal and vertical strokes then commit together, folding the right-angle hook into a zigzag. Its tip lands at the same place using the same eight signed movements. Pairing the steps reduces the plate from 320 line segments to 260. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=37&amp;plate=3">Work on the fret</a> · <a href="assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-3.svg">Right-angle proof</a> · <a href="assets/experiments--PrimitiveMeasure--data--ornament-plates--paired-hooks.svg">Paired-axis proof</a></p>
+<p><img alt="Two courses of square return hooks stitched together by small diamond clasps." src="assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-3.svg" /></p>
+<h2 id="iv-half-drop-ogee">IV · Half-drop ogee</h2>
+<p>Print a pair of curved ribs around a seed pod. Shift each neighboring column by half the vertical repeat so the points of one column face the waist of the next. The rhythm decides which ribs and leaflets appear. Try <strong>Which arm?</strong>. After two settled repeats the press reaches a punch that guarantees one arm should draw but leaves its identity unresolved. The ground at that position is visible and the drum waits. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=37&amp;plate=4">Work on the ogee</a> · <a href="assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-4.svg">Full-size SVG</a></p>
+<p><img alt="Seven staggered columns of pointed seed pods with scrolling ribs and hanging leaves." src="assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-4.svg" /></p>
+<h2 id="v-rose-window-arcade">V · Rose-window arcade</h2>
+<p>Raise two cusped ribs from a sill to the crown of a window. The finishing tool at the crown has an outlet connected to a smaller press at the window’s centre. That press draws six petal sectors on its own rhythm. Change <strong>Either arrives</strong> to <strong>Both arrive</strong>. The number of windows stays at eight, but only four crowns can now start a flower. <strong>Exactly one arrives</strong> puts four flowers in the complementary windows. The last two drawings use the same number of strokes, in different places. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=37&amp;plate=5">Work on the arcade</a> · <a href="assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-5.svg">Full-size SVG</a></p>
+<p><img alt="Two rows of cusped arches enclose small sixfold rose windows and branching tracery." src="assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-5.svg" /></p>
+<h2 id="what-connects-to-what">What connects to what</h2>
+<table>
+<thead>
+<tr>
+<th>Physical connection</th>
+<th>Encoded rule</th>
+<th>Visible consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Drum → two pen guards</td>
+<td>From low to high, the four bits admit neither, first, second and both. Neighboring phases occupy successive nibbles.</td>
+<td>Field <code>8</code> means both arms are selected. Field <code>6</code> allows first alone or second alone.</td>
+</tr>
+<tr>
+<td>Guard → arm passage</td>
+<td>First arm reads mask <code>A</code> hex, second reads <code>C</code>. Each arm owns a single activation. Its present and absent passages use local rows <code>[0,4,1]</code> and <code>[0,4,2]</code>.</td>
+<td>A settled guard chooses the ink or pen-lift exit. Unresolved guards hold their activation.</td>
+</tr>
+<tr>
+<td>Arm exits → continuation</td>
+<td>Unconditional rows <code>[1,4,3]</code> and <code>[2,4,3]</code> rejoin at that arm’s completion site. An arrival is sampled before convergence.</td>
+<td>Either settled route can finish a repeat. Only the ink exit witnesses that arm’s mark.</td>
+</tr>
+<tr>
+<td>Two arrival reads → finishing tool</td>
+<td>One truth bit per pair. OR is <code>E</code> hex, AND is <code>8</code>, and exclusive OR is <code>6</code>. The finishing tool has a separate activation.</td>
+<td>Two arrivals produce at most one finishing impression. No pen activation is copied between arms.</td>
+</tr>
+<tr>
+<td>Tool → stroke sites</td>
+<td>Each tool owns line rows <code>[start,end]</code> and cubic rows <code>[start,handle,handle,end]</code>, with local eight-bit site addresses. Both arm tables have a directed route between the same fork and eye references.</td>
+<td>Reflected flanks can join at a known landmark. Overlapping strokes and coincident coordinates elsewhere carry only a drawing-level correspondence.</td>
+</tr>
+<tr>
+<td>Finish → flower</td>
+<td>The arcade binds its finisher to one site and a six-sector child press. The child has its own phase strip and a both-arrive finishing law.</td>
+<td>Finishing a parent crown inserts eighteen child passes into the timeline before the next window.</td>
+</tr>
+<tr>
+<td>Completion → next print position</td>
+<td>The drum advances by an ordinary passage around a reference cycle once all local tools resolve. Equal contour parts set the radial frame. The other frames use column spacing, half-drop and row reflection.</td>
+<td>A partial impression persists at the open cell. Changing a control starts a fresh run.</td>
+</tr>
+</tbody>
+</table>
+<p>A useful uncertainty case is <strong>Which arm?</strong> with <strong>Either arrives</strong>. The paired input can predict an OR result of ON. Neither pen yet has a resolved route, so neither can witness arrival and the finishing tool holds. With <strong>One pending</strong>, the first arm actually reaches the eye. OR can print the finishing mark, while AND still waits for the second arrival. In either case the drum waits for all local tools before moving on.</p>
+<p>The motifs, cubic handles, spacing and pen-scale calibration are authored. The gate decisions, strokes admitted, feedback phases and child starts are computed from their connections. The workshop borrows the retained pulse shift from the previous experiment. Across two beats the original contact words select first alone, then both. The learned shift selects both, then first alone. The new use is to turn a tested timing difference into an ornamental accent. <a href="TimingSocket.html">Timing bench and its evidence</a></p>
+<h2 id="construction-sources-and-verification">Construction sources and verification</h2>
+<p>The public Core4 archive labels its pattern demonstration <strong>Core2 Patterns</strong>. In that lineage, the Crossbar Lattice, Square Wave, Zigzag and Interlock recipes are particularly pertinent. The fret experiment borrows the distinction between committing successive motions separately and committing them together. <a href="https://gojo.inklingai.ca/core4/patterns/">Archived pattern demo</a> · <a href="https://github.com/It3rate/ResoEngine/blob/d14f058775f9488de90c815b0930205553ceec6e/Applied/Geometry/Frieze/FriezeCatalog.cs">Earlier frieze catalog</a></p>
+<p>Lewis Foreman Day’s <em>The Anatomy of Pattern</em> explains why a half-drop can interrupt unintended horizontal stripes. His diagrams also distinguish the ornament one sees from the scaffold on which it repeats. The ogee plate uses that half-drop rule. Franz Sales Meyer’s 1895 handbook groups meanders, rosette bands and palmette bands in plates 81–84, 91 and 92. The five original Gojo drawings use these historical construction ideas. <a href="https://upload.wikimedia.org/wikipedia/commons/3/34/The_anatomy_of_pattern_%28IA_anatomyofpattern00dayl%29.pdf">Day, “The Drop Pattern,” pp. 34–36</a> · <a href="https://digital.ub.uni-paderborn.de/ihd/content/structure/7730456">Meyer, digitized handbook</a></p>
+<p>The print survey covers the five plates plus the paired-axis fret, eleven drum settings and three finishing laws, for <strong>198 runs</strong>. The independent gate test checks all 16 joint support masks against all 16 binary truth tables. The SVGs use the same stroke rows and placements as the live drawing. The count includes each stored line or cubic, even when two impressions coincide on paper. <a href="assets/experiments--PrimitiveMeasure--data--ornament-plates--press-runs.csv">Download the 198 print runs</a></p>
+<pre><code class="language-text">dotnet run --project experiments/PrimitiveMeasure -c Release -- --ornament-plates experiments/PrimitiveMeasure/data/ornament-plates
+</code></pre></main></html>

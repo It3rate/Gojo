@@ -1,0 +1,199 @@
+plate,rhythm,join_truth,outer_cells,finished_cells,outer_finials,child_sectors,passes,strokes
+Compass rosette,0,14,12,12,12,0,36,296
+Compass rosette,0,8,12,12,8,0,36,276
+Compass rosette,0,6,12,12,4,0,36,256
+Compass rosette,1,14,12,12,12,0,36,282
+Compass rosette,1,8,12,12,6,0,36,252
+Compass rosette,1,6,12,12,6,0,36,252
+Compass rosette,2,14,12,12,12,0,36,282
+Compass rosette,2,8,12,12,6,0,36,252
+Compass rosette,2,6,12,12,6,0,36,252
+Compass rosette,3,14,12,12,12,0,36,324
+Compass rosette,3,8,12,12,12,0,36,324
+Compass rosette,3,6,12,12,0,0,36,264
+Compass rosette,4,14,12,12,12,0,36,240
+Compass rosette,4,8,12,12,0,0,36,180
+Compass rosette,4,6,12,12,12,0,36,240
+Compass rosette,5,14,12,12,12,0,36,240
+Compass rosette,5,8,12,12,0,0,36,180
+Compass rosette,5,6,12,12,12,0,36,240
+Compass rosette,6,14,12,12,12,0,36,240
+Compass rosette,6,8,12,12,0,0,36,180
+Compass rosette,6,6,12,12,12,0,36,240
+Compass rosette,7,14,12,12,0,0,36,96
+Compass rosette,7,8,12,12,0,0,36,96
+Compass rosette,7,6,12,12,0,0,36,96
+Compass rosette,8,14,3,2,2,0,9,55
+Compass rosette,8,8,3,2,1,0,9,50
+Compass rosette,8,6,3,2,1,0,9,50
+Compass rosette,9,14,2,1,2,0,6,47
+Compass rosette,9,8,2,1,1,0,6,42
+Compass rosette,9,6,2,1,0,0,6,37
+Compass rosette,10,14,2,1,1,0,6,35
+Compass rosette,10,8,2,1,1,0,6,35
+Compass rosette,10,6,2,1,0,0,6,30
+Palmette and volute,0,14,10,10,10,0,30,355
+Palmette and volute,0,8,10,10,7,0,30,340
+Palmette and volute,0,6,10,10,3,0,30,320
+Palmette and volute,1,14,10,10,10,0,30,325
+Palmette and volute,1,8,10,10,5,0,30,300
+Palmette and volute,1,6,10,10,5,0,30,300
+Palmette and volute,2,14,10,10,10,0,30,325
+Palmette and volute,2,8,10,10,5,0,30,300
+Palmette and volute,2,6,10,10,5,0,30,300
+Palmette and volute,3,14,10,10,10,0,30,400
+Palmette and volute,3,8,10,10,10,0,30,400
+Palmette and volute,3,6,10,10,0,0,30,350
+Palmette and volute,4,14,10,10,10,0,30,250
+Palmette and volute,4,8,10,10,0,0,30,200
+Palmette and volute,4,6,10,10,10,0,30,250
+Palmette and volute,5,14,10,10,10,0,30,250
+Palmette and volute,5,8,10,10,0,0,30,200
+Palmette and volute,5,6,10,10,10,0,30,250
+Palmette and volute,6,14,10,10,10,0,30,250
+Palmette and volute,6,8,10,10,0,0,30,200
+Palmette and volute,6,6,10,10,10,0,30,250
+Palmette and volute,7,14,10,10,0,0,30,50
+Palmette and volute,7,8,10,10,0,0,30,50
+Palmette and volute,7,6,10,10,0,0,30,50
+Palmette and volute,8,14,3,2,2,0,9,70
+Palmette and volute,8,8,3,2,1,0,9,65
+Palmette and volute,8,6,3,2,1,0,9,65
+Palmette and volute,9,14,2,1,2,0,6,65
+Palmette and volute,9,8,2,1,1,0,6,60
+Palmette and volute,9,6,2,1,0,0,6,55
+Palmette and volute,10,14,2,1,1,0,6,45
+Palmette and volute,10,8,2,1,1,0,6,45
+Palmette and volute,10,6,2,1,0,0,6,40
+Double-return fret,0,14,10,10,10,0,30,320
+Double-return fret,0,8,10,10,5,0,30,300
+Double-return fret,0,6,10,10,5,0,30,300
+Double-return fret,1,14,10,10,10,0,30,320
+Double-return fret,1,8,10,10,5,0,30,300
+Double-return fret,1,6,10,10,5,0,30,300
+Double-return fret,2,14,10,10,10,0,30,320
+Double-return fret,2,8,10,10,5,0,30,300
+Double-return fret,2,6,10,10,5,0,30,300
+Double-return fret,3,14,10,10,10,0,30,400
+Double-return fret,3,8,10,10,10,0,30,400
+Double-return fret,3,6,10,10,0,0,30,360
+Double-return fret,4,14,10,10,10,0,30,240
+Double-return fret,4,8,10,10,0,0,30,200
+Double-return fret,4,6,10,10,10,0,30,240
+Double-return fret,5,14,10,10,10,0,30,240
+Double-return fret,5,8,10,10,0,0,30,200
+Double-return fret,5,6,10,10,10,0,30,240
+Double-return fret,6,14,10,10,10,0,30,240
+Double-return fret,6,8,10,10,0,0,30,200
+Double-return fret,6,6,10,10,10,0,30,240
+Double-return fret,7,14,10,10,0,0,30,40
+Double-return fret,7,8,10,10,0,0,30,40
+Double-return fret,7,6,10,10,0,0,30,40
+Double-return fret,8,14,3,2,2,0,9,68
+Double-return fret,8,8,3,2,1,0,9,64
+Double-return fret,8,6,3,2,1,0,9,64
+Double-return fret,9,14,2,1,2,0,6,64
+Double-return fret,9,8,2,1,1,0,6,60
+Double-return fret,9,6,2,1,0,0,6,56
+Double-return fret,10,14,2,1,1,0,6,44
+Double-return fret,10,8,2,1,1,0,6,44
+Double-return fret,10,6,2,1,0,0,6,40
+Half-drop ogee,0,14,21,21,21,0,63,448
+Half-drop ogee,0,8,21,21,14,0,63,413
+Half-drop ogee,0,6,21,21,7,0,63,378
+Half-drop ogee,1,14,21,21,21,0,63,416
+Half-drop ogee,1,8,21,21,10,0,63,361
+Half-drop ogee,1,6,21,21,11,0,63,366
+Half-drop ogee,2,14,21,21,21,0,63,424
+Half-drop ogee,2,8,21,21,11,0,63,374
+Half-drop ogee,2,6,21,21,10,0,63,369
+Half-drop ogee,3,14,21,21,21,0,63,504
+Half-drop ogee,3,8,21,21,21,0,63,504
+Half-drop ogee,3,6,21,21,0,0,63,399
+Half-drop ogee,4,14,21,21,21,0,63,336
+Half-drop ogee,4,8,21,21,0,0,63,231
+Half-drop ogee,4,6,21,21,21,0,63,336
+Half-drop ogee,5,14,21,21,21,0,63,336
+Half-drop ogee,5,8,21,21,0,0,63,231
+Half-drop ogee,5,6,21,21,21,0,63,336
+Half-drop ogee,6,14,21,21,21,0,63,336
+Half-drop ogee,6,8,21,21,0,0,63,231
+Half-drop ogee,6,6,21,21,21,0,63,336
+Half-drop ogee,7,14,21,21,0,0,63,63
+Half-drop ogee,7,8,21,21,0,0,63,63
+Half-drop ogee,7,6,21,21,0,0,63,63
+Half-drop ogee,8,14,3,2,2,0,9,43
+Half-drop ogee,8,8,3,2,1,0,9,38
+Half-drop ogee,8,6,3,2,1,0,9,38
+Half-drop ogee,9,14,2,1,2,0,6,40
+Half-drop ogee,9,8,2,1,1,0,6,35
+Half-drop ogee,9,6,2,1,0,0,6,30
+Half-drop ogee,10,14,2,1,1,0,6,27
+Half-drop ogee,10,8,2,1,1,0,6,27
+Half-drop ogee,10,6,2,1,0,0,6,22
+Rose-window arcade,0,14,8,8,8,48,168,392
+Rose-window arcade,0,8,8,8,4,24,96,280
+Rose-window arcade,0,6,8,8,4,24,96,280
+Rose-window arcade,1,14,8,8,8,48,168,392
+Rose-window arcade,1,8,8,8,4,24,96,280
+Rose-window arcade,1,6,8,8,4,24,96,280
+Rose-window arcade,2,14,8,8,8,48,168,392
+Rose-window arcade,2,8,8,8,4,24,96,280
+Rose-window arcade,2,6,8,8,4,24,96,280
+Rose-window arcade,3,14,8,8,8,48,168,440
+Rose-window arcade,3,8,8,8,8,48,168,440
+Rose-window arcade,3,6,8,8,0,0,24,216
+Rose-window arcade,4,14,8,8,8,48,168,344
+Rose-window arcade,4,8,8,8,0,0,24,120
+Rose-window arcade,4,6,8,8,8,48,168,344
+Rose-window arcade,5,14,8,8,8,48,168,344
+Rose-window arcade,5,8,8,8,0,0,24,120
+Rose-window arcade,5,6,8,8,8,48,168,344
+Rose-window arcade,6,14,8,8,8,48,168,344
+Rose-window arcade,6,8,8,8,0,0,24,120
+Rose-window arcade,6,6,8,8,8,48,168,344
+Rose-window arcade,7,14,8,8,0,0,24,24
+Rose-window arcade,7,8,8,8,0,0,24,24
+Rose-window arcade,7,6,8,8,0,0,24,24
+Rose-window arcade,8,14,3,2,2,12,45,101
+Rose-window arcade,8,8,3,2,1,6,27,73
+Rose-window arcade,8,6,3,2,1,6,27,73
+Rose-window arcade,9,14,2,1,2,12,42,98
+Rose-window arcade,9,8,2,1,1,6,24,70
+Rose-window arcade,9,6,2,1,0,0,6,42
+Rose-window arcade,10,14,2,1,1,6,24,58
+Rose-window arcade,10,8,2,1,1,6,24,58
+Rose-window arcade,10,6,2,1,0,0,6,30
+Double-return fret · paired,0,14,10,10,10,0,30,260
+Double-return fret · paired,0,8,10,10,5,0,30,240
+Double-return fret · paired,0,6,10,10,5,0,30,240
+Double-return fret · paired,1,14,10,10,10,0,30,260
+Double-return fret · paired,1,8,10,10,5,0,30,240
+Double-return fret · paired,1,6,10,10,5,0,30,240
+Double-return fret · paired,2,14,10,10,10,0,30,260
+Double-return fret · paired,2,8,10,10,5,0,30,240
+Double-return fret · paired,2,6,10,10,5,0,30,240
+Double-return fret · paired,3,14,10,10,10,0,30,320
+Double-return fret · paired,3,8,10,10,10,0,30,320
+Double-return fret · paired,3,6,10,10,0,0,30,280
+Double-return fret · paired,4,14,10,10,10,0,30,200
+Double-return fret · paired,4,8,10,10,0,0,30,160
+Double-return fret · paired,4,6,10,10,10,0,30,200
+Double-return fret · paired,5,14,10,10,10,0,30,200
+Double-return fret · paired,5,8,10,10,0,0,30,160
+Double-return fret · paired,5,6,10,10,10,0,30,200
+Double-return fret · paired,6,14,10,10,10,0,30,200
+Double-return fret · paired,6,8,10,10,0,0,30,160
+Double-return fret · paired,6,6,10,10,10,0,30,200
+Double-return fret · paired,7,14,10,10,0,0,30,40
+Double-return fret · paired,7,8,10,10,0,0,30,40
+Double-return fret · paired,7,6,10,10,0,0,30,40
+Double-return fret · paired,8,14,3,2,2,0,9,56
+Double-return fret · paired,8,8,3,2,1,0,9,52
+Double-return fret · paired,8,6,3,2,1,0,9,52
+Double-return fret · paired,9,14,2,1,2,0,6,52
+Double-return fret · paired,9,8,2,1,1,0,6,48
+Double-return fret · paired,9,6,2,1,0,0,6,44
+Double-return fret · paired,10,14,2,1,1,0,6,36
+Double-return fret · paired,10,8,2,1,1,0,6,36
+Double-return fret · paired,10,6,2,1,0,0,6,32

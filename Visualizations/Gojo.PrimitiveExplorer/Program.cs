@@ -72,6 +72,8 @@ internal sealed class ExplorerWindow : Window
         Background = Palette.Paper; FontFamily = new FontFamily(Palette.UiFont);
 #if BROWSER
         session.Navigate(BrowserProgram.InitialLayer() - 1);
+        if (session.Chapter==36)
+            session.Mode=Math.Clamp(BrowserProgram.InitialOrnamentPlate()-1,0,Gojo.Experiments.PrimitiveMeasure.OrnamentPlates.All.Count-1);
 #endif
         page = session.Read(); encoding = new(page, focus); structure = new(page, focus);
         structure.ChoicePicked += (choice, index) =>

@@ -88,3 +88,5 @@ dotnet run --project experiments/PrimitiveMeasure -c Release -- --timing-sockets
 ~~~
 
 These results apply to repeatable, freshly initialized references in the supplied family. The system can earn one nearby timing program. The pulse-edit grammar, reference tickets, sensor contracts, repeat criterion and budgets are supplied. Agreement after all allowed edits says what this bench could establish within that neighborhood. It leaves open what a different sensor, a second pulse, or a longer program could establish.
+
+The [ornament workshop](OrnamentWorkshop.md) runs the original and earned pulse words on a two-arm pen press and shows how the resulting joins change five line designs.

@@ -25,6 +25,8 @@ The [paired reach experiment](PairedReach.md) tests overlap on an ordered rail, 
 
 [When two rails meet](RailContacts.md) follows two independent owners through docking, comparison, an unresolved longer-span choice and a guarded material draw.
 
+[Ornament workshop](OrnamentWorkshop.md) prints five line plates with conditional pen passages, shared arrivals, repeat clocks, and a nested flower press.
+
 [Can a test earn a socket?](TimingSocket.md) lets a factory desk and an ornament plotter retain a repeatable timing variation and use it on a fresh unknown.
 
 [Which test should run next?](WasherProbeDesk.md) lets a factory test desk choose probes from its remaining possible designs. Compare a local choice with what the budget and sensor wiring can establish.

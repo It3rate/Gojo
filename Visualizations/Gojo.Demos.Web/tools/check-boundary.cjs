@@ -38,12 +38,38 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const washer = process.argv.includes('--washer-counter');
     const probeDesk = process.argv.includes('--washer-probes');
     const timing = process.argv.includes('--timing-sockets');
-    await page.goto(base + '/encoding/explorer/?layer=' + (timing ? 36 : probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const ornaments = process.argv.includes('--ornament-workshop');
+    await page.goto(base + '/encoding/explorer/?layer=' + (ornaments ? '37&plate=5' : timing ? 36 : probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (ornaments) {
+      const plate = () => page.screenshot({clip:{x:720,y:335,width:680,height:340}});
+      const opening=await plate(); await select(645,1); const both=await plate();
+      assert.ok(!opening.equals(both),'The stricter crown must suppress alternate inner presses.');
+      await select(645,2); assert.ok(!both.equals(await plate()),'Equal numbers of flowers occupy different windows.');
+      await select(645,0); await select(480,8); const waiting=await plate();
+      assert.ok(!opening.equals(waiting),'An unresolved arm must stop the plate early.');
+      await select(480,0); await select(330,0);
+      assert.ok(!opening.equals(await plate()),'The deep link initially opened the arcade rather than the default rosette.');
+      await page.screenshot({path:path.join(output,'ornament-workshop-rosette.png')});
+      await select(330,4);
+      assert.ok(opening.equals(await plate()),'Selecting the arcade again restores its printed scene.');
+      const opened=page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes=await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(),/Ornament workshop/);
+      const images=notes.locator('main img'); assert.equal(await images.count(),5);
+      for(const img of await images.all()){
+        const url=new URL(await img.getAttribute('src'),notes.url()).href;
+        const svg=await notes.request.get(url); assert.equal(svg.status(),200); assert.match(await svg.text(),/<path data-cell=/);
+      }
+      const csv=await notes.getByRole('link',{name:/Download the 198 print runs/}).getAttribute('href');
+      assert.equal((await (await notes.request.get(new URL(csv,notes.url()).href)).text()).trim().split('\n').length,199);
+      assert.deepEqual(errors,[]); console.log('Verified deep-linked plates, conditional child starts, uncertain hold, notes, vectors and sweep.');
+      return;
     }
     if (timing) {
       const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});

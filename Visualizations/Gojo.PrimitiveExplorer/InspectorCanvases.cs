@@ -197,7 +197,7 @@ internal sealed class StructureCanvas : Control
         {
             var selected = focus.Key == item.Key && item.Key.Length > 0;
             var ink = selected ? Palette.Orange : item.Active ? Palette.Teal : Palette.Muted;
-            var pen = new Pen(ink, selected ? 3.5 : item.Active ? 2.5 : 1.7, item.Uncertain ? DashStyle.Dash : null);
+            var pen = new Pen(ink, selected ? 3.5 : item.LineWidth ?? (item.Active ? 2.5 : 1.7), item.Uncertain ? DashStyle.Dash : null);
             if (item.Kind == "tile")
             {
                 var rect = TileBounds(item);

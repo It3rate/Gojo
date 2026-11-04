@@ -309,6 +309,34 @@ public sealed class ExplorerTests
     }
 
     [Fact]
+    public void Ornament_plate_opens_complete_then_steps_from_ground_into_the_nested_press()
+    {
+        var s=new ExplorerSession(); s.Navigate(36);
+        Assert.Contains("296 visible",s.Read().Result);
+        s.Read().Choices[0].Change(4);
+        var page=s.Read();
+        Assert.Contains(page.Drawing,d=>d.Key=="inlay" && d.PathData!=null);
+        page.Actions[0].Run();
+        Assert.Single(s.Read().Drawing,d=>d.PathData!=null);
+        s.Read().Choices[3].Change(1);
+        Assert.Equal(1,s.Steps);
+        s.Read().Actions[0].Run(); s.Read().Actions[0].Run(); s.Read().Actions[0].Run();
+        Assert.Contains(s.Read().Drawing,d=>d.Key=="inlay" && d.PathData!=null);
+        s.Read().Choices[1].Change(8);
+        s.Read().Choices[2].Change(1);
+        Assert.Contains("Waiting",s.Read().Result);
+        s.Read().Choices[3].Change(2);
+        Assert.Contains(s.Read().Drawing,d=>d.Key=="eye" && d.Kind=="circle");
+        s.Read().Choices[0].Change(2);
+        s.Read().Choices[1].Change(0);
+        s.Read().Choices[2].Change(0);
+        s.Read().Actions.Single(a=>a.Label=="Pair steps").Run();
+        Assert.Contains("260 visible",s.Read().Result);
+        s.Read().Actions.Single(a=>a.Label=="Separate steps").Run();
+        Assert.Contains("320 visible",s.Read().Result);
+    }
+
+    [Fact]
     public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
     {
         var session = new ExplorerSession();

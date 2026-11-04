@@ -110,3 +110,5 @@ dotnet run --project experiments/PrimitiveMeasure -c Release -- --border-windows
 In the score CSV the four two-bit digits of `moves_hex` select right, up, left, down (low digit first). The first two digits belong to stream 0. The two two-bit digits of `gates_hex` select the clock masks. Sign support bits mean negative, zero, positive. Return classes 0, 1, 2 mean guaranteed projected return, guaranteed drift and unresolved. In the ink CSV each nibble of `ink_hex` names one of the five marks in the order above, earliest slot low. The raw completion count concerns the four-slot window. Forecasts beyond it assume continued repetition.
 
 The [timing bench](TimingSocket.md) reuses these voice strips to test two plotters with different drive connections. It can retain a clock edit and render the resulting border across three repeats.
+
+The [ornament workshop](OrnamentWorkshop.md) runs the original and earned pulse words on a two-arm pen press and shows how the resulting joins change five line designs.

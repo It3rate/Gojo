@@ -9,4 +9,6 @@ internal static partial class BrowserProgram
     internal static partial void OpenNotes(string file);
     [JSImport("globalThis.initialEncodingLayer")]
     internal static partial int InitialLayer();
+    [JSImport("globalThis.initialOrnamentPlate")]
+    internal static partial int InitialOrnamentPlate();
 }

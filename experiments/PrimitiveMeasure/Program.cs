@@ -1,5 +1,28 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--ornament-plates",var folder])
+{
+    Directory.CreateDirectory(folder);
+    for (int i=0;i<OrnamentPlates.All.Count;i++)
+    {
+        var print=new OrnamentImpression(OrnamentPlates.All[i],0,14);
+        File.WriteAllText(Path.Combine(folder,$"plate-{i+1}.svg"),print.Svg());
+        Console.WriteLine($"{print.Design.Name}: {print.Cells.Length} repeats, {print.Draw(print.Passes).Paths.Sum(p=>p.Strokes)} strokes.");
+    }
+    var paired=new OrnamentImpression(OrnamentPlates.PairedKey,0,14);
+    File.WriteAllText(Path.Combine(folder,"paired-hooks.svg"),paired.Svg());
+    using var survey=File.CreateText(Path.Combine(folder,"press-runs.csv"));
+    survey.WriteLine("plate,rhythm,join_truth,outer_cells,finished_cells,outer_finials,child_sectors,passes,strokes");
+    foreach(var plate in OrnamentPlates.All.Append(OrnamentPlates.PairedKey))
+    for(int rhythm=0;rhythm<11;rhythm++)
+    foreach(byte law in new byte[]{14,8,6})
+    {
+        var proof=new OrnamentImpression(plate,rhythm,law);
+        int nested=proof.Timeline.Count(pass=>pass.ChildCell>=0 && pass.Stage==0);
+        survey.WriteLine($"{plate.Name},{rhythm},{law},{proof.Cells.Length},{proof.Cells.Count(c=>c.Finished)},{proof.Cells.Count(c=>c.Finial)},{nested},{proof.Passes},{proof.Draw(proof.Passes).Paths.Sum(p=>p.Strokes)}");
+    }
+    return;
+}
 if (args.Contains("--timing-sockets"))
 {
     SocketSurvey.Trials(Console.Out,args.Contains("--rows"));
