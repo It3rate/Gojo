@@ -1,0 +1,213 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Can a test earn a socket?</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="can-a-test-earn-a-socket">Can a test earn a socket?</h1>
+<p>A factory has two test rigs. One dispenses flat metal washers into a tray. The other draws a repeating border with two pen drives. Each has a desk with nine installed tests and one empty socket. When two machine designs still fit and its tests cannot tell them apart, the desk can ask a timing bench to try a small change. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=36">Open layer 36</a></p>
+<p>Choose <strong>Washer · return wire</strong> and click <strong>Next event</strong>. The old rack tests the unknown until two possible designs remain. The bench moves a pulse, runs a reference machine of each design, and repeats the comparison on fresh references in the opposite order. If the same machine gives ON both times and the other gives OFF both times, the socket keeps the edited test. One more click runs it on a fresh unknown. <strong>Run to end</strong> takes you straight to the outcome.</p>
+<p>Now choose <strong>Border · drive swap</strong>. The same timing bench compares two ways of drawing an ornament. Each row of the picture shows the same clock applied to both reference plotters. The solid strokes cover the test window. The ring marks its endpoint. The dashed continuation shows what the clock draws when it repeats twice more and both pen drives keep their phase. Only the selected sensor on the last beat of the solid portion supplies evidence to the bench.</p>
+<h2 id="the-washer-that-reveals-a-wire">The washer that reveals a wire</h2>
+<p>Both remaining dispensers are loaded with two washers and serve each retry. A has a working confirmation wire. B’s wire is cut. The chute sensor reports a falling washer. Neither candidate can be eliminated by the installed chute tests.</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Beat 1</th>
+<th>Beat 2, when the chute is sampled</th>
+<th>A / B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Original</td>
+<td>Ask for a washer and hold the confirmation wire shut.</td>
+<td>Allow the confirmation through. Both desks were still waiting and asked again.</td>
+<td>ON / ON</td>
+</tr>
+<tr>
+<td>Edited</td>
+<td>Ask for a washer and allow the confirmation through.</td>
+<td>A’s desk has stopped asking. B’s desk still asks for its second washer.</td>
+<td>OFF / ON</td>
+</tr>
+</tbody>
+</table>
+<p>The bench used eight beats and six washers to confirm the split. Each two-beat comparison used one washer in A and two in B. The repeated comparison used fresh stock. The desk then used its own test budget to identify the unknown. <strong>Washer · spare stock</strong> gives the negative control. Two dispensers that remember delivery behave alike with one or two washers loaded. Running the permitted variants leaves the socket empty and both designs possible.</p>
+<h2 id="the-border-that-reveals-a-drive">The border that reveals a drive</h2>
+<p>The wave uses two existing voice strips. One cycles <strong>up, down</strong>, the other repeatedly moves <strong>right</strong>. In A the main clock drives the vertical voice. In B it drives the horizontal voice. The other wire supplies the accent. The desk’s question in this example is whether the pen moved horizontally on the sampled beat. The desk starts with the two candidate tickets, so it can request the bench immediately.</p>
+<table>
+<thead>
+<tr>
+<th>Timing</th>
+<th>A’s two strokes</th>
+<th>B’s two strokes</th>
+<th>Horizontal motion on beat 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accent on beat 2</td>
+<td>Up, then down-and-right</td>
+<td>Right, then up-and-right</td>
+<td>Yes / yes</td>
+</tr>
+<tr>
+<td>Accent on beat 1</td>
+<td>Up-and-right, then down</td>
+<td>Up-and-right, then right</td>
+<td>No / yes</td>
+</tr>
+</tbody>
+</table>
+<p>The original swatches can look different to a person who sees the whole drawing. The installed horizontal sensor sees agreement. Moving the accent exposes the difference at that sensor. <strong>Border · ink only</strong> asks whether the pen moved at all. Both remain possible under that read. <strong>Border · frame flip</strong> uses opposite O/D encodings for the same physical moves. The socket cannot distinguish those encodings through the pen-motion sensors.</p>
+<p>The eight printer designs use the existing wave, opposed sibling streams, the wave in its opposite orientation convention, and the loop with lateral drift. Each has two assignments of the motor leads. The probe supplies the clock strip during a test. Its three read surfaces are any motion, horizontal motion, and upward motion on the final beat. <strong>Border · rewind</strong> reverses the score traversal while delivering the command pulses in their original wall-clock order. <strong>Border · turn and feed</strong> begins with an early accent and can discover a useful <em>later</em> one. <a href="BorderScore.html">How the border score works</a></p>
+<h2 id="where-each-decision-lives">Where each decision lives</h2>
+<table>
+<thead>
+<tr>
+<th>Connection</th>
+<th>Information carried</th>
+<th>Local effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Desk → bench</td>
+<td>Two surviving reference tickets, enabled parent programs, stock protection and remaining desk time</td>
+<td>Opens one request if the question is unresolved and no installed test on the connected sensors separates this pair. A known separating test blocked by cost or a missing reading still counts as known.</td>
+</tr>
+<tr>
+<td>Parent → variant</td>
+<td>One adjacent pair of timing contacts</td>
+<td>Swap <code>01</code> and <code>10</code> on the same wire in an allowed direction. Preserve both pulse counts, sensor, and sample time. Deduplicate edited words and ignore words already on the connected rack.</td>
+</tr>
+<tr>
+<td>Bench → reference pair</td>
+<td>Edited program and access to fresh examples A and B</td>
+<td>Run A then B. Only two resolved, different readings ask for a repeat. The repeat runs B then A and compares the readings against the original ticket positions.</td>
+</tr>
+<tr>
+<td>Reference pair → vacant socket</td>
+<td>Repeated sensor difference, measured candidate scope and material-use contacts</td>
+<td>The local repeat law authorizes one installation. The old program remains available. An occupied socket or expired request cannot be overwritten.</td>
+</tr>
+<tr>
+<td>Socket → desk → fresh unknown</td>
+<td>Newly wired test program, via the desk’s existing activation passage</td>
+<td>Use the new reading to narrow the desk’s live candidates. A missing or uncertain reading preserves them. The reference evidence by itself never identifies the unknown.</td>
+</tr>
+</tbody>
+</table>
+<p>The bench cannot read the unknown or inspect private machine state. Its public meter counts washers released or beats on which a print impression was applied. This meter accounts for cost separately from the sensor bit used to distinguish designs. Before a comparison, the bench reserves enough beats and material for both runs at their stated maximum, then charges actual consumption. Stock protection vetoes new programs that might spend two units in one run. Unsupported or unrepeatable observations still cost the beats and material used. Testing stops when an edit earns the socket, the admissible variants run out, or the limits prevent further runs.</p>
+<h2 id="encoding-chart">Encoding chart</h2>
+<p>The eight-bit test program places the main wire at bits 0–2, the return or accent wire at 3–5, and the sensor port at 6–7. Each wire field stores the first beat in its least significant bit. The last main pulse fixes the sample time.</p>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Parent → child, hex</th>
+<th>Three timing fields as sensor / auxiliary / main</th>
+<th>Measured contacts stored locally</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Washer, chute</td>
+<td><code>93 → 8B</code></td>
+<td><code>10 / 010 / 011 → 10 / 001 / 011</code></td>
+<td>Scope <code>820</code> hex for tickets 5 and 11. ON <code>800</code>, more-than-one washer <code>800</code>.</td>
+</tr>
+<tr>
+<td>Border, horizontal</td>
+<td><code>53 → 4B</code></td>
+<td><code>01 / 010 / 011 → 01 / 001 / 011</code></td>
+<td>Scope <code>003</code> for tickets 0 and 1. ON <code>002</code>, more-than-one impression <code>003</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>The repeat gate has sixteen contacts. For resolved reference bits, the two-bit pair index is <code>A + 2B</code>. Contact <code>first + 4 × repeat</code> permits installation for <code>1 → 1</code> or <code>2 → 2</code>, giving the bitmap <code>0420</code> hex. Missing and ambiguous supports never enter this gate as settled pairs. Swapping which machine reads ON in the repeat fails it.</p>
+<p>The vacant position is socket 6, the position used by the authored feedback test in the previous study. On this rack its program, prediction contacts and scope start empty. The bench receives only the connected parent words. The four-byte installed row stores the program, twelve ON contacts and twelve material-use contacts. A separate local scope mask states which references were measured. A future desk whose candidate set extends beyond that mask cannot treat the unmeasured bits as OFF. <a href="WasherProbeDesk.html">Original desk and its passage wiring</a></p>
+<h2 id="what-the-mode-sweep-covers">What the mode sweep covers</h2>
+<p>The sweep uses <strong>all unordered pairs</strong> of the twelve dispensers and eight printers, with each member tried as the fresh unknown. It crosses all eight sensor subsets, early and late parent pulses, forward and reverse printer traversal, and sixteen operating settings. The interactive factory examples additionally start with all twelve candidates. The tabulated episodes start with a supplied pair so the same ambiguity can be tested under each setting.</p>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th style="text-align: right;">Episodes</th>
+<th style="text-align: right;">Bench requests</th>
+<th style="text-align: right;">Socket retained and used</th>
+<th style="text-align: right;">Fresh read then identified the machine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Washer dispenser</td>
+<td style="text-align: right;">33,792</td>
+<td style="text-align: right;">9,250</td>
+<td style="text-align: right;">350</td>
+<td style="text-align: right;">290</td>
+</tr>
+<tr>
+<td>Border, forward</td>
+<td style="text-align: right;">14,336</td>
+<td style="text-align: right;">6,264</td>
+<td style="text-align: right;">552</td>
+<td style="text-align: right;">460</td>
+</tr>
+<tr>
+<td>Border, rewind</td>
+<td style="text-align: right;">14,336</td>
+<td style="text-align: right;">3,606</td>
+<td style="text-align: right;">228</td>
+<td style="text-align: right;">190</td>
+</tr>
+<tr>
+<td>Total</td>
+<td style="text-align: right;">62,464</td>
+<td style="text-align: right;">19,120</td>
+<td style="text-align: right;">1,130</td>
+<td style="text-align: right;">940</td>
+</tr>
+</tbody>
+</table>
+<p>The last two columns concern episodes that installed a socket. In the other 190 installations the unknown’s first sample was deliberately withheld, so the bench had earned a test but the desk still lacked an answer. Each retained socket was exercised. The real candidate survived every episode.</p>
+<table>
+<thead>
+<tr>
+<th>Operating setting (3,904 episodes each)</th>
+<th style="text-align: right;">Retained and used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Both shift directions</td>
+<td style="text-align: right;">190</td>
+</tr>
+<tr>
+<td>Earlier only / later only</td>
+<td style="text-align: right;">116 / 74</td>
+</tr>
+<tr>
+<td>Even-split choice / inspect shared predictions</td>
+<td style="text-align: right;">190 / 180</td>
+</tr>
+<tr>
+<td>Explicitly distinguish the pair / first unknown sample missing</td>
+<td style="text-align: right;">190 / 190</td>
+</tr>
+<tr>
+<td>Locked timing / question already settled</td>
+<td style="text-align: right;">0 / 0</td>
+</tr>
+<tr>
+<td>Protect material / short desk clock / short bench clock / low supplies</td>
+<td style="text-align: right;">0 in each</td>
+</tr>
+<tr>
+<td>Missing reference / ambiguous reference / changed result on repeat</td>
+<td style="text-align: right;">0 in each</td>
+</tr>
+</tbody>
+</table>
+<p>An independent check enumerates all adjacent time positions directly for the clean pair runs and compares the expected distinguishing power with what the desk actually retains. Tests also exercise every legal three-beat input word on each sensor with both edit directions, competing installation requests, reuse on a fresh desk, and refusal to apply a pair-scoped row to a wider prior.</p>
+<p><a href="assets/experiments--PrimitiveMeasure--data--timing-sockets.zip">Download the timing trials</a>. Each CSV row identifies the two reference tickets, hidden member, wiring, seed and mode, followed by the request scope, retained parent/child words, learned masks, actual desk socket sequence, ODV samples, reference comparisons and cost, and final candidate mask. Empty program fields denote a vacant socket. Reproduce the summary or the rows with:</p>
+<pre><code class="language-text">dotnet run --project experiments/PrimitiveMeasure -c Release -- --timing-sockets
+dotnet run --project experiments/PrimitiveMeasure -c Release -- --timing-sockets --rows
+</code></pre>
+<p>These results apply to repeatable, freshly initialized references in the supplied family. The system can earn one nearby timing program. The pulse-edit grammar, reference tickets, sensor contracts, repeat criterion and budgets are supplied. Agreement after all allowed edits says what this bench could establish within that neighborhood. It leaves open what a different sensor, a second pulse, or a longer program could establish.</p></main></html>

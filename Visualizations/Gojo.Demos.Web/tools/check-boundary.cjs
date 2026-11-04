@@ -37,12 +37,39 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const border = process.argv.includes('--border-score');
     const washer = process.argv.includes('--washer-counter');
     const probeDesk = process.argv.includes('--washer-probes');
-    await page.goto(base + '/encoding/explorer/?layer=' + (probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const timing = process.argv.includes('--timing-sockets');
+    await page.goto(base + '/encoding/explorer/?layer=' + (timing ? 36 : probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (timing) {
+      const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});
+      async function finish() {
+        await page.mouse.click(1090,245); await page.mouse.move(1517,960); await page.waitForTimeout(500);
+      }
+      const initial = await result(); await finish(); const used = await result();
+      assert.ok(!initial.equals(used), 'The factory learns and uses its socket.');
+      await select(330,1); await finish(); const empty = await result();
+      assert.ok(!used.equals(empty), 'The spare washer cannot be seen.');
+      await select(330,2); await finish();
+      assert.ok(used.equals(await result()), 'The border desk uses its own learned socket.');
+      await page.screenshot({path:path.join(output,'timing-socket-border.png')});
+      await select(480,13); await finish();
+      assert.ok(empty.equals(await result()), 'A nonrepeatable split leaves the plotter socket empty.');
+      await select(480,0); await select(330,0); await finish();
+      await page.screenshot({path:path.join(output,'timing-socket-factory.png')});
+      const opened=page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes=await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(),/Can a test earn a socket/);
+      const archive=await notes.getByRole('link',{name:/Download the timing trials/}).getAttribute('href');
+      const data=await notes.request.get(new URL(archive,notes.url()).href);
+      assert.equal(data.status(),200); assert.equal((await data.body()).readUInt32LE(),0x04034b50);
+      assert.deepEqual(errors,[]);
+      console.log('Verified washer discovery, spare stock, border swatches, failed repeat, notes and CSV archive.');
+      return;
     }
     if (probeDesk) {
       const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});

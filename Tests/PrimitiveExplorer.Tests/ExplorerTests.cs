@@ -291,6 +291,24 @@ public sealed class ExplorerTests
     }
 
     [Fact]
+    public void Empty_socket_page_shows_measured_parent_and_edit_and_the_fresh_unknown_read()
+    {
+        var s=new ExplorerSession();
+        s.Navigate(35);
+        s.Read().Actions.Single(a=>a.Label=="Run to end").Run();
+        Assert.Contains("Desk used",s.Read().Result);
+        Assert.Equal(new byte[]{0x8B},s.Read().Blocks.Single(b=>b.Title=="Edited test").Bytes);
+        s.Read().Choices[0].Change(2);
+        s.Read().Actions.Single(a=>a.Label=="Run to end").Run();
+        var p=s.Read();
+        Assert.Equal(new byte[]{0x4B},p.Blocks.Single(b=>b.Title=="Edited test").Bytes);
+        Assert.Contains(p.Drawing,d=>d.Key=="child" && d.Kind=="stroke" && d.Uncertain);
+        s.Read().Choices[1].Change(13);
+        s.Read().Actions.Single(a=>a.Label=="Run to end").Run();
+        Assert.Contains("Socket stays empty",s.Read().Result);
+    }
+
+    [Fact]
     public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
     {
         var session = new ExplorerSession();

@@ -118,3 +118,5 @@ dotnet run --project experiments/PrimitiveMeasure -c Release -- --washer-probe-w
 ~~~
 
 The desk learns which calibrated explanations survive and can act on a partial answer. Its family, sensors, choice rules and stock guarantees are supplied. Variable loading between trials, intermittent faults without an explicit missing-sample witness, invention of new sensors, and automatic repair of a rejected model would each require more structure.
+
+The [empty-socket experiment](TimingSocket.md) starts with the original nine sockets, lets the desk request an edit, and checks whether its bench can earn the missing socket from repeated observations.

@@ -69,6 +69,7 @@ corresponding experiment document in the repository.
 | Read a repeating border | Unwind sibling streams, hide or lift ink, try equal links and use uncovered spans or lane spacing to request a branch. [Encoding and trial data](../../experiments/PrimitiveMeasure/BorderScore.md) |
 | Did the washer drop? | Step a parts dispenser through a lost request or receipt. Compare the actual tray with what the ordering desk can infer. [Encoding and trial data](../../experiments/PrimitiveMeasure/WasherCounter.md) |
 | Which test should run next? | Watch a factory controller choose its next probe, preserve competing designs, and stop at a sensor or stock limit. [Encoding and trial data](../../experiments/PrimitiveMeasure/WasherProbeDesk.md) |
+| Can a test earn a socket? | Shift a wire pulse, compare fresh reference machines twice, and see the retained test print a border or distinguish a dispenser. [Encoding and trial data](../../experiments/PrimitiveMeasure/TimingSocket.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

@@ -13,7 +13,7 @@ public readonly record struct ProbeTrial(int Row, int Before, int After, byte Sa
 /// word and returns the selected sensor's ODV support.</summary>
 public sealed class WasherProbeDesk
 {
-    private readonly WasherProbeBank bank = WasherProbeBank.Calibrated;
+    private readonly WasherProbeBank bank;
     private readonly int surfaces;
     private readonly int sockets;
     private readonly bool protectStock, checkPromises, preferBalanced;
@@ -33,13 +33,14 @@ public sealed class WasherProbeDesk
 
     public WasherProbeDesk(int surfaces, int budget, int? goalYes = null, bool protectStock = false,
         bool checkPromises = false, int candidates = WasherProbeBank.Family, bool preferBalanced = false,
-        int sockets = WasherProbeBank.AllSockets)
+        int sockets = WasherProbeBank.AllSockets, WasherProbeBank? rack = null)
     {
         if ((uint)surfaces > 7 || budget < 0 || (candidates & ~WasherProbeBank.Family) != 0 ||
             (sockets & ~WasherProbeBank.AllSockets) != 0 ||
             (goalYes.HasValue && (goalYes.Value & ~WasherProbeBank.Family) != 0))
             throw new ArgumentException("Invalid desk wiring, candidate set or beat budget.");
         this.surfaces = surfaces;
+        bank = rack ?? WasherProbeBank.Calibrated;
         this.sockets = sockets;
         this.protectStock = protectStock;
         this.checkPromises = checkPromises;
@@ -68,6 +69,7 @@ public sealed class WasherProbeDesk
         for (int i = 0; i < guards.Length; i++)
         {
             int bit = 1 << i;
+            if (bank.Scope(i) == 0 || (Live & ~bank.Scope(i)) != 0) continue;
             var probe = bank.Probe(i);
             int yes = Live & bank.Yes(i), no = Live & ~yes;
             if (yes != 0 && no != 0) split |= bit;
@@ -94,6 +96,24 @@ public sealed class WasherProbeDesk
         bool checking = checkPromises && Live != 0 && open == 0 && (legal & ~split) != 0;
         if (checking) open = legal & ~split;
         return new(split,direct,wired,affordable,safe,fresh,open,checking);
+    }
+
+    public TimingRequest? RequestTiming()
+    {
+        const int vacancy = WasherProbeBank.Feedback;
+        if (Answered || BitOperations.PopCount((uint)Live) != 2 || BeatsLeft == 0 ||
+            bank.Scope(vacancy) != 0 || (sockets & (1 << vacancy)) == 0) return null;
+        var offers = Offers();
+        if (offers.Open != 0 || (offers.Split & offers.Wired) != 0 || offers.Wired == 0) return null;
+        int pair = Live;
+        var parents = Enumerable.Range(0,WasherProbeBank.Count)
+            .Where(i => (offers.Wired & (1 << i)) != 0).Select(i => bank.Probe(i)).ToArray();
+        return new(pair,parents,protectStock,BeatsLeft,(p,yes,extra) =>
+        {
+            if (Live != pair || bank.Scope(vacancy) != 0 || p.Beats > BeatsLeft) return false;
+            bank.Fit(vacancy,p,pair,yes,extra);
+            return true;
+        });
     }
 
     public ProbeTrial? Step(Func<WasherProbe,byte> sample)

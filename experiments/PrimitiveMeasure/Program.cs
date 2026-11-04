@@ -1,5 +1,10 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args.Contains("--timing-sockets"))
+{
+    SocketSurvey.Trials(Console.Out,args.Contains("--rows"));
+    return;
+}
 if (args.Contains("--washer-probe-witnesses"))
 {
     WasherProbeAudit.Witnesses(Console.Out);
