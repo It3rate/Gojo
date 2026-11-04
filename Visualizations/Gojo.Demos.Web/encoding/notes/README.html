@@ -1,11 +1,16 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Three bits, before a yardstick</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="three-bits-before-a-yardstick">Three bits, before a yardstick</h1>
-<p>Round 2, 30 October 2026. This replaces the rejected primitive-runtime experiment.
-The starting object is simply <strong>orientation, direction, zero/nonzero</strong>. The word
-contains no identifiers, connections, carriers, units, receipts or hidden magnitudes.
-The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
-following the user's corrected scope rather than the earlier runtime handoff.</p>
+<p>How much arithmetic can a sensor do if it can tell that something is there
+but has no ruler? Three bits record which way it calls positive, the direction
+of the input in that frame, and whether the amount is zero or nonzero.
+Try adding two positive nonzero inputs in the same frame. The sum must still
+be positive. Reverse one input and the sum could be positive, zero or negative.
+The sensor can say exactly which answers fit even when it cannot pick one.
+<a href="https://gojo.inklingai.ca/encoding/explorer/?layer=2">Try the addition</a></p>
+<p>Round 2, 30 October 2026. This lower-level encoding replaces the earlier
+primitive-runtime experiment. The three-bit word stores only orientation,
+direction and zero/nonzero.</p>
 <p>The <strong><a href="ExplorerGuide.html">Primitive Explorer</a></strong>
-provides 25 interactive visual layers over these experiments. Hover the diagrams
+covers these experiments from the first word through comparisons between structures. Hover the diagrams
 or packed bits to trace their correspondence; change controls or step a passage
 or repeated body to inspect its actual encoding and result.</p>
 <pre><code class="language-powershell">dotnet run --project Visualizations/Gojo.PrimitiveExplorer

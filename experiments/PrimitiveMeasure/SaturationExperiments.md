@@ -1,15 +1,18 @@
 # Saturation branches and pre numeric rectangles
 
-Round 9 extends the examples in [ConditionalExperiments.md](ConditionalExperiments.md).
-There are two executable parts: routing blocked contents through existing passage
-rows, and reading a rectangle from shared unknown reaches in an explicitly
-perpendicular frame. The latter is a small geometry constraint experiment;
-it does not simulate radiation or derive perpendicularity from a blocked bit.
+Where does a waiting pulse go when the way ahead is full? Give the junction
+an empty side outlet and the pulse can turn into it. Fill that outlet too and
+the pulse stays at its source. Stepping the junction shows which route the
+existing connections allow. [Try the junction](https://gojo.inklingai.ca/encoding/explorer/?layer=11)
 
-The useful result is that a connection can preserve **what must correspond**
-without specifying how much is there. A blocked passage also preserves what
-has not moved. Those two capabilities give us a base for exploring new routes
-without pretending we already have a law that grows them.
+The second experiment asks what connections can tell you about shape. Walk
+four positive lengths with right-angle turns in the same sense. If the
+opposite sides reuse the same lengths and the last step returns to the first
+corner, you have a rectangle of unknown size. Give each side its own length
+and the guarantee disappears, even if the picture still looks rectangular.
+The right angles are supplied in this experiment. [Try the rectangle](https://gojo.inklingai.ca/encoding/explorer/?layer=12)
+
+Round 9 extends the examples in [ConditionalExperiments.md](ConditionalExperiments.md).
 
 ```powershell
 dotnet run --project experiments/PrimitiveMeasure -- --saturation
@@ -17,10 +20,6 @@ dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
 ```
 
 ## The simple picture
-
-Imagine contents waiting at a junction. An ordinary passage tries to hand them
-to the next site. If that site cannot accept them, a second passage can hand them
-to a side site. If neither accepts, the contents stay where they are.
 
 The junction has no extra amount of its own. It consists of existing value sites
 and connection rows referring to them. A row is a stored relation, rather than

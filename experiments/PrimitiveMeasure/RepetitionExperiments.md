@@ -1,16 +1,21 @@
 # Repetition and composed shape structures
 
-Round 10 adds executable feedback and composition to the primitive experiment.
-A small body can run repeatedly, expose completion, wait for another component,
-and run again with a different placement. The shape parameters remain unknown:
-there are no coordinate pairs, assigned lengths, angles in degrees, or hidden
-fine values in these examples.
+How do you draw a square when nobody has chosen its size? Use the same
+positive length each time you move, make a quarter-turn in the same sense,
+and repeat until you face the starting direction after a whole turn.
+For a rectangle, alternate two lengths. Reusing a length is what makes
+opposite sides match. The controller decides when the walk stops.
+[Step through the repeated walk](https://gojo.inklingai.ca/encoding/explorer/?layer=14)
 
-The main result is that **the repeated body, its controller, and its geometric
-interpretation can be connected separately**. A cycle is useful for timing
-before it means anything geometric. Connecting it to equal parts of a whole
-turn gives it additional meaning. Connecting the resulting motif to a moving
-placement creates another composition.
+Now leave the rectangle instructions alone. Have a second device move the
+starting place during a five-beat wait. The next rectangle follows the same
+instructions at its new location. You can also construct a square by joining
+four equally spaced marks on a circle. Each construction supplies different
+ways to vary the result. [Try the moving pattern](https://gojo.inklingai.ca/encoding/explorer/?layer=15) · [Try the circle construction](https://gojo.inklingai.ca/encoding/explorer/?layer=13)
+
+Round 10 encodes the repeated body, its controller and its geometric
+interpretation separately. The examples require no assigned side lengths
+or coordinates.
 
 ```powershell
 dotnet run --project experiments/PrimitiveMeasure -- --repetition

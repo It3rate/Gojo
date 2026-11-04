@@ -1,8 +1,10 @@
 # Curves in capitals
 
-Start with D. Switch **Probe evidence** to **Ends + ink topology**, then step
-right to **D · corners**. Both returns leave the stem going right and arrive
-going left. Restore the interior law to see where the turn happens. Next try
+Does knowing how a stroke leaves and rejoins the stem of a D tell you that
+it curves? Start with D, switch **Probe evidence** to **Ends + ink topology**,
+then step right to **D · corners**. A smooth bow and a path with square
+corners both leave the top heading right and reach the foot heading left.
+Restore the interior law to see which path turns as the pen moves. Next try
 **C · gap in O** and switch **Drawing** to **Ink + construction**. The thin
 dashed arc completes the source circle while the ink still has two ends.
 [Open the experiment](https://gojo.inklingai.ca/encoding/explorer/?layer=26)

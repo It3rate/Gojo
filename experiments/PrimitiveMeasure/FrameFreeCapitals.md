@@ -1,11 +1,20 @@
 # Capitals without a construction box
 
-Five supplied block-letter constructions explore how much a reader can infer
-from ordered straight runs and shared sites alone. Local site numbers name
-references. They carry no coordinate, distance or screen direction. Each
-listed run participates and its successive landmarks are distinct ordinal
-positions in this construction. A square, baseline and numeric ink widths
-would add information beyond this input. [Open the five capitals](https://gojo.inklingai.ca/encoding/explorer/?layer=23)
+Could you tell an N from a Z if all you knew was which strokes met? In these
+block letters a quarter-turn takes one drawing into the other. With the
+ground unbound, both names fit. Attach a local ground and the reader can tell
+whether the outer strokes run along it or across it. That one clue separates
+the letters even if you turn the whole illustration sideways. [Try N and Z](https://gojo.inklingai.ca/encoding/explorer/?layer=23)
+
+E poses a different question. A writer can draw its arms from bottom to top
+without changing where they join the spine. Switching writers lets you see
+which facts come from stroke order and which need a spatial comparison.
+[Try the two orders of E](https://gojo.inklingai.ca/encoding/explorer/?layer=24)
+
+The five constructions supply ordered straight runs and shared sites. Local
+site numbers name references. Each listed run participates and its successive
+landmarks are distinct positions along it. Distances and screen coordinates
+are unspecified.
 
 ## The five inputs
 

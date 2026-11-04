@@ -1,4 +1,14 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Primitive connections: exact encoding chart</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="primitive-connections-exact-encoding-chart">Primitive connections: exact encoding chart</h1>
+<p>Which bit does a connection actually touch? Follow a transfer between two
+stores in the charts below. The source supplies the contents, the destination
+receives them, and a third bit can open the passage simply by being read.
+Those three roles explain what changes when the passage runs.</p>
+<p>The memory example uses the same idea for a different job. Set <strong>Previous
+direction</strong> to <strong>Negative</strong>, choose a zero observation and press <strong>Apply
+feedback</strong>. The presence bit clears while the remembered direction stays
+negative. A detectable positive input can turn it positive again. Section 6
+shows the bit that decides when to keep the old direction.
+<a href="https://gojo.inklingai.ca/encoding/explorer/?layer=7">Try memory at zero</a></p>
 <p>Round 3, 30 October 2026. These layouts are <strong>implemented experiments</strong>, not a
 general port format or a replacement for Gojo's kernel. The chosen layouts and
 their local transition laws are exploratory. They make every attachment in these

@@ -1,20 +1,19 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Saturation branches and pre numeric rectangles</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="saturation-branches-and-pre-numeric-rectangles">Saturation branches and pre numeric rectangles</h1>
-<p>Round 9 extends the examples in <a href="ConditionalExperiments.html">ConditionalExperiments.md</a>.
-There are two executable parts: routing blocked contents through existing passage
-rows, and reading a rectangle from shared unknown reaches in an explicitly
-perpendicular frame. The latter is a small geometry constraint experiment;
-it does not simulate radiation or derive perpendicularity from a blocked bit.</p>
-<p>The useful result is that a connection can preserve <strong>what must correspond</strong>
-without specifying how much is there. A blocked passage also preserves what
-has not moved. Those two capabilities give us a base for exploring new routes
-without pretending we already have a law that grows them.</p>
+<p>Where does a waiting pulse go when the way ahead is full? Give the junction
+an empty side outlet and the pulse can turn into it. Fill that outlet too and
+the pulse stays at its source. Stepping the junction shows which route the
+existing connections allow. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=11">Try the junction</a></p>
+<p>The second experiment asks what connections can tell you about shape. Walk
+four positive lengths with right-angle turns in the same sense. If the
+opposite sides reuse the same lengths and the last step returns to the first
+corner, you have a rectangle of unknown size. Give each side its own length
+and the guarantee disappears, even if the picture still looks rectangular.
+The right angles are supplied in this experiment. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=12">Try the rectangle</a></p>
+<p>Round 9 extends the examples in <a href="ConditionalExperiments.html">ConditionalExperiments.md</a>.</p>
 <pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --saturation
 dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
 </code></pre>
 <h2 id="the-simple-picture">The simple picture</h2>
-<p>Imagine contents waiting at a junction. An ordinary passage tries to hand them
-to the next site. If that site cannot accept them, a second passage can hand them
-to a side site. If neither accepts, the contents stay where they are.</p>
 <p>The junction has no extra amount of its own. It consists of existing value sites
 and connection rows referring to them. A row is a stored relation, rather than
 a third material store or a coincidence inferred from positions in memory.</p>

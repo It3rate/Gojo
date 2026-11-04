@@ -3,6 +3,11 @@
 house, both faces use the same seam edge. In the right house the room has its
 own edge between the very same sites. Add an interior landmark M through the
 roof and watch what the attached room reader sees. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=20">Open the two houses</a></p>
+<p>If the room shares the edge, it can see the new mark immediately as it
+traverses the edge the other way. If it owns a separate edge, its view still
+goes straight from B to A. The open-O experiment farther down asks a related
+question. Can one reader close the gap in its interpretation while another
+still sees the gap in the original stroke? <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=21">Try the open stroke</a></p>
 <pre><code class="language-text">        P
        / \
       A---B      roof walks A → B → P → A

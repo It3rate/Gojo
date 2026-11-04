@@ -1,8 +1,14 @@
 # Controlled flow through two passages
 
-Round 7, 31 October 2026. This experiment executes a whole handoff directly on
-the primitive value stores. It adds a joint before/after law to the existing
-positional arrays, local port mappings, and packed connection rows.
+Start with one occupied source, an empty middle slot and an empty target.
+With **Control read** set to **Present**, press **Step next passage** twice.
+The first step empties the source and fills the middle. The second empties
+the middle and fills the target. There is still just one arrival. Now choose
+**Uncertain** and try again. The reader can show where the arrival might go,
+but the stored arrival waits. [Follow the chain](https://gojo.inklingai.ca/encoding/explorer/?layer=9)
+
+Round 7, 31 October 2026. The before/after table encodes which changes a
+passage permits. The connection rows bind those rules to particular stores.
 
 The later [conditional experiment](ConditionalExperiments.md) begins with a
 simple recap and composes these passages into a two-way choice with continuations.

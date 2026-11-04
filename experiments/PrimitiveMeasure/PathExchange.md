@@ -1,6 +1,6 @@
 # Two private paths, one public loop
 
-Each owner answers one question. Does my selected traversal lead from my advertised inlet to my advertised outlet? The host can put two such paths together by connecting A's outlet to B's inlet and B's outlet to A's inlet. A and B can both use local site number 0. The actual seam supplies their cross-owner connection.
+Can two owners establish that their paths form a loop while keeping the paths private? Connect A's exit to B's entrance and B's exit to A's entrance. Each owner reports whether its part can be followed from entrance to exit. Reverse a step inside B. A's report still holds. B first withdraws its old answer, then reports a break when its inspection reaches the reversed step. The host learns that the loop is broken without tracing either owner's private path.
 
 Open [layer 19](https://gojo.inklingai.ca/encoding/explorer/?layer=19). Begin with ordinary pairs, choose the reversal, and advance four beats. Repeat with vertex chains. The dark panel shows the public reads followed by an inspector view into B. Only the public reads and seams participate in the host's calculation.
 

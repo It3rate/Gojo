@@ -1,14 +1,16 @@
 # Closure, claims and circulating flow
 
-This playground asks three separate questions: does the structure close, can
-its claims agree, and can an activation move through it? No lengths or angles
-are needed to answer the first question. The same cycle can contradict a
-strict scalar ordering while supporting a useful repeating passage.
+Follow three arrows from A to B to C and back to A. As a route, they make a
+closed walk and a pulse can circulate. Now read each arrow as “greater than.”
+The same three arrows would require A to be greater than itself. The wiring
+is identical. What an arrow means determines which question it can answer.
 
 Open the [visual playground](https://gojo.inklingai.ca/encoding/explorer/?layer=16).
 Layers 16–18 extend the existing [Primitive Explorer](../../Visualizations/Gojo.PrimitiveExplorer/README.md).
-Hover a connection or its bits to follow the correspondence. All results come
-from the C# experiments, including in the browser.
+The last trial builds a much longer ring and limits how many links the reader
+can inspect. After checking only the first quarter, the reader still has to
+leave closure open. A join in the unread part could still break the walk.
+[Try the limited inspection](https://gojo.inklingai.ca/encoding/explorer/?layer=18)
 
 Status: executable exploratory fixture. The Gojo kernel and the original ODV
 word are unchanged. This borrows signed incidence from the Hodge discussion;

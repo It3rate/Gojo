@@ -1,8 +1,18 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ordered connections, calculated reads, and retained results</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="ordered-connections-calculated-reads-and-retained-results">Ordered connections, calculated reads, and retained results</h1>
-<p>Round 5, 30 October 2026. These are small implemented experiments over the
-positional value arrays and stable ports. They preserve a connection's roles
-even when every attached value reads zero. No geometric direction, radial field,
-or rectangle is inferred merely from those bits.</p>
+<p>Imagine two switches feeding one indicator. With both switches on, the answer
+to “is either on?” is yes. Change the question to “is exactly one on?” and the
+answer becomes no. The switches and their wires stayed put. The <strong>read law</strong>
+is the table that tells the indicator how to answer. Reading it consumes
+nothing at either input. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=4">Try the two laws</a></p>
+<p>The wiring matters just as much as the law. If one switch feeds both inputs,
+“exactly one” must be false even when the switch position is hidden. Two
+different switches with hidden positions leave the answer open. A coarse
+“either on?” light also looks the same with one switch on as with both on.
+The same issue comes up with opposing flows. Let equal positive and negative
+amounts cancel in the fine example. The net reads zero, yet both retained
+slots are occupied. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=6">Try the opposing flows</a></p>
+<p>Round 5, 30 October 2026. These experiments use the positional value arrays
+and stable ports. The connection roles persist even when every value reads zero.</p>
 <p><a href="#round-6-one-site-two-sites-and-one-site-used-twice">Round 6 below</a> exercises
 that distinction with one site, two sites, and one site referenced twice.
 The later <a href="PassageExperiments.html">Round 7 passage chart</a> adds explicit joint

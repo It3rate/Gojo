@@ -1,9 +1,21 @@
 # Ordered connections, calculated reads, and retained results
 
-Round 5, 30 October 2026. These are small implemented experiments over the
-positional value arrays and stable ports. They preserve a connection's roles
-even when every attached value reads zero. No geometric direction, radial field,
-or rectangle is inferred merely from those bits.
+Imagine two switches feeding one indicator. With both switches on, the answer
+to “is either on?” is yes. Change the question to “is exactly one on?” and the
+answer becomes no. The switches and their wires stayed put. The **read law**
+is the table that tells the indicator how to answer. Reading it consumes
+nothing at either input. [Try the two laws](https://gojo.inklingai.ca/encoding/explorer/?layer=4)
+
+The wiring matters just as much as the law. If one switch feeds both inputs,
+“exactly one” must be false even when the switch position is hidden. Two
+different switches with hidden positions leave the answer open. A coarse
+“either on?” light also looks the same with one switch on as with both on.
+The same issue comes up with opposing flows. Let equal positive and negative
+amounts cancel in the fine example. The net reads zero, yet both retained
+slots are occupied. [Try the opposing flows](https://gojo.inklingai.ca/encoding/explorer/?layer=6)
+
+Round 5, 30 October 2026. These experiments use the positional value arrays
+and stable ports. The connection roles persist even when every value reads zero.
 
 [Round 6 below](#round-6-one-site-two-sites-and-one-site-used-twice) exercises
 that distinction with one site, two sites, and one site referenced twice.

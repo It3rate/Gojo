@@ -1,14 +1,18 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Repetition and composed shape structures</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="repetition-and-composed-shape-structures">Repetition and composed shape structures</h1>
-<p>Round 10 adds executable feedback and composition to the primitive experiment.
-A small body can run repeatedly, expose completion, wait for another component,
-and run again with a different placement. The shape parameters remain unknown:
-there are no coordinate pairs, assigned lengths, angles in degrees, or hidden
-fine values in these examples.</p>
-<p>The main result is that <strong>the repeated body, its controller, and its geometric
-interpretation can be connected separately</strong>. A cycle is useful for timing
-before it means anything geometric. Connecting it to equal parts of a whole
-turn gives it additional meaning. Connecting the resulting motif to a moving
-placement creates another composition.</p>
+<p>How do you draw a square when nobody has chosen its size? Use the same
+positive length each time you move, make a quarter-turn in the same sense,
+and repeat until you face the starting direction after a whole turn.
+For a rectangle, alternate two lengths. Reusing a length is what makes
+opposite sides match. The controller decides when the walk stops.
+<a href="https://gojo.inklingai.ca/encoding/explorer/?layer=14">Step through the repeated walk</a></p>
+<p>Now leave the rectangle instructions alone. Have a second device move the
+starting place during a five-beat wait. The next rectangle follows the same
+instructions at its new location. You can also construct a square by joining
+four equally spaced marks on a circle. Each construction supplies different
+ways to vary the result. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=15">Try the moving pattern</a> · <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=13">Try the circle construction</a></p>
+<p>Round 10 encodes the repeated body, its controller and its geometric
+interpretation separately. The examples require no assigned side lengths
+or coordinates.</p>
 <pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --repetition
 dotnet test Tests/PrimitiveMeasure.Tests/PrimitiveMeasure.Tests.csproj
 </code></pre>

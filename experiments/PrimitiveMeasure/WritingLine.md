@@ -1,6 +1,8 @@
 # One stem, two inputs
 
-Give a Y two arrivals. One receiving slot accepts the first and leaves the second waiting. A switched Y accepts the selected inlet. A third construction accepts both and publishes one bit answering “is anything here?” Try **Trace passage**, then change **Connection** and repeat. The same page also lets you assign the dots of i and j and change the upper joint of a 4. [Open layer 30](https://gojo.inklingai.ca/encoding/explorer/?layer=30)
+Give a Y two arrivals and watch its stem. It lights up whether one arrival got through or both did. Try **Trace passage**, then change **Connection** and repeat. With one receiving slot the second arrival waits. A switch admits the selected inlet. With two receiving slots both arrivals can enter, yet the stem still gives the same answer to “is anything here?” [Open layer 30](https://gojo.inklingai.ca/encoding/explorer/?layer=30)
+
+The two handwriting examples also ask what a visible clue can settle. Move the *assignment* of a dot without moving the ink. A dot can sit above a stem and belong to a different letter. Then compare the two ways of writing 4. Only one has a closed loop, yet both are supplied examples of the same digit.
 
 ## Which law belongs to the Y?
 

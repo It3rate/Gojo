@@ -1,13 +1,19 @@
 # Three bits, before a yardstick
 
-Round 2, 30 October 2026. This replaces the rejected primitive-runtime experiment.
-The starting object is simply **orientation, direction, zero/nonzero**. The word
-contains no identifiers, connections, carriers, units, receipts or hidden magnitudes.
-The current Gojo kernel is unchanged. This is an exploratory lower-level encoding,
-following the user's corrected scope rather than the earlier runtime handoff.
+How much arithmetic can a sensor do if it can tell that something is there
+but has no ruler? Three bits record which way it calls positive, the direction
+of the input in that frame, and whether the amount is zero or nonzero.
+Try adding two positive nonzero inputs in the same frame. The sum must still
+be positive. Reverse one input and the sum could be positive, zero or negative.
+The sensor can say exactly which answers fit even when it cannot pick one.
+[Try the addition](https://gojo.inklingai.ca/encoding/explorer/?layer=2)
+
+Round 2, 30 October 2026. This lower-level encoding replaces the earlier
+primitive-runtime experiment. The three-bit word stores only orientation,
+direction and zero/nonzero.
 
 The **[Primitive Explorer](../../Visualizations/Gojo.PrimitiveExplorer/README.md)**
-provides 25 interactive visual layers over these experiments. Hover the diagrams
+covers these experiments from the first word through comparisons between structures. Hover the diagrams
 or packed bits to trace their correspondence; change controls or step a passage
 or repeated body to inspect its actual encoding and result.
 

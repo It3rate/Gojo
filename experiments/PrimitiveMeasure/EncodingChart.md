@@ -1,5 +1,17 @@
 # Primitive connections: exact encoding chart
 
+Which bit does a connection actually touch? Follow a transfer between two
+stores in the charts below. The source supplies the contents, the destination
+receives them, and a third bit can open the passage simply by being read.
+Those three roles explain what changes when the passage runs.
+
+The memory example uses the same idea for a different job. Set **Previous
+direction** to **Negative**, choose a zero observation and press **Apply
+feedback**. The presence bit clears while the remembered direction stays
+negative. A detectable positive input can turn it positive again. Section 6
+shows the bit that decides when to keep the old direction.
+[Try memory at zero](https://gojo.inklingai.ca/encoding/explorer/?layer=7)
+
 Round 3, 30 October 2026. These layouts are **implemented experiments**, not a
 general port format or a replacement for Gojo's kernel. The chosen layouts and
 their local transition laws are exploratory. They make every attachment in these

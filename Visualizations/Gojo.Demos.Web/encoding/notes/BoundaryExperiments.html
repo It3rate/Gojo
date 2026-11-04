@@ -1,12 +1,14 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Closure, claims and circulating flow</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="closure-claims-and-circulating-flow">Closure, claims and circulating flow</h1>
-<p>This playground asks three separate questions: does the structure close, can
-its claims agree, and can an activation move through it? No lengths or angles
-are needed to answer the first question. The same cycle can contradict a
-strict scalar ordering while supporting a useful repeating passage.</p>
+<p>Follow three arrows from A to B to C and back to A. As a route, they make a
+closed walk and a pulse can circulate. Now read each arrow as “greater than.”
+The same three arrows would require A to be greater than itself. The wiring
+is identical. What an arrow means determines which question it can answer.</p>
 <p>Open the <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=16">visual playground</a>.
 Layers 16–18 extend the existing <a href="ExplorerGuide.html">Primitive Explorer</a>.
-Hover a connection or its bits to follow the correspondence. All results come
-from the C# experiments, including in the browser.</p>
+The last trial builds a much longer ring and limits how many links the reader
+can inspect. After checking only the first quarter, the reader still has to
+leave closure open. A join in the unread part could still break the walk.
+<a href="https://gojo.inklingai.ca/encoding/explorer/?layer=18">Try the limited inspection</a></p>
 <p>Status: executable exploratory fixture. The Gojo kernel and the original ODV
 word are unchanged. This borrows signed incidence from the Hodge discussion;
 it does not implement Hodge decomposition, a metric, automatic geometry,

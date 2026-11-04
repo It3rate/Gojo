@@ -1,8 +1,8 @@
 # When two rails meet
 
-Two owners each have a strip, a start mark and a tip. Each owner can say which of its own marks comes first. Place the rails against the same straight guide. Seat their start marks in the same socket. Those marks now coincide in projection, but the second rail could run either way, and either strip could be longer. [Open layer 32](https://gojo.inklingai.ca/encoding/explorer/?layer=32)
+**Can a comparison open a valve before anyone measures a length?** Imagine two paper strips on a straight guide. Each carries a pencil line from a start mark to a tip. Nearby, a Y-shaped collector holds two arrivals. A receiver can draw one arrival if the lines settle its question about their lengths. The paper strips supply the evidence. The Y supplies what moves. [Open layer 32](https://gojo.inklingai.ca/encoding/explorer/?layer=32)
 
-Choose **Across a latch**, then **Two contacts**. The second socket joins the two latch marks. On A the tip stops before the latch. On B the tip goes past it. With their starts together, B must be longer. **Next request** lets the receiver draw one of the Y's two arrivals. Try **Inside bracket** instead. Both tips are now between the same contacts. They could coincide, or either could be farther along.
+Choose **Across a latch**, **Feet meet** and **B is longer**, then press **Next request**. Only the starts line up, so either line could be longer and the receiver waits. Change **Feet meet** to **Two contacts**. Think of the second socket as a clip across both strips of paper. A's pencil line ends before the clip and B's goes past it. Now press **Next request** again. B must be longer, so one arrival moves into the inbox. Changing a dropdown starts that example over.
 
 ~~~text
              foot                         latch
@@ -10,6 +10,8 @@ A             o -------- tip A ------------ o
               |                             |      contact sockets
 B             o --------------------------- o ----- tip B
 ~~~
+
+For the uncertain case, keep **Two contacts** and choose **Unknown A order**. The lines start together and end at two different stops. The receiver can draw under **Either is longer**, since a tie is ruled out. Under **A is longer** it waits, since either line could be the longer one.
 
 The lengths of the dashes are illustrative. The construction assumes straight rails held on a common line, distinct projected positions for distinct named stops within one owner, and closed occupied spans. A positive extension counts as greater extent. The direction of B relative to A and the size of every gap start unspecified. In loose space a single physical touch would also allow the rails to pivot.
 
