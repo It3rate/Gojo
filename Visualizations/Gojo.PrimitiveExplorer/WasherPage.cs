@@ -7,7 +7,7 @@ public sealed partial class ExplorerSession
     private ExplorerPage WasherPage()
     {
         var p = new ExplorerPage("Did the washer drop?",
-            "Ask for one washer. When the desk hears nothing, should the counter release another on the retry?", "WasherCounter.md");
+            "On a factory assembly line, the control desk tells a dispenser to drop one flat metal washer into a parts tray, and a lamp stays lit while the tray holds any washers.", "WasherCounter.md");
         Choose(p,"View",["Inside the machine","Desk only","Desk + tray lamp","Test both rules"],Mode,n=>
         {
             Mode = n;

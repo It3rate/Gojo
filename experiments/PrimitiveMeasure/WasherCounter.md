@@ -1,6 +1,8 @@
 # Did the washer drop?
 
-A desk asks a dispenser for **one washer**. After one beat the desk has heard nothing. Did the request get lost on the way out? Or did the washer fall into the tray and the receipt get lost on the way back? The desk has the same evidence in both cases. Asking again is reasonable. Whether asking again dispenses a second washer depends on one bit in the release rule. [Open the interactive counter](https://gojo.inklingai.ca/encoding/explorer/?layer=34)
+On a factory assembly line, the control desk tells a dispenser to drop one flat metal washer into a parts tray, and a lamp stays lit while the tray holds any washers.
+
+The desk expects a confirmation signal called a **receipt**. After one beat, no signal has come back. Did the request get lost on the way out? Or did the washer fall into the tray and the receipt get lost on the way back? The desk has the same evidence in both cases. Asking again is reasonable. Whether asking again dispenses a second washer depends on one bit in the release rule. [Open the interactive counter](https://gojo.inklingai.ca/encoding/explorer/?layer=34)
 
 **Try it in three steps**
 
