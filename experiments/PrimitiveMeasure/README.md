@@ -25,6 +25,8 @@ The [paired reach experiment](PairedReach.md) tests overlap on an ordered rail, 
 
 [When two rails meet](RailContacts.md) follows two independent owners through docking, comparison, an unresolved longer-span choice and a guarded material draw.
 
+[Read a repeating border](BorderScore.md) builds ornaments from sibling motion streams, compares predicted and executed phase returns, and tests hidden ink and fill pressure over ordinal spans.
+
 The [straight capital atlas](StraightCapitals.md) covers 15 letters under a
 positive-right, positive-up convention with bottom-left zero. It traces actual
 loop spans and distinguishes a projected crossing from a shared ink junction.

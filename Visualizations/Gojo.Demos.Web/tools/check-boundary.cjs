@@ -34,12 +34,39 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const writing = process.argv.includes('--writing-line');
     const paired = process.argv.includes('--paired-reach');
     const rails = process.argv.includes('--rail-contacts');
-    await page.goto(base + '/encoding/explorer/?layer=' + (rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const border = process.argv.includes('--border-score');
+    await page.goto(base + '/encoding/explorer/?layer=' + (border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (border) {
+      const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});
+      const direct = await result();
+      await select(480,2);
+      assert.ok(!direct.equals(await result()), 'Grouped siblings change the period.');
+      await page.mouse.click(765,245); await page.mouse.move(1517,960); await page.waitForTimeout(300);
+      await page.screenshot({path:path.join(output,'border-streams.png')});
+      await select(480,6); const rectangle = await result(); await select(480,7);
+      assert.ok(!rectangle.equals(await result()), 'Sampling the opposed streams together changes the return period.');
+      await select(330,1);
+      const hidden = await result(); await select(480,1);
+      assert.ok(hidden.equals(await result()), 'A hidden cut must supply the same evidence as hidden ink.');
+      await select(645,1);
+      assert.ok(!hidden.equals(await result()), 'Revealing the cut rejects the repeat.');
+      await select(330,3); await select(810,1); await page.mouse.click(940,245); await page.mouse.move(1517,960);
+      await page.waitForTimeout(300); await page.screenshot({path:path.join(output,'border-coverage.png')});
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(), /Read a repeating border/);
+      const archive = await notes.getByRole('link', {name:/Download the two CSV/}).getAttribute('href');
+      const data = await notes.request.get(new URL(archive,notes.url()).href);
+      assert.equal(data.status(),200); assert.equal((await data.body()).readUInt32LE(),0x04034b50);
+      assert.deepEqual(errors, []);
+      console.log('Stream scheduling, withheld and cut ink, coverage controls, notes and ZIP checked.');
+      return;
     }
     if (rails) {
       const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});

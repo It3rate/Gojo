@@ -1,0 +1,221 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Read a repeating border</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="read-a-repeating-border">Read a repeating border</h1>
+<p>Imagine a pen drawing <strong>up, right, down, right</strong> along the edge of a page. After four beats the controller is ready to repeat and the pen is back at its original height. Its tip is two horizontal moves farther along. We can prove all three facts by inspecting the score before drawing anything. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=33">Open layer 33</a></p>
+<p>Choose <strong>Alternating siblings</strong> and step four beats. One stream supplies up and down, the other supplies rightward drift. Now choose <strong>Together</strong>. Both heads fire on every beat, and the pen samples their combined destination. The staircase becomes a pair of sloping strokes. The same components still contribute two rightward moves and return to their starting height over a joint period. The period now takes two beats.</p>
+<pre><code class="language-text">                           first sample   second   third   fourth
+Direct or alternating          up         right    down    right
+Together                    up + right   down + right
+</code></pre>
+<p>The picture supplies example lengths. A positive reach in the experiment can be any positive length consistent with its bindings. The two plane axes are a supplied geometric frame. The earlier qualitative frieze supplies the reference motion word and examples of differing causal programs. This compact version uses a cyclic clock strip to route beats to sibling streams. <a href="https://github.com/It3rate/Gojo/blob/0c0507da/Gojo/docs/GojoQualitativeFriezeExperiment.md">Earlier frieze constructions</a></p>
+<h2 id="what-connects-to-what">What connects to what</h2>
+<p>Two sibling arrays in one score hold movement bytes in a shared reach basis. A third array holds two-bit clock selections. Positions wrap at each array boundary. On a beat, each selected head emits its current cell and advances one place. A disabled head stays put. Both emissions on one beat retain their source and phase even when the pen draws one combined segment. These are timing signals. Separate owners would need an explicit correspondence to share a reach across that boundary.</p>
+<table>
+<thead>
+<tr>
+<th>Bits in a movement byte</th>
+<th>Local meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 through 2</td>
+<td>The original O/D/V word. Bit 0 enables nonzero travel, bit 1 is direction and bit 2 is orientation. Changing both O and D preserves physical sense in the supplied frame.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Select the horizontal or vertical carrier.</td>
+</tr>
+<tr>
+<td>4 through 7</td>
+<td>Select a shared reach on that carrier. Reusing the reference promises equal length. Distinct references leave equality open.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Construction</th>
+<th>First stream</th>
+<th>Second stream</th>
+<th>Clock fields in beat order</th>
+<th>Packed clock hex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direct square wave</td>
+<td><code>09 01 0B 01</code></td>
+<td><code>00</code> (disabled)</td>
+<td>first</td>
+<td><code>01</code></td>
+</tr>
+<tr>
+<td>Alternating siblings</td>
+<td><code>09 0B</code></td>
+<td><code>01</code></td>
+<td>first, second</td>
+<td><code>09</code></td>
+</tr>
+<tr>
+<td>Together</td>
+<td><code>09 0B</code></td>
+<td><code>01</code></td>
+<td>both</td>
+<td><code>03</code></td>
+</tr>
+<tr>
+<td>Opposed siblings</td>
+<td><code>09 0B</code></td>
+<td><code>01 03</code></td>
+<td>alternating or together</td>
+<td><code>09</code> or <code>03</code></td>
+</tr>
+<tr>
+<td>Local loop alone</td>
+<td><code>09 01 0B 03</code></td>
+<td><code>01</code></td>
+<td>first, first, first, first</td>
+<td><code>55</code></td>
+</tr>
+<tr>
+<td>Loop with drift</td>
+<td>same</td>
+<td>same</td>
+<td>first, first, first, both</td>
+<td><code>D5</code></td>
+</tr>
+</tbody>
+</table>
+<p>Clock field 0 waits, 1 selects the first head, 2 selects the second, and 3 selects both. Fields pack low first. The containing ring supplies its length. In the last example the local rectangle has zero displacement. On its last beat its move left coincides with its sibling's move right by the same reach. On that beat the two horizontal moves cancel. Over the full period the combined path ends one reach to the right of where it began. Returning to a phase, to a height, or to a projected position each answers a different question. A shared ink site requires its own attachment.</p>
+<p><strong>Opposed · alternate</strong> and <strong>Opposed · together</strong> use exactly the same vertical and horizontal streams. Alternating gives up, right, down, left. The sampled rectangle returns to its origin and its clockwise signed sweep is <code>−H×V</code>. Together gives a diagonal out and the opposite diagonal back. It also returns, with zero sweep. For this read each beat commits a straight segment between sampled positions. The sum of <code>x·dy − y·dx</code> along a closed walk gives twice its signed sweep in products of the two unknown reaches. Reordering a fixed set of additive moves can change this sweep while preserving the endpoint.</p>
+<h3 id="reading-and-unwinding-the-bits">Reading and unwinding the bits</h3>
+<p>Count how often each head is selected in one clock lap. For a ring of <code>n</code> cells selected <code>f</code> times, its head returns after <code>n / gcd(n,f)</code> clock laps. Take the first common return of both heads and the clock. In that window each completed stream lap contributes its signed uses of each reach. Opposite uses of the same reach cancel in the endpoint read. Each count says how many times an unmeasured reach participates.</p>
+<p><strong>Walk backward</strong> reads the preceding clock field, backs up the selected heads, and reverses the directed uses. Within a grouped beat the fine firings also appear in reverse order. This recovers the visited cells and sampling boundaries. A flattened diagonal drawing alone lacks the original clock wiring.</p>
+<h2 id="equal-lengths-as-a-prediction">Equal lengths as a prediction</h2>
+<p>In <strong>Same linear carrier</strong>, three links point right on one chain and two point right on another. With distinct positive reaches the comparison is <code>3A − 2B</code>. Either chain could be longer, or they could be equal. The equal-link view substitutes one unknown reach for both and predicts a positive difference. Choose <strong>Shared reach</strong> to put that correspondence in the actual wiring. Now the same conclusion follows directly.</p>
+<p><strong>Separate fall</strong> applies the test to the border. Up uses one vertical reach and down uses another. The controller's return is certain and the height change has all three signs available. Assuming equal reaches predicts a return to height. The source bytes stay available for the original read. Separate equalization on each axis is sufficient here.</p>
+<h2 id="hiding-lifting-and-predicting">Hiding, lifting and predicting</h2>
+<p>In <strong>Missing ink</strong>, each slot admits some of the five marks (blank, right, up, left, down). A hidden slot admits all five. An observed blank admits one. The motor can carry the pen through a slot while it is lifted, leaving a real break in the ink. The observer sees only its selected slots.</p>
+<p>Hide the third stroke of the wave. Five raw completions survive. Under the square-wave family only <strong>up, right, down, right</strong> survives, so that model can continue drawing a predicted next repeat. Switch the third stroke to <strong>Pen lifted</strong> while it is still hidden. The evidence and prediction agree with the previous display. Reveal all the ink and the family has no match. Nothing fills in the original blank.</p>
+<p>The family uses all four start phases, four quarter-turns, two reflection choices (original or mirrored), and both traversal senses. These 64 structural witnesses yield 16 distinct words. A candidate uses one transform throughout its past and forecast. Different candidates remain separate even when they agree about a particular slot. Additional observations can intersect slot supports when a common phase and slot correspondence is supplied.</p>
+<h2 id="a-second-property-can-ask-for-a-branch">A second property can ask for a branch</h2>
+<p>In <strong>Coverage outlet</strong>, the pen still runs one square-wave period. A second structure asks whether every part of the <strong>horizontal projection</strong> between its start and end is inked. A vertical stroke covers one point in that view. A rightward stroke covers a whole interval. Lift the first rightward stroke and an open interval turns white. Lift the downward stroke instead and the horizontal projection stays covered, even though the visible motif has a gap.</p>
+<p>A separate gauge can compare the separation between two parallel lanes with the desired spacing on a common normal rail. Keep all strokes inked and switch <strong>Lane spacing</strong> from <strong>At limit</strong> to <strong>Beyond limit</strong>. The coverage along the travel axis still passes. The spacing test alone can now release a pulse. The two checks feed an OR read connected to the existing guarded passage. <strong>Try side outlet</strong> releases the waiting pulse if either defect is certain. With only a possible defect it stays put. A second request cannot spend the same pulse twice. <a href="PairedReach.html">Earlier ordinal comparison</a></p>
+<p>This is a property-relative use of orthogonality. One connected journey can preserve phase and displacement while a spacing or ink intervention changes the coverage verdict. X and Y agreement with individual steps depends on which part of the path and which sampling rule a reader selects. The branch pressure here is a one-bit request derived from a supplied coverage requirement. The outlet is wired in advance. Growing a route, painting the uncovered region and evaluating a full two-dimensional fill remain further experiments.</p>
+<h3 id="boolean-spans-a-neighbor-can-use">Boolean spans a neighbor can use</h3>
+<p>The rail stores ordered named stops. Its occupancy mask alternates a point and the open interval to its successor. On a four-stop rail the seven low bits refer to <code>P, (P,Q), Q, (Q,R), R, (R,S), S</code>. Boolean law bit <code>a + 2b</code> selects an output at each position. The result remains an operand on the same rail. A foreign rail requires an explicit correspondence.</p>
+<table>
+<thead>
+<tr>
+<th>Operands on the same rail</th>
+<th>Question</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[P,R] and [Q,S]</td>
+<td>Both, law <code>08</code></td>
+<td>[Q,R], mask <code>1C</code></td>
+</tr>
+<tr>
+<td>Same spans</td>
+<td>A minus B, law <code>02</code></td>
+<td>[P,Q), mask <code>03</code></td>
+</tr>
+<tr>
+<td>Same spans</td>
+<td>Either, law <code>0E</code></td>
+<td>[P,S], mask <code>7F</code></td>
+</tr>
+<tr>
+<td>[P,Q] and [Q,S]</td>
+<td>Both</td>
+<td>The single point Q, mask <code>04</code></td>
+</tr>
+</tbody>
+</table>
+<p>For the coverage reader, certain ink is the union of witnessed ink spans. Possible ink also includes unobserved strokes. Subtract possible ink from the required span to obtain definite white. Subtract certain ink to obtain possible white. The request concerns an uncovered interval of positive extent. The present strip reader takes up to 31 beats of known forward-or-stationary horizontal motion and assumes continuous segments between sampled positions.</p>
+<h2 id="the-sweep">The sweep</h2>
+<p><a href="assets/experiments--PrimitiveMeasure--data--border-trials.zip">Download the two CSV files with all 18,192 trials</a>.</p>
+<p>The motor sweep uses every assignment of four cardinal directions to four cells (two per stream), all 16 two-beat clock strips, and two reach bindings, shared by axis or distinct per cell. Each row predicts the first joint phase return and the signed coefficient of every reach. It then runs to the first observed return, compares every coefficient and unwinds every firing back to the start. A separate numeric check gives each reach independently any integer length 1 through 8 and reads attainable endpoint signs in that finite apparatus. All 8,192 rows agreed. Of these, 3,584 include a simultaneous firing. The longest first return in this particular sweep is four beats.</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint proof from positive, unmeasured reaches</th>
+<th style="text-align: right;">Equal-link view returns</th>
+<th style="text-align: right;">Equal-link view drifts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Must return</td>
+<td style="text-align: right;">1,140</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Must drift</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6,200</td>
+</tr>
+<tr>
+<td>Open</td>
+<td style="text-align: right;">628</td>
+<td style="text-align: right;">224</td>
+</tr>
+</tbody>
+</table>
+<p>The ink sweep uses all 625 four-slot words over the five marks, including words outside the family. Each is read under all 16 visibility masks. “Unique wrong” means one distinct family word fits every visible slot but disagrees with the withheld ground truth.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Hidden slots</th>
+<th style="text-align: right;">No family match</th>
+<th style="text-align: right;">Unique correct</th>
+<th style="text-align: right;">Unique wrong</th>
+<th style="text-align: right;">Multiple possible words</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">609</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2,180</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">256</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2,550</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1,200</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2,000</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">625</td>
+</tr>
+</tbody>
+</table>
+<p>Counts describe an exhaustive, equally enumerated fixture. Dormant cells and timing variants can yield the same ink. The counts supply no natural frequency or confidence for a real drawing. Every true family member remained among the predictions under every mask.</p>
+<p>Run either study from the repository root. Add <code>--rows</code> after the study name to emit the corresponding CSV.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -c Release -- --border-scores
+dotnet run --project experiments/PrimitiveMeasure -c Release -- --border-windows
+</code></pre>
+<p>In the score CSV the four two-bit digits of <code>moves_hex</code> select right, up, left, down (low digit first). The first two digits belong to stream 0. The two two-bit digits of <code>gates_hex</code> select the clock masks. Sign support bits mean negative, zero, positive. Return classes 0, 1, 2 mean guaranteed projected return, guaranteed drift and unresolved. In the ink CSV each nibble of <code>ink_hex</code> names one of the five marks in the order above, earliest slot low. The raw completion count concerns the four-slot window. Forecasts beyond it assume continued repetition.</p></main></html>

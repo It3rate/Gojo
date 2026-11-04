@@ -224,6 +224,23 @@ public sealed class ExplorerTests
     }
 
     [Fact]
+    public void Border_draws_keep_measured_ink_separate_from_guesses_and_branch_permission()
+    {
+        var s = new ExplorerSession(); s.Navigate(32);
+        Assert.Contains("4 beats",s.Read().Result);
+        s.Read().Choices[0].Change(1);
+        var hidden = s.Read().Result;
+        s.Read().Choices[1].Change(1);
+        Assert.Equal(hidden,s.Read().Result);
+        s.Read().Choices[2].Change(1);
+        Assert.Contains("0 distinct repeat(s)",s.Read().Result);
+        s.Read().Choices[0].Change(3);
+        s.Read().Choices[1].Change(1);
+        s.Read().Actions[0].Run();
+        Assert.Equal(new byte[]{2},s.Read().Blocks.Single(b=>b.Title=="Branch inbox").Bytes);
+    }
+
+    [Fact]
     public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
     {
         var session = new ExplorerSession();
