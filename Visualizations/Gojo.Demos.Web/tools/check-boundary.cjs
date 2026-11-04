@@ -47,8 +47,10 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     if (probeDesk) {
       const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});
       async function run(n) {
-        for(let i=0;i<n;i++) { await page.mouse.click(940,245); await page.waitForTimeout(130); }
-        await page.mouse.move(1517,960); await page.waitForTimeout(220);
+        for(let i=0;i<n;i++) {
+          await page.mouse.click(940,245); await page.mouse.move(1517,960);
+          await page.waitForTimeout(550);
+        }
       }
       const initial = await result(); await run(1);
       assert.ok(!initial.equals(await result()), 'A public sample narrows the candidate set.');
@@ -59,7 +61,13 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
       await select(330,6); await run(1); const lost = await result();
       await select(330,0); await run(1);
       assert.ok(!lost.equals(await result()), 'A missing sample preserves both alternatives.');
-      await select(330,7); await run(6);
+      await select(330,7);
+      for (let i = 0; i < 4; i++) {
+        const before = await result(); await run(1);
+        assert.ok(!before.equals(await result()), 'Each inspection sample must advance the desk.');
+      }
+      const conflict = await result(); await run(1);
+      assert.ok(conflict.equals(await result()), 'No test can run once every design has been contradicted.');
       await page.screenshot({path:path.join(output,'washer-probe-conflict.png')});
       const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
       const notes = await opened; await notes.waitForLoadState();
