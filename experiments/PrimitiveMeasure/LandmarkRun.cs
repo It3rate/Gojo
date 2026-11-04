@@ -39,10 +39,17 @@ public sealed class LandmarkRun
     {
         var result = new bool[sites.Length, sites.Length];
         foreach (var pair in Claims()) result[Array.IndexOf(sites, pair[0]), Array.IndexOf(sites, pair[1])] = true;
-        for (var k = 0; k < sites.Length; k++)
-            for (var i = 0; i < sites.Length; i++)
-                for (var j = 0; j < sites.Length; j++) result[i,j] |= result[i,k] && result[k,j];
+        CloseOrder(result);
         return result;
+    }
+
+    internal static void CloseOrder(bool[,] result)
+    {
+        int count = result.GetLength(0);
+        for (var k = 0; k < count; k++)
+            for (var i = 0; i < count; i++)
+                if (result[i,k])
+                    for (var j = 0; j < count; j++) result[i,j] |= result[k,j];
     }
 
     public LandmarkRead Compare(int a, int b, bool reversed = false)

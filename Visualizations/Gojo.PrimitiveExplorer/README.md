@@ -65,6 +65,7 @@ corresponding experiment document in the repository.
 | Glyph clues & junctions | Withhold glyph evidence, draw possible completions, and trace different entrances and exits through the same Y or T. [Evidence and route charts](../../experiments/PrimitiveMeasure/GlyphEvidence.md) |
 | One stem, two inputs | Compare three Y receivers, move dot assignments on a shared writing line, and hide the upper join of a 4. [Encoding charts and results](../../experiments/PrimitiveMeasure/WritingLine.md) |
 | Two reaches, one choice | Compare two unmeasured tips on one rail, then use the same joint read for a dot with two possible owners. [Encoding chart and handoff](../../experiments/PrimitiveMeasure/PairedReach.md) |
+| When two rails meet | Seat stops from independent rails, compare spans and let the result govern a material draw. [Encoding chart and four capability checks](../../experiments/PrimitiveMeasure/RailContacts.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

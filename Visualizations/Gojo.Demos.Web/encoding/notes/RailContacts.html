@@ -1,0 +1,154 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>When two rails meet</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="when-two-rails-meet">When two rails meet</h1>
+<p>Two owners each have a strip, a start mark and a tip. Each owner can say which of its own marks comes first. Place the rails against the same straight guide. Seat their start marks in the same socket. Those marks now coincide in projection, but the second rail could run either way, and either strip could be longer. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=32">Open layer 32</a></p>
+<p>Choose <strong>Across a latch</strong>, then <strong>Two contacts</strong>. The second socket joins the two latch marks. On A the tip stops before the latch. On B the tip goes past it. With their starts together, B must be longer. <strong>Next request</strong> lets the receiver draw one of the Y's two arrivals. Try <strong>Inside bracket</strong> instead. Both tips are now between the same contacts. They could coincide, or either could be farther along.</p>
+<pre><code class="language-text">             foot                         latch
+A             o -------- tip A ------------ o
+              |                             |      contact sockets
+B             o --------------------------- o ----- tip B
+</code></pre>
+<p>The lengths of the dashes are illustrative. The construction assumes straight rails held on a common line, distinct projected positions for distinct named stops within one owner, and closed occupied spans. A positive extension counts as greater extent. The direction of B relative to A and the size of every gap start unspecified. In loose space a single physical touch would also allow the rails to pivot.</p>
+<h2 id="how-the-reference-forms">How the reference forms</h2>
+<p>Each rail exposes locally numbered stop ports and an order read over them. It can keep other stops private. A socket has an A half and a B half. Each side can seat or lift its own stop. Two seated halves in the same socket witness a common projected position. Two occupied halves in different sockets leave the reference open. The owners keep separate sites even when their marks coincide.</p>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>What the dock can establish</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Empty sockets or only one seated half</td>
+<td>No cross-rail read</td>
+</tr>
+<tr>
+<td>Both feet in one socket</td>
+<td>Coincident feet. Matching and reversed orientations remain possible.</td>
+</tr>
+<tr>
+<td>A second socket repeats the feet</td>
+<td>The same correspondence is witnessed twice. Orientation stays open.</td>
+</tr>
+<tr>
+<td>Two distinct matches with known order on both rails</td>
+<td>The relative orientation follows from those orders. Unmatched stops within the same bracket can still fall in either order or coincide.</td>
+</tr>
+<tr>
+<td>The sockets force incompatible strict orders or match one stop to two distinct stops</td>
+<td>No consistent placement. The occupied seats remain inspectable. Lifting a contact can restore a read.</td>
+</tr>
+</tbody>
+</table>
+<p>For <strong>Unknown A order</strong>, A says that two distinct stops follow its start but supplies no order between them. The second socket seats B's tip at one of those stops. A's tip ends at the other. Exactly one span is longer. A neighbor asking <em>which one?</em> gets an open answer. A neighbor asking <em>is there a unique longer span?</em> gets yes. Here the contacts and distinct-stop promise produce the exclusive choice that layer 31 supplied directly as a mask.</p>
+<h2 id="encoding-chart">Encoding chart</h2>
+<p>All byte values below are hexadecimal. The public names A0 and B0 belong to different owners. The connector uses their public port positions. The private site labels in the explorer are deliberately permuted.</p>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Rows or fields</th>
+<th>Bytes in the two-contact example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Physical sockets</td>
+<td>Two three-bit seat codes per row. Zero means open. A seated code is the public port index plus one.</td>
+<td>Feet alone give <code>[1,1] [0,0]</code> → <code>09 00</code>. Adding the latches gives <code>[1,1] [3,3]</code> → <code>C9 06</code>.</td>
+</tr>
+<tr>
+<td>Occupied spans</td>
+<td>On A and B independently, two-bit public start and tip fields.</td>
+<td><code>[0,1] [0,1]</code> → <code>44</code>.</td>
+</tr>
+<tr>
+<td>Possible orientations</td>
+<td>Bit 0 follows B's local order, bit 1 reverses it in A's frame.</td>
+<td>Feet alone <code>03</code>. Across the latch <code>01</code>. With B reversed <code>02</code>.</td>
+</tr>
+<tr>
+<td>Extent comparison</td>
+<td>Pair roles are “A at least as long as B” and its converse. The four support bits admit neither, A longer, B longer, equal.</td>
+<td>Across the latch <code>04</code>. Inside the bracket <code>0E</code>. With distinct unordered ends <code>06</code>. With matched ends and feet <code>08</code>.</td>
+</tr>
+<tr>
+<td>Longer-span links</td>
+<td>The same pair passes through four two-bit fields. A strict winner keeps its link and a tie clears both. The candidates are <code>[3,0]</code> and <code>[3,1]</code> in the link owner's scope.</td>
+<td>Map <code>24</code>, link rows <code>73</code>. With unknown A order the published link support is <code>06</code>.</td>
+</tr>
+<tr>
+<td>Receiver's request</td>
+<td>A question about the complete pair drives a read into the receiver's block bit. The gate opens on a resolved yes.</td>
+<td>Question <code>06</code> accepts either strict winner. A held sample is valid only after a fresh successful capture for this request.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-actually-moves">What actually moves</h3>
+<p>The private Y slots hold two whole arrivals of unspecified magnitude. The public stem reports presence. A live comparison can authorize drawing one arrival through that coarse surface. Source priority is left first. The receiver has a block bit, an inbox and a shelf. Each step reads the same connections.</p>
+<table>
+<thead>
+<tr>
+<th>Eligible request</th>
+<th>Y private store</th>
+<th>Receiver store</th>
+<th>Public Y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before requesting</td>
+<td><code>14</code></td>
+<td><code>01</code></td>
+<td>Present</td>
+</tr>
+<tr>
+<td>First request</td>
+<td><code>10</code></td>
+<td><code>02</code></td>
+<td>Present</td>
+</tr>
+<tr>
+<td>Retry with the inbox full</td>
+<td><code>10</code></td>
+<td><code>02</code></td>
+<td>Present</td>
+</tr>
+<tr>
+<td>Park the inbox on the shelf, then request</td>
+<td><code>00</code></td>
+<td><code>06</code></td>
+<td>Empty</td>
+</tr>
+</tbody>
+</table>
+<p>A resolved no closes the gate and the transfer rows witness a hold. An ambiguous or unsupported read defers settlement before either row runs. The live test lifts a contact after the first delivery and parks that arrival. Although the last sampled gate was open and the inbox is now empty, the remaining Y arrival stays put. A later contact can authorize its delivery. Changing the scope of a read never retracts an earlier delivery.</p>
+<h2 id="four-checks-on-the-pre-numeric-encoding">Four checks on the pre-numeric encoding</h2>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Executable check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compare unmeasured extents</td>
+<td>Test shared and shifted starts, opposite traversal, containment, overlapping spans, single-position intersection, disjoint spans and points. Knowing which tip is later can still leave both length orders and equality open.</td>
+</tr>
+<tr>
+<td>Keep an unresolved choice connected</td>
+<td>Two distinct tips beyond a shared start can give joint support <code>06</code>. A subsequent witness on the other rail can order them. Repeating one contact cannot supply that witness.</td>
+</tr>
+<tr>
+<td>Separate observation from material draw</td>
+<td>Two observations can report presence. Only accepted whole arrivals leave the Y. Occupied capacity, a false guard and a missing current proof have different witnesses.</td>
+</tr>
+<tr>
+<td>Use a whole relation at the next level</td>
+<td>A link owner consumes the live span comparison; the receiver consumes the link owner's public predicate. Neither needs access to the rails or Y's private slots. The existing connections continue to work when a seat is lifted and reseated.</td>
+</tr>
+</tbody>
+</table>
+<p>The dock only asks about stops needed for current contacts and the four selected ends. For each relative orientation it follows their strict comparisons, including paths that alternate between owners through contacts. It checks the resulting constraints against the 75 possible ordinal arrangements of four labeled ends, including coincidences. Each admitted arrangement retains its orientation and four two-bit ordinal ranks as read evidence. Ranks carry no gap sizes. Where each nonzero span has a positive part outside the other, their unmeasured extents can compare either way or equally.</p>
+<p>This completes the four encoding checks for the stated domain. The joint port preserves the choice across the boundary. A peer given only two separate “maybe” samples would need a correspondence to recover it. The experimenter supplies actual seating events, local order evidence and the choice of guard. Discovery of contacts in an image, a length calibration, curved or folded rails, and fractional withdrawal of a pulse each require further evidence or laws.</p>
+<p>Run the rail checks with <code>dotnet test Tests/PrimitiveMeasure.Tests --filter FullyQualifiedName~RailContactTests</code>. The independent small-case check enumerates two local orders interleaved on one line and allows stops from different rails to coincide. <a href="PairedReach.html">Earlier paired-read experiment</a> · <a href="WritingLine.html#reading-remembering-and-drawing-from-the-stem">Y settlement and memory</a></p></main></html>

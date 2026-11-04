@@ -204,6 +204,26 @@ public sealed class ExplorerTests
     }
 
     [Fact]
+    public void Two_contacts_can_open_a_draw_before_the_winner_is_identified()
+    {
+        var s = new ExplorerSession();
+        s.Navigate(31);
+        s.Read().Actions.First().Run();
+        Assert.EndsWith("Draw deferred.", s.Read().Result);
+        s.Read().Choices.Single(c => c.Label == "Construction").Change(3);
+        s.Read().Choices.Single(c => c.Label == "Sockets").Change(1);
+        s.Read().Actions.First().Run();
+        Assert.Equal("Exactly one is longer. One arrival delivered.", s.Read().Result);
+        s.Read().Actions.First().Run();
+        Assert.EndsWith("Draw held.", s.Read().Result);
+        s.Read().Actions.First().Run();
+        Assert.Equal(new byte[]{6}, s.Read().Blocks.Single(b => b.Title == "Receiving owner").Bytes);
+        s.Read().Choices.Single(c => c.Label == "Permit draw if").Change(1);
+        s.Read().Actions.First().Run();
+        Assert.EndsWith("Draw deferred.", s.Read().Result);
+    }
+
+    [Fact]
     public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
     {
         var session = new ExplorerSession();

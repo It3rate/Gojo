@@ -33,12 +33,32 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const glyph = process.argv.includes('--glyph-clues');
     const writing = process.argv.includes('--writing-line');
     const paired = process.argv.includes('--paired-reach');
-    await page.goto(base + '/encoding/explorer/?layer=' + (paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const rails = process.argv.includes('--rail-contacts');
+    await page.goto(base + '/encoding/explorer/?layer=' + (rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (rails) {
+      const result = () => page.screenshot({clip:{x:262,y:882,width:990,height:38}});
+      const one = await result();
+      await select(480,1);
+      assert.ok(!one.equals(await result()), 'Two seats at the second socket should order the default reaches.');
+      await select(330,3);
+      const before = await result();
+      await page.mouse.click(765,245); await page.mouse.move(1517,960); await page.waitForTimeout(400);
+      assert.ok(!before.equals(await result()), 'The receiver should draw on an unresolved winner.');
+      await page.screenshot({path:path.join(output,'rail-contacts.png')});
+      await select(480,5);
+      const opened = page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes = await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(), /When two rails meet/);
+      assert.match(await notes.locator('main').innerText(), /C9 06/);
+      assert.deepEqual(errors, []);
+      console.log('Live contact controls, unresolved winner, material draw and notes checked.');
+      return;
     }
     if (paired) {
       const picture = () => page.screenshot({clip:{x:670,y:390,width:780,height:265}});
