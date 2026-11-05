@@ -1,5 +1,10 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--families", var familyFolder])
+{
+    FamilySurvey.Export(familyFolder);
+    return;
+}
 if (args is ["--strips",var stripFolder])
 {
     StripSurvey.Export(stripFolder);

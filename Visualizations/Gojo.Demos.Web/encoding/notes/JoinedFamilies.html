@@ -1,0 +1,302 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>One template, many local instances</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="one-template-many-local-instances">One template, many local instances</h1>
+<p>This experiment asks whether a small connected construction can be stored once,
+with many instances containing only its variable bits. The construction supplies
+the fixed faces, shared joints and shared value roles. Width groups are ordinary
+collections that appear when entries are appended. Their lengths describe storage;
+they are not extra measures inside the modeled construction.</p>
+<p>The intended structure, before implementation, is:</p>
+<pre><code class="language-text">local family
+  -&gt; fixed/free O/D field positions
+  -&gt; ordered connections (start site -&gt; end site) -&gt; value role
+  -&gt; populated width groups -&gt; packed instances
+
+same site reference within one instance -&gt; same joint
+same value reference within one instance -&gt; same stored amount
+reverse read -&gt; opposite ordered endpoints, original amount preserved
+bare value role -&gt; no endpoint claim
+</code></pre>
+<p>Distinct instances instantiate distinct local sites and amounts. Reusing their
+template does not merge their origins or establish a common physical calibration.
+A closed connection cycle does not by itself establish a square or regular polygon.
+An equal-looking coarse read does not establish equal hidden magnitudes.</p>
+<p>The binary transport adapter may store lengths to delimit arrays and padding.
+Those lengths are generated from the collections; callers never annotate a
+conceptual holder with a separately maintained count. This first experiment is
+append-only and does not add a sparse tree, settlement law, or automatic promotion.</p>
+<h2 id="what-to-try">What to try</h2>
+<p><a href="https://gojo.inklingai.ca/encoding/explorer/?layer=40">Open the family inspector</a>.
+Choose <strong>Bare signed amount</strong> first: it has a direction and participation, but no
+endpoint. Then compare the two four-cycle examples. They have the same ordered
+connections; one owns four amounts and the other refers to one shared amount four
+times. Choose the reverse view to see the same sites and amounts traversed in the
+opposite order. Change the entry to inspect other stored values.</p>
+<p>The diagram supplies convenient positions for inspection. Even spacing on the
+screen is not evidence of equal distances. A four-cycle is not yet a square:
+its geometry would also need the appropriate reach and turning relations.</p>
+<h2 id="the-three-parts-of-a-family">The three parts of a family</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Stored here</th>
+<th>What it establishes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Field positions</td>
+<td>Pairs of O-group and D-group selectors</td>
+<td>Which bits are constant and which belong to each entry</td>
+</tr>
+<tr>
+<td>Connections</td>
+<td>Ordered <code>[start site, end site, value field]</code> rows</td>
+<td>Shared endpoints and shared value ownership</td>
+</tr>
+<tr>
+<td>Width groups</td>
+<td>Packed entries, created when appended</td>
+<td>Only the variable fields of each instance</td>
+</tr>
+</tbody>
+</table>
+<p>There is no integer, star, polygon or complex-number tag in this grammar. The
+example names are captions. The reader uses the connected template and field
+positions. A field can exist without any connection, preserving bare participation
+before an endpoint is known.</p>
+<p>The fixed O/D selectors use the existing positional grammar:</p>
+<table>
+<thead>
+<tr>
+<th>O group</th>
+<th>D group</th>
+<th>Entry field</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 or 1</td>
+<td>0 or 1</td>
+<td>Value bits only; O and D inherited</td>
+</tr>
+<tr>
+<td>0 or 1</td>
+<td>2</td>
+<td>Value bits followed by owned D</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>Value bits followed by owned D and O</td>
+</tr>
+</tbody>
+</table>
+<p>O group 0 is positive-right, group 1 positive-left. D group 0 is positive, group
+1 negative. Group 2 releases that constant into the entry. These are storage
+choices, not additional motion instructions.</p>
+<p>Each field description occupies four template bits: O group in the low two,
+D group in the next two. Link references use the smallest common positive bit
+width sufficient for this template. A link stores three references in order,
+low bit first within each reference. Template bits are stored once per family.</p>
+<h2 id="what-connects-to-what">What connects to what</h2>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Fields</th>
+<th>Ordered connections</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bare signed amount</td>
+<td>One owned-direction field</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Independent opposed pair</td>
+<td>One fixed positive and one fixed negative field</td>
+<td><code>[0,1,0] [0,2,1]</code></td>
+</tr>
+<tr>
+<td>Shared-tip pair</td>
+<td>Two fields with opposite fixed orientations</td>
+<td><code>[0,2,0] [1,2,1]</code></td>
+</tr>
+<tr>
+<td>Three-arm hub</td>
+<td>Three independent fixed-face fields</td>
+<td><code>[0,1,0] [0,2,1] [0,3,2]</code></td>
+</tr>
+<tr>
+<td>Independent four-cycle</td>
+<td>Four independent fixed-face fields</td>
+<td><code>[0,1,0] [1,2,1] [2,3,2] [3,0,3]</code></td>
+</tr>
+<tr>
+<td>Shared-value four-cycle</td>
+<td>One fixed-face field</td>
+<td><code>[0,1,0] [1,2,0] [2,3,0] [3,0,0]</code></td>
+</tr>
+</tbody>
+</table>
+<p>References are positions within one instance. Repeated site 0 in a hub is its
+common joint. Site 0 in the next instance belongs to that next instance; it is not
+the same joint. The same scoping applies to value fields.</p>
+<p>The shared-tip pair does not yet establish a fixed whole or complementary
+football-field distances. The hub does not assert equal angles or a spatial
+dimension. Those require further connections.</p>
+<p>Four references to field 0 occupy one value field. They allow four observations
+of the same stored amount; they do not create four reservoirs of material.
+Conversely, four equal-looking independent fields still occupy four fields and
+can differ beneath the coarse read.</p>
+<h2 id="reverse-reads-and-zero-participation">Reverse reads and zero participation</h2>
+<pre><code class="language-text">stored:       0 -&gt; 1 -&gt; 2 -&gt; 3 -&gt; 0
+reverse read: 0 -&gt; 3 -&gt; 2 -&gt; 1 -&gt; 0
+</code></pre>
+<p>The reverse read reverses row order and exchanges each row's start and end.
+It retains the original site and value references and leaves all stored O/D/V
+bits untouched. This is a borrowed view of the construction. Reorienting an ODV
+word, negating a value, and materially reversing flow remain separate operations.
+A reversed hub is still a hub; reversing its row sequence does not make it a path.</p>
+<p>The closure reader checks actual ordered endpoint correspondence, including the
+return to the first site. It reports a topological closed walk. It neither checks
+pixel overlap nor claims a nondegenerate geometric polygon.</p>
+<p>A zero-valued field does not delete a connection or identify its two endpoints.
+A nonzero self-loop can also retain traversal participation despite having one
+start/end site. These distinctions preserve potential structure.</p>
+<p>For a shared signed field, the existing positive and negative side reads expose
+at most one participating side. Both are empty at zero. The stored direction at
+zero is retained. These observations have no separate amount storage, and the
+selected side is an explicit read context, not inferred from endpoint order.</p>
+<h2 id="equal-looking-chosen-equal-and-shared">Equal-looking, chosen equal, and shared</h2>
+<p>There are no per-value confidence tags added here. The evidence comes from the
+structure and selected read:</p>
+<ol>
+<li>Two independent nonzero fields can have the same coarse ODV word. Their hidden
+   amounts remain unresolved relative to one another.</li>
+<li>A diagram can choose equal spacing for those fields. That is a representative
+   placement, and supplies no evidence back to the source.</li>
+<li>Two connections can refer to the same field. They now observe the same stored
+   source; equality of that source does not have to be inferred from matching bits.</li>
+</ol>
+<p>This pass implements the first and third distinctions and labels the second in
+the inspector. It does not add a general uncertain-placement or equality-settlement
+solver. Shared state also does not by itself establish geometric units or angles.</p>
+<h2 id="width-seeking-and-collection-boundaries">Width, seeking, and collection boundaries</h2>
+<p>With five value bits, one owned-direction field occupies six bits:</p>
+<pre><code class="language-text">ordinary written order: D vvvvv
+physical low-first order: v0 v1 v2 v3 v4 D
+</code></pre>
+<p>Two independent signed fields occupy twelve bits. Four fixed-face independent
+fields occupy twenty bits; four uses of one fixed-face field occupy five.
+Each group's entry stride is calculated from its template and value width:</p>
+<pre><code class="language-text">entry start = payload start + entry index * entry stride
+</code></pre>
+<p>Rows can cross byte boundaries and exceed a machine word. Each individual field
+is currently limited to 64 bits including its owned O/D bits. Additional bits are
+capacity, not automatically finer measurement, equal subdivisions or binary
+place-value semantics.</p>
+<p>Width groups are ordinary owner-local collections. Appending to a new width
+creates that group; appending another entry extends its packed sequence. The API
+does not ask its caller to update a second count on a conceptual holder. The host
+implementation maintains collection bounds so a read cannot consume final padding.</p>
+<p>The only live entries in this initial experiment are the appended entries. There
+is no deletion, free-list, liveness bitmap or compaction in this new table yet.
+Those remain separate storage work from the existing positional-bucket experiment.
+Likewise, many slots do not imply high conceptual importance or strong energy:
+either would require a suitable read and basis.</p>
+<h2 id="transport-framing-is-an-adapter">Transport framing is an adapter</h2>
+<p>An external byte stream needs some way to distinguish valid zero entries from
+padding and the end of a collection. This codec uses lengths. A different medium
+could supply physical boundaries or another framing convention.</p>
+<p>The executable V1 layout is:</p>
+<pre><code class="language-text">version byte
+field count, link count                 unsigned variable-length integers
+reference-width byte
+packed field selectors
+packed link triples
+width-group count                       unsigned variable-length integer
+for each populated width, in ascending order:
+    value-width byte
+    entry count                         unsigned variable-length integer
+    packed entries
+</code></pre>
+<p>Each count is calculated from the collection when encoding. It is storage framing,
+not a measured quantity in the represented world. Site extent is derived from the
+connections; it is not separately serialized. Final padding is zero and is not an
+extra value. The codec rejects truncation, nonzero padding and references outside
+the supplied template.</p>
+<p>For a concrete independent decoding example, these ten bytes describe one
+fixed-positive-right field, one <code>0 -&gt; 1</code> connection using that field, and three
+one-bit values <code>1, 0, 1</code>:</p>
+<pre><code class="language-text">01 | 01 01 | 01 | 00 | 02 | 01 | 01 03 | 05
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Bytes</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01</code></td>
+<td>Transport version</td>
+</tr>
+<tr>
+<td><code>01 01</code></td>
+<td>One field, one link</td>
+</tr>
+<tr>
+<td><code>01</code></td>
+<td>One bit per local reference</td>
+</tr>
+<tr>
+<td><code>00</code></td>
+<td>Fixed O group 0, fixed D group 0</td>
+</tr>
+<tr>
+<td><code>02</code></td>
+<td>Low-first references <code>[0,1,0]</code></td>
+</tr>
+<tr>
+<td><code>01</code></td>
+<td>One populated width group</td>
+</tr>
+<tr>
+<td><code>01 03</code></td>
+<td>One value bit, three entries</td>
+</tr>
+<tr>
+<td><code>05</code></td>
+<td>Low-first values <code>1,0,1</code>; five padding bits</td>
+</tr>
+</tbody>
+</table>
+<p>This literal byte example is tested without calling its original builder. The
+restored family can be read, reversed and extended. Its sites are local to the
+restored owner, not magically identical to the original owner's sites.</p>
+<p>This deliberately small codec has visible overhead: three useful payload bits
+in the example occupy a ten-byte transport. It is not a claim of optimal wire
+compression. Its framing and shared template are paid once per family/group;
+new entries add their field bits, with byte padding only at the end. The in-memory
+C# arrays and objects have further overhead beyond the reported payloads.</p>
+<h2 id="reproduce-and-inspect">Reproduce and inspect</h2>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -c Release -- --families experiments/PrimitiveMeasure/data/families
+dotnet test Tests/PrimitiveMeasure.Tests -c Release --filter FullyQualifiedName~Family
+</code></pre>
+<p>The six authored families each contain two widths and three entries per width.
+The export decodes every binary file without the example builder and records its
+reads. <a href="assets/experiments--PrimitiveMeasure--data--families--family-rows.csv">All 36 entry reads</a> and
+<a href="assets/experiments--PrimitiveMeasure--data--families--family-sizes.csv">template, payload and transport sizes</a> are available.
+Native files: <a href="assets/experiments--PrimitiveMeasure--data--families--family-1.bin">bare signed</a>,
+<a href="assets/experiments--PrimitiveMeasure--data--families--family-2.bin">opposed pair</a>, <a href="assets/experiments--PrimitiveMeasure--data--families--family-3.bin">shared tips</a>,
+<a href="assets/experiments--PrimitiveMeasure--data--families--family-4.bin">hub</a>, <a href="assets/experiments--PrimitiveMeasure--data--families--family-5.bin">independent cycle</a>,
+<a href="assets/experiments--PrimitiveMeasure--data--families--family-6.bin">shared-value cycle</a>.</p>
+<p>The tests cover local identity, aliases versus matching coarse values, reversal,
+zero topology, constants, unaligned and wide rows, append validation, independent
+decoding and malformed framing. The implementation does not yet settle unlike
+units into a family, discover matching templates, establish angles, or encode
+arbitrary physical flow laws. A future sparse lookup can index the same templates
+without becoming the source of their meaning.</p></main></html>

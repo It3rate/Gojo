@@ -1,0 +1,7 @@
+family,field_bits,link_bits,payload_bits,template_bytes,payload_bytes,transport_bytes
+1,4,0,24,1,4,14
+2,8,12,36,3,5,17
+3,8,12,36,3,5,17
+4,12,18,54,5,8,22
+5,16,24,72,5,10,24
+6,4,24,18,4,3,16

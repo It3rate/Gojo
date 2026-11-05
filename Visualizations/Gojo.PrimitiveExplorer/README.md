@@ -74,6 +74,7 @@ corresponding experiment document in the repository.
 | Draw from hints | Vary the numerical drawing of one ordinal fret or rectangle. Walk one-bit mark chains around a circle, skip landmarks, and pair two motion streams. [Construction, counting and checks](../../experiments/PrimitiveMeasure/DrawingFromHints.md) |
 | Settle whitespace | Within Draw from hints, give the gaps their own conserved step chains. Compare complete and limited connections, indivisible remainders and a finer rung. [Settlement and its limits](../../experiments/PrimitiveMeasure/WhitespaceSettlement.md) |
 | Whitespace becomes a path | Reuse one direction cycle to make inward triangular, square or pentagonal spirals and perimeters. Follow available, pending and retained gaps; stop at a positive core or hold on an unresolved read. [Strip connections and loop encoding](../../experiments/PrimitiveMeasure/WhitespaceStrips.md) |
+| One template, many instances | Compare bare signed participation, shared origins or tips, hubs and cycles. Inspect constant faces, value aliases and packed width groups; reverse an endpoint read without changing stored state. [Family layout and framing](../../experiments/PrimitiveMeasure/JoinedFamilies.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

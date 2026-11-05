@@ -284,7 +284,9 @@ internal sealed class ExplorerWindow : Window
             foreach (var (chapter, mode, control, variant, steps, name) in new[] {
                 (15, 2, 1, 0, 0, "reversed-boundary"), (15, 4, 1, 0, 0, "coincident-sites"),
                 (15, 5, 1, 0, 0, "supplied-patch"), (16, 0, 2, 0, 5, "uncertain-cycle"),
-                (16, 1, 1, 0, 0, "order-contradiction"), (17, 2, 1, 1, 0, "measured-budget") })
+                (16, 1, 1, 0, 0, "order-contradiction"), (17, 2, 1, 1, 0, "measured-budget"),
+                (39, 4, 0, 0, 0, "family-independent-cycle"), (39, 5, 0, 0, 0, "family-shared-cycle"),
+                (39, 5, 0, 2, 0, "family-zero-cycle") })
             {
                 session.Navigate(chapter); session.Mode = mode; session.Control = control; session.Variant = variant; session.Steps = steps; session.Refresh();
                 if (chapter == 17) page.Actions.Single(a => a.Label.StartsWith("Measure")).Run();
