@@ -77,6 +77,7 @@ corresponding experiment document in the repository.
 | One template, many instances | Compare bare signed participation, shared origins or tips, hubs and cycles. Inspect constant faces, value aliases and packed width groups; reverse an endpoint read without changing stored state. [Family layout and framing](../../experiments/PrimitiveMeasure/JoinedFamilies.md) |
 | Construction clues | Compare several constructions of the same outline, inspect grouped directed uses and shared seams, then hide evidence to see which alternatives remain compatible. [Catalogue, construction bits and limits](../../experiments/PrimitiveMeasure/ConstructionHints.md) |
 | Let the structure respond | Move one request through retained uses, or attach an ordinal reach adjustment. Compare actual bits, possible routes, shared fields, pins and unresolved controls after the construction builder is removed. [Behavior trials and limits](../../experiments/PrimitiveMeasure/ConstructionBehavior.md) |
+| What survives a change? | Compare explicit pairs, shared junctions and positional cycles; separate a blocked gate from an open route, and shared variation from matching independent reads. Inspect exact edits, limited inspections and retained bits. [Guarantees and counterexamples](../../experiments/PrimitiveMeasure/StructuralGuarantees.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

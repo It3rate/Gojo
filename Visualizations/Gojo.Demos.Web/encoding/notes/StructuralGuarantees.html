@@ -1,0 +1,256 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>What survives a change?</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="what-survives-a-change">What survives a change?</h1>
+<h2 id="what-this-experiment-is-trying-to-show">What this experiment is trying to show</h2>
+<p>Two patterns can look the same today and respond differently tomorrow. A shared
+junction cannot separate into two endpoints through a value change. Two separately
+stored endpoints can currently agree, but an explicit retargeting can separate
+them. Neither representation is less truthful about its present connections.</p>
+<p>This experiment compares the <strong>current read</strong>, the <strong>changes supported by the
+encoding</strong>, and the <strong>structural revision needed to change a guarantee</strong>. It does
+not guess a missing construction history. It does not turn editability into a
+confidence score.</p>
+<p>Open <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=43">What survives a change?</a>.
+Start with the three loop layouts, apply the same endpoint change, then inspect
+the result. Compare shared reaches with independent reaches. Finally stop a
+request at the gate of a closed route and reopen it.</p>
+<p>The pictures are connection diagrams. A cycle drawn as a square does not assert
+straightness, right angles, equal lengths or enclosed area. Changes in highlights
+show actual endpoint bindings, ordinal reads or activation state; screen distances
+are not measurements.</p>
+<h2 id="the-connected-structures">The connected structures</h2>
+<pre><code class="language-text">pair rows:       [A,B] [B,C] [C,D] [D,A]
+shared vertices: [A, B, C, D, A]
+cyclic vertices: [A, B, C, D] with the final successor at the first field
+
+one reach source -&gt; four occurrence bindings
+four reach sources -&gt; one occurrence binding each
+
+one source -&gt; forward use
+           -&gt; reverse use
+
+closed route -&gt; explicitly controlled passage -&gt; next site
+                     ^
+                 public gate read
+</code></pre>
+<p>In vertex storage, adjoining steps read the same actual vertex field. Pair rows
+must agree on their independently stored references. The cyclic layout also
+shares the final arrival with its first vertex field. It has no final-arrival
+field that an ordinary endpoint edit could change independently.</p>
+<p>The layout discriminator selects a storage grammar, not a square, circle or
+construction-method label. All endpoint references are local. The O/D bucket
+grammar independently determines which word bits belong to an entry. The original
+ODV meaning and its three-bit coarse read are unchanged.</p>
+<h2 id="a-concrete-encoding-chart">A concrete encoding chart</h2>
+<p>Here sites A..D are local references 0..3, with site 4 reserved for the split
+experiment. Each reference therefore occupies three bits. Fields are packed
+low bit first; padding is not a participant.</p>
+<table>
+<thead>
+<tr>
+<th>Layout</th>
+<th>Stored references</th>
+<th style="text-align: right;">Topology bits</th>
+<th>Actual topology bytes</th>
+<th>Participation bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pair rows</td>
+<td><code>[0,1] [1,2] [2,3] [3,0]</code></td>
+<td style="text-align: right;">24</td>
+<td><code>48 A4 0D</code></td>
+<td><code>0F</code></td>
+</tr>
+<tr>
+<td>Shared vertex chain</td>
+<td><code>[0,1,2,3,0]</code></td>
+<td style="text-align: right;">15</td>
+<td><code>88 06</code></td>
+<td><code>0F</code></td>
+</tr>
+<tr>
+<td>Positional cycle</td>
+<td><code>[0,1,2,3]</code>, final successor wraps</td>
+<td style="text-align: right;">12</td>
+<td><code>88 06</code></td>
+<td><code>0F</code></td>
+</tr>
+</tbody>
+</table>
+<p>The last two happen to have the same padded topology bytes. Their <strong>complete
+encodings differ</strong>: the enclosing layout and row boundary give those bits
+different meanings. This is not inference from naked payload bits. Four
+participation bits are present in every case; none stores a length of one.</p>
+<p>The transport carries version, layout, O/D bucket positions, site count, row
+count, packed topology and packed observations. Counts delimit host storage and
+padding; they are not extra geometric or arithmetic quantities. Loading validates
+all references and framing before a compact read may rely on the grammar.</p>
+<h2 id="three-different-limits-on-a-read">Three different limits on a read</h2>
+<ol>
+<li><strong>Not yet checked:</strong> the endpoint question exists, but the local inspection has
+   not inspected enough of its source. The current support remains unresolved.</li>
+<li><strong>Unresolved observation:</strong> the gate or response reader admits multiple values,
+   or a required observation has not been supplied. Execution follows its existing
+   conservative passage policy and retains the request.</li>
+<li><strong>Not represented:</strong> there is no geometric basis for asking whether this loop
+   is a square. Inspecting every endpoint does not supply that missing meaning.</li>
+</ol>
+<p>An absent geometric claim is not a failed geometric claim. An uninspected chain
+is not a broken chain. A missing control observation is not a known zero. The
+same display colour must not be the only explanation of these differences.</p>
+<p>Positive-context support reads use <code>01</code> for a known negative answer, <code>10</code> for a
+known positive answer, and <code>11</code> while either remains possible. Gate support <code>00</code>
+means no supplied observation in this fixture. These are read masks, not extra
+material participation or probabilities.</p>
+<h2 id="what-the-permitted-edits-mean">What the permitted edits mean</h2>
+<table>
+<thead>
+<tr>
+<th>Edit</th>
+<th>What it changes</th>
+<th>What it does not establish</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Supply an ODV observation</td>
+<td>Owned word bits in the selected bucket</td>
+<td>It does not retarget an endpoint or introduce a hidden routing law.</td>
+</tr>
+<tr>
+<td>Retarget one pair endpoint</td>
+<td>One explicit local reference</td>
+<td>It does not move any other reference merely because their numbers matched before.</td>
+</tr>
+<tr>
+<td>Retarget a shared vertex field</td>
+<td>Its adjoining step(s): two at an interior or cyclic field, one at a chain end</td>
+<td>It does not split a shared interior junction into independent endpoints.</td>
+</tr>
+<tr>
+<td>Expand to pair rows</td>
+<td>Representation while preserving every current ordered endpoint</td>
+<td>It does not itself destroy a proven connection or reveal a generator.</td>
+</tr>
+<tr>
+<td>Inspect another unit</td>
+<td>The locally published continuity/closure answer</td>
+<td>It does not repair the route.</td>
+</tr>
+<tr>
+<td>Restore encoded bytes</td>
+<td>A fresh owner with the same retained layout, words and aliases</td>
+<td>It does not restore an old inspection cursor or pretend an old proof was rechecked.</td>
+</tr>
+<tr>
+<td>Offer one reach request</td>
+<td>A real existing passage moves a request into an ordinal dial</td>
+<td>It does not assign a calibrated distance or change the original coarse participation.</td>
+</tr>
+<tr>
+<td>Change a gate read</td>
+<td>Evidence used by one controlled passage</td>
+<td>It does not cut the stored loop.</td>
+</tr>
+</tbody>
+</table>
+<p>Topology edits invalidate the affected inspection. Rejected edits leave both
+payload and existing evidence unchanged. Word observations are an explicit input
+apparatus, not physical charge transfer. The separate reach and gate trials use
+the existing material-request passage laws.</p>
+<h2 id="shared-variation-and-symmetry">Shared variation and symmetry</h2>
+<p>Four independent participating reaches can have identical coarse words. This
+only establishes the same coarse read. Four occurrences referring to one reach
+share that source, so a refinement of it is visible at every occurrence.</p>
+<p>The second comparison gives one source two opposed uses, or supplies two detached
+sources whose initial observations match. Reversing a use swaps its ordered
+endpoints and perspective; it does not flip the source ODV direction bit. The
+same source can then support opposed reads that vary together. Detached sources
+have no such guarantee merely because their drawings look symmetrical.</p>
+<p>This is an <strong>opposed-read correspondence</strong>, a narrow precursor to a geometric
+mirror. It supplies no Euclidean reflection, mirror plane or automatic symmetry
+discovery. Independent local ordinal positions also do not create a common metric.</p>
+<p>The request has one material location: reserve, waiting site or a dial. Multiple
+reads of a shared dial do not create multiple requests. Concealing the response
+control leaves the request waiting; revealing it can continue that same request.</p>
+<h2 id="closure-and-circulation">Closure and circulation</h2>
+<p>The gate trial has an actual closed endpoint graph and a separate activation
+circuit. All ordinary passages are unconditional; one passage has an explicit
+control law. Known closed control holds the activation. Unknown or missing
+required control also holds it, for a different reason. Reopening the gate
+allows the same activation to continue. Every case retains one activation and
+the original closed graph.</p>
+<p>An eight-byte transition law contains the allowed before/after combinations of
+source, control and target presence. These bits determine the passage response;
+the diagram does not choose it.</p>
+<p>An absent V observation does not delete a retained link. If an active-path read
+should omit that link, its participation rule must be connected separately.
+Likewise, a closed walk can retrace itself or cross itself; closure alone supplies
+no geometric enclosure.</p>
+<h2 id="validation-and-its-boundary">Validation and its boundary</h2>
+<p>The survey runs with:</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --structural-guarantees experiments/PrimitiveMeasure/data/structural-guarantees
+</code></pre>
+<p>It checks 1,110 endpoint configurations: all pair, chain and cyclic layouts with
+one to three sites and one to three occurrences. This exhausts that declared
+endpoint domain, not all ODV assignments, geometries or future operations. Each
+case checks partial-read soundness, completed truth, transport, owned-bit changes
+and exact expansion. There are also 32 shared-variation attempts and 960 gate
+pulses, with exactly one material request retained in each trial.</p>
+<p>For a 16,384-step cycle with fixed O/D observations:</p>
+<table>
+<thead>
+<tr>
+<th>Layout</th>
+<th style="text-align: right;">Padded topology + word bytes</th>
+<th style="text-align: right;">Complete transport bytes</th>
+<th style="text-align: right;">Inspection units</th>
+<th style="text-align: right;">Endpoint rows read by inspection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pairs</td>
+<td style="text-align: right;">59,392</td>
+<td style="text-align: right;">59,402</td>
+<td style="text-align: right;">16,384</td>
+<td style="text-align: right;">16,384</td>
+</tr>
+<tr>
+<td>Shared vertex chain</td>
+<td style="text-align: right;">30,722</td>
+<td style="text-align: right;">30,732</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>Positional cycle</td>
+<td style="text-align: right;">30,720</td>
+<td style="text-align: right;">30,730</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>Construction and loading still validate all supplied rows. Their cost is not
+included in the subsequent inspection columns. The cycle read checks its already
+validated grammar. These are logical operation and byte counts, not elapsed
+timings or a claim that arbitrary graph verification is free. This initial edit
+implementation reconstructs its packed topology table; its edit witnesses count
+all decoded and written rows rather than pretending only one byte was touched.</p>
+<p>Larger route sizes test storage and inspection work without claiming exhaustive
+coverage of all possible graphs. Tests additionally cover shared-site edits,
+malformed transport, independent versus shared variation, unresolved controls,
+retained activation and a consumer connected only to the public closure read.</p>
+<p>The raw records are <a href="assets/experiments--PrimitiveMeasure--data--structural-guarantees--finite-routes.csv">finite routes</a>,
+<a href="assets/experiments--PrimitiveMeasure--data--structural-guarantees--inspection-costs.csv">inspection costs</a>,
+<a href="assets/experiments--PrimitiveMeasure--data--structural-guarantees--shared-variation.csv">shared variation</a>,
+<a href="assets/experiments--PrimitiveMeasure--data--structural-guarantees--gate-closure.csv">gate closure</a> and
+<a href="assets/experiments--PrimitiveMeasure--data--structural-guarantees--summary.txt">the result summary</a>.</p>
+<p>The observer records outcomes after execution. It does not choose a route, create
+a structural repair or supply a learned default. No exhaustive enumeration of
+unknown geometry or all possible construction histories is attempted.</p>
+<p>The guarantees remain conditional on this small grammar and the named edits.
+Future operations may add new ways to revise a structure. Learning which
+construction is likely from these signatures, automatic packing and splitting,
+mechanical compliance, and general geometric settlement remain future work.</p></main></html>

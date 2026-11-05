@@ -1,0 +1,7 @@
+1110 endpoint cases: all pair, vertex-chain and positional-cycle encodings with 1..3 sites and 1..3 occurrences.
+Each case checks finite-budget soundness, completed truth, independent transport, all-owned ODV observation changes and exact expansion into pairs.
+12 cost cases: 4, 16, 256 and 16384 occurrences under three layouts. Construction/load validation is paid separately; no timings or general complexity proof are claimed.
+32 shared/independent and opposed-read adjustment attempts, including pinned and concealed response controls. Every attempt retains exactly one request.
+960 gate pulses across 2..6-site cycles, every gate position and four initial observations. Control is revealed partway through each run without supplying another activation.
+No case changes its retained topology through word updates or gate observations. No drawing geometry or generator label enters the readers.
+Exhaustiveness applies only to the declared small endpoint domain. Geometry, all future edits, statistical confidence, generator discovery and automatic repair are not established.

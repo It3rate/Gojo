@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--structural-guarantees", var guaranteeFolder])
+{
+    GuaranteeSurvey.Export(guaranteeFolder);
+    return;
+}
+
 if (args is ["--construction-behavior", var behaviorFolder])
 {
     BehaviorSurvey.Export(behaviorFolder);

@@ -21,6 +21,12 @@ or repeated body to inspect its actual encoding and result.
 dotnet run --project Visualizations/Gojo.PrimitiveExplorer
 ```
 
+The [structural guarantees experiment](StructuralGuarantees.md) compares matching
+patterns under explicit edits. Shared vertices, positional cycles, independent
+endpoints, shared reaches and controlled passages expose different guarantees.
+Read what holds now, what survives a value change, and what requires structural
+revision; the notes include a bounded exhaustive audit and larger storage cases.
+
 The [joined family experiment](JoinedFamilies.md) stores one connected template
 beside its packed instances. Compare bare participation, shared origins and tips,
 independent versus shared amounts, and reversed reads. Collection boundaries belong
