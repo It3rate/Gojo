@@ -337,6 +337,27 @@ public sealed class ExplorerTests
     }
 
     [Fact]
+    public void Hint_page_varies_only_drawings_and_exposes_skip_and_missing_evidence()
+    {
+        var s=new ExplorerSession();s.Navigate(37);var first=s.Read();
+        first.Actions.Single(a=>a.Label=="Vary drawing").Run();var varied=s.Read();
+        Assert.Equal(first.Result,varied.Result);
+        Assert.Equal(first.Blocks.SelectMany(b=>b.Bytes),varied.Blocks.SelectMany(b=>b.Bytes));
+        Assert.NotEqual(first.Drawing,varied.Drawing);
+        varied.Choices[0].Change(1);Assert.Contains("Rectangle proved",s.Read().Result);
+        s.Read().Choices[1].Change(4);Assert.Contains("Conflicting",s.Read().Result);
+        Assert.DoesNotContain(s.Read().Drawing,d=>d.Kind=="stroke");
+        s.Read().Choices[0].Change(2);Assert.Contains("Rectangle proved",s.Read().Result);
+        Assert.Equal(new byte[]{0x2D},s.Read().Blocks.Single(b=>b.Title=="Mark slots").Bytes);
+        s.Read().Choices[2].Change(3);Assert.Contains("Cursor waiting",s.Read().Result);
+        Assert.Equal(0,s.Read().Blocks.Single(b=>b.Title=="Ink return").UsedBits);
+        s.Read().Choices[2].Change(0);s.Read().Actions.Single(a=>a.Label=="Next slot").Run();
+        Assert.DoesNotContain(s.Read().Drawing,d=>d.Kind=="stroke");
+        s.Read().Actions.Single(a=>a.Label=="Full traversal").Run();
+        Assert.Contains(s.Read().Drawing,d=>d.Key=="seam");
+    }
+
+    [Fact]
     public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
     {
         var session = new ExplorerSession();

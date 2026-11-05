@@ -88,7 +88,7 @@ public sealed partial class ExplorerSession
         "Conditionals", "Saturation & outlets", "Rectangle constraints", "Circles & polygons", "Repetition & stopping", "Composed patterns",
         "Closure & boundaries", "Cycles: claims & flow", "Work & read budgets", "Two communicating paths",
         "Two uses of a seam", "Stroke & interpretation", "A fork with two owners",
-        "Capitals without a box", "Two orders of E", "Straight capital atlas", "Curves in capitals", "Across a glyph gap", "Push a bowl outward", "Glyph clues & junctions", "One stem, two inputs", "Two reaches, one choice", "When two rails meet", "Read a repeating border", "Did the washer drop?", "Which test should run next?", "Can a test earn a socket?", "Ornament workshop"];
+        "Capitals without a box", "Two orders of E", "Straight capital atlas", "Curves in capitals", "Across a glyph gap", "Push a bowl outward", "Glyph clues & junctions", "One stem, two inputs", "Two reaches, one choice", "When two rails meet", "Read a repeating border", "Did the washer drop?", "Which test should run next?", "Can a test earn a socket?", "Ornament workshop", "Draw from hints"];
     public int Chapter { get; private set; }
     public int A = 1, B = 3, Mode, Control = 1, Variant, Steps;
     public event Action? Changed;
@@ -101,7 +101,7 @@ public sealed partial class ExplorerSession
         10 => SaturationPage(), 11 => RectanglePage(), 12 => ContourPage(), 13 => RepetitionPage(), 14 => CompositionPage(),
         15 => BoundaryPage(), 16 => CyclePage(), 17 => WorkPage(), 18 => PathExchangePage(),
         19 => HousePage(), 20 => StrokePage(), 21 => ForkPage(), 22 => CapitalPage(), 23 => LandmarkPage(),
-        24 => StraightCapitalPage(), 25 => CurvedCapitalPage(), 26 => GlyphCompletionPage(), 27 => BowlReachPage(), 28 => GlyphEvidencePage(), 29 => WritingLinePage(), 30 => PairedReachPage(), 31 => RailContactPage(), 32 => BorderPage(), 33 => WasherPage(), 34 => ProbeDeskPage(), 35 => TimingSocketPage(), _ => OrnamentPage()
+        24 => StraightCapitalPage(), 25 => CurvedCapitalPage(), 26 => GlyphCompletionPage(), 27 => BowlReachPage(), 28 => GlyphEvidencePage(), 29 => WritingLinePage(), 30 => PairedReachPage(), 31 => RailContactPage(), 32 => BorderPage(), 33 => WasherPage(), 34 => ProbeDeskPage(), 35 => TimingSocketPage(), 36 => OrnamentPage(), _ => HintDrawingPage()
     };
     private Choice Choose(ExplorerPage p, string label, string[] choices, int selected, Action<int> change, bool browseWithArrows = false)
     {

@@ -1,0 +1,323 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Draw from hints</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="draw-from-hints">Draw from hints</h1>
+<p>This experiment asks whether a small connected description can draw a recognizable ornament without storing its coordinates. It starts with a square return fret and a rectangle. They store ordered landmarks, which landmarks each corner uses, and which corners connect. Three different drawings then choose different positive distances while keeping exactly the same encoding.</p>
+<p>A second experiment uses a chain of one-bit gates around a circle. <strong>Every slot is a step. A one leaves a landmark and a zero skips the landmark.</strong> The circular traversal still visits both. Six equal steps with the second and fifth gates off leave a rectangle. A third experiment pairs two gate chains so their movements happen separately or together.</p>
+<p><a href="https://gojo.inklingai.ca/encoding/explorer/?layer=38">Open Draw from hints</a></p>
+<p>Start with <strong>Rail fret</strong>. Press <strong>Vary drawing</strong> and watch the proportions change while the encoding stays still. Choose <strong>Order open</strong> or <strong>Turn basis open</strong> to remove a promise. Then try <strong>Circle marks</strong> and <strong>Next slot</strong>. The numbering continues through each zero. <strong>Two gate streams</strong> compares separate movements with simultaneous movements.</p>
+<h2 id="one-connected-sketch-many-drawings">One connected sketch, many drawings</h2>
+<p>Think of the fret as locations on two rulers whose ticks have names but no measured spacing. The across ruler has five ordered landmarks. The rise ruler has four. Each corner points to one landmark on each ruler. Two corners sharing an across landmark stay aligned in that direction, however the gaps change.</p>
+<p>The pen follows these site rows in order. The numbers in the table are local addresses, not distances.</p>
+<table>
+<thead>
+<tr>
+<th>Pen site</th>
+<th>Across reference</th>
+<th>Rise reference</th>
+<th>Connection to next site</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Same across reference, rise to the top</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>Same rise reference, across to the far edge</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+<td>3</td>
+<td>Same across reference, return to the bottom</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>0</td>
+<td>Return across to the first interior landmark</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>0</td>
+<td>Rise to an interior landmark</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>2</td>
+<td>Across to another interior landmark</td>
+</tr>
+<tr>
+<td>6</td>
+<td>3</td>
+<td>2</td>
+<td>Return to the lower interior rise landmark</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3</td>
+<td>1</td>
+<td>Across to the innermost tip</td>
+</tr>
+<tr>
+<td>8</td>
+<td>2</td>
+<td>1</td>
+<td>Open end</td>
+</tr>
+</tbody>
+</table>
+<p>The right-angle promise has its own construction. The two rails bind to adjacent rays of a closed radial whole with four equal shares. Removing that binding leaves two ordered rails but no promised right angle. The picture can then slant.</p>
+<p><img alt="Three different numerical witnesses of one fret, followed by six repeat places." src="assets/experiments--PrimitiveMeasure--data--drawing-hints--fret.svg" /></p>
+<p>The rectangle uses the paired references <code>[0,0] → [1,0] → [1,1] → [0,1] → first site</code>. The two rail spans are independent unknown positive amounts. Sharing the same references gives matching opposite sides. The explicit final connection supplies closure.</p>
+<p><img alt="Three rectangles with independently chosen widths and heights." src="assets/experiments--PrimitiveMeasure--data--drawing-hints--rectangle.svg" /></p>
+<p>The renderer chooses positive gaps in a permitted order, places the rail basis, and follows the site connections. These choices are numerical witnesses. No drawing is read back into the encoding as evidence. For a partially ordered rail, the small fixture can enumerate compatible orders and illustrate some of them. This is a presentation aid, not an autonomous geometry solver.</p>
+<h2 id="what-changes-when-a-hint-is-removed">What changes when a hint is removed</h2>
+<table>
+<thead>
+<tr>
+<th>Removed or changed connection</th>
+<th>What remains</th>
+<th>What is no longer established</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One strict comparison on the across rail</td>
+<td>Named sites, other comparisons, pen connections</td>
+<td>The missing order and any geometric guarantee depending on it</td>
+</tr>
+<tr>
+<td>Rail bindings to adjacent quarter rays</td>
+<td>Shared alignment, rail order, path</td>
+<td>Right-angle corners</td>
+</tr>
+<tr>
+<td>Rectangle's final-to-first connection</td>
+<td>Three joined edges</td>
+<td>Closed ink boundary</td>
+</tr>
+<tr>
+<td>Far-edge-before-next-origin comparison</td>
+<td>Positive motif width and forward repeat placement</td>
+<td>A positive gap between neighboring repeats</td>
+</tr>
+<tr>
+<td>Add a strict comparison opposite the existing chain</td>
+<td>The contradictory rows remain inspectable</td>
+<td>Any admissible strict ordering. No drawing is supplied</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Removing the right-angle binding admits parallelogram-shaped realizations." src="assets/experiments--PrimitiveMeasure--data--drawing-hints--open-angle.svg" /></p>
+<p>The repeat placement also has a small order structure. Its roles are origin, motif far edge and next origin. Ordered storage promises <code>origin &lt; far edge &lt; next origin</code>. The renderer chooses the actual gap. <strong>Gap open</strong> removes only the far-edge/next-origin comparison and illustrates an overlapping placement. This promises separation along the selected placement rail, not a universal collision test between arbitrary shapes.</p>
+<h2 id="counting-with-places-and-participation">Counting with places and participation</h2>
+<p>There are two different counts. The chain length counts places. The set bits count participating marks. These are derived observations of the structure.</p>
+<table>
+<thead>
+<tr>
+<th>Ordered slots, written in encounter order</th>
+<th>Physical value bytes</th>
+<th>Places</th>
+<th>Marks</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>111111</code></td>
+<td><code>3F</code></td>
+<td>6</td>
+<td>6</td>
+<td>Six equal circular steps and six landmarks</td>
+</tr>
+<tr>
+<td><code>101101</code></td>
+<td><code>2D</code></td>
+<td>6</td>
+<td>4</td>
+<td>Same circular steps, rectangle landmarks</td>
+</tr>
+<tr>
+<td><code>101010</code></td>
+<td><code>15</code></td>
+<td>6</td>
+<td>3</td>
+<td>Same circular steps, equilateral triangle landmarks</td>
+</tr>
+<tr>
+<td><code>100100100100</code></td>
+<td><code>49 02</code></td>
+<td>12</td>
+<td>4</td>
+<td>Twelve equal steps, four quarter-spaced landmarks</td>
+</tr>
+<tr>
+<td><code>000000</code></td>
+<td><code>00</code></td>
+<td>6</td>
+<td>0</td>
+<td>Complete traversal without any ink landmark</td>
+</tr>
+</tbody>
+</table>
+<p>The array position supplies positive-right orientation and positive direction. Each entry owns only V. The first encountered slot occupies the lowest physical bit. Final-byte padding is outside the array extent and is never a step. The same <code>101101</code> strip can select four of six repeat places along the fret's placement rail.</p>
+<p><img alt="A six-place fret with the second and fifth repeat places left empty." src="assets/experiments--PrimitiveMeasure--data--drawing-hints--skipped-repeats.svg" /></p>
+<p>This is unary positional counting. It does not store the chain length as a binary numeral on every element. The enclosing array still needs its extent, as our other packed arrays do. A compiled numeral could eventually compress repeated work. There is no established twelve-step crossover, because storage, execution and the value of individually addressable slots all matter.</p>
+<h3 id="exactly-how-a-gate-is-connected">Exactly how a gate is connected</h3>
+<p>The executor uses the existing passage laws. One activation enters a visit site. A positive gate takes the mark route. A zero gate takes the skip route. Both routes rejoin the next visit. At the end both lead to a terminal site with no outgoing connection.</p>
+<pre><code class="language-text">                       gate present → mark
+visit this slot  →                         → visit next slot
+                       gate absent  → skip
+</code></pre>
+<p>For the six-slot example the visit sites occupy addresses 0–5, mark sites 6–11, skip sites 12–17, the terminal site 18 and gate observations 19–24. Every reference fits in five bits.</p>
+<table>
+<thead>
+<tr>
+<th>Connection table</th>
+<th>Row <code>[source, guard, destination]</code></th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Present-controlled passage</td>
+<td><code>[0,19,6]</code></td>
+<td>First slot can leave a landmark</td>
+</tr>
+<tr>
+<td>Absent-controlled passage</td>
+<td><code>[0,19,12]</code></td>
+<td>First slot can skip its landmark</td>
+</tr>
+<tr>
+<td>Unconditional continuation</td>
+<td><code>[6,19,1]</code>, <code>[12,19,1]</code></td>
+<td>Both outcomes advance to slot two</td>
+</tr>
+<tr>
+<td>Present-controlled passage</td>
+<td><code>[1,20,7]</code></td>
+<td>Slot two's mark route</td>
+</tr>
+<tr>
+<td>Absent-controlled passage</td>
+<td><code>[1,20,13]</code></td>
+<td>Slot two's skip route, taken for <code>101101</code></td>
+</tr>
+<tr>
+<td>Unconditional continuation</td>
+<td><code>[7,20,2]</code>, <code>[13,20,2]</code></td>
+<td>Slot three still follows a skipped slot</td>
+</tr>
+<tr>
+<td>Final continuations</td>
+<td><code>[11,24,18]</code>, <code>[17,24,18]</code></td>
+<td>Stop after the sixth visit</td>
+</tr>
+</tbody>
+</table>
+<p>Each passage law is an eight-byte bitmap of allowed before/after combinations of source, guard and destination. These are the existing transition laws, not eight new bytes stored on each gate. The circuit's activation and connections are separate from the six-bit value strip.</p>
+<p>The six mark bits fit in one payload byte, but the complete demonstrator is larger. Its explicit passage rows occupy 47 bytes, the three shared laws occupy 24 bytes, and the activation/guard array occupies four bytes, before the host's binding and allocation maps. This makes the mechanism inspectable. It is not a claim that the whole machine occupies six bits. Implicit successor storage could later compress the repeated wiring while preserving the same read.</p>
+<p>The observer can hide a gate while the stored bit remains intact. The read then admits both zero and one. Neither actual route commits, and the cursor waits. The page shows the underlying strip and the separate visibility mask so this distinction is inspectable. Known zero advances normally. Unknown does not silently become zero.</p>
+<h2 id="why-the-skipped-circle-becomes-a-rectangle">Why the skipped circle becomes a rectangle</h2>
+<p>The contour retains one centre, a shared positive radial reach, six ordered shares of one whole traversal and an end-to-start binding. Every share references the same part slot, which explicitly promises equal spacing. The gate slots attach to the starts of those six arcs.</p>
+<p>Keep positions 1, 3, 4 and 6. Positions 1 and 4 are opposite, as are positions 3 and 6. Joining the retained positions in circular order makes a quadrilateral whose diagonals are diameters. Its angles are right angles. The reader proves this from the shared-part references and the step correspondence, without examining rendered coordinates.</p>
+<p><img alt="Six circular positions, with only the four rectangle landmarks retained." src="assets/experiments--PrimitiveMeasure--data--drawing-hints--marked-rectangle.svg" /></p>
+<p>This construction also fixes the side ratio to √3, up to exchanging the sides. Scale and orientation remain free. The rail rectangle above allows arbitrary positive width and height. These are different construction families even when they produce the same particular rectangle.</p>
+<p>Twelve equal steps with every third site retained give a square. Deleting the two zero slots from the six-step rectangle would also change the construction. Four equal steps would now give a square. Keeping a zero slot and removing a slot are different structural changes.</p>
+<p><img alt="A twelve-step chain retaining every third landmark gives a square." src="assets/experiments--PrimitiveMeasure--data--drawing-hints--marked-square.svg" /></p>
+<p>Equal spacing is a connected assumption, not something supplied by a string of ones alone. Removing that equality keeps a circle but weakens the polygon guarantee. The whole-to-parts relation supplies the relative scale without a written fraction on every gate. Six unrelated steps do not establish one-sixth of a circle.</p>
+<h2 id="two-streams-and-diagonals">Two streams and diagonals</h2>
+<p>The movement example reuses the earlier <code>BorderScore</code>. The across voice contains two forward uses followed by two opposed uses of the same unknown positive horizontal span. The rise voice contains up, down, down and up uses of its own unknown positive span.</p>
+<table>
+<thead>
+<tr>
+<th>Clock connection</th>
+<th>Across strip</th>
+<th>Rise strip</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alternate</td>
+<td><code>10101010</code></td>
+<td><code>01010101</code></td>
+<td>Eight successive axis-aligned movements</td>
+</tr>
+<tr>
+<td>Together</td>
+<td><code>1111</code></td>
+<td><code>1111</code></td>
+<td>Four diagonal movements</td>
+</tr>
+<tr>
+<td>Hold rise</td>
+<td><code>10101010</code></td>
+<td><code>00000000</code></td>
+<td>Across advances while the rise voice stays at its first entry</td>
+</tr>
+<tr>
+<td>Mixed</td>
+<td><code>110110</code></td>
+<td><code>011011</code></td>
+<td>Six commits mixing single-axis and diagonal movements</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="The two voices take turns to make eight axis-aligned movements." src="assets/experiments--PrimitiveMeasure--data--drawing-hints--streams-separate.svg" /></p>
+<p><img alt="The same movements pair into four diagonal commits." src="assets/experiments--PrimitiveMeasure--data--drawing-hints--streams-together.svg" /></p>
+<p>The first, second and fourth cases consume the same movements and finish with zero displacement on both rails. They have different intermediate paths. A simultaneous commit is rendered as one straight segment between its sampled endpoints, an explicit drawing convention. Returning to the same coordinates does not itself bind two ink sites into one site.</p>
+<p>A movement gate controls whether its voice advances. A circle mark gate controls whether the current circular place gets a landmark. The distinction lies in their connections. The shared clock continues through zeros in both examples.</p>
+<h2 id="what-counted-before-this-experiment">What counted before this experiment</h2>
+<table>
+<thead>
+<tr>
+<th>Earlier mechanism</th>
+<th>What already lived in the encoding</th>
+<th>What still came from the host recipe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ReferenceCycle</code></td>
+<td>Sites linked in a cycle, with an activation moving by passages</td>
+<td>The builder chooses how many sites to construct</td>
+</tr>
+<tr>
+<td><code>RepeatedBody</code></td>
+<td>Shared body references, feedback and stop reads</td>
+<td>The selected example supplies its initial construction</td>
+</tr>
+<tr>
+<td><code>BorderScore</code></td>
+<td>Ordered movement strips, a two-bit clock per beat, held or advanced voice heads</td>
+<td>The viewing window chooses how many periods to display</td>
+</tr>
+<tr>
+<td>Ornament workshop</td>
+<td>Conditional tools, joint support, completion, rhythmic phase and nested starts</td>
+<td>Outer row/column counts, placement pitches and authored outlines</td>
+</tr>
+<tr>
+<td>This experiment</td>
+<td>Finite mark/skip chain, terminal site, marked contour correspondence, ordinal sketches and repeat placement order</td>
+<td>Illustrative positive gap choices and numerical screen realization</td>
+</tr>
+</tbody>
+</table>
+<p>The earlier workshop is still useful for its branch, join and learning tests. This page supplies a smaller family whose geometry comes from connected pre-numeric hints. It does not retroactively replace the workshop's authored plates.</p>
+<h2 id="evidence-and-limits">Evidence and limits</h2>
+<p>The survey exercises every mark mask for 4, 6, 8, 10 and 12 equally divided circles, <strong>5,456 masks</strong> in total. It finds 35 rectangle masks, including six squares. An independent numerical right-angle check covers every four-mark result. The rail survey checks 36 numerical variations for each of two sketches under five hint settings, <strong>360 cases</strong> including the deliberately conflicting settings.</p>
+<p>Focused tests also check the all-zero chain, final-byte padding, uncertain gates holding their cursor, absent closure, source bytes staying unchanged under drawing variation, illegal numerical witnesses, and equal signed participation under different clocks. These checks concern the selected planar radial and rail contracts. They do not prove that those contracts were learned from a drawing.</p>
+<p>Curved-leaf hints, automatic interpolation-family selection and learned drawing constraints remain later work. The circle already uses a simple radial contract. It does not need a sampled polyline in its primitive encoding. The next useful extension is to give an open bow similarly explicit side and bending constraints while keeping its numerical interpolation provisional.</p>
+<p><a href="assets/experiments--PrimitiveMeasure--data--drawing-hints--circle-masks.csv">All circular mark masks</a> · <a href="assets/experiments--PrimitiveMeasure--data--drawing-hints--rail-witnesses.csv">Rail witness checks</a> · <a href="assets/experiments--PrimitiveMeasure--data--drawing-hints--open-order.svg">Open-order drawing</a> · <a href="assets/experiments--PrimitiveMeasure--data--drawing-hints--hidden-gate.svg">Hidden-gate drawing</a> · <a href="assets/experiments--PrimitiveMeasure--data--drawing-hints--all-six.svg">All six landmarks</a> · <a href="assets/experiments--PrimitiveMeasure--data--drawing-hints--streams-mixed.svg">Mixed gate streams</a></p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -c Release -- --drawing-hints experiments/PrimitiveMeasure/data/drawing-hints
+dotnet test Tests/PrimitiveMeasure.Tests -c Release --filter FullyQualifiedName~HintDrawingTests
+</code></pre></main></html>

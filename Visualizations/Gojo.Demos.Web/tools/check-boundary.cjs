@@ -39,12 +39,51 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const probeDesk = process.argv.includes('--washer-probes');
     const timing = process.argv.includes('--timing-sockets');
     const ornaments = process.argv.includes('--ornament-workshop');
-    await page.goto(base + '/encoding/explorer/?layer=' + (ornaments ? '37&plate=5' : timing ? 36 : probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const hints = process.argv.includes('--drawing-hints');
+    await page.goto(base + '/encoding/explorer/?layer=' + (hints ? 38 : ornaments ? '37&plate=5' : timing ? 36 : probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+    }
+    if (hints) {
+      const drawing=()=>page.screenshot({clip:{x:660,y:340,width:820,height:360}});
+      const fret=await drawing();
+      await page.screenshot({path:path.join(output,'drawing-hints-fret.png')});
+      await select(330,1); const rectangle=await drawing();
+      assert.ok(!fret.equals(rectangle),'The same rail grammar supports a different connected path.');
+      await select(480,4); assert.ok(!rectangle.equals(await drawing()),'Conflicting order supplies no drawing.');
+      await select(330,2);
+      await page.screenshot({path:path.join(output,'drawing-hints-circle.png')});
+      const circle=await drawing();
+      await select(645,3); assert.ok(!circle.equals(await drawing()),'A hidden gate holds the cursor and leaves no closing chord.');
+      await select(645,0); await page.waitForTimeout(600);
+      await page.mouse.click(760,245); await page.mouse.move(1517,960); await page.waitForTimeout(500);
+      assert.ok(!circle.equals(await drawing()),'The first gate leaves a landmark without yet drawing a chord.');
+      await page.mouse.click(860,245); await page.mouse.move(1517,960); await page.waitForTimeout(250);
+      assert.ok(circle.equals(await drawing()),'The whole recorded traversal restores the same rectangle.');
+      const bits=await page.screenshot({clip:{x:280,y:330,width:330,height:370}});
+      await page.mouse.click(970,245); await page.mouse.move(1517,960); await page.waitForTimeout(250);
+      assert.ok(!circle.equals(await drawing()),'The numerical realization changes.');
+      assert.ok(bits.equals(await page.screenshot({clip:{x:280,y:330,width:330,height:370}})),'The encoded structure stays unchanged.');
+      await select(330,3); const separate=await drawing(); await select(480,1);
+      assert.ok(!separate.equals(await drawing()),'Simultaneous gates make a different path.');
+      const opened=page.waitForEvent('popup'); await page.mouse.click(1430,902);
+      const notes=await opened; await notes.waitForLoadState();
+      assert.match(await notes.title(),/Draw from hints/);
+      const images=notes.locator('main img'); assert.equal(await images.count(),8);
+      for(const img of await images.all()){
+        const url=new URL(await img.getAttribute('src'),notes.url()).href;
+        const svg=await notes.request.get(url); assert.equal(svg.status(),200); assert.match(await svg.text(),/data-key=/);
+      }
+      for(const [name,lines] of [['All circular mark masks',5457],['Rail witness checks',361]]){
+        const href=await notes.getByRole('link',{name,exact:true}).getAttribute('href');
+        assert.equal((await (await notes.request.get(new URL(href,notes.url()).href)).text()).trim().split('\n').length,lines);
+      }
+      assert.deepEqual(errors,[]);
+      console.log('Verified invariant encoding, varied drawings, conflicts, hidden-gate hold, playback, paired streams, notes and surveys.');
+      return;
     }
     if (ornaments) {
       const plate = () => page.screenshot({clip:{x:720,y:335,width:680,height:340}});

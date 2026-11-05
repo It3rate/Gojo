@@ -1,5 +1,10 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--drawing-hints",var hintFolder])
+{
+    HintSurvey.Export(hintFolder);
+    return;
+}
 if (args is ["--ornament-plates",var folder])
 {
     Directory.CreateDirectory(folder);

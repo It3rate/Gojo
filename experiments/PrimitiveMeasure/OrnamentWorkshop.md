@@ -50,6 +50,8 @@ A useful uncertainty case is **Which arm?** with **Either arrives**. The paired 
 
 The motifs, cubic handles, spacing and pen-scale calibration are authored. The gate decisions, strokes admitted, feedback phases and child starts are computed from their connections. The workshop borrows the retained pulse shift from the previous experiment. Across two beats the original contact words select first alone, then both. The learned shift selects both, then first alone. The new use is to turn a tested timing difference into an ornamental accent. [Timing bench and its evidence](TimingSocket.md)
 
+The next [Draw from hints experiment](DrawingFromHints.md) constructs simpler frets and rectangles from ordered landmark references. It also replaces a host repeat count with a finite chain of one-bit places, including skipped places, and tests marked circles and paired motion streams. The authored plates on this page retain their original implementation.
+
 ## Construction sources and verification
 
 The public Core4 archive labels its pattern demonstration **Core2 Patterns**. In that lineage, the Crossbar Lattice, Square Wave, Zigzag and Interlock recipes are particularly pertinent. The fret experiment borrows the distinction between committing successive motions separately and committing them together. [Archived pattern demo](https://gojo.inklingai.ca/core4/patterns/) · [Earlier frieze catalog](https://github.com/It3rate/ResoEngine/blob/d14f058775f9488de90c815b0930205553ceec6e/Applied/Geometry/Frieze/FriezeCatalog.cs)
