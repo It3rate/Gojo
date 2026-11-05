@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--invariance", var invarianceFolder])
+{
+    InvarianceSurvey.Export(invarianceFolder);
+    return;
+}
+
 if (args is ["--structural-guarantees", var guaranteeFolder])
 {
     GuaranteeSurvey.Export(guaranteeFolder);

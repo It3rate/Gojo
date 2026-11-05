@@ -1,0 +1,9 @@
+36 concrete case/variation observations: 12 established correspondences, 11 rejected, 12 unresolved, 1 without an admitted read.
+27 case probes bind the same immutable equality-law instance to different exposed inputs; the other probes use explicit frame or role maps. Every case also controls a separate one-activation consumer through its public probe port.
+64 ODV operand pairs exhaust the 8 x 8 domain: 32 nonempty addition domains, 32 incompatible empty domains, 8 nonempty ambiguous answers. Reorientation preserves every answer set; empty-set agreement is not positive evidence, and matching sets do not identify independently unknown outcomes.
+16 Y/T switch trials exhaust 8 material patterns x 2 known controls under the specified three-arm map. Role correspondence and material counts are preserved.
+4 collecting-Y trials exhaust the two contributor bits: exchanging contributors preserves common presence without merging the retained material.
+4 priority-merge trials exhaust the two contributor bits: 1 exact-state counterexample(s) remain visible despite equal outlet presence. These are expected boundary observations, not failed conservation checks.
+1600 Boolean-span trials exhaust 16 truth masks x 10 closed spans x 10 closed spans on one four-landmark rail. Exchanging operands together with the law preserves exact occupancy; exchanging operands alone produces 720 counterexamples.
+124 cycle trials exhaust all V patterns on cycles of 2..6 distinct sites. Retained closure is unchanged; circulation and geometric enclosure are not asserted.
+All required conformance checks passed. The finite domains above do not exhaust geometry, all possible edits, unknown construction histories, concept discovery or general learning. Concept and limit sentences describe the apparatus after its structural reads; they never select its runtime laws.

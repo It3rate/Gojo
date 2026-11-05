@@ -78,6 +78,7 @@ corresponding experiment document in the repository.
 | Construction clues | Compare several constructions of the same outline, inspect grouped directed uses and shared seams, then hide evidence to see which alternatives remain compatible. [Catalogue, construction bits and limits](../../experiments/PrimitiveMeasure/ConstructionHints.md) |
 | Let the structure respond | Move one request through retained uses, or attach an ordinal reach adjustment. Compare actual bits, possible routes, shared fields, pins and unresolved controls after the construction builder is removed. [Behavior trials and limits](../../experiments/PrimitiveMeasure/ConstructionBehavior.md) |
 | What survives a change? | Compare explicit pairs, shared junctions and positional cycles; separate a blocked gate from an open route, and shared variation from matching independent reads. Inspect exact edits, limited inspections and retained bits. [Guarantees and counterexamples](../../experiments/PrimitiveMeasure/StructuralGuarantees.md) |
+| Small concepts under change | Compare invariant and equivariant reads across objects, sequences, switches, joints and paths. Each trial exposes a short concept, its limit, the actual before/after bits and a reusable correspondence read. [Concepts, challenges and encoding](../../experiments/PrimitiveMeasure/InvarianceExperiments.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

@@ -21,6 +21,12 @@ or repeated body to inspect its actual encoding and result.
 dotnet run --project Visualizations/Gojo.PrimitiveExplorer
 ```
 
+The [small concepts experiment](InvarianceExperiments.md) tests invariance and
+equivariance across objects, bindings, sequences, loops, switches, collections,
+and joints. Each candidate has a one-sentence meaning and limit. Actual packed
+comparison laws expose agreement, disagreement, uncertainty, and absent basis;
+a separate consumer can use that evidence through its public port.
+
 The [structural guarantees experiment](StructuralGuarantees.md) compares matching
 patterns under explicit edits. Shared vertices, positional cycles, independent
 endpoints, shared reaches and controlled passages expose different guarantees.
