@@ -1,0 +1,135 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Whitespace becomes a path</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="whitespace-becomes-a-path">Whitespace becomes a path</h1>
+<p>This experiment builds a winding path by reserving the space between its turns. It repeats one small body: check that an inward gap fits, construct the next corner, advance to the next side, and return to the check. A triangle, square or pentagon changes the direction cycle. It does not require a new set of instructions for every turn of the spiral.</p>
+<p>The spaces are explicit connections between parallel supporting lines. Their common width is one equal, unmeasured step. Each supporting line has its own local normal direction; there is no global X/Y grid in the encoding. The renderer supplies coordinates only after the structure has made its decisions.</p>
+<p><a href="https://gojo.inklingai.ca/encoding/explorer/?layer=39">Open the interactive experiment</a></p>
+<p>Start with <strong>Pentagon / Spiral / 8 steps / Known</strong>. Press <strong>Next side</strong> a few times, then <strong>Run to stop</strong>. Change <strong>Form</strong> to <strong>Perimeters</strong> to see the other seam connection. Change <strong>Depth chain</strong> to get more or fewer passes from the same body.</p>
+<p><img alt="A pentagonal spiral produced by one recurring body." src="assets/experiments--PrimitiveMeasure--data--strips--5-spiral.svg" /></p>
+<h2 id="what-is-being-added">What is being added</h2>
+<p>The earlier <a href="WhitespaceSettlement.html">gap experiment</a> redistributed step participation between supplied gaps. This experiment uses a shared gap as the width of a strip, connects the strip to a second supporting line, and joins successive lines through shared corner sites. It executes a declared geometric construction. It does not discover the desired gap or optimize a drawing after the fact.</p>
+<p>The proposed structure was written as:</p>
+<pre><code class="language-text">closed contour -&gt; equal parts -&gt; local normal directions
+supporting line -&gt; (normal direction, depth site)
+earlier line -&gt; shared gap width -&gt; next parallel line
+incoming supporting line -&gt; shared corner -&gt; outgoing supporting line
+check -&gt; construct one side -&gt; next direction -&gt; check
+last direction -&gt; retain the pending gap -&gt; feedback
+</code></pre>
+<p>The width relation can be imagined as a little ladder. Every rung has the same length and goes normally across the strip. The repeated correspondence is represented once by the shared normal and adjacent depth references; no dense ladder of sampled rungs is stored. Its boundaries can be read as lines, and its width can be read as space.</p>
+<p>This is a selected regular convex planar construction. Equal positive contour parts establish the direction cycle. A shared centre and normal-depth basis establish the supporting lines. Their adjacent intersections establish the corners. These premises are supplied structure, not discoveries made from the picture.</p>
+<h2 id="two-seams-two-results">Two seams, two results</h2>
+<p><strong>Spiral:</strong> most side roles use the current depth. The last side meets the first normal one step inward. That corner is the actual starting site of the next pass. There is one continuous open ink path and no connecting diagonal added by the renderer.</p>
+<p><strong>Perimeters:</strong> every side in the body uses the next inward depth. The last side returns to the actual starting corner of that perimeter. A separate non-inking relocation connects to the beginning of the next inner perimeter. Returning to a shared site is closure; drawing two nearby endpoints would not be.</p>
+<p><img alt="The same direction cycle with a closed seam produces nested perimeters." src="assets/experiments--PrimitiveMeasure--data--strips--5-perimeters.svg" /></p>
+<p>The source boundary is shown dashed. It supplies the original regular outline. Generated ink is solid. The small dashed central polygon marks the protected positive core. It is a declared boundary of this construction, not a discovered medial shape or an assertion that every white region has been found.</p>
+<h2 id="the-actual-stop-condition">The actual stop condition</h2>
+<p>An eight-step normal-depth chain starts as eight available one-bit participants. The gap itself is one step of that same basis. Before a new pass, the read circuit asks whether two consecutive available slots remain. One can be reserved for the gap; the other witnesses strictly positive depth inside it.</p>
+<p>The gap moves through three banks using existing conservative passage laws:</p>
+<pre><code class="language-text">available -&gt; pending -&gt; retained
+</code></pre>
+<p>At the start of a pass, one step moves from available to pending. At its final corner, that same step moves from pending to retained. At all times:</p>
+<pre><code class="language-text">initial depth = available depth + pending depth + retained depth
+</code></pre>
+<p>The last positive slot has no outgoing transfer. When it is the only available slot, the false fit read routes the activation to the terminal site. No repeat count tells the program when to finish.</p>
+<p>For the default pentagon, seven passes produce thirty-five ink segments; the next check stops. The result has one available step, no pending step and seven retained steps. These numbers are observations of execution, not stored commands to draw thirty-five lines.</p>
+<p>This is a <strong>conservative stop at the boundary of the declared construction</strong>. It does not search for every shorter final continuation, draw a zero-sized perimeter, or force the endpoint onto the centre. The central space and an unfinished possible continuation are distinct from a lost amount. The spiral can stop at a seam before drawing around the remaining core.</p>
+<h2 id="a-pending-pass-is-real-state">A pending pass is real state</h2>
+<p>After drawing one or two sides, choose <strong>Gap hidden</strong> or <strong>Corner open</strong>, then press <strong>Run to stop</strong>. The path holds. Its existing ink, phase and pending gap remain. Restore <strong>Known</strong> to resume the same construction. The Read control changes the observation; it does not rebuild the path.</p>
+<p><img alt="A partially completed pass retains its pending gap." src="assets/experiments--PrimitiveMeasure--data--strips--pending.svg" /></p>
+<p>Hidden gap evidence admits both absent and present. An open corner supplies no observation. Neither authorizes a new corner. <strong>Units differ</strong> instead builds a separate fixture whose gap and depth bindings are incompatible. That case cannot justify a spacing comparison. Changing the shape, form, depth inventory or unit fixture starts a new run; hiding and restoring observations does not.</p>
+<h2 id="concrete-encoding-chart">Concrete encoding chart</h2>
+<p>For a pentagonal spiral, the body is five rows. Line roles 0 through 4 use the current depth; role 5 uses normal 0 at the next depth.</p>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Example contents</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equal-part contour</td>
+<td>Five ordered arcs sharing part reference 32, plus an explicit return</td>
+<td>One regular direction cycle</td>
+</tr>
+<tr>
+<td>Normal bindings</td>
+<td><code>[phase site, contour ray site]</code></td>
+<td>The clock phase selects a geometric normal</td>
+</tr>
+<tr>
+<td>Frame bindings</td>
+<td><code>[0,0,0] … [4,4,0]</code>, <code>[5,0,1]</code></td>
+<td><code>[line role, normal, current/next depth role]</code></td>
+</tr>
+<tr>
+<td>Body connections</td>
+<td><code>[0,1] [1,2] [2,3] [3,4] [4,5]</code></td>
+<td>The last corner continues inward</td>
+</tr>
+<tr>
+<td>Perimeter alternative</td>
+<td>Frames 0–4 use depth role 1; last body row is <code>[4,0]</code></td>
+<td>The end returns to this pass's beginning</td>
+</tr>
+<tr>
+<td>Supporting-line instances</td>
+<td><code>[normal reference, depth-site reference]</code></td>
+<td>Normal identity plus ordered depth, without coordinates</td>
+</tr>
+<tr>
+<td>Whitespace strips</td>
+<td><code>[earlier line, next line, width reference]</code></td>
+<td>Same normal, adjacent depth sites, shared width</td>
+</tr>
+<tr>
+<td>Shared corner sites</td>
+<td><code>[incoming line, outgoing line]</code></td>
+<td>Both incident ink segments refer to this actual joint row</td>
+</tr>
+<tr>
+<td>Retained ink</td>
+<td><code>[start joint, end joint, supporting line]</code></td>
+<td>Generated connected path</td>
+</tr>
+<tr>
+<td>Non-inking relocation</td>
+<td><code>[previous joint, next starting joint]</code></td>
+<td>Restart a closed perimeter without drawing a connector</td>
+</tr>
+<tr>
+<td>Depth passage</td>
+<td><code>[source slot, guard, destination slot]</code></td>
+<td>Reserve or retain exactly one existing participant</td>
+</tr>
+<tr>
+<td>Control routes</td>
+<td>Check → commit, check → done, commit → check</td>
+<td>True continues, false stops, unresolved holds</td>
+</tr>
+<tr>
+<td>Phase routes</td>
+<td>Last phase → first phase</td>
+<td>Reuse the body without unrolling more instructions</td>
+</tr>
+</tbody>
+</table>
+<p>Template references use four bits. The whole turn construction and phase correspondence use their existing six-bit local references. Generated output references use a width sufficient for this owner's bounded inventory. Array position supplies identity; there are no per-edge global IDs or operation strings.</p>
+<p>The continuation and stop routes reuse the existing eight-byte passage laws: the bitmap lists permitted complete before/after states of source, control and destination. It is not eight bytes per emitted line.</p>
+<p>The pentagonal spiral's body is five bytes; its six frame rows are nine bytes. These are <strong>selected payloads</strong>, not total memory usage. The phase/control circuits, depth inventory, geometry bindings and retained output also occupy storage. Increasing depth from four to twenty-four leaves the body, frame bindings and controller routes unchanged, while output grows from fifteen to 115 edges. The returned path is intentionally retained; compact instructions do not imply free output storage.</p>
+<h2 id="why-the-corners-are-legal-in-this-first-construction">Why the corners are legal in this first construction</h2>
+<p>Valid parallel strips alone do not prove that their finite edges can join forwards. This experiment uses a narrow sufficient law: a regular convex cycle of three, four or five normals, a shared unit inset, and strictly positive inner depth. It leaves unequal turns and other outlines unresolved instead of applying this law to them.</p>
+<p>For an after-the-fact geometric check, let consecutive unit normals be separated by <code>δ</code>, and let the preceding, current and following supporting lines have centre distances <code>a</code>, <code>b</code>, <code>c</code>. The signed forward length between their intersections is:</p>
+<pre><code class="language-text">(a + c - 2b cos δ) / sin δ
+</code></pre>
+<p>This expression is explanatory mathematics, not a floating-point stop calculation in the runtime. For a regular triangle, square or pentagon, <code>sin δ &gt; 0</code> and <code>cos δ &lt; 1/2</code>. Equal-depth corners have positive traversal. At the spiral seam the numerator becomes <code>2h(1-cos δ)-g</code>, with <code>h ≥ 2g</code>; it remains positive. At the next pass's first corner, the extra term has the opposite sign and also preserves positive traversal. Perimeter corners use one common positive inner depth.</p>
+<p>Thus the supplied turn construction and ordinal depth guard justify this local corner rule without calculating a cosine for every decision. The coordinate adapter subsequently intersects the specified supporting lines to draw a numerical witness. It never sends those pixels back as fit evidence.</p>
+<p>The tests additionally inspect numerical witnesses in several rotated frames for forward order, shared sites, normal spacing and clearance between nonincident emitted segments. These checks support this bounded family; they are not a general collision detector embedded in the controller.</p>
+<h2 id="limits-and-the-next-extension">Limits and the next extension</h2>
+<p>The whitespace rows describe spacing between supporting lines. Finite ink endpoints, seam openings and corner regions remain available through their separate joints and paths. The experiment does not compute total white area, discover nearest neighbors, form rounded offset corners or model arbitrary curved corridors.</p>
+<p>Width is an observed geometric quantity reused across the construction. It is not area substance copied once per side. The conserved banks account for normal-depth intervals. They do not claim that summed widths equal the polygon's area.</p>
+<p>The next extension would expose actual local clearance and corner-admission reads for less restricted turns, replacing this sufficient regular-family rule while preserving the same check/continue/hold/stop circuit. A finer depth rung could admit smaller final continuations; that would require an explicit refinement and a new clearance read, not silently consuming the protected core.</p>
+<p>The <a href="assets/experiments--PrimitiveMeasure--data--strips--3-spiral.svg">triangle spiral</a>, <a href="assets/experiments--PrimitiveMeasure--data--strips--4-spiral.svg">square spiral</a>, <a href="assets/experiments--PrimitiveMeasure--data--strips--3-perimeters.svg">triangle perimeters</a> and <a href="assets/experiments--PrimitiveMeasure--data--strips--4-perimeters.svg">square perimeters</a> use the same mechanism. <a href="assets/experiments--PrimitiveMeasure--data--strips--strip-runs.csv">Download all 186 runs</a>.</p>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -c Release -- --strips experiments/PrimitiveMeasure/data/strips
+dotnet test Tests/PrimitiveMeasure.Tests -c Release --filter FullyQualifiedName~StripWalkTests
+</code></pre></main></html>

@@ -18,6 +18,8 @@ This adds a unary resolution beneath the earlier pre-numeric description. There 
 
 [Open the whitespace experiment](https://gojo.inklingai.ca/encoding/explorer/?layer=38&view=whitespace)
 
+The follow-up [Whitespace becomes a path](WhitespaceStrips.md) attaches a shared gap to parallel supporting lines and reuses one corner cycle to construct inward perimeters or a spiral. Its depth guard stops with a positive central space still present.
+
 Press **One comparison** to visit the next connected pair. Press **Settle** to continue until a full scan produces no transfer. The left drawing keeps the original allocation. The right drawing reads the current gap chains. **Reset** starts the same experiment again.
 
 ## The fret's spaces are participants

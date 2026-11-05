@@ -186,6 +186,10 @@ corresponding experiment document in the repository.</p>
 <td>Settle whitespace</td>
 <td>Within Draw from hints, give the gaps their own conserved step chains. Compare complete and limited connections, indivisible remainders and a finer rung. <a href="WhitespaceSettlement.html">Settlement and its limits</a></td>
 </tr>
+<tr>
+<td>Whitespace becomes a path</td>
+<td>Reuse one direction cycle to make inward triangular, square or pentagonal spirals and perimeters. Follow available, pending and retained gaps; stop at a positive core or hold on an unresolved read. <a href="WhitespaceStrips.html">Strip connections and loop encoding</a></td>
+</tr>
 </tbody>
 </table>
 <p>The <a href="BoundaryExperiments.html">boundary playground notes</a>
@@ -223,6 +227,9 @@ without claiming they are the same executor.</p>
 calibrated ladders, garbage collection, shrinking and contact detection remain
 open or separately scoped work. They are explained at the relevant layers,
 not animated as if already implemented.</p>
+<p>Layer 39 now implements one deliberately narrow shrinking construction: regular
+three-to-five-direction strips with a shared unit gap and a protected positive
+core. This does not supply arbitrary offset or contact discovery.</p>
 <h2 id="checks-and-visual-review">Checks and visual review</h2>
 <pre><code class="language-powershell">dotnet test Tests/PrimitiveExplorer.Tests/PrimitiveExplorer.Tests.csproj
 dotnet test Gojo.slnx

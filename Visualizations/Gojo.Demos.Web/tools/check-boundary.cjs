@@ -41,12 +41,48 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const ornaments = process.argv.includes('--ornament-workshop');
     const hints = process.argv.includes('--drawing-hints');
     const whitespace = process.argv.includes('--whitespace');
-    await page.goto(base + '/encoding/explorer/?layer=' + (whitespace ? '38&view=whitespace' : hints ? 38 : ornaments ? '37&plate=5' : timing ? 36 : probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const strips = process.argv.includes('--strips');
+    await page.goto(base + '/encoding/explorer/?layer=' + (strips ? 39 : whitespace ? '38&view=whitespace' : hints ? 38 : ornaments ? '37&plate=5' : timing ? 36 : probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
-      await page.keyboard.press('Enter'); await page.waitForTimeout(whitespace ? 1000 : 250);
+      await page.keyboard.press('Enter'); await page.waitForTimeout(whitespace || strips ? 1000 : 250);
+    }
+    if(strips){
+      await page.screenshot({path:path.join(output,'strips-initial.png')});
+      const bits=()=>page.screenshot({clip:{x:280,y:360,width:330,height:420}});
+      const drawing=()=>page.screenshot({clip:{x:660,y:340,width:440,height:340}});
+      async function action(x){await page.mouse.click(x,245);await page.mouse.move(1517,960);await page.waitForTimeout(800);}
+      const initial=await bits();await action(910);const pending=await bits(),partial=await drawing();
+      assert.ok(!initial.equals(pending),'The first side reserves a pending gap.');
+      await select(785,1);await action(1010);
+      assert.ok(pending.equals(await bits()),'Hidden gap evidence preserves the pending inventory.');
+      assert.ok(partial.equals(await drawing()),'An unresolved read does not draw more ink.');
+      await page.screenshot({path:path.join(output,'strips-held.png')});
+      await select(785,0);await action(1010);const spiral=await drawing(),finished=await bits();
+      assert.ok(!partial.equals(spiral),'Restoring the read resumes the same spiral.');
+      await action(1010);assert.ok(finished.equals(await bits()),'The terminal state cannot reserve another gap.');
+      await page.screenshot({path:path.join(output,'strips-spiral.png')});
+      await action(1100);assert.ok(initial.equals(await bits()),'Reset restores the original depth.');
+      await select(480,1);await action(1010);
+      assert.ok(!spiral.equals(await drawing()),'A return seam constructs separate perimeters.');
+      await page.screenshot({path:path.join(output,'strips-perimeters.png')});
+      await select(330,0);await action(1010);await page.screenshot({path:path.join(output,'strips-triangle.png')});
+      await select(785,3);const incompatible=await bits();await action(1010);
+      assert.ok(incompatible.equals(await bits()),'Incompatible units cannot reserve depth.');
+      const opened=page.waitForEvent('popup');await page.mouse.click(1430,902);
+      const notes=await opened;await notes.waitForLoadState();assert.match(await notes.title(),/Whitespace becomes a path/);
+      assert.equal(await notes.locator('main img').count(),3);
+      for(const img of await notes.locator('main img').all()){
+        const svg=await notes.request.get(new URL(await img.getAttribute('src'),notes.url()).href);
+        assert.equal(svg.status(),200);assert.match(await svg.text(),/data-key=/);
+      }
+      const href=await notes.getByRole('link',{name:'Download all 186 runs',exact:true}).getAttribute('href');
+      assert.equal((await (await notes.request.get(new URL(href,notes.url()).href)).text()).trim().split('\n').length,187);
+      assert.deepEqual(errors,[]);
+      console.log('Verified strip reservation, unresolved hold, resumed spiral, terminal stop, reset, perimeters, triangles, incompatible units, notes and survey.');
+      return;
     }
     if (whitespace) {
       await page.screenshot({path:path.join(output,'whitespace-initial.png')});

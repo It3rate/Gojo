@@ -1,5 +1,10 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--strips",var stripFolder])
+{
+    StripSurvey.Export(stripFolder);
+    return;
+}
 if (args is ["--whitespace",var gapFolder])
 {
     GapSurvey.Export(gapFolder);

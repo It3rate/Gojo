@@ -421,6 +421,24 @@ public sealed class ExplorerTests
     }
 
     [Fact]
+    public void A_whitespace_loop_holds_its_pending_strip_and_resumes_without_restarting()
+    {
+        var s=new ExplorerSession();s.Navigate(38);
+        s.Read().Actions.Single(a=>a.Label=="Next side").Run();
+        Assert.Contains("1 pending",s.Read().Result);
+        var ink=s.Read().Blocks.Single(b=>b.Title=="Retained ink").Bytes;
+        s.Read().Choices[3].Change(1);s.Read().Actions.Single(a=>a.Label=="Run to stop").Run();
+        Assert.Contains("Waiting",s.Read().Result);Assert.Equal(ink,s.Read().Blocks.Single(b=>b.Title=="Retained ink").Bytes);
+        Assert.Contains("1 pending",s.Read().Result);
+        s.Read().Choices[3].Change(0);s.Read().Actions.Single(a=>a.Label=="Run to stop").Run();
+        Assert.Contains("Stopped",s.Read().Result);Assert.Contains("35 drawn sides",s.Read().Result);
+        Assert.Contains("1 available / 0 pending / 7 retained",s.Read().Result);
+        s.Read().Choices[1].Change(1);s.Read().Actions.Single(a=>a.Label=="Run to stop").Run();
+        Assert.NotEmpty(s.Read().Blocks.Single(b=>b.Title=="Non-inking relocation").Bytes);
+        s.Read().Actions.Single(a=>a.Label=="Reset").Run();Assert.Contains("0 drawn sides",s.Read().Result);
+    }
+
+    [Fact]
     public void Uncertain_conditional_preserves_actual_storage_and_both_predicted_routes()
     {
         var session = new ExplorerSession(); session.Navigate(9); session.Control = 2; session.Steps = 1;

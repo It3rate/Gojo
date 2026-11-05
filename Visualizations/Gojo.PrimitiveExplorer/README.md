@@ -73,6 +73,7 @@ corresponding experiment document in the repository.
 | Ornament workshop | Print a rosette, palmette frieze, fret, half-drop field or nested rose arcade. Change the punch tape and finishing law or inspect one repeat. [Line plates and wiring](../../experiments/PrimitiveMeasure/OrnamentWorkshop.md) |
 | Draw from hints | Vary the numerical drawing of one ordinal fret or rectangle. Walk one-bit mark chains around a circle, skip landmarks, and pair two motion streams. [Construction, counting and checks](../../experiments/PrimitiveMeasure/DrawingFromHints.md) |
 | Settle whitespace | Within Draw from hints, give the gaps their own conserved step chains. Compare complete and limited connections, indivisible remainders and a finer rung. [Settlement and its limits](../../experiments/PrimitiveMeasure/WhitespaceSettlement.md) |
+| Whitespace becomes a path | Reuse one direction cycle to make inward triangular, square or pentagonal spirals and perimeters. Follow available, pending and retained gaps; stop at a positive core or hold on an unresolved read. [Strip connections and loop encoding](../../experiments/PrimitiveMeasure/WhitespaceStrips.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser
@@ -115,6 +116,10 @@ Automatic material splitting, discovered radial fields, automatic hardening,
 calibrated ladders, garbage collection, shrinking and contact detection remain
 open or separately scoped work. They are explained at the relevant layers,
 not animated as if already implemented.
+
+Layer 39 now implements one deliberately narrow shrinking construction: regular
+three-to-five-direction strips with a shared unit gap and a protected positive
+core. This does not supply arbitrary offset or contact discovery.
 
 ## Checks and visual review
 
