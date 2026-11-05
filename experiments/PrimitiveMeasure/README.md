@@ -31,6 +31,11 @@ uses of those links. Compare 31 constructions of 14 patterns, including squares,
 glyphs and a church. Hide clues to see which supplied constructions remain possible;
 the observer reads connections and shared sources, never the drawing coordinates.
 
+[Let the retained structure respond](ConstructionBehavior.md) independently loads
+those artifacts and attaches explicit passage and adjustment laws. A request can
+walk, wait at a conflict, take a guarded branch, or change a shared ordinal reach.
+The original family encoding stays intact while actual runtime state changes.
+
 The [paired reach experiment](PairedReach.md) tests overlap on an ordered rail, uncertain dot ownership and a peer that uses a joint read to release its own waiting pulse.
 
 [When two rails meet](RailContacts.md) follows two independent owners through docking, comparison, an unresolved longer-span choice and a guarded material draw.

@@ -1,0 +1,433 @@
+case,title,observation,pulse,from_site,to_site,input_transfer,committed,moved,conflict,missing,resolved,potential_destinations,compatible_uses,occupied_activations,family_bytes_unchanged
+0,Path · common reach,1,1,,0,True,True,True,False,False,True,2,,1,True
+0,Path · common reach,1,2,0,1,False,True,True,False,False,True,3,0,1,True
+0,Path · common reach,1,3,1,2,False,True,True,False,False,True,4,2,1,True
+0,Path · common reach,1,4,2,3,False,True,True,False,False,True,5,4,1,True
+0,Path · common reach,1,5,3,0,False,True,True,False,False,True,2,6,1,True
+0,Path · common reach,1,6,0,1,False,True,True,False,False,True,3,0,1,True
+0,Path · common reach,1,7,1,2,False,True,True,False,False,True,4,2,1,True
+0,Path · common reach,1,8,2,3,False,True,True,False,False,True,5,4,1,True
+0,Path · common reach,1,9,3,0,False,True,True,False,False,True,2,6,1,True
+0,Path · common reach,2,1,,0,True,True,True,False,False,True,2,,1,True
+0,Path · common reach,2,2,0,1,False,True,True,False,False,True,3,0,1,True
+0,Path · common reach,2,3,1,2,False,True,True,False,False,True,4,2,1,True
+0,Path · common reach,2,4,2,3,False,True,True,False,False,True,5,4,1,True
+0,Path · common reach,2,5,3,0,False,True,True,False,False,True,2,6,1,True
+0,Path · common reach,2,6,0,1,False,True,True,False,False,True,3,0,1,True
+0,Path · common reach,2,7,1,2,False,True,True,False,False,True,4,2,1,True
+0,Path · common reach,2,8,2,3,False,True,True,False,False,True,5,4,1,True
+0,Path · common reach,2,9,3,0,False,True,True,False,False,True,2,6,1,True
+0,Path · common reach,3,1,,0,True,True,True,False,False,True,2,,1,True
+0,Path · common reach,3,2,0,1,False,True,True,False,False,True,3,0,1,True
+0,Path · common reach,3,3,1,2,False,True,True,False,False,True,4,2,1,True
+0,Path · common reach,3,4,2,3,False,True,True,False,False,True,5,4,1,True
+0,Path · common reach,3,5,3,0,False,True,True,False,False,True,2,6,1,True
+0,Path · common reach,3,6,0,1,False,True,True,False,False,True,3,0,1,True
+0,Path · common reach,3,7,1,2,False,True,True,False,False,True,4,2,1,True
+0,Path · common reach,3,8,2,3,False,True,True,False,False,True,5,4,1,True
+0,Path · common reach,3,9,3,0,False,True,True,False,False,True,2,6,1,True
+0,Path · common reach,0,1,,0,True,True,True,False,False,True,2,,1,True
+0,Path · common reach,0,2,0,1,False,True,True,False,False,True,3,0,1,True
+0,Path · common reach,0,3,1,2,False,True,True,False,False,True,4,2,1,True
+0,Path · common reach,0,4,2,3,False,True,True,False,False,True,5,4,1,True
+0,Path · common reach,0,5,3,0,False,True,True,False,False,True,2,6,1,True
+0,Path · common reach,0,6,0,1,False,True,True,False,False,True,3,0,1,True
+0,Path · common reach,0,7,1,2,False,True,True,False,False,True,4,2,1,True
+0,Path · common reach,0,8,2,3,False,True,True,False,False,True,5,4,1,True
+0,Path · common reach,0,9,3,0,False,True,True,False,False,True,2,6,1,True
+1,Parallel sides · common reach,1,1,,0,True,True,True,False,False,True,2,,1,True
+1,Parallel sides · common reach,1,2,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,1,3,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,1,4,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,1,5,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,1,6,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,1,7,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,1,8,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,1,9,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,2,1,,0,True,True,True,False,False,True,2,,1,True
+1,Parallel sides · common reach,2,2,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,2,3,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,2,4,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,2,5,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,2,6,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,2,7,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,2,8,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,2,9,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,3,1,,0,True,True,True,False,False,True,2,,1,True
+1,Parallel sides · common reach,3,2,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,3,3,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,3,4,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,3,5,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,3,6,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,3,7,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,3,8,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,3,9,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,0,1,,0,True,True,True,False,False,True,2,,1,True
+1,Parallel sides · common reach,0,2,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,0,3,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,0,4,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,0,5,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,0,6,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,0,7,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,0,8,0,0,False,False,False,True,False,True,,,1,True
+1,Parallel sides · common reach,0,9,0,0,False,False,False,True,False,True,,,1,True
+2,Radial result · builder absent,1,1,,0,True,True,True,False,False,True,2,,1,True
+2,Radial result · builder absent,1,2,0,1,False,True,True,False,False,True,3,0,1,True
+2,Radial result · builder absent,1,3,1,2,False,True,True,False,False,True,4,2,1,True
+2,Radial result · builder absent,1,4,2,3,False,True,True,False,False,True,5,4,1,True
+2,Radial result · builder absent,1,5,3,0,False,True,True,False,False,True,2,6,1,True
+2,Radial result · builder absent,1,6,0,1,False,True,True,False,False,True,3,0,1,True
+2,Radial result · builder absent,1,7,1,2,False,True,True,False,False,True,4,2,1,True
+2,Radial result · builder absent,1,8,2,3,False,True,True,False,False,True,5,4,1,True
+2,Radial result · builder absent,1,9,3,0,False,True,True,False,False,True,2,6,1,True
+2,Radial result · builder absent,2,1,,0,True,True,True,False,False,True,2,,1,True
+2,Radial result · builder absent,2,2,0,1,False,True,True,False,False,True,3,0,1,True
+2,Radial result · builder absent,2,3,1,2,False,True,True,False,False,True,4,2,1,True
+2,Radial result · builder absent,2,4,2,3,False,True,True,False,False,True,5,4,1,True
+2,Radial result · builder absent,2,5,3,0,False,True,True,False,False,True,2,6,1,True
+2,Radial result · builder absent,2,6,0,1,False,True,True,False,False,True,3,0,1,True
+2,Radial result · builder absent,2,7,1,2,False,True,True,False,False,True,4,2,1,True
+2,Radial result · builder absent,2,8,2,3,False,True,True,False,False,True,5,4,1,True
+2,Radial result · builder absent,2,9,3,0,False,True,True,False,False,True,2,6,1,True
+2,Radial result · builder absent,3,1,,0,True,True,True,False,False,True,2,,1,True
+2,Radial result · builder absent,3,2,0,1,False,True,True,False,False,True,3,0,1,True
+2,Radial result · builder absent,3,3,1,2,False,True,True,False,False,True,4,2,1,True
+2,Radial result · builder absent,3,4,2,3,False,True,True,False,False,True,5,4,1,True
+2,Radial result · builder absent,3,5,3,0,False,True,True,False,False,True,2,6,1,True
+2,Radial result · builder absent,3,6,0,1,False,True,True,False,False,True,3,0,1,True
+2,Radial result · builder absent,3,7,1,2,False,True,True,False,False,True,4,2,1,True
+2,Radial result · builder absent,3,8,2,3,False,True,True,False,False,True,5,4,1,True
+2,Radial result · builder absent,3,9,3,0,False,True,True,False,False,True,2,6,1,True
+2,Radial result · builder absent,0,1,,0,True,True,True,False,False,True,2,,1,True
+2,Radial result · builder absent,0,2,0,1,False,True,True,False,False,True,3,0,1,True
+2,Radial result · builder absent,0,3,1,2,False,True,True,False,False,True,4,2,1,True
+2,Radial result · builder absent,0,4,2,3,False,True,True,False,False,True,5,4,1,True
+2,Radial result · builder absent,0,5,3,0,False,True,True,False,False,True,2,6,1,True
+2,Radial result · builder absent,0,6,0,1,False,True,True,False,False,True,3,0,1,True
+2,Radial result · builder absent,0,7,1,2,False,True,True,False,False,True,4,2,1,True
+2,Radial result · builder absent,0,8,2,3,False,True,True,False,False,True,5,4,1,True
+2,Radial result · builder absent,0,9,3,0,False,True,True,False,False,True,2,6,1,True
+3,Path · two reach roles,1,1,,0,True,True,True,False,False,True,2,,1,True
+3,Path · two reach roles,1,2,0,1,False,True,True,False,False,True,3,0,1,True
+3,Path · two reach roles,1,3,1,2,False,True,True,False,False,True,4,2,1,True
+3,Path · two reach roles,1,4,2,3,False,True,True,False,False,True,5,4,1,True
+3,Path · two reach roles,1,5,3,0,False,True,True,False,False,True,2,6,1,True
+3,Path · two reach roles,1,6,0,1,False,True,True,False,False,True,3,0,1,True
+3,Path · two reach roles,1,7,1,2,False,True,True,False,False,True,4,2,1,True
+3,Path · two reach roles,1,8,2,3,False,True,True,False,False,True,5,4,1,True
+3,Path · two reach roles,1,9,3,0,False,True,True,False,False,True,2,6,1,True
+3,Path · two reach roles,2,1,,0,True,True,True,False,False,True,2,,1,True
+3,Path · two reach roles,2,2,0,1,False,True,True,False,False,True,3,0,1,True
+3,Path · two reach roles,2,3,1,2,False,True,True,False,False,True,4,2,1,True
+3,Path · two reach roles,2,4,2,3,False,True,True,False,False,True,5,4,1,True
+3,Path · two reach roles,2,5,3,0,False,True,True,False,False,True,2,6,1,True
+3,Path · two reach roles,2,6,0,1,False,True,True,False,False,True,3,0,1,True
+3,Path · two reach roles,2,7,1,2,False,True,True,False,False,True,4,2,1,True
+3,Path · two reach roles,2,8,2,3,False,True,True,False,False,True,5,4,1,True
+3,Path · two reach roles,2,9,3,0,False,True,True,False,False,True,2,6,1,True
+3,Path · two reach roles,3,1,,0,True,True,True,False,False,True,2,,1,True
+3,Path · two reach roles,3,2,0,1,False,True,True,False,False,True,3,0,1,True
+3,Path · two reach roles,3,3,1,2,False,True,True,False,False,True,4,2,1,True
+3,Path · two reach roles,3,4,2,3,False,True,True,False,False,True,5,4,1,True
+3,Path · two reach roles,3,5,3,0,False,True,True,False,False,True,2,6,1,True
+3,Path · two reach roles,3,6,0,1,False,True,True,False,False,True,3,0,1,True
+3,Path · two reach roles,3,7,1,2,False,True,True,False,False,True,4,2,1,True
+3,Path · two reach roles,3,8,2,3,False,True,True,False,False,True,5,4,1,True
+3,Path · two reach roles,3,9,3,0,False,True,True,False,False,True,2,6,1,True
+3,Path · two reach roles,0,1,,0,True,True,True,False,False,True,2,,1,True
+3,Path · two reach roles,0,2,0,1,False,True,True,False,False,True,3,0,1,True
+3,Path · two reach roles,0,3,1,2,False,True,True,False,False,True,4,2,1,True
+3,Path · two reach roles,0,4,2,3,False,True,True,False,False,True,5,4,1,True
+3,Path · two reach roles,0,5,3,0,False,True,True,False,False,True,2,6,1,True
+3,Path · two reach roles,0,6,0,1,False,True,True,False,False,True,3,0,1,True
+3,Path · two reach roles,0,7,1,2,False,True,True,False,False,True,4,2,1,True
+3,Path · two reach roles,0,8,2,3,False,True,True,False,False,True,5,4,1,True
+3,Path · two reach roles,0,9,3,0,False,True,True,False,False,True,2,6,1,True
+4,Y · competing departures,1,1,,0,True,True,True,False,False,True,2,,1,True
+4,Y · competing departures,1,2,0,1,False,True,True,False,False,True,3,0,1,True
+4,Y · competing departures,1,3,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,1,4,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,1,5,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,1,6,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,1,7,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,1,8,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,1,9,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,2,1,,0,True,True,True,False,False,True,2,,1,True
+4,Y · competing departures,2,2,0,1,False,True,True,False,False,True,3,0,1,True
+4,Y · competing departures,2,3,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,2,4,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,2,5,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,2,6,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,2,7,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,2,8,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,2,9,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,3,1,,0,True,True,True,False,False,True,2,,1,True
+4,Y · competing departures,3,2,0,1,False,True,True,False,False,True,3,0,1,True
+4,Y · competing departures,3,3,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,3,4,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,3,5,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,3,6,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,3,7,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,3,8,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,3,9,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,0,1,,0,True,True,True,False,False,True,2,,1,True
+4,Y · competing departures,0,2,0,1,False,True,True,False,False,True,3,0,1,True
+4,Y · competing departures,0,3,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,0,4,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,0,5,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,0,6,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,0,7,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,0,8,1,1,False,False,False,True,False,True,,,1,True
+4,Y · competing departures,0,9,1,1,False,False,False,True,False,True,,,1,True
+5,Y · explicit selector,1,1,,0,True,True,True,False,False,True,2,,1,True
+5,Y · explicit selector,1,2,0,1,False,True,True,False,False,True,3,0,1,True
+5,Y · explicit selector,1,3,1,2,False,True,True,False,False,True,4,2,1,True
+5,Y · explicit selector,1,4,2,2,False,True,False,False,False,True,4,,1,True
+5,Y · explicit selector,1,5,2,2,False,True,False,False,False,True,4,,1,True
+5,Y · explicit selector,1,6,2,2,False,True,False,False,False,True,4,,1,True
+5,Y · explicit selector,1,7,2,2,False,True,False,False,False,True,4,,1,True
+5,Y · explicit selector,1,8,2,2,False,True,False,False,False,True,4,,1,True
+5,Y · explicit selector,1,9,2,2,False,True,False,False,False,True,4,,1,True
+5,Y · explicit selector,2,1,,0,True,True,True,False,False,True,2,,1,True
+5,Y · explicit selector,2,2,0,1,False,True,True,False,False,True,3,0,1,True
+5,Y · explicit selector,2,3,1,3,False,True,True,False,False,True,5,4,1,True
+5,Y · explicit selector,2,4,3,3,False,True,False,False,False,True,5,,1,True
+5,Y · explicit selector,2,5,3,3,False,True,False,False,False,True,5,,1,True
+5,Y · explicit selector,2,6,3,3,False,True,False,False,False,True,5,,1,True
+5,Y · explicit selector,2,7,3,3,False,True,False,False,False,True,5,,1,True
+5,Y · explicit selector,2,8,3,3,False,True,False,False,False,True,5,,1,True
+5,Y · explicit selector,2,9,3,3,False,True,False,False,False,True,5,,1,True
+5,Y · explicit selector,3,1,,0,True,True,True,False,False,True,2,,1,True
+5,Y · explicit selector,3,2,0,1,False,True,True,False,False,True,3,0,1,True
+5,Y · explicit selector,3,3,1,1,False,False,False,False,False,False,4;5,,1,True
+5,Y · explicit selector,3,4,1,1,False,False,False,False,False,False,4;5,,1,True
+5,Y · explicit selector,3,5,1,1,False,False,False,False,False,False,4;5,,1,True
+5,Y · explicit selector,3,6,1,1,False,False,False,False,False,False,4;5,,1,True
+5,Y · explicit selector,3,7,1,1,False,False,False,False,False,False,4;5,,1,True
+5,Y · explicit selector,3,8,1,1,False,False,False,False,False,False,4;5,,1,True
+5,Y · explicit selector,3,9,1,1,False,False,False,False,False,False,4;5,,1,True
+5,Y · explicit selector,0,1,,0,True,True,True,False,False,True,2,,1,True
+5,Y · explicit selector,0,2,0,1,False,True,True,False,False,True,3,0,1,True
+5,Y · explicit selector,0,3,1,1,False,False,False,False,True,False,,,1,True
+5,Y · explicit selector,0,4,1,1,False,False,False,False,True,False,,,1,True
+5,Y · explicit selector,0,5,1,1,False,False,False,False,True,False,,,1,True
+5,Y · explicit selector,0,6,1,1,False,False,False,False,True,False,,,1,True
+5,Y · explicit selector,0,7,1,1,False,False,False,False,True,False,,,1,True
+5,Y · explicit selector,0,8,1,1,False,False,False,False,True,False,,,1,True
+5,Y · explicit selector,0,9,1,1,False,False,False,False,True,False,,,1,True
+6,Y · incoming arm,1,1,,2,True,True,True,False,False,True,4,,1,True
+6,Y · incoming arm,1,2,2,1,False,True,True,False,False,True,3,3,1,True
+6,Y · incoming arm,1,3,1,0,False,True,True,False,False,True,2,1,1,True
+6,Y · incoming arm,1,4,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,1,5,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,1,6,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,1,7,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,1,8,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,1,9,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,2,1,,2,True,True,True,False,False,True,4,,1,True
+6,Y · incoming arm,2,2,2,1,False,True,True,False,False,True,3,3,1,True
+6,Y · incoming arm,2,3,1,0,False,True,True,False,False,True,2,1,1,True
+6,Y · incoming arm,2,4,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,2,5,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,2,6,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,2,7,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,2,8,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,2,9,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,3,1,,2,True,True,True,False,False,True,4,,1,True
+6,Y · incoming arm,3,2,2,1,False,True,True,False,False,True,3,3,1,True
+6,Y · incoming arm,3,3,1,0,False,True,True,False,False,True,2,1,1,True
+6,Y · incoming arm,3,4,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,3,5,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,3,6,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,3,7,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,3,8,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,3,9,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,0,1,,2,True,True,True,False,False,True,4,,1,True
+6,Y · incoming arm,0,2,2,1,False,True,True,False,False,True,3,3,1,True
+6,Y · incoming arm,0,3,1,0,False,True,True,False,False,True,2,1,1,True
+6,Y · incoming arm,0,4,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,0,5,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,0,6,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,0,7,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,0,8,0,0,False,True,False,False,False,True,2,,1,True
+6,Y · incoming arm,0,9,0,0,False,True,False,False,False,True,2,,1,True
+7,House · shared seam,1,1,,0,True,True,True,False,False,True,2,,1,True
+7,House · shared seam,1,2,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,1,3,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,1,4,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,1,5,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,1,6,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,1,7,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,1,8,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,1,9,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,2,1,,0,True,True,True,False,False,True,2,,1,True
+7,House · shared seam,2,2,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,2,3,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,2,4,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,2,5,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,2,6,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,2,7,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,2,8,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,2,9,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,3,1,,0,True,True,True,False,False,True,2,,1,True
+7,House · shared seam,3,2,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,3,3,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,3,4,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,3,5,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,3,6,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,3,7,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,3,8,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,3,9,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,0,1,,0,True,True,True,False,False,True,2,,1,True
+7,House · shared seam,0,2,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,0,3,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,0,4,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,0,5,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,0,6,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,0,7,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,0,8,0,0,False,False,False,True,False,True,,,1,True
+7,House · shared seam,0,9,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,1,1,,0,True,True,True,False,False,True,2,,1,True
+8,House · independent seams,1,2,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,1,3,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,1,4,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,1,5,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,1,6,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,1,7,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,1,8,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,1,9,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,2,1,,0,True,True,True,False,False,True,2,,1,True
+8,House · independent seams,2,2,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,2,3,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,2,4,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,2,5,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,2,6,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,2,7,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,2,8,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,2,9,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,3,1,,0,True,True,True,False,False,True,2,,1,True
+8,House · independent seams,3,2,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,3,3,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,3,4,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,3,5,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,3,6,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,3,7,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,3,8,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,3,9,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,0,1,,0,True,True,True,False,False,True,2,,1,True
+8,House · independent seams,0,2,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,0,3,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,0,4,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,0,5,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,0,6,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,0,7,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,0,8,0,0,False,False,False,True,False,True,,,1,True
+8,House · independent seams,0,9,0,0,False,False,False,True,False,True,,,1,True
+9,Path · pinned adjustment,1,1,,0,True,True,True,False,False,True,2,,1,True
+9,Path · pinned adjustment,1,2,0,1,False,True,True,False,False,True,3,0,1,True
+9,Path · pinned adjustment,1,3,1,2,False,True,True,False,False,True,4,2,1,True
+9,Path · pinned adjustment,1,4,2,3,False,True,True,False,False,True,5,4,1,True
+9,Path · pinned adjustment,1,5,3,0,False,True,True,False,False,True,2,6,1,True
+9,Path · pinned adjustment,1,6,0,1,False,True,True,False,False,True,3,0,1,True
+9,Path · pinned adjustment,1,7,1,2,False,True,True,False,False,True,4,2,1,True
+9,Path · pinned adjustment,1,8,2,3,False,True,True,False,False,True,5,4,1,True
+9,Path · pinned adjustment,1,9,3,0,False,True,True,False,False,True,2,6,1,True
+9,Path · pinned adjustment,2,1,,0,True,True,True,False,False,True,2,,1,True
+9,Path · pinned adjustment,2,2,0,1,False,True,True,False,False,True,3,0,1,True
+9,Path · pinned adjustment,2,3,1,2,False,True,True,False,False,True,4,2,1,True
+9,Path · pinned adjustment,2,4,2,3,False,True,True,False,False,True,5,4,1,True
+9,Path · pinned adjustment,2,5,3,0,False,True,True,False,False,True,2,6,1,True
+9,Path · pinned adjustment,2,6,0,1,False,True,True,False,False,True,3,0,1,True
+9,Path · pinned adjustment,2,7,1,2,False,True,True,False,False,True,4,2,1,True
+9,Path · pinned adjustment,2,8,2,3,False,True,True,False,False,True,5,4,1,True
+9,Path · pinned adjustment,2,9,3,0,False,True,True,False,False,True,2,6,1,True
+9,Path · pinned adjustment,3,1,,0,True,True,True,False,False,True,2,,1,True
+9,Path · pinned adjustment,3,2,0,1,False,True,True,False,False,True,3,0,1,True
+9,Path · pinned adjustment,3,3,1,2,False,True,True,False,False,True,4,2,1,True
+9,Path · pinned adjustment,3,4,2,3,False,True,True,False,False,True,5,4,1,True
+9,Path · pinned adjustment,3,5,3,0,False,True,True,False,False,True,2,6,1,True
+9,Path · pinned adjustment,3,6,0,1,False,True,True,False,False,True,3,0,1,True
+9,Path · pinned adjustment,3,7,1,2,False,True,True,False,False,True,4,2,1,True
+9,Path · pinned adjustment,3,8,2,3,False,True,True,False,False,True,5,4,1,True
+9,Path · pinned adjustment,3,9,3,0,False,True,True,False,False,True,2,6,1,True
+9,Path · pinned adjustment,0,1,,0,True,True,True,False,False,True,2,,1,True
+9,Path · pinned adjustment,0,2,0,1,False,True,True,False,False,True,3,0,1,True
+9,Path · pinned adjustment,0,3,1,2,False,True,True,False,False,True,4,2,1,True
+9,Path · pinned adjustment,0,4,2,3,False,True,True,False,False,True,5,4,1,True
+9,Path · pinned adjustment,0,5,3,0,False,True,True,False,False,True,2,6,1,True
+9,Path · pinned adjustment,0,6,0,1,False,True,True,False,False,True,3,0,1,True
+9,Path · pinned adjustment,0,7,1,2,False,True,True,False,False,True,4,2,1,True
+9,Path · pinned adjustment,0,8,2,3,False,True,True,False,False,True,5,4,1,True
+9,Path · pinned adjustment,0,9,3,0,False,True,True,False,False,True,2,6,1,True
+10,Path · open response,1,1,,0,True,True,True,False,False,True,2,,1,True
+10,Path · open response,1,2,0,1,False,True,True,False,False,True,3,0,1,True
+10,Path · open response,1,3,1,2,False,True,True,False,False,True,4,2,1,True
+10,Path · open response,1,4,2,3,False,True,True,False,False,True,5,4,1,True
+10,Path · open response,1,5,3,0,False,True,True,False,False,True,2,6,1,True
+10,Path · open response,1,6,0,1,False,True,True,False,False,True,3,0,1,True
+10,Path · open response,1,7,1,2,False,True,True,False,False,True,4,2,1,True
+10,Path · open response,1,8,2,3,False,True,True,False,False,True,5,4,1,True
+10,Path · open response,1,9,3,0,False,True,True,False,False,True,2,6,1,True
+10,Path · open response,2,1,,0,True,True,True,False,False,True,2,,1,True
+10,Path · open response,2,2,0,1,False,True,True,False,False,True,3,0,1,True
+10,Path · open response,2,3,1,2,False,True,True,False,False,True,4,2,1,True
+10,Path · open response,2,4,2,3,False,True,True,False,False,True,5,4,1,True
+10,Path · open response,2,5,3,0,False,True,True,False,False,True,2,6,1,True
+10,Path · open response,2,6,0,1,False,True,True,False,False,True,3,0,1,True
+10,Path · open response,2,7,1,2,False,True,True,False,False,True,4,2,1,True
+10,Path · open response,2,8,2,3,False,True,True,False,False,True,5,4,1,True
+10,Path · open response,2,9,3,0,False,True,True,False,False,True,2,6,1,True
+10,Path · open response,3,1,,0,True,True,True,False,False,True,2,,1,True
+10,Path · open response,3,2,0,1,False,True,True,False,False,True,3,0,1,True
+10,Path · open response,3,3,1,2,False,True,True,False,False,True,4,2,1,True
+10,Path · open response,3,4,2,3,False,True,True,False,False,True,5,4,1,True
+10,Path · open response,3,5,3,0,False,True,True,False,False,True,2,6,1,True
+10,Path · open response,3,6,0,1,False,True,True,False,False,True,3,0,1,True
+10,Path · open response,3,7,1,2,False,True,True,False,False,True,4,2,1,True
+10,Path · open response,3,8,2,3,False,True,True,False,False,True,5,4,1,True
+10,Path · open response,3,9,3,0,False,True,True,False,False,True,2,6,1,True
+10,Path · open response,0,1,,0,True,True,True,False,False,True,2,,1,True
+10,Path · open response,0,2,0,1,False,True,True,False,False,True,3,0,1,True
+10,Path · open response,0,3,1,2,False,True,True,False,False,True,4,2,1,True
+10,Path · open response,0,4,2,3,False,True,True,False,False,True,5,4,1,True
+10,Path · open response,0,5,3,0,False,True,True,False,False,True,2,6,1,True
+10,Path · open response,0,6,0,1,False,True,True,False,False,True,3,0,1,True
+10,Path · open response,0,7,1,2,False,True,True,False,False,True,4,2,1,True
+10,Path · open response,0,8,2,3,False,True,True,False,False,True,5,4,1,True
+10,Path · open response,0,9,3,0,False,True,True,False,False,True,2,6,1,True
+11,Church · shared face traces,1,1,,0,True,True,True,False,False,True,2,,1,True
+11,Church · shared face traces,1,2,0,1,False,True,True,False,False,True,3,0,1,True
+11,Church · shared face traces,1,3,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,1,4,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,1,5,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,1,6,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,1,7,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,1,8,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,1,9,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,2,1,,0,True,True,True,False,False,True,2,,1,True
+11,Church · shared face traces,2,2,0,1,False,True,True,False,False,True,3,0,1,True
+11,Church · shared face traces,2,3,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,2,4,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,2,5,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,2,6,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,2,7,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,2,8,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,2,9,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,3,1,,0,True,True,True,False,False,True,2,,1,True
+11,Church · shared face traces,3,2,0,1,False,True,True,False,False,True,3,0,1,True
+11,Church · shared face traces,3,3,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,3,4,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,3,5,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,3,6,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,3,7,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,3,8,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,3,9,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,0,1,,0,True,True,True,False,False,True,2,,1,True
+11,Church · shared face traces,0,2,0,1,False,True,True,False,False,True,3,0,1,True
+11,Church · shared face traces,0,3,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,0,4,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,0,5,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,0,6,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,0,7,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,0,8,1,1,False,False,False,True,False,True,,,1,True
+11,Church · shared face traces,0,9,1,1,False,False,False,True,False,True,,,1,True

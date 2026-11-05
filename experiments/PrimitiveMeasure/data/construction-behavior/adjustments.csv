@@ -1,0 +1,49 @@
+case,title,initially_hidden,push,control_hidden,before_support,possible_settlement,predicted_execution_after,actual_after,moved,waiting,reserve,affected_fields,affected_links,affected_groups,accounted_requests,family_bytes_unchanged
+0,Path · common reach,False,1,False,00000002,00010000,00010000,00010000,True,False,False,0,0;1;2;3,0,1,True
+0,Path · common reach,False,2,False,00010000,00010000,00010000,00010000,False,False,False,0,0;1;2;3,0,1,True
+0,Path · common reach,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+0,Path · common reach,True,2,False,00000004,00010000,00010000,00010000,True,False,False,0,0;1;2;3,0,1,True
+1,Parallel sides · common reach,False,1,False,00000002,00010000,00010000,00010000,True,False,False,0,0;1;2;3,0;1;2;3,1,True
+1,Parallel sides · common reach,False,2,False,00010000,00010000,00010000,00010000,False,False,False,0,0;1;2;3,0;1;2;3,1,True
+1,Parallel sides · common reach,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+1,Parallel sides · common reach,True,2,False,00000004,00010000,00010000,00010000,True,False,False,0,0;1;2;3,0;1;2;3,1,True
+2,Radial result · builder absent,False,1,False,00000002,00010000,00010000,00010000,True,False,False,0,0;1;2;3,0,1,True
+2,Radial result · builder absent,False,2,False,00010000,00010000,00010000,00010000,False,False,False,0,0;1;2;3,0,1,True
+2,Radial result · builder absent,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+2,Radial result · builder absent,True,2,False,00000004,00010000,00010000,00010000,True,False,False,0,0;1;2;3,0,1,True
+3,Path · two reach roles,False,1,False,00000002,00010000,00010000,00010000,True,False,False,0,0;2,0,1,True
+3,Path · two reach roles,False,2,False,00010000,00010000,00010000,00010000,False,False,False,0,0;2,0,1,True
+3,Path · two reach roles,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+3,Path · two reach roles,True,2,False,00000004,00010000,00010000,00010000,True,False,False,0,0;2,0,1,True
+4,Y · competing departures,False,1,False,00000002,00010000,00010000,00010000,True,False,False,0,0,0;1,1,True
+4,Y · competing departures,False,2,False,00010000,00010000,00010000,00010000,False,False,False,0,0,0;1,1,True
+4,Y · competing departures,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+4,Y · competing departures,True,2,False,00000004,00010000,00010000,00010000,True,False,False,0,0,0;1,1,True
+5,Y · explicit selector,False,1,False,00000002,00010000,00010000,00010000,True,False,False,0,0,0;1,1,True
+5,Y · explicit selector,False,2,False,00010000,00010000,00010000,00010000,False,False,False,0,0,0;1,1,True
+5,Y · explicit selector,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+5,Y · explicit selector,True,2,False,00000004,00010000,00010000,00010000,True,False,False,0,0,0;1,1,True
+6,Y · incoming arm,False,1,False,00000002,00010000,00010000,00010000,True,False,False,0,0,0;1,1,True
+6,Y · incoming arm,False,2,False,00010000,00010000,00010000,00010000,False,False,False,0,0,0;1,1,True
+6,Y · incoming arm,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+6,Y · incoming arm,True,2,False,00000004,00010000,00010000,00010000,True,False,False,0,0,0;1,1,True
+7,House · shared seam,False,1,False,00000002,00010000,00010000,00010000,True,False,False,0,0,0;1,1,True
+7,House · shared seam,False,2,False,00010000,00010000,00010000,00010000,False,False,False,0,0,0;1,1,True
+7,House · shared seam,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+7,House · shared seam,True,2,False,00000004,00010000,00010000,00010000,True,False,False,0,0,0;1,1,True
+8,House · independent seams,False,1,False,00000002,00010000,00010000,00010000,True,False,False,0,0,0,1,True
+8,House · independent seams,False,2,False,00010000,00010000,00010000,00010000,False,False,False,0,0,0,1,True
+8,House · independent seams,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+8,House · independent seams,True,2,False,00000004,00010000,00010000,00010000,True,False,False,0,0,0,1,True
+9,Path · pinned adjustment,False,1,False,00000200,00000400,00000400,00000400,False,True,False,,,,1,True
+9,Path · pinned adjustment,False,2,False,00000400,00000400,00000400,00000400,False,True,False,,,,1,True
+9,Path · pinned adjustment,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+9,Path · pinned adjustment,True,2,False,00000400,00000400,00000400,00000400,False,True,False,,,,1,True
+10,Path · open response,False,1,False,00000002,00000004,00000004,00000004,False,True,False,,,,1,True
+10,Path · open response,False,2,False,00000004,00000004,00000004,00000004,False,True,False,,,,1,True
+10,Path · open response,True,1,True,00000002,00000004,00000004,00000004,False,True,False,,,,1,True
+10,Path · open response,True,2,False,00000004,00000004,00000004,00000004,False,True,False,,,,1,True
+11,Church · shared face traces,False,1,False,00000002,00010000,00010000,00010000,True,False,False,0,0,0,1,True
+11,Church · shared face traces,False,2,False,00010000,00010000,00010000,00010000,False,False,False,0,0,0,1,True
+11,Church · shared face traces,True,1,True,00000202,00010400,00000404,00000404,False,True,False,,,,1,True
+11,Church · shared face traces,True,2,False,00000004,00010000,00010000,00010000,True,False,False,0,0,0,1,True

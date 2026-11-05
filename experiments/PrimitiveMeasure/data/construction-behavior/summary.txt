@@ -1,0 +1,9 @@
+12 authored behavior cases loaded from independently decoded family/use artifacts.
+432 route pulses: 230 movements, 152 conflicting-route observations, 14 unresolved/missing-control observations.
+Every route pulse preserves exactly one activation and all retained family bytes. Nine pulses are an observation budget, not a stop rule.
+48 adjustment attempts: 20 reach changes; 18 observations retain a waiting request.
+Every adjustment preserves exactly one request across reserve/waiting/dials; every actual joint read is contained by its execution prediction.
+Initially hidden controls are revealed on the second push; no new input is supplied. Coarse participation bytes remain unchanged.
+The path and radial square artifacts are identical after their optional geometric bases are removed, so identical attached laws produce identical behavior.
+No builder names, geometric bases or drawing coordinates enter either executor. The input binding, passage laws, pins and adjustment rungs are authored operational hypotheses.
+These trials do not learn defaults, create geometry, settle numerical lengths, execute simultaneous merges, or reconstruct discarded construction history.

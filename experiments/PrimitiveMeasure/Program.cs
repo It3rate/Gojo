@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--construction-behavior", var behaviorFolder])
+{
+    BehaviorSurvey.Export(behaviorFolder);
+    return;
+}
+
 if (args is ["--construction-hints", var constructionFolder])
 {
     ConstructionSurvey.Export(constructionFolder);
