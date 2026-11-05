@@ -6,6 +6,8 @@ A second experiment uses a chain of one-bit gates around a circle. **Every slot 
 
 [Open Draw from hints](https://gojo.inklingai.ca/encoding/explorer/?layer=38)
 
+The **Settle whitespace** construction now gives the fret's gaps, or a polygon's arc intervals, their own equal-step chains. Connected gaps transfer steps locally until they match or the remaining differences cannot move under the selected connections. [Simple overview, exact wiring and limits](WhitespaceSettlement.md) · [Open whitespace settlement](https://gojo.inklingai.ca/encoding/explorer/?layer=38&view=whitespace)
+
 Start with **Rail fret**. Press **Vary drawing** and watch the proportions change while the encoding stays still. Choose **Order open** or **Turn basis open** to remove a promise. Then try **Circle marks** and **Next slot**. The numbering continues through each zero. **Two gate streams** compares separate movements with simultaneous movements.
 
 ## One connected sketch, many drawings

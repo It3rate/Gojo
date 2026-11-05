@@ -7,12 +7,14 @@ public sealed partial class ExplorerSession
     private ExplorerPage HintDrawingPage()
     {
         var p=new ExplorerPage("Draw from hints",
-            "Order and shared references hold a shape together. One-bit chains decide how many places are visited and which leave marks.","DrawingFromHints.md");
-        Choose(p,"Construction",["Rail fret","Rail rectangle","Circle marks","Two gate streams"],Mode,n=>{Mode=n;Variant=Control=Steps=0;},true);
+            Mode==4?"The spaces have their own step chains. Connected gaps trade one step at a time, keeping the total space visible.":
+            "Order and shared references hold a shape together. One-bit chains decide how many places are visited and which leave marks.",Mode==4?"WhitespaceSettlement.md":"DrawingFromHints.md");
+        Choose(p,"Construction",["Rail fret","Rail rectangle","Circle marks","Two gate streams","Settle whitespace"],Mode,n=>{Mode=n;Variant=Control=Steps=B=0;},true);
         if(Mode<2) HintRails(p);
         else if(Mode==2) HintCircle(p);
-        else HintStreams(p);
-        p.Actions.Add(new("Vary drawing",()=>{A=A%9+1;Refresh();}));
+        else if(Mode==3)HintStreams(p);
+        else HintGaps(p);
+        if(Mode!=4)p.Actions.Add(new("Vary drawing",()=>{A=A%9+1;Refresh();}));
         return p;
     }
     private static void ShowHintScene(ExplorerPage p,HintScene scene)

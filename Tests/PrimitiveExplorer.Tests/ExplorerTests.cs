@@ -358,6 +358,33 @@ public sealed class ExplorerTests
     }
 
     [Fact]
+    public void Whitespace_controls_change_live_gap_bits_without_replacing_the_coarse_shape()
+    {
+        var s=new ExplorerSession();s.Navigate(37);s.Read().Choices[0].Change(4);
+        var start=s.Read();Assert.Equal("WhitespaceSettlement.md",start.Source);
+        var attachment=start.Blocks.Single(b=>b.Title=="Whitespace attachments").Bytes;
+        var gap=start.Blocks.Single(b=>b.Title=="Gap 0 · step slots").Bytes;
+        start.Actions.Single(a=>a.Label=="One comparison").Run();
+        Assert.NotEqual(gap,s.Read().Blocks.Single(b=>b.Title=="Gap 0 · step slots").Bytes);
+        s.Read().Actions.Single(a=>a.Label=="Settle").Run();
+        Assert.Contains("All gap chains equal",s.Read().Result);
+        Assert.Equal(attachment,s.Read().Blocks.Single(b=>b.Title=="Whitespace attachments").Bytes);
+        var settled=s.Read();Assert.Equal(settled.Result,s.Read().Result);
+        Assert.Equal(settled.Blocks.SelectMany(b=>b.Bytes),s.Read().Blocks.SelectMany(b=>b.Bytes));
+        s.Read().Choices[2].Change(1);s.Read().Actions.Single(a=>a.Label=="Settle").Run();
+        Assert.Contains("differ by at most one",s.Read().Result);
+        s.Read().Choices[2].Change(2);s.Read().Actions.Single(a=>a.Label=="Settle").Run();
+        Assert.Contains("All gap chains equal",s.Read().Result);
+        s.Read().Choices[3].Change(2);s.Read().Actions.Single(a=>a.Label=="Settle").Run();
+        Assert.Contains("unresolved",s.Read().Result);
+        s.Read().Choices[3].Change(0);s.Read().Choices[1].Change(3);
+        s.Read().Actions.Single(a=>a.Label=="Settle").Run();
+        Assert.Contains(s.Read().Events,e=>e.Contains("regular polygon"));
+        s.Read().Actions.Single(a=>a.Label=="Reset").Run();
+        Assert.Contains("0 transfers",s.Read().Result);
+    }
+
+    [Fact]
     public void Every_exposed_choice_and_step_has_valid_inspectable_bits()
     {
         var session = new ExplorerSession();

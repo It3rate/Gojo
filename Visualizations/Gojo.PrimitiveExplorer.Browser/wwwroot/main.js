@@ -8,6 +8,7 @@ globalThis.initialOrnamentPlate = () => {
   const plate = Number(new URLSearchParams(location.search).get('plate'));
   return Number.isSafeInteger(plate) && plate >= 1 && plate <= 5 ? plate : 1;
 };
+globalThis.initialHintConstruction = () => new URLSearchParams(location.search).get('view') === 'whitespace' ? 4 : 0;
 try {
 const runtime = await dotnet.withDiagnosticTracing(false).create();
 await runtime.runMain(runtime.getConfig().mainAssemblyName, []);

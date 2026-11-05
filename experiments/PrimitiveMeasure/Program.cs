@@ -1,5 +1,10 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--whitespace",var gapFolder])
+{
+    GapSurvey.Export(gapFolder);
+    return;
+}
 if (args is ["--drawing-hints",var hintFolder])
 {
     HintSurvey.Export(hintFolder);

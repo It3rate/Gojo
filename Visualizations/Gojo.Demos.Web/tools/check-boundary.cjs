@@ -40,12 +40,49 @@ const web = path.resolve(__dirname, '../publish-deploy/syntax-site');
     const timing = process.argv.includes('--timing-sockets');
     const ornaments = process.argv.includes('--ornament-workshop');
     const hints = process.argv.includes('--drawing-hints');
-    await page.goto(base + '/encoding/explorer/?layer=' + (hints ? 38 : ornaments ? '37&plate=5' : timing ? 36 : probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
+    const whitespace = process.argv.includes('--whitespace');
+    await page.goto(base + '/encoding/explorer/?layer=' + (whitespace ? '38&view=whitespace' : hints ? 38 : ornaments ? '37&plate=5' : timing ? 36 : probeDesk ? 35 : washer ? 34 : border ? 33 : rails ? 32 : paired ? 31 : writing ? 30 : glyph ? 29 : bowl ? 28 : gap ? 27 : curves ? 26 : straight ? 25 : capitals ? 23 : fork ? 22 : seamLadders ? 20 : pathExchange ? 19 : 16));
     await page.waitForSelector('canvas', { timeout: 90000 }); await page.waitForTimeout(12000);
     async function select(x, count) {
       await page.mouse.click(x, 254); await page.keyboard.press('Home');
       for (let i = 0; i < count; i++) await page.keyboard.press('ArrowDown');
-      await page.keyboard.press('Enter'); await page.waitForTimeout(250);
+      await page.keyboard.press('Enter'); await page.waitForTimeout(whitespace ? 1000 : 250);
+    }
+    if (whitespace) {
+      await page.screenshot({path:path.join(output,'whitespace-initial.png')});
+      const bits=()=>page.screenshot({clip:{x:280,y:360,width:330,height:140}});
+      const result=()=>page.screenshot({clip:{x:262,y:883,width:990,height:40}});
+      const initial=await bits(),initialResult=await result();
+      async function action(x){await page.mouse.click(x,245);await page.mouse.move(1517,960);await page.waitForTimeout(600);}
+      await action(935);assert.ok(!initial.equals(await bits()),'A local handoff changes the gap participation.');
+      await action(1037);const even=await result();
+      assert.ok(!initialResult.equals(even),'The full pair graph reaches an even allocation.');
+      await page.screenshot({path:path.join(output,'whitespace-fret.png')});
+      await select(645,1);await action(1037);const remainder=await result();
+      assert.ok(!even.equals(remainder),'An indivisible extra step remains visible.');
+      await select(645,2);await action(1037);assert.ok(!remainder.equals(await result()),'The calibrated finer run resolves the mismatch.');
+      await select(645,0);await select(810,1);await action(1037);
+      assert.ok(!even.equals(await result()),'A neighbor-only plateau is distinguished from global evenness.');
+      await select(810,2);await action(1037);
+      assert.ok(!even.equals(await result()),'An unseen gap leaves the whole-spacing read unresolved.');
+      await select(810,0);await select(480,3);await action(1037);
+      const pentagon=await result();
+      await action(1107);const pentagonInitial=await result();
+      assert.ok(!pentagon.equals(pentagonInitial),'The selected pentagon settles before reset.');
+      await action(1037);assert.ok(pentagon.equals(await result()),'The same pentagon settles again after reset.');
+      await page.screenshot({path:path.join(output,'whitespace-pentagon.png')});
+      const opened=page.waitForEvent('popup');await page.mouse.click(1430,902);
+      const notes=await opened;await notes.waitForLoadState();assert.match(await notes.title(),/Let the gaps settle/);
+      assert.equal(await notes.locator('main img').count(),5);
+      for(const img of await notes.locator('main img').all()){
+        const svg=await notes.request.get(new URL(await img.getAttribute('src'),notes.url()).href);
+        assert.equal(svg.status(),200);assert.match(await svg.text(),/data-key=/);
+      }
+      const href=await notes.getByRole('link',{name:'Download the 72 settlement runs',exact:true}).getAttribute('href');
+      assert.equal((await (await notes.request.get(new URL(href,notes.url()).href)).text()).trim().split('\n').length,73);
+      assert.deepEqual(errors,[]);
+      console.log('Verified live gap transfers, even settlement, retained remainder, finer basis, local plateau, hidden read, pentagon, notes and data.');
+      return;
     }
     if (hints) {
       const drawing=()=>page.screenshot({clip:{x:660,y:340,width:820,height:360}});

@@ -72,6 +72,7 @@ corresponding experiment document in the repository.
 | Can a test earn a socket? | Shift a wire pulse, compare fresh reference machines twice, and see the retained test print a border or distinguish a dispenser. [Encoding and trial data](../../experiments/PrimitiveMeasure/TimingSocket.md) |
 | Ornament workshop | Print a rosette, palmette frieze, fret, half-drop field or nested rose arcade. Change the punch tape and finishing law or inspect one repeat. [Line plates and wiring](../../experiments/PrimitiveMeasure/OrnamentWorkshop.md) |
 | Draw from hints | Vary the numerical drawing of one ordinal fret or rectangle. Walk one-bit mark chains around a circle, skip landmarks, and pair two motion streams. [Construction, counting and checks](../../experiments/PrimitiveMeasure/DrawingFromHints.md) |
+| Settle whitespace | Within Draw from hints, give the gaps their own conserved step chains. Compare complete and limited connections, indivisible remainders and a finer rung. [Settlement and its limits](../../experiments/PrimitiveMeasure/WhitespaceSettlement.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

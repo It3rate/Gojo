@@ -11,4 +11,6 @@ internal static partial class BrowserProgram
     internal static partial int InitialLayer();
     [JSImport("globalThis.initialOrnamentPlate")]
     internal static partial int InitialOrnamentPlate();
+    [JSImport("globalThis.initialHintConstruction")]
+    internal static partial int InitialHintConstruction();
 }
