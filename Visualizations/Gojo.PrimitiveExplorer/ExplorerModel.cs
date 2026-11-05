@@ -13,6 +13,8 @@ public sealed record DrawingItem(string Kind, string Key, string Label, string D
     public (Choice Choice, int Index)? Selects { get; init; }
     public string? PathData { get; init; }
     public double? LineWidth { get; init; }
+    public string? Color { get; init; }
+    public string[]? RelatedKeys { get; init; }
 }
 public sealed record Choice(string Label, string[] Values, int Selected, Action<int> Change, bool BrowseWithArrows = false);
 public sealed record ExplorerAction(string Label, Action Run);
@@ -88,11 +90,11 @@ public sealed partial class ExplorerSession
         "Conditionals", "Saturation & outlets", "Rectangle constraints", "Circles & polygons", "Repetition & stopping", "Composed patterns",
         "Closure & boundaries", "Cycles: claims & flow", "Work & read budgets", "Two communicating paths",
         "Two uses of a seam", "Stroke & interpretation", "A fork with two owners",
-        "Capitals without a box", "Two orders of E", "Straight capital atlas", "Curves in capitals", "Across a glyph gap", "Push a bowl outward", "Glyph clues & junctions", "One stem, two inputs", "Two reaches, one choice", "When two rails meet", "Read a repeating border", "Did the washer drop?", "Which test should run next?", "Can a test earn a socket?", "Ornament workshop", "Draw from hints", "Whitespace becomes a path", "One template, many instances"];
+        "Capitals without a box", "Two orders of E", "Straight capital atlas", "Curves in capitals", "Across a glyph gap", "Push a bowl outward", "Glyph clues & junctions", "One stem, two inputs", "Two reaches, one choice", "When two rails meet", "Read a repeating border", "Did the washer drop?", "Which test should run next?", "Can a test earn a socket?", "Ornament workshop", "Draw from hints", "Whitespace becomes a path", "One template, many instances", "Construction clues"];
     public int Chapter { get; private set; }
     public int A = 1, B = 3, Mode, Control = 1, Variant, Steps;
     public event Action? Changed;
-    public void Navigate(int chapter) { Chapter = Math.Clamp(chapter, 0, Chapters.Length - 1); bowlOwners = null; A = Chapter switch { 28 or 39 => 0, 29 => 3, _ => 1 }; B = Chapter switch { 3 => 1, 29 or 36 or 38 => 0, _ => 3 }; Mode = Steps = 0; Variant = Chapter == 34 ? 5 : Chapter == 38 ? 2 : 0; Control = Chapter >= 28 ? 0 : 1; Changed?.Invoke(); }
+    public void Navigate(int chapter) { Chapter = Math.Clamp(chapter, 0, Chapters.Length - 1); bowlOwners = null; A = Chapter switch { 28 or 39 or 40 => 0, 29 => 3, _ => 1 }; B = Chapter switch { 3 => 1, 29 or 36 or 38 => 0, _ => 3 }; Mode = Steps = 0; Variant = Chapter == 34 ? 5 : Chapter == 38 ? 2 : 0; Control = Chapter >= 28 ? 0 : 1; Changed?.Invoke(); }
     public void Refresh() => Changed?.Invoke();
     public ExplorerPage Read() => Chapter switch
     {
@@ -101,7 +103,7 @@ public sealed partial class ExplorerSession
         10 => SaturationPage(), 11 => RectanglePage(), 12 => ContourPage(), 13 => RepetitionPage(), 14 => CompositionPage(),
         15 => BoundaryPage(), 16 => CyclePage(), 17 => WorkPage(), 18 => PathExchangePage(),
         19 => HousePage(), 20 => StrokePage(), 21 => ForkPage(), 22 => CapitalPage(), 23 => LandmarkPage(),
-        24 => StraightCapitalPage(), 25 => CurvedCapitalPage(), 26 => GlyphCompletionPage(), 27 => BowlReachPage(), 28 => GlyphEvidencePage(), 29 => WritingLinePage(), 30 => PairedReachPage(), 31 => RailContactPage(), 32 => BorderPage(), 33 => WasherPage(), 34 => ProbeDeskPage(), 35 => TimingSocketPage(), 36 => OrnamentPage(), 37 => HintDrawingPage(), 38 => StripPage(), _ => FamilyPage()
+        24 => StraightCapitalPage(), 25 => CurvedCapitalPage(), 26 => GlyphCompletionPage(), 27 => BowlReachPage(), 28 => GlyphEvidencePage(), 29 => WritingLinePage(), 30 => PairedReachPage(), 31 => RailContactPage(), 32 => BorderPage(), 33 => WasherPage(), 34 => ProbeDeskPage(), 35 => TimingSocketPage(), 36 => OrnamentPage(), 37 => HintDrawingPage(), 38 => StripPage(), 39 => FamilyPage(), _ => ConstructionPage()
     };
     private Choice Choose(ExplorerPage p, string label, string[] choices, int selected, Action<int> change, bool browseWithArrows = false)
     {

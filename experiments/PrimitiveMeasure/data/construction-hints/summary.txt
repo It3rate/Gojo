@@ -1,0 +1,13 @@
+31 authored constructions across 14 pattern captions.
+310 observations: five visibility selections, forward and reverse views; candidates use the same selected view.
+Self retained: 310/310. Labels and drawing coordinates are not matching inputs.
+All: 62 observations; candidates min/mean/max 1/1.06/2; unique construction 58; candidates stay within the source pattern caption 58.
+DirectionsHidden: 62 observations; candidates min/mean/max 1/1.26/3; unique construction 52; candidates stay within the source pattern caption 56.
+GroupingHidden: 62 observations; candidates min/mean/max 1/1.45/3; unique construction 40; candidates stay within the source pattern caption 56.
+GeometryHidden: 62 observations; candidates min/mean/max 1/1.19/2; unique construction 50; candidates stay within the source pattern caption 58.
+ConnectionsOnly: 62 observations; candidates min/mean/max 1/3.19/6; unique construction 6; candidates stay within the source pattern caption 34.
+Transport: 31 grouped-use artifacts, 874 bytes total; decoded forward/reverse clues preserved in all 62 checks.
+The geometric basis is NOT transported. Transport comparisons explicitly remove Basis from the original and leave it absent in the decoded surface.
+A candidate with an open claim remains compatible; these counts are neither recognition accuracy nor learned confidence. A shared outline is not a shared construction.
+observations.csv contains candidates; clues.csv contains the actual published slots, availability masks and packed values (blank slots are unknown, not zero).
+transport.csv references reproducible artifacts/ files. gallery.svg is an illustrative contact sheet; its positions and arrows add no proof.

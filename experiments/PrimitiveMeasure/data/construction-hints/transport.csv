@@ -1,0 +1,32 @@
+source,pattern,construction,artifact,bytes,uses,groups,forward_clues_preserved,reverse_clues_preserved,basis_transported
+1,Square,Repeated directed path,artifacts/construction-01.bin,21,4,1,True,True,False
+2,Square,Two ordered rails,artifacts/construction-02.bin,23,4,4,True,True,False
+3,Square,Radial parts and chords,artifacts/construction-03.bin,21,4,1,True,True,False
+4,Rectangle,Repeated directed path,artifacts/construction-04.bin,21,4,1,True,True,False
+5,Rectangle,Two ordered rails,artifacts/construction-05.bin,23,4,4,True,True,False
+6,Rectangle,Radial parts and chords,artifacts/construction-06.bin,21,4,1,True,True,False
+7,Triangle,Radial equal divisions,artifacts/construction-07.bin,21,3,1,True,True,False
+8,Triangle,Separate side walks,artifacts/construction-08.bin,23,3,3,True,True,False
+9,Pentagon,Radial equal divisions,artifacts/construction-09.bin,25,5,1,True,True,False
+10,Pentagon,Separate side walks,artifacts/construction-10.bin,30,5,5,True,True,False
+11,Hexagon,Radial equal divisions,artifacts/construction-11.bin,26,6,1,True,True,False
+12,Hexagon,Separate side walks,artifacts/construction-12.bin,32,6,6,True,True,False
+13,Meander,One continuous walk,artifacts/construction-13.bin,32,8,1,True,True,False
+14,Meander,Two linked portions,artifacts/construction-14.bin,33,8,2,True,True,False
+15,Fret,Inward walk,artifacts/construction-15.bin,35,8,1,True,True,False
+16,Fret,Outer and inner portions,artifacts/construction-16.bin,36,8,2,True,True,False
+17,Y,Branch reading,artifacts/construction-17.bin,23,4,2,True,True,False
+18,Y,Merge reading,artifacts/construction-18.bin,23,4,2,True,True,False
+19,T,Across path and stem,artifacts/construction-19.bin,22,3,2,True,True,False
+20,T,Two corner walks,artifacts/construction-20.bin,23,4,2,True,True,False
+21,H,Uprights and bridge,artifacts/construction-21.bin,29,5,3,True,True,False
+22,H,Two crossing walks,artifacts/construction-22.bin,28,6,2,True,True,False
+23,A,Legs and crossbar,artifacts/construction-23.bin,29,5,3,True,True,False
+24,A,Loop and feet,artifacts/construction-24.bin,29,5,3,True,True,False
+25,House,Roof and room share seam,artifacts/construction-25.bin,30,7,2,True,True,False
+26,House,Coincident independent seams,artifacts/construction-26.bin,32,7,2,True,True,False
+27,House,Outer boundary and seam,artifacts/construction-27.bin,29,6,2,True,True,False
+28,Church,Body roof tower and spire,artifacts/construction-28.bin,53,15,4,True,True,False
+29,Church,Outer boundary and interiors,artifacts/construction-29.bin,51,12,4,True,True,False
+30,Cross,Joined crossing,artifacts/construction-30.bin,25,4,2,True,True,False
+31,Cross,Separate projected crossing,artifacts/construction-31.bin,25,4,2,True,True,False

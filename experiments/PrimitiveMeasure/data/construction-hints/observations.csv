@@ -1,0 +1,311 @@
+source,pattern,construction,visibility,view,known_clues,candidate_count,candidate_pattern_count,self_retained,candidate_ids,candidate_constructions,candidate_patterns
+1,Square,Repeated directed path,All,forward,20,1,1,True,1,Square / Repeated directed path,Square
+1,Square,Repeated directed path,DirectionsHidden,forward,15,1,1,True,1,Square / Repeated directed path,Square
+1,Square,Repeated directed path,GroupingHidden,forward,15,1,1,True,1,Square / Repeated directed path,Square
+1,Square,Repeated directed path,GeometryHidden,forward,15,2,1,True,1;3,Square / Repeated directed path;Square / Radial parts and chords,Square
+1,Square,Repeated directed path,ConnectionsOnly,forward,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+1,Square,Repeated directed path,All,reverse,20,1,1,True,1,Square / Repeated directed path,Square
+1,Square,Repeated directed path,DirectionsHidden,reverse,15,1,1,True,1,Square / Repeated directed path,Square
+1,Square,Repeated directed path,GroupingHidden,reverse,15,1,1,True,1,Square / Repeated directed path,Square
+1,Square,Repeated directed path,GeometryHidden,reverse,15,2,1,True,1;3,Square / Repeated directed path;Square / Radial parts and chords,Square
+1,Square,Repeated directed path,ConnectionsOnly,reverse,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+2,Square,Two ordered rails,All,forward,20,1,1,True,2,Square / Two ordered rails,Square
+2,Square,Two ordered rails,DirectionsHidden,forward,15,1,1,True,2,Square / Two ordered rails,Square
+2,Square,Two ordered rails,GroupingHidden,forward,15,1,1,True,2,Square / Two ordered rails,Square
+2,Square,Two ordered rails,GeometryHidden,forward,15,1,1,True,2,Square / Two ordered rails,Square
+2,Square,Two ordered rails,ConnectionsOnly,forward,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+2,Square,Two ordered rails,All,reverse,20,1,1,True,2,Square / Two ordered rails,Square
+2,Square,Two ordered rails,DirectionsHidden,reverse,15,1,1,True,2,Square / Two ordered rails,Square
+2,Square,Two ordered rails,GroupingHidden,reverse,15,1,1,True,2,Square / Two ordered rails,Square
+2,Square,Two ordered rails,GeometryHidden,reverse,15,1,1,True,2,Square / Two ordered rails,Square
+2,Square,Two ordered rails,ConnectionsOnly,reverse,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+3,Square,Radial parts and chords,All,forward,20,1,1,True,3,Square / Radial parts and chords,Square
+3,Square,Radial parts and chords,DirectionsHidden,forward,15,1,1,True,3,Square / Radial parts and chords,Square
+3,Square,Radial parts and chords,GroupingHidden,forward,15,1,1,True,3,Square / Radial parts and chords,Square
+3,Square,Radial parts and chords,GeometryHidden,forward,15,2,1,True,1;3,Square / Repeated directed path;Square / Radial parts and chords,Square
+3,Square,Radial parts and chords,ConnectionsOnly,forward,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+3,Square,Radial parts and chords,All,reverse,20,1,1,True,3,Square / Radial parts and chords,Square
+3,Square,Radial parts and chords,DirectionsHidden,reverse,15,1,1,True,3,Square / Radial parts and chords,Square
+3,Square,Radial parts and chords,GroupingHidden,reverse,15,1,1,True,3,Square / Radial parts and chords,Square
+3,Square,Radial parts and chords,GeometryHidden,reverse,15,2,1,True,1;3,Square / Repeated directed path;Square / Radial parts and chords,Square
+3,Square,Radial parts and chords,ConnectionsOnly,reverse,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+4,Rectangle,Repeated directed path,All,forward,19,1,1,True,4,Rectangle / Repeated directed path,Rectangle
+4,Rectangle,Repeated directed path,DirectionsHidden,forward,14,1,1,True,4,Rectangle / Repeated directed path,Rectangle
+4,Rectangle,Repeated directed path,GroupingHidden,forward,14,1,1,True,4,Rectangle / Repeated directed path,Rectangle
+4,Rectangle,Repeated directed path,GeometryHidden,forward,15,2,1,True,4;6,Rectangle / Repeated directed path;Rectangle / Radial parts and chords,Rectangle
+4,Rectangle,Repeated directed path,ConnectionsOnly,forward,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+4,Rectangle,Repeated directed path,All,reverse,19,1,1,True,4,Rectangle / Repeated directed path,Rectangle
+4,Rectangle,Repeated directed path,DirectionsHidden,reverse,14,1,1,True,4,Rectangle / Repeated directed path,Rectangle
+4,Rectangle,Repeated directed path,GroupingHidden,reverse,14,1,1,True,4,Rectangle / Repeated directed path,Rectangle
+4,Rectangle,Repeated directed path,GeometryHidden,reverse,15,2,1,True,4;6,Rectangle / Repeated directed path;Rectangle / Radial parts and chords,Rectangle
+4,Rectangle,Repeated directed path,ConnectionsOnly,reverse,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+5,Rectangle,Two ordered rails,All,forward,19,1,1,True,5,Rectangle / Two ordered rails,Rectangle
+5,Rectangle,Two ordered rails,DirectionsHidden,forward,14,1,1,True,5,Rectangle / Two ordered rails,Rectangle
+5,Rectangle,Two ordered rails,GroupingHidden,forward,14,1,1,True,5,Rectangle / Two ordered rails,Rectangle
+5,Rectangle,Two ordered rails,GeometryHidden,forward,15,1,1,True,5,Rectangle / Two ordered rails,Rectangle
+5,Rectangle,Two ordered rails,ConnectionsOnly,forward,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+5,Rectangle,Two ordered rails,All,reverse,19,1,1,True,5,Rectangle / Two ordered rails,Rectangle
+5,Rectangle,Two ordered rails,DirectionsHidden,reverse,14,1,1,True,5,Rectangle / Two ordered rails,Rectangle
+5,Rectangle,Two ordered rails,GroupingHidden,reverse,14,1,1,True,5,Rectangle / Two ordered rails,Rectangle
+5,Rectangle,Two ordered rails,GeometryHidden,reverse,15,1,1,True,5,Rectangle / Two ordered rails,Rectangle
+5,Rectangle,Two ordered rails,ConnectionsOnly,reverse,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+6,Rectangle,Radial parts and chords,All,forward,19,1,1,True,6,Rectangle / Radial parts and chords,Rectangle
+6,Rectangle,Radial parts and chords,DirectionsHidden,forward,14,1,1,True,6,Rectangle / Radial parts and chords,Rectangle
+6,Rectangle,Radial parts and chords,GroupingHidden,forward,14,1,1,True,6,Rectangle / Radial parts and chords,Rectangle
+6,Rectangle,Radial parts and chords,GeometryHidden,forward,15,2,1,True,4;6,Rectangle / Repeated directed path;Rectangle / Radial parts and chords,Rectangle
+6,Rectangle,Radial parts and chords,ConnectionsOnly,forward,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+6,Rectangle,Radial parts and chords,All,reverse,19,1,1,True,6,Rectangle / Radial parts and chords,Rectangle
+6,Rectangle,Radial parts and chords,DirectionsHidden,reverse,14,1,1,True,6,Rectangle / Radial parts and chords,Rectangle
+6,Rectangle,Radial parts and chords,GroupingHidden,reverse,14,1,1,True,6,Rectangle / Radial parts and chords,Rectangle
+6,Rectangle,Radial parts and chords,GeometryHidden,reverse,15,2,1,True,4;6,Rectangle / Repeated directed path;Rectangle / Radial parts and chords,Rectangle
+6,Rectangle,Radial parts and chords,ConnectionsOnly,reverse,5,6,2,True,1;2;3;4;5;6,Square / Repeated directed path;Square / Two ordered rails;Square / Radial parts and chords;Rectangle / Repeated directed path;Rectangle / Two ordered rails;Rectangle / Radial parts and chords,Square;Rectangle
+7,Triangle,Radial equal divisions,All,forward,18,1,1,True,7,Triangle / Radial equal divisions,Triangle
+7,Triangle,Radial equal divisions,DirectionsHidden,forward,13,1,1,True,7,Triangle / Radial equal divisions,Triangle
+7,Triangle,Radial equal divisions,GroupingHidden,forward,13,1,1,True,7,Triangle / Radial equal divisions,Triangle
+7,Triangle,Radial equal divisions,GeometryHidden,forward,15,1,1,True,7,Triangle / Radial equal divisions,Triangle
+7,Triangle,Radial equal divisions,ConnectionsOnly,forward,5,2,1,True,7;8,Triangle / Radial equal divisions;Triangle / Separate side walks,Triangle
+7,Triangle,Radial equal divisions,All,reverse,18,1,1,True,7,Triangle / Radial equal divisions,Triangle
+7,Triangle,Radial equal divisions,DirectionsHidden,reverse,13,1,1,True,7,Triangle / Radial equal divisions,Triangle
+7,Triangle,Radial equal divisions,GroupingHidden,reverse,13,1,1,True,7,Triangle / Radial equal divisions,Triangle
+7,Triangle,Radial equal divisions,GeometryHidden,reverse,15,1,1,True,7,Triangle / Radial equal divisions,Triangle
+7,Triangle,Radial equal divisions,ConnectionsOnly,reverse,5,2,1,True,7;8,Triangle / Radial equal divisions;Triangle / Separate side walks,Triangle
+8,Triangle,Separate side walks,All,forward,18,1,1,True,8,Triangle / Separate side walks,Triangle
+8,Triangle,Separate side walks,DirectionsHidden,forward,13,1,1,True,8,Triangle / Separate side walks,Triangle
+8,Triangle,Separate side walks,GroupingHidden,forward,13,1,1,True,8,Triangle / Separate side walks,Triangle
+8,Triangle,Separate side walks,GeometryHidden,forward,15,1,1,True,8,Triangle / Separate side walks,Triangle
+8,Triangle,Separate side walks,ConnectionsOnly,forward,5,2,1,True,7;8,Triangle / Radial equal divisions;Triangle / Separate side walks,Triangle
+8,Triangle,Separate side walks,All,reverse,18,1,1,True,8,Triangle / Separate side walks,Triangle
+8,Triangle,Separate side walks,DirectionsHidden,reverse,13,1,1,True,8,Triangle / Separate side walks,Triangle
+8,Triangle,Separate side walks,GroupingHidden,reverse,13,1,1,True,8,Triangle / Separate side walks,Triangle
+8,Triangle,Separate side walks,GeometryHidden,reverse,15,1,1,True,8,Triangle / Separate side walks,Triangle
+8,Triangle,Separate side walks,ConnectionsOnly,reverse,5,2,1,True,7;8,Triangle / Radial equal divisions;Triangle / Separate side walks,Triangle
+9,Pentagon,Radial equal divisions,All,forward,18,1,1,True,9,Pentagon / Radial equal divisions,Pentagon
+9,Pentagon,Radial equal divisions,DirectionsHidden,forward,13,1,1,True,9,Pentagon / Radial equal divisions,Pentagon
+9,Pentagon,Radial equal divisions,GroupingHidden,forward,13,1,1,True,9,Pentagon / Radial equal divisions,Pentagon
+9,Pentagon,Radial equal divisions,GeometryHidden,forward,15,1,1,True,9,Pentagon / Radial equal divisions,Pentagon
+9,Pentagon,Radial equal divisions,ConnectionsOnly,forward,5,2,1,True,9;10,Pentagon / Radial equal divisions;Pentagon / Separate side walks,Pentagon
+9,Pentagon,Radial equal divisions,All,reverse,18,1,1,True,9,Pentagon / Radial equal divisions,Pentagon
+9,Pentagon,Radial equal divisions,DirectionsHidden,reverse,13,1,1,True,9,Pentagon / Radial equal divisions,Pentagon
+9,Pentagon,Radial equal divisions,GroupingHidden,reverse,13,1,1,True,9,Pentagon / Radial equal divisions,Pentagon
+9,Pentagon,Radial equal divisions,GeometryHidden,reverse,15,1,1,True,9,Pentagon / Radial equal divisions,Pentagon
+9,Pentagon,Radial equal divisions,ConnectionsOnly,reverse,5,2,1,True,9;10,Pentagon / Radial equal divisions;Pentagon / Separate side walks,Pentagon
+10,Pentagon,Separate side walks,All,forward,18,1,1,True,10,Pentagon / Separate side walks,Pentagon
+10,Pentagon,Separate side walks,DirectionsHidden,forward,13,1,1,True,10,Pentagon / Separate side walks,Pentagon
+10,Pentagon,Separate side walks,GroupingHidden,forward,13,1,1,True,10,Pentagon / Separate side walks,Pentagon
+10,Pentagon,Separate side walks,GeometryHidden,forward,15,1,1,True,10,Pentagon / Separate side walks,Pentagon
+10,Pentagon,Separate side walks,ConnectionsOnly,forward,5,2,1,True,9;10,Pentagon / Radial equal divisions;Pentagon / Separate side walks,Pentagon
+10,Pentagon,Separate side walks,All,reverse,18,1,1,True,10,Pentagon / Separate side walks,Pentagon
+10,Pentagon,Separate side walks,DirectionsHidden,reverse,13,1,1,True,10,Pentagon / Separate side walks,Pentagon
+10,Pentagon,Separate side walks,GroupingHidden,reverse,13,1,1,True,10,Pentagon / Separate side walks,Pentagon
+10,Pentagon,Separate side walks,GeometryHidden,reverse,15,1,1,True,10,Pentagon / Separate side walks,Pentagon
+10,Pentagon,Separate side walks,ConnectionsOnly,reverse,5,2,1,True,9;10,Pentagon / Radial equal divisions;Pentagon / Separate side walks,Pentagon
+11,Hexagon,Radial equal divisions,All,forward,18,1,1,True,11,Hexagon / Radial equal divisions,Hexagon
+11,Hexagon,Radial equal divisions,DirectionsHidden,forward,13,1,1,True,11,Hexagon / Radial equal divisions,Hexagon
+11,Hexagon,Radial equal divisions,GroupingHidden,forward,13,1,1,True,11,Hexagon / Radial equal divisions,Hexagon
+11,Hexagon,Radial equal divisions,GeometryHidden,forward,15,1,1,True,11,Hexagon / Radial equal divisions,Hexagon
+11,Hexagon,Radial equal divisions,ConnectionsOnly,forward,5,2,1,True,11;12,Hexagon / Radial equal divisions;Hexagon / Separate side walks,Hexagon
+11,Hexagon,Radial equal divisions,All,reverse,18,1,1,True,11,Hexagon / Radial equal divisions,Hexagon
+11,Hexagon,Radial equal divisions,DirectionsHidden,reverse,13,1,1,True,11,Hexagon / Radial equal divisions,Hexagon
+11,Hexagon,Radial equal divisions,GroupingHidden,reverse,13,1,1,True,11,Hexagon / Radial equal divisions,Hexagon
+11,Hexagon,Radial equal divisions,GeometryHidden,reverse,15,1,1,True,11,Hexagon / Radial equal divisions,Hexagon
+11,Hexagon,Radial equal divisions,ConnectionsOnly,reverse,5,2,1,True,11;12,Hexagon / Radial equal divisions;Hexagon / Separate side walks,Hexagon
+12,Hexagon,Separate side walks,All,forward,18,1,1,True,12,Hexagon / Separate side walks,Hexagon
+12,Hexagon,Separate side walks,DirectionsHidden,forward,13,1,1,True,12,Hexagon / Separate side walks,Hexagon
+12,Hexagon,Separate side walks,GroupingHidden,forward,13,1,1,True,12,Hexagon / Separate side walks,Hexagon
+12,Hexagon,Separate side walks,GeometryHidden,forward,15,1,1,True,12,Hexagon / Separate side walks,Hexagon
+12,Hexagon,Separate side walks,ConnectionsOnly,forward,5,2,1,True,11;12,Hexagon / Radial equal divisions;Hexagon / Separate side walks,Hexagon
+12,Hexagon,Separate side walks,All,reverse,18,1,1,True,12,Hexagon / Separate side walks,Hexagon
+12,Hexagon,Separate side walks,DirectionsHidden,reverse,13,1,1,True,12,Hexagon / Separate side walks,Hexagon
+12,Hexagon,Separate side walks,GroupingHidden,reverse,13,1,1,True,12,Hexagon / Separate side walks,Hexagon
+12,Hexagon,Separate side walks,GeometryHidden,reverse,15,1,1,True,12,Hexagon / Separate side walks,Hexagon
+12,Hexagon,Separate side walks,ConnectionsOnly,reverse,5,2,1,True,11;12,Hexagon / Radial equal divisions;Hexagon / Separate side walks,Hexagon
+13,Meander,One continuous walk,All,forward,18,1,1,True,13,Meander / One continuous walk,Meander
+13,Meander,One continuous walk,DirectionsHidden,forward,13,1,1,True,13,Meander / One continuous walk,Meander
+13,Meander,One continuous walk,GroupingHidden,forward,13,2,1,True,13;14,Meander / One continuous walk;Meander / Two linked portions,Meander
+13,Meander,One continuous walk,GeometryHidden,forward,15,1,1,True,13,Meander / One continuous walk,Meander
+13,Meander,One continuous walk,ConnectionsOnly,forward,5,4,2,True,13;14;15;16,Meander / One continuous walk;Meander / Two linked portions;Fret / Inward walk;Fret / Outer and inner portions,Meander;Fret
+13,Meander,One continuous walk,All,reverse,18,1,1,True,13,Meander / One continuous walk,Meander
+13,Meander,One continuous walk,DirectionsHidden,reverse,13,1,1,True,13,Meander / One continuous walk,Meander
+13,Meander,One continuous walk,GroupingHidden,reverse,13,2,1,True,13;14,Meander / One continuous walk;Meander / Two linked portions,Meander
+13,Meander,One continuous walk,GeometryHidden,reverse,15,1,1,True,13,Meander / One continuous walk,Meander
+13,Meander,One continuous walk,ConnectionsOnly,reverse,5,4,2,True,13;14;15;16,Meander / One continuous walk;Meander / Two linked portions;Fret / Inward walk;Fret / Outer and inner portions,Meander;Fret
+14,Meander,Two linked portions,All,forward,18,1,1,True,14,Meander / Two linked portions,Meander
+14,Meander,Two linked portions,DirectionsHidden,forward,13,1,1,True,14,Meander / Two linked portions,Meander
+14,Meander,Two linked portions,GroupingHidden,forward,13,2,1,True,13;14,Meander / One continuous walk;Meander / Two linked portions,Meander
+14,Meander,Two linked portions,GeometryHidden,forward,15,1,1,True,14,Meander / Two linked portions,Meander
+14,Meander,Two linked portions,ConnectionsOnly,forward,5,4,2,True,13;14;15;16,Meander / One continuous walk;Meander / Two linked portions;Fret / Inward walk;Fret / Outer and inner portions,Meander;Fret
+14,Meander,Two linked portions,All,reverse,18,1,1,True,14,Meander / Two linked portions,Meander
+14,Meander,Two linked portions,DirectionsHidden,reverse,13,1,1,True,14,Meander / Two linked portions,Meander
+14,Meander,Two linked portions,GroupingHidden,reverse,13,2,1,True,13;14,Meander / One continuous walk;Meander / Two linked portions,Meander
+14,Meander,Two linked portions,GeometryHidden,reverse,15,1,1,True,14,Meander / Two linked portions,Meander
+14,Meander,Two linked portions,ConnectionsOnly,reverse,5,4,2,True,13;14;15;16,Meander / One continuous walk;Meander / Two linked portions;Fret / Inward walk;Fret / Outer and inner portions,Meander;Fret
+15,Fret,Inward walk,All,forward,18,1,1,True,15,Fret / Inward walk,Fret
+15,Fret,Inward walk,DirectionsHidden,forward,13,1,1,True,15,Fret / Inward walk,Fret
+15,Fret,Inward walk,GroupingHidden,forward,13,2,1,True,15;16,Fret / Inward walk;Fret / Outer and inner portions,Fret
+15,Fret,Inward walk,GeometryHidden,forward,15,1,1,True,15,Fret / Inward walk,Fret
+15,Fret,Inward walk,ConnectionsOnly,forward,5,4,2,True,13;14;15;16,Meander / One continuous walk;Meander / Two linked portions;Fret / Inward walk;Fret / Outer and inner portions,Meander;Fret
+15,Fret,Inward walk,All,reverse,18,1,1,True,15,Fret / Inward walk,Fret
+15,Fret,Inward walk,DirectionsHidden,reverse,13,1,1,True,15,Fret / Inward walk,Fret
+15,Fret,Inward walk,GroupingHidden,reverse,13,2,1,True,15;16,Fret / Inward walk;Fret / Outer and inner portions,Fret
+15,Fret,Inward walk,GeometryHidden,reverse,15,1,1,True,15,Fret / Inward walk,Fret
+15,Fret,Inward walk,ConnectionsOnly,reverse,5,4,2,True,13;14;15;16,Meander / One continuous walk;Meander / Two linked portions;Fret / Inward walk;Fret / Outer and inner portions,Meander;Fret
+16,Fret,Outer and inner portions,All,forward,18,1,1,True,16,Fret / Outer and inner portions,Fret
+16,Fret,Outer and inner portions,DirectionsHidden,forward,13,1,1,True,16,Fret / Outer and inner portions,Fret
+16,Fret,Outer and inner portions,GroupingHidden,forward,13,2,1,True,15;16,Fret / Inward walk;Fret / Outer and inner portions,Fret
+16,Fret,Outer and inner portions,GeometryHidden,forward,15,1,1,True,16,Fret / Outer and inner portions,Fret
+16,Fret,Outer and inner portions,ConnectionsOnly,forward,5,4,2,True,13;14;15;16,Meander / One continuous walk;Meander / Two linked portions;Fret / Inward walk;Fret / Outer and inner portions,Meander;Fret
+16,Fret,Outer and inner portions,All,reverse,18,1,1,True,16,Fret / Outer and inner portions,Fret
+16,Fret,Outer and inner portions,DirectionsHidden,reverse,13,1,1,True,16,Fret / Outer and inner portions,Fret
+16,Fret,Outer and inner portions,GroupingHidden,reverse,13,2,1,True,15;16,Fret / Inward walk;Fret / Outer and inner portions,Fret
+16,Fret,Outer and inner portions,GeometryHidden,reverse,15,1,1,True,16,Fret / Outer and inner portions,Fret
+16,Fret,Outer and inner portions,ConnectionsOnly,reverse,5,4,2,True,13;14;15;16,Meander / One continuous walk;Meander / Two linked portions;Fret / Inward walk;Fret / Outer and inner portions,Meander;Fret
+17,Y,Branch reading,All,forward,18,1,1,True,17,Y / Branch reading,Y
+17,Y,Branch reading,DirectionsHidden,forward,13,3,2,True,17;18;20,Y / Branch reading;Y / Merge reading;T / Two corner walks,Y;T
+17,Y,Branch reading,GroupingHidden,forward,13,1,1,True,17,Y / Branch reading,Y
+17,Y,Branch reading,GeometryHidden,forward,15,1,1,True,17,Y / Branch reading,Y
+17,Y,Branch reading,ConnectionsOnly,forward,5,4,2,True,17;18;19;20,Y / Branch reading;Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+17,Y,Branch reading,All,reverse,18,1,1,True,17,Y / Branch reading,Y
+17,Y,Branch reading,DirectionsHidden,reverse,13,3,2,True,17;18;20,Y / Branch reading;Y / Merge reading;T / Two corner walks,Y;T
+17,Y,Branch reading,GroupingHidden,reverse,13,1,1,True,17,Y / Branch reading,Y
+17,Y,Branch reading,GeometryHidden,reverse,15,1,1,True,17,Y / Branch reading,Y
+17,Y,Branch reading,ConnectionsOnly,reverse,5,4,2,True,17;18;19;20,Y / Branch reading;Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+18,Y,Merge reading,All,forward,18,2,2,True,18;20,Y / Merge reading;T / Two corner walks,Y;T
+18,Y,Merge reading,DirectionsHidden,forward,13,3,2,True,17;18;20,Y / Branch reading;Y / Merge reading;T / Two corner walks,Y;T
+18,Y,Merge reading,GroupingHidden,forward,13,3,2,True,18;19;20,Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+18,Y,Merge reading,GeometryHidden,forward,15,2,2,True,18;20,Y / Merge reading;T / Two corner walks,Y;T
+18,Y,Merge reading,ConnectionsOnly,forward,5,4,2,True,17;18;19;20,Y / Branch reading;Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+18,Y,Merge reading,All,reverse,18,2,2,True,18;20,Y / Merge reading;T / Two corner walks,Y;T
+18,Y,Merge reading,DirectionsHidden,reverse,13,3,2,True,17;18;20,Y / Branch reading;Y / Merge reading;T / Two corner walks,Y;T
+18,Y,Merge reading,GroupingHidden,reverse,13,3,2,True,18;19;20,Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+18,Y,Merge reading,GeometryHidden,reverse,15,2,2,True,18;20,Y / Merge reading;T / Two corner walks,Y;T
+18,Y,Merge reading,ConnectionsOnly,reverse,5,4,2,True,17;18;19;20,Y / Branch reading;Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+19,T,Across path and stem,All,forward,18,1,1,True,19,T / Across path and stem,T
+19,T,Across path and stem,DirectionsHidden,forward,13,1,1,True,19,T / Across path and stem,T
+19,T,Across path and stem,GroupingHidden,forward,13,3,2,True,18;19;20,Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+19,T,Across path and stem,GeometryHidden,forward,15,1,1,True,19,T / Across path and stem,T
+19,T,Across path and stem,ConnectionsOnly,forward,5,4,2,True,17;18;19;20,Y / Branch reading;Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+19,T,Across path and stem,All,reverse,18,1,1,True,19,T / Across path and stem,T
+19,T,Across path and stem,DirectionsHidden,reverse,13,1,1,True,19,T / Across path and stem,T
+19,T,Across path and stem,GroupingHidden,reverse,13,3,2,True,18;19;20,Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+19,T,Across path and stem,GeometryHidden,reverse,15,1,1,True,19,T / Across path and stem,T
+19,T,Across path and stem,ConnectionsOnly,reverse,5,4,2,True,17;18;19;20,Y / Branch reading;Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+20,T,Two corner walks,All,forward,18,2,2,True,18;20,Y / Merge reading;T / Two corner walks,Y;T
+20,T,Two corner walks,DirectionsHidden,forward,13,3,2,True,17;18;20,Y / Branch reading;Y / Merge reading;T / Two corner walks,Y;T
+20,T,Two corner walks,GroupingHidden,forward,13,3,2,True,18;19;20,Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+20,T,Two corner walks,GeometryHidden,forward,15,2,2,True,18;20,Y / Merge reading;T / Two corner walks,Y;T
+20,T,Two corner walks,ConnectionsOnly,forward,5,4,2,True,17;18;19;20,Y / Branch reading;Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+20,T,Two corner walks,All,reverse,18,2,2,True,18;20,Y / Merge reading;T / Two corner walks,Y;T
+20,T,Two corner walks,DirectionsHidden,reverse,13,3,2,True,17;18;20,Y / Branch reading;Y / Merge reading;T / Two corner walks,Y;T
+20,T,Two corner walks,GroupingHidden,reverse,13,3,2,True,18;19;20,Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+20,T,Two corner walks,GeometryHidden,reverse,15,2,2,True,18;20,Y / Merge reading;T / Two corner walks,Y;T
+20,T,Two corner walks,ConnectionsOnly,reverse,5,4,2,True,17;18;19;20,Y / Branch reading;Y / Merge reading;T / Across path and stem;T / Two corner walks,Y;T
+21,H,Uprights and bridge,All,forward,18,1,1,True,21,H / Uprights and bridge,H
+21,H,Uprights and bridge,DirectionsHidden,forward,13,1,1,True,21,H / Uprights and bridge,H
+21,H,Uprights and bridge,GroupingHidden,forward,13,2,1,True,21;22,H / Uprights and bridge;H / Two crossing walks,H
+21,H,Uprights and bridge,GeometryHidden,forward,15,1,1,True,21,H / Uprights and bridge,H
+21,H,Uprights and bridge,ConnectionsOnly,forward,5,2,1,True,21;22,H / Uprights and bridge;H / Two crossing walks,H
+21,H,Uprights and bridge,All,reverse,18,1,1,True,21,H / Uprights and bridge,H
+21,H,Uprights and bridge,DirectionsHidden,reverse,13,1,1,True,21,H / Uprights and bridge,H
+21,H,Uprights and bridge,GroupingHidden,reverse,13,2,1,True,21;22,H / Uprights and bridge;H / Two crossing walks,H
+21,H,Uprights and bridge,GeometryHidden,reverse,15,1,1,True,21,H / Uprights and bridge,H
+21,H,Uprights and bridge,ConnectionsOnly,reverse,5,2,1,True,21;22,H / Uprights and bridge;H / Two crossing walks,H
+22,H,Two crossing walks,All,forward,18,1,1,True,22,H / Two crossing walks,H
+22,H,Two crossing walks,DirectionsHidden,forward,13,1,1,True,22,H / Two crossing walks,H
+22,H,Two crossing walks,GroupingHidden,forward,13,2,1,True,21;22,H / Uprights and bridge;H / Two crossing walks,H
+22,H,Two crossing walks,GeometryHidden,forward,15,1,1,True,22,H / Two crossing walks,H
+22,H,Two crossing walks,ConnectionsOnly,forward,5,2,1,True,21;22,H / Uprights and bridge;H / Two crossing walks,H
+22,H,Two crossing walks,All,reverse,18,1,1,True,22,H / Two crossing walks,H
+22,H,Two crossing walks,DirectionsHidden,reverse,13,1,1,True,22,H / Two crossing walks,H
+22,H,Two crossing walks,GroupingHidden,reverse,13,2,1,True,21;22,H / Uprights and bridge;H / Two crossing walks,H
+22,H,Two crossing walks,GeometryHidden,reverse,15,1,1,True,22,H / Two crossing walks,H
+22,H,Two crossing walks,ConnectionsOnly,reverse,5,2,1,True,21;22,H / Uprights and bridge;H / Two crossing walks,H
+23,A,Legs and crossbar,All,forward,18,1,1,True,23,A / Legs and crossbar,A
+23,A,Legs and crossbar,DirectionsHidden,forward,13,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+23,A,Legs and crossbar,GroupingHidden,forward,13,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+23,A,Legs and crossbar,GeometryHidden,forward,15,1,1,True,23,A / Legs and crossbar,A
+23,A,Legs and crossbar,ConnectionsOnly,forward,5,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+23,A,Legs and crossbar,All,reverse,18,1,1,True,23,A / Legs and crossbar,A
+23,A,Legs and crossbar,DirectionsHidden,reverse,13,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+23,A,Legs and crossbar,GroupingHidden,reverse,13,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+23,A,Legs and crossbar,GeometryHidden,reverse,15,1,1,True,23,A / Legs and crossbar,A
+23,A,Legs and crossbar,ConnectionsOnly,reverse,5,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+24,A,Loop and feet,All,forward,18,1,1,True,24,A / Loop and feet,A
+24,A,Loop and feet,DirectionsHidden,forward,13,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+24,A,Loop and feet,GroupingHidden,forward,13,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+24,A,Loop and feet,GeometryHidden,forward,15,1,1,True,24,A / Loop and feet,A
+24,A,Loop and feet,ConnectionsOnly,forward,5,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+24,A,Loop and feet,All,reverse,18,1,1,True,24,A / Loop and feet,A
+24,A,Loop and feet,DirectionsHidden,reverse,13,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+24,A,Loop and feet,GroupingHidden,reverse,13,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+24,A,Loop and feet,GeometryHidden,reverse,15,1,1,True,24,A / Loop and feet,A
+24,A,Loop and feet,ConnectionsOnly,reverse,5,2,1,True,23;24,A / Legs and crossbar;A / Loop and feet,A
+25,House,Roof and room share seam,All,forward,18,1,1,True,25,House / Roof and room share seam,House
+25,House,Roof and room share seam,DirectionsHidden,forward,13,1,1,True,25,House / Roof and room share seam,House
+25,House,Roof and room share seam,GroupingHidden,forward,13,1,1,True,25,House / Roof and room share seam,House
+25,House,Roof and room share seam,GeometryHidden,forward,15,1,1,True,25,House / Roof and room share seam,House
+25,House,Roof and room share seam,ConnectionsOnly,forward,5,2,1,True,25;27,House / Roof and room share seam;House / Outer boundary and seam,House
+25,House,Roof and room share seam,All,reverse,18,1,1,True,25,House / Roof and room share seam,House
+25,House,Roof and room share seam,DirectionsHidden,reverse,13,1,1,True,25,House / Roof and room share seam,House
+25,House,Roof and room share seam,GroupingHidden,reverse,13,1,1,True,25,House / Roof and room share seam,House
+25,House,Roof and room share seam,GeometryHidden,reverse,15,1,1,True,25,House / Roof and room share seam,House
+25,House,Roof and room share seam,ConnectionsOnly,reverse,5,2,1,True,25;27,House / Roof and room share seam;House / Outer boundary and seam,House
+26,House,Coincident independent seams,All,forward,18,1,1,True,26,House / Coincident independent seams,House
+26,House,Coincident independent seams,DirectionsHidden,forward,13,1,1,True,26,House / Coincident independent seams,House
+26,House,Coincident independent seams,GroupingHidden,forward,13,1,1,True,26,House / Coincident independent seams,House
+26,House,Coincident independent seams,GeometryHidden,forward,15,1,1,True,26,House / Coincident independent seams,House
+26,House,Coincident independent seams,ConnectionsOnly,forward,5,1,1,True,26,House / Coincident independent seams,House
+26,House,Coincident independent seams,All,reverse,18,1,1,True,26,House / Coincident independent seams,House
+26,House,Coincident independent seams,DirectionsHidden,reverse,13,1,1,True,26,House / Coincident independent seams,House
+26,House,Coincident independent seams,GroupingHidden,reverse,13,1,1,True,26,House / Coincident independent seams,House
+26,House,Coincident independent seams,GeometryHidden,reverse,15,1,1,True,26,House / Coincident independent seams,House
+26,House,Coincident independent seams,ConnectionsOnly,reverse,5,1,1,True,26,House / Coincident independent seams,House
+27,House,Outer boundary and seam,All,forward,18,1,1,True,27,House / Outer boundary and seam,House
+27,House,Outer boundary and seam,DirectionsHidden,forward,13,1,1,True,27,House / Outer boundary and seam,House
+27,House,Outer boundary and seam,GroupingHidden,forward,13,1,1,True,27,House / Outer boundary and seam,House
+27,House,Outer boundary and seam,GeometryHidden,forward,15,1,1,True,27,House / Outer boundary and seam,House
+27,House,Outer boundary and seam,ConnectionsOnly,forward,5,2,1,True,25;27,House / Roof and room share seam;House / Outer boundary and seam,House
+27,House,Outer boundary and seam,All,reverse,18,1,1,True,27,House / Outer boundary and seam,House
+27,House,Outer boundary and seam,DirectionsHidden,reverse,13,1,1,True,27,House / Outer boundary and seam,House
+27,House,Outer boundary and seam,GroupingHidden,reverse,13,1,1,True,27,House / Outer boundary and seam,House
+27,House,Outer boundary and seam,GeometryHidden,reverse,15,1,1,True,27,House / Outer boundary and seam,House
+27,House,Outer boundary and seam,ConnectionsOnly,reverse,5,2,1,True,25;27,House / Roof and room share seam;House / Outer boundary and seam,House
+28,Church,Body roof tower and spire,All,forward,18,1,1,True,28,Church / Body roof tower and spire,Church
+28,Church,Body roof tower and spire,DirectionsHidden,forward,13,1,1,True,28,Church / Body roof tower and spire,Church
+28,Church,Body roof tower and spire,GroupingHidden,forward,13,1,1,True,28,Church / Body roof tower and spire,Church
+28,Church,Body roof tower and spire,GeometryHidden,forward,15,1,1,True,28,Church / Body roof tower and spire,Church
+28,Church,Body roof tower and spire,ConnectionsOnly,forward,5,2,1,True,28;29,Church / Body roof tower and spire;Church / Outer boundary and interiors,Church
+28,Church,Body roof tower and spire,All,reverse,18,1,1,True,28,Church / Body roof tower and spire,Church
+28,Church,Body roof tower and spire,DirectionsHidden,reverse,13,1,1,True,28,Church / Body roof tower and spire,Church
+28,Church,Body roof tower and spire,GroupingHidden,reverse,13,1,1,True,28,Church / Body roof tower and spire,Church
+28,Church,Body roof tower and spire,GeometryHidden,reverse,15,1,1,True,28,Church / Body roof tower and spire,Church
+28,Church,Body roof tower and spire,ConnectionsOnly,reverse,5,2,1,True,28;29,Church / Body roof tower and spire;Church / Outer boundary and interiors,Church
+29,Church,Outer boundary and interiors,All,forward,18,1,1,True,29,Church / Outer boundary and interiors,Church
+29,Church,Outer boundary and interiors,DirectionsHidden,forward,13,1,1,True,29,Church / Outer boundary and interiors,Church
+29,Church,Outer boundary and interiors,GroupingHidden,forward,13,1,1,True,29,Church / Outer boundary and interiors,Church
+29,Church,Outer boundary and interiors,GeometryHidden,forward,15,1,1,True,29,Church / Outer boundary and interiors,Church
+29,Church,Outer boundary and interiors,ConnectionsOnly,forward,5,2,1,True,28;29,Church / Body roof tower and spire;Church / Outer boundary and interiors,Church
+29,Church,Outer boundary and interiors,All,reverse,18,1,1,True,29,Church / Outer boundary and interiors,Church
+29,Church,Outer boundary and interiors,DirectionsHidden,reverse,13,1,1,True,29,Church / Outer boundary and interiors,Church
+29,Church,Outer boundary and interiors,GroupingHidden,reverse,13,1,1,True,29,Church / Outer boundary and interiors,Church
+29,Church,Outer boundary and interiors,GeometryHidden,reverse,15,1,1,True,29,Church / Outer boundary and interiors,Church
+29,Church,Outer boundary and interiors,ConnectionsOnly,reverse,5,2,1,True,28;29,Church / Body roof tower and spire;Church / Outer boundary and interiors,Church
+30,Cross,Joined crossing,All,forward,18,1,1,True,30,Cross / Joined crossing,Cross
+30,Cross,Joined crossing,DirectionsHidden,forward,13,1,1,True,30,Cross / Joined crossing,Cross
+30,Cross,Joined crossing,GroupingHidden,forward,13,1,1,True,30,Cross / Joined crossing,Cross
+30,Cross,Joined crossing,GeometryHidden,forward,15,1,1,True,30,Cross / Joined crossing,Cross
+30,Cross,Joined crossing,ConnectionsOnly,forward,5,1,1,True,30,Cross / Joined crossing,Cross
+30,Cross,Joined crossing,All,reverse,18,1,1,True,30,Cross / Joined crossing,Cross
+30,Cross,Joined crossing,DirectionsHidden,reverse,13,1,1,True,30,Cross / Joined crossing,Cross
+30,Cross,Joined crossing,GroupingHidden,reverse,13,1,1,True,30,Cross / Joined crossing,Cross
+30,Cross,Joined crossing,GeometryHidden,reverse,15,1,1,True,30,Cross / Joined crossing,Cross
+30,Cross,Joined crossing,ConnectionsOnly,reverse,5,1,1,True,30,Cross / Joined crossing,Cross
+31,Cross,Separate projected crossing,All,forward,18,1,1,True,31,Cross / Separate projected crossing,Cross
+31,Cross,Separate projected crossing,DirectionsHidden,forward,13,1,1,True,31,Cross / Separate projected crossing,Cross
+31,Cross,Separate projected crossing,GroupingHidden,forward,13,1,1,True,31,Cross / Separate projected crossing,Cross
+31,Cross,Separate projected crossing,GeometryHidden,forward,15,1,1,True,31,Cross / Separate projected crossing,Cross
+31,Cross,Separate projected crossing,ConnectionsOnly,forward,5,1,1,True,31,Cross / Separate projected crossing,Cross
+31,Cross,Separate projected crossing,All,reverse,18,1,1,True,31,Cross / Separate projected crossing,Cross
+31,Cross,Separate projected crossing,DirectionsHidden,reverse,13,1,1,True,31,Cross / Separate projected crossing,Cross
+31,Cross,Separate projected crossing,GroupingHidden,reverse,13,1,1,True,31,Cross / Separate projected crossing,Cross
+31,Cross,Separate projected crossing,GeometryHidden,reverse,15,1,1,True,31,Cross / Separate projected crossing,Cross
+31,Cross,Separate projected crossing,ConnectionsOnly,reverse,5,1,1,True,31,Cross / Separate projected crossing,Cross

@@ -195,8 +195,8 @@ internal sealed class StructureCanvas : Control
             c.DrawEllipse(Palette.Brush("#DAE2D9"), null, new Point(x, y), .9, .9);
         foreach (var item in page.Drawing.OrderBy(d => d.Kind == "node" ? 1 : 0))
         {
-            var selected = focus.Key == item.Key && item.Key.Length > 0;
-            var ink = selected ? Palette.Orange : item.Active ? Palette.Teal : Palette.Muted;
+            var selected = focus.Key is not null && ((focus.Key == item.Key && item.Key.Length > 0) || item.RelatedKeys?.Contains(focus.Key) == true);
+            var ink = selected ? Palette.Orange : item.Color is not null ? Palette.Brush(item.Color) : item.Active ? Palette.Teal : Palette.Muted;
             var pen = new Pen(ink, selected ? 3.5 : item.LineWidth ?? (item.Active ? 2.5 : 1.7), item.Uncertain ? DashStyle.Dash : null);
             if (item.Kind == "tile")
             {

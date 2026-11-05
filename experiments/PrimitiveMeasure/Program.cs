@@ -1,5 +1,10 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--construction-hints", var constructionFolder])
+{
+    ConstructionSurvey.Export(constructionFolder);
+    return;
+}
 if (args is ["--families", var familyFolder])
 {
     FamilySurvey.Export(familyFolder);

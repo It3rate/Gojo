@@ -26,6 +26,11 @@ beside its packed instances. Compare bare participation, shared origins and tips
 independent versus shared amounts, and reversed reads. Collection boundaries belong
 to storage framing; they do not become extra measures inside the construction.
 
+The [construction clues experiment](ConstructionHints.md) adds independently directed
+uses of those links. Compare 31 constructions of 14 patterns, including squares,
+glyphs and a church. Hide clues to see which supplied constructions remain possible;
+the observer reads connections and shared sources, never the drawing coordinates.
+
 The [paired reach experiment](PairedReach.md) tests overlap on an ordered rail, uncertain dot ownership and a peer that uses a joint read to release its own waiting pulse.
 
 [When two rails meet](RailContacts.md) follows two independent owners through docking, comparison, an unresolved longer-span choice and a guarded material draw.
