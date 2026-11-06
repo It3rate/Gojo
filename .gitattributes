@@ -11,6 +11,15 @@
 /experiments/OrnamentMirrorFollowup/Protocol.md text eol=lf
 /experiments/OrnamentOwnerExchange/Protocol.md text eol=lf
 
+# Path competition seals include exact protocol bytes, including the final newline.
+/experiments/OrnamentPathCampaign/Protocol.md -text whitespace=cr-at-eol
+/experiments/OrnamentPathCampaign/Encoding.md -text whitespace=cr-at-eol
+/experiments/OrnamentPathCampaign/Criteria.md -text whitespace=cr-at-eol
+/experiments/OrnamentPathReview/PreferenceProtocol.md -text whitespace=cr-at-eol
+/experiments/OrnamentPathReview/Retention.md -text whitespace=cr-at-eol
+/experiments/OrnamentPathRefinement/Protocol.md -text whitespace=cr-at-eol
+/experiments/OrnamentOpenMeander/Protocol.md -text whitespace=cr-at-eol
+
 # Keep Minds publication source fingerprints stable across operating systems.
 /experiments/Minds/**/*.cs text eol=lf
 /Tests/Minds.Tests/*.cs text eol=lf

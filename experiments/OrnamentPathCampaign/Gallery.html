@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ornament paths | Gojo</title>
+<style>
+:root{--paper:#f7f5ed;--card:#fcfaf4;--ink:#182e2b;--sub:#4e6059;--rule:#d5d3c5;--teal:#176758;--clay:#9d4931;--shadow:0 15px 35px #20362c0a}
+*{box-sizing:border-box} body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.5 "Segoe UI",Arial,sans-serif}button,input,select{font:inherit;color:inherit}button,select{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:.43rem .7rem}button{cursor:pointer}button:hover,select:hover{border-color:var(--teal)}button:disabled{opacity:.45;cursor:default}button[aria-pressed=true]{color:white;background:var(--teal);border-color:var(--teal)}:focus-visible{outline:3px solid #a85831;outline-offset:3px}
+.wrap{max-width:1420px;margin:0 auto;padding:0 clamp(17px,4.5vw,72px)}header{border-bottom:1px solid var(--rule);padding:clamp(22px,5vw,58px) 0 0}h1,h2,h3,p{margin:0}h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;line-height:1.1;letter-spacing:-.035em}h1{font-size:clamp(40px,5.5vw,78px)}h2{font-size:clamp(30px,3vw,46px)}h3{font-size:18px;font-weight:650}header p{margin:10px 0 24px;max-width:730px;color:var(--sub)}nav{display:flex;gap:24px;flex-wrap:wrap}nav button{background:none!important;color:var(--sub)!important;border:0!important;border-radius:0;padding:0 0 12px}nav button[aria-pressed=true]{color:var(--ink)!important;box-shadow:inset 0 -3px var(--teal)}main{padding-top:26px!important;padding-bottom:55px!important}[hidden]{display:none!important}fieldset{border:0;margin:0;padding:0}.controls{display:flex;gap:9px 18px;align-items:center;flex-wrap:wrap}.controls label{display:inline-flex;gap:7px;align-items:center}.controls select{max-width:100%}.controls .muted{margin-left:auto}.muted,figcaption,.small{color:var(--sub);font-size:14px}.grid{margin:20px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.plate{display:flex;flex-direction:column;text-align:left;padding:0;overflow:hidden;background:var(--card);border:1px solid var(--rule);box-shadow:var(--shadow);border-radius:2px;min-width:0}.plate:hover{border-color:var(--teal);box-shadow:0 10px 23px #243a2f11}.plate .art{display:grid;align-items:center;min-height:146px;padding:14px 12px}.plate svg{width:100%;height:150px}.plate .cap{border-top:1px solid var(--rule);padding:10px 14px;line-height:1.4;width:100%}.cap strong,.cap span{display:block}.cap span{font-size:13px;color:var(--sub);margin-top:4px}
+.subnav{margin:0 0 16px}.subnav button{padding:4px 10px}.sheet{background:var(--card);border:1px solid var(--rule);box-shadow:var(--shadow);padding:clamp(15px,2.6vw,36px);min-width:0}.lead{margin:5px 0 10px;color:var(--sub)}.hero{display:block;width:100%;height:clamp(185px,23vw,335px)}.meta{font-size:14px;color:var(--sub)}.inspectorControls{padding:12px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}input[type=range]{accent-color:var(--teal);width:min(230px,50vw)}input[type=checkbox]{accent-color:var(--teal)}.readouts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(16px,3vw,48px);margin-top:22px}details{border-top:1px solid var(--rule);margin-top:12px;padding:8px 0}details summary{cursor:pointer;font-weight:600}.scroll{overflow:auto;max-height:380px}.scorelist{list-style:none;padding:0;margin:8px 0}.scorelist li{display:grid;grid-template-columns:minmax(86px,1fr) 86px 42px;gap:12px;align-items:center;margin:7px 0;font-size:14px}.scorelist meter{width:100%;height:12px;accent-color:var(--teal)}.scorelist b{font-variant-numeric:tabular-nums;text-align:right;font-weight:550}.evidence{margin:13px 0;min-height:1.5em}.legend{margin:6px 0;color:var(--sub);font-size:14px}.swatch{display:inline-block;vertical-align:middle;margin-right:5px;width:16px;height:3px}.legend span{margin-right:12px}
+table{border-collapse:collapse;width:100%;margin:8px 0;font-size:14px;font-variant-numeric:tabular-nums}td,th{padding:6px 9px 6px 0;text-align:left;border-bottom:1px solid var(--rule)}th{font-weight:600;color:var(--sub)}.rowSelect{border:0;background:transparent;text-decoration:underline;padding:0}.record{overflow-wrap:anywhere;font:13px Consolas,monospace;max-height:95px;overflow:auto;background:var(--paper);padding:8px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.pair svg{width:100%;height:210px}.ballotchoice{width:100%;margin-top:10px}.artsvg{color:var(--ink)}.artsvg .target{cursor:pointer}.artsvg .target:hover{stroke:var(--clay)}.copyline{opacity:.4}footer{padding:24px 0;border-top:1px solid var(--rule);font-size:14px;color:var(--sub)}a{color:var(--teal);text-underline-offset:2px}.section-title{margin-bottom:8px}.noitems{margin-top:22px}.footerlinks{display:flex;flex-wrap:wrap;gap:15px}.utility-table{max-height:50vh;margin:12px 0 22px}
+@media(max-width:920px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.readouts{grid-template-columns:1fr}.controls .muted{margin-left:0}}
+@media(max-width:570px){.grid,.pair{grid-template-columns:1fr}.grid{gap:12px}.plate svg{height:130px}.plate .art{min-height:130px}.pair svg{height:140px}.controls{gap:8px}.controls label{font-size:14px}.controls label select{max-width:57vw}.readouts .scorelist{margin-right:5px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>Ornament paths</h1><p>Line drawings from interacting machines. Pick a drawing to inspect its construction, the connections between strokes, and how the judges read it.</p><nav aria-label="Experiment views"><button data-tab="draw" aria-pressed="true">Drawings</button><button data-tab="utility" aria-pressed="false">Judge utility</button><button data-tab="blind" aria-pressed="false">Blind comparison</button></nav></div></header>
+<main class="wrap">
+<section id="draw"><div id="catalog"><fieldset class="controls"><label>Show <select id="scope"><option value="featured">Selected by brief utility</option><option value="construction">Selected by construction</option><option value="all">Every recorded exhibit</option></select></label><label>Brief <select id="brief"><option value="">All briefs</option></select></label><span id="count" class="muted"></span></fieldset><div id="plates" class="grid"></div><div class="controls"><button id="prevPage">Previous page</button><button id="nextPage">Next page</button><span id="pageInfo" class="small"></span></div></div>
+<div id="inspector" hidden><div class="subnav controls"><button id="back">← All drawings</button><button id="prevEx" aria-label="Previous drawing">←</button><button id="nextEx" aria-label="Next drawing">→</button><label>Example <select id="pick"></select></label></div><div class="sheet">
+<h2 id="title"></h2><p id="description" class="lead"></p><div id="summary" class="meta"></div><div id="stage"></div><div id="legend" class="legend"></div>
+<div class="controls inspectorControls"><button id="play">Replay</button><label>Through <input id="clock" type="range" min="0" value="0"></label><output id="stepLabel" for="clock"></output><button id="complete">Full run</button></div>
+<div class="controls" style="margin-top:12px"><label><input type="checkbox" id="owners"> Color by owner</label><label><input type="checkbox" id="seams"> Period boundaries</label><label><input type="checkbox" id="joints"> Branch and merge sites</label><label><input type="checkbox" id="copies"> Display copies</label></div><div id="copyNote" class="small" hidden>Faint copies are translated by the full run span. The center drawing is the recorded execution.</div><p id="strokeInfo" class="evidence" aria-live="polite"></p>
+<div class="readouts"><div><h3>Construction history</h3><p class="small">Select a row to see when and where it happened.</p><label class="small">Events <select id="eventKind"><option value="all">All</option><option value="construction">Branch, merge, switch, stop</option></select></label><div class="scroll"><table><thead><tr><th>Cell · beat</th><th>Owner</th><th>Event</th><th>Sites</th></tr></thead><tbody id="history"></tbody></table></div><details><summary>Machine bytes and input</summary><pre id="machine" class="record"></pre></details></div><div><h3>Judge perspectives</h3><p id="utilityLabel" class="small"></p><ul id="groups" class="scorelist"></ul><details><summary>All criteria</summary><ul id="metrics" class="scorelist"></ul></details></div></div></div></div></section>
+<section id="utility" hidden><h2 class="section-title">When a criterion mattered</h2><p class="lead" id="criterionExplain"></p><label>Training brief <select id="utilBrief"></select></label><div id="critTable" class="scroll utility-table"></div><h3>Matched comparisons</h3><p class="small" id="groupExplain"></p><div id="groupTable" class="scroll utility-table"></div></section>
+<section id="blind" hidden><h2>Which drawing fits the brief?</h2><p class="lead">Compare drawings from the same brief without seeing machine identities or scores. Votes stay in this browser until exported.</p><div id="ballotHost"><div class="controls"><button id="priorPair" aria-label="Previous pair">←</button><span id="pairLabel"></span><button id="nextPair" aria-label="Next pair">→</button></div><p class="lead" id="pairAim"></p><div class="pair"><div class="sheet"><h3>Drawing A</h3><div id="blindA"></div><button data-vote="A" class="ballotchoice">Prefer A</button></div><div class="sheet"><h3>Drawing B</h3><div id="blindB"></div><button data-vote="B" class="ballotchoice">Prefer B</button></div></div><div class="controls"><button data-vote="tie">Equally fitting</button><button data-vote="unsure">Unsure</button><button id="exportBallot">Export votes</button><span id="voteState" class="small" aria-live="polite"></span></div></div><p id="noPairs" hidden>No matched pair of distinct drawings is available.</p></section>
+</main><footer><div class="wrap footerlinks"><a href="design/Criteria.md">Criteria and sources</a><a href="ContactSheet.png">Brief utility sheet</a><a href="ConstructionSheet.png">Construction sheet</a><a href="exhibits.json">Recorded exhibits</a><a href="criteria-utility.csv" id="critlink">Criterion utility data</a><a href="group-comparison.csv" id="grouplink">Group comparison data</a></div></footer>
+<script id="data" type="application/json">/*__RECORDS__*/</script>
+<script>
+"use strict";
+const data=JSON.parse(document.getElementById("data").textContent);
+const examples=data.examples, byId=new Map(examples.map(e=>[String(e.id),e])), $=id=>document.getElementById(id);
+const NS="http://www.w3.org/2000/svg", colors=["#174f44","#ad5338","#495b87","#8e6b35","#765575","#296b74"];
+const human=v=>String(v??"").replace(/[_-]/g," "), fmt=v=>v==null?"Open":Number(v).toFixed(3), label=e=>human(e.label||e.id);
+function html(tag,text){const el=document.createElement(tag);if(text!=null)el.textContent=text;return el}
+function svgTag(tag,attrs={}){const s=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))s.setAttribute(k,v);return s}
+function option(el,text,value){const o=html("option",text);o.value=value;el.add(o)}
+const briefs=[...new Set(examples.map(e=>e.brief))];let current=null, page=0, clock=[], visible=[], selectedEdge=-1, timer=0;
+function timeKey(obj){return obj.cell+"|"+obj.beat}
+function timeline(e){const order=new Map();for(const a of [...e.events,...e.strokes])order.set(timeKey(a),{cell:a.cell,beat:a.beat});return [...order.values()].sort((a,b)=>a.cell-b.cell||a.beat-b.beat)}
+function range(e){
+ const x=[e.seamX||0,(e.seamX||0)+e.periodX*e.cells],y=[];
+ for(const p of e.sites){x.push(p.x);y.push(p.y)}
+ const x0=Math.min(...x),x1=Math.max(...x),y0=y.length?Math.min(...y):0,y1=y.length?Math.max(...y):1;
+ return {x0,x1,y0,y1};
+}
+function art(e,settings={}){
+ const {detail=false, upto=null, tint=false, marks=false, period=false, copies=false, selected=-1}=settings;
+ const s=svgTag("svg",{class:"artsvg"+(detail?" hero":""),role:"img","aria-label":detail?"Recorded drawing, select a stroke to inspect its sites":"Recorded vector drawing"});
+ const ext=range(e),span=e.periodX*e.cells; let x0=ext.x0,x1=ext.x1;
+ if(copies){x0-=span;x1+=span}
+ const dx=Math.max(1,x1-x0),dy=Math.max(1,ext.y1-ext.y0),pad=Math.max(.6,Math.min(dx*.035,dy*.12+1.5));
+ s.setAttribute("viewBox",[(x0+x1-dx)/2-pad,-(ext.y0+ext.y1+dy)/2-pad,dx+pad*2,dy+pad*2].join(" "));
+ const stops=upto&&new Set(upto.map(timeKey));
+ const edges=e.strokes.map((edge,i)=>({edge,i})).filter(({edge})=>!stops||stops.has(timeKey(edge)));
+ if(period){for(let k=0;k<=e.cells;k++){const x=(e.seamX||0)+k*e.periodX;
+ s.append(svgTag("line",{x1:x,x2:x,y1:-ext.y1-pad,y2:-ext.y0+pad,stroke:"#c3b291","stroke-width":1,"vector-effect":"non-scaling-stroke","stroke-dasharray":"3 4"}))}}
+ const shifts=copies?[-span,span,0]:[0];
+ for(const shift of shifts){
+  const g=svgTag("g",{fill:"none","stroke-linecap":"round","stroke-linejoin":"round"}); if(shift)g.setAttribute("class","copyline");
+  if(!detail){g.append(svgTag("path",{d:edges.map(({edge:r})=>"M"+r.x1+" "+(-r.y1)+"L"+r.x2+" "+(-r.y2)).join(""),stroke:"#213b35","stroke-width":2,"vector-effect":"non-scaling-stroke"}))}
+  else for(const {edge:r,i} of edges){const line=svgTag("line",{x1:r.x1+shift,y1:-r.y1,x2:r.x2+shift,y2:-r.y2,stroke:i===selected?"#ae4026":tint?colors[(Math.abs(r.owner))%colors.length]:"#203b34","stroke-width":i===selected?4:2.5,"vector-effect":"non-scaling-stroke"});
+   if(shift===0){line.dataset.edge=String(i);line.classList.add("target");const tip=svgTag("title");tip.textContent="Owner "+r.owner+" · site "+r.a+" → "+r.b+" · cell "+r.cell+", beat "+r.beat;line.append(tip)}
+   g.append(line)}
+  s.append(g)
+ }
+ if(detail&&marks){
+  const seen=new Set();
+  for(const ev of e.events){if(stops&&!stops.has(timeKey(ev)))continue;const k=String(ev.kind).toLowerCase();if(k!=="branch"&&k!=="merge")continue;
+   const site=k==="branch"?ev.from:ev.to,p=e.sites[site],key=k+"|"+site;if(!p||seen.has(key))continue;seen.add(key);
+   const radius=Math.max(.15,Math.min(dx*.009,dy*.035+.16));
+   const dot=svgTag("circle",{cx:p.x,cy:-p.y,r:radius,fill:k==="branch"?"#fcfaf4":"#a65334",stroke:"#a65334","stroke-width":1.5,"vector-effect":"non-scaling-stroke"});const tip=svgTag("title");tip.textContent=k+" at site "+site;dot.append(tip);s.append(dot);
+  }}
+ return s;
+}
+function setTab(tab){
+ pause();for(const k of ["draw","utility","blind"])$(k).hidden=k!==tab;
+ for(const btn of document.querySelectorAll("nav button"))btn.setAttribute("aria-pressed",btn.dataset.tab===tab);
+ if(tab==="blind")renderPair();if(tab==="utility")renderUtility()
+}
+for(const btn of document.querySelectorAll("nav button"))btn.onclick=()=>setTab(btn.dataset.tab);
+for(const b of briefs){option($("brief"),human(b),b);option($("utilBrief"),human(b),b)}
+for(const e of examples)option($("pick"),human(e.brief)+" · "+label(e),e.id);
+function filtered(){
+ const group=$("brief").value;
+ const scope=$("scope").value;
+ const ids=scope==="construction"?Object.keys(data.constructions):data.featured;
+ const source=scope==="all"?examples:ids.map(id=>byId.get(String(id))).filter(Boolean);
+ return source.filter(e=>!group||e.brief===group)
+}
+function catalog(){
+ pause();$("catalog").hidden=false;$("inspector").hidden=true;const all=filtered(),pages=Math.ceil(all.length/12)||1;
+ page=Math.min(page,pages-1);const plates=$("plates");plates.replaceChildren();
+ for(const e of all.slice(page*12,(page+1)*12)){
+  const bt=html("button");bt.className="plate";bt.dataset.id=e.id;bt.onclick=()=>openEx(e);
+  const fig=html("div");fig.className="art";fig.append(art(e));bt.append(fig);
+  const cap=html("div");cap.className="cap";cap.append(html("strong",$("scope").value==="construction"?data.constructions[e.id]:label(e)),html("span",human(e.brief)+" · "+human(e.arm)+" · "+e.strokes.length+" strokes"));bt.append(cap);plates.append(bt)
+ }
+ if(!all.length)plates.append(html("p","No examples in this view."));
+ $("count").textContent=all.length+" of "+examples.length+" exhibits";$("pageInfo").textContent="Page "+(page+1)+" of "+pages;
+ $("prevPage").disabled=page===0;$("nextPage").disabled=page===pages-1;
+}
+$("scope").onchange=$("brief").onchange=()=>{page=0;catalog()};$("prevPage").onclick=()=>{page--;catalog()};$("nextPage").onclick=()=>{page++;catalog()};
+function pause(){if(timer)clearInterval(timer);timer=0;$("play").textContent="Replay"}
+function scoreList(id,values){
+ const ul=$(id);ul.replaceChildren();for(const [key,value] of Object.entries(values||{})){const li=html("li"),mt=html("meter");
+ mt.max=1;mt.min=0;mt.value=value??0;if(value==null)mt.style.visibility="hidden";const name=html("span",human(key));if(data.criterionReads[key])name.title=data.criterionReads[key];li.append(name,mt,html("b",fmt(value)));ul.append(li)}
+}
+function openEx(e,updateHash=true){
+ if(!e)return;pause();setTab("draw");current=e;selectedEdge=-1;$("catalog").hidden=true;$("inspector").hidden=false;
+ $("pick").value=e.id;$("title").textContent=label(e);$("description").textContent=e.description||"";
+ $("summary").textContent=[human(e.brief),human(e.arm),e.strokes.length+" strokes",e.cells+" executed periods",(new Set(e.strokes.map(r=>r.owner))).size+" drawing owners"].join("   ·   ");
+ $("machine").textContent="Loaded   "+e.genome+"\nSettled  "+(e.finalGenome||e.genome)+"\nInput    "+e.scenario+"  "+JSON.stringify(e.realization||{});
+ $("utilityLabel").textContent="Utility "+fmt(e.utility)+" on a 0–1 scale. Groups average available reads. Open criteria earn no credit in the weighted brief.";
+ scoreList("groups",e.groups);scoreList("metrics",e.metrics);
+ clock=timeline(e);$("clock").max=clock.length;$("clock").value=clock.length;$("clock").disabled=!clock.length;
+ $("strokeInfo").textContent="Select a drawn stroke to inspect its owner and endpoint sites.";historyTable();drawStage();
+ if(updateHash)history.replaceState(null,"","#drawing="+encodeURIComponent(e.id));
+}
+function drawStage(){
+ const n=+$("clock").value;visible=clock.slice(0,n);const copies=$("copies").checked;
+ $("stage").replaceChildren(art(current,{detail:true,upto:visible,tint:$("owners").checked,marks:$("joints").checked,period:$("seams").checked,copies,selected:selectedEdge}));
+ $("copyNote").hidden=!copies;const t=visible.at(-1);$("stepLabel").textContent=n===clock.length?"Complete":t?"Cell "+t.cell+" · beat "+t.beat:"Start";
+ const legend=$("legend");legend.replaceChildren();
+ if($("owners").checked){for(const owner of [...new Set(current.strokes.map(s=>s.owner))].sort((a,b)=>a-b)){const span=html("span"),sw=html("i");sw.className="swatch";sw.style.background=colors[Math.abs(owner)%colors.length];span.append(sw,document.createTextNode("Owner "+owner));legend.append(span)}}
+ if($("joints").checked)legend.append(html("span","○ Branch source   ● Merge destination"))
+}
+function historyTable(){
+ const body=$("history");body.replaceChildren();const filter=$("eventKind").value;
+ for(const ev of current.events){
+  if(filter==="construction"&&!["branch","merge","switch","stop"].includes(String(ev.kind).toLowerCase()))continue;
+  const tr=html("tr"),td=html("td"),bt=html("button",ev.cell+" · "+ev.beat);bt.className="rowSelect";bt.onclick=()=>{pause();selectedEdge=-1;$("clock").value=clock.findIndex(t=>timeKey(t)===timeKey(ev))+1;
+  $("strokeInfo").textContent="Owner "+ev.owner+" · "+human(ev.kind)+" · row "+ev.row+" · support "+(["missing","zero","present","uncertain"][ev.support]??ev.support)+(ev.kind==="switch"?" · frame "+ev.beforeFrame+" → "+ev.afterFrame:"");drawStage()};
+  td.append(bt);const sites=[ev.from,ev.to].map(v=>v>=0?"s"+v:"—").join(" → ");tr.append(td,html("td",ev.owner),html("td",human(ev.kind)),html("td",sites));body.append(tr)
+ }
+ if(!body.childElementCount){const row=html("tr"),cell=html("td","No recorded events in this selection.");cell.colSpan=4;row.append(cell);body.append(row)}
+}
+$("eventKind").onchange=historyTable;
+$("stage").onclick=e=>{const edge=e.target.closest("[data-edge]");if(!edge)return;selectedEdge=Number(edge.dataset.edge);const r=current.strokes[selectedEdge];
+ $("strokeInfo").textContent="Stroke "+(selectedEdge+1)+" · owner "+r.owner+" · cell "+r.cell+", beat "+r.beat+", row "+r.row+" · site "+r.a+" ("+r.x1+", "+r.y1+") → site "+r.b+" ("+r.x2+", "+r.y2+").";drawStage()};
+$("clock").oninput=()=>{pause();selectedEdge=-1;$("strokeInfo").textContent="";drawStage()};$("complete").onclick=()=>{pause();$("clock").value=clock.length;drawStage()};
+for(const id of ["copies","joints","seams","owners"])$(id).onchange=drawStage;
+$("play").onclick=()=>{if(timer){pause();return}if(+$("clock").value>=clock.length)$("clock").value=0;selectedEdge=-1;$("strokeInfo").textContent="";drawStage();$("play").textContent="Pause";timer=setInterval(()=>{if(+$("clock").value>=clock.length){pause();return}$("clock").value=+$("clock").value+1;drawStage()},Math.max(90,Math.min(430,6000/(clock.length||1))))};
+$("pick").onchange=()=>openEx(byId.get($("pick").value));
+function moveEx(direction){const i=examples.indexOf(current);openEx(examples[(i+direction+examples.length)%examples.length])}
+$("prevEx").onclick=()=>moveEx(-1);$("nextEx").onclick=()=>moveEx(1);$("back").onclick=()=>{history.replaceState(null,"",location.href.split("#")[0]);catalog()};
+$("pick").onkeydown=e=>{if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(e.key)){e.preventDefault();moveEx(["ArrowLeft","ArrowUp"].includes(e.key)?-1:1);$("pick").focus()}};
+function gridTable(host,rows,columns){
+ const root=$(host);root.replaceChildren();if(!rows.length){root.append(html("p","No recorded rows for this brief."));return}
+ const t=html("table"),thead=html("thead"),tr=html("tr");for(const [key,name] of columns)tr.append(html("th",name));thead.append(tr);t.append(thead);
+ const body=html("tbody");for(const row of rows){const tr=html("tr");for(const [key] of columns){let value=row[key]??"—";if(["weight","full_mean","arm_mean","difference"].includes(key)&&value!=="—")value=fmt(value);tr.append(html("td",typeof value==="string"?human(value).replace(/^ /,"−"):value))}body.append(tr)}t.append(body);root.append(t)
+}
+function renderUtility(){
+ const b=$("utilBrief").value;
+ const rows=data.criterionUtility.filter(r=>r.brief===b).map(r=>({...r,pivot_share:+r.eligible_pairs?(((+r.positive_pivots + +r.negative_pivots)/+r.eligible_pairs)*100).toFixed(1)+"%":"Open"})).sort((a,b)=>(parseFloat(b.pivot_share)||0)-(parseFloat(a.pivot_share)||0));
+ $("criterionExplain").textContent="A positive pivot gave an edited child the lead over its parent. A negative pivot gave the parent the lead. Removing that single criterion erased or reversed that lead. The fraction is over eligible full-search mutations for this brief.";
+ gridTable("critTable",rows,[["key","Criterion"],["group","Perspective"],["weight","Weight"],["eligible_pairs","Eligible pairs"],["positive_pivots","Positive pivots"],["negative_pivots","Negative pivots"],["pivot_share","Pivotal share"]]);
+ $("groupExplain").textContent="Each row pairs the full search arm with another training arm or runtime intervention on the same blind inputs. Means use the complete brief. The last columns count parent differences at least +0.02, at most −0.02, or inside that margin.";
+ gridTable("groupTable",data.groupComparison.filter(r=>r.brief===b),[["arm","Training arm"],["replicate","Run"],["full_mean","Full judges"],["arm_mean","Other arm"],["difference","Difference"],["positive","Positive"],["negative","Negative"],["within","Within margin"]]);
+}
+$("utilBrief").onchange=renderUtility;$("critlink").hidden=!data.criterionUtility.length;$("grouplink").hidden=!data.groupComparison.length;
+function hash(s){let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0}
+function visualSignature(e){return JSON.stringify(e.strokes.map(s=>{let a=[s.x1,s.y1],b=[s.x2,s.y2];return (a[0]<b[0]||a[0]===b[0]&&a[1]<=b[1])?[...a,...b]:[...b,...a]}).sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b))))}
+function matchedPairs(){
+ const groups=new Map();for(const e of examples){const k=JSON.stringify([e.brief,e.scenario]);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(e)}
+ const pairs=[];
+ for(const g of groups.values()){const items=[...g].sort((a,b)=>hash(data.record+a.id)-hash(data.record+b.id));const seen=new Set();const distinct=items.filter(e=>{const sig=visualSignature(e);if(seen.has(sig))return false;seen.add(sig);return true});
+  for(let i=1;i<distinct.length;i+=2)pairs.push([distinct[i-1],distinct[i]])}
+ const rank=pair=>hash(data.record+pair[0].id+"|"+pair[1].id);
+ return pairs.sort((a,b)=>rank(a)-rank(b)||String(a[0].id).localeCompare(String(b[0].id)))
+}
+const pairs=matchedPairs(),voteKey="gojo-path-ballot-"+data.record;let votes={},pairIndex=0,persistent=true;
+try{votes=JSON.parse(localStorage.getItem(voteKey)||"{}")}catch{persistent=false}
+function pairKey(pair){return JSON.stringify(pair.map(e=>String(e.id)))}
+function renderPair(){
+ $("ballotHost").hidden=!pairs.length;$("noPairs").hidden=!!pairs.length;if(!pairs.length)return;
+ const pair=pairs[pairIndex];
+ $("pairLabel").textContent=human(pair[0].brief)+" · pair "+(pairIndex+1)+" of "+pairs.length;
+ $("pairAim").textContent=data.briefAims[pair[0].brief]||"";
+ $("blindA").replaceChildren(art(pair[0]));$("blindB").replaceChildren(art(pair[1]));
+ const v=votes[pairKey(pair)];for(const bt of document.querySelectorAll("[data-vote]"))bt.setAttribute("aria-pressed",String(v?.choice===bt.dataset.vote));
+ $("voteState").textContent=(v?"Recorded: "+human(v.choice):"No vote for this pair.")+(persistent?"":" Export to keep this session’s votes.");
+}
+for(const bt of document.querySelectorAll("[data-vote]"))bt.onclick=()=>{const pair=pairs[pairIndex];votes[pairKey(pair)]={a:pair[0].id,b:pair[1].id,brief:pair[0].brief,choice:bt.dataset.vote};try{localStorage.setItem(voteKey,JSON.stringify(votes))}catch{persistent=false}renderPair()};
+$("priorPair").onclick=()=>{pairIndex=(pairIndex+pairs.length-1)%pairs.length;renderPair()};$("nextPair").onclick=()=>{pairIndex=(pairIndex+1)%pairs.length;renderPair()};
+$("exportBallot").onclick=()=>{const file=new Blob([JSON.stringify({exhibitsSha256:data.record,votes:Object.values(votes)},null,2)],{type:"application/json"});const a=html("a");a.download="ornament-path-preferences.json";a.href=URL.createObjectURL(file);a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1200)};
+catalog();const initial=new URLSearchParams(location.hash.slice(1)).get("drawing");if(initial&&byId.has(initial))openEx(byId.get(initial),false);
+</script></body></html>

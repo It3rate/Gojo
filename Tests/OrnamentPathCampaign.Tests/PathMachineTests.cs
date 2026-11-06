@@ -62,6 +62,34 @@ public class PathMachineTests
     }
 
     [Fact]
+    public void ADownstreamOwnerReadsThePreviousBeatForEitherOwnerOrdering()
+    {
+        var sender = new PathOwner(0,0,0,[StrokeRow.Bind(0),StrokeRow.Bind(0)]);
+        var receiver = new PathOwner(1,0,0,[StrokeRow.Bind(0,law:12),StrokeRow.Bind(0,law:12)]);
+        foreach (bool senderFirst in new[] { true,false })
+        {
+            var bytes = senderFirst ? PathMachine.Encode(sender,receiver) : PathMachine.Encode(receiver,sender);
+            var trace = PathMachine.Run(bytes,new(1,1,2,1));
+            var received = Assert.Single(trace.Edges,e=>e.Owner == (senderFirst ? 1 : 0));
+            Assert.Equal(1,received.Beat);
+            Assert.DoesNotContain(PathMachine.Run(bytes,new(1,1,2,1),PathMode.Cut).Edges,e=>e.Owner == received.Owner);
+        }
+    }
+
+    [Fact]
+    public void AllSixteenStrokeLawsGiveTheDeclaredBooleanOutputs()
+    {
+        for (int law=0; law<16; law++)
+            for (int clock=0; clock<2; clock++)
+                for (int seed=0; seed<2; seed++)
+                {
+                    var owner = new PathOwner(0,(byte)clock,0,[StrokeRow.Bind(0,law:law)]);
+                    var trace = PathMachine.Run(PathMachine.Encode(owner),new(1,1,2,1,SeedBit:seed));
+                    Assert.Equal((law >> (clock+2*seed)) & 1,trace.Edges.Length);
+                }
+    }
+
+    [Fact]
     public void AdmittedStopStopsOnlyItsOwnBodyUntilNextRepeat()
     {
         var a = new PathOwner(0,0,0,[StrokeRow.Bind(0,stop:true),StrokeRow.Bind(2)]);

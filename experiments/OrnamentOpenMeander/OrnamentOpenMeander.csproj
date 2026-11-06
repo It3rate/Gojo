@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup Condition="Exists('../../artifacts/local-path-ornament/runtime-v1/OrnamentPathCampaign.dll')">
+    <Reference Include="OrnamentPathCampaign"><HintPath>../../artifacts/local-path-ornament/runtime-v1/OrnamentPathCampaign.dll</HintPath></Reference>
+    <Reference Include="PrimitiveMeasure"><HintPath>../../artifacts/local-path-ornament/runtime-v1/PrimitiveMeasure.dll</HintPath></Reference>
+  </ItemGroup>
+  <ItemGroup Condition="!Exists('../../artifacts/local-path-ornament/runtime-v1/OrnamentPathCampaign.dll')">
+    <ProjectReference Include="../OrnamentPathCampaign/OrnamentPathCampaign.csproj"/>
+  </ItemGroup>
+  <ItemGroup><Compile Include="../OrnamentPathRefinement/StyleJudge.cs" Link="PriorStyleJudge.cs" /></ItemGroup>
+</Project>

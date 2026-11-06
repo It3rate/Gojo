@@ -169,7 +169,10 @@
     <Project Path="experiments/Minds/Minds.csproj" />
   </Folder>
   <Folder Name="/Experiments/PrimitiveMeasure/OrnamentPathCampaign/">
+    <Project Path="experiments/OrnamentOpenMeander/OrnamentOpenMeander.csproj" />
     <Project Path="experiments/OrnamentPathCampaign/OrnamentPathCampaign.csproj" />
+    <Project Path="experiments/OrnamentPathRefinement/OrnamentPathRefinement.csproj" />
+    <Project Path="experiments/OrnamentPathReview/OrnamentPathReview.csproj" />
     <Project Path="Tests/OrnamentPathCampaign.Tests/OrnamentPathCampaign.Tests.csproj" />
   </Folder>
   <Folder Name="/Experiments/QualitativeExecution/">
