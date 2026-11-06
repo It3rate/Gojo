@@ -176,7 +176,14 @@
     <Project Path="Tests/OrnamentPathCampaign.Tests/OrnamentPathCampaign.Tests.csproj" />
   </Folder>
   <Folder Name="/Experiments/PrimitiveMeasure/OrnamentTension/">
+    <Project Path="experiments/OrnamentCommitteeStudy/OrnamentCommitteeStudy.csproj" />
+    <Project Path="experiments/OrnamentDensityResponse/OrnamentDensityResponse.csproj" />
+    <Project Path="experiments/OrnamentPlateStudy/OrnamentPlateStudy.csproj" />
+    <Project Path="experiments/OrnamentRouteDiagnosis/OrnamentRouteDiagnosis.csproj" />
+    <Project Path="experiments/OrnamentSlotLadder/OrnamentSlotLadder.csproj" />
     <Project Path="experiments/OrnamentTension/OrnamentTension.csproj" />
+    <Project Path="experiments/OrnamentTensionInspection/OrnamentTensionInspection.csproj" />
+    <Project Path="experiments/OrnamentTensionSeries/OrnamentTensionSeries.csproj" />
     <Project Path="Tests/OrnamentTension.Tests/OrnamentTension.Tests.csproj" />
   </Folder>
   <Folder Name="/Experiments/QualitativeExecution/">

@@ -11,5 +11,6 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0-pre.3" />
     <Using Include="Xunit" />
     <ProjectReference Include="../../experiments/OrnamentTension/OrnamentTension.csproj" />
+    <ProjectReference Include="../../experiments/OrnamentTensionSeries/OrnamentTensionSeries.csproj" />
   </ItemGroup>
 </Project>

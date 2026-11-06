@@ -114,6 +114,25 @@ Only the silhouettes enter the reference reader. Colors, culture, actual pen ord
         html.append('</tr>')
     html.append('</table><p><a href="matrix.csv">Raw similarities</a> · <a href="packets.json">All normalized input paths and sources</a></p></html>')
     (folder/"Index.html").write_text("".join(html),encoding="utf-8")
+    # Standalone print companion. Each focus stays a vector projection at its
+    # own scale; its museum object link remains part of the SVG itself.
+    sheet=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img">'
+           '<title>Eight historical focuses, two source objects each</title><rect width="1000" height="1000" fill="#f8f5eb"/>'
+           '<g font-family="system-ui" fill="#24483c"><text x="35" y="46" font-family="Georgia,serif" font-size="33">'
+           'Two sources for each family</text><text x="35" y="72" font-size="15">Angular interpretations of the selected focus; '
+           'Meyer outlines observed on the construction grid. Three repeats per sketch.</text>'
+           '<text x="210" y="111" font-weight="bold">Training object focus</text><text x="600" y="111" font-weight="bold">Withheld object focus</text>']
+    for i,r in enumerate(ranks):
+        y=125+i*106
+        sheet.append(f'<path d="M30 {y}h930" stroke="#cbd0bc"/><text x="35" y="{y+40}" font-size="15">{escape(r["family"])}</text>')
+        for j,held in enumerate((False,True)):
+            item=by_key[r["family"],held]
+            geometry=sketch(item)
+            geometry=geometry.replace('<svg viewBox="0 0 280 82"',f'<svg x="{190+390*j}" y="{y}" width="350" height="75" viewBox="0 0 280 82"')
+            sheet.append(f'<a href="{escape(item["source"])}">{geometry}<text x="{200+390*j}" y="{y+91}" font-size="13">'
+                         f'{escape(item["object"])}</text></a>')
+    sheet.append('</g></svg>')
+    (folder/"Specimens.svg").write_text(''.join(sheet),encoding="utf-8")
     print(correct,"of eight families recovered.",[(r["family"],r["best"],r["rank"]) for r in ranks])
 
 

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A pen under pressure · Gojo ornament study</title>
+<style>
+:root{color-scheme:light;--ink:#193e37;--muted:#56685f;--paper:#faf7ed;--rule:#c5cebd}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 system-ui}main{max-width:1140px;margin:auto;padding:42px clamp(18px,4vw,64px) 60px}h1,h2,h3{font-family:Georgia,serif;font-weight:normal;line-height:1.12;margin:0 0 12px}h1{font-size:clamp(42px,6vw,74px)}h2{font-size:clamp(30px,4vw,45px)}h3{font-size:23px}p{margin:8px 0;max-width:77ch}a{color:#246443}section{border-top:1px solid var(--rule);margin:30px 0;padding-top:22px}label{display:grid;gap:4px;font-size:14px;color:var(--muted)}select,input,button{font:inherit;max-width:100%}select{color:var(--ink);background:#fffdf5;border:1px solid var(--rule);border-radius:3px;padding:6px 9px}fieldset,nav{display:flex;align-items:end;gap:14px;flex-wrap:wrap;padding:0;border:0;margin:12px 0}nav{gap:20px;margin-top:18px}figure{margin:16px 0}svg{width:100%;height:auto;background:#f5f2e7;display:block}figcaption,small,.sub{color:var(--muted);font-size:14px}input[type=range]{width:min(440px,66vw);accent-color:#426d5a}table{width:100%;border-collapse:collapse;font-size:15px}td,th{text-align:left;padding:5px 8px;border-bottom:1px solid var(--rule)}.scroll{overflow:auto;max-height:260px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}.metric{margin:8px 0;font-size:17px}.legend{font-size:14px}.mono{font-family:monospace;overflow-wrap:anywhere}details{margin:10px 0}button{border:1px solid var(--rule);background:#f5f4e7;color:var(--ink);padding:4px 10px;cursor:pointer}@media(max-width:640px){main{padding-top:25px}.pair{grid-template-columns:1fr}}
+</style>
+<main><header><h1>A pen under pressure</h1>
+<p>Follow a named construction through its actual beats. A pen senses its local passage, a machine receives limited offers from its pens, and a frieze can send a signed request back. Each drawing starts with a blank band.</p>
+<nav><a href="../Index.html">All experiments</a><a href="#paired">Changed drawings</a><a href="#joint">Joint controls</a><a href="metrics.html">Judges and routes</a></nav></header>
+<section><h2>Follow one drawing</h2>
+<fieldset><label>Construction<select id="family"></select></label><label>Available height<select id="slots"><option value="2">2 slots per side</option><option value="9">9 slots per side</option></select></label><label>Machine<select id="arm"><option value="coupled">Trained · live</option><option value="disconnect">Same bytes · quiet</option><option value="source">Authored · default policy</option></select></label></fieldset>
+<figure><div id="drawing"></div><figcaption id="caption"></figcaption></figure>
+<fieldset><button id="prev">Previous beat</button><label>Through beat <span id="beatlabel"></span><input type="range" id="beat" min="0" value="0"></label><button id="next">Next beat</button></fieldset>
+<p class="metric" id="headline"></p><p class="legend">Green, rust and blue distinguish pens. Each transfer row uses a signed unit in its own lane. A blocked delivery returns to the sender. The path is shown at its observed coordinates; the viewer preserves aspect ratio.</p>
+<details open><summary>What the owners did on this beat</summary><div id="witness"></div></details><details><summary>Program and judging panel</summary><p id="program"></p></details></section>
+<section id="paired"><h2>What the feedback changed</h2><p>These four examples were chosen after scoring. Each pair uses identical bytes, physical input and rendering scale. Use them to inspect causes and failures, rather than estimate how often the effect occurs.</p><label>Paired result<select id="selection"></select></label><div class="pair" id="pairs"></div><p id="pairStats"></p></section>
+<section id="joint"><h2>Reading the same X</h2><p>An X can have four rays with several different histories. Inspect whether the pens turn, pass through, or attach to the same site. The last control deposits material along an existing interval.</p><label>Construction<select id="jointKind"></select></label><div id="jointImage"></div><p id="jointLabel"></p></section></main>
+<script>
+const data=/*__NATIVE__*/;
+const $=s=>document.getElementById(s),colors=['#183e37','#995136','#3f6383'];
+function options(node,keys){for(const [value,label] of keys)node.add(new Option(label,value))}
+const subjects=[...new Set(data.exhibits.map(e=>e.engine))];
+options($('family'),subjects.map(k=>[k,k.replaceAll('-',' ')]));options($('selection'),data.pairs.map((p,i)=>[i,p.title]));options($('jointKind'),data.joints.map((j,i)=>[i,j.key.replaceAll('-',' ')]));
+function extent(traces,physical=true){
+ let points=traces.flatMap(t=>t.edges.flatMap(e=>[t.sites[e.from],t.sites[e.to]]));
+ if(physical)for(let t of traces)points.push({x:0,y:0},{x:t.pitch*t.cells,y:0});
+ if(!points.length)points=[{x:0,y:0}];
+ return [Math.min(...points.map(p=>p.x)),Math.max(...points.map(p=>p.x)),Math.min(...points.map(p=>p.y)),Math.max(...points.map(p=>p.y))]}
+function svg(t,box,beat=Infinity,h=242){
+ let [l,r,b,top]=box,s=Math.min(952/Math.max(r-l,1),(h-32)/Math.max(top-b,1)),xy=p=>[24+(952-(r-l)*s)/2+(p.x-l)*s,16+(h-32-(top-b)*s)/2+(top-p.y)*s];
+ let result='<svg role="img" aria-label="Recorded vector drawing" viewBox="0 0 1000 '+h+'">';
+ for(let e of t.edges){if(e.beat>beat)continue;let a=xy(t.sites[e.from]),b=xy(t.sites[e.to]);result+='<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" stroke="'+colors[e.owner%3]+'" stroke-width="2.9" stroke-linecap="round"><title>Pen '+(e.owner+1)+', beat '+e.beat+', sites '+e.from+' → '+e.to+'</title></line>'}
+ return result+'</svg>'}
+let current=null;
+function choose(){
+ let examples=data.exhibits.filter(e=>e.engine===$('family').value&&String(e.setting.slots)===$('slots').value);
+ current=examples.find(e=>e.arm===$('arm').value);
+ let max=Math.max(0,...current.trace.events.map(e=>e.beat));$('beat').max=max;$('beat').value=max;
+ current.box=extent(examples.map(e=>e.trace));redraw();}
+const eventRead=t=>t.kind==='direction'?['east','northeast','north','northwest','west','southwest','south','southeast'][t.lane]:['reach','turn','seam'][t.lane];
+const tiers=(i,e)=>i<e.trace.owners?'pen '+(i+1):i===e.trace.owners?'machine':'frieze';
+function redraw(){
+ let e=current,beat=+$('beat').value;$('drawing').innerHTML=svg(e.trace,e.box,beat);$('beatlabel').textContent=beat+' / '+$('beat').max;
+ $('caption').textContent=e.engine+' · '+e.setting.input.cells+' executed bays · A '+e.setting.input.a+' / B '+e.setting.input.b+' / pitch '+e.setting.input.pitch;
+ $('headline').textContent='Whole drawing: broad score '+e.broad.toFixed(3)+' · '+e.pressure.actuations+' pressure-driven acts · '+e.pressure.accepted+' accepted transfers · '+e.pressure.blocked+' blocked · '+e.pressure.remainder+' still in flight.';
+ let h=e.timeline.filter(ev=>ev.beat===beat);
+ $('witness').innerHTML=h.length?'<div class="scroll"><table><thead><tr><th>Event</th><th>From → to</th><th>Lane or heading</th><th>Delta</th><th>Accepted / blocked</th><th>Before → after</th></tr></thead><tbody>'+h.map(t=>'<tr><td>'+t.kind+'</td><td>'+tiers(t.source,e)+' → '+tiers(t.target,e)+'</td><td>'+eventRead(t)+'</td><td>'+t.delta+'</td><td>'+t.accepted+' / '+t.blocked+'</td><td>'+t.before+' → '+t.after+'</td></tr>').join('')+'</tbody></table></div>':'No pressure events recorded on this beat.';
+ let p=data.panels.find(p=>p.family===e.engine&&Number(p.slots)===e.setting.slots&&Number(p.replicate)===e.replicate);
+ $('program').innerHTML='Path <span class="mono">'+e.recipe.path+'</span><br>Pressure policy <span class="mono">'+e.recipe.policy+'</span><br>Final frieze byte '+e.publication.toString(2).padStart(8,'0')+'<br>'+(e.arm==='source'?'The source engine was authored.':'Training shares: '+['course','material','joints','spacing','motif','frieze','variety','reference'].filter(k=>+p[k]>0).map(k=>k+' '+p[k]).join(', '));}
+function pair(){let p=data.pairs[+$('selection').value];let box=extent(p.items.map(i=>i.draw.trace));
+ $('pairs').innerHTML=p.items.map(v=>'<figure><h3>'+v.mode+'</h3>'+svg(v.draw.trace,box,Infinity,238)+'<figcaption>Broad '+Number(v.row.broad).toFixed(3)+' · '+v.row.edges+' strokes · '+v.row.actions+' acts</figcaption></figure>').join('');
+ let a=p.items[0].row,b=p.items[1].row;$('pairStats').textContent=a.family+' / '+a.scenario+' · positive-length overlapping pairs '+a.overlaps+' → '+b.overlaps+' · transverse crossings '+a.crossings+' → '+b.crossings+'.';}
+function joint(){let j=data.joints[+$('jointKind').value],c=j.read;
+ $('jointImage').innerHTML=svg(j.trace,extent([j.trace],false),Infinity,185);
+ $('jointLabel').textContent='Opposed Vs '+c.opposedVs+' · transverse interior pairs '+c.interiorCrossings+' · shared four-arm sites '+c.sharedFour+' · four-in arrivals '+c.fourIntoOne+' · collinear overlaps '+c.collinearOverlaps+'.';}
+for(let id of ['family','slots','arm'])$(id).onchange=choose;$('beat').oninput=redraw;$('prev').onclick=()=>{$('beat').stepDown();redraw()};$('next').onclick=()=>{$('beat').stepUp();redraw()};$('selection').onchange=pair;$('jointKind').onchange=joint;choose();pair();joint();
+</script></html>
