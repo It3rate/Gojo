@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--goal-flow", var goalFolder])
+{
+    GoalFlowSurvey.Export(goalFolder);
+    return;
+}
+
 if (args is ["--race-order", var raceFolder])
 {
     RaceSurvey.Export(raceFolder);

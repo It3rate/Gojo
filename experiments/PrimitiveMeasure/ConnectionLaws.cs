@@ -5,6 +5,10 @@ namespace Gojo.Experiments.PrimitiveMeasure;
 /// No law here moves material or guesses an actual value from alternatives.</summary>
 public static class ConnectionLaws
 {
+    /// <summary>In the positive Boolean basis, first is present and second is absent.</summary>
+    public static BitRelation FirstWithoutSecond { get; } = BitRelation.FromTuples(3,
+        [[0, 0, 0], [0, 1, 0], [1, 0, 1], [1, 1, 0]]);
+
     public static BitRelation Identity() => BitRelation.FromTuples(2,
         Enumerable.Range(0, 8).Select(word => new[] { (byte)word, (byte)word }));
 

@@ -26,6 +26,11 @@ order of two finish events. A second reader connects the favorite before the
 start to the observed finish. The start, an obstructed entrant, an unresolved
 finish and a witnessed tie each leave different evidence.
 
+The [goal and drive experiment](GoalFlow.md) separates an observed target,
+outside assistance, a runner's own pending work, and a cell that replenishes its
+contents from finite stock. A companion kernel experiment follows signed tension
+as real supply arrives.
+
 The [small concepts experiment](InvarianceExperiments.md) tests invariance and
 equivariance across objects, bindings, sequences, loops, switches, collections,
 and joints. Each candidate has a one-sentence meaning and limit. Actual packed

@@ -1,0 +1,187 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Where a goal gets its drive</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="where-a-goal-gets-its-drive">Where a goal gets its drive</h1>
+<p>In the race, B is trying to reach the finish. The reserve opens a gate. The race script supplies B's first request and its retry. The question here is whether we can remove those outside requests and still get an attempt, a wait through an obstacle, and a stop when the finish is reached. The smallest working example has a desired finish, a sensed finish, a bit of available work, and a passage between them.</p>
+<p><strong>Concept.</strong> A difference between a target and a sensed state can direct locally available work until that difference clears.</p>
+<p><strong>Limit.</strong> The tests supply the target, the destination, the response wiring, and the opportunities to settle. Choosing a destination or learning a better route would require further evidence and structure.</p>
+<h2 id="what-the-original-race-connected">What the original race connected</h2>
+<p>The organizer observes <code>A finished AND B finished</code>. A separate device releases its one stored activation when <code>B running AND contest incomplete AND B requesting AND ordinary gate closed</code>. Its released state opens an additional route. B still has to request passage on a beat when that route is open. The runners have no connection pointing them toward the reserve. <a href="RaceOrder.html">Race wiring and timeline</a></p>
+<p>There is a subtle dependency. While B is running, the observed contest is necessarily incomplete. Removing the goal input deprives the helper of evidence and it holds. Installing an independently adjustable “I want to finish” reference lets us ask a different question. If we withdraw that reference while B is still running, does B still spend its available work?</p>
+<h2 id="a-runner-with-a-request-of-its-own">A runner with a request of its own</h2>
+<pre><code class="language-text">desired finish ──┐
+                 ├── desired AND NOT sensed ── gap
+sensed finish ───┘                              │
+                                                ▼
+work supply ────[gap]────&gt; pending ────[gap AND open gate]────&gt; spent
+                                                                  │ permission
+body on course ───────────────────────────────────────────────────┴──&gt; body at finish
+                                                                           │
+                                                          sensed finish &lt;──┘
+</code></pre>
+<p>Setting the target changes the gap read immediately. Here the target bit means “seek an occupied finish.” Clearing that bit withdraws this demand. Seeking an empty finish would require an outgoing route and its own response law. On the next clock the gap admits a transfer from the work supply into the pending site. Another closed beat keeps the same participation there. When the passage opens, the work activation moves to spent. The runner's own activation moves to the finish, which clears the gap through its connected read. The clock gives the passages opportunities to settle. Every external finish-request bit in this run stays off.</p>
+<table>
+<thead>
+<tr>
+<th>Moment</th>
+<th>Gap</th>
+<th>Location of work</th>
+<th>Location of body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before setting target</td>
+<td>Clear</td>
+<td>Supply</td>
+<td>On course</td>
+</tr>
+<tr>
+<td>Set target, observe</td>
+<td>Present</td>
+<td>Supply</td>
+<td>On course</td>
+</tr>
+<tr>
+<td>Clock with gate closed</td>
+<td>Present</td>
+<td>Pending</td>
+<td>On course</td>
+</tr>
+<tr>
+<td>Clock again, still closed</td>
+<td>Present</td>
+<td>Pending</td>
+<td>On course</td>
+</tr>
+<tr>
+<td>Clock with gate open</td>
+<td>Clear</td>
+<td>Spent</td>
+<td>Finished</td>
+</tr>
+<tr>
+<td>Clock again</td>
+<td>Clear</td>
+<td>Spent</td>
+<td>Finished</td>
+</tr>
+</tbody>
+</table>
+<p>The gap is information that may be read repeatedly. Pending contains one actual, conserved participation in the work circuit. This is a one-bit analogue of a held request. Signed tension and a calibrated magnitude belong to the separate kernel experiment below.</p>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>What the structure actually does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Keep the same target and supply, omit the two work passages</td>
+<td>The gap reads present through every opportunity. The work stays in supply and the runner stays on course.</td>
+</tr>
+<tr>
+<td>Allow the original reserve to help, then withdraw the outside request</td>
+<td>The helper opens the gate. The body waits until a second outside request arrives.</td>
+</tr>
+<tr>
+<td>Keep the normal gate closed</td>
+<td>Work stays pending. Repeated reads and beats require no additional fuel.</td>
+</tr>
+<tr>
+<td>Open the gate with an empty supply</td>
+<td>The gap stays present and the pending site stays empty.</td>
+</tr>
+<tr>
+<td>Disconnect or conceal the finish sensor</td>
+<td>The gap has either no compatible read or both possibilities. Neither observation releases fuel.</td>
+</tr>
+<tr>
+<td>Withdraw the target while work is pending</td>
+<td>Opening the gate leaves the packet parked. Restoring the target allows it to complete.</td>
+</tr>
+<tr>
+<td>Complete the finish through a second authorized passage</td>
+<td>The actual finish clears the gap. Opening the original passage afterward leaves the parked work there. Reclaiming that allocation would require an explicit return passage.</td>
+</tr>
+</tbody>
+</table>
+<p>Two structural rows connect the work sites. The packed bytes <code>58 42 01</code> contain <code>[supply, gap, pending]</code> and <code>[pending, admission, spent]</code> at three bits per local reference. In the body owner, <code>18</code> connects on-course, permission and finish at two bits per reference. The gap read itself also uses <code>18</code> in its own read table. Its two inputs are the target and the sensed finish, and its output is an observation. The table and connected sites give those bytes their meaning.</p>
+<h2 id="a-standing-target-that-acts-more-than-once">A standing target that acts more than once</h2>
+<p>A second apparatus holds a one-bit reference meaning “keep this cell occupied.” Two supply sites each start with a packet. The same target-and-vacancy read gates both supply passages. On each external use, the cell transfers its contents to one of two receiving sites. Those receivers retain what was used, so all the participation is accounted for.</p>
+<table>
+<thead>
+<tr>
+<th>Moment</th>
+<th style="text-align: right;">Occupied supply sites</th>
+<th>Cell occupied</th>
+<th style="text-align: right;">Packets at receiving sites</th>
+<th>Gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Set the target</td>
+<td style="text-align: right;">2</td>
+<td>No</td>
+<td style="text-align: right;">0</td>
+<td>Present</td>
+</tr>
+<tr>
+<td>Settle</td>
+<td style="text-align: right;">1</td>
+<td>Yes</td>
+<td style="text-align: right;">0</td>
+<td>Clear</td>
+</tr>
+<tr>
+<td>Use the cell, then settle</td>
+<td style="text-align: right;">0</td>
+<td>Yes</td>
+<td style="text-align: right;">1</td>
+<td>Clear</td>
+</tr>
+<tr>
+<td>Use it again, then settle</td>
+<td style="text-align: right;">0</td>
+<td>No</td>
+<td style="text-align: right;">2</td>
+<td>Present</td>
+</tr>
+</tbody>
+</table>
+<p>The same target generates a second repair after the first use without someone issuing another order. When fuel runs out, the measured need remains. This table counts occupied sites for inspection. The control law reads participation bits.</p>
+<h2 id="when-the-gap-really-is-signed-tension">When the gap really is signed tension</h2>
+<p>The numeric kernel supports two distinct constructions. Both are exercised in the <a href="https://github.com/It3rate/Gojo/blob/master/Tests/Gojo.Tests/Experiments/GoalSettlementTests.cs">kernel settlement tests</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Construction</th>
+<th>Where the change enters</th>
+<th>Observed result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Import a finite draw</td>
+<td>Project a three-tick request through a signed frame, then explicitly import it once into an empty account.</td>
+<td>Projection alone leaves the account at zero. Import leaves tension of −3. Connecting two supply ticks reduces it to −1. The final tick brings it to zero. Another read leaves it paid. Another explicit import issues a new draw.</td>
+</tr>
+<tr>
+<td>Maintain a live comparison</td>
+<td>Connect target and completed work to an output that publishes <code>completed − target</code>.</td>
+<td>Raising the target to 3 settles the output at −3. Independent supply raises completed work to 2 and then 3, and the published gap follows −1 and 0. Lowering the target can also close the gap while the delivered work stays put.</td>
+</tr>
+</tbody>
+</table>
+<p>In the second construction the signed deficit is real on the output carrier. The supply route has its own law. It can deliver work even with the target at zero. To make the deficit <em>direct</em> delivery, it needs an outgoing response connection like the regulator's passage. A goal can therefore settle into a gap automatically, while settling the <em>world</em> toward that goal depends on which routes and resources are connected.</p>
+<h2 id="other-forms-of-motivation">Other forms of motivation</h2>
+<ul>
+<li><strong>An appetite can persist between thresholds.</strong> In the existing phototaxis controller, hunger and satiation use two thresholds. At the same intermediate fullness, steering can depend on whether the creature was recently hungry or fed. Memory supplies persistence without fresh commands. <a href="https://github.com/It3rate/Gojo/blob/master/Tests/Phototaxis.Tests/DesignedControllerTests.cs">Appetite test</a></li>
+<li><strong>Uncertainty can motivate a question.</strong> The existing timing bench can spend stock to discriminate between two machines that still fit the observations. A repeatable result earns a test it can use again. The thing being sought is evidence. <a href="TimingSocket.html">Timing bench</a></li>
+<li><strong>Stored pressure can select a route as it settles.</strong> In the draw experiment the stock transfers when its one-to-one route is attached. An observer can describe that motion as an arc toward paying the debt. To claim that the debt caused the delivery, we would also need to show that varying the debt changes the delivery. The maintained-gap control delivers available stock even at a target of zero.</li>
+<li><strong>Two needs could compete for one packet.</strong> For example, an entrant could have reasons both to continue and to protect an injury. One remaining work packet and two legal outlets would make their competition physical. A fixed priority, a learned preference and an unresolved choice would make different predictions. This is a proposed extension.</li>
+</ul>
+<h2 id="reproduce-the-observations">Reproduce the observations</h2>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --goal-flow experiments/PrimitiveMeasure/data/goal-flow
+dotnet test Tests/Gojo.Tests --filter FullyQualifiedName~GoalSettlementTests
+</code></pre>
+<p>The <a href="assets/experiments--PrimitiveMeasure--data--goal-flow--runner.csv">runner timeline</a> contains ten supplied trials and 64 recorded moments. Its <code>finish_observed</code> field shows the body's actual finish site. Its <code>finish_read</code> field shows what the work circuit was allowed to sense. In the runner CSV, Boolean support is 0 for an absent read, 1 for known off, 2 for known on, and 3 for either possibility. The <a href="assets/experiments--PrimitiveMeasure--data--goal-flow--wiring.csv">connection rows</a> expose each circuit's packed local references. The <a href="assets/experiments--PrimitiveMeasure--data--goal-flow--maintenance.csv">maintenance timeline</a> records the two stock packets throughout the run. The low five bits of its <code>material_hex</code> field hold the two stock sites, cell, and two receiving sites, in that order.</p></main></html>

@@ -44,6 +44,10 @@ The result reader in this experiment waits for both finish contacts. With only A
 
 ## When the goal changes the result
 
+The finish is B's destination. The reserve belongs to the track's assistance device. The race script supplies B's attempt and retry. The helper reads `B running AND contest incomplete AND B requesting AND ordinary passage closed`. When those four reads agree, its stored activation moves from “available” to “open.” B can sense that opening on a subsequent attempt.
+
+While B is running, “both entrants have finished” already reads false in every fully observed race. Disconnecting an input withdraws the helper's evidence and makes it hold. To test an independent preference, the follow-up gives the runner a separately settable target and local work supply. It also compares the one-bit request with signed carrier tension. [Where a goal gets its drive](GoalFlow.md)
+
 The reserve has one activation of its own. It can move to an open site when B is running, has requested a closed passage, and the goal says the contest is incomplete. Every beat gives the reserve the same opportunity to sample the preceding inputs. The effective permission for B reads either the ordinary opening or the released reserve. The entrants still move through their own passages.
 
 | Beat | What happens | B's five stored bits, hex | Ordinary permission | Reserve released | B's effective permission |

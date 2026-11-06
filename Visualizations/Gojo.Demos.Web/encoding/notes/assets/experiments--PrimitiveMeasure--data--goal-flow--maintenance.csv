@@ -1,0 +1,9 @@
+moment,target,gap,material_hex
+"Target off","1","1","03"
+"Set target to occupied","2","2","03"
+"Supply fills the cell","2","1","06"
+"Settle again while full","2","1","06"
+"First external use empties the cell","2","2","0A"
+"Supply fills it again","2","1","0C"
+"Second external use empties the cell","2","2","18"
+"Supply exhausted, target still active","2","2","18"

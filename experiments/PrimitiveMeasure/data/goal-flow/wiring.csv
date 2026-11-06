@@ -1,0 +1,12 @@
+trial,gap_row_hex,work_rows_hex,body_rows_hex,fill_rows_hex,use_rows_hex
+"Observe the finish goal","18","","18","",""
+"One outside request opens the reserve","18","","18","",""
+"Keep a local request until passage opens","18","584201","18","",""
+"Keep the passage closed","18","584201","18","",""
+"Start without work fuel","18","584201","18","",""
+"Disconnect the finish read","18","584201","18","",""
+"Conceal the finish read","18","584201","18","",""
+"Withdraw and restore the target","18","584201","18","",""
+"Start at the target","18","584201","18","",""
+"Reach the finish through a second passage","18","584201","1807","",""
+"Maintain an occupied cell","1001","","","A85201","F26402"

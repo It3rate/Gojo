@@ -23,8 +23,7 @@ public sealed class RaceAssistance
 
         // In the positive Boolean basis, keep the first input when the
         // second is clear. An unbound second role has no admitted tuple.
-        unless = reads.AddTable(BitRelation.FromTuples(3,
-            [[0, 0, 0], [0, 1, 0], [1, 0, 1], [1, 1, 0]]));
+        unless = reads.AddTable(ConnectionLaws.FirstWithoutSecond);
         both = reads.AddTable(RaceExperiments.And);
         var stillRunning = reads.Connect(unless, ReferenceBits, running, goal);
         var refused = reads.Connect(unless, ReferenceBits, request, access);
