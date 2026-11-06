@@ -21,6 +21,10 @@ or repeated body to inspect its actual encoding and result.
 dotnet run --project Visualizations/Gojo.PrimitiveExplorer
 ```
 
+The [local ornament tournament](OrnamentCampaign/README.md) searches for small
+reader and writer machines, then runs their saved bits on unfamiliar patterns.
+Its blind tests include changes to the connecting signal, stock and goal.
+
 The [race experiment](RaceOrder.md) uses the order of two landmarks to read the
 order of two finish events. A second reader connects the favorite before the
 start to the observed finish. The start, an obstructed entrant, an unresolved

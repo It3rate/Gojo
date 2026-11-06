@@ -3,6 +3,14 @@
 ###############################################################################
 * text=auto
 
+# These source and protocol bytes are inputs to the local ornament experiment seals.
+/experiments/PrimitiveMeasure/OrnamentCampaign/Protocol.md text eol=lf
+/experiments/PrimitiveMeasure/OrnamentCampaign/ScienceProtocol.md text eol=lf
+/experiments/PrimitiveMeasure/OrnamentCampaign/FollowupPlans/* text eol=lf
+/experiments/OrnamentMirrorFollowup/Program.cs text eol=lf
+/experiments/OrnamentMirrorFollowup/Protocol.md text eol=lf
+/experiments/OrnamentOwnerExchange/Protocol.md text eol=lf
+
 # Keep Minds publication source fingerprints stable across operating systems.
 /experiments/Minds/**/*.cs text eol=lf
 /Tests/Minds.Tests/*.cs text eol=lf

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../PrimitiveMeasure/PrimitiveMeasure.csproj" />
+    <!-- Source-link the primary host's uniform generator and deterministic RNG.
+         The native program, kernel and evaluator are read from the primary assembly. -->
+    <Compile Include="../PrimitiveMeasure/OrnamentCampaign/TournamentSearch.cs" Link="Shared/TournamentSearch.cs" />
+  </ItemGroup>
+</Project>

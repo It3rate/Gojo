@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Use the primary assembly from the lock, even if the working tree later changes. -->
+    <Reference Include="PrimitiveMeasure" Condition="Exists('../../artifacts/local-ornament/runtime-1/PrimitiveMeasure.dll')">
+      <HintPath>../../artifacts/local-ornament/runtime-1/PrimitiveMeasure.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <ProjectReference Include="../PrimitiveMeasure/PrimitiveMeasure.csproj" Condition="!Exists('../../artifacts/local-ornament/runtime-1/PrimitiveMeasure.dll')" />
+    <None Update="Protocol.md" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

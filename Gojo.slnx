@@ -182,6 +182,15 @@
     <File Path="experiments/PrimitiveMeasure/RepetitionExperiments.md" />
     <Project Path="experiments/PrimitiveMeasure/PrimitiveMeasure.csproj" />
   </Folder>
+  <Folder Name="/Experiments/PrimitiveMeasure/OrnamentCampaign/">
+    <File Path="experiments/PrimitiveMeasure/OrnamentCampaign/README.md" />
+    <File Path="experiments/PrimitiveMeasure/OrnamentCampaign/CampaignResults.md" />
+    <Project Path="experiments/OrnamentFollowup/OrnamentFollowup.csproj" />
+    <Project Path="experiments/OrnamentMirrorFollowup/OrnamentMirrorFollowup.csproj" />
+    <Project Path="experiments/OrnamentOwnerExchange/OrnamentOwnerExchange.csproj" />
+    <Project Path="experiments/OrnamentSeamFollowup/OrnamentSeamFollowup.csproj" />
+    <Project Path="Tests/OrnamentFollowup.Tests/OrnamentFollowup.Tests.csproj" />
+  </Folder>
   <Folder Name="/Experiments/RefinementPerformance/">
     <Project Path="experiments/RefinementPerformance/RefinementPerformance.csproj" />
   </Folder>

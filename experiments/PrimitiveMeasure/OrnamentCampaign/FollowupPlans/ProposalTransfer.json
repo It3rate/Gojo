@@ -1,0 +1,16 @@
+{
+  "Id": "proposal-history-transfer-01",
+  "Prediction": "Changing the next search's proposal frequencies using useful child-versus-parent edits from primary training will improve fresh reserve utility over both uniform and permuted ticket assignments by 15 points in at least two thirds of the matched parent groups. Infill is the promising transfer and balance is the adverse transfer. Both comparisons and goals are retained regardless of outcome.",
+  "Goals": ["infill", "balance"],
+  "PrimaryProtocolHash": "D2CD16527AA2BAE97384818476662E64CCCA1866A3A1848517BEFBB07E7956FF",
+  "PrimaryFrozenSha256": "BFA2E5AEF551148B0B468914373C85740042C52A0D3CF2C1B165EEE3399E47D8",
+  "PrimaryReportSha256": "1320D2322AB10060B67E879F975C51A3390CCB1DCB4D1DB97E1423018EA1FBAC",
+  "Seed": 620261127,
+  "Replicates": 4,
+  "Generations": 32,
+  "Population": 64,
+  "TrainingEpisodes": 32,
+  "Shortlist": 8,
+  "Margin": 15,
+  "ExpectedRelation": "higher"
+}

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ornament sensor exchange</title>
+<style>
+:root{--ink:#182d39;--muted:#455d65;--line:#cfdbd9;--bg:#f6f8f5;--paper:#fff;--teal:#096a62;--loss:#a0452b;font-family:system-ui,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);color-scheme:light}
+*{box-sizing:border-box}body{margin:0}main{max-width:1230px;margin:auto;padding:26px clamp(12px,4vw,58px) 48px}
+a{color:var(--teal);text-underline-offset:.19em}nav,footer{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+h1{font-size:clamp(30px,5vw,52px);letter-spacing:-.045em;margin:.35em 0 .15em;line-height:1.04}h2{font-size:21px;margin:0 0 8px}h3{font-size:15px;margin:0 0 5px}p{margin:0 0 12px;line-height:1.45}.intro{max-width:84ch}.scope{font-size:14px;color:var(--muted);border-left:3px solid #abbab2;padding:4px 12px;margin:14px 0 20px}
+section{background:var(--paper);border:1px solid var(--line);padding:clamp(12px,2vw,22px);margin:14px 0}.controls{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:12px 0}
+label{font-size:13px;font-weight:600;display:grid;gap:4px}select{font:inherit;background:white;color:var(--ink);padding:6px;border:1px solid #9baead;border-radius:3px}
+.legend,.notes{font-size:13px;color:var(--muted)}.legend{display:flex;gap:6px;align-items:center;margin:10px 0;flex-wrap:wrap}.swatch{display:inline-block;border:1px solid #809593;width:65px;height:10px;background:linear-gradient(90deg,#a0452b,#f0f1e9,#096a62)}.outline{display:inline-block;width:11px;height:11px;border:1px solid #21333b}
+.scroll{overflow-x:auto;margin:8px 0 12px;padding-bottom:3px}
+table{border-collapse:separate;border-spacing:2px}.matrix{table-layout:fixed;font-size:10px;white-space:nowrap;min-width:759px}
+.matrix th{font-size:10px;font-weight:500}.matrix th[scope=row]{text-align:right;padding-right:6px;font-size:12px}.matrix thead tr:first-child th{font-size:12px;border-bottom:1px solid var(--line);padding-bottom:4px}.matrix thead tr:first-child th:first-child{text-align:right}
+.matrix tbody th,.matrix thead th:first-child{position:sticky;left:0;background:#fff;z-index:1}.matrix td{padding:0;line-height:0}
+.cell{appearance:none;display:block;padding:0;border:0;width:clamp(14px,1.6vw,19px);height:clamp(14px,1.6vw,19px);cursor:pointer;border-radius:2px;outline-offset:-1px;position:relative}
+.cell.self{box-shadow:inset 0 0 0 1px #243a41}.cell.chosen:after,.cell:focus-visible:after{content:"";position:absolute;inset:-2px;border:2px solid #142d43;box-shadow:inset 0 0 0 1px white;z-index:2}.cell.chosen:before{content:"";position:absolute;inset:36%;background:#172b3a;border-radius:50%;box-shadow:0 0 0 1px white}
+.owner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:8px 22px;margin-top:10px}.stats{font-variant-numeric:tabular-nums;font-size:14px;width:100%;margin:12px 0;border-spacing:0}.stats th,.stats td{text-align:right;padding:6px 4px;border-bottom:1px solid var(--line)}.stats th:first-child,.stats td:first-child{text-align:left}.stats thead th{font-size:12px;color:var(--muted)}code{font-family:ui-monospace,Consolas,monospace;overflow-wrap:anywhere;font-size:.92em}
+details summary{cursor:pointer}.reading{font-size:13px;color:var(--muted);margin:4px 0 10px}.reading strong{color:var(--ink)}footer{margin-top:16px;font-size:13px}.lede{font-weight:600}
+@media(max-width:560px){main{padding-top:14px}.stats{font-size:12px}.matrix th[scope=row]{font-size:11px}.scope{margin-bottom:13px}}
+</style>
+</head>
+<body><main>
+<nav><a href="../primary/Explore.html">Primary experiment</a><a href="panels.csv">Panel data</a><a href="owners.csv">Owner encodings</a></nav>
+<h1>Ornament sensor exchange</h1>
+<p class="intro">Each trained sensor sends one bit to a writer that can move ink. What happens when the writer receives that bit from a different sensor? Choose a brief and a pair to see how the finished ornament scored.</p>
+<p class="scope"><strong>Already-seen primary test seeds.</strong> This post-hoc exchange reuses the same parents, changes only the sensor rows and trains no new machines. Each receiver keeps its scan direction and wire timing.</p>
+<section aria-labelledby="matrix-heading"><h2 id="matrix-heading">Exchange matrix</h2>
+<div class="controls"><label>Evaluation brief<select id="goal"></select></label><label>Colour by<select id="metric"><option value="sum_original">Gain over the original sensor</option><option value="sum_cut">Gain over the cut wire</option><option value="sum_idle">Gain over idle</option></select></label></div>
+<p class="notes" id="scope"></p>
+<div class="legend"><span>Loss</span><span class="swatch" aria-hidden="true"></span><span>Gain</span><span>· Colour saturates at ±100 utility points. Pale means close to zero.</span><span class="outline" aria-hidden="true"></span><span>Original sensor</span></div>
+<p class="reading"><strong id="selection"></strong> · <a href="#pair-heading">See pair details</a></p>
+<div class="scroll"><table class="matrix" id="matrix" aria-label="Writers by donor sensors"></table></div>
+<p class="notes">Sensor columns are grouped by their training brief. E0–E3 are evolutionary winners and R0–R3 are random-search winners. Select a cell or use the arrow keys to move through the matrix.</p></section>
+<section aria-labelledby="pair-heading"><h2 id="pair-heading">Selected pair</h2>
+<div class="controls"><label>Sensor owner<select id="sensor"></select></label><label>Receiving writer<select id="writer"></select></label></div>
+<p id="who" class="lede" aria-live="polite"></p>
+<table class="stats" aria-label="Mean utility"><thead><tr><th>Execution</th><th>Mean utility / 1,000</th><th>Exchange minus execution</th></tr></thead><tbody id="scores"></tbody></table>
+<h3>Parent comparisons</h3><p class="reading" id="parentHelp"></p>
+<table class="stats" aria-label="Paired comparisons across parents"><thead><tr><th>Compared with</th><th>Improved</th><th>Within margin</th><th>Lost</th></tr></thead><tbody id="parents"></tbody></table>
+<p id="verdict"></p><p class="reading" id="material"></p>
+<details><summary>Encoded owners and transplanted program</summary><div class="owner-grid" id="encodings"></div></details>
+</section><footer><a href="Protocol.md">Exchange protocol</a><a href="complete.json">Verified run counts and hashes</a></footer>
+</main>
+<script>
+const data = /*__PAYLOAD__*/;
+const byId=id=>document.getElementById(id), name=owner=>owner.owner;
+const rankOf=name=>data.owners.findIndex(owner=>owner.owner===name);
+const pretty=word=>word.charAt(0).toUpperCase()+word.slice(1);
+function option(select,value,label){select.add(new Option(label,value));}
+function tdText(row,values){for(const value of values){const cell=row.insertCell();cell.textContent=value;}}
+function heading(row,label,scope,span=1){const th=document.createElement("th");th.textContent=label;th.scope=scope;th.colSpan=span;row.append(th);}
+function ownerLabel(owner){const [goal,method,rep]=name(owner).split("-");return pretty(goal)+" "+(method==="evolve"?"E":"R")+rep;}
+function fmt(v){return v.toFixed(1);}
+function signed(v){return (v>0?"+":"")+fmt(v);}
+let goal=data.goals[0], metric="sum_original", writer=0, donor=0;
+const field=Object.fromEntries(data.fields.map((f,i)=>[f,i]));
+function panel(w,d){return data.views[goal][w][d];}
+function value(row,f){return row[field[f]];}
+function mean(row,f){return value(row,f)/value(row,"cases");}
+function delta(row,f){return (value(row,"sum_utility")-value(row,f))/value(row,"cases");}
+function shade(n){const base=[240,241,233],end=n<0?[160,69,43]:[9,106,98],weight=Math.min(Math.abs(n)/100,1);return "rgb("+base.map((v,i)=>Math.round(v+(end[i]-v)*weight)).join(",")+")";}
+function writerRanks(){return Object.keys(data.views[goal]).map(Number).sort((a,b)=>a-b);}
+function initMatrix(){
+ const ws=writerRanks();if(!ws.includes(writer)) writer=ws[0];
+ byId("writer").replaceChildren();for(const w of ws) option(byId("writer"),w,name(data.owners[w]));
+ const matrix=byId("matrix");matrix.replaceChildren();const header=matrix.createTHead();
+ let row=header.insertRow();heading(row,"Donor →","col");
+ for(const group of [...data.goals,"mixed"]) heading(row,pretty(group),"colgroup",data.owners.filter(o=>name(o).startsWith(group+"-")).length);
+ row=header.insertRow();heading(row,"Writer ↓","col");
+ for(const o of data.owners){const [,m,r]=name(o).split("-");heading(row,(m==="evolve"?"E":"R")+r,"col");}
+ const body=matrix.createTBody();
+ for(const w of ws){row=body.insertRow();heading(row,ownerLabel(data.owners[w]),"row");
+  for(let d=0;d<data.owners.length;d++){const p=panel(w,d),gain=delta(p,metric),cell=document.createElement("button");
+   cell.className="cell"+(w===d?" self":"");cell.id="cell-"+w+"-"+d;
+   cell.title=name(data.owners[d])+" → "+name(data.owners[w])+", "+signed(gain)+" points";
+   cell.setAttribute("aria-label",cell.title);cell.tabIndex=-1;cell.style.background=shade(gain);
+   cell.addEventListener("click",()=>selectPair(w,d));row.insertCell().append(cell);
+  }}
+ byId("scope").textContent=pretty(goal)+" · "+ws.length+" receiving writers × "+data.owners.length+" donor sensors. Specialist writers run on their own brief; mixed writers run on all four.";
+ selectPair(writer,donor);
+}
+function selectPair(w,d){
+ const previous=document.querySelector(".cell.chosen");if(previous){previous.classList.remove("chosen");previous.tabIndex=-1;previous.removeAttribute("aria-current");}
+ writer=w;donor=d;const selected=byId("cell-"+w+"-"+d);selected.classList.add("chosen");selected.tabIndex=0;selected.setAttribute("aria-current","true");
+ byId("sensor").value=d;byId("writer").value=w;
+ const p=panel(w,d),get=f=>value(p,f),n=get("parents"),cases=get("cases");
+ const compare={sum_original:"original",sum_cut:"cut",sum_idle:"idle"};
+ byId("selection").textContent=ownerLabel(data.owners[d])+" → "+ownerLabel(data.owners[w])+" · "+fmt(mean(p,"sum_utility"))+" live · "+signed(delta(p,metric))+" vs "+compare[metric];
+ byId("who").textContent=name(data.owners[d])+" → "+name(data.owners[w])+(w===d?" · original pair":" · exchanged owners");
+ const baseline=[["Original partner","sum_original"],["Wire cut","sum_cut"],["Idle","sum_idle"]];
+ const scores=byId("scores");scores.replaceChildren();tdText(scores.insertRow(),["Live exchange",fmt(mean(p,"sum_utility")),"—"]);
+ for(const [label,f] of baseline) tdText(scores.insertRow(),[label,fmt(mean(p,f)),signed(delta(p,f))]);
+ byId("parentHelp").textContent=n+" comparable parents, "+cases+" episodes. Each parent’s two sibling forms are averaged. A gain or loss of at least 20 utility points counts. A direction is decisive at 48 parents.";
+ const counts=byId("parents");counts.replaceChildren();for(const [label,k] of [["Original partner","original"],["Wire cut","cut"]]){
+  const up=get("improved_"+k),down=get("lost_"+k);tdText(counts.insertRow(),[label,up,n-up-down,down]);}
+ const decisive=k=>get("improved_"+k)>=48?"decisive gain":get("lost_"+k)>=48?"decisive loss":"no decisive direction";
+ byId("verdict").textContent="Against the original partner: "+decisive("original")+". Against the cut wire: "+decisive("cut")+".";
+ byId("material").textContent="Material changed in "+get("changed_original")+" of "+cases+" episodes versus the original partner and "+get("changed_cut")+" versus cut. The execution trace changed in "+get("trace_changed_original")+" versus the original. Material compares final ink, remaining stock and accepted edits.";
+ const enc=byId("encodings");enc.replaceChildren();for(const [label,bytes,desc] of [
+ ["Donor sensor",data.owners[d].sensor_with_idle_writer_hex,getDesc(data.owners[d],"sensor_rows","sensor")],
+ ["Receiving owner",data.owners[w].genome_hex,getDesc(data.owners[w],"writer_rows","writer")],
+ ["Live exchange",get("program_hex"),"Donor sensor rows with the receiving writer and its flags."]]){
+  const div=document.createElement("div"),h=document.createElement("h3"),code=document.createElement("code"),p=document.createElement("p");h.textContent=label;code.textContent=bytes;p.textContent=desc;p.className="reading";div.append(h,code,p);enc.append(div);}
+}
+function getDesc(owner,f,role){return "Primary winner "+owner.winner_id+" · "+owner[f]+" "+role+" rows."+(role==="sensor"?" Bytes shown with an idle writer.":" Original complete genome.");}
+for(const g of data.goals) option(byId("goal"),g,pretty(g));for(const [i,o] of data.owners.entries()) option(byId("sensor"),i,name(o));
+byId("goal").addEventListener("change",e=>{goal=e.target.value;initMatrix();});
+byId("metric").addEventListener("change",e=>{metric=e.target.value;initMatrix();});
+byId("sensor").addEventListener("change",e=>selectPair(writer,+e.target.value));
+byId("writer").addEventListener("change",e=>selectPair(+e.target.value,donor));
+byId("matrix").addEventListener("keydown",e=>{
+ if(!e.target.classList.contains("cell")||!["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key))return;
+ e.preventDefault();const ws=writerRanks();const i=ws.indexOf(writer);let w=writer,d=donor;
+ if(e.key==="ArrowUp")w=ws[Math.max(0,i-1)];if(e.key==="ArrowDown")w=ws[Math.min(ws.length-1,i+1)];
+ if(e.key==="ArrowLeft")d=Math.max(0,d-1);if(e.key==="ArrowRight")d=Math.min(data.owners.length-1,d+1);
+ selectPair(w,d);byId("cell-"+w+"-"+d).focus();
+});
+const start=new URLSearchParams(location.hash.slice(1)),g=start.get("goal");
+if(data.goals.includes(g))goal=g;const w=rankOf(start.get("writer")),d=rankOf(start.get("donor"));
+if(writerRanks().includes(w))writer=w;if(d>=0)donor=d;
+byId("goal").value=goal;initMatrix();
+</script></body></html>
