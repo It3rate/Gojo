@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--race-order", var raceFolder])
+{
+    RaceSurvey.Export(raceFolder);
+    return;
+}
+
 if (args is ["--invariance", var invarianceFolder])
 {
     InvarianceSurvey.Export(invarianceFolder);

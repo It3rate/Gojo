@@ -1,0 +1,185 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>From two landmarks to a race finish</title><style>body{max-width:960px;margin:40px auto;padding:0 24px;background:#f7f5ee;color:#213b3a;font:17px/1.65 system-ui}a{color:#167c6c}pre{overflow:auto;padding:20px;background:#152d2d;color:#e2eee8}table{border-collapse:collapse;display:block;overflow:auto}td,th{padding:9px;border:1px solid #ccd8d0}img{max-width:100%}code{font-size:.9em}nav{display:flex;gap:24px;flex-wrap:wrap}h1,h2,h3{line-height:1.25}</style><nav><a href="/encoding/">Encoding</a><a href="/encoding/explorer/">Interactive explorer</a><a href="/">Gojo home</a></nav><main><h1 id="from-two-landmarks-to-a-race-finish">From two landmarks to a race finish</h1>
+<p>Two horses wait for the same start. The first question is which horse crosses the finish first. A course obstruction can hold one horse back. A limited view of the finish can leave the observer unsure even after both horses have arrived. The second question is whether the horse favored before the start went on to win. Answering that takes a connection between two owners, the one publishing the favorite and the one publishing the finish.</p>
+<p>Run <strong>The favorite finishes first</strong>, then select an earlier moment to see the start. Compare <strong>Connect the goal to a reserve</strong> with <strong>Withdraw the goal from the reserve</strong>. In both races A finishes and B asks to cross a closed passage. Only the connected goal can enable assistance. Finally compare <strong>Two crossings in one coarse observation</strong> with <strong>One witnessed shared finish</strong>. <a href="https://gojo.inklingai.ca/encoding/explorer/?layer=45">Open the race experiment</a></p>
+<h2 id="reading-a-small-arc">Reading a small arc</h2>
+<table>
+<thead>
+<tr>
+<th>Part of the arc</th>
+<th>What to look for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initial state</td>
+<td>Two entrants are ready at a shared start.</td>
+</tr>
+<tr>
+<td>Goal</td>
+<td>The contest asks for a finish from both entrants and their order. Completion and determination of the order are separate reads.</td>
+</tr>
+<tr>
+<td>Trigger</td>
+<td>The common start signal permits each ready entrant to begin.</td>
+</tr>
+<tr>
+<td>Obstacle</td>
+<td>A closed passage can hold a started entrant on the course. An obscured observation affects what the reader can report.</td>
+</tr>
+<tr>
+<td>Result</td>
+<td>The actual finish events supply the evidence for placing the entrants. A separate reader can relate that evidence to the earlier favorite.</td>
+</tr>
+</tbody>
+</table>
+<p>The organizer's purpose gives the reader a question. The start and the subsequent admissions provide the causes of motion. An entrant's wish to win would be another local structure with a means to influence its actions. Likewise an observer can ask whether a rock reached the bottom of a hill, while the earthquake that released it supplies a physical trigger. Assigning the rock a motive would add a premise.</p>
+<h2 id="what-transfers">What transfers</h2>
+<p>On an ordered stroke, ask whether the first selected landmark comes before the second one. At the finish, bind those roles to the entrants' crossing events and ask the same question. Their common basis now comes from the race and its finish. Swapping the roles reverses a strict order. Connecting both roles to one witnessed event establishes equality at that event's resolution. Two separate crossings seen in a single coarse view can still admit several orders.</p>
+<p>One level up, a reader connects the earlier favorite to the result for the same race and entrants. An upset gives two compatible facts. A forecast can favor A and the finish can place B first. Agreement is a read about these two observations, with its own sensitivity to a missing or foreign connection.</p>
+<p><strong>Concept.</strong> An ordered pair can be used in a second domain when both roles are bound to evidence on a common basis.</p>
+<p><strong>Limit.</strong> A finish order gives a placing in this contest. Inferring physical speed requires further distance and timing evidence. The experiment supplies the contest conditions and course permissions.</p>
+<h2 id="which-way-does-the-information-travel">Which way does the information travel?</h2>
+<pre><code class="language-text">common start signal
+    ├─ A ready → A on course → A finished ──┐
+    └─ B ready → B on course → B finished ──┴─ arrival evidence
+                                                 ├─ did both arrive?
+                                                 └─ which came first?
+forecast for this race and entrants ──────────┐           │
+                                              └───────────┴─ did the favorite win outright?
+</code></pre>
+<p>A shared signal can enable both starts. Each entrant supplies its own activation. Following the crossings produces an observed order. Connecting that order to the forecast produces a further read. Disconnecting the goal question leaves the start and course passages available to both entrants.</p>
+<p>The result reader in this experiment waits for both finish contacts. With only A across the line, the timeline shows A finished and B still on the course. The placing reader still publishes all three candidate orders. A reader designed to announce the first arrival immediately could answer a different question.</p>
+<h2 id="when-the-goal-changes-the-result">When the goal changes the result</h2>
+<p>The reserve has one activation of its own. It can move to an open site when B is running, has requested a closed passage, and the goal says the contest is incomplete. Every beat gives the reserve the same opportunity to sample the preceding inputs. The effective permission for B reads either the ordinary opening or the released reserve. The entrants still move through their own passages.</p>
+<table>
+<thead>
+<tr>
+<th>Beat</th>
+<th>What happens</th>
+<th>B's five stored bits, hex</th>
+<th>Ordinary permission</th>
+<th>Reserve released</th>
+<th>B's effective permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>B waits at the start.</td>
+<td><code>01</code></td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>1</td>
+<td>The common start releases B.</td>
+<td><code>0A</code></td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>2</td>
+<td>A finishes. B requests passage and is held.</td>
+<td><code>0A</code></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>3</td>
+<td>The reserve acts on the unmet goal and B's earlier refusal.</td>
+<td><code>0A</code></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>4</td>
+<td>B requests passage again and finishes.</td>
+<td><code>1C</code></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>With the goal disconnected from the same reserve, B stays on the course through beat 4. A third run opens the ordinary passage externally. These are different causes for a similar final placing. The common start, finish requests, course openings and sensor arrangements are supplied experimental inputs. The reserve's decision follows its stored law and the connected reads.</p>
+<h2 id="reading-the-bytes">Reading the bytes</h2>
+<table>
+<thead>
+<tr>
+<th>What is encoded</th>
+<th>Concrete example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entrant state</td>
+<td>Low bits 0, 1 and 2 are ready, running and finished. Bits 3 and 4 hold the gate samples committed by the lane. The current external signals are displayed separately.</td>
+</tr>
+<tr>
+<td>An entrant's two passages</td>
+<td>Ordered rows <code>[0,3,1]</code> and <code>[1,4,2]</code> connect ready through start to running, then running through admission to finished. At three bits per reference the packed rows are <code>58 42 01</code>. Both lanes use the same controlled passage law.</td>
+</tr>
+<tr>
+<td>Spatial landmark order</td>
+<td><code>02</code> holds the one-bit site references <code>[0,1]</code>, with the first reference in the low bit.</td>
+</tr>
+<tr>
+<td>Finish evidence</td>
+<td>In the ordinary run <code>02 02</code> holds the two contact references followed by the earlier-to-later row. With two distinct contacts in one coarse sample there is no precedence row. A witnessed tie has two bindings to one event site.</td>
+</tr>
+<tr>
+<td>Placing read</td>
+<td>Masks <code>1</code>, <code>2</code> and <code>4</code> admit the first role earlier, the second role earlier, and a tied placing respectively. Two references to one event provide a witness for a tie. Mask <code>7</code> admits all three placings. The roles can be exchanged while the actual horses stay on their original lanes.</td>
+</tr>
+<tr>
+<td>Favorite won outright</td>
+<td>Mask <code>1</code> admits no, <code>2</code> admits yes, <code>3</code> admits both. Mask <code>0</code> records a missing basis, such as a forecast for another race. Two independent uncertain readings can disagree even if their masks match.</td>
+</tr>
+</tbody>
+</table>
+<p>The consumer binds the forecast and finish through the race's own finish contact and the entrants' corresponding ports. In the ordinary run its row <code>18</code> connects the two public observations to a calculated answer. Role exchange changes the order read predictably. A witnessed tie gives a definite “no” to sole victory. Two independent contact marks in one coarse sample leave the finer timing open. That uncertainty concerns their placing. Their source references stay distinct.</p>
+<h2 id="where-the-work-happens">Where the work happens</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Private course steps</th>
+<th style="text-align: right;">Host rank reads, ordinary run</th>
+<th style="text-align: right;">Supplier inspections, ordinary run</th>
+<th style="text-align: right;">Host rank reads, course correction</th>
+<th style="text-align: right;">Supplier inspections, course correction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr>
+<td style="text-align: right;">256</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">256</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">512</td>
+</tr>
+<tr>
+<td style="text-align: right;">16,384</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">16,384</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">32,768</td>
+</tr>
+</tbody>
+</table>
+<p>The ordinary run samples the two public ranks at four moments. In the correction run the supplier edits two adjoining course references after the finish. It withdraws the qualification of the present placing, checks part of the revised course, then checks the rest. Earlier captured observations retain what the reader knew at those moments. The consumer spends two public reads per comparable observation. The supplier pays for inspecting the explicit course pairs.</p>
+<p>These counts measure the named operations. Total construction time, rendering, memory, and other work are outside the counters. The two entrants share one course, and finish requests are supplied on particular beats. The experiment can report placings, while speed, personal motives, betting probabilities and selection of a new goal remain open.</p>
+<h2 id="repeating-the-runs">Repeating the runs</h2>
+<pre><code class="language-powershell">dotnet run --project experiments/PrimitiveMeasure -- --race-order experiments/PrimitiveMeasure/data/race-order
+</code></pre>
+<p>The <a href="assets/experiments--PrimitiveMeasure--data--race-order--trials.csv">trial results</a> contain 14 supplied scenarios and their selected encoding bytes. The <a href="assets/experiments--PrimitiveMeasure--data--race-order--beats.csv">timeline</a> contains 58 recorded moments across those scenarios. A course correction has several observations on the same clock beat. The <a href="assets/experiments--PrimitiveMeasure--data--race-order--work.csv">work comparison</a> contains six separate runs that vary the amount of private course detail.</p></main></html>

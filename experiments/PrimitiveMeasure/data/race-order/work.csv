@@ -1,0 +1,7 @@
+trial,private_steps,recorded_moments,host_reads,supplier_inspections
+"The favorite finishes first","16","4","8","16"
+"The favorite finishes first","256","4","8","256"
+"The favorite finishes first","16384","4","8","16384"
+"Correct the course record and recheck","16","7","14","32"
+"Correct the course record and recheck","256","7","14","512"
+"Correct the course record and recheck","16384","7","14","32768"

@@ -21,6 +21,11 @@ or repeated body to inspect its actual encoding and result.
 dotnet run --project Visualizations/Gojo.PrimitiveExplorer
 ```
 
+The [race experiment](RaceOrder.md) uses the order of two landmarks to read the
+order of two finish events. A second reader connects the favorite before the
+start to the observed finish. The start, an obstructed entrant, an unresolved
+finish and a witnessed tie each leave different evidence.
+
 The [small concepts experiment](InvarianceExperiments.md) tests invariance and
 equivariance across objects, bindings, sequences, loops, switches, collections,
 and joints. Each candidate has a one-sentence meaning and limit. Actual packed
