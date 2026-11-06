@@ -1,4 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
+using Gojo.Experiments.PrimitiveMeasure.OrnamentCampaign;
+
+if (args is ["--ornament-campaign", .. var campaignArgs])
+{
+    CampaignCli.Run(campaignArgs);
+    return;
+}
 
 if (args is ["--tension-choice", var choiceFolder])
 {
