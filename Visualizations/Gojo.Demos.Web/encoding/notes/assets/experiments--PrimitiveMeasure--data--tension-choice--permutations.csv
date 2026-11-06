@@ -1,0 +1,8 @@
+faster_outlet,purse_feedback,choices,choices_a,choices_b,choices_c,end_purse,end_standing,end_pickup
+"none","True","A B C A B C A B C A B C","4","4","4","36","16","6"
+"A","True","A B C A A A A A A A A A","10","1","1","27","16","6"
+"A","False","A B C A B C A B C A B C","4","4","4","33","16","6"
+"B","True","A B C A B B B B B B B B","2","9","1","28","16","6"
+"B","False","A B C A B C A B C A B C","4","4","4","33","16","6"
+"C","True","A B C A B C C C C C C C","2","2","8","29","16","6"
+"C","False","A B C A B C A B C A B C","4","4","4","33","16","6"

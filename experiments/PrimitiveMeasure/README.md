@@ -26,6 +26,11 @@ order of two finish events. A second reader connects the favorite before the
 start to the observed finish. The start, an obstructed entrant, an unresolved
 finish and a witnessed tie each leave different evidence.
 
+The [three-outlet experiment](TensionChoice.md) gives one opportunity to three
+actions. It records which offers actually relieve a selected need, then uses
+that experience on the next turn. Purse, standing and pickup have separate
+accounts. A second construction lets a reachable, due pickup change the focus.
+
 The [goal and drive experiment](GoalFlow.md) separates an observed target,
 outside assistance, a runner's own pending work, and a cell that replenishes its
 contents from finite stock. A companion kernel experiment follows signed tension

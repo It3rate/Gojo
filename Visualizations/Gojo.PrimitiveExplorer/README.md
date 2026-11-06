@@ -80,6 +80,7 @@ corresponding experiment document in the repository.
 | What survives a change? | Compare explicit pairs, shared junctions and positional cycles; separate a blocked gate from an open route, and shared variation from matching independent reads. Inspect exact edits, limited inspections and retained bits. [Guarantees and counterexamples](../../experiments/PrimitiveMeasure/StructuralGuarantees.md) |
 | Small concepts under change | Compare invariant and equivariant reads across objects, sequences, switches, joints and paths. Each trial exposes a short concept, its limit, the actual before/after bits and a reusable correspondence read. [Concepts, challenges and encoding](../../experiments/PrimitiveMeasure/InvarianceExperiments.md) |
 | Who crossed first? | Follow two horses from a common start to recorded arrivals. Compare the favorite with the finish, then inspect how much work each owner spent. [Race order, goals and obstacles](../../experiments/PrimitiveMeasure/RaceOrder.md) |
+| Which action helps? | Follow the three outlets as observed relief changes their preference. Compare predictions with paid outcomes and inspect the needs that remain open. [Choice experiment](../../experiments/PrimitiveMeasure/TensionChoice.md) |
 
 The [boundary playground notes](../../experiments/PrimitiveMeasure/BoundaryExperiments.md)
 include concrete endpoint/use encodings and initial scaling results. Browser

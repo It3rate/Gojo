@@ -1,0 +1,11 @@
+trial,opportunity_rows_hex,effect_rows_hex,feedback_rows_hex,priority_rows_hex
+"Three offers, B opens a second service","6050C103","0004040141050206","0110112122301224520336712308",""
+"Move that service to C","6050C103","0004040105024206","0110112122301224520336712308",""
+"Attend to standing instead of purse","6050C103","0004040141050206","0110112122301224520336712308",""
+"Close the learned favorite, then reopen it","6050C103","0004040141050206","0110112122301224520336712308",""
+"No access until the fourth opportunity","6050C103","0004040141050206","0110112122301224520336712308",""
+"Attend to pickup without an outlet","6050C103","0004040141050206","0110112122301224520336712308",""
+"An optimistic purse forecast meets a debit","6050C103","0004041105050206","0110112122301224520336712308",""
+"Withhold purse feedback for six opportunities","6050C103","0004040141050206","0110112122301224520336712308",""
+"A stale negative forecast prevents a new trial","6050C103","0004040101050206","0110112122301224520336712308",""
+"Let a due pickup take priority","6050C103","000105120A","0110112122301224520336712308","073EE3452D4E"

@@ -1,5 +1,11 @@
 using Gojo.Experiments.PrimitiveMeasure;
 
+if (args is ["--tension-choice", var choiceFolder])
+{
+    TensionChoiceSurvey.Export(choiceFolder);
+    return;
+}
+
 if (args is ["--goal-flow", var goalFolder])
 {
     GoalFlowSurvey.Export(goalFolder);
