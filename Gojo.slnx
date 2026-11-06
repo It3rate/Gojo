@@ -175,6 +175,10 @@
     <Project Path="experiments/OrnamentPathReview/OrnamentPathReview.csproj" />
     <Project Path="Tests/OrnamentPathCampaign.Tests/OrnamentPathCampaign.Tests.csproj" />
   </Folder>
+  <Folder Name="/Experiments/PrimitiveMeasure/OrnamentTension/">
+    <Project Path="experiments/OrnamentTension/OrnamentTension.csproj" />
+    <Project Path="Tests/OrnamentTension.Tests/OrnamentTension.Tests.csproj" />
+  </Folder>
   <Folder Name="/Experiments/QualitativeExecution/">
     <Project Path="experiments/QualitativeExecution/QualitativeExecution.csproj" />
   </Folder>

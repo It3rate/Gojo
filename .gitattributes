@@ -19,6 +19,10 @@
 /experiments/OrnamentPathReview/Retention.md -text whitespace=cr-at-eol
 /experiments/OrnamentPathRefinement/Protocol.md -text whitespace=cr-at-eol
 /experiments/OrnamentOpenMeander/Protocol.md -text whitespace=cr-at-eol
+/experiments/OrnamentTension/Protocol.md -text whitespace=cr-at-eol
+/experiments/OrnamentTension/Runtime.md -text whitespace=cr-at-eol
+/experiments/OrnamentTension/Engines.md -text whitespace=cr-at-eol
+/experiments/OrnamentTension/Criteria.md -text whitespace=cr-at-eol
 
 # Keep Minds publication source fingerprints stable across operating systems.
 /experiments/Minds/**/*.cs text eol=lf

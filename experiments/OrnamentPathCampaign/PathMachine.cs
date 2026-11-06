@@ -41,6 +41,20 @@ public readonly record struct StrokeRow(byte Motion, byte Gate)
 
 public sealed record PathOwner(byte Frame, byte Clock, byte Control, StrokeRow[] Rows);
 
+// A coupled pen can select a native directional/extent lane before the stroke.
+// Bound targets and the existing bit gates remain enforced by the path owner.
+public readonly record struct PenOffer(int Owner, int Beat, int Cell, int Row, int From, PathSite Start,
+    int Direction, int Extent, int Length, int Target, PathSite? TargetPoint, int Anchor, PathSite AnchorPoint,
+    int NextAnchor, PathSite NextAnchorPoint, bool Last, bool Stop,bool AutoNext);
+public readonly record struct PenResponse(int Direction, int Extent, bool Admit, int BindTo = -1);
+public interface IPathCoupling
+{
+    void BeginBeat(int beat,int cell);
+    PenResponse Offer(PenOffer offer);
+    void Drew(PathEdge edge, PathSite start, PathSite end);
+    void EndCell(int cell,int beat,int owner,int cursor,int anchor,int nextAnchor,bool stopped);
+}
+
 public static partial class PathMachine
 {
     private const byte Version = 1;
@@ -113,6 +127,9 @@ public static partial class PathMachine
     };
 
     public static PathTrace Run(byte[] program, PathInput input, PathMode mode = PathMode.Live)
+        => Run(program,input,mode,null);
+
+    public static PathTrace Run(byte[] program, PathInput input, PathMode mode, IPathCoupling? coupling)
     {
         if (input.A is < 1 or > 8192 || input.B is < 1 or > 8192 || input.Pitch is < 1 or > 8192 ||
             input.Cells is < 1 or > 64 || input.SeedBit is < -1 or > 1 || (uint)mode > (uint)PathMode.Open)
@@ -156,6 +173,7 @@ public static partial class PathMachine
             for (int r = 0; r < body; r++)
             {
                 int beat = c*body+r;
+                coupling?.BeginBeat(beat,c);
                 Array.Fill(nextPulse, (byte)1);
                 for (int o = 0; o < n; o++)
                 {
@@ -186,14 +204,28 @@ public static partial class PathMachine
                             int from = row.Source switch { 0 => before, 1 => root[o,c], 2 => saved[o], _ => exposed };
                             int target = row.Target switch { 0 => -1, 1 => saved[o], 2 => exposed, _ => root[o,c+1] };
                             int dir = row.Direction;
+                            int extent = row.Extent;
                             if ((frame[o] & 16) != 0) dir = (8-dir)&7;
                             if ((frame[o] & 32) != 0) dir = (4-dir)&7;
                             bool admitted = from >= 0 && (row.Target == 0 || target >= 0);
+                            if (admitted && coupling != null)
+                            {
+                                var response=coupling.Offer(new(o,beat,c,r,from,sites[from],dir,extent,extents[extent],
+                                    target,target<0 ? null : sites[target],root[o,c],sites[root[o,c]],root[o,c+1],sites[root[o,c+1]],
+                                    r==owner.Rows.Length-1,row.Stop,(frame[o]&8)!=0));
+                                if ((uint)response.Direction>=8 || (uint)response.Extent>=4 ||
+                                    response.BindTo != -1 && response.BindTo != root[o,c] && response.BindTo != root[o,c+1])
+                                    throw new InvalidOperationException("Illegal pen response.");
+                                admitted=response.Admit && (target<0 || response.BindTo<0 || response.BindTo==target);
+                                if (target<0 && response.BindTo>=0) target=response.BindTo;
+                                dir=response.Direction;
+                                extent=response.Extent;
+                            }
                             PathSite end = default;
                             if (admitted)
                             {
                                 var p = sites[from];
-                                end = new(p.X + Dx[dir]*extents[row.Extent], p.Y + Dy[dir]*extents[row.Extent]);
+                                end = new(p.X + Dx[dir]*extents[extent], p.Y + Dy[dir]*extents[extent]);
                                 if (target >= 0 && sites[target] != end) admitted = false;
                                 // A stored seam attachment can bind only to the owner's next actual root.
                                 if (target < 0 && (frame[o] & 8) != 0 && end == sites[root[o,c+1]])
@@ -203,7 +235,9 @@ public static partial class PathMachine
                             {
                                 bool joined = target >= 0;
                                 if (!joined) { target = sites.Count; sites.Add(end); }
-                                edges.Add(new(from,target,o,beat,c,r,dir,row.Extent));
+                                var edge=new PathEdge(from,target,o,beat,c,r,dir,extent);
+                                edges.Add(edge);
+                                coupling?.Drew(edge,sites[from],end);
                                 if (from != before) events.Add(new(o,beat,c,r,"branch",from,target,2));
                                 if (joined) events.Add(new(o,beat,c,r,"merge",from,target,2));
                                 events.Add(new(o,beat,c,r,"draw",from,target,2));
@@ -231,6 +265,8 @@ public static partial class PathMachine
                 Array.Copy(nextPulse, publishedPulse, n);
                 Array.Copy(cursor, publishedSite, n);
             }
+            if (coupling != null)
+                for(int o=0;o<n;o++) coupling.EndCell(c,(c+1)*body-1,o,cursor[o],root[o,c],root[o,c+1],halted[o]);
         }
         var updated = (byte[])program.Clone();
         for (int o = 0, i = 2; o < n; o++)
