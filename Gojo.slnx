@@ -168,6 +168,10 @@
     <File Path="experiments/Minds/docs/FeedbackLimitsFindings.md" />
     <Project Path="experiments/Minds/Minds.csproj" />
   </Folder>
+  <Folder Name="/Experiments/PrimitiveMeasure/OrnamentPathCampaign/">
+    <Project Path="experiments/OrnamentPathCampaign/OrnamentPathCampaign.csproj" />
+    <Project Path="Tests/OrnamentPathCampaign.Tests/OrnamentPathCampaign.Tests.csproj" />
+  </Folder>
   <Folder Name="/Experiments/QualitativeExecution/">
     <Project Path="experiments/QualitativeExecution/QualitativeExecution.csproj" />
   </Folder>
