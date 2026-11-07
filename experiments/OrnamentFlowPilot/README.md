@@ -4,6 +4,8 @@ Two little machines drew the same line as the existing Meyer Figure 1 reconstruc
 
 At A = 4 and B = 2 the finished ink is identical. Set A to 5, leave every wire in place, and the first machine climbs the page by one tick per repeat. The second still lands on its baseline. This is a small test of what a construction predicts when its inputs change. The two machines and their input connections were supplied. The comparison uses the prior plate study’s exact line observer. [Original Figure 1 experiment](../OrnamentPlateStudy/README.md)
 
+A [separate symmetry study](Symmetry.md) follows an interlocking fret and tests which reflections, translations and changes of scale its encoded stroke windows support.
+
 ![Matched fret, stretched rises, changed frames, a separate spot pen and alternate continuations](FlowGallery.svg)
 
 ## What carries the flow

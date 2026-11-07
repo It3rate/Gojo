@@ -95,6 +95,11 @@ internal static class Program
 
     private static void Main(string[] args)
     {
+        if (args is ["symmetry", var output])
+        {
+            SymmetryStudy.Write(output);
+            return;
+        }
         if (args.Length != 1) throw new ArgumentException("Supply an output path for the pilot JSON.");
         var samples = new List<Sample>();
         var fixedRun = FlowFret.Run(4, 2, false);
