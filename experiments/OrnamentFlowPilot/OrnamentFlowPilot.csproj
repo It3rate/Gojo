@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OrnamentTension.Tests" />
+    <ProjectReference Include="../OrnamentTension/OrnamentTension.csproj" />
+    <!-- Use the registered historical observer without rebuilding it into its sealed study. -->
+    <Compile Include="../OrnamentPlateStudy/PlateReads.cs" Link="PlateReads.cs" />
+  </ItemGroup>
+</Project>

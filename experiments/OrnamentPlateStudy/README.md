@@ -2,6 +2,8 @@
 
 Meyer’s plate 81 lays out an angular course on a construction grid and shows both banks of its band. We treated the center between those banks as one possible path. The first row is a six-stroke course. The second is an eight-stroke course with a second inward turn. This experiment asks whether exposure to the first gives a machine useful structure for drawing the second, and whether a stored local pressure helps or harms either read.
 
+A later [two-machine comparison](../OrnamentFlowPilot/README.md) uses the Figure 1 control to ask what happens when the same printed line comes from two different networks of connected pen outlets.
+
 The first figure becomes a six-row native Gojo path program when a teacher is allowed to supply it. Two other arms begin with mutations of the eight named engines. One selects them by measured agreement with the first printed figure. The other measures generic construction properties. All three arms also adjust a local pen/machine/frieze pressure policy. Selection and judging stay outside the saved machine. The contour comparison uses intersection and union of exact continuous intervals on each supporting line. The chronology read follows the actual owner and site identities. Neither read needs pixels.
 
 Both figures were inspected and measured by the investigator to define the references. Candidates and the trainer are blind to figure 2 during search and validation. A fit establishes agreement with this registered interpretation of the ink. Historical stroke order is unknown. A second figure from the same page also has a close stylistic relationship to the first.
