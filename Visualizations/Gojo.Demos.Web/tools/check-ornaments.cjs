@@ -39,7 +39,7 @@ async function walk(dir) {
     }
     page.on('pageerror', e => errors.push(e.message));
     page.on('response', r => { if(r.status() >= 400 && r.url().startsWith(base)) errors.push(r.status() + ' ' + r.url()); });
-    const {collections} = JSON.parse(await fs.readFile(path.join(__dirname,'ornament-collections.json'),'utf8'));
+    const {collections,studies=[]} = JSON.parse(await fs.readFile(path.join(__dirname,'ornament-collections.json'),'utf8'));
     const links = new Set();
     for (const file of (await walk(path.join(web,'ornaments'))).filter(f => f.endsWith('.html'))) {
       const route = '/' + path.relative(web,file).replaceAll(path.sep,'/');
@@ -68,9 +68,12 @@ async function walk(dir) {
     assert.equal(await page.locator('a[href="/ornaments/"]').count(),1);
     for (const suffix of ['', '/', '/index.html']) {
       await page.goto(base+'/ornaments'+suffix);
-      assert.equal(await page.locator('.collection').count(),collections.length);
+      assert.equal(await page.locator('.collection').count(),collections.length+studies.length);
+      assert.deepEqual(await page.locator('.study-card .collection-link').evaluateAll(xs=>xs.map(x=>x.getAttribute('href'))),studies.map(s=>s.href));
       assert.equal(await page.locator('h1').textContent(),'Ornament studies');
     }
+    await loadImages();
+    assert.equal(await page.locator('.study-preview img:visible').count(),studies.length);
     await page.screenshot({path:path.join(screenshots,'collections-desktop.png'),fullPage:true});
     for (const c of collections) {
       for (const suffix of ['', '/', '/index.html', '/gallery.html']) {
@@ -267,6 +270,7 @@ async function walk(dir) {
       await page.goto(base+route);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth+1),'Mobile overflow: '+route);
       await loadImages();
+      if(route==='/ornaments/')assert.equal(await page.locator('.study-preview img:visible').count(),studies.length);
       await page.screenshot({path:path.join(screenshots,route.split('/').filter(Boolean).join('-')+'-mobile.png')});
     }
     const missing = await context.request.get(base+'/ornaments/no-such-collection/absent.json');

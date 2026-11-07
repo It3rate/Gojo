@@ -1,4 +1,51 @@
 {
+  "studies": [
+    {
+      "id": "symmetry-actions",
+      "title": "Symmetry as an action",
+      "subtitle": "Latest study · Reusable transformations",
+      "description": "See how two readings share a stroke, change the action bits, and compare the small engines that repeat an ornament.",
+      "href": "/ornaments/symmetry-actions/",
+      "detail": "240 recorded applications",
+      "preview": { "source": "/ornaments/symmetry-actions/SymmetryActionOverview.svg", "viewBox": [105, 100, 400, 140], "alt": "Two opposed T-shaped readings, with their shared sections highlighted in gold" }
+    },
+    {
+      "id": "centreline",
+      "title": "Taking a pattern apart",
+      "subtitle": "Recent study · Centre-line atlas",
+      "description": "Separate strands and component shapes across eighteen angular bands. Compare reflected partners and alternative ways to construct each pattern.",
+      "href": "/ornaments/centreline/",
+      "detail": "18 angular patterns",
+      "preview": { "source": "/ornaments/centreline/CentrelineOverview.svg", "viewBox": [0, 462, 600, 160], "alt": "A continuous square spiral meander shown as an ordered centre-line path" }
+    },
+    {
+      "id": "weave",
+      "title": "Following a strand",
+      "subtitle": "Weaves · Crossings and continuation",
+      "description": "Follow four strands through an angular weave. Inspect over-and-under crossings, shallow depth and plausible connections across hidden gaps.",
+      "href": "/ornaments/weave/",
+      "detail": "Paths, pairs and crossing order",
+      "preview": { "source": "/ornaments/weave/WeaveOverview.svg", "viewBox": [0, 60, 1080, 270], "alt": "Four interlaced angular strands forming a repeating woven band" }
+    },
+    {
+      "id": "signatures",
+      "title": "Reading a pattern",
+      "subtitle": "Symmetries · Strokes and white space",
+      "description": "Compare line bands through their flow, corners, pivots and white passages. See which readings reveal a missing stroke or a changed reach.",
+      "href": "/ornaments/signatures/",
+      "detail": "Six reference patterns",
+      "preview": { "source": "/ornaments/signatures/Symmetry.svg", "viewBox": [25, 145, 850, 110], "alt": "An interlocking fret with repeated and reflected path sections highlighted" }
+    },
+    {
+      "id": "workshop",
+      "title": "Ornament workshop",
+      "subtitle": "Interactive drawing · A conditional pen press",
+      "description": "Print five line designs. Step through a fork, change the join, or watch an arch start its own six-petal wheel.",
+      "href": "/encoding/explorer/?layer=37",
+      "detail": "Five drawing plates",
+      "preview": { "source": "/encoding/notes/assets/experiments--PrimitiveMeasure--data--ornament-plates--plate-1.svg", "viewBox": [0, 0, 720, 464], "alt": "A radial ornament of twelve lances surrounding a petalled hub" }
+    }
+  ],
   "collections": [
     {
       "id": "interior-ornament",

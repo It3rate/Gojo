@@ -11,7 +11,7 @@ const output = path.join(web, 'ornaments');
 const check = process.argv.includes('--check');
 const dryRun = process.argv.includes('--dry-run');
 if (check && dryRun) throw new Error('Choose either --check or --dry-run');
-const { collections } = JSON.parse(await fs.readFile(path.join(web, 'tools/ornament-collections.json'), 'utf8'));
+const { collections, studies = [] } = JSON.parse(await fs.readFile(path.join(web, 'tools/ornament-collections.json'), 'utf8'));
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const slash = value => value.replaceAll(path.sep, '/');
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -44,6 +44,22 @@ function emit(relative, content) {
   expected.set(target, Buffer.isBuffer(content) ? content : Buffer.from(content));
 }
 const cards = [], ids = new Set(), selections = [], publicUrls = new Map();
+const studyCards = [];
+for (const study of studies) {
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(study.id) || ids.has(study.id)) throw new Error('Invalid or duplicate study id');
+  ids.add(study.id);
+  const box = study.preview.viewBox;
+  if (!Array.isArray(box) || box.length !== 4 || !box.every(Number.isFinite) || box[2] <= 0 || box[3] <= 0)
+    throw new Error('Invalid study preview crop: ' + study.id);
+  if (!study.preview.source.startsWith('/')) throw new Error('Study preview must name a local public asset');
+  const source = await fs.readFile(inside(web, study.preview.source.slice(1)), 'utf8');
+  if (!/<svg\b[^>]*>/i.test(source)) throw new Error('Study preview is not SVG: ' + study.id);
+  // Crop only the presentation viewport; preserve the recorded diagram itself.
+  const thumbnail = source.replace(/<svg\b[^>]*>/i, tag => tag.replace(/\s(?:viewBox|width|height)="[^"]*"/g, '').replace(/>$/, ` viewBox="${box.join(' ')}" width="${box[2]}" height="${box[3]}">`));
+  const image = '/ornaments/previews/' + study.id + '.svg';
+  emit('previews/' + study.id + '.svg', thumbnail);
+  studyCards.push(`<article class="collection study-card"><a class="collection-link" href="${escape(study.href)}" aria-labelledby="title-${study.id}"><div class="preview-strip study-preview"><img src="${image}" alt="${escape(study.preview.alt)}" width="${box[2]}" height="${box[3]}" loading="${studyCards.length < 2 ? 'eager' : 'lazy'}"></div><div class="collection-copy"><p class="eyebrow">${escape(study.subtitle)}</p><h2 id="title-${study.id}">${escape(study.title)}</h2><p>${escape(study.description)}</p><div class="collection-meta"><span>${escape(study.detail)}</span><span class="open">Explore study <span aria-hidden="true">→</span></span></div></div></a></article>`);
+}
 for (const collection of collections) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(collection.id) || ids.has(collection.id)) throw new Error('Invalid or duplicate collection id');
   ids.add(collection.id);
@@ -149,7 +165,7 @@ for (const { collection, root, route, sources, gallery } of selections) {
 }
 emit('index.html', `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Gojo ornament studies: repeating patterns, historical sources and inspectable constructions."><title>Ornament studies · Gojo</title><link rel="stylesheet" href="/ornaments/ornaments.css"></head>
-<body><a class="skip" href="#collections">Skip to collections</a><main><nav aria-label="Main"><a href="/">Gojo</a><a href="/syntax/">Syntax examples</a></nav><header><p class="eyebrow">Gojo · Design collections</p><h1>Ornament studies</h1><p class="intro">Repeating fields, motifs and the constructions that connect them.</p><p class="description">Explore a collection, compare its sources and follow how small parts form a larger design. Each study identifies the views and data included in its website edition.</p></header><section aria-label="Live line drawing"><h2>Ornament workshop</h2><p>Print five line designs on a conditional pen press. Step through a fork, change the join, or watch an arch start its own six-petal wheel.</p><p><a href="/encoding/explorer/?layer=37">Open the press →</a> · <a href="/encoding/notes/OrnamentWorkshop.html">View the five plates and construction notes →</a></p></section><section aria-labelledby="signature-study"><h2 id="signature-study">Reading a pattern</h2><p>Compare six line bands through their flow, corners, pivots and white passages. Inspect shared signatures and see which readings detect a missing stroke, retracing or a changed reach.</p><p><a href="/ornaments/signatures/">Open the illustrated signature study →</a></p></section><section aria-labelledby="weave-study"><h2 id="weave-study">Following a strand</h2><p>Follow several continuous strands through an angular weave. Compare crossing order, shallow depth and plausible connections across hidden gaps.</p><p><a href="/ornaments/weave/">Open the weave and continuation study →</a></p></section><section aria-labelledby="centreline-study"><h2 id="centreline-study">Taking a pattern apart</h2><p>Explore all eighteen straight-edged bands from three reference sheets. Separate component paths, compare reflected partners and inspect alternative construction ideas.</p><p><a href="/ornaments/centreline/">Open the centre-line pattern atlas →</a></p></section><section aria-labelledby="symmetry-action-study"><h2 id="symmetry-action-study">Symmetry as an action</h2><p>Inspect overlapping T-shaped readings, apply the same small transformation to different inputs, and compare the smallest tested recurrence engines across the eighteen angular patterns.</p><p><a href="/ornaments/symmetry-actions/">Open the symmetry action study →</a></p></section><section id="collections" aria-labelledby="collections-heading"><div class="section-heading"><h2 id="collections-heading">Collections</h2><p>${collections.length} ${collections.length === 1 ? 'study' : 'studies'}</p></div><div class="collections">${cards.join('\n')}</div></section><footer><p>These are recorded Gojo studies. Each collection explains what is constructed, what is chosen for display and where the interpretation remains open.</p><a href="/">All Gojo visualizations</a></footer></main></body></html>
+<body><a class="skip" href="#collections">Skip to studies</a><main><nav aria-label="Main"><a href="/">Gojo</a><a href="/syntax/">Syntax examples</a></nav><header><p class="eyebrow">Gojo · Design collections</p><h1>Ornament studies</h1><p class="intro">Repeating fields, motifs and the constructions that connect them.</p><p class="description">Explore a collection, compare its sources and follow how small parts form a larger design. Each study identifies the views and data included in its website edition.</p></header><section id="collections" aria-labelledby="collections-heading"><div class="section-heading"><h2 id="collections-heading">Studies and collections</h2><p>${studies.length + collections.length} studies</p></div><div class="collections">${[...studyCards, ...cards].join('\n')}</div></section><footer><p><a href="/encoding/notes/OrnamentWorkshop.html">Ornament workshop: five plates and construction notes</a></p><p>These are recorded Gojo studies. Each collection explains what is constructed, what is chosen for display and where the interpretation remains open.</p><a href="/">All Gojo visualizations</a></footer></main></body></html>
 `);
 for (const [file, bytes] of expected) {
   if (dryRun) continue;

@@ -1,5 +1,11 @@
 # Ornament collections
 
+The landing page shows all published studies as visual tiles. The `studies`
+array in `tools/ornament-collections.json` lists the smaller interactive studies
+first, with symmetry actions and the centre-line atlas at the top. The existing
+`collections` follow. Preview tiles crop the viewports of recorded SVGs without
+changing their geometry; generated thumbnails live in `previews/`.
+
 `/ornaments/symmetry-actions/` turns selected pattern correspondences into
 reusable native word substitutions, displacements and traversal actions.
 It includes overlapping A2/B6 boundary reads, 240 captured action applications,
