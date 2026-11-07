@@ -95,6 +95,11 @@ internal static class Program
 
     private static void Main(string[] args)
     {
+        if (args is ["signature", var signatureOutput])
+        {
+            SignatureStudy.Write(signatureOutput);
+            return;
+        }
         if (args is ["symmetry", var output])
         {
             SymmetryStudy.Write(output);

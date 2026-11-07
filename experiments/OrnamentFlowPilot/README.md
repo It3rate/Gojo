@@ -6,6 +6,8 @@ At A = 4 and B = 2 the finished ink is identical. Set A to 5, leave every wire i
 
 A [separate symmetry study](Symmetry.md) follows an interlocking fret and tests which reflections, translations and changes of scale its encoded stroke windows support.
 
+Its [corner and whitespace signatures](Signatures.md) compare the marked red and blue corners, two established Meyer frets and a small family of invented patterns.
+
 ![Matched fret, stretched rises, changed frames, a separate spot pen and alternate continuations](FlowGallery.svg)
 
 ## What carries the flow

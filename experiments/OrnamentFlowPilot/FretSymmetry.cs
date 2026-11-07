@@ -24,12 +24,12 @@ internal sealed record FretSymmetryRead(int Period, long Pitch, long CandidatesC
 
 internal static class FretSymmetry
 {
-    private readonly record struct Frame(string Name, int XX, int XY, int YX, int YY)
+    internal readonly record struct Frame(string Name, int XX, int XY, int YX, int YY)
     {
         public (long X, long Y) Apply(long x, long y) => (XX * x + XY * y, YX * x + YY * y);
     }
 
-    private static readonly Frame[] Frames =
+    internal static readonly IReadOnlyList<Frame> Frames =
     [
         new("identity", 1, 0, 0, 1), new("quarter-left", 0, -1, 1, 0),
         new("half-turn", -1, 0, 0, -1), new("quarter-right", 0, 1, -1, 0),
