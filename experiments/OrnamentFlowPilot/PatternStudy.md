@@ -23,6 +23,14 @@ The first four come from this selection of supplied imagery, with the interlock 
 
 The supplied sheets contain 28 rows. Curved leaves and spirals, diagonal braids, bounded spiral motifs and multiple-pen designs need other readers. Some apparent duplicates have an important extra participant. The continuous upper rail in sheet 2 row 1 meets the stems, and the orange band in sheet 1 row 4 has crossings. Removing those contacts would change the object being studied. The source-selection list records the scope of every row.
 
+The later [centre-line study](https://gojo.inklingai.ca/ornaments/centreline/)
+extends the breakdown to all eighteen wholly straight-edged rows. It also
+corrects the initial reading of sheet 1, row 5: the small central S-shaped
+bridge joins the inward and outward windings into one continuous fourteen-reach
+meander. Sheet 3, left row 2 instead contains finite coils alternating by a
+half-turn against a frame. Similar-looking coils do not establish the same
+route or repeat mechanism.
+
 The publication contains fresh executed line figures. The uploaded reference sheets remain outside this public edition.
 
 ## What is encoded, and what is measured

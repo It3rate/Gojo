@@ -48,7 +48,7 @@ internal static class ReferencePatterns
         new("Attachment 1, row 2", "selected", "A clear single cardinal course, with detached framing rules omitted.", "opposed-hook"),
         new("Attachment 1, row 3", "deferred", "A meander alternates with separate four-pane square motifs; a multiple-component and joint read is needed."),
         new("Attachment 1, row 4", "deferred", "The orange design contains visible crossing/contact sites. Ink alone does not specify through-routing versus joined flow."),
-        new("Attachment 1, row 5", "deferred", "Repeated inward square spirals have finite ends; joining them into one periodic pen course would invent connections."),
+        new("Attachment 1, row 5", "expanded study", "The later centre-line study resolves the small central S-shaped bridge: this is a continuous in-and-out spiral meander, not isolated finite spirals. Its fourteen-reach course is covered at /ornaments/centreline/ (A5)."),
         new("Attachment 1, row 6", "deferred", "Nested square outlines and grouped spiral motifs require separate components; colour may also distinguish their ownership."),
         new("Attachment 2, row 1", "deferred", "The continuous upper rail meets several stems. This resembles the opposed-hook family but is not the same single-course graph."),
         new("Attachment 2, row 2", "deferred", "Curved scrolls with a common baseline need curved carriers and explicit contact interpretation."),

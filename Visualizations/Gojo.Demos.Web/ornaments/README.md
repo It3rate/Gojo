@@ -1,5 +1,15 @@
 # Ornament collections
 
+`/ornaments/centreline/` breaks down all eighteen wholly straight-edged rows
+from the three supplied reference sheets. It retains component selections,
+native route reads, checked pair correspondences, alternative construction
+hypotheses and an explicit audit of the ten curved or mixed rows.
+Its canonical prose is `experiments/QualitativeFrieze/CentrelinePatternStudy.md`.
+Run `--centreline-patterns` in the QualitativeFrieze project, then build the
+page with `Composition/CentrelinePatternPage.py`. The supplied source sheets
+are shown intact for comparison; generated centre lines are authored
+idealizations, not automatic image traces or recovered construction histories.
+
 `/ornaments/weave/` follows an authored angular braid through continuous
 strands, local front/back order and shallow depth samples. It also compares
 candidate continuations from exposed fragments with actual shared-site closure.

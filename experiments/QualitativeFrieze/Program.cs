@@ -9,6 +9,7 @@ using Gojo.Experiments.QualitativeFrieze;
 using Gojo.Experiments.QualitativeFrieze.Learning;
 using Gojo.Experiments.QualitativeFrieze.Composition;
 
+if (args.Contains("--centreline-patterns")) return CentrelinePatternExperiment.Run(args.Where(argument => argument != "--centreline-patterns").ToArray());
 if (args.Contains("--angular-weave")) return AngularWeaveExperiment.Run(args.Where(argument => argument != "--angular-weave").ToArray());
 if (args.Contains("--ornament-interior")) return OrnamentInteriorExperiment.Run(args.Where(argument => argument != "--ornament-interior").ToArray());
 if (args.Contains("--ornament-integrated")) return OrnamentIntegratedExperiment.Run(args.Where(argument => argument != "--ornament-integrated").ToArray());
