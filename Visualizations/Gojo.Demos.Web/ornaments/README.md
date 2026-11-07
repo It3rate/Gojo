@@ -1,5 +1,15 @@
 # Ornament collections
 
+`/ornaments/symmetry-actions/` turns selected pattern correspondences into
+reusable native word substitutions, displacements and traversal actions.
+It includes overlapping A2/B6 boundary reads, 240 captured action applications,
+a bounded recurrence audit across the eighteen atlas patterns, and controls
+separating geometric agreement from shared-site correspondence. The four-bit
+view is a derived local codec; the connected action and its receipts retain
+meaning. Settlement and original-engine inference remain outside this pass.
+Its canonical prose is `experiments/QualitativeFrieze/SymmetryActionStudy.md`.
+Run `--symmetry-actions`, then build with `Composition/SymmetryActionPage.py`.
+
 `/ornaments/centreline/` breaks down all eighteen wholly straight-edged rows
 from the three supplied reference sheets. It retains component selections,
 native route reads, checked pair correspondences, alternative construction
