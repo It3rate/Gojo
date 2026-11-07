@@ -1,0 +1,446 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The machines behind the ornaments · Gojo</title><style>
+body{margin:0;background:#f5f4ef;color:#243142;font:17px/1.65 system-ui,sans-serif}
+main{max-width:980px;margin:32px auto;padding:34px;background:white;border:1px solid #dce1e4;border-radius:12px}
+nav{display:flex;gap:22px;flex-wrap:wrap;font-size:14px;margin-bottom:32px}a{color:#176baa;text-underline-offset:3px}
+h1{font-size:36px;line-height:1.2}h2{margin-top:38px;font-size:25px}h3{margin-top:25px}
+table{border-collapse:collapse;display:block;overflow:auto;font-size:14px}td,th{padding:9px 12px;border:1px solid #dce1e4;text-align:left;min-width:110px}th{background:#edf2f6}
+pre{background:#edf2f6;padding:18px;border-radius:6px;overflow:auto;font-size:14px}code{font-size:.88em}
+blockquote{border-left:3px solid #287158;padding-left:20px;color:#455467}img{max-width:100%}
+footer{margin-top:30px;font-size:13px;color:#596777}@media(max-width:650px){main{margin:0;padding:22px;border:0;border-radius:0}h1{font-size:29px}}
+</style></head><body><main>
+<nav><a href="index.html">Recorded experiment</a><a href="notes.html">Study notes</a>
+<a href="glossary.html">Machine glossary</a><a href="protocol.html">Prospective protocol</a></nav>
+<h1 id="the-machines-behind-the-ornaments">The machines behind the ornaments</h1>
+<h2 id="what-this-glossary-is-for">What this glossary is for</h2>
+<p>We can see a diamond, a long hexagon, a winding corridor, or a repeated T in an
+ornament. That does not yet tell us what made it. This glossary describes the
+actual small mechanisms we can inspect: what enters, what is connected, what
+changes, and what comes out. The names are convenient handles for those
+structures; they are not new primitive operation tags.</p>
+<p>The most useful distinction is between <strong>a shape we can read</strong> and <strong>a machine
+whose operation establishes that shape</strong>. A diamond may be the output of one
+closed walk, a boundary between two independent strands, or a selected contour
+within a larger arrangement. Those interpretations can agree today and respond
+differently when an input changes.</p>
+<p>This account covers the existing compact primitive experiments and the newer
+native ornament action studies. They use related ideas but do not share one
+universal encoding or execution contract. Implementation links below identify
+which mechanism actually supplies each behavior.</p>
+<h2 id="start-with-one-concrete-machine">Start with one concrete machine</h2>
+<p>The baseline-return machine is a useful example because its purpose, state,
+action, and failure are all small enough to see.</p>
+<pre><code class="language-text">request -&gt; rise using A -&gt; across -&gt; descend using B -&gt; inward
+                                                        |
+                                                        v
+                                             read baseline relation
+                                             /         |          \
+                                          above        at         below
+                                            |          |            |
+                                       down one tick   finish       hold
+                                            |          |
+                                            +-- read   +-- actual seam -&gt; next request
+</code></pre>
+<p>Its state is the activation's current site and the pen's current position.
+Its public observations are above, at, or below the baseline. Its available
+correction is a downward tick. The machine cannot correct an overshoot below
+the baseline because it has no upward correction outlet.</p>
+<p>Another machine can make a fixed second descent instead. At one set of inputs
+the two draw identical ink. Change the rise and their responses differ. This is
+why the glossary records connections and response routes as well as shapes.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/OrnamentFlowPilot/README.md">The actual experiment and encoding</a>.</p>
+<h2 id="does-a-hexagon-machine-already-exist">Does a hexagon machine already exist?</h2>
+<p>There are several distinct answers, depending on which construction we mean.</p>
+<table>
+<thead>
+<tr>
+<th>Meaning of the name</th>
+<th>What we have</th>
+<th>What it does not establish</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Six equal contour parts joined by chords</td>
+<td>The earlier regular-polygon construction can retain a circle, six equal parts, ordered landmarks, and neighboring chords.</td>
+<td>It does not discover that construction from an image, or produce every possible stretched hexagon.</td>
+</tr>
+<tr>
+<td>A six-sided closed walk</td>
+<td>Ordered sections and shared endpoint identities can encode that walk. Additional direction and extent relations decide its geometry.</td>
+<td>Six participating sections alone do not establish convexity, equal sides, or a regular hexagon.</td>
+</tr>
+<tr>
+<td>A stretched hexagonal opening between strands</td>
+<td>The angular weave supplies ordered outer strands whose selected pair exposes such an opening in the declared realization.</td>
+<td>That reading is not proof of one autonomous six-sided generator, nor proof that the strands form a material loop.</td>
+</tr>
+<tr>
+<td>A diamond in the same ornament</td>
+<td>A different pair or selected portion can expose a four-sided projected boundary.</td>
+<td>It is not necessarily a smaller instance of the same machine that produced the hexagon.</td>
+</tr>
+<tr>
+<td>One adjustable family covering both outlines</td>
+<td>An authored paired-cap family now exercises bounded extent settlement, described below.</td>
+<td>A continuous change of the picture does not automatically remove native sites or sections.</td>
+</tr>
+</tbody>
+</table>
+<p>The regular-polygon example is documented in
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/PrimitiveMeasure/RepetitionExperiments.md">repetition and composed shapes</a>.
+The strand interpretation is documented in the
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/CentrelinePatternStudy.md">centre-line survey</a> and
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/AngularWeaveStudy.md">angular weave study</a>.</p>
+<p>The CR4 weave has four continuing strands. Its outer pair and inner pair each
+have reflected partners. The outer and inner seeds are <strong>different words</strong>,
+although the action audit finds the same reflect-and-advance transformation
+repeated on all four strands. Sharing an action is weaker than sharing the
+complete construction. No strand closes within the selected three-bay view.</p>
+<h2 id="what-counts-as-a-local-patch">What counts as a local patch?</h2>
+<p>A patch is a selected part of an actual construction, together with its
+exposed boundary and correspondence to its source. It need not occupy a
+separate block of storage or coincide with one pen's work.</p>
+<p>Examples include two sections around a corner; the two routes at a crossing;
+a run of inward turns; a pair of opposed strands; or an opening bounded by
+portions of several routes. A useful patch description records its entry and
+exit sites, ordered sections, relevant extent bindings, and any open condition.</p>
+<pre><code class="language-text">source sections --------&gt; selected patch --------&gt; candidate action
+       |                        |                        |
+       +---- other reads -------+                 new application
+                                |                        |
+                         exposed boundaries       changed output
+                                |                        |
+                                +---- comparison witness-+
+</code></pre>
+<p>The same section may belong to two overlapping patches. In A2, neighboring
+seven-section T-like readings share three actual sections. In B6, neighboring
+fifteen-section readings share seven. The sections are observed twice, not
+drawn twice. The larger interpretation need not have been a single generation
+step. <a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/SymmetryActionStudy.md">The exact overlapping readings</a>.</p>
+<h2 id="implemented-reusable-actions">Implemented reusable actions</h2>
+<p>These actions transform selected structure. Their existence does not imply a
+live controller repeatedly invokes them, or that an output physically settles
+from an input. The action study retains finite sequences of applications and
+checks the predicted next instance against the observed construction.</p>
+<h3 id="1-advance-a-retained-word">1. Advance a retained word</h3>
+<p><strong>Short description:</strong> place another instance of this ordered construction at
+an offset.</p>
+<p>The inputs are a selected section scope, a basis, and a displacement word. The
+action maps the selected positions and retains source-to-output section and
+site correspondences. Internal shared endpoint patterns survive in the new
+instance. Its output can become the input to the next application.</p>
+<p>The instruction itself has no changing phase. The application chain records
+which instance came next. New instances have new site identities; coincident
+coordinates at a repeat boundary do not automatically weld neighboring chunks.
+An executable continuing path needs the seam connection as well.</p>
+<p>This is useful for repeated winding words, inserts, and complete motifs.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/CentrelineAction.cs">Native action implementation</a> and
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/QualitativeExecution.Tests/SymmetryActionStudyTests.cs">recurrence checks</a>.</p>
+<h3 id="2-reflect-vertically-and-advance">2. Reflect vertically and advance</h3>
+<p><strong>Short description:</strong> move ahead while taking the next instance in the
+opposed vertical frame.</p>
+<p>The inputs are the same as in entry 1, but the connected substitution maps a
+vertical move to its opposite and preserves a horizontal move. The displacement
+locates the reflection axis and the next instance. Ordered traversal is retained
+unless a separate reversal is supplied.</p>
+<p>For A2 the selected realization reads as <code>F(x,y) = (x + 2, 2 - y)</code>. Two
+applications restore the vertical frame and translate by four. The constants
+are the declared realization's common-reach counts, not measurements recovered
+from the photograph.</p>
+<p>A2 uses a four-section seed, B6 an eight-section seed, and the simple zigzag
+CL5 a one-section seed under this family. These are different amounts of
+retained detail behind the same reusable action.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/SymmetryActionStudy.md">Action study</a>.</p>
+<h3 id="3-place-a-second-copy-at-another-phase">3. Place a second copy at another phase</h3>
+<p><strong>Short description:</strong> use one word twice, with a relative placement that
+interleaves the copies.</p>
+<p>The source is one ordered word. Two applications provide separately owned
+instances, and the selected displacement records their relative phase. A3,
+A4, and B3 have declared through-routing interpretations using translated
+copies in the same vertical frame. B8 adds a vertical displacement and a
+separate spot stream.</p>
+<p>This must not be relabeled a vertical reflection merely because the combined
+picture has opposed-looking parts. Changing the relative phase changes where
+the partners encounter each other; a crossing still needs its own read or law.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/CentrelinePatternStudy.md">Survey of pair constructions</a>.</p>
+<h3 id="4-repeat-around-a-quarter-turn-orbit">4. Repeat around a quarter-turn orbit</h3>
+<p><strong>Short description:</strong> reuse a selected part through successive quarter-turn
+correspondences.</p>
+<p>The action maps the connected basis and ordered section controls. Repeating it
+can account for the small square inserts in A3 and A6. The existing action
+grammar distinguishes the spatial transformation from reversal of traversal.</p>
+<p>A square guarantee needs the relevant reach, quarter-turn, and endpoint
+relationships. Four applications that merely look connected do not supply a
+native closed cycle. The separate primitive square walk explicitly reuses one
+reach and an established turning cycle.
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/QualitativeExecution.Tests/CentrelineActionTests.cs">Action tests</a>
+and <a href="https://github.com/It3rate/Gojo/blob/master/experiments/PrimitiveMeasure/RepetitionExperiments.md">square controller</a>.</p>
+<h2 id="implemented-controllers-and-local-responses">Implemented controllers and local responses</h2>
+<p>These entries have a changing state, a transition law, or a local response
+mechanism. Their scopes differ. A passage in the early packed fixture and a
+native finite-law transition are not assumed to be interchangeable without a
+correspondence.</p>
+<h3 id="5-gated-handoff-and-complementary-branch">5. Gated handoff and complementary branch</h3>
+<p><strong>Short description:</strong> move the existing activation through the selected
+available outlet.</p>
+<p>The connected roles are source, control, and receiver. The historical
+eight-byte passage law lists allowed whole before-and-after states. A resolved
+open control admits the handoff only when the receiver can accept it. Source
+and receiver change together; the same activation is not copied down both arms.</p>
+<p>Two complementary guards form an if/else. Their continuations can join at a
+shared receiver. That receiver's presence does not retain which arm was taken;
+route history needs its own evidence. An unknown control preserves alternatives
+and holds under the fixture's execution policy.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/PrimitiveMeasure/ConditionalExperiments.md">Conditional encoding</a> and
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/PrimitiveMeasure.Tests/PassageTests.cs">passage tests</a>.</p>
+<h3 id="6-phase-walk-with-request-and-completion">6. Phase walk with request and completion</h3>
+<p><strong>Short description:</strong> visit a connected body until its explicit completion
+condition permits the return or stop.</p>
+<p>An activation occupies one body site. A clock allows a handoff. Parameter
+attachments select the shared reach used at each participation, while a phase
+cycle supplies turn or return evidence. A requested motif also exposes a
+request and completion handshake, preventing one held request from silently
+retriggering on every beat.</p>
+<p>Counting can be the number of visited stages. A five-stage wait needs no hidden
+integer countdown. Returning to controller phase is different from returning
+the pen to its starting position or to the same native site.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/PrimitiveMeasure/RepetitionExperiments.md">Repetition mechanism</a> and
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/PrimitiveMeasure.Tests/RepetitionTests.cs">tests</a>.</p>
+<h3 id="7-return-to-a-baseline">7. Return to a baseline</h3>
+<p><strong>Short description:</strong> keep taking the available corrective step until the
+published baseline relation says the return is complete.</p>
+<p>The local sensor supplies above/at/below evidence. Above opens a downward-tick
+outlet, which returns to the sensor. At opens completion. Below leaves this
+particular machine blocked. The goal does not grant an upward outlet that was
+never connected.</p>
+<p>At rise A = 4 and drop B = 2, this machine and a fixed second-drop machine draw
+the same completed line. At A = 5 the feedback version returns to baseline and
+the fixed version drifts. At A = 1, B = 2 the feedback version cannot repair
+its earlier overshoot. These exact ticks are the experiment's realization.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/OrnamentFlowPilot/README.md">Flow pilot</a> and
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/OrnamentTension.Tests/FlowPilotTests.cs">tests</a>.</p>
+<h3 id="8-exchange-frames-at-a-seam">8. Exchange frames at a seam</h3>
+<p><strong>Short description:</strong> a completed bay changes the perspective used for the
+next bay.</p>
+<p>A public seam event drives a two-state exchange. The selected state binds the
+following motif to a normal or reflected frame. The phase persists between
+events; it does not flip merely because another reader asks for a picture.
+The next motif starts at the actual preceding endpoint in the live example.</p>
+<p>This is an executable controller for alternation. It is distinct from entry 2,
+which describes the spatial action itself. A controller can request that
+action; the action does not supply its own clock.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/OrnamentFlowPilot/README.md">Live alternating frame</a>.</p>
+<h3 id="9-combine-sibling-drive-streams">9. Combine sibling drive streams</h3>
+<p><strong>Short description:</strong> separately advancing streams contribute to one sampled
+movement under a shared clock selection.</p>
+<p>One stream may alternate up/down while another advances right. The clock can
+choose the first, the second, both, or neither. Each selected stream advances
+its own head. Alternating produces an orthogonal step pattern; simultaneous
+selection can produce diagonal sampled movement. Both retain the contributing
+source and phase.</p>
+<p>The same endpoint displacement can accompany a different swept area. A shared
+reach binding can justify cancellation of opposed uses; equal-looking but
+independent reaches cannot. This fixture's sibling arrays belong to one score.
+Separate owners need an explicit interface and shared-basis correspondence.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/PrimitiveMeasure/BorderScore.md">Clock fields, bytes, and predictions</a>.</p>
+<h3 id="10-trigger-another-pen-from-an-event">10. Trigger another pen from an event</h3>
+<p><strong>Short description:</strong> let one owner publish a small event that activates an
+independent pen.</p>
+<p>In the flow pilot, the prior beat's ink publication opens the second pen's
+waiting passage. That pen activates a point contact, deposits a dot at its own
+bound location, and enters a terminal state. Its cursor is separate, and its
+operation leaves the primary pen's edge and beat sequence unchanged.</p>
+<p>The receiver learns that a deposit happened, not the full originating shape.
+The event is observation; it is not a second copy of conserved ink substance.
+This is a small example of a useful thin communication surface, with an
+authored receiver action and location.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/OrnamentFlowPilot/README.md">Pen coupling and participation</a>.</p>
+<h3 id="11-balance-connected-gap-inventories">11. Balance connected gap inventories</h3>
+<p><strong>Short description:</strong> move one shared-unit step from a locally longer gap to
+a shorter gap when the permitted comparison shows enough excess.</p>
+<p>Each gap owns a prefix chain of occupied step slots. A pair relation authorizes
+exchange. Shifted slot comparisons detect at least two excess steps, and a
+whole-step passage hands the donor's last occupied step to the receiver's first
+empty slot. The scan revisits pairs until a whole pass makes no transfer.</p>
+<p>This conserves the total declared spacing inventory. It does not seek a global
+mean. With only neighbor connections, local quiet can remain globally uneven.
+Different unit references block comparison, and hiding a gap's observation is
+different from physically disconnecting it.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/PrimitiveMeasure/WhitespaceSettlement.md">Gap mechanism</a> and
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/PrimitiveMeasure.Tests/GapSettlementTests.cs">tests</a>.</p>
+<h3 id="12-walk-inward-through-whitespace-strips">12. Walk inward through whitespace strips</h3>
+<p><strong>Short description:</strong> reserve a gap, construct the next side, and repeat while
+the declared inner clearance still admits another pass.</p>
+<p>A direction cycle chooses supporting-line normals. Adjacent depth sites and
+one shared gap establish parallel strips. Corners connect the selected
+supporting lines. Depth participation moves through available, pending, and
+retained banks. A hidden gap or open corner holds the current partial pass.</p>
+<p>The seam decides between one inward spiral and separately closed perimeters.
+The current sufficient corner rule covers regular convex triangles, squares,
+and pentagons and preserves a positive core. It is not a general collision or
+offset solver, and the finite output's center is not forced to become an inked
+endpoint.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/PrimitiveMeasure/WhitespaceStrips.md">Strip walker</a> and
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/PrimitiveMeasure.Tests/StripWalkTests.cs">tests</a>.</p>
+<h3 id="13-alternate-depth-by-crossing-encounter">13. Alternate depth by crossing encounter</h3>
+<p><strong>Short description:</strong> offer front/back roles in the order a strand visits its
+crossings.</p>
+<p>Each strand has an ordered encounter sequence and a two-state exchange law.
+Its state offers an over or under role and changes at the next encounter.
+The actual local order remains attached to the actual crossing and its two
+sections; it can agree with the offer, disagree, or remain open.</p>
+<p>This is not one permanent height layer per strand. Planar reflection, path
+reversal, and exchanging front/back are separate operations. The three-bay
+baseline has four strands, 24 crossings, and 44 adjacent encounter comparisons,
+all alternating. Those observations do not prove closure or collision-free
+three-dimensional ribbon geometry.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/AngularWeaveStudy.md">Weave phase and depth</a> and
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/QualitativeExecution.Tests/AngularWeaveStudyTests.cs">tests</a>.</p>
+<h2 id="candidate-engines-and-shape-readings">Candidate engines and shape readings</h2>
+<h3 id="14-turn-inward-reverse-the-progression-and-emerge">14. Turn inward, reverse the progression, and emerge</h3>
+<p><strong>Short description:</strong> a course winds toward an interior and then continues
+outward through a retained turnaround.</p>
+<p>A5's declared course supports a fourteen-section retained seed repeated by
+translation. The finite coils in CL2 instead end internally and are related as
+separate routes. These are useful contrasting candidates for a winding family.</p>
+<p>The action audit verifies repetition of the whole A5 seed. It has not extracted
+a general smaller program that decides how long each inward or outward reach
+should be, nor learned a tension law that creates the turnaround. Calling both
+examples spirals would conceal that missing controller.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/SymmetryActionStudy.md">Winding examples and the bounded search</a>.</p>
+<h3 id="15-read-a-larger-shape-across-smaller-operations">15. Read a larger shape across smaller operations</h3>
+<p><strong>Short description:</strong> select participating boundaries and ask what their
+combined arrangement supports.</p>
+<p>The T-like windows in A2 and B6 overlap. The weave's inner and outer pairs expose
+different openings. A crossing can have an X-shaped projection while retaining
+two independent routes, or four arms can share an actual central site. Those
+are meaningful shape and topology readings, but they are not automatically
+generating machines with matching names.</p>
+<p>A white-region read needs its selected boundary, mouth or closure, and outside
+context. A convincing silhouette does not supply a missing closing edge. A
+coarse common shape can remain useful while finer route, ownership, or depth
+evidence disagrees.
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/SymmetryActionStudy.md">Overlapping T readings</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/CentrelinePatternStudy.md">pair selections</a>, and
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/AngularWeaveStudy.md">crossing versus junction</a>.</p>
+<h2 id="which-machines-recur-most-often">Which machines recur most often?</h2>
+<p>The latest bounded action audit gives a useful starting answer. It is an audit
+of eighteen declared source readings, not a natural-frequency sample or a
+ranking of artistic quality.</p>
+<table>
+<thead>
+<tr>
+<th>Mechanism witnessed</th>
+<th>Where it appears in the recorded corpus</th>
+<th>Caution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Translation recurrence</td>
+<td>Thirteen of eighteen source readings</td>
+<td>One reading can contain several routes and several explanations.</td>
+</tr>
+<tr>
+<td>Vertical reflection plus advance</td>
+<td>Nine of eighteen</td>
+<td>It shares an action across different seed sizes; it does not make all seeds identical.</td>
+</tr>
+<tr>
+<td>Quarter-turn recurrence</td>
+<td>Small square inserts in A3 and A6</td>
+<td>Repeated inserts dominate candidate totals and must not become independent votes.</td>
+</tr>
+<tr>
+<td>Opposed partner correspondence</td>
+<td>Outer and inner pairs of CR4</td>
+<td>Pairing is a read over existing strands, not additional material.</td>
+</tr>
+<tr>
+<td>Same-frame translated partner</td>
+<td>Selected interpretations of A3, A4, B3, and B8</td>
+<td>Their phased placement should not be conflated with vertical reflection.</td>
+</tr>
+</tbody>
+</table>
+<p>Of 79 retained route/action recurrences, A3 and A6 contribute 50. The smallest
+seed in those rows can describe a tiny insert rather than the whole ornament.
+The search also excludes several kinds of collection seed, arbitrary partial
+window, and scale change. A missing candidate can therefore describe the
+search boundary rather than an irregular pattern.</p>
+<p>For a useful glossary, track at least three kinds of reuse separately: repeated
+applications within one object, use in independent source examples, and success
+after transfer to a new construction. Only the third begins to test the
+generality we want from a reusable concept.</p>
+<h2 id="from-a-glossary-entry-to-a-retained-machine">From a glossary entry to a retained machine</h2>
+<p>A machine card should let us trace:</p>
+<pre><code class="language-text">exposed input -&gt; connected body and laws -&gt; output/read surface
+                       ^       |
+                       |       v
+                    feedback and state
+
+selected requirement -&gt; local observation -&gt; permitted response route
+                                                |
+                                                v
+                                     accepted change or blocked remainder
+</code></pre>
+<p>The card should name its source structure, inputs and available observations,
+changing state, permitted actions, shared parameters, stopping conditions, and
+remaining failures. These descriptions are for inspection. The corresponding
+relationships must exist in the encoded construction.</p>
+<p>We should also say how it entered the glossary: authored and tested, recognized
+within a declared action grammar, or retained after a local learning trial.
+The <a href="https://github.com/It3rate/Gojo/blob/master/experiments/PrimitiveMeasure/TimingSocket.md">timing socket experiment</a> supplies a
+small example of the last category: a nearby pulse edit is retained only after
+repeatable distinguishing observations, within the measured candidate scope.
+It does not yet earn arbitrary geometric correction routes.</p>
+<h2 id="a-bounded-family-now-exercising-settlement">A bounded family now exercising settlement</h2>
+<p>The <a href="notes.html">machine settlement study</a>, following its
+<a href="protocol.html">prospective protocol</a>, now exercises a narrow
+family of paired caps. One of its authored templates has this construction:</p>
+<pre><code class="language-text">upper:  rise-and-advance -&gt; optional plateau -&gt; fall-and-advance
+lower:  fall-and-advance -&gt; optional plateau -&gt; rise-and-advance
+</code></pre>
+<p>The local basis, corresponding extents, and endpoint relations are explicit.
+With matching positive plateaus, one realization can outline a stretched
+hexagon. Reducing the plateaus to zero can yield a diamond-shaped projection.
+The <a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/CoupledShapeTemplate.cs">native template</a> retains three phases
+per cap, including each zero-extent plateau. Its two endpoints remain distinct
+sites even when their projected positions agree. The paired drawing therefore
+retains six sections; it does not silently acquire a four-edge topology.</p>
+<p>This is an authored <strong>paired-cap construction</strong>, with hexagon and diamond as
+possible reads under declared conditions. Its template expands supplied extent
+publications; the cooperating extent controllers are separate participants. It
+does not establish that the historical weave was generated this way. Changing
+only one cap can also produce a mismatched seam rather than a closed
+intermediate polygon. The study separately declares two proposed seam joins.
+A formal position read admits or blocks each declaration; admitted joins create
+a connected derived view while preserving both source paths. This is neither
+an automatic material weld nor permission to merge every coincident site.</p>
+<p>Four local regulators control two extents for each cap. Explicit comparison
+links read public ports: one regulator follows a supplied desired extent, and
+its partner follows the first regulator's published extent. Each receiver gets
+only a coarse comparison, then its native response law can request one signed
+step. Local capacity retains unabsorbed change as tension. Missing information
+and competing alternatives remain unresolved. The selected sensor correspondence
+and response outlets make the relationship effective; neither a shape label nor
+the target picture tells a controller what to do.</p>
+<p>The display reconstructs each drawing from the resulting public extents through
+explicit unit-to-reach correspondences. These are fresh realizations of native
+templates, not persistent geometric sites moving autonomously. The trace shows
+actual admitted extent responses, intermediate state, unresolved requests and
+retained zero-length phases. Withheld observations, delays and constrained
+capacity expose the limits of this mechanism.</p>
+<p>The accompanying retention probe supplies three response laws and uses two
+directional challenges to retain an actual native controller archive for reuse.
+This is selection among authored candidates, not discovery of a new feedback
+law or of the drawing templates. Likewise, the three drawing families are views
+of the same controller experiment, not independent discoveries of settlement.</p>
+<p>This implemented family is deliberately narrower than arbitrary shape
+deformation. A next proposed step is to let a geometric read, such as a seam
+or clearance mismatch, publish pressure through an explicit local response
+route. That would exercise which lower-level extents can relieve the mismatch;
+it would still need to preserve incompatible goals and unrelieved pressure.</p><footer>Generated from the repository Markdown. Source links open their readable repository pages.</footer>
+</main></body></html>

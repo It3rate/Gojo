@@ -1,0 +1,424 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Machines, their shapes, and what actually settles · Gojo</title><style>
+body{margin:0;background:#f5f4ef;color:#243142;font:17px/1.65 system-ui,sans-serif}
+main{max-width:980px;margin:32px auto;padding:34px;background:white;border:1px solid #dce1e4;border-radius:12px}
+nav{display:flex;gap:22px;flex-wrap:wrap;font-size:14px;margin-bottom:32px}a{color:#176baa;text-underline-offset:3px}
+h1{font-size:36px;line-height:1.2}h2{margin-top:38px;font-size:25px}h3{margin-top:25px}
+table{border-collapse:collapse;display:block;overflow:auto;font-size:14px}td,th{padding:9px 12px;border:1px solid #dce1e4;text-align:left;min-width:110px}th{background:#edf2f6}
+pre{background:#edf2f6;padding:18px;border-radius:6px;overflow:auto;font-size:14px}code{font-size:.88em}
+blockquote{border-left:3px solid #287158;padding-left:20px;color:#455467}img{max-width:100%}
+footer{margin-top:30px;font-size:13px;color:#596777}@media(max-width:650px){main{margin:0;padding:22px;border:0;border-radius:0}h1{font-size:29px}}
+</style></head><body><main>
+<nav><a href="index.html">Recorded experiment</a><a href="notes.html">Study notes</a>
+<a href="glossary.html">Machine glossary</a><a href="protocol.html">Prospective protocol</a></nav>
+<h1 id="machines-their-shapes-and-what-actually-settles">Machines, their shapes, and what actually settles</h1>
+<h2 id="start-here">Start here</h2>
+<p>Two drawing constructions have separate width and height controls. The first
+follows a supplied goal. The second can hold its own values, alternate on a
+clock, or respond to a small message saying <strong>increase, equal, or decrease</strong>.
+Those messages drive actual Gojo laws and signed carrier changes. The drawing
+then reads the resulting state.</p>
+<p>The experiment lets us see the machines behind the picture. A hexagon-like
+opening is a read of two opposed constructions; an extent follower is the
+mechanism that makes their spans agree. They are related, but they are not the
+same concept.</p>
+<p>Open the <a href="index.html">interactive recorded study</a>.
+Start with <strong>Stretch the opening</strong>, then try <strong>Shrink the flat extent to zero</strong>,
+<strong>Three-beat-old comparison</strong>, and <strong>The receiver cannot stretch far enough</strong>.
+The slider visits actual recorded states. The diagram shows the message,
+requested change, accepted change, phase and remaining extent tension.</p>
+<p>The <a href="glossary.html">machine glossary</a> names fifteen existing mechanisms,
+their inputs, their connected parts, and their limitations. It distinguishes
+observed shapes, reusable actions, executing controllers and candidate engines.</p>
+<h2 id="what-is-implemented-in-this-pass">What is implemented in this pass</h2>
+<p>There are <strong>four independent extent regulators</strong>, grouped into two drawing
+views: a width and a height regulator for each view. Each owns a value,
+capacity, phase, finite response law, effect outlets and transition history.
+The comparison sensors are separate connected structures. They observe only
+explicitly advertised ports.</p>
+<pre><code class="language-text">goal width -&gt; public comparison sensor &lt;- first width port
+                            |
+                  comparison support only
+                            |
+                finite law -&gt; signed unit outlet
+                            |
+                   first extent carrier
+
+first width port -&gt; public comparison sensor &lt;- second width port
+                              |
+                    comparison support only
+                              |
+                  second regulator's law
+                              |
+                     second extent carrier
+
+height uses the same mechanism through separate ports
+
+four captured extent publications
+    -&gt; actual role bindings in two drawing constructions
+    -&gt; ordered phase expansion and reflected frame
+    -&gt; geometric, seam and zero-phase reads
+</code></pre>
+<p>The follower does not receive the other owner's exact value or the target
+picture. The sensor's private witness retains the sampled values and the
+actual source/receiver port correspondence. The transmitted packet contains
+the comparison support, its basis, an event identity and an opaque sensor
+identity. There is no link from that packet back into the private samples.</p>
+<p>Each clock event permits at most one signed unit request per regulator.
+Changes enter through the existing carrier tension mechanism. The attached
+clamp retains an adjustment that cannot fit. Every admitted command satisfies:</p>
+<pre><code class="language-text">requested change = visible extent change
+                 + change in held extent tension
+                 + unrouted request
+</code></pre>
+<p>An observation is not a quantity transfer. These requests adjust an extent;
+they do not claim to conserve ink, area, or the sum of all widths. A future
+fixed-total-space experiment would need an explicit exchange law.</p>
+<h2 id="a-concrete-encoding-chart">A concrete encoding chart</h2>
+<p>The compact comparison mask addresses the three participants of a native
+ordered comparison domain. It is a derived local read, not a replacement for
+the historical ODV word.</p>
+<p>This pass deliberately uses small integral carrier values for the adjustment
+mechanics. Its public decisions remain coarse, and the drawing words retain
+unary shared-unit participation. It is a bridge to the existing value kernel,
+not a claim that exact extent counts were already present in a bare ODV bit.</p>
+<table>
+<thead>
+<tr>
+<th>Published mask</th>
+<th>Native support</th>
+<th>Feedback-law response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>001</code></td>
+<td>Current extent exceeds the source extent</td>
+<td>Request one negative step</td>
+</tr>
+<tr>
+<td><code>010</code></td>
+<td>The two exposed extents agree</td>
+<td>Request zero change</td>
+</tr>
+<tr>
+<td><code>100</code></td>
+<td>Current extent is smaller</td>
+<td>Request one positive step</td>
+</tr>
+<tr>
+<td><code>111</code></td>
+<td>All three comparisons remain possible</td>
+<td>Keep the response unresolved</td>
+</tr>
+<tr>
+<td><code>000</code></td>
+<td>No comparison supplied; open support</td>
+<td>Keep the response unresolved</td>
+</tr>
+</tbody>
+</table>
+<p>The native law has three comparison participants, two phase participants and
+three signed output participants. Six rows define one response policy. The
+existing finite-law compiler derives a 32-entry byte lookup over the possible
+input supports. Open support remains open; it is not silently compiled as a
+closed empty set.</p>
+<p>The three supplied policies differ in their <strong>actual law rows</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Meaning of its rows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hold</td>
+<td>Every resolved comparison permits zero change.</td>
+</tr>
+<tr>
+<td>Clock</td>
+<td>The selected phase permits +1 or -1 regardless of comparison sign.</td>
+</tr>
+<tr>
+<td>Feedback</td>
+<td>Comparison sign selects -1, 0 or +1 in either phase.</td>
+</tr>
+</tbody>
+</table>
+<p>The executor does not dispatch on those names. An ambiguous comparison may
+still yield a unique clock response because all admitted alternatives select
+the same action in that phase. It cannot yield a unique feedback direction.</p>
+<p>A missing comparison can consume an externally supplied clock event without
+moving an extent. Pausing the clock consumes neither the event nor the phase.
+Replaying an already consumed event does not deliver the request again.</p>
+<p>The clock's wrap and its preserved cycle participation are separate from
+extent tension. All displayed tension totals concern <strong>extent adjustments</strong>,
+not every carrier in the complete graph. Likewise, “quiet” means no recent
+accepted extent movement and no extent tension; the supplied clock may still
+be running, and a missing observation may still leave a goal unresolved.</p>
+<h2 id="three-constructions-driven-by-the-same-controls">Three constructions driven by the same controls</h2>
+<p>The templates contain native direction/extent-role uses in ordered phases.
+Integer control publications expand into repeated references to one common,
+uncalibrated reach. The conversion explicitly connects the sampled tick basis
+to that reach. No absolute screen length is assigned to a primitive.</p>
+<table>
+<thead>
+<tr>
+<th>Construction</th>
+<th>Ordered phases of the first half</th>
+<th>What the opposed pair can show</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diagonal cap</td>
+<td>Right and up by H; right by W; right and down by H</td>
+<td>A stretched six-sided opening; a diamond-like limit at W=0</td>
+</tr>
+<tr>
+<td>Cardinal cap</td>
+<td>Up by H; right by W; down by H</td>
+<td>A rectangle-like outline when the two halves agree</td>
+</tr>
+<tr>
+<td>Inset cap</td>
+<td>Up by 3H; right by W+2H; down H; left H; down H; right H; down H</td>
+<td>A paired outline with inward turns</td>
+</tr>
+</tbody>
+</table>
+<p>The second half uses the same instruction structure in a reflected vertical
+frame. Reflection changes the spatial basis. Traversal order is preserved.
+Independent extent inputs can still produce unequal shapes.</p>
+<p>The diagonal cap is a deliberately authored construction. It does not claim
+that the earlier four-strand weave was originally generated this way. It also
+does not claim a regular hexagon: the diagonal and horizontal sides have
+different construction roles. The glossary separately describes the existing
+equal-partition circle construction and the openings read from the weave.</p>
+<h3 id="what-happens-at-the-diamond-limit">What happens at the diamond limit</h3>
+<p>As W reaches zero, both horizontal phases have known zero extent. They remain
+participating phases, with two distinct endpoint sites apiece. The visible
+support looks like a diamond, while the construction still has six sections.</p>
+<p>Removing those roles would be a structural simplification requiring its own
+correspondence. The renderer does not perform it. This is precisely why a
+shape name is not a sufficient description of the machine.</p>
+<h3 id="what-happens-at-the-seams">What happens at the seams</h3>
+<p>The two paths initially have separate site identities. The experiment
+explicitly declares a start/start and an end/end correspondence, then uses the
+existing native graph-join reader to assess each declaration.</p>
+<p>Equal positions admit a shared <strong>quotient view</strong>, preserving the independent
+source paths below it. Unequal ends leave a blocked declaration. This is not
+an inferred material weld or permission for flow to cross between the pens.
+Coincident internal sites are not merged unless separately declared.</p>
+<p>These are newly realized observations of the live extent state. They are not
+a persistent pen cursor moving through a continuously deformed material path.
+That stronger temporal geometry contract remains future work.</p>
+<h2 id="what-the-recorded-campaign-found">What the recorded campaign found</h2>
+<p>The <a href="protocol.html">prospective protocol</a> preceded the run.
+There are <strong>108 controller conditions</strong>: twelve disturbances, three response
+policies and three starting conditions. They are exercised through three
+drawing constructions, yielding <strong>324 construction/condition views</strong>. The
+three views reuse the same control problem; they are not independent evidence
+of discovering feedback. Each run receives 28 clock events per regulator.</p>
+<table>
+<thead>
+<tr>
+<th>Disturbance</th>
+<th>Feedback meets both goals and pair agreement, with no remaining extent tension</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stretch, shrink to zero, increase height, or change both</td>
+<td>3 of 3 starts in each condition</td>
+</tr>
+<tr>
+<td>Reverse the goal later</td>
+<td>3 of 3</td>
+</tr>
+<tr>
+<td>Temporarily missing or ambiguous follower comparison</td>
+<td>3 of 3 after observations resume</td>
+</tr>
+<tr>
+<td>Permanently missing follower comparison</td>
+<td>0 of 3</td>
+</tr>
+<tr>
+<td>Three-beat-delayed comparison</td>
+<td>0 of 3 within the recorded horizon</td>
+</tr>
+<tr>
+<td>Follower capacity below the desired extent</td>
+<td>0 of 3</td>
+</tr>
+<tr>
+<td>Alternating incompatible follower goals</td>
+<td>0 of 3</td>
+</tr>
+<tr>
+<td>Smaller goal after blocked growth</td>
+<td>3 of 3, after accounting for earlier tension</td>
+</tr>
+</tbody>
+</table>
+<p>Across the 36 conditions per policy, feedback meets the combined criterion in
+24; hold meets it in none; the clock meets it in one. That clock case happens
+to align when observations disappear. It is a useful reminder that one correct
+terminal result does not establish an adaptive mechanism.</p>
+<p>The first regulator reaches its own supplied goals in these conditions even
+when its follower fails. The data therefore reports leader goal attainment,
+pair agreement, remaining extent tension, and lack of movement separately.</p>
+<h3 id="following-a-changed-span">Following a changed span</h3>
+<p>For the first starting condition, the requested flat extent changes from two
+to six at beat four. Each sensor samples before any owner responds.</p>
+<table>
+<thead>
+<tr>
+<th>Beat</th>
+<th style="text-align: right;">Requested extent</th>
+<th style="text-align: right;">First extent after response</th>
+<th style="text-align: right;">Second extent after response</th>
+<th>Follower's published comparison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td>Decrease, from the preceding sample</td>
+</tr>
+<tr>
+<td>4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td>Equal</td>
+</tr>
+<tr>
+<td>5</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td>Increase</td>
+</tr>
+<tr>
+<td>6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td>Increase</td>
+</tr>
+<tr>
+<td>7</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">5</td>
+<td>Increase</td>
+</tr>
+<tr>
+<td>8</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td>Increase</td>
+</tr>
+<tr>
+<td>9</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td>Equal</td>
+</tr>
+</tbody>
+</table>
+<p>The follower's one-beat lag comes from the connected observation schedule. It
+does not look ahead to the first regulator's next state.</p>
+<h3 id="the-failures-explain-the-mechanism">The failures explain the mechanism</h3>
+<p><strong>Delay:</strong> an old increase signal can remain in flight after the target has
+been reached. The follower overshoots, may accumulate tension at capacity,
+and later reverses on another old signal. Different extents can cycle out of
+phase. The study supplies no damping, predictive cancellation or automatic
+latency compensation.</p>
+<p><strong>Capacity:</strong> the width-limited follower stops at three while the desired span
+is six. In the representative run, 23 positive adjustment units remain held
+after beat 28. They are not 23 units of geometric gap: they are accumulated
+requests from a controller that keeps asking. This distinguishes current
+goal mismatch from historical adjustment pressure.</p>
+<p><strong>Release:</strong> after the desired span falls to one, negative requests first
+account for previously accumulated positive tension. Visible shrinking begins
+later. Deleting that history would produce a faster-looking but different
+machine.</p>
+<p><strong>Conflicting goals:</strong> the experiment alternates between following the first
+extent and requesting extent one. This is a supplied selector exposing an
+unresolved conflict, not a learned arbitration rule or simultaneous weighted
+optimization.</p>
+<h2 id="a-small-test-of-keeping-a-useful-machine">A small test of keeping a useful machine</h2>
+<p>The retention bench supplies three candidate laws: hold, clock and feedback.
+Each candidate is restored fresh at extent two. One challenge asks for five,
+the other for one. A native finite relation checks whether each initial
+unequal comparison becomes a resolved equality. A second native gate requires
+both challenges to qualify before retaining the actual candidate archive.</p>
+<p>Only feedback qualifies. Fresh restored uses reach goals zero, three and six.
+A goal of nine stops at capacity eight with four pending adjustment units
+after ten pulses. Missing and ambiguous observations do not establish success.</p>
+<p>This is a bounded selection and retention mechanism. The candidate laws,
+sensors, trial length, and acceptance criterion are supplied. It discovers
+neither a new law nor a construction topology. The retained native structure,
+rather than its report label or a replacement byte buffer, supplies execution
+on the fresh trials.</p>
+<h2 id="encoding-restoration-and-cost">Encoding, restoration and cost</h2>
+<p>All 36 first-start controller cases agree between the native finite-law reader
+and the compiled reader. Focused tests also compare the admitted supports,
+save and restore blocked owners, preserve port aliases across a composed
+archive, reject replayed events, and prevent private sample leakage.</p>
+<p>The live four-regulator composition with its sensor connections occupies
+13,607 bytes in the existing general native graph transport in this run.
+This is an inspectable general-purpose graph representation, not a claim of
+minimal bit packing. The derived response lookup is only one small part of
+the complete controller contract.</p>
+<p>Two retained native study archives, <a href="stretch.gojo">stretch</a>
+and <a href="capacity.gojo">capacity</a>, are 1,020,452 and
+995,262 bytes respectively. They include private sensor witnesses, captured
+state publications, all recorded native drawing realizations and declared
+seam witnesses, as well as the four controller histories. That difference makes history cost visible;
+it must not be reported as the operational cost of a six-row law.</p>
+<p>Timing in the JSON is local diagnostic timing, including construction and
+controller graph encoding. It excludes the subsequent drawing realizations,
+HTML writing and independent native/compiled comparisons. This pass is not a
+performance benchmark or evidence that cost stays constant at larger scales.</p>
+<h2 id="what-guidance-we-supplied-and-what-remains-open">What guidance we supplied, and what remains open</h2>
+<p>We supplied the seed phases, public ports, unit correspondence, capacities,
+desired extents, comparison sensors, candidate response laws and event schedule.
+The actuator has no target pixels and receives no exact target magnitude.
+The viewer does not invent intermediate coordinates between saved frames.</p>
+<p>This demonstrates settlement of exposed construction parameters. It does not
+infer a correspondence between arbitrary starting and ending shapes. An
+instruction such as “become more hexagonal” still needs a connected shape
+claim, a reader that can assess it, and legal response routes. General
+whitespace corridors, collision avoidance, topology change and persistent
+geometric deformation are not supplied by this scalar controller.</p>
+<p>The most useful next additions are suggested by the failures: an exposed
+pending-adjustment read, explicit request/acknowledgement or latency policy,
+competing-response arbitration, and a geometric gap claim that activates a
+permitted correction without giving the receiver a target outline. Each
+should be added as a named, inspectable mechanism with a failing control.</p>
+<h2 id="reproduce-and-inspect">Reproduce and inspect</h2>
+<pre><code class="language-powershell">dotnet run -c Release --project experiments/QualitativeFrieze -- --machine-settlement
+python experiments/QualitativeFrieze/RenderMachineSettlementNotes.py
+dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj --filter &quot;FullyQualifiedName~Coupled|FullyQualifiedName~ExtentRouteRetention|FullyQualifiedName~MachineSettlementStudy&quot;
+dotnet test Gojo.slnx
+</code></pre>
+<p>Implementation: <a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/CoupledExtentMachine.cs">extent machine</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/CoupledComparisonLink.cs">comparison link</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/CoupledShapeTemplate.cs">drawing template</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/ExtentRouteRetention.cs">retention bench</a>, and
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/MachineSettlementStudy.cs">campaign</a>.</p>
+<p>The <a href="study-data.json">recorded JSON</a> includes every
+condition summary and step-by-step first-start traces. The HTML viewer uses
+only that recorded data. Human labels remain outside the execution semantics.</p><footer>Generated from the repository Markdown. Source links open their readable repository pages.</footer>
+</main></body></html>
