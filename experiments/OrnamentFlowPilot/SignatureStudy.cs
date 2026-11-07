@@ -57,7 +57,7 @@ internal static class SignatureStudy
 
     private static long Overlap(long a, long b, long c, long d) => Math.Max(0, Math.Min(b, d) - Math.Max(a, c));
 
-    private static PatternSignature Read(string id, string name, string source, PathSite[] segments,
+    internal static PatternSignature Read(string id, string name, string source, PathSite[] segments,
         byte[]? stored = null, byte[]? emitted = null)
     {
         var (windows, joints) = JointSignature.ReadWithWindows(segments, stored, emitted);

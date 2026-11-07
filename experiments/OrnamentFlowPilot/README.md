@@ -8,6 +8,10 @@ A [separate symmetry study](Symmetry.md) follows an interlocking fret and tests 
 
 Its [corner and whitespace signatures](Signatures.md) compare the marked red and blue corners, two established Meyer frets and a small family of invented patterns.
 
+The [published pattern study](PatternStudy.md) adds three courses selected from
+the supplied reference sheets and combines the readings into an inspectable
+scorecard with controlled changes.
+
 ![Matched fret, stretched rises, changed frames, a separate spot pen and alternate continuations](FlowGallery.svg)
 
 ## What carries the flow

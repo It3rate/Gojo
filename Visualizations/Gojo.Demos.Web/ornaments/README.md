@@ -1,5 +1,17 @@
 # Ornament collections
 
+`/ornaments/signatures/` is the illustrated structural-reading study. It compares
+six recorded line courses, six controlled changes and 18 separate signature
+fields. Its window inspector exposes every retained bounded match, and its
+source list records the selected and deferred rows of the supplied reference
+sheets. The public figures are executed reconstructions.
+
+The canonical prose is `experiments/OrnamentFlowPilot/PatternStudy.md`.
+Regenerate its data and static page using the commands at the end of that
+document. The public page includes an HTML narrative, the Markdown download,
+the exact report and the associated SVG figures. `build-ornaments.mjs` retains
+its entry link, and the shared deployment preparation includes its directory.
+
 The [ornament workshop](https://gojo.inklingai.ca/encoding/explorer/?layer=37) is a live pen press with five line plates. Its [plate book](../../../experiments/PrimitiveMeasure/OrnamentWorkshop.md) includes the SVG impressions and construction notes.
 
 `/ornaments/interior-ornament/` presents twelve compound interior designs:

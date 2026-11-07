@@ -51,7 +51,7 @@ internal static class FretSymmetrySource
         return Read(horizontal, vertical, new ParticipationStrip(0), [across, inset, secondAcross], [firstDrop, lastDrop]);
     }
 
-    private static FretSourceRead Read(byte[] across, byte[] rise, ParticipationStrip mirror,
+    internal static FretSourceRead Read(byte[] across, byte[] rise, ParticipationStrip mirror,
         int[] acrossReaches, int[] riseReaches)
     {
         if (acrossReaches.Concat(riseReaches).Any(length => length <= 0))
