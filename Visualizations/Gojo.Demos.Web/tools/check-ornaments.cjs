@@ -2,7 +2,7 @@
 const { chromium } = require(process.env.GOJO_PLAYWRIGHT_MODULE || 'playwright');
 const fs = require('node:fs/promises'), path = require('node:path'), http = require('node:http');
 const assert = require('node:assert/strict'), crypto = require('node:crypto');
-const web = path.resolve(__dirname, '..');
+const web = path.resolve(process.env.GOJO_WEB_ROOT || path.join(__dirname, '..'));
 const screenshots = process.env.GOJO_SCREENSHOTS || path.join(require('node:os').tmpdir(), 'GojoOrnamentsQA');
 const types = { '.html':'text/html', '.css':'text/css', '.js':'text/javascript', '.svg':'image/svg+xml', '.json':'application/json', '.png':'image/png', '.jpg':'image/jpeg', '.txt':'text/plain', '.md':'text/plain' };
 async function walk(dir) {

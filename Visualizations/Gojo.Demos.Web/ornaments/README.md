@@ -1,5 +1,13 @@
 # Ornament collections
 
+`/ornaments/weave/` follows an authored angular braid through continuous
+strands, local front/back order and shallow depth samples. It also compares
+candidate continuations from exposed fragments with actual shared-site closure.
+Its canonical prose is `experiments/QualitativeFrieze/AngularWeaveStudy.md`.
+The `--angular-weave` experiment records the source report, and
+`Composition/AngularWeavePage.py` builds the interactive page and Markdown
+download. The study uses the existing qualitative structural grammar.
+
 `/ornaments/signatures/` is the illustrated structural-reading study. It compares
 six recorded line courses, six controlled changes and 18 separate signature
 fields. Its window inspector exposes every retained bounded match, and its
@@ -108,6 +116,8 @@ The browser check uses Playwright, with `GOJO_PLAYWRIGHT_MODULE` and
 `GOJO_BROWSER` overrides as in the syntax notebook. It checks navigation,
 dependencies, retained artifact hashes, controls and desktop/phone layouts.
 Set `GOJO_BASE_URL=https://gojo.inklingai.ca` to check the public site.
+Set `GOJO_WEB_ROOT` to the prepared deployment directory to serve and check
+the complete local bundle, including linked browser applications.
 
 Use the [shared site preparation and deployment](../README.md). The complete
 bundle retains the existing browser applications, syntax and Minds sections.

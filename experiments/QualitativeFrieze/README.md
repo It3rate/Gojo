@@ -1,5 +1,15 @@
 # Qualitative frieze generators
 
+The [angular weave study](AngularWeaveStudy.md) follows continuous strands
+through local over/under crossings, compares shallow depth and planar reads,
+and tests candidate continuations using only exposed fragments. The interactive
+edition is at [the weave inspector](https://gojo.inklingai.ca/ornaments/weave/).
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -c Release -- --angular-weave --output artifacts/angular-weave
+python experiments/QualitativeFrieze/Composition/AngularWeavePage.py artifacts/angular-weave/study-data.json Visualizations/Gojo.Demos.Web/ornaments/weave
+```
+
 The [interior ornament pass](results/ornament-interior/gallery.html) develops
 compound rosettes, fans and scrolls inside selected mesh spaces. Native
 boundary/port reads supply construction foci; reusable compounds consume actual
