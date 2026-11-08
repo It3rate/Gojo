@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [two-claim settlement experiment](results/coupled-claims/index.html) connects
+gap and endpoint comparisons to separate height and width controls. Its 176
+recorded conditions expose cooperation, capacity, resolution limits, and loss
+of a geometric read. See the [overview and results](CoupledClaimStudy.md),
+[machine glossary](CoupledClaimGlossary.md), and
+[prospective protocol](CoupledClaimProtocol.md). This report is local.
+
+```powershell
+dotnet run -c Release --project experiments/QualitativeFrieze -- --coupled-claims
+python experiments/QualitativeFrieze/RenderCoupledClaimNotes.py
+```
+
 The [angular weave study](AngularWeaveStudy.md) follows continuous strands
 through local over/under crossings, compares shallow depth and planar reads,
 and tests candidate continuations using only exposed fragments. The interactive

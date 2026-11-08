@@ -21,9 +21,9 @@ public sealed class QualitativeMotionFrame
     //           (unmatched-moves -> (cancellation-pairs -> unresolved))
     // Cancellation pairs retain the actual two move occurrences. Repetition in
     // a scope is repeated participation, never a numeric coefficient in disguise.
-    public IElement Origin { get; } = new Placeholder();
-    public Relation Horizontal { get; } = new(new Placeholder(), new Placeholder());
-    public Relation Vertical { get; } = new(new Placeholder(), new Placeholder());
+    public IElement Origin { get; }
+    public Relation Horizontal { get; }
+    public Relation Vertical { get; }
     public Relation Right { get; }
     public Relation Left { get; }
     public Relation Up { get; }
@@ -35,6 +35,9 @@ public sealed class QualitativeMotionFrame
 
     public QualitativeMotionFrame()
     {
+        Origin = new Placeholder();
+        Horizontal = new(new Placeholder(), new Placeholder());
+        Vertical = new(new Placeholder(), new Placeholder());
         Right = Horizontal; Left = Horizontal.Reverse();
         Up = Vertical; Down = Vertical.Reverse();
         Opposites = StructuralConstraint.Closed(new Relation(Right, Left), new Relation(Left, Right),
@@ -59,6 +62,84 @@ public sealed class QualitativeMotionFrame
             new Relation(StructuralConstraint.Closed(first, second), StructuralConstraint.Closed(second, first)));
         Surface = new Relation(new Relation(Origin, new Relation(Horizontal, Vertical)),
             new Relation(Opposites, new Relation(CancellationLaws, Exchange)));
+    }
+
+    private QualitativeMotionFrame(Relation surface, IElement origin, Relation horizontal,
+        Relation vertical, Relation left, Relation down, Relation opposites,
+        Relation cancellationLaws, Relation exchange)
+    {
+        Surface = surface; Origin = origin; Horizontal = Right = horizontal; Vertical = Up = vertical;
+        Left = left; Down = down; Opposites = opposites; CancellationLaws = cancellationLaws; Exchange = exchange;
+    }
+
+    /// <summary>Rebinds the exact declared two-axis grammar, retaining its native
+    /// sites, direction identities and laws. It constructs no replacement basis.</summary>
+    public static QualitativeMotionFrame FromSurface(Relation surface) =>
+        TryFromSurface(surface, out var frame) ? frame :
+            throw new ArgumentException("Expected an exact qualitative motion frame.", nameof(surface));
+
+    public static bool TryFromSurface(Relation surface, out QualitativeMotionFrame frame)
+    {
+        frame = null!;
+        if (surface is not { Left: Relation { Left: var origin, Right: Relation axes },
+                Right: Relation { Left: Relation opposites, Right: Relation laws } } ||
+            axes.Left is not Relation horizontal || axes.Right is not Relation vertical ||
+            laws.Left is not Relation cancellations || laws.Right is not Relation exchange ||
+            !FiniteLaw.ClosedEntries(opposites, out var pairs) ||
+            pairs is not [Relation first, Relation second, Relation third, Relation fourth] ||
+            first.Right is not Relation left || third.Right is not Relation down ||
+            !Pair(first, horizontal, left) || !Pair(second, left, horizontal) ||
+            !Pair(third, vertical, down) || !Pair(fourth, down, vertical) ||
+            !Pair(left, horizontal.Right, horizontal.Left) || !Pair(down, vertical.Right, vertical.Left) ||
+            ReferenceEquals(horizontal, left) || ReferenceEquals(vertical, down)) return false;
+
+        // These are independently declared roles, not coincident coordinates or
+        // aliases of one another. No recursive search can supply a missing role.
+        var roles = new HashSet<Placeholder>();
+        bool Role(IElement element) => element is Placeholder { IsInverse: false } slot && roles.Add(slot);
+        if (!Role(origin) || !Role(horizontal.Left) || !Role(horizontal.Right) ||
+            !Role(vertical.Left) || !Role(vertical.Right) ||
+            !FiniteLaw.ClosedEntries(cancellations, out var rows) || rows.Length != pairs.Length) return false;
+        for (var i = 0; i < rows.Length; i++)
+        {
+            if (rows[i] is not Relation { Left: Relation selected, Right: Relation reduction } ||
+                !FiniteLaw.ClosedEntries(selected, out var slots) || slots is not [var reach] || !Role(reach) ||
+                reduction.Left is not Relation before || !FiniteLaw.ClosedEntries(before, out var moves) ||
+                moves is not [Relation a, Relation b] || !ClosedMatches(reduction.Right) ||
+                !Pair(a, ((Relation)pairs[i]).Left, reach) || !Pair(b, ((Relation)pairs[i]).Right, reach)) return false;
+        }
+
+        if (exchange is not { Left: Relation { Left: Relation selectedRoles, Right: Relation memberships },
+                Right: Relation { Left: Relation beforeExchange, Right: Relation afterExchange } } ||
+            !FiniteLaw.ClosedEntries(selectedRoles, out var exchangeRoles) ||
+            exchangeRoles is not [var directionA, var directionB, var reachA, var reachB] ||
+            !exchangeRoles.All(Role) || !FiniteLaw.ClosedEntries(memberships, out var requests) ||
+            requests is not [Relation requestA, Relation requestB] ||
+            !Membership(requestA, directionA, out var directions) ||
+            !Membership(requestB, directionB, out var otherDirections) || !ReferenceEquals(directions, otherDirections) ||
+            !ClosedMatches(directions, horizontal, left, vertical, down) ||
+            !FiniteLaw.ClosedEntries(beforeExchange, out var ordered) || ordered is not [Relation moveA, Relation moveB] ||
+            !Pair(moveA, directionA, reachA) || !Pair(moveB, directionB, reachB) ||
+            !ClosedMatches(afterExchange, moveB, moveA)) return false;
+
+        frame = new(surface, origin, horizontal, vertical, left, down, opposites, cancellations, exchange);
+        return true;
+    }
+
+    private static bool Pair(Relation relation, IElement left, IElement right) =>
+        FiniteLaw.SameParticipant(relation.Left, left) && FiniteLaw.SameParticipant(relation.Right, right);
+
+    private static bool ClosedMatches(IElement surface, params IElement[] expected) =>
+        surface is Relation scope && FiniteLaw.ClosedEntries(scope, out var entries) &&
+        entries.Length == expected.Length && entries.Zip(expected).All(pair => FiniteLaw.SameParticipant(pair.First, pair.Second));
+
+    private static bool Membership(Relation request, IElement direction, out Relation directions)
+    {
+        directions = null!;
+        if (request is not { Left: Relation { Left: Relation pattern, Right: var initial }, Right: Relation support } ||
+            !FiniteLaw.SameParticipant(pattern.Left, direction) || !ClosedMatches(pattern.Right, direction) ||
+            !ClosedMatches(initial)) return false;
+        directions = support; return true;
     }
 
     public static Relation Move(IElement direction, IElement reach) => new(direction, reach);

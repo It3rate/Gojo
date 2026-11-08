@@ -1,0 +1,435 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two claims, one construction · Gojo</title><style>
+body{margin:0;background:#f5f4ef;color:#243142;font:17px/1.65 system-ui,sans-serif}
+main{max-width:980px;margin:32px auto;padding:34px;background:white;border:1px solid #dce1e4;border-radius:12px}
+nav{display:flex;gap:22px;flex-wrap:wrap;font-size:14px;margin-bottom:32px}a{color:#176baa;text-underline-offset:3px;overflow-wrap:anywhere}
+h1{font-size:36px;line-height:1.2}h2{margin-top:38px;font-size:25px}h3{margin-top:25px}
+table{border-collapse:collapse;display:block;overflow:auto;font-size:14px}td,th{padding:9px 12px;border:1px solid #dce1e4;text-align:left;min-width:110px}th{background:#edf2f6}
+pre{background:#edf2f6;padding:18px;border-radius:6px;overflow:auto;font-size:14px}code{font-size:.88em}
+blockquote{border-left:3px solid #287158;padding-left:20px;color:#455467}img{max-width:100%}
+footer{margin-top:30px;font-size:13px;color:#596777}@media(max-width:650px){main{margin:0;padding:22px;border:0;border-radius:0}h1{font-size:29px}}
+</style></head><body><main>
+<nav><a href="index.html">Recorded experiment</a><a href="notes.html">Study notes</a>
+<a href="glossary.html">Machine glossary</a><a href="protocol.html">Prospective protocol</a></nav>
+<h1 id="two-claims-one-construction">Two claims, one construction</h1>
+<h2 id="what-this-does-in-plain-language">What this does, in plain language</h2>
+<p>The previous experiment could make the spacing between two paths correct while
+leaving their endpoints apart. This one connects two small controls to the same
+shape. One changes the lower path's height to get the requested gap. The other
+changes its width to bring the far endpoints together.</p>
+<p>Neither control is told the finished width or given a target outline. Each
+receives only a coarse correction from its own observation. The interesting
+part is that changing height can also move an endpoint: one control changes the
+problem that the other control sees.</p>
+<p>Both controls settled the six ordinary starting cases. They also exposed three
+distinct limits: insufficient capacity, a gap between available increments,
+and a change which removes the section needed by the gap reader. The last two
+are particularly useful directions for further work.</p>
+<p>Open the <a href="index.html">recorded visual experiment</a>.
+The <a href="glossary.html">machine glossary</a> explains what is actually
+connected. The <a href="protocol.html">prospective protocol</a> records the
+predictions and conditions specified before the run.</p>
+<h2 id="start-with-this-example">Start with this example</h2>
+<p>Choose <strong>Opposed chevrons → Both requests can be met → Both, on every beat →
+Case 1</strong>. The upper cap stays fixed. The orange lower cap starts too shallow
+and ends too far to the left.</p>
+<ol>
+<li>The gap claim asks the height machine to grow.</li>
+<li>The endpoint claim asks the width machine to grow.</li>
+<li>Both requests were sampled before either response. Together they move the
+   endpoint past its counterpart.</li>
+<li>The next endpoint observation asks for less width, while height continues
+   to grow until the gap is correct.</li>
+<li>Height then holds; width finishes compensating. Both relations agree.</li>
+</ol>
+<p>This small overshoot is not hidden. It shows how two locally reasonable
+responses interact through their common construction.</p>
+<table>
+<thead>
+<tr>
+<th>Recorded beat</th>
+<th style="text-align: right;">Lower width</th>
+<th style="text-align: right;">Lower height</th>
+<th style="text-align: right;">Gap, requested 6</th>
+<th style="text-align: right;">Lower endpoint minus upper, horizontally</th>
+<th style="text-align: right;">Height request</th>
+<th style="text-align: right;">Width request</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">−2</td>
+<td style="text-align: right;">Not sampled</td>
+<td style="text-align: right;">Not sampled</td>
+</tr>
+<tr>
+<td>1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">+1</td>
+</tr>
+<tr>
+<td>2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">+2</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">−1</td>
+</tr>
+<tr>
+<td>3</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">+3</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">−1</td>
+</tr>
+<tr>
+<td>4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">+2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">−1</td>
+</tr>
+<tr>
+<td>5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">+1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">−1</td>
+</tr>
+<tr>
+<td>6</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">−1</td>
+</tr>
+<tr>
+<td>7</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>Values describe this bounded integral realization; they are not lengths fixed
+by the abstract shape. The requests in each row came from the preceding
+state. The width 4 was reached by local corrections, not calculated elsewhere
+and passed in as a target.</p>
+<h2 id="exactly-what-connects-to-what">Exactly what connects to what</h2>
+<pre><code class="language-text">fixed upper path section ─┐
+lower path section ───────┼─ gap claim ─ coarse support ─ pending gate ─ height actuator
+desired-gap value port ──┘                                              │
+                                                                        │
+fixed upper endpoint ────┐                                               │
+lower endpoint ──────────┴─ endpoint claim ─ support ─ pending gate ─ width actuator
+                                                                        │
+both exposed extent ports ─ captured samples ─ width/height role bindings ┘
+                                              │
+                                     next native construction read
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Encoded part</th>
+<th>Actual connection</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Upper/lower paths</td>
+<td>Ordered direction uses connected to width and height roles</td>
+<td>Repetition of a role affects every place it is used</td>
+</tr>
+<tr>
+<td>Lower reflection</td>
+<td>Vertical-frame action applied to the native sections</td>
+<td>Changes the vertical read without reversing traversal order</td>
+</tr>
+<tr>
+<td>Gap observation</td>
+<td>Two native horizontal sections, selected downward normal, requested-gap port</td>
+<td>Reads separation only where nonzero parallel sections overlap longitudinally</td>
+</tr>
+<tr>
+<td>Gap response</td>
+<td>Height extent port connected to a positive motion word</td>
+<td>Increasing height moves the selected lower section downward</td>
+</tr>
+<tr>
+<td>Endpoint observation</td>
+<td>Two <code>site -&gt; position word</code> ports and a selected rightward axis</td>
+<td>Reduces their difference and retains both along-axis and transverse words</td>
+</tr>
+<tr>
+<td>Endpoint response</td>
+<td>Width extent port connected to a rightward positive motion word</td>
+<td>Increasing width moves the lower endpoint right</td>
+</tr>
+<tr>
+<td>Public comparison</td>
+<td>Support from decrease/equal/increase domain to one receiver</td>
+<td>No source geometry or requested final extent crosses this surface</td>
+</tr>
+<tr>
+<td>Pending gate</td>
+<td>Comparison support connected to the receiver's advertised tension port</td>
+<td>Stops repeated same-direction debt from accumulating indefinitely</td>
+</tr>
+<tr>
+<td>Actuator</td>
+<td>Finite law, effect outlet, unit correspondence and local clamp</td>
+<td>Introduces signed change; accepts it or holds the remainder</td>
+</tr>
+<tr>
+<td>Publication history</td>
+<td>Actual live port connected to a distinct captured sample</td>
+<td>The drawing remains traceable to the exposed value it observed</td>
+</tr>
+</tbody>
+</table>
+<p>The endpoint law has six rows: three discrepancy signs and two permitted
+motion polarities. The input support can be <code>001</code>, <code>010</code>, <code>100</code>, open <code>000</code>,
+or a set such as <code>111</code>. These are alternatives, not a magnitude and not three
+simultaneous flows. A <code>010</code> output from the pending gate means <strong>hold</strong>; it may
+be holding an unsatisfied request. It does not prove measured equality.</p>
+<p>Observed geometric discrepancy is claim residue. It is not automatically
+material tension. Only an admitted actuator response introduces a signed
+adjustment, and each actuator accounts independently for:</p>
+<pre><code class="language-text">introduced adjustment = visible extent change + change in retained tension
+</code></pre>
+<p>Neither actuator reads the other's private state. The claims observe their
+advertised path surfaces, and the next construction read observes both extent
+ports. This is a small example of coordination through shared consequences.</p>
+<h2 id="why-three-constructions-matter">Why three constructions matter</h2>
+<table>
+<thead>
+<tr>
+<th>Construction</th>
+<th>Effect of lower height</th>
+<th>Effect of lower width</th>
+<th>What the experiment demonstrates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cardinal cap</td>
+<td>Moves the horizontal section; endpoint horizontal position is unchanged</td>
+<td>Moves endpoint horizontally</td>
+<td>The two controls can largely operate independently</td>
+</tr>
+<tr>
+<td>Chevron cap</td>
+<td>Moves section vertically and endpoint horizontally</td>
+<td>Moves endpoint horizontally</td>
+<td>Width compensates for height's side effect</td>
+</tr>
+<tr>
+<td>Inset cap</td>
+<td>Moves selected section by three reaches per height step and also moves endpoint</td>
+<td>Moves endpoint horizontally</td>
+<td>Repeated role uses change both response magnitude and reachable gaps</td>
+</tr>
+</tbody>
+</table>
+<p>These consequences are present in the native phase construction. The local
+response correspondences are <strong>supplied</strong>, not inferred: one positive height
+step moves the observed section downward by one shared reach for cardinal and
+chevron, and by three for the inset. The controls receive only direction
+support, so the stronger inset effect can step over a goal.</p>
+<p>An after-the-fact algebraic check explains the reachable chevron example:
+upper endpoint is at <code>8 + 2×2 = 12</code>; gap 6 requires lower height 4; the lower
+endpoint is <code>width + 2×4</code>, so width 4 would match. This equation is an audit of
+the result. It is not an input or a solver used by the control loop.</p>
+<h2 id="recorded-results">Recorded results</h2>
+<p>The campaign ran 176 conditions for 36 beats each, preserving the initial
+state as well: 6,512 recorded frames. Three native/compiled comparisons agreed
+over their complete traces, and all three exported native archives decoded.</p>
+<p>The following counts require the requested gap, full endpoint coordinate
+agreement, and zero held tension in both extent actuators at the final beat.
+They are not an aesthetic score or a percentage of learned success.</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th style="text-align: right;">Gap only</th>
+<th style="text-align: right;">Endpoint only</th>
+<th style="text-align: right;">Both every beat</th>
+<th style="text-align: right;">Both alternating</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ordinary reachable request</td>
+<td style="text-align: right;">1/6</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">6/6</td>
+<td style="text-align: right;">6/6</td>
+</tr>
+<tr>
+<td>Height capacity too small</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">0/6</td>
+</tr>
+<tr>
+<td>Width capacity too small</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">0/6</td>
+</tr>
+<tr>
+<td>Gap observation withheld for eight beats</td>
+<td style="text-align: right;">1/6</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">6/6</td>
+<td style="text-align: right;">6/6</td>
+</tr>
+<tr>
+<td>Endpoint observation withheld for eight beats</td>
+<td style="text-align: right;">1/6</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">6/6</td>
+<td style="text-align: right;">6/6</td>
+</tr>
+<tr>
+<td>Endpoint observation ambiguous for eight beats</td>
+<td style="text-align: right;">1/6</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">6/6</td>
+<td style="text-align: right;">6/6</td>
+</tr>
+<tr>
+<td>Larger gap / compatibility probe</td>
+<td style="text-align: right;">1/6</td>
+<td style="text-align: right;">0/6</td>
+<td style="text-align: right;">2/6</td>
+<td style="text-align: right;">2/6</td>
+</tr>
+<tr>
+<td>Inset gap between available steps</td>
+<td style="text-align: right;">0/2</td>
+<td style="text-align: right;">0/2</td>
+<td style="text-align: right;">0/2</td>
+<td style="text-align: right;">0/2</td>
+</tr>
+</tbody>
+</table>
+<p>In total, 57 of 176 runs ended in joint agreement without held extent tension.
+The gap-only success is the cardinal starting case whose endpoint already
+agrees. The two successes in the larger-gap probe are also cardinal cases:
+their height change does not move the endpoint horizontally. Keeping that
+contrast is more useful than making every difficult condition fail.</p>
+<p>The diagnostics can observe agreement while a control's message is withheld.
+That establishes a property of the recorded geometry, not that the receiver
+has learned or certified that property. A first observed match also does not
+by itself prove convergence beyond the recorded horizon.</p>
+<h2 id="the-failures-teach-different-things">The failures teach different things</h2>
+<p><strong>Capacity leaves debt.</strong> With the chevron width limited to 3, the gap reaches
+6 but the lower endpoint stays one reach short. One positive width adjustment
+remains pending. The gate holds repeated requests; it does not relabel the
+endpoint as equal. Limiting height instead leaves a positive height debt and
+an unmet gap even after width brings the endpoints together.</p>
+<p><strong>Resolution causes continuing correction.</strong> For the inset's requested gap
+10, the simultaneous controls alternate late in the run between gap 9 with
+width/height 5/2 and gap 12 with width/height 6/3. The endpoints alternate between
+one reach short and two reaches too far. Neither extent carries debt: every
+step is legal, but the goal lies between available readings. This is different
+from a blocked actuator and would need a different remedy.</p>
+<p><strong>A response can remove an observation's premise.</strong> In the large-gap chevron
+case, width reaches zero. Its selected horizontal section is then zero length,
+so this gap reader cannot measure the requested relation. The recorded gap
+becomes open, not zero. The endpoint is still four reaches too far right and
+the width actuator holds a negative adjustment it cannot absorb. The inset
+case differs: repeated height uses keep its selected section nonzero even
+when the width role is zero. Its gap can remain measurable at 24 while its
+endpoint still fails. The role value alone cannot determine observability;
+the connected construction matters.</p>
+<h2 id="saved-structure-now-supports-the-next-read">Saved structure now supports the next read</h2>
+<p>The preceding pass exported and decoded geometric graphs but still needed the
+original in-memory frame wrapper for an executable geometric read. This pass
+adds exact frame rebinds. They inspect the decoded two-axis grammar and retain
+its actual directions, opposite pairs, cancellation/exchange laws and shared
+reach. They do not invent fresh axes and substitute them for the old ones.</p>
+<p>A composed test saves both claims, both actuator archives, their gates and
+the observed geometry in one graph. After decoding, both claims read the same
+differences and drive the decoded actuators. The original world is unchanged.
+Malformed or incomplete frame structures are rejected. Reboxed locations
+retain shared tick identity; merely equal coordinates do not become aliases.</p>
+<p>This is executable continuation of retained observations and local controls.
+It is not yet an archive of the whole experiment scheduler or a persistent
+material geometry engine.</p>
+<h2 id="size-and-verification">Size and verification</h2>
+<p>The measured live native apparatus occupies 15,217–15,741 bytes in the current
+numeric graph format. This includes the supplied frame, constructions, claims,
+laws, gates and ports. It is not a count of primitive participation bits.</p>
+<p>The selected full witness archives are much larger: 1,344,219 bytes for the
+reachable chevron, 2,323,183 for the off-grid inset, and 1,350,525 for the
+incompatible chevron. They retain repeated native observations and histories.
+Those byte counts should not be confused with the size of a minimal reusable
+machine. History compaction, lifetime policy and low-level optimization remain
+future work; this campaign is not a speed benchmark.</p>
+<p>All 84 focused checks passed. They covered endpoint polarity and transverse residue, open
+and ambiguous observations, frame restoration and identity, both-control
+settlement, per-actuator accounting, capacity, resolution failure, and matching
+native/compiled traces. Browser verification exercised all 176 selections with
+no script errors, checked mobile overflow and keyboard focus, and verified
+local document links. <code>dotnet test Gojo.slnx</code> passed all 18 test projects,
+including 3,189 tests in the qualitative suite.</p>
+<h2 id="what-remains-supplied-and-what-comes-next">What remains supplied, and what comes next</h2>
+<p>We supply the phase constructions, choice of section/endpoint, response
+correspondences, goals, capacities, native finite-law rows and pulse schedule.
+These mechanisms do not choose where to attach themselves, learn their own
+motion effects, or judge ornament quality. Each path is a new read of the
+role-bound construction, rather than a persistent physical path deforming.
+The renderer receives recorded points and contributes no control decisions.</p>
+<p>The most concrete next experiments are:</p>
+<ol>
+<li><strong>Retain a bounded alternative when a read fails.</strong> A zero section can leave
+   an endpoint relation or a broader envelope available. Switching observation
+   must be an explicit connected choice, with the failed claim still visible.</li>
+<li><strong>Refine only where the legal steps cannot settle.</strong> The inset gap conflict
+   is a small place to test a finer rung or tolerance read, preserving the
+   original coarse evidence rather than quietly changing the goal.</li>
+<li><strong>Observe response correspondence.</strong> Compare a published extent adjustment
+   with the resulting port motion, then retain competing local effect claims.
+   That would begin replacing the supplied motion word with learned evidence.</li>
+</ol>
+<p>These are tests of local mechanisms. They would move us closer to a useful
+interpolation system while making the necessary guidance and remaining
+uncertainty inspectable.</p>
+<h2 id="reproduce">Reproduce</h2>
+<pre><code class="language-powershell">dotnet run -c Release --project experiments/QualitativeFrieze -- --coupled-claims
+python experiments/QualitativeFrieze/RenderCoupledClaimNotes.py
+dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj --filter &quot;FullyQualifiedName~CoupledClaimStudyTests|FullyQualifiedName~GeometricEndpointClaimTests|FullyQualifiedName~QualitativeFrameRestoreTests&quot;
+dotnet test Gojo.slnx
+</code></pre>
+<p>Source: <a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/CoupledClaimStudy.cs">study runner</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/GeometricEndpointClaim.cs">endpoint claim</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/GeometricGapClaim.cs">existing gap claim</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/CoupledShapeTemplate.cs">path construction</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeExecution/QualitativeMotionFrame.cs">frame reader</a>.</p><footer>Generated from repository Markdown. Source links open readable repository pages.</footer>
+</main></body></html>

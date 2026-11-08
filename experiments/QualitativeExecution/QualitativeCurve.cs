@@ -38,6 +38,22 @@ public static class QualitativeCurve
         public Frame(QualitativeMotionFrame motion, IElement? reach = null)
         { Motion = motion; Reach = reach ?? new Placeholder(); Surface = new(motion.Surface, Reach); }
 
+        private Frame(Relation surface, QualitativeMotionFrame motion)
+        { Surface = surface; Motion = motion; Reach = surface.Right; }
+
+        /// <summary>Rebinds the captured motion basis and shared reach without
+        /// replacing the frame surface or inventing correspondence to another one.</summary>
+        public static Frame FromSurface(Relation surface) =>
+            TryFromSurface(surface, out var frame) ? frame :
+                throw new ArgumentException("Expected an exact qualitative curve frame.", nameof(surface));
+
+        public static bool TryFromSurface(Relation surface, out Frame frame)
+        {
+            frame = null!;
+            if (surface.Left is not Relation basis || !QualitativeMotionFrame.TryFromSurface(basis, out var motion)) return false;
+            frame = new(surface, motion); return true;
+        }
+
         public Relation Word(int x, int y)
         {
             if ((BigInteger.Abs(x) + BigInteger.Abs(y)) > 65536)
@@ -260,7 +276,7 @@ public static class QualitativeCurve
             (curvature.All(value => value.Sign >= 0) || curvature.All(value => value.Sign <= 0));
     }
 
-    private static bool Same(IElement a, IElement b) => ReferenceEquals(a, b) || a is Placeholder x && b is Placeholder y && x.Equals(y);
+    private static bool Same(IElement a, IElement b) => FiniteLaw.SameParticipant(a, b);
     private static bool Entries(Relation scope, out IElement[] entries) => StructuralConstraint.TryReadScope(scope, out entries, out var seam, out var tail) && seam.Equals(tail);
     private static IElement[] E(Relation scope) => Entries(scope, out var entries) ? entries : [];
     private static Relation S(params IElement[] entries) => StructuralConstraint.Closed(entries);
