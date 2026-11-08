@@ -1,0 +1,476 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Four machines for coordinating change · Gojo</title><style>
+body{margin:0;background:#f5f4ef;color:#243142;font:17px/1.65 system-ui,sans-serif}
+main{max-width:980px;margin:32px auto;padding:34px;background:white;border:1px solid #dce1e4;border-radius:12px}
+nav{display:flex;gap:22px;flex-wrap:wrap;font-size:14px;margin-bottom:32px}a{color:#176baa;text-underline-offset:3px;overflow-wrap:anywhere}
+h1{font-size:36px;line-height:1.2}h2{margin-top:38px;font-size:25px}h3{margin-top:25px}
+table{border-collapse:collapse;display:block;overflow:auto;font-size:14px}td,th{padding:9px 12px;border:1px solid #dce1e4;text-align:left;min-width:110px}th{background:#edf2f6}
+pre{background:#edf2f6;padding:18px;border-radius:6px;overflow:auto;font-size:14px}code{font-size:.88em}
+blockquote{border-left:3px solid #287158;padding-left:20px;color:#455467}img{max-width:100%}
+footer{margin-top:30px;font-size:13px;color:#596777}@media(max-width:650px){main{margin:0;padding:22px;border:0;border-radius:0}h1{font-size:29px}}
+</style></head><body><main>
+<nav><a href="index.html">Recorded experiment</a><a href="notes.html">Study notes</a>
+<a href="glossary.html">Machine glossary</a><a href="protocol.html">Prospective protocol</a></nav>
+<h1 id="four-machines-for-coordinating-change">Four machines for coordinating change</h1>
+<h2 id="start-here">Start here</h2>
+<p>These four machines help a small drawing system respond without losing track
+of what it knows, what it already requested, or what is still unresolved.
+They do different jobs:</p>
+<table>
+<thead>
+<tr>
+<th>Machine</th>
+<th>Simple purpose</th>
+<th>The question it answers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pending-adjustment gate</td>
+<td>Stop repeating a request that is already held.</td>
+<td>“Am I asking for more of the same blocked change?”</td>
+</tr>
+<tr>
+<td>One-outstanding-request channel</td>
+<td>Wait for a particular request to be processed before sending another.</td>
+<td>“Has that observation been dealt with yet?”</td>
+</tr>
+<tr>
+<td>Response arbiter</td>
+<td>Select one response from two offered responses.</td>
+<td>“Do they agree, or have we explicitly given one priority?”</td>
+</tr>
+<tr>
+<td>Geometric gap claim</td>
+<td>Inspect the space between two selected sections and publish a correction.</td>
+<td>“Is this particular gap smaller than, equal to, or larger than the desired gap?”</td>
+</tr>
+</tbody>
+</table>
+<p>They extend the fifteen mechanisms in the earlier
+<a href="../machine-settlement/glossary.html">machine glossary</a>. That glossary describes construction,
+transformation, repetition and drawing behavior. This one describes how small
+machines coordinate their responses. A controller, a communication passage,
+a sensor and a shape construction remain different structures, even when
+they cooperate to produce one picture.</p>
+<p>The <a href="notes.html">coordination study</a>, its
+<a href="protocol.html">prospective protocol</a>, and the
+<a href="index.html">recorded visual report</a> show how
+these parts are exercised together. The mechanisms and their failure cases
+below describe implemented scope; the campaign is where their utility is
+measured.</p>
+<h2 id="the-shared-response-language">The shared response language</h2>
+<p>The extent actuator already accepts a small publication in its own comparison
+basis. Its finite law turns a settled direction into one signed unit request.
+The new machines reuse that surface.</p>
+<table>
+<thead>
+<tr>
+<th>Reported support</th>
+<th>Meaning at the actuator's response input</th>
+<th>What it is not</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>001</code></td>
+<td>Decrease is the admitted response.</td>
+<td>A copy of the supplier's exact magnitude.</td>
+</tr>
+<tr>
+<td><code>010</code></td>
+<td>Hold: zero requested change.</td>
+<td>Missing input, or proof that every goal is satisfied.</td>
+</tr>
+<tr>
+<td><code>100</code></td>
+<td>Increase is the admitted response.</td>
+<td>Permission to bypass the local capacity.</td>
+</tr>
+<tr>
+<td><code>111</code></td>
+<td>Decrease, hold and increase remain alternatives.</td>
+<td>Three simultaneous physical requests.</td>
+</tr>
+<tr>
+<td>Open support, reported as <code>000</code></td>
+<td>The publication does not settle a response.</td>
+<td>A measured zero.</td>
+</tr>
+</tbody>
+</table>
+<p>These masks are compact diagnostic reads of native participant scopes. They
+do not replace the original ODV word or add a universal meaning to its bits.
+The native scope still distinguishes open support from a closed empty set.</p>
+<p>In particular, a gate can publish <strong>hold</strong> because its law prevents another
+request, even while the original comparison says “increase.” The retained
+witness explains that difference. A downstream reader must not treat the
+gate's hold as fresh evidence that the geometry or the goal is equal.</p>
+<h2 id="1-pending-adjustment-gate">1. Pending-adjustment gate</h2>
+<p><strong>Purpose:</strong> do not keep adding the same request when the actuator is already
+holding that change as tension.</p>
+<p>Suppose an extent has reached its local upper limit. A further positive
+request becomes positive tension. Without another rule, every new “increase”
+publication can add another positive request. The gate reads that existing
+pending adjustment and replaces further requests in the same direction with
+a deliberate hold. An opposed request remains available to account for the
+held tension.</p>
+<pre><code class="language-text">comparison publication -----------+
+                                 |
+advertised pending-tension port -&gt; finite response law -&gt; filtered publication
+                                 |
+                          private read witness
+</code></pre>
+<p>The native parts are an explicitly advertised live tension port, separate
+comparison and pending-sign domains, a nine-row finite law, and the receiver's
+publication contract. The magnitude of the pending tension is retained in a
+private captured sample. The law uses only its sign.</p>
+<p>For resolved inputs, the supplied law is:</p>
+<table>
+<thead>
+<tr>
+<th>Requested response</th>
+<th>Negative pending tension</th>
+<th>No pending tension</th>
+<th>Positive pending tension</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Decrease</td>
+<td>Hold</td>
+<td>Decrease</td>
+<td>Decrease</td>
+</tr>
+<tr>
+<td>Hold</td>
+<td>Hold</td>
+<td>Hold</td>
+<td>Hold</td>
+</tr>
+<tr>
+<td>Increase</td>
+<td>Increase</td>
+<td>Increase</td>
+<td>Hold</td>
+</tr>
+</tbody>
+</table>
+<p>The gate evaluates alternatives through the same law. It can settle a hold
+if all admitted alternatives lead to hold; it does not silently choose a
+direction from conflicting alternatives. An unavailable pending read remains
+open rather than being treated as zero debt.</p>
+<p>The outgoing publication retains the original observation event. A suppressed
+request therefore cannot later be replayed as a second request merely because
+the tension changed. Only an opaque gate identity is sent as evidence; the
+private pending magnitude does not cross that boundary.</p>
+<p><strong>What it does say:</strong> this particular new request is redundant in the direction
+of already held change, under the supplied law.</p>
+<p><strong>What it does not say:</strong> the goal is achieved, the tension has disappeared, the
+capacity should change, or the previous request was mistaken. The gate does
+not erase debt. An opposed request may first reduce debt without producing
+visible movement.</p>
+<p>Implementation: <a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/PendingAdjustmentGate.cs">pending-adjustment gate</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/CoupledExtentMachine.cs">extent actuator</a>, and
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/QualitativeExecution.Tests/PendingAdjustmentGateTests.cs">focused tests</a>.</p>
+<h2 id="2-one-outstanding-request-channel">2. One-outstanding-request channel</h2>
+<p><strong>Purpose:</strong> allow one observation to be in flight, and require its own
+processing receipt before admitting another.</p>
+<p>Sending and completing are different events. This passage keeps its slot
+occupied after dispatch. The receiver can process the observation, produce a
+receipt, and send that receipt back. Only the exact issued receipt releases
+the slot.</p>
+<pre><code class="language-text">available slot -&gt; admit observation -&gt; dispatch -&gt; receiver processes it
+      ^                                               |
+      |                                               v
+      +------------- exact receipt returns &lt;----- issue receipt
+</code></pre>
+<p>The native structure retains the receiver contract, a capacity-one occupancy
+carrier and clamp, the actual request event and packet, a dispatch relation,
+the issued receipt and its private processing proof, accepted event history,
+and a transition timeline. Waiting is readable from this structure; it is not
+only a flag in a transport object.</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Local behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Slot available; new compatible occurrence offered</td>
+<td>Retain the request and occupy the slot.</td>
+</tr>
+<tr>
+<td>Slot occupied</td>
+<td>Keep the current request; retain the refusal as evidence.</td>
+</tr>
+<tr>
+<td>Request retained but not yet dispatched</td>
+<td>Permit its one dispatch.</td>
+</tr>
+<tr>
+<td>Receiver consumed that occurrence</td>
+<td>Its receipt service may issue an opaque processing receipt.</td>
+</tr>
+<tr>
+<td>Exact issued receipt returns</td>
+<td>Release the slot.</td>
+</tr>
+<tr>
+<td>Wrong, copied-looking or old receipt returns</td>
+<td>Keep waiting.</td>
+</tr>
+<tr>
+<td>Receipt does not return</td>
+<td>Keep waiting; no automatic timeout is supplied.</td>
+</tr>
+</tbody>
+</table>
+<p>The convenience request operation samples the connected comparison only when
+the slot is free. Offering an already sampled packet is also possible, but
+does not make that packet fresh. Delay can still make an observation stale
+before it reaches the receiver.</p>
+<p>A processing receipt says <strong>“this occurrence was consumed.”</strong> It does not say
+that the actuator moved, that its tension settled, or that the goal was met.
+A missing or ambiguous publication can be processed without producing an
+adjustment. A capacity-blocked request can be processed while leaving tension.</p>
+<p>The receiver sees the comparison packet. The sender sees the opaque receipt.
+The channel's private witness connects the receipt to the actual retained
+receiver transition. Neither outward message needs to disclose that private
+transition.</p>
+<p><strong>What it does say:</strong> a later request cannot overtake an unacknowledged request
+through this capacity-one passage.</p>
+<p><strong>What it does not say:</strong> there is reliable delivery, automatic recovery,
+fresh information at arrival, or a globally synchronized system. A lost
+receipt is a communication wait; it is not itself blocked adjustment tension.</p>
+<p>Implementation: <a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/AcknowledgedComparisonChannel.cs">acknowledged channel</a>
+and <a href="https://github.com/It3rate/Gojo/blob/master/Tests/QualitativeExecution.Tests/AcknowledgedComparisonChannelTests.cs">focused tests</a>.</p>
+<h2 id="3-response-arbiter">3. Response arbiter</h2>
+<p><strong>Purpose:</strong> turn two offered responses into at most one response for the same
+actuator, while preserving disagreement.</p>
+<p>Two sources may both want a pen to change. Agreeing requests do not need to
+become two physical changes. Opposed requests do not automatically establish
+a sensible compromise. The arbiter gives those cases an explicit local law.</p>
+<pre><code class="language-text">first publication  -&gt; singleton eligibility --+
+                                             +-&gt; finite selector -&gt; one publication
+second publication -&gt; singleton eligibility --+          |
+                                                        v
+                                             retained unselected offers
+</code></pre>
+<p>Each input has three possible settled responses and an unfilled candidate
+slot. Missing, ambiguous, empty or incompatible input leaves that slot
+unfilled, with its original packet retained as the explanation. The unfilled
+slot is not a fourth direction and is not zero.</p>
+<p>Three supplied law sets are currently available:</p>
+<table>
+<thead>
+<tr>
+<th>Offers</th>
+<th>Agreement required</th>
+<th>Prefer first</th>
+<th>Prefer second</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same settled response</td>
+<td>One copy of that response</td>
+<td>That response</td>
+<td>That response</td>
+</tr>
+<tr>
+<td>Different settled responses</td>
+<td>Unresolved</td>
+<td>First response</td>
+<td>Second response</td>
+</tr>
+<tr>
+<td>Only first is settled</td>
+<td>Unresolved</td>
+<td>First response</td>
+<td>First response</td>
+</tr>
+<tr>
+<td>Only second is settled</td>
+<td>Unresolved</td>
+<td>Second response</td>
+<td>Second response</td>
+</tr>
+<tr>
+<td>Neither is settled</td>
+<td>Unresolved</td>
+<td>Unresolved</td>
+<td>Unresolved</td>
+</tr>
+</tbody>
+</table>
+<p>The policy names select actual finite-law rows at construction. Execution
+reads those rows. Priority is therefore a supplied structural choice, not a
+secret preference in the reporting code.</p>
+<p>The private witness retains both candidate reads, the selected law result,
+and offers not accounted for by the selected response. This is <strong>read residue</strong>.
+It does not automatically add signed tension to the actuator. A separate
+response route would be needed to turn that residue into further action.</p>
+<p>Selection creates a new outgoing event. That event is a decision over the
+offered observations, not evidence that the observations were freshly sampled.
+Retries should reuse its packet; repeatedly making new selections is distinct
+from retrying delivery of one selection.</p>
+<p><strong>What it does say:</strong> the selected response follows the admitted agreement or
+priority law, and remaining offers are still inspectable.</p>
+<p><strong>What it does not say:</strong> the preferred source is more truthful, the lower
+priority goal has been satisfied, or the choice is fair over time. No learned
+priority, weighted compromise or fairness controller is supplied here.</p>
+<p>Implementation: <a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/ExtentResponseArbiter.cs">response arbiter</a> and
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/QualitativeExecution.Tests/ExtentResponseArbiterTests.cs">focused tests</a>.</p>
+<h2 id="4-geometric-gap-claim">4. Geometric gap claim</h2>
+<p><strong>Purpose:</strong> let a selected piece of whitespace ask for a correction through a
+known response route.</p>
+<p>The claim selects two actual straight sections in one shared cardinal frame.
+It checks that they have positive longitudinal overlap, reads their separation
+along a selected normal, compares that gap with the desired gap, and publishes
+a coarse response. Its input is the sections' native control words, not the
+renderer's point arrays or a target silhouette.</p>
+<pre><code class="language-text">first section ----+
+                  +-&gt; selected normal / shared overlap -&gt; gap read
+second section ---+                                          |
+                                                            v
+desired-gap port -&gt; explicit tick-to-reach calibration -&gt; comparison
+                                                            |
+actuator port -&gt; moved section role -&gt; positive motion ------+
+                                                            |
+                                                     response publication
+</code></pre>
+<p>The native claim keeps two open section roles, the chosen normal, the desired
+gap port, explicit calibrations, the receiver contract, and a response binding.
+Each observation binds concrete sections to the roles. The response binding
+states which selected section moves when the actuator increases, and gives
+that positive-motion word. A small finite law then maps the comparison and
+motion polarity to the actuator's response.</p>
+<table>
+<thead>
+<tr>
+<th>Gap comparison</th>
+<th>Increasing the actuator opens the gap</th>
+<th>Increasing the actuator closes the gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gap too small</td>
+<td>Increase</td>
+<td>Decrease</td>
+</tr>
+<tr>
+<td>Gap equal to desired gap</td>
+<td>Hold</td>
+<td>Hold</td>
+</tr>
+<tr>
+<td>Gap too large</td>
+<td>Decrease</td>
+<td>Increase</td>
+</tr>
+</tbody>
+</table>
+<p>The motion correspondence is supplied guidance. The sensor does not discover
+which internal parameter moves which boundary. This matters when the same
+response mechanism is attached to different constructions.</p>
+<p>For a cardinal cap, one height step moves its selected horizontal section by
+one reach. For the supplied inset cap, the top horizontal section uses three
+height contributions, so one height step moves it by three reaches. The same
+gap comparison can therefore have different available corrections. A desired
+gap can lie between those corrections; the sensor must not invent fractional
+height to claim success.</p>
+<p>A zero gap between two nonzero parallel sections is measurable. It does not
+mean that the sections vanished or became one shared site. A zero-length
+section, by contrast, does not establish the positive-length corridor required
+by this reader.</p>
+<p>The current scope excludes curved or oblique sections, missing positive
+overlap, a reversed normal-side relation, an unavailable calibration, and
+response motion that is zero or is not parallel to the selected normal. Those cases
+retain an open read. This is not a general minimum-clearance calculation.</p>
+<p>The private witness retains exact geometry reads, the calibrated measurement,
+the desired sample and the response-law read. The outgoing packet contains
+only the response support, its receiver basis, an event and an opaque claim
+identity. Observation alone does not introduce tension; the actuator's
+admitted response does.</p>
+<p><strong>What it does say:</strong> this selected constant gap supports a particular
+correction under the declared geometry, calibration and motion relation.</p>
+<p><strong>What it does not say:</strong> the whole ornament has good spacing, the sections
+bound a complete empty region, or no other section will be hit by the response.
+It is a geometric read with a correction route, not a “hexagon engine.”</p>
+<p>Implementation: <a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/GeometricGapClaim.cs">gap claim</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/CoupledShapeTemplate.cs">authored drawing templates</a>, and
+<a href="https://github.com/It3rate/Gojo/blob/master/Tests/QualitativeExecution.Tests/GeometricGapClaimTests.cs">focused tests</a>.</p>
+<h2 id="how-the-four-machines-can-cooperate">How the four machines can cooperate</h2>
+<p>A useful composition keeps each responsibility visible:</p>
+<pre><code class="language-text">published comparisons or a selected gap claim
+    -&gt; optional response arbitration
+    -&gt; one-outstanding-request passage
+    -&gt; receiver's pending-adjustment gate
+    -&gt; extent actuator and its local capacity
+    -&gt; processing receipt
+    -&gt; next permitted observation
+
+public extent state -&gt; authored drawing template -&gt; later geometry observation
+</code></pre>
+<p>The order is meaningful. Applying the pending gate at receipt time lets it
+inspect the receiver's current pending adjustment. Applying it before a long
+delay would use an older pending read. Likewise, admitting a newly created
+arbitration event to the passage is different from retransmitting the same
+already selected event.</p>
+<p>Each stage can succeed in its own narrow sense while the overall goal remains
+unmet. A channel may acknowledge an unresolved observation. An arbiter may
+select a valid response while retaining another goal as residue. A gate may
+correctly hold while capacity keeps a gap wrong. The actuator may execute
+every request correctly while a coarse correction repeatedly crosses the
+desired gap.</p>
+<p>This makes several superficially similar states distinguishable:</p>
+<table>
+<thead>
+<tr>
+<th>Observed state</th>
+<th>Where its explanation lives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No selected response</td>
+<td>Open support or an unfilled response slot.</td>
+</tr>
+<tr>
+<td>Selected hold</td>
+<td>A resolved zero-change output of the actual law.</td>
+</tr>
+<tr>
+<td>Waiting for receipt</td>
+<td>The channel's occupied request/dispatch/receipt structure.</td>
+</tr>
+<tr>
+<td>Change cannot be absorbed</td>
+<td>Signed tension at the actuator's local capacity.</td>
+</tr>
+<tr>
+<td>Another goal remains unselected</td>
+<td>The arbiter's retained read residue.</td>
+</tr>
+<tr>
+<td>Gap cannot be assessed</td>
+<td>The gap claim's geometry, overlap or calibration evidence.</td>
+</tr>
+<tr>
+<td>Visible drawing changes</td>
+<td>Accepted extent change read through the connected construction.</td>
+</tr>
+</tbody>
+</table>
+<p>The construction still decides the visible shape. Opposed diagonal caps can
+show a stretched six-sided opening; cardinal caps can show a rectangular
+opening; inset caps reuse their height role differently. These four machines
+coordinate inputs to those constructions. They do not replace them with a
+shape label, and they do not establish that those construction rules were
+learned.</p><footer>Generated from repository Markdown. Source links open readable repository pages.</footer>
+</main></body></html>

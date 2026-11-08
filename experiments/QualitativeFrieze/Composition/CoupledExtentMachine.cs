@@ -38,6 +38,9 @@ public sealed class CoupledExtentMachine
 
     public Relation Surface { get; }
     public Relation ExtentPort { get; }
+    /// <summary>An explicitly advertised signed pending-adjustment surface.
+    /// Observing it does not withdraw debt or promise eventual settlement.</summary>
+    public Relation PendingPort => new(extent.LiveTensionSlot, extent);
     public IElement Owner { get; }
     public IElement Sensor { get; }
     public Carrier ComparisonBasis { get; }

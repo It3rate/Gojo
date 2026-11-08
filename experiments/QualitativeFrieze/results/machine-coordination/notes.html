@@ -1,0 +1,336 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Four small machines for coordinating change · Gojo</title><style>
+body{margin:0;background:#f5f4ef;color:#243142;font:17px/1.65 system-ui,sans-serif}
+main{max-width:980px;margin:32px auto;padding:34px;background:white;border:1px solid #dce1e4;border-radius:12px}
+nav{display:flex;gap:22px;flex-wrap:wrap;font-size:14px;margin-bottom:32px}a{color:#176baa;text-underline-offset:3px;overflow-wrap:anywhere}
+h1{font-size:36px;line-height:1.2}h2{margin-top:38px;font-size:25px}h3{margin-top:25px}
+table{border-collapse:collapse;display:block;overflow:auto;font-size:14px}td,th{padding:9px 12px;border:1px solid #dce1e4;text-align:left;min-width:110px}th{background:#edf2f6}
+pre{background:#edf2f6;padding:18px;border-radius:6px;overflow:auto;font-size:14px}code{font-size:.88em}
+blockquote{border-left:3px solid #287158;padding-left:20px;color:#455467}img{max-width:100%}
+footer{margin-top:30px;font-size:13px;color:#596777}@media(max-width:650px){main{margin:0;padding:22px;border:0;border-radius:0}h1{font-size:29px}}
+</style></head><body><main>
+<nav><a href="index.html">Recorded experiment</a><a href="notes.html">Study notes</a>
+<a href="glossary.html">Machine glossary</a><a href="protocol.html">Prospective protocol</a></nav>
+<h1 id="four-small-machines-for-coordinating-change">Four small machines for coordinating change</h1>
+<h2 id="start-here">Start here</h2>
+<p>The previous experiment had a machine that could hear “grow”, “hold”, or
+“shrink” and change an extent by one shared step. This experiment gives that
+machine four more useful connections: notice work already waiting, wait for
+a receipt, choose between competing requests, and observe a geometric gap.</p>
+<p>Open the <a href="index.html">recorded visual study</a>.
+Its four tabs follow those four steps. Choose a situation, compare the
+different rules, and move the time slider to inspect the actual messages,
+responses, drawings and remaining tension. The browser displays recorded Gojo
+states; it does not calculate a path to the desired picture.</p>
+<p>The <a href="glossary.html">new machine glossary</a> explains each
+mechanism from its connected parts. It extends the <a href="../machine-settlement/glossary.html">earlier glossary</a>,
+which separates the existing construction engines, transformations and shape
+reads. The <a href="protocol.html">prospective protocol</a> records the
+predictions made before this campaign.</p>
+<p>The main result is that the four mechanisms address different problems. None
+is a general “make this shape better” operation. Their combination makes the
+successes more understandable, and makes several kinds of failure distinguishable.</p>
+<h2 id="what-the-machines-actually-are">What the machines actually are</h2>
+<table>
+<thead>
+<tr>
+<th>Machine</th>
+<th>Connected parts that do the work</th>
+<th>What changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pending-adjustment gate</td>
+<td>An advertised live tension port, two three-state domains, and nine native response rows</td>
+<td>Repeated requests in the direction of existing debt become holds</td>
+</tr>
+<tr>
+<td>One outstanding request</td>
+<td>A capacity-one carrier, held publication, dispatch correspondence, processing receipt, and timeline</td>
+<td>New observations wait until the previous receipt returns</td>
+</tr>
+<tr>
+<td>Response arbiter</td>
+<td>Two response slots, an explicit vacancy, and sixteen native selection rows</td>
+<td>One response is selected, or the response remains unfilled</td>
+</tr>
+<tr>
+<td>Geometric gap claim</td>
+<td>Two section roles, a selected normal, a shared reach calibration, desired-gap port, and permitted motion correspondence</td>
+<td>A measured separation selects a coarse correction</td>
+</tr>
+</tbody>
+</table>
+<p>These are supplied native structures, not names that dispatch to a shape
+solver. Constructors select a row set or connect the participants. The readers
+then follow that actual structure. The drawing templates remain the three
+authored constructions from the <a href="../machine-settlement/index.html">first settlement study</a>.</p>
+<pre><code class="language-text">public source observation
+  -&gt; candidate response slots and selection law, when present
+  -&gt; held request, dispatch and receipt, when present
+  -&gt; live pending-adjustment read and gate, when present
+  -&gt; permitted signed extent change
+  -&gt; local capacity and tension settlement
+  -&gt; exposed extent -&gt; captured sample -&gt; drawing role
+  -&gt; native ordered drawing words
+  -&gt; selected geometric claim / independent diagnostic read
+</code></pre>
+<p>Every dynamic actuator in this campaign uses the earlier comparison-driven
+feedback law. The gate produces an input for that law; it is not a universal
+safety interlock for a clock law that deliberately ignores comparison sign.</p>
+<h2 id="read-the-bits-in-their-context">Read the bits in their context</h2>
+<p>The three bits in the support mask address three participants of a selected
+native domain. They are not three independent commands, a physical magnitude,
+or a replacement for the old ODV participation word.</p>
+<table>
+<thead>
+<tr>
+<th>Bits</th>
+<th>Original extent comparison</th>
+<th>Permitted response after a gate or arbiter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>001</code></td>
+<td>Current extent is greater than its reference</td>
+<td>Decrease one step</td>
+</tr>
+<tr>
+<td><code>010</code></td>
+<td>The exposed extents agree</td>
+<td>Hold: introduce zero adjustment</td>
+</tr>
+<tr>
+<td><code>100</code></td>
+<td>Current extent is smaller</td>
+<td>Increase one step</td>
+</tr>
+<tr>
+<td><code>111</code></td>
+<td>Multiple comparisons remain possible</td>
+<td>Several responses remain possible</td>
+</tr>
+<tr>
+<td><code>000</code> in this report</td>
+<td>Missing or unresolved read</td>
+<td>No resolved response</td>
+</tr>
+</tbody>
+</table>
+<p>In particular, a gate can turn <code>100</code> into <code>010</code> while the goal remains unmet.
+That means <strong>hold the response</strong>, not <strong>declare equality</strong>. The original
+observation and the gate's law read remain connected in the private witness.
+Goal checks use actual source/state or gap comparisons, never this transformed
+hold symbol. The shared packet grammar serves this bounded local actuator
+chain; a general cross-domain response service should expose its response
+contract separately from observational truth.</p>
+<p>The existing finite-law compiler derives compact support lookups from the
+native rows. There are 64 mask-pair entries for the pending gate, 256 for the
+arbiter, and 32 for the gap's comparison/polarity law. These counts describe
+derived lookup payloads, not the complete machine, archive or event history.</p>
+<h2 id="step-1-notice-an-adjustment-already-waiting">Step 1: notice an adjustment already waiting</h2>
+<p>The actuator can now advertise its live signed tension through an explicit
+port. A local gate observes only the sign needed for its decision. Its private
+witness records the sample; the outgoing packet exposes no private magnitude.</p>
+<p>If a positive request is already held, another positive request becomes a
+hold. A negative request remains permitted and first accounts for the positive
+debt. The rule is symmetric for negative debt. Missing pending information
+leaves the response unresolved; it does not pretend that there is no debt.</p>
+<p>The campaign ran 24 conditions: four situations, two response arrangements,
+and three starting values. With capacity three and a desired extent of six,
+the original repeated-request machine accumulated 25, 27 or 28 pending units.
+The gate kept one pending unit in each case. <strong>Neither version reached six.</strong>
+The improvement is bounded unfulfilled work, not successful geometry.</p>
+<p>When the goal falls to one, the permitted negative response first accounts
+for retained positive tension, then shrinks the visible extent. Both versions
+eventually reach one in the recorded horizon, but the gate has much less old
+work to account for. No tension is deleted or relabeled as success.</p>
+<p>This is appropriate for repeated advisory observations. It would not justify
+discarding independently arriving conserved material. The controller chooses
+whether to introduce a new adjustment; already admitted change remains subject
+to the carrier's accounting law.</p>
+<h2 id="step-2-let-one-message-finish-its-round-trip">Step 2: let one message finish its round trip</h2>
+<p>The second machine reserves one slot when it accepts a publication. Dispatch
+does not free that slot. The receiver processes the observation, its local
+receipt service connects that processing step to an opaque receipt, and the
+return of that exact receipt releases the reservation.</p>
+<p>The outward publication has no path into private supplier samples. The return
+receipt has no path into the receiver's private transition history. Private
+witnesses preserve those correspondences for inspection.</p>
+<p>The campaign schedules three beats to delivery and three beats for the receipt
+to return. That timing is supplied apparatus; the channel's occupancy, held
+packet, dispatch, receipt and operation history are native structure. The
+channel's own beat counts operations, while the viewer uses experiment beats.</p>
+<p>There are 45 conditions: five situations, three arrangements, and three starts.
+Both acknowledgement arrangements reach the fixed and reversed goals from all
+three starts. The older pipeline sometimes happens to match at the last frame
+while continuing to respond to obsolete comparisons. A matching final value is
+therefore reported separately from waiting, changing and unresolved behavior.</p>
+<p>Two failures are particularly useful:</p>
+<ul>
+<li><strong>Lost receipt:</strong> one processed request leaves the reservation occupied.
+  There is no automatic timeout or retransmission. One start happens to need
+  only that one step and reaches its goal, but its channel is still stuck.</li>
+<li><strong>Source changing during travel:</strong> the protocol does not predict a moving
+  target. None of the tested arrangements matches the continuously alternating
+  source at the end of this run.</li>
+</ul>
+<p>At insufficient capacity, acknowledgement alone only slows debt accumulation:
+the tested totals are 9, 11 and 12 units instead of the pipeline's 66, 68 and 69.
+Combining acknowledgement with the pending gate holds this to one unit.
+Receipts continue to return even for held or unresolved responses. They mean
+<strong>processed</strong>, not <strong>goal achieved</strong> or <strong>all tension settled</strong>.</p>
+<h2 id="step-3-make-competing-requests-explicit">Step 3: make competing requests explicit</h2>
+<p>Two sources now observe the same receiver. Each can fill a response slot only
+when its own comparison supplies a resolved response. Missing, ambiguous,
+foreign or empty support remains in its witness and leaves that slot unfilled.
+Vacancy is not a fourth physical comparison and is not zero.</p>
+<p>The supplied selector laws are:</p>
+<ul>
+<li><strong>Agreement:</strong> select a response only when both filled slots agree.</li>
+<li><strong>Prefer first:</strong> use the first filled slot, otherwise the second.</li>
+<li><strong>Prefer second:</strong> the reverse preference.</li>
+</ul>
+<p>The comparison control alternates sources on successive beats. All four use
+the pending gate downstream, so their capacity behavior can be compared
+without unbounded repeated debt obscuring the selection issue.</p>
+<p>There are 60 conditions. When both goals are four, all arrangements reach
+four from all three starts. For goals two and six, the priority rules reach
+their preferred goal from every start. The losing goal remains unmet and its
+offer remains read residue. There is no compromise scalar, summed command,
+or claim that both goals became true.</p>
+<p>Agreement can advance while both sources request the same direction. It then
+stops when their responses disagree. Depending on the starting value, it can
+stop at two, three or six. Reaching one of those goals does not remove the
+conflict. If the preferred comparison disappears or becomes ambiguous, the
+priority law explicitly falls back to the other filled slot. That is a
+selection policy, not an estimate of the missing comparison.</p>
+<p>Two identical requests also produce one response rather than two adjustments.
+This is coordination of observations, not addition of two material transfers.
+Whether priority is fair, appropriate or learned is outside this experiment.</p>
+<h2 id="step-4-ask-for-a-gap-rather-than-a-picture">Step 4: ask for a gap rather than a picture</h2>
+<p>The geometric sensor receives two actual native straight sections. It reads
+their ordered control words through a selected cardinal frame, checks for a
+positive longitudinal overlap, and measures their constant separation along
+the selected normal. It compares that gap with an advertised desired gap.</p>
+<p>A second connected relation states how increasing an actuator's extent moves
+the selected boundary. This is essential guidance: a difference alone does
+not say which legal operation will reduce it. The finite polarity law combines
+the comparison with that motion direction and publishes a coarse correction.</p>
+<pre><code class="language-text">actual section A -&gt; selected section role A
+actual section B -&gt; selected section role B
+selected normal + shared-reach calibration -&gt; gap read
+desired-gap port -&gt; comparison with that read
+actuator extent -&gt; moved section role -&gt; positive-motion word
+comparison + motion polarity -&gt; permitted correction
+</code></pre>
+<p>No rendered coordinates or target silhouette decide the action. Exact vector
+reads are calculated from the current native words in the selected shared
+basis. Captured extent samples remain connected to their actual advertised
+ports and their drawing-role bindings.</p>
+<p>The 48 conditions cover three constructions, four situations, two response
+arrangements and two starts. The lower half's height is the adjustable role.</p>
+<table>
+<thead>
+<tr>
+<th>Construction</th>
+<th>Effect of one actuator step on the selected gap</th>
+<th>Recorded behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cardinal cap</td>
+<td>One shared reach</td>
+<td>Reaches gaps six and five</td>
+</tr>
+<tr>
+<td>Diagonal cap</td>
+<td>One shared reach between its horizontal sections</td>
+<td>Reaches gaps six and five</td>
+</tr>
+<tr>
+<td>Inset cap</td>
+<td>Three shared reaches</td>
+<td>Reaches nine; alternates between nine and twelve when asked for ten</td>
+</tr>
+</tbody>
+</table>
+<p>The “resolution probe” uses a representable target of five for the first two
+constructions and an unrepresentable target of ten for the inset. These are
+positive and negative controls, not a claim that every target in that scenario
+is off the construction's spacing.</p>
+<p>The inset's failure does not produce fractional interpolation, an invented
+smaller unit or false equality. Its extent law keeps proposing opposite steps
+around the unavailable gap. Detecting that recurrent unresolved claim and
+requesting a finer construction is a future mechanism, not already learned.</p>
+<p>The geometry also exposes a cross-level conflict: the diagonal cap can reach
+the desired gap while its ending position differs from the other cap's end.
+The local claim succeeded; the complete outline did not thereby close. The
+viewer reports endpoint position agreement separately. Even agreement of
+positions would not establish shared site identity or a material weld.</p>
+<p>During withheld control observations, the independent evaluator still records
+the actual after-state gap for the plot. That diagnostic information is not
+sent to the actuator. The corresponding input support remains missing.</p>
+<p>This sensor is deliberately narrow. Nonparallel or unsupported sections,
+point-only overlap, a wrong-side frame, absent calibration, or tangential/no
+response motion cannot supply this constant-gap correction. It does not
+measure every whitespace region, minimum clearance or collision in a drawing.</p>
+<h2 id="what-has-been-verified-and-what-remains-supplied">What has been verified and what remains supplied</h2>
+<p>All 177 conditions retain their starting state and each observed frame. Four
+representative complete traces agree between native laws and their compact
+readers. Component tests additionally cover finite support combinations,
+missing and conflicting evidence, packet privacy, event replay, blocked
+capacity, response polarity and composed restoration during an active request.</p>
+<p>The four exported native graphs are <a href="pending.gojo">pending</a>,
+<a href="channel.gojo">channel</a>,
+<a href="arbitration.gojo">arbitration</a>, and
+<a href="gap.gojo">gap</a>. The actual exported byte streams
+are decoded during the run before they are reported as archives.</p>
+<p>The gate, channel, selector and actuator can be rebound after a composed
+restore and continue execution with their shared aliases intact. There is a
+remaining API gap for the geometric reader: its decoded curve/motion frame
+does not yet have a public exact rebind constructor. Saving and decoding that
+native geometry is verified; restarting the gap reader solely from its decoded
+graph is not yet demonstrated.</p>
+<p>Graph byte counts include whichever connected history the measured root
+retains, especially the channel's events and timeline. Exported exemplars also
+include native drawings, samples and private witnesses. These are inspection
+and transport costs, not minimal operational bits or a performance benchmark.
+The complete report is a bounded apparatus, not a single learned intelligence.</p>
+<p>We supplied goals, capacities, shared units, shape phases, observation surfaces,
+motion correspondence, response rows, priorities and delivery schedule. We did
+not supply intermediate target pictures or let an aesthetic evaluator choose
+individual actions. These remain small integral carrier experiments with
+coarse public decisions; the original pre-numeric participation bit has not
+been redefined.</p>
+<h2 id="what-this-suggests-next">What this suggests next</h2>
+<p>The clearest next geometric test is to let a gap claim and an endpoint claim
+coexist, each connected to a permitted extent role. In the diagonal example,
+changing height satisfies the gap but alters horizontal reach. A connected
+width response could then attempt to restore the seam. That would test two
+levels of meaning acting together, with explicit conflict if capacity or
+resolution prevents satisfying both.</p>
+<p>Other concrete gaps are receipt recovery after loss, a reader for restarting
+the saved geometric frame, and a local detector for repeated unresolved
+oscillation. Those additions should be inspectable machines with their own
+failure conditions, rather than an outside optimizer quietly correcting the
+picture. No discovery, automatic topology change, general interpolation or
+learning of priorities is claimed here.</p>
+<h2 id="reproduce">Reproduce</h2>
+<pre><code class="language-powershell">dotnet run -c Release --project experiments/QualitativeFrieze -- --machine-coordination
+python experiments/QualitativeFrieze/RenderMachineCoordinationNotes.py
+dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj --filter &quot;FullyQualifiedName~PendingAdjustmentGate|FullyQualifiedName~AcknowledgedComparisonChannel|FullyQualifiedName~ExtentResponseArbiter|FullyQualifiedName~GeometricGapClaim|FullyQualifiedName~MachineCoordinationStudy&quot;
+dotnet test Gojo.slnx
+</code></pre>
+<p>Implementation: <a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/MachineCoordinationStudy.cs">campaign</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/PendingAdjustmentGate.cs">pending gate</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/AcknowledgedComparisonChannel.cs">request channel</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/ExtentResponseArbiter.cs">response arbiter</a>, and
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/GeometricGapClaim.cs">gap claim</a>.</p>
+<p>The <a href="study-data.json">recorded JSON</a> supplies the
+interactive report. Markdown and HTML describe the same results and limits.</p><footer>Generated from repository Markdown. Source links open readable repository pages.</footer>
+</main></body></html>
