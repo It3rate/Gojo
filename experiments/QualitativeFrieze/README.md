@@ -1,5 +1,17 @@
 # Qualitative frieze generators
 
+The [three local adaptations](results/adaptive-claims/index.html) test alternative
+gap observations, finer response rungs, and motion words selected from retained
+trial evidence. The 84-condition campaign includes their composition and
+ablations. See the [overview](AdaptiveClaimStudy.md),
+[machine glossary](AdaptiveClaimGlossary.md), and
+[prospective protocol](AdaptiveClaimProtocol.md). This report remains local.
+
+```powershell
+dotnet run -c Release --project experiments/QualitativeFrieze -- --adaptive-claims
+python experiments/QualitativeFrieze/RenderAdaptiveClaimNotes.py
+```
+
 The [two-claim settlement experiment](results/coupled-claims/index.html) connects
 gap and endpoint comparisons to separate height and width controls. Its 176
 recorded conditions expose cooperation, capacity, resolution limits, and loss

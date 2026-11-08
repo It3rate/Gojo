@@ -42,7 +42,19 @@ public sealed class GeometricGapClaim
 
     public static GeometricGapClaim Create(Curve.Frame frame, Relation desiredGapPort,
         CoupledExtentMachine receiver, Relation normalDirection, Relation positiveMotionWord,
-        bool moveSecond = true)
+        bool moveSecond = true) => CreateCore(frame, desiredGapPort, receiver, normalDirection, positiveMotionWord, moveSecond, false);
+
+    /// <summary>Explicit calibration: one desired tick reads as one frame reach;
+    /// one actuator tick moves the selected role by the full connected word.
+    /// These independent correspondences allow different stable units. They are
+    /// supplied premises, not a conversion inferred from similar scalar values.</summary>
+    public static GeometricGapClaim CreateCalibrated(Curve.Frame frame, Relation desiredGapPort,
+        CoupledExtentMachine receiver, Relation normalDirection, Relation positiveMotionWord,
+        bool moveSecond = true) => CreateCore(frame, desiredGapPort, receiver, normalDirection, positiveMotionWord, moveSecond, true);
+
+    private static GeometricGapClaim CreateCore(Curve.Frame frame, Relation desiredGapPort,
+        CoupledExtentMachine receiver, Relation normalDirection, Relation positiveMotionWord,
+        bool moveSecond, bool declaredMotion)
     {
         if (!Port(desiredGapPort, out var desired, out _) ||
             !Port(receiver.ExtentPort, out var extent, out _))
@@ -58,7 +70,10 @@ public sealed class GeometricGapClaim
                 rows.Add(FiniteLaw.Row(comparisons[i], face,
                     S(outputs[checked((int)((i - 1) * face.Ticks + 1))])));
         var law = FiniteLaw.Create(S(comparisons), S(polarities), receiver.ComparisonDomain, rows.ToArray());
-        var calibration = desired.UnitShape.Equals(extent.UnitShape)
+        var calibration = declaredMotion
+            ? S(new Relation(Relation.Segment(desired, 0, 1), S(frame.Reach)),
+                new Relation(Relation.Segment(extent, 0, 1), positiveMotionWord))
+            : desired.UnitShape.Equals(extent.UnitShape)
             ? S(new Relation(Relation.Segment(desired, 0, 1), S(frame.Reach)),
                 new Relation(Relation.Segment(extent, 0, 1), S(frame.Reach)))
             : StructuralConstraint.Open(new Relation(desired.UnitShape.Surface, extent.UnitShape.Surface));
@@ -93,7 +108,8 @@ public sealed class GeometricGapClaim
         var desired = Port(c.DesiredPort, out _, out var target) ? (long?)target : null;
         var complete = c.Calibrated && desired.HasValue &&
             Measure(first, second, c.Normal, out var measuredGap, out var normal) &&
-            frame.Vector(c.Motion, out var motion) && Curve.Vector.Cross(motion, normal).IsZero &&
+            frame.Vector(c.Motion, out var motion) &&
+            (Curve.Vector.Cross(motion, normal).IsZero || HasDeclaredMotion(c)) &&
             !Curve.Vector.Dot(motion, normal).IsZero;
         Relation measurement = StructuralConstraint.Open(bindings, c.Calibration);
         var left = StructuralConstraint.Open(); var right = StructuralConstraint.Open();
@@ -192,9 +208,10 @@ public sealed class GeometricGapClaim
             !FiniteLaw.TryRead(law, out var left, out var right, out var outputDomain, out _) ||
             !Coordinates(left, measured, [-1, 0, 1]) || !Coordinates(right, polarity, [-1, 1]) ||
             !ReferenceEquals(outputDomain, domain) || !measured.UnitShape.Equals(desired.UnitShape)) return false;
-        var calibrated = desired.UnitShape.Equals(extent.UnitShape) && Closed(calibration, out var maps) &&
+        var calibrated = Closed(calibration, out var maps) &&
             maps is [Relation d, Relation a] && UnitSpan(d.Left, desired) &&
-            UnitSpan(a.Left, extent) && OneReach(d.Right) && OneReach(a.Right);
+            UnitSpan(a.Left, extent) && OneReach(d.Right) &&
+            (ReferenceEquals(a.Right, motion) || desired.UnitShape.Equals(extent.UnitShape) && OneReach(a.Right));
         if (!calibrated && (!StructuralConstraint.TryReadScope(calibration, out _, out var seam, out var tail) || seam.Equals(tail))) return false;
         c = new(first, second, normal, extentPort, moved, motion, desiredPort, calibration,
             sensor, owner, outputBasis, domain, measured, polarity, law, identity, calibrated);
@@ -203,6 +220,11 @@ public sealed class GeometricGapClaim
 
     private bool OneReach(IElement scope) => scope is Relation r && Closed(r, out var entries) &&
         entries.Length == 1 && ReferenceEquals(entries[0], frame.Reach);
+    // A full motion correspondence permits a selected-normal read even when
+    // movement also has a transverse component. The whole word stays in the
+    // witness; future loss of overlap is not ruled out by this local correction.
+    private static bool HasDeclaredMotion(Contract c) => Closed(c.Calibration, out var maps) &&
+        maps is [_, Relation actuator] && ReferenceEquals(actuator.Right, c.Motion);
     private static bool UnitSpan(IElement span, Carrier carrier) => span is Relation
         { Left: Relation { Left: CarrierLocation a, Right: Carrier ca }, Right: Relation { Left: CarrierLocation b, Right: Carrier cb } } &&
         ReferenceEquals(ca, carrier) && ReferenceEquals(cb, carrier) && ReferenceEquals(a.Carrier, carrier) &&
