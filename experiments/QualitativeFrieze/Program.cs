@@ -9,6 +9,7 @@ using Gojo.Experiments.QualitativeFrieze;
 using Gojo.Experiments.QualitativeFrieze.Learning;
 using Gojo.Experiments.QualitativeFrieze.Composition;
 
+if (args.Contains("--partial-decisions")) return PartialDecisionStudy.RunExperiment(args.Where(argument => argument != "--partial-decisions").ToArray());
 if (args.Contains("--adaptive-claims")) return AdaptiveClaimStudy.RunExperiment(args.Where(argument => argument != "--adaptive-claims").ToArray());
 if (args.Contains("--coupled-claims")) return CoupledClaimStudy.RunExperiment(args.Where(argument => argument != "--coupled-claims").ToArray());
 if (args.Contains("--machine-coordination")) return MachineCoordinationStudy.RunExperiment(args.Where(argument => argument != "--machine-coordination").ToArray());

@@ -1,5 +1,19 @@
 # Qualitative frieze generators
 
+The [partial-decision replay](results/partial-decisions/index.html) carries two
+controls through complete passes while preserving uncertain motion candidates.
+It compares shared responses, fixed guesses, pass-level preference revision,
+and bounded trials with explicit quiet grants. The 90 supplied conditions
+include failures of identification and capacity. See the
+[overview and findings](PartialDecisionStudy.md),
+[machine glossary](PartialDecisionGlossary.md), and
+[prospective protocol](PartialDecisionProtocol.md). This report remains local.
+
+```powershell
+dotnet run -c Release --project experiments/QualitativeFrieze -- --partial-decisions
+python experiments/QualitativeFrieze/RenderPartialDecisionNotes.py
+```
+
 The [three local adaptations](results/adaptive-claims/index.html) test alternative
 gap observations, finer response rungs, and motion words selected from retained
 trial evidence. The 84-condition campaign includes their composition and
