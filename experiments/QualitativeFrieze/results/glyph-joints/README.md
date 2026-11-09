@@ -4,11 +4,11 @@ This study keeps four questions separate: what is drawn, which sites are actuall
 
 An L can be a continuous bend or two attached pieces. Both can have the same ink and final connectivity. An H can be drawn left to right while its later bridge use permits travel both ways. The extra history or route law must be present; the glyph name does not supply it.
 
-Open [the visual atlas](index.html). [Recorded data](results.json), [native constructions](corpus.gojo), [native route machines](usage.gojo), and [native contextual reads](contexts.gojo) retain the experiment's different evidence surfaces.
+Open [the visual atlas](index.html). [Recorded data](results.json), [native glyph constructions](corpus.gojo), [native construction landmarks](construction.gojo), [native route machines](usage.gojo), and [native contextual reads](contexts.gojo) retain the experiment's different evidence surfaces.
 
 ## How to read the atlas
 
-1. Choose a glyph and compare its construction variants. Colored sections show pen strokes. A dashed lift is a move between strokes, not an ink connection.
+1. Choose a glyph and compare its construction variants. Colored sections show pen strokes. Select one stroke to see its green start and red stop. A dashed relocation moves the pen to its next landmark; it does not draw a connection.
 2. Examine a joint machine. Its lines show available structure; arrows show explicitly supplied routes. A probe records a move, a block, an unresolved choice, or incomplete evidence.
 3. Change the contextual premises. Ground contacts and a load-position projection onto the chosen ground/reference are supplied relations. A projection inside their span is a geometric read, not a proof of physical stability.
 
@@ -18,6 +18,7 @@ Open [the visual atlas](index.html). [Recorded data](results.json), [native cons
 | --- | --- | --- |
 | Section | Actual start and end sites, with the selected geometric evidence | A drawn crossing is not automatically a shared site. |
 | Pen stroke | Ordered visits to actual sections, with a selected traversal direction | Drawing direction is not a one-way traffic law. |
+| Construction landmark | A stroke start or stop refers to a site already exposed by earlier drawing, or to an explicitly supplied placement relation | A future section cannot provide evidence for an earlier move. |
 | Joint | Several section ends refer to one actual site | Shared attachment alone does not choose a turn or split conserved flow. |
 | Route | Exposed input, connected passage and destination | A route is not available merely because two lines touch in the image. |
 | Conditional law | Input and control evidence select permitted route candidates | Several candidates are not several executed copies of one packet. |
@@ -28,179 +29,297 @@ ODV remains a low-resolution magnitude read: V = 0 means undetectable at its sel
 
 ## Glyph catalogue
 
-These are authored construction examples. They are not a prescribed handwriting stroke order, exhaustive font catalogue, or automatic reading of a scanned glyph. Curve controls provide one explicit illustrative geometry. Counts concern the retained sections and shared endpoints, not every apparent shape in the drawing. Pen-stroke groups record drawing history; they do not supply material stiffness or bolt, hinge or weld laws.
+The baseline constructions follow the supplied teaching cards and the cited school-print guides, with noted choices where conventions differ. Variants distinguish other teaching conventions from authored construction experiments. Curve controls provide one illustrative geometry. Counts concern retained sections and shared endpoints, not every apparent shape in a drawing. Pen-stroke groups record drawing history; they do not supply material stiffness or bolt, hinge or weld laws.
 
-### A — One supplied construction
+The primary joint reading now follows construction history. A continuous corner in L differs from returning to an existing endpoint and attaching F's top bar. Starting at a known interior point and drawing outward differs from arriving at that point and stopping. The geometric tangent reading remains available alongside that history; it does not replace it.
 
-Rise along the left leg to the apex, descend the right leg, then attach a crossbar between two interior sites.
+### A — School-print construction
+
+Start at the apex and descend the left leg. Lift, return to that top endpoint and descend the right leg. Return to an interior landmark on the left leg and join across to the right leg.
 
 
 
-Variant `baseline`. Components: 1; free ends: 2; branch sites: 2; independent cycles: 1; pen strokes: 2; revisited sections: 0; complete read: True.
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
+Variant `baseline`. Components: 1; free ends: 2; branch sites: 2; independent cycles: 1; pen strokes: 3; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 → s3 | True | False |
-| 1 | s4 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 → s3 | True | False |
+| 3 | s4 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p4: Stop at a newly reached endpoint. | none |
+| 3 | p1: Lift and return to an existing interior landmark from stroke 1. | 1 | p3: Arrive at the existing interior landmark from stroke 2 and stop. This stroke joins two landmarks that already existed before it began. | 2 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p3: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 3, p1: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 3, p3: Arrive at the existing interior landmark from stroke 2 and stop. Earlier incidence count: 2; earlier source strokes: 2.
+- Stroke 3, p3: Connect two previously available landmarks with this new stroke. Earlier incidence count: 2; earlier source strokes: 2.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (2, 5) | True |
-| s1 | p1 → p2 | (2, 5) → (4, 10) | True |
-| s2 | p2 → p3 | (4, 10) → (6, 5) | True |
+| s0 | p0 → p1 | (4, 10) → (2, 5) | True |
+| s1 | p1 → p2 | (2, 5) → (0, 0) | True |
+| s2 | p0 → p3 | (4, 10) → (6, 5) | True |
 | s3 | p3 → p4 | (6, 5) → (8, 0) | True |
 | s4 | p1 → p3 | (2, 5) → (6, 5) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (2, 5) | 3 | T-like | 1 | 0 |
-| p2 | (4, 10) | 2 | bend | 0 | 0 |
-| p3 | (6, 5) | 3 | T-like | 1 | 0 |
-| p4 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (4, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Construct a secondary route outward from an earlier interior landmark. | (2, 5) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Continue through this site without lifting the pen., Arrive at the existing interior landmark from stroke 2 and stop., Connect two previously available landmarks with this new stroke. | (6, 5) | 3 | T-like | 1 | 0 |
+| p4 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
-### B — One supplied construction
+### B — School-print construction
 
-Draw one stem through its midpoint, then return through the upper and lower curved bowls.
+Draw the stem from top to bottom. Lift and return to its top endpoint; draw the upper bowl back to the middle landmark, then continue the lower bowl to the bottom endpoint.
 
 
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 0; branch sites: 1; independent cycles: 2; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 → s3 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 → s3 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p2: Arrive at the existing endpoint from stroke 1 and stop. This stroke joins two landmarks that already existed before it began. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p1: Reach an earlier interior landmark, then continue this stroke from it. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p2: Arrive at the existing endpoint from stroke 1 and stop. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p2: Connect two previously available landmarks with this new stroke. Earlier incidence count: 1; earlier source strokes: 1.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 5) | True |
-| s1 | p1 → p2 | (0, 5) → (0, 10) | True |
-| s2 | p2 → p1 | (0, 10) → (7, 10) → (7, 5) → (0, 5) | False |
-| s3 | p1 → p0 | (0, 5) → (8, 5) → (8, 0) → (0, 0) | False |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
+| s2 | p0 → p1 | (0, 10) → (7, 10) → (7, 5) → (0, 5) | False |
+| s3 | p1 → p2 | (0, 5) → (8, 5) → (8, 0) → (0, 0) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 2 | bend | 0 | 0 |
-| p1 | (0, 5) | 4 | multi-arm | 1 | 1 |
-| p2 | (0, 10) | 2 | bend | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Reach an earlier interior landmark, then continue this stroke from it. | (0, 5) | 4 | multi-arm | 1 | 1 |
+| p2 | Stop at a newly reached endpoint., Arrive at the existing endpoint from stroke 1 and stop., Connect two previously available landmarks with this new stroke. | (0, 0) | 2 | corner geometry | 0 | 0 |
 
-### C — One supplied construction
+### C — School-print construction
 
 Make one open curved return from the upper right to the lower right; the two ends remain distinct.
 
 
 
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 | True | False |
+| 1 | s0 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p1: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
 | s0 | p0 → p1 | (7, 9) → (-2, 12) → (-2, -2) → (7, 1) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (7, 9) | 1 | endpoint | 0 | 0 |
-| p1 | (7, 1) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (7, 9) | 1 | endpoint | 0 | 0 |
+| p1 | Stop at a newly reached endpoint. | (7, 1) | 1 | endpoint | 0 | 0 |
 
-### D — One supplied construction
+### D — School-print construction
 
-Draw a straight stem, lift, then attach a curved return from its top to its bottom.
+Draw the stem downwards. Lift and return to its top endpoint, then curve around to stop at the existing bottom endpoint.
 
 
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 0; branch sites: 0; independent cycles: 1; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 | True | False |
-| 1 | s1 | True | False |
+| 1 | s0 | True | False |
+| 2 | s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p1: Stop at a newly reached endpoint. | none |
+| 2 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p1: Arrive at the existing endpoint from stroke 1 and stop. This stroke joins two landmarks that already existed before it began. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p1: Arrive at the existing endpoint from stroke 1 and stop. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p1: Connect two previously available landmarks with this new stroke. Earlier incidence count: 1; earlier source strokes: 1.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 10) | True |
-| s1 | p1 → p0 | (0, 10) → (9, 10) → (9, 0) → (0, 0) | False |
+| s0 | p0 → p1 | (0, 10) → (0, 0) | True |
+| s1 | p0 → p1 | (0, 10) → (9, 10) → (9, 0) → (0, 0) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 2 | bend | 0 | 0 |
-| p1 | (0, 10) | 2 | bend | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Stop at a newly reached endpoint., Arrive at the existing endpoint from stroke 1 and stop., Connect two previously available landmarks with this new stroke. | (0, 0) | 2 | corner geometry | 0 | 0 |
 
-### E — One supplied construction
+### E — School-print construction
 
-Draw a stem through the middle attachment, then add the top, middle, and bottom bars.
+Draw the stem downwards. Return to its top endpoint for the top bar, to an interior landmark for the middle bar, and to its bottom endpoint for the bottom bar. Each bar leaves toward the right.
 
 
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 4; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 | True | False |
-| 2 | s3 | True | False |
-| 3 | s4 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 | True | False |
+| 3 | s3 | True | False |
+| 4 | s4 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p3: Stop at a newly reached endpoint. | none |
+| 3 | p1: Lift and return to an existing interior landmark from stroke 1. | 1 | p4: Stop at a newly reached endpoint. | none |
+| 4 | p2: Lift and return to an existing endpoint from stroke 1. | 1 | p5: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 3, p1: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 3, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 4, p2: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 4, p5: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 5) | True |
-| s1 | p1 → p2 | (0, 5) → (0, 10) | True |
-| s2 | p2 → p3 | (0, 10) → (8, 10) | True |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
+| s2 | p0 → p3 | (0, 10) → (8, 10) | True |
 | s3 | p1 → p4 | (0, 5) → (6, 5) | True |
-| s4 | p0 → p5 | (0, 0) → (8, 0) | True |
+| s4 | p2 → p5 | (0, 0) → (8, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 2 | bend | 0 | 0 |
-| p1 | (0, 5) | 3 | T-like | 1 | 0 |
-| p2 | (0, 10) | 2 | bend | 0 | 0 |
-| p3 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p4 | (6, 5) | 1 | endpoint | 0 | 0 |
-| p5 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Construct a secondary route outward from an earlier interior landmark. | (0, 5) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 0) | 2 | corner geometry | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p4 | Stop at a newly reached endpoint. | (6, 5) | 1 | endpoint | 0 | 0 |
+| p5 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
-### F — One supplied construction
+### F — School-print construction
 
-Draw a stem through the middle attachment, then add a bar at its top and another at its midpoint.
+Draw the stem downwards. Lift and return to its top endpoint to attach a rightward bar. Lift again and return to an interior landmark on the existing stem to begin a second rightward branch.
 
 
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 3; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 | True | False |
-| 2 | s3 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 | True | False |
+| 3 | s3 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p3: Stop at a newly reached endpoint. | none |
+| 3 | p1: Lift and return to an existing interior landmark from stroke 1. | 1 | p4: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 3, p1: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 3, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 5) | True |
-| s1 | p1 → p2 | (0, 5) → (0, 10) | True |
-| s2 | p2 → p3 | (0, 10) → (8, 10) | True |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
+| s2 | p0 → p3 | (0, 10) → (8, 10) | True |
 | s3 | p1 → p4 | (0, 5) → (6, 5) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 5) | 3 | T-like | 1 | 0 |
-| p2 | (0, 10) | 2 | bend | 0 | 0 |
-| p3 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p4 | (6, 5) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Construct a secondary route outward from an earlier interior landmark. | (0, 5) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p4 | Stop at a newly reached endpoint. | (6, 5) | 1 | endpoint | 0 | 0 |
 
-### G — One supplied construction
+### G — School-print construction
 
 Follow an open curved return, rise a short distance at its lower end, then turn inward.
 
 
 
+Teaching reference: [Zaner-Bloser manuscript formation guide](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
+
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 | True | False |
+| 1 | s0 → s1 → s2 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -208,57 +327,99 @@ Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cy
 | s1 | p1 → p2 | (7, 1) → (7, 5) | True |
 | s2 | p2 → p3 | (7, 5) → (4, 5) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (7, 9) | 1 | endpoint | 0 | 0 |
-| p1 | (7, 1) | 2 | bend | 0 | 0 |
-| p2 | (7, 5) | 2 | bend | 0 | 0 |
-| p3 | (4, 5) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (7, 9) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (7, 1) | 2 | corner geometry | 0 | 0 |
+| p2 | Change direction here during one continuous pen stroke. | (7, 5) | 2 | corner geometry | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (4, 5) | 1 | endpoint | 0 | 0 |
 
-### H — One supplied construction
+### H — School-print construction
 
-Draw two stems, each with an interior site, then draw a bridge between those two sites.
+Draw the left stem downwards. Use its top as a reference, move to an estimated rightward offset, and draw the parallel right stem downwards. Return to an interior landmark on the left stem and draw across to stop at the corresponding landmark on the right stem.
 
-The bridge is drawn left-to-right here. That is historical order, not a one-way traffic law.
+The offset is one supplied realization of an estimated placement. The bridge is drawn left-to-right; this history alone does not make later traffic one-way.
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 4; branch sites: 2; independent cycles: 0; pen strokes: 3; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 → s3 | True | False |
-| 2 | s4 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 → s3 | True | False |
+| 3 | s4 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p3: Locate a new start by the supplied offset from landmark p0 on stroke 1; the new stroke runs parallel to it. | none | p5: Stop at a newly reached endpoint. | none |
+| 3 | p1: Lift and return to an existing interior landmark from stroke 1. | 1 | p4: Arrive at the existing interior landmark from stroke 2 and stop. This stroke joins two landmarks that already existed before it began. | 2 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2: declared placement relative to p0 on stroke 1, local offset (8, 0), parallel read True.
+- Stroke 2, p3: Locate a new start by the supplied offset from landmark p0 on stroke 1; the new stroke runs parallel to it. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p4: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p5: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 3, p1: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 3, p4: Arrive at the existing interior landmark from stroke 2 and stop. Earlier incidence count: 2; earlier source strokes: 2.
+- Stroke 3, p4: Connect two previously available landmarks with this new stroke. Earlier incidence count: 2; earlier source strokes: 2.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 5) | True |
-| s1 | p1 → p2 | (0, 5) → (0, 10) | True |
-| s2 | p3 → p4 | (8, 0) → (8, 5) | True |
-| s3 | p4 → p5 | (8, 5) → (8, 10) | True |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
+| s2 | p3 → p4 | (8, 10) → (8, 5) | True |
+| s3 | p4 → p5 | (8, 5) → (8, 0) | True |
 | s4 | p1 → p4 | (0, 5) → (8, 5) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 5) | 3 | T-like | 1 | 0 |
-| p2 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p3 | (8, 0) | 1 | endpoint | 0 | 0 |
-| p4 | (8, 5) | 3 | T-like | 1 | 0 |
-| p5 | (8, 10) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Construct a secondary route outward from an earlier interior landmark. | (0, 5) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Locate a new start by the supplied offset from landmark p0 on stroke 1; the new stroke runs parallel to it. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p4 | Continue through this site without lifting the pen., Arrive at the existing interior landmark from stroke 2 and stop., Connect two previously available landmarks with this new stroke. | (8, 5) | 3 | T-like | 1 | 0 |
+| p5 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
-### I — One supplied construction
+### I — School-print construction
 
-Draw a top bar, attach a central stem, then draw a bottom bar through its lower endpoint.
+Draw the central stem downwards. Offset left from its top endpoint and draw the top bar through it; then offset left from the bottom endpoint and draw the bottom bar through that endpoint.
 
 
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 4; branch sites: 2; independent cycles: 0; pen strokes: 3; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
 | 1 | s2 | True | False |
-| 2 | s3 → s4 | True | False |
+| 2 | s0 → s1 | True | False |
+| 3 | s3 → s4 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p1: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+| 2 | p0: Locate a new start by the supplied offset from landmark p1 on stroke 1. | none | p2: Stop at a newly reached endpoint. | none |
+| 3 | p4: Locate a new start by the supplied offset from landmark p3 on stroke 1. | none | p5: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p1: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2: declared placement relative to p1 on stroke 1, local offset (-4, 0), parallel read False.
+- Stroke 2, p0: Locate a new start by the supplied offset from landmark p1 on stroke 1. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Reach an earlier endpoint, then continue this stroke from it. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 3: declared placement relative to p3 on stroke 1, local offset (-4, 0), parallel read False.
+- Stroke 3, p4: Locate a new start by the supplied offset from landmark p3 on stroke 1. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 3, p3: Reach an earlier endpoint, then continue this stroke from it. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 3, p5: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -268,288 +429,458 @@ Variant `baseline`. Components: 1; free ends: 4; branch sites: 2; independent cy
 | s3 | p4 → p3 | (0, 0) → (4, 0) | True |
 | s4 | p3 → p5 | (4, 0) → (8, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (4, 10) | 3 | T-like | 1 | 0 |
-| p2 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p3 | (4, 0) | 3 | T-like | 1 | 0 |
-| p4 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p5 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Locate a new start by the supplied offset from landmark p1 on stroke 1. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Start at a new site; no earlier landmark is supplied., Reach an earlier endpoint, then continue this stroke from it. | (4, 10) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p3 | Stop at a newly reached endpoint., Reach an earlier endpoint, then continue this stroke from it. | (4, 0) | 3 | T-like | 1 | 0 |
+| p4 | Locate a new start by the supplied offset from landmark p3 on stroke 1. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p5 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
-### J — One supplied construction
+### J — School-print construction
 
-Draw a top bar, then descend from its right end and curve left into an open hook.
+Draw the top bar left to right. Lift and return to a landmark inside that bar, descend the stem, then curve left into the hook.
 
+Top bar first follows the supplied card. The publisher chart also teaches a stem-and-hook-first variant, retained below.
 
+Teaching reference: [Supplied teaching card; compared with publisher guides](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
-Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
+Variant `baseline`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 | True | False |
-| 1 | s1 → s2 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 → s3 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p1: Lift and return to an existing interior landmark from stroke 1. | 1 | p4: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p3: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 10) → (7, 10) | True |
-| s1 | p1 → p2 | (7, 10) → (7, 3) | True |
-| s2 | p2 → p3 | (7, 3) → (7, -1) → (0, -1) → (0, 3) | False |
+| s0 | p0 → p1 | (0, 10) → (6, 10) | True |
+| s1 | p1 → p2 | (6, 10) → (8, 10) | True |
+| s2 | p1 → p3 | (6, 10) → (6, 3) | True |
+| s3 | p3 → p4 | (6, 3) → (6, -1) → (0, -1) → (0, 3) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (7, 10) | 2 | bend | 0 | 0 |
-| p2 | (7, 3) | 2 | tangent-continuation | 1 | 0 |
-| p3 | (0, 3) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Construct a secondary route outward from an earlier interior landmark. | (6, 10) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p3 | Continue through this site without lifting the pen. | (6, 3) | 2 | tangent-continuation | 1 | 0 |
+| p4 | Stop at a newly reached endpoint. | (0, 3) | 1 | endpoint | 0 | 0 |
 
-### K — One supplied construction
+### K — School-print construction
 
-Draw the stem, then descend from the upper right into its midpoint and leave toward the lower right.
+Draw the stem downwards. Offset right from its top endpoint, then draw diagonally into the existing middle landmark and continue toward the lower right.
 
 
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 4; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 → s3 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 → s3 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p3: Locate a new start by the supplied offset from landmark p0 on stroke 1. | none | p4: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2: declared placement relative to p0 on stroke 1, local offset (8, 0), parallel read unresolved.
+- Stroke 2, p3: Locate a new start by the supplied offset from landmark p0 on stroke 1. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Reach an earlier interior landmark, then continue this stroke from it. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 5) | True |
-| s1 | p1 → p2 | (0, 5) → (0, 10) | True |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
 | s2 | p3 → p1 | (8, 10) → (0, 5) | True |
 | s3 | p1 → p4 | (0, 5) → (8, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 5) | 4 | multi-arm | 1 | 0 |
-| p2 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p3 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p4 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Reach an earlier interior landmark, then continue this stroke from it. | (0, 5) | 4 | multi-arm | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Locate a new start by the supplied offset from landmark p0 on stroke 1. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p4 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
-### L — One supplied construction
+### L — School-print construction
 
 Descend the stem and continue around the bottom corner without lifting the pen.
 
 
 
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
+| 1 | s0 → s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
 | s0 | p0 → p1 | (0, 10) → (0, 0) | True |
 | s1 | p1 → p2 | (0, 0) → (8, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 0) | 2 | bend | 0 | 0 |
-| p2 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (0, 0) | 2 | corner geometry | 0 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
-### M — One supplied construction
+### M — School-print construction
 
-Rise, descend toward an interior valley, rise again, and descend the opposite side in one continuous path.
+Draw the left stem downwards. Lift and return to its top, descend diagonally to the valley, rise to the upper right, then descend the right stem.
 
 
 
-Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
+Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 → s3 | True | False |
+| 1 | s0 | True | False |
+| 2 | s1 → s2 → s3 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p1: Stop at a newly reached endpoint. | none |
+| 2 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p4: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p2: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p3: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 10) | True |
-| s1 | p1 → p2 | (0, 10) → (4, 5) | True |
+| s0 | p0 → p1 | (0, 10) → (0, 0) | True |
+| s1 | p0 → p2 | (0, 10) → (4, 5) | True |
 | s2 | p2 → p3 | (4, 5) → (8, 10) | True |
 | s3 | p3 → p4 | (8, 10) → (8, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 10) | 2 | bend | 0 | 0 |
-| p2 | (4, 5) | 2 | bend | 0 | 0 |
-| p3 | (8, 10) | 2 | bend | 0 | 0 |
-| p4 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p2 | Change direction here during one continuous pen stroke. | (4, 5) | 2 | corner geometry | 0 | 0 |
+| p3 | Change direction here during one continuous pen stroke. | (8, 10) | 2 | corner geometry | 0 | 0 |
+| p4 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
-### N — One supplied construction
+### N — School-print construction
 
-Rise on the left, descend diagonally to the lower right, then rise on the right.
+Draw the left stem downwards. Lift and return to its top endpoint, descend diagonally to the lower right, then continue up the right stem.
 
-Its distinction from Z depends on the selected horizontal and vertical frame.
+The first stem descends; the later right stem rises in this taught construction. Its distinction from Z also depends on the selected frame.
 
-Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
+Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 | True | False |
+| 1 | s0 | True | False |
+| 2 | s1 → s2 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p1: Stop at a newly reached endpoint. | none |
+| 2 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p3: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p2: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 10) | True |
-| s1 | p1 → p2 | (0, 10) → (8, 0) | True |
+| s0 | p0 → p1 | (0, 10) → (0, 0) | True |
+| s1 | p0 → p2 | (0, 10) → (8, 0) | True |
 | s2 | p2 → p3 | (8, 0) → (8, 10) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 10) | 2 | bend | 0 | 0 |
-| p2 | (8, 0) | 2 | bend | 0 | 0 |
-| p3 | (8, 10) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p2 | Change direction here during one continuous pen stroke. | (8, 0) | 2 | corner geometry | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
 
-### O — One supplied construction
+### O — School-print construction
 
-Traverse a rounded closed contour and return to the actual starting site.
+Start at the top, travel leftwards around the closed contour, and return counterclockwise to the starting site.
 
 Four native quadratic sections provide one rounded outline; this is not an exact metric-circle claim.
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 0; branch sites: 0; independent cycles: 1; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 → s3 | True | True |
+| 1 | s0 → s1 → s2 → s3 | True | True |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p0: Return to this stroke's actual starting site and stop. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p0: Return to this stroke's actual starting site and stop. Earlier incidence count: 1; earlier source strokes: 1.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (4, 10) → (8, 10) → (8, 5) | False |
-| s1 | p1 → p2 | (8, 5) → (8, 0) → (4, 0) | False |
-| s2 | p2 → p3 | (4, 0) → (0, 0) → (0, 5) | False |
-| s3 | p3 → p0 | (0, 5) → (0, 10) → (4, 10) | False |
+| s0 | p0 → p1 | (4, 10) → (0, 10) → (0, 5) | False |
+| s1 | p1 → p2 | (0, 5) → (0, 0) → (4, 0) | False |
+| s2 | p2 → p3 | (4, 0) → (8, 0) → (8, 5) | False |
+| s3 | p3 → p0 | (8, 5) → (8, 10) → (4, 10) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (4, 10) | 2 | tangent-continuation | 1 | 0 |
-| p1 | (8, 5) | 2 | tangent-continuation | 1 | 0 |
-| p2 | (4, 0) | 2 | tangent-continuation | 1 | 0 |
-| p3 | (0, 5) | 2 | tangent-continuation | 1 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Return to this stroke's actual starting site and stop. | (4, 10) | 2 | tangent-continuation | 1 | 0 |
+| p1 | Continue through this site without lifting the pen. | (0, 5) | 2 | tangent-continuation | 1 | 0 |
+| p2 | Continue through this site without lifting the pen. | (4, 0) | 2 | tangent-continuation | 1 | 0 |
+| p3 | Continue through this site without lifting the pen. | (8, 5) | 2 | tangent-continuation | 1 | 0 |
 
-### P — One supplied construction
+### P — School-print construction
 
-Draw a stem, then add a curved return from its top to an interior site, leaving a lower tail.
+Draw the stem downwards. Lift and return to its top endpoint, then draw a bowl that stops at an interior landmark on the existing stem.
 
 
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 1; branch sites: 1; independent cycles: 1; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p1: Arrive at the existing interior landmark from stroke 1 and stop. This stroke joins two landmarks that already existed before it began. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p1: Arrive at the existing interior landmark from stroke 1 and stop. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p1: Connect two previously available landmarks with this new stroke. Earlier incidence count: 2; earlier source strokes: 1.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 5) | True |
-| s1 | p1 → p2 | (0, 5) → (0, 10) | True |
-| s2 | p2 → p1 | (0, 10) → (8, 10) → (8, 5) → (0, 5) | False |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
+| s2 | p0 → p1 | (0, 10) → (8, 10) → (8, 5) → (0, 5) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 5) | 3 | T-like | 1 | 0 |
-| p2 | (0, 10) | 2 | bend | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Arrive at the existing interior landmark from stroke 1 and stop., Connect two previously available landmarks with this new stroke. | (0, 5) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
 
-### Q — One supplied construction
+### Q — School-print construction
 
 Draw a closed rounded contour, lift, then draw a short diagonal across its lower right area.
 
 The tail is a separate stroke with separate sites. A visible intersection does not silently weld it to the contour.
 
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
 Variant `baseline`. Components: 2; free ends: 2; branch sites: 0; independent cycles: 1; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 → s3 | True | True |
-| 1 | s4 | True | False |
+| 1 | s0 → s1 → s2 → s3 | True | True |
+| 2 | s4 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p0: Return to this stroke's actual starting site and stop. | 1 |
+| 2 | p4: Locate a new start by the supplied offset from landmark p2 on stroke 1. | none | p5: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p0: Return to this stroke's actual starting site and stop. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2: declared placement relative to p2 on stroke 1, local offset (1, 3), parallel read unresolved.
+- Stroke 2, p4: Locate a new start by the supplied offset from landmark p2 on stroke 1. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p5: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (4, 10) → (8, 10) → (8, 5) | False |
-| s1 | p1 → p2 | (8, 5) → (8, 0) → (4, 0) | False |
-| s2 | p2 → p3 | (4, 0) → (0, 0) → (0, 5) | False |
-| s3 | p3 → p0 | (0, 5) → (0, 10) → (4, 10) | False |
+| s0 | p0 → p1 | (4, 10) → (0, 10) → (0, 5) | False |
+| s1 | p1 → p2 | (0, 5) → (0, 0) → (4, 0) | False |
+| s2 | p2 → p3 | (4, 0) → (8, 0) → (8, 5) | False |
+| s3 | p3 → p0 | (8, 5) → (8, 10) → (4, 10) | False |
 | s4 | p4 → p5 | (5, 3) → (9, -1) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (4, 10) | 2 | tangent-continuation | 1 | 0 |
-| p1 | (8, 5) | 2 | tangent-continuation | 1 | 0 |
-| p2 | (4, 0) | 2 | tangent-continuation | 1 | 0 |
-| p3 | (0, 5) | 2 | tangent-continuation | 1 | 0 |
-| p4 | (5, 3) | 1 | endpoint | 0 | 0 |
-| p5 | (9, -1) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Return to this stroke's actual starting site and stop. | (4, 10) | 2 | tangent-continuation | 1 | 0 |
+| p1 | Continue through this site without lifting the pen. | (0, 5) | 2 | tangent-continuation | 1 | 0 |
+| p2 | Continue through this site without lifting the pen. | (4, 0) | 2 | tangent-continuation | 1 | 0 |
+| p3 | Continue through this site without lifting the pen. | (8, 5) | 2 | tangent-continuation | 1 | 0 |
+| p4 | Locate a new start by the supplied offset from landmark p2 on stroke 1. | (5, 3) | 1 | endpoint | 0 | 0 |
+| p5 | Stop at a newly reached endpoint. | (9, -1) | 1 | endpoint | 0 | 0 |
 
-### R — One supplied construction
+### R — School-print construction
 
-Draw a stem and upper bowl, then add a diagonal leg from their shared interior junction.
+Draw the stem downwards. Lift and return to its top, draw the bowl back to the middle landmark, then continue directly into the diagonal leg.
 
 
 
-Variant `baseline`. Components: 1; free ends: 2; branch sites: 1; independent cycles: 1; pen strokes: 3; revisited sections: 0; complete read: True.
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
+Variant `baseline`. Components: 1; free ends: 2; branch sites: 1; independent cycles: 1; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 | True | False |
-| 2 | s3 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 → s3 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p3: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p1: Reach an earlier interior landmark, then continue this stroke from it. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 5) | True |
-| s1 | p1 → p2 | (0, 5) → (0, 10) | True |
-| s2 | p2 → p1 | (0, 10) → (8, 10) → (8, 5) → (0, 5) | False |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
+| s2 | p0 → p1 | (0, 10) → (8, 10) → (8, 5) → (0, 5) | False |
 | s3 | p1 → p3 | (0, 5) → (8, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 5) | 4 | multi-arm | 1 | 0 |
-| p2 | (0, 10) | 2 | bend | 0 | 0 |
-| p3 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Reach an earlier interior landmark, then continue this stroke from it. | (0, 5) | 4 | multi-arm | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
-### S — One supplied construction
+### S — School-print construction
 
 Follow an upper curved return into a middle site, then reverse the bending sense through the lower return.
 
 
 
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
+| 1 | s0 → s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
 | s0 | p0 → p1 | (7, 9) → (-2, 12) → (-2, 6) → (4, 5) | False |
 | s1 | p1 → p2 | (4, 5) → (10, 4) → (10, -2) → (1, 1) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (7, 9) | 1 | endpoint | 0 | 0 |
-| p1 | (4, 5) | 2 | tangent-continuation | 1 | 0 |
-| p2 | (1, 1) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (7, 9) | 1 | endpoint | 0 | 0 |
+| p1 | Continue through this site without lifting the pen. | (4, 5) | 2 | tangent-continuation | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (1, 1) | 1 | endpoint | 0 | 0 |
 
-### T — One supplied construction
+### T — School-print construction
 
 Draw the top bar through its central site, lift, then attach a descending stem to that site.
 
+Top bar first follows the supplied card. A stem-first teaching variant is also shown; the resulting artifact has the same connectivity.
 
+Teaching reference: [Supplied teaching card; compared with publisher guides](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p1: Lift and return to an existing interior landmark from stroke 1. | 1 | p3: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -557,24 +888,37 @@ Variant `baseline`. Components: 1; free ends: 3; branch sites: 1; independent cy
 | s1 | p1 → p2 | (4, 10) → (8, 10) | True |
 | s2 | p1 → p3 | (4, 10) → (4, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (4, 10) | 3 | T-like | 1 | 0 |
-| p2 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p3 | (4, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Construct a secondary route outward from an earlier interior landmark. | (4, 10) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (4, 0) | 1 | endpoint | 0 | 0 |
 
-### U — One supplied construction
+### U — School-print construction
 
 Descend the left side, follow a curved bottom return, and rise on the right without lifting.
 
 
 
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 | True | False |
+| 1 | s0 → s1 → s2 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -582,47 +926,73 @@ Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cy
 | s1 | p1 → p2 | (0, 3) → (0, -1) → (8, -1) → (8, 3) | False |
 | s2 | p2 → p3 | (8, 3) → (8, 10) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 3) | 2 | tangent-continuation | 1 | 0 |
-| p2 | (8, 3) | 2 | tangent-continuation | 1 | 0 |
-| p3 | (8, 10) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Continue through this site without lifting the pen. | (0, 3) | 2 | tangent-continuation | 1 | 0 |
+| p2 | Continue through this site without lifting the pen. | (8, 3) | 2 | tangent-continuation | 1 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
 
-### V — One supplied construction
+### V — School-print construction
 
 Descend to one bottom site, then rise from that same site toward the opposite upper end.
 
 A low point is not, by itself, a certificate of physical instability; that needs a support and load context.
 
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
+| 1 | s0 → s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
 | s0 | p0 → p1 | (0, 10) → (4, 0) | True |
 | s1 | p1 → p2 | (4, 0) → (8, 10) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (4, 0) | 2 | bend | 0 | 0 |
-| p2 | (8, 10) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (4, 0) | 2 | corner geometry | 0 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
 
-### W — One supplied construction
+### W — School-print construction
 
 Descend, rise to an inner peak, descend again, then rise to the final endpoint.
 
 
 
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 → s3 | True | False |
+| 1 | s0 → s1 → s2 → s3 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p4: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -631,55 +1001,88 @@ Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cy
 | s2 | p2 → p3 | (4, 5) → (6, 0) | True |
 | s3 | p3 → p4 | (6, 0) → (8, 10) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (2, 0) | 2 | bend | 0 | 0 |
-| p2 | (4, 5) | 2 | bend | 0 | 0 |
-| p3 | (6, 0) | 2 | bend | 0 | 0 |
-| p4 | (8, 10) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (2, 0) | 2 | corner geometry | 0 | 0 |
+| p2 | Change direction here during one continuous pen stroke. | (4, 5) | 2 | corner geometry | 0 | 0 |
+| p3 | Change direction here during one continuous pen stroke. | (6, 0) | 2 | corner geometry | 0 | 0 |
+| p4 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
 
-### X — One supplied construction
+### X — School-print construction
 
-Draw two diagonals, lifting between them. Their central sites coincide in this view but are independently identified.
+Draw a diagonal from upper left to lower right. Lift and offset to the upper right, then draw down to the lower left. Their central sites coincide in this view but remain independently identified.
 
 This is a crossing interpretation. See the joined variant for an explicit four-arm shared site.
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 2; free ends: 4; branch sites: 0; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 → s3 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 → s3 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p3: Locate a new start by the supplied offset from landmark p0 on stroke 1. | none | p5: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2: declared placement relative to p0 on stroke 1, local offset (8, 0), parallel read False.
+- Stroke 2, p3: Locate a new start by the supplied offset from landmark p0 on stroke 1. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p4: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p5: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (4, 5) | True |
-| s1 | p1 → p2 | (4, 5) → (8, 10) | True |
-| s2 | p3 → p4 | (0, 10) → (4, 5) | True |
-| s3 | p4 → p5 | (4, 5) → (8, 0) | True |
+| s0 | p0 → p1 | (0, 10) → (4, 5) | True |
+| s1 | p1 → p2 | (4, 5) → (8, 0) | True |
+| s2 | p3 → p4 | (8, 10) → (4, 5) | True |
+| s3 | p4 → p5 | (4, 5) → (0, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (4, 5) | 2 | tangent-continuation | 1 | 0 |
-| p2 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p3 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p4 | (4, 5) | 2 | tangent-continuation | 1 | 0 |
-| p5 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Continue through this site without lifting the pen. | (4, 5) | 2 | tangent-continuation | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Locate a new start by the supplied offset from landmark p0 on stroke 1. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p4 | Continue through this site without lifting the pen. | (4, 5) | 2 | tangent-continuation | 1 | 0 |
+| p5 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
 
-### Y — One supplied construction
+### Y — School-print construction
 
-Descend from the upper left through a junction into the stem, lift, then attach the upper right arm.
+Descend from the upper left and stop at the junction landmark. Lift and offset to the upper right, draw into that existing landmark, then continue down the stem.
 
 
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
 
 Variant `baseline`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 | True | False |
+| 1 | s0 | True | False |
+| 2 | s2 → s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p1: Stop at a newly reached endpoint. | none |
+| 2 | p3: Locate a new start by the supplied offset from landmark p0 on stroke 1. | none | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2: declared placement relative to p0 on stroke 1, local offset (8, 0), parallel read unresolved.
+- Stroke 2, p3: Locate a new start by the supplied offset from landmark p0 on stroke 1. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Reach an earlier endpoint, then continue this stroke from it. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -687,24 +1090,37 @@ Variant `baseline`. Components: 1; free ends: 3; branch sites: 1; independent cy
 | s1 | p1 → p2 | (4, 5) → (4, 0) | True |
 | s2 | p3 → p1 | (8, 10) → (4, 5) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (4, 5) | 3 | three-arm | 0 | 0 |
-| p2 | (4, 0) | 1 | endpoint | 0 | 0 |
-| p3 | (8, 10) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Stop at a newly reached endpoint., Reach an earlier endpoint, then continue this stroke from it. | (4, 5) | 3 | three-arm | 0 | 0 |
+| p2 | Stop at a newly reached endpoint. | (4, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Locate a new start by the supplied offset from landmark p0 on stroke 1. | (8, 10) | 1 | endpoint | 0 | 0 |
 
-### Z — One supplied construction
+### Z — School-print construction
 
 Cross the top, descend diagonally to the lower left, then cross the bottom in one path.
 
 Rotate its viewing frame and the same unlabelled three-link topology admits another glyph interpretation.
 
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 | True | False |
+| 1 | s0 → s1 → s2 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -712,78 +1128,109 @@ Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cy
 | s1 | p1 → p2 | (8, 10) → (0, 0) | True |
 | s2 | p2 → p3 | (0, 0) → (8, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (8, 10) | 2 | bend | 0 | 0 |
-| p2 | (0, 0) | 2 | bend | 0 | 0 |
-| p3 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (8, 10) | 2 | corner geometry | 0 | 0 |
+| p2 | Change direction here during one continuous pen stroke. | (0, 0) | 2 | corner geometry | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
-### 0 — One supplied construction
+### 0 — School-print construction
 
-Traverse one rounded closed contour; no topology-only read distinguishes this fixture from O.
+Start at the top and travel leftwards around a counterclockwise closed contour. Its topology alone does not distinguish it from O.
 
 
+
+Teaching reference: [Zaner-Bloser manuscript formation guide](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
 
 Variant `baseline`. Components: 1; free ends: 0; branch sites: 0; independent cycles: 1; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 → s3 | True | True |
+| 1 | s0 → s1 → s2 → s3 | True | True |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p0: Return to this stroke's actual starting site and stop. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p0: Return to this stroke's actual starting site and stop. Earlier incidence count: 1; earlier source strokes: 1.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (4, 10) → (8, 10) → (8, 5) | False |
-| s1 | p1 → p2 | (8, 5) → (8, 0) → (4, 0) | False |
-| s2 | p2 → p3 | (4, 0) → (0, 0) → (0, 5) | False |
-| s3 | p3 → p0 | (0, 5) → (0, 10) → (4, 10) | False |
+| s0 | p0 → p1 | (4, 10) → (0, 10) → (0, 5) | False |
+| s1 | p1 → p2 | (0, 5) → (0, 0) → (4, 0) | False |
+| s2 | p2 → p3 | (4, 0) → (8, 0) → (8, 5) | False |
+| s3 | p3 → p0 | (8, 5) → (8, 10) → (4, 10) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (4, 10) | 2 | tangent-continuation | 1 | 0 |
-| p1 | (8, 5) | 2 | tangent-continuation | 1 | 0 |
-| p2 | (4, 0) | 2 | tangent-continuation | 1 | 0 |
-| p3 | (0, 5) | 2 | tangent-continuation | 1 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Return to this stroke's actual starting site and stop. | (4, 10) | 2 | tangent-continuation | 1 | 0 |
+| p1 | Continue through this site without lifting the pen. | (0, 5) | 2 | tangent-continuation | 1 | 0 |
+| p2 | Continue through this site without lifting the pen. | (4, 0) | 2 | tangent-continuation | 1 | 0 |
+| p3 | Continue through this site without lifting the pen. | (8, 5) | 2 | tangent-continuation | 1 | 0 |
 
-### 1 — One supplied construction
+### 1 — School-print construction
 
-Draw a short leading diagonal into the top of a stem, descend, then add a baseline through its bottom site.
+Start at the top and draw one straight downward stroke to the bottom stop.
 
+The plain school-print form follows the supplied card. A leading serif or baseline would be another construction.
 
-
-Variant `baseline`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
-
-| Stroke | Ordered section visits | Continuous | Closed |
-| --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 → s3 | True | False |
-
-| Section | Actual sites | Selected control words | Straight read |
-| --- | --- | --- | --- |
-| s0 | p0 → p1 | (2, 8) → (4, 10) | True |
-| s1 | p1 → p2 | (4, 10) → (4, 0) | True |
-| s2 | p3 → p2 | (1, 0) → (4, 0) | True |
-| s3 | p2 → p4 | (4, 0) → (7, 0) | True |
-
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (2, 8) | 1 | endpoint | 0 | 0 |
-| p1 | (4, 10) | 2 | bend | 0 | 0 |
-| p2 | (4, 0) | 3 | T-like | 1 | 0 |
-| p3 | (1, 0) | 1 | endpoint | 0 | 0 |
-| p4 | (7, 0) | 1 | endpoint | 0 | 0 |
-
-### 2 — One supplied construction
-
-Curve across the top, descend diagonally to the lower left, then turn along the baseline.
-
-
+Teaching reference: [Zaner-Bloser manuscript formation guide](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
 
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 | True | False |
+| 1 | s0 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p1: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+
+| Section | Actual sites | Selected control words | Straight read |
+| --- | --- | --- | --- |
+| s0 | p0 → p1 | (4, 10) → (4, 0) | True |
+
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (4, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Stop at a newly reached endpoint. | (4, 0) | 1 | endpoint | 0 | 0 |
+
+### 2 — School-print construction
+
+Curve across the top, descend diagonally to the lower left, then turn along the baseline.
+
+
+
+Teaching reference: [Zaner-Bloser manuscript formation guide](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
+
+Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
+
+| Stroke | Ordered section visits | Continuous | Closed |
+| --- | --- | --- | --- |
+| 1 | s0 → s1 → s2 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -791,48 +1238,78 @@ Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cy
 | s1 | p1 → p2 | (8, 8) → (0, 0) | True |
 | s2 | p2 → p3 | (0, 0) → (8, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 8) | 1 | endpoint | 0 | 0 |
-| p1 | (8, 8) | 2 | bend | 0 | 0 |
-| p2 | (0, 0) | 2 | bend | 0 | 0 |
-| p3 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 8) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (8, 8) | 2 | corner geometry | 0 | 0 |
+| p2 | Change direction here during one continuous pen stroke. | (0, 0) | 2 | corner geometry | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
-### 3 — One supplied construction
+### 3 — School-print construction
 
 Make two successive rightward curved returns joined at a middle site, with no stem closing either bowl.
 
 
 
+Teaching reference: [Zaner-Bloser manuscript formation guide](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
+
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
+| 1 | s0 → s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
 | s0 | p0 → p1 | (0, 10) → (8, 10) → (8, 5) → (0, 5) | False |
 | s1 | p1 → p2 | (0, 5) → (8, 5) → (8, 0) → (0, 0) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 5) | 2 | fold-back | 0 | 1 |
-| p2 | (0, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (0, 5) | 2 | fold-back | 0 | 1 |
+| p2 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
 
-### 4 — One supplied construction
+### 4 — School-print construction
 
 Descend diagonally, turn right through a crossing site, then lift and draw a stem through that site.
 
-This open-top 4 has no cycle. The closed-top variant shares the upper starting site and does have one.
+Diagonal first follows the supplied card; Zaner-Bloser also teaches a vertical first arm. This open-top 4 has no cycle; the closed-top variant does.
+
+Teaching reference: [Supplied teaching card; compared with publisher guides](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
 
 Variant `baseline`. Components: 1; free ends: 4; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 | True | False |
-| 1 | s3 → s4 | True | False |
+| 1 | s0 → s1 → s2 | True | False |
+| 2 | s3 → s4 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+| 2 | p4: Locate a new start by the supplied offset from landmark p0 on stroke 1. | none | p5: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2: declared placement relative to p0 on stroke 1, local offset (1, 0), parallel read unresolved.
+- Stroke 2, p4: Locate a new start by the supplied offset from landmark p0 on stroke 1. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p2: Reach an earlier interior landmark, then continue this stroke from it. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p5: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -842,26 +1319,39 @@ Variant `baseline`. Components: 1; free ends: 4; branch sites: 1; independent cy
 | s3 | p4 → p2 | (6, 10) → (6, 3) | True |
 | s4 | p2 → p5 | (6, 3) → (6, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (5, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 3) | 2 | bend | 0 | 0 |
-| p2 | (6, 3) | 4 | crossing-like | 2 | 0 |
-| p3 | (8, 3) | 1 | endpoint | 0 | 0 |
-| p4 | (6, 10) | 1 | endpoint | 0 | 0 |
-| p5 | (6, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (5, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (0, 3) | 2 | corner geometry | 0 | 0 |
+| p2 | Continue through this site without lifting the pen., Reach an earlier interior landmark, then continue this stroke from it. | (6, 3) | 4 | crossing-like | 2 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 3) | 1 | endpoint | 0 | 0 |
+| p4 | Locate a new start by the supplied offset from landmark p0 on stroke 1. | (6, 10) | 1 | endpoint | 0 | 0 |
+| p5 | Stop at a newly reached endpoint. | (6, 0) | 1 | endpoint | 0 | 0 |
 
-### 5 — One supplied construction
+### 5 — School-print construction
 
 Cross the top toward the left, descend a short stem, then make a curved lower return.
 
+One continuous top-bar-first stroke follows the supplied card. A separately added top bar is a legitimate alternate teaching convention.
 
+Teaching reference: [Supplied teaching card; compared with publisher guides](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
 
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 | True | False |
+| 1 | s0 → s1 → s2 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -869,204 +1359,360 @@ Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cy
 | s1 | p1 → p2 | (0, 10) → (0, 6) | True |
 | s2 | p2 → p3 | (0, 6) → (10, 8) → (10, -1) → (0, 0) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 10) | 2 | bend | 0 | 0 |
-| p2 | (0, 6) | 2 | bend | 0 | 0 |
-| p3 | (0, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p2 | Change direction here during one continuous pen stroke. | (0, 6) | 2 | corner geometry | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
 
-### 6 — One supplied construction
+### 6 — School-print construction
 
-Curve down from a free upper tail into a bowl, then travel around that bowl back to its actual joining site.
+Start at the free upper tail and curve down the outer left. Continue around the lower bowl, rise on its right side, and return through the upper bowl to stop at the earlier left-hand landmark.
 
 
+
+Teaching reference: [Zaner-Bloser manuscript formation guide](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
 
 Variant `baseline`. Components: 1; free ends: 1; branch sites: 1; independent cycles: 1; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 | True | False |
+| 1 | s0 → s1 → s2 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p1: Stop at a landmark already reached earlier in this same stroke. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Stop at a landmark already reached earlier in this same stroke. Earlier incidence count: 2; earlier source strokes: 1.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (7, 10) → (1, 12) → (-1, 7) → (0, 4) | False |
-| s1 | p1 → p2 | (0, 4) → (0, 8) → (8, 8) → (8, 3) | False |
-| s2 | p2 → p1 | (8, 3) → (8, -1) → (0, -1) → (0, 4) | False |
+| s0 | p0 → p1 | (7, 10) → (3, 8) → (-1, 7) → (0, 4) | False |
+| s1 | p1 → p2 | (0, 4) → (0, -1) → (8, -1) → (8, 3) | False |
+| s2 | p2 → p1 | (8, 3) → (8, 8) → (0, 8) → (0, 4) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (7, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 4) | 3 | T-like | 1 | 0 |
-| p2 | (8, 3) | 2 | tangent-continuation | 1 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (7, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke., Stop at a landmark already reached earlier in this same stroke. | (0, 4) | 3 | T-like | 1 | 0 |
+| p2 | Continue through this site without lifting the pen. | (8, 3) | 2 | tangent-continuation | 1 | 0 |
 
-### 7 — One supplied construction
+### 7 — School-print construction
 
 Cross the top and descend diagonally from its right endpoint without lifting.
 
 
 
+Teaching reference: [Zaner-Bloser manuscript formation guide](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
+
 Variant `baseline`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
+| 1 | s0 → s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
 | s0 | p0 → p1 | (0, 10) → (8, 10) | True |
 | s1 | p1 → p2 | (8, 10) → (2, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (8, 10) | 2 | bend | 0 | 0 |
-| p2 | (2, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (8, 10) | 2 | corner geometry | 0 | 0 |
+| p2 | Stop at a newly reached endpoint. | (2, 0) | 1 | endpoint | 0 | 0 |
 
-### 8 — One supplied construction
+### 8 — School-print construction
 
-Trace an upper loop, return to the waist, then trace a lower loop through the same waist.
+Start near the top, curve down the upper left and through the waist into the lower right. Round the bottom, pass through the waist again from the lower left, and finish up the upper right at the starting site.
 
 
+
+Teaching reference: [Zaner-Bloser manuscript formation guide](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
 
 Variant `baseline`. Components: 1; free ends: 0; branch sites: 1; independent cycles: 2; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 → s3 | True | True |
+| 1 | s0 → s1 → s2 → s3 | True | True |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p0: Return to this stroke's actual starting site and stop. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Revisit a landmark reached earlier in this same stroke, then continue. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 1, p0: Return to this stroke's actual starting site and stop. Earlier incidence count: 1; earlier source strokes: 1.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (4, 5) → (-2, 5) → (-2, 10) → (4, 10) | False |
-| s1 | p1 → p0 | (4, 10) → (10, 10) → (10, 5) → (4, 5) | False |
-| s2 | p0 → p2 | (4, 5) → (-3, 5) → (-3, 0) → (4, 0) | False |
-| s3 | p2 → p0 | (4, 0) → (11, 0) → (11, 5) → (4, 5) | False |
+| s0 | p0 → p1 | (4, 10) → (-2, 10) → (-2, 8) → (4, 5) | False |
+| s1 | p1 → p2 | (4, 5) → (10, 2) → (11, 0) → (4, 0) | False |
+| s2 | p2 → p1 | (4, 0) → (-3, 0) → (-2, 2) → (4, 5) | False |
+| s3 | p1 → p0 | (4, 5) → (10, 8) → (10, 10) → (4, 10) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (4, 5) | 4 | multi-arm | 4 | 2 |
-| p1 | (4, 10) | 2 | tangent-continuation | 1 | 0 |
-| p2 | (4, 0) | 2 | tangent-continuation | 1 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Return to this stroke's actual starting site and stop. | (4, 10) | 2 | tangent-continuation | 1 | 0 |
+| p1 | Continue through this site without lifting the pen., Revisit a landmark reached earlier in this same stroke, then continue. | (4, 5) | 4 | crossing-like | 2 | 0 |
+| p2 | Continue through this site without lifting the pen. | (4, 0) | 2 | tangent-continuation | 1 | 0 |
 
-### 9 — One supplied construction
+### 9 — School-print construction
 
-Trace an upper loop and continue from its joining site into a descending curved tail.
+Start near the upper right, curve leftwards around the bowl and back to the starting landmark, then continue into the descending tail.
 
 
+
+Teaching reference: [Zaner-Bloser manuscript formation guide](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
 
 Variant `baseline`. Components: 1; free ends: 1; branch sites: 1; independent cycles: 1; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 | True | False |
+| 1 | s0 → s1 → s2 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p0: Revisit a landmark reached earlier in this same stroke, then continue. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (8, 6) → (8, 11) → (0, 11) → (0, 7) | False |
-| s1 | p1 → p0 | (0, 7) → (0, 3) → (8, 3) → (8, 6) | False |
-| s2 | p0 → p2 | (8, 6) → (8, 1) → (5, -1) → (1, 0) | False |
+| s0 | p0 → p1 | (7, 9) → (3, 12) → (-1, 10) → (0, 7) | False |
+| s1 | p1 → p0 | (0, 7) → (0, 3) → (9, 2) → (7, 9) | False |
+| s2 | p0 → p2 | (7, 9) → (9, 3) → (5, -1) → (1, 0) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (8, 6) | 3 | three-arm | 2 | 1 |
-| p1 | (0, 7) | 2 | tangent-continuation | 1 | 0 |
-| p2 | (1, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Revisit a landmark reached earlier in this same stroke, then continue. | (7, 9) | 3 | three-arm | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (0, 7) | 2 | corner geometry | 0 | 0 |
+| p2 | Stop at a newly reached endpoint. | (1, 0) | 1 | endpoint | 0 | 0 |
 
 ### L — Stem plus attached foot
 
 Draw the stem, lift, then attach the foot at its lower endpoint.
 
-Same actual sections and sites as the baseline. Only the selected ordered construction history changes; no traffic permission is implied.
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
 
 Variant `attached`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 | True | False |
-| 1 | s1 | True | False |
+| 1 | s0 | True | False |
+| 2 | s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p1: Stop at a newly reached endpoint. | none |
+| 2 | p1: Lift and return to an existing endpoint from stroke 1. | 1 | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
 | s0 | p0 → p1 | (0, 10) → (0, 0) | True |
 | s1 | p1 → p2 | (0, 0) → (8, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 0) | 2 | bend | 0 | 0 |
-| p2 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Stop at a newly reached endpoint., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 0) | 2 | corner geometry | 0 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
 ### F — Continuous top corner
 
 Start at the top bar's right end, turn down into the whole stem, then add the middle bar.
 
-Same actual sections and sites as the baseline. Only the selected ordered construction history changes; no traffic permission is implied.
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
 
 Variant `corner-first`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s2 reversed → s1 reversed → s0 reversed | True | False |
-| 1 | s3 | True | False |
+| 1 | s2 reversed → s0 → s1 | True | False |
+| 2 | s3 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p3: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p1: Lift and return to an existing interior landmark from stroke 1. | 1 | p4: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p3: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p0: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 5) | True |
-| s1 | p1 → p2 | (0, 5) → (0, 10) | True |
-| s2 | p2 → p3 | (0, 10) → (8, 10) | True |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
+| s2 | p0 → p3 | (0, 10) → (8, 10) | True |
 | s3 | p1 → p4 | (0, 5) → (6, 5) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 5) | 3 | T-like | 1 | 0 |
-| p2 | (0, 10) | 2 | bend | 0 | 0 |
-| p3 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p4 | (6, 5) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Change direction here during one continuous pen stroke. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Construct a secondary route outward from an earlier interior landmark. | (0, 5) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Start at a new site; no earlier landmark is supplied. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p4 | Stop at a newly reached endpoint. | (6, 5) | 1 | endpoint | 0 | 0 |
+
+### F — Bars arrive at the stem
+
+Draw the stem downwards, then draw each bar from the outside toward it. The upper bar stops at its top endpoint; the middle bar stops at its interior landmark.
+
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
+
+Variant `bars-incoming`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 3; revisited sections: 0; complete read: True.
+
+| Stroke | Ordered section visits | Continuous | Closed |
+| --- | --- | --- | --- |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 reversed | True | False |
+| 3 | s3 reversed | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p3: Start at a new site; no earlier landmark is supplied. | none | p0: Arrive at the existing endpoint from stroke 1 and stop. | 1 |
+| 3 | p4: Start at a new site; no earlier landmark is supplied. | none | p1: Arrive at the existing interior landmark from stroke 1 and stop. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p3: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Arrive at the existing endpoint from stroke 1 and stop. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 3, p4: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 3, p1: Arrive at the existing interior landmark from stroke 1 and stop. Earlier incidence count: 2; earlier source strokes: 1.
+
+| Section | Actual sites | Selected control words | Straight read |
+| --- | --- | --- | --- |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
+| s2 | p0 → p3 | (0, 10) → (8, 10) | True |
+| s3 | p1 → p4 | (0, 5) → (6, 5) | True |
+
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Arrive at the existing endpoint from stroke 1 and stop. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Arrive at the existing interior landmark from stroke 1 and stop. | (0, 5) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Start at a new site; no earlier landmark is supplied. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p4 | Start at a new site; no earlier landmark is supplied. | (6, 5) | 1 | endpoint | 0 | 0 |
 
 ### H — Opposed bridge read
 
 Draw the same two stems, then draw the bridge from right to left.
 
-Same actual sections and sites as the baseline. Only the selected ordered construction history changes; no traffic permission is implied.
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
 
 Variant `bridge-reversed`. Components: 1; free ends: 4; branch sites: 2; independent cycles: 0; pen strokes: 3; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 → s3 | True | False |
-| 2 | s4 reversed | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 → s3 | True | False |
+| 3 | s4 reversed | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p3: Locate a new start by the supplied offset from landmark p0 on stroke 1; the new stroke runs parallel to it. | none | p5: Stop at a newly reached endpoint. | none |
+| 3 | p4: Lift and return to an existing interior landmark from stroke 2. | 2 | p1: Arrive at the existing interior landmark from stroke 1 and stop. This stroke joins two landmarks that already existed before it began. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2: declared placement relative to p0 on stroke 1, local offset (8, 0), parallel read True.
+- Stroke 2, p3: Locate a new start by the supplied offset from landmark p0 on stroke 1; the new stroke runs parallel to it. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p4: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p5: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 3, p4: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 2.
+- Stroke 3, p1: Arrive at the existing interior landmark from stroke 1 and stop. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 3, p1: Connect two previously available landmarks with this new stroke. Earlier incidence count: 2; earlier source strokes: 1.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 5) | True |
-| s1 | p1 → p2 | (0, 5) → (0, 10) | True |
-| s2 | p3 → p4 | (8, 0) → (8, 5) | True |
-| s3 | p4 → p5 | (8, 5) → (8, 10) | True |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
+| s2 | p3 → p4 | (8, 10) → (8, 5) | True |
+| s3 | p4 → p5 | (8, 5) → (8, 0) | True |
 | s4 | p1 → p4 | (0, 5) → (8, 5) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (0, 5) | 3 | T-like | 1 | 0 |
-| p2 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p3 | (8, 0) | 1 | endpoint | 0 | 0 |
-| p4 | (8, 5) | 3 | T-like | 1 | 0 |
-| p5 | (8, 10) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Arrive at the existing interior landmark from stroke 1 and stop., Connect two previously available landmarks with this new stroke. | (0, 5) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Locate a new start by the supplied offset from landmark p0 on stroke 1; the new stroke runs parallel to it. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p4 | Continue through this site without lifting the pen., Construct a secondary route outward from an earlier interior landmark. | (8, 5) | 3 | T-like | 1 | 0 |
+| p5 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
 ### T — Two corner traversals
 
 Turn from the left arm down the stem, lift, retrace that same stem upward, then turn onto the right arm.
 
-Same actual sections and sites as the baseline. Only the selected ordered construction history changes; no traffic permission is implied.
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
 
 Variant `two-corners`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 1; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s2 | True | False |
-| 1 | s2 reversed → s1 | True | False |
+| 1 | s0 → s2 | True | False |
+| 2 | s2 reversed → s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+| 2 | p3: Lift and return to an existing endpoint from stroke 1. | 1 | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p3: Return and retrace an existing section; this is not a new attachment. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -1074,25 +1720,38 @@ Variant `two-corners`. Components: 1; free ends: 3; branch sites: 1; independent
 | s1 | p1 → p2 | (4, 10) → (8, 10) | True |
 | s2 | p1 → p3 | (4, 10) → (4, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (4, 10) | 3 | T-like | 1 | 0 |
-| p2 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p3 | (4, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (4, 10) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p3 | Stop at a newly reached endpoint., Return and retrace an existing section; this is not a new attachment. | (4, 0) | 1 | endpoint | 0 | 0 |
 
 ### Y — Outward construction read
 
 Rise through the stem and leave along the left arm, then draw the right arm outward from the junction.
 
-Same actual sections and sites as the baseline. Only the selected ordered construction history changes; no traffic permission is implied.
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
 
 Variant `outward`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s1 reversed → s0 reversed | True | False |
-| 1 | s2 reversed | True | False |
+| 1 | s1 reversed → s0 reversed | True | False |
+| 2 | s2 reversed | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p2: Start at a new site; no earlier landmark is supplied. | none | p0: Stop at a newly reached endpoint. | none |
+| 2 | p1: Lift and return to an existing interior landmark from stroke 1. | 1 | p3: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p2: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p0: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -1100,122 +1759,307 @@ Variant `outward`. Components: 1; free ends: 3; branch sites: 1; independent cyc
 | s1 | p1 → p2 | (4, 5) → (4, 0) | True |
 | s2 | p3 → p1 | (8, 10) → (4, 5) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p1 | (4, 5) | 3 | three-arm | 0 | 0 |
-| p2 | (4, 0) | 1 | endpoint | 0 | 0 |
-| p3 | (8, 10) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Stop at a newly reached endpoint. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke., Construct a secondary route outward from an earlier interior landmark. | (4, 5) | 3 | three-arm | 0 | 0 |
+| p2 | Start at a new site; no earlier landmark is supplied. | (4, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
 
-### A — Two legs plus crossbar
+### A — Continuous turn through the apex
 
-Draw the left leg to the apex, lift and draw the right leg down, then attach the crossbar.
+Start at the left foot, rise to the apex and continue down the right leg, then add the crossbar. This contrasts with the taught two descending strokes.
 
-Same actual sections and sites as the baseline. Only the selected ordered construction history changes; no traffic permission is implied.
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
 
-Variant `separate-legs`. Components: 1; free ends: 2; branch sites: 2; independent cycles: 1; pen strokes: 3; revisited sections: 0; complete read: True.
+Variant `continuous-apex`. Components: 1; free ends: 2; branch sites: 2; independent cycles: 1; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 → s3 | True | False |
+| 1 | s1 reversed → s0 reversed → s2 → s3 | True | False |
 | 2 | s4 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p2: Start at a new site; no earlier landmark is supplied. | none | p4: Stop at a newly reached endpoint. | none |
+| 2 | p1: Lift and return to an existing interior landmark from stroke 1. | 1 | p3: Arrive at the existing interior landmark from stroke 1 and stop. This stroke joins two landmarks that already existed before it began. | 1 |
+
+- Stroke 1, p2: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p0: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p3: Arrive at the existing interior landmark from stroke 1 and stop. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p3: Connect two previously available landmarks with this new stroke. Earlier incidence count: 2; earlier source strokes: 1.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (2, 5) | True |
-| s1 | p1 → p2 | (2, 5) → (4, 10) | True |
-| s2 | p2 → p3 | (4, 10) → (6, 5) | True |
+| s0 | p0 → p1 | (4, 10) → (2, 5) | True |
+| s1 | p1 → p2 | (2, 5) → (0, 0) | True |
+| s2 | p0 → p3 | (4, 10) → (6, 5) | True |
 | s3 | p3 → p4 | (6, 5) → (8, 0) | True |
 | s4 | p1 → p3 | (2, 5) → (6, 5) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (2, 5) | 3 | T-like | 1 | 0 |
-| p2 | (4, 10) | 2 | bend | 0 | 0 |
-| p3 | (6, 5) | 3 | T-like | 1 | 0 |
-| p4 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Change direction here during one continuous pen stroke. | (4, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Construct a secondary route outward from an earlier interior landmark. | (2, 5) | 3 | T-like | 1 | 0 |
+| p2 | Start at a new site; no earlier landmark is supplied. | (0, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Continue through this site without lifting the pen., Arrive at the existing interior landmark from stroke 1 and stop., Connect two previously available landmarks with this new stroke. | (6, 5) | 3 | T-like | 1 | 0 |
+| p4 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
 
 ### 8 — Two separately traced loops
 
-Complete the upper loop, lift, then complete the lower loop through the same actual waist.
+Complete the upper loop, lift, then complete the lower loop through the same actual waist. This contrasts with the continuous taught figure-eight crossing.
 
-Same actual sections and sites as the baseline. Only the selected ordered construction history changes; no traffic permission is implied.
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
 
 Variant `two-loops`. Components: 1; free ends: 0; branch sites: 1; independent cycles: 2; pen strokes: 2; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | True |
-| 1 | s2 → s3 | True | True |
+| 1 | s0 → s3 | True | True |
+| 2 | s1 → s2 | True | True |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p0: Return to this stroke's actual starting site and stop. | 1 |
+| 2 | p1: Lift and return to an existing interior landmark from stroke 1. | 1 | p1: Return to this stroke's actual starting site and stop. | 1, 2 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p0: Return to this stroke's actual starting site and stop. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p1: Construct a secondary route outward from an earlier interior landmark. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p2: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Return to this stroke's actual starting site and stop. Earlier incidence count: 3; earlier source strokes: 1, 2.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (4, 5) → (-2, 5) → (-2, 10) → (4, 10) | False |
-| s1 | p1 → p0 | (4, 10) → (10, 10) → (10, 5) → (4, 5) | False |
-| s2 | p0 → p2 | (4, 5) → (-3, 5) → (-3, 0) → (4, 0) | False |
-| s3 | p2 → p0 | (4, 0) → (11, 0) → (11, 5) → (4, 5) | False |
+| s0 | p0 → p1 | (4, 10) → (-2, 10) → (-2, 8) → (4, 5) | False |
+| s1 | p1 → p2 | (4, 5) → (10, 2) → (11, 0) → (4, 0) | False |
+| s2 | p2 → p1 | (4, 0) → (-3, 0) → (-2, 2) → (4, 5) | False |
+| s3 | p1 → p0 | (4, 5) → (10, 8) → (10, 10) → (4, 10) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (4, 5) | 4 | multi-arm | 4 | 2 |
-| p1 | (4, 10) | 2 | tangent-continuation | 1 | 0 |
-| p2 | (4, 0) | 2 | tangent-continuation | 1 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Return to this stroke's actual starting site and stop. | (4, 10) | 2 | tangent-continuation | 1 | 0 |
+| p1 | Change direction here during one continuous pen stroke., Construct a secondary route outward from an earlier interior landmark., Return to this stroke's actual starting site and stop. | (4, 5) | 4 | crossing-like | 2 | 0 |
+| p2 | Continue through this site without lifting the pen. | (4, 0) | 2 | tangent-continuation | 1 | 0 |
 
 ### D — Continuous stem and return
 
-Rise along the stem and continue around the curved return to close in one stroke.
+Descend the stem and continue around the curved return in reverse to close in one stroke.
 
-Same actual sections and sites as the baseline. Only the selected ordered construction history changes; no traffic permission is implied.
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
 
 Variant `continuous`. Components: 1; free ends: 0; branch sites: 0; independent cycles: 1; pen strokes: 1; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | True |
+| 1 | s0 → s1 reversed | True | True |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p0: Return to this stroke's actual starting site and stop. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p0: Return to this stroke's actual starting site and stop. Earlier incidence count: 1; earlier source strokes: 1.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 10) | True |
-| s1 | p1 → p0 | (0, 10) → (9, 10) → (9, 0) → (0, 0) | False |
+| s0 | p0 → p1 | (0, 10) → (0, 0) | True |
+| s1 | p0 → p1 | (0, 10) → (9, 10) → (9, 0) → (0, 0) | False |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 2 | bend | 0 | 0 |
-| p1 | (0, 10) | 2 | bend | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Return to this stroke's actual starting site and stop. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (0, 0) | 2 | corner geometry | 0 | 0 |
 
 ### E — Bars before stem
 
 Draw the three bars first, then connect their left sites with the stem.
 
-Same actual sections and sites as the baseline. Only the selected ordered construction history changes; no traffic permission is implied.
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
 
 Variant `bar-first`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 4; revisited sections: 0; complete read: True.
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s2 | True | False |
-| 1 | s3 | True | False |
-| 2 | s4 | True | False |
-| 3 | s0 → s1 | True | False |
+| 1 | s2 | True | False |
+| 2 | s3 | True | False |
+| 3 | s4 | True | False |
+| 4 | s0 → s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+| 2 | p1: Start at a new site; no earlier landmark is supplied. | none | p4: Stop at a newly reached endpoint. | none |
+| 3 | p2: Start at a new site; no earlier landmark is supplied. | none | p5: Stop at a newly reached endpoint. | none |
+| 4 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p2: Arrive at the existing endpoint from stroke 3 and stop. This stroke joins two landmarks that already existed before it began. | 3 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 3, p2: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 3, p5: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 4, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 4, p1: Reach an earlier endpoint, then continue this stroke from it. Earlier incidence count: 1; earlier source strokes: 2.
+- Stroke 4, p2: Arrive at the existing endpoint from stroke 3 and stop. Earlier incidence count: 1; earlier source strokes: 3.
+- Stroke 4, p2: Connect two previously available landmarks with this new stroke. Earlier incidence count: 1; earlier source strokes: 3.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (0, 5) | True |
-| s1 | p1 → p2 | (0, 5) → (0, 10) | True |
-| s2 | p2 → p3 | (0, 10) → (8, 10) | True |
+| s0 | p0 → p1 | (0, 10) → (0, 5) | True |
+| s1 | p1 → p2 | (0, 5) → (0, 0) | True |
+| s2 | p0 → p3 | (0, 10) → (8, 10) | True |
 | s3 | p1 → p4 | (0, 5) → (6, 5) | True |
-| s4 | p0 → p5 | (0, 0) → (8, 0) | True |
+| s4 | p2 → p5 | (0, 0) → (8, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 2 | bend | 0 | 0 |
-| p1 | (0, 5) | 3 | T-like | 1 | 0 |
-| p2 | (0, 10) | 2 | bend | 0 | 0 |
-| p3 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p4 | (6, 5) | 1 | endpoint | 0 | 0 |
-| p5 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (0, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Start at a new site; no earlier landmark is supplied., Reach an earlier endpoint, then continue this stroke from it. | (0, 5) | 3 | T-like | 1 | 0 |
+| p2 | Start at a new site; no earlier landmark is supplied., Arrive at the existing endpoint from stroke 3 and stop., Connect two previously available landmarks with this new stroke. | (0, 0) | 2 | corner geometry | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p4 | Stop at a newly reached endpoint. | (6, 5) | 1 | endpoint | 0 | 0 |
+| p5 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
+
+### T — Teaching variant: stem first
+
+Draw the stem downwards first, then draw the horizontal bar through its existing top endpoint.
+
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
+Variant `stem-first`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
+
+| Stroke | Ordered section visits | Continuous | Closed |
+| --- | --- | --- | --- |
+| 1 | s2 | True | False |
+| 2 | s0 → s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p1: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+| 2 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p1: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Reach an earlier endpoint, then continue this stroke from it. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+
+| Section | Actual sites | Selected control words | Straight read |
+| --- | --- | --- | --- |
+| s0 | p0 → p1 | (0, 10) → (4, 10) | True |
+| s1 | p1 → p2 | (4, 10) → (8, 10) | True |
+| s2 | p1 → p3 | (4, 10) → (4, 0) | True |
+
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Start at a new site; no earlier landmark is supplied., Reach an earlier endpoint, then continue this stroke from it. | (4, 10) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p3 | Stop at a newly reached endpoint. | (4, 0) | 1 | endpoint | 0 | 0 |
+
+### J — Teaching variant: stem and hook first
+
+Draw the descending stem and hook first, then draw the top bar through the existing stem endpoint.
+
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
+Variant `stem-first`. Components: 1; free ends: 3; branch sites: 1; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
+
+| Stroke | Ordered section visits | Continuous | Closed |
+| --- | --- | --- | --- |
+| 1 | s2 → s3 | True | False |
+| 2 | s0 → s1 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p1: Start at a new site; no earlier landmark is supplied. | none | p4: Stop at a newly reached endpoint. | none |
+| 2 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p1: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Reach an earlier endpoint, then continue this stroke from it. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+
+| Section | Actual sites | Selected control words | Straight read |
+| --- | --- | --- | --- |
+| s0 | p0 → p1 | (0, 10) → (6, 10) | True |
+| s1 | p1 → p2 | (6, 10) → (8, 10) | True |
+| s2 | p1 → p3 | (6, 10) → (6, 3) | True |
+| s3 | p3 → p4 | (6, 3) → (6, -1) → (0, -1) → (0, 3) | False |
+
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Start at a new site; no earlier landmark is supplied., Reach an earlier endpoint, then continue this stroke from it. | (6, 10) | 3 | T-like | 1 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p3 | Continue through this site without lifting the pen. | (6, 3) | 2 | tangent-continuation | 1 | 0 |
+| p4 | Stop at a newly reached endpoint. | (0, 3) | 1 | endpoint | 0 | 0 |
+
+### G — Teaching variant: separately attached bar
+
+Draw the curved body and short rise first, then draw the interior bar rightward to stop at the body's existing endpoint.
+
+An alternative construction, not the selected school-print baseline. The actual sections and sites are retained; changing this history does not install a traffic law.
+
+Teaching reference: [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf).
+
+Variant `attached-bar`. Components: 1; free ends: 2; branch sites: 0; independent cycles: 0; pen strokes: 2; revisited sections: 0; complete read: True.
+
+| Stroke | Ordered section visits | Continuous | Closed |
+| --- | --- | --- | --- |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 reversed | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p3: Start at a new site; no earlier landmark is supplied. | none | p2: Arrive at the existing endpoint from stroke 1 and stop. | 1 |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p3: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p2: Arrive at the existing endpoint from stroke 1 and stop. Earlier incidence count: 1; earlier source strokes: 1.
+
+| Section | Actual sites | Selected control words | Straight read |
+| --- | --- | --- | --- |
+| s0 | p0 → p1 | (7, 9) → (-2, 12) → (-2, -2) → (7, 1) | False |
+| s1 | p1 → p2 | (7, 1) → (7, 5) | True |
+| s2 | p2 → p3 | (7, 5) → (4, 5) | True |
+
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (7, 9) | 1 | endpoint | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (7, 1) | 2 | corner geometry | 0 | 0 |
+| p2 | Stop at a newly reached endpoint., Arrive at the existing endpoint from stroke 1 and stop. | (7, 5) | 2 | corner geometry | 0 | 0 |
+| p3 | Start at a new site; no earlier landmark is supplied. | (4, 5) | 1 | endpoint | 0 | 0 |
 
 ### X — Four-arm shared junction
 
@@ -1227,23 +2071,38 @@ Variant `joined`. Components: 1; free ends: 4; branch sites: 1; independent cycl
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 | True | False |
-| 1 | s2 → s3 | True | False |
+| 1 | s0 → s1 | True | False |
+| 2 | s2 → s3 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p2: Stop at a newly reached endpoint. | none |
+| 2 | p3: Locate a new start by the supplied offset from landmark p0 on stroke 1. | none | p4: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2: declared placement relative to p0 on stroke 1, local offset (8, 0), parallel read False.
+- Stroke 2, p3: Locate a new start by the supplied offset from landmark p0 on stroke 1. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p1: Reach an earlier interior landmark, then continue this stroke from it. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
-| s0 | p0 → p1 | (0, 0) → (4, 5) | True |
-| s1 | p1 → p2 | (4, 5) → (8, 10) | True |
-| s2 | p3 → p1 | (0, 10) → (4, 5) | True |
-| s3 | p1 → p4 | (4, 5) → (8, 0) | True |
+| s0 | p0 → p1 | (0, 10) → (4, 5) | True |
+| s1 | p1 → p2 | (4, 5) → (8, 0) | True |
+| s2 | p3 → p1 | (8, 10) → (4, 5) | True |
+| s3 | p1 → p4 | (4, 5) → (0, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (0, 0) | 1 | endpoint | 0 | 0 |
-| p1 | (4, 5) | 4 | crossing-like | 2 | 0 |
-| p2 | (8, 10) | 1 | endpoint | 0 | 0 |
-| p3 | (0, 10) | 1 | endpoint | 0 | 0 |
-| p4 | (8, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied. | (0, 10) | 1 | endpoint | 0 | 0 |
+| p1 | Continue through this site without lifting the pen., Reach an earlier interior landmark, then continue this stroke from it. | (4, 5) | 4 | crossing-like | 2 | 0 |
+| p2 | Stop at a newly reached endpoint. | (8, 0) | 1 | endpoint | 0 | 0 |
+| p3 | Locate a new start by the supplied offset from landmark p0 on stroke 1. | (8, 10) | 1 | endpoint | 0 | 0 |
+| p4 | Stop at a newly reached endpoint. | (0, 0) | 1 | endpoint | 0 | 0 |
 
 ### 4 — Closed-top construction
 
@@ -1255,8 +2114,23 @@ Variant `closed-top`. Components: 1; free ends: 2; branch sites: 1; independent 
 
 | Stroke | Ordered section visits | Continuous | Closed |
 | --- | --- | --- | --- |
-| 0 | s0 → s1 → s2 | True | False |
-| 1 | s3 → s4 | True | False |
+| 1 | s0 → s1 → s2 | True | False |
+| 2 | s3 → s4 | True | False |
+
+#### Starts, stops and construction landmarks
+
+| Stroke | Start | Earlier ink at start | Stop | Earlier ink at stop |
+| --- | --- | --- | --- | --- |
+| 1 | p0: Start at a new site; no earlier landmark is supplied. | none | p3: Stop at a newly reached endpoint. | none |
+| 2 | p0: Lift and return to an existing endpoint from stroke 1. | 1 | p4: Stop at a newly reached endpoint. | none |
+
+- Stroke 1, p0: Start at a new site; no earlier landmark is supplied. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p1: Change direction here during one continuous pen stroke. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p2: Continue through this site without lifting the pen. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 1, p3: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
+- Stroke 2, p0: Construct an attachment by leaving an earlier endpoint after a pen lift. Earlier incidence count: 1; earlier source strokes: 1.
+- Stroke 2, p2: Reach an earlier interior landmark, then continue this stroke from it. Earlier incidence count: 2; earlier source strokes: 1.
+- Stroke 2, p4: Stop at a newly reached endpoint. Earlier incidence count: 0; earlier source strokes: none.
 
 | Section | Actual sites | Selected control words | Straight read |
 | --- | --- | --- | --- |
@@ -1266,13 +2140,13 @@ Variant `closed-top`. Components: 1; free ends: 2; branch sites: 1; independent 
 | s3 | p0 → p2 | (6, 10) → (6, 3) | True |
 | s4 | p2 → p4 | (6, 3) → (6, 0) | True |
 
-| Site | Selected position | Incidences | Local tangent read | Opposed pairs | Cooriented pairs |
-| --- | --- | --- | --- | --- | --- |
-| p0 | (6, 10) | 2 | bend | 0 | 0 |
-| p1 | (0, 3) | 2 | bend | 0 | 0 |
-| p2 | (6, 3) | 4 | crossing-like | 2 | 0 |
-| p3 | (8, 3) | 1 | endpoint | 0 | 0 |
-| p4 | (6, 0) | 1 | endpoint | 0 | 0 |
+| Site | Construction history read | Selected position | Incidences | Geometric tangent read | Opposed pairs | Cooriented pairs |
+| --- | --- | --- | --- | --- | --- | --- |
+| p0 | Start at a new site; no earlier landmark is supplied., Construct an attachment by leaving an earlier endpoint after a pen lift. | (6, 10) | 2 | corner geometry | 0 | 0 |
+| p1 | Change direction here during one continuous pen stroke. | (0, 3) | 2 | corner geometry | 0 | 0 |
+| p2 | Continue through this site without lifting the pen., Reach an earlier interior landmark, then continue this stroke from it. | (6, 3) | 4 | crossing-like | 2 | 0 |
+| p3 | Stop at a newly reached endpoint. | (8, 3) | 1 | endpoint | 0 | 0 |
+| p4 | Stop at a newly reached endpoint. | (6, 0) | 1 | endpoint | 0 | 0 |
 
 ## Joint machines and actual probes
 

@@ -18,13 +18,14 @@ public static class GlyphJointAtlasStudy
             if (args[i] == "--output" && i + 1 < args.Length) output = args[++i];
             else throw new ArgumentException("Usage: --glyph-joints [--output DIRECTORY]");
         var report = new Report(GlyphConstructionCorpus.Create().ToArray(), GlyphJointUsageStudy.Run(), GlyphContextStudy.Run());
-        if (report.Corpus.Any(c => !c.Topology.Complete) ||
+        if (report.Corpus.Any(c => !c.Topology.Complete || !c.ConstructionRead.Complete) ||
             report.Usage.Cases.SelectMany(c => c.Probes).Any(p => !p.OwnershipPreserved))
             throw new InvalidOperationException("Fixture construction or material accounting failed; report not emitted.");
         Directory.CreateDirectory(output);
         var json = JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(Path.Combine(output, "results.json"), json);
         Save("corpus.gojo", StructuralConstraint.Closed(report.Corpus.Select(c => (IElement)c.Surface).ToArray()));
+        Save("construction.gojo", StructuralConstraint.Closed(report.Corpus.Select(c => (IElement)c.ConstructionRead.Surface).ToArray()));
         Save("usage.gojo", report.Usage.ArchiveRoot);
         Save("contexts.gojo", report.Contexts.ArchiveRoot);
         GlyphJointAtlasGallery.Write(output, json);

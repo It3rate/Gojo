@@ -24,7 +24,99 @@ public sealed class GlyphConstructionCorpusTests
             Assert.All(fixture.Strokes,s=>Assert.True(s.Continuous));
             Assert.Equal(fixture.Lines.Length*2,fixture.Sites.Sum(s=>s.Degree));
             Assert.All(fixture.Lines,l=>Assert.InRange(l.Controls.Length,2,4));
+            Assert.True(fixture.ConstructionRead.Complete,$"history {fixture.Glyph}/{fixture.VariantId}");
         });
+        Assert.All(baselines,fixture=>Assert.StartsWith("https://",fixture.SourceUrl));
+    }
+
+    [Fact]
+    public void Taught_first_stems_descend_and_returning_arms_do_not_reverse_the_stem()
+    {
+        foreach(var glyph in new[]{"B","D","E","F","H","I","K","M","N","P","R","1"})
+        {
+            var fixture=Get(glyph); var first=fixture.ConstructionRead.Strokes[0];
+            var start=fixture.Sites[first.StartSite]; var end=fixture.Sites[first.EndSite];
+            Assert.True(start.Y>end.Y,$"{glyph} first stem must descend");
+            Assert.Equal(start.X,end.X);
+        }
+        foreach(var glyph in new[]{"B","D","E","F","P","R"})
+        {
+            var read=Get(glyph).ConstructionRead;
+            Assert.Equal(read.Strokes[0].StartSite,read.Strokes[1].StartSite);
+            Assert.Equal("return-endpoint",read.Strokes[1].StartKind);
+        }
+    }
+
+    [Fact]
+    public void F_endpoint_attachment_and_later_outward_branch_have_different_native_history()
+    {
+        var f=Get("F");
+        Assert.Contains(f.ConstructionRead.Strokes[1].Events,e=>e.Kind=="endpoint-attachment");
+        Assert.Contains(f.ConstructionRead.Strokes[2].Events,e=>e.Kind=="outward-branch");
+        var reversed=Get("F","bars-incoming");
+        Assert.Same(f.Sections,reversed.Sections);
+        Assert.Equal("stop-at-endpoint",reversed.ConstructionRead.Strokes[1].EndKind);
+        Assert.Equal("stop-at-interior",reversed.ConstructionRead.Strokes[2].EndKind);
+        Assert.DoesNotContain(reversed.ConstructionRead.Strokes[2].Events,e=>e.Kind=="outward-branch");
+    }
+
+    [Fact]
+    public void H_places_a_parallel_stem_before_connecting_two_existing_landmarks()
+    {
+        var h=Get("H"); var read=h.ConstructionRead;
+        Assert.Equal("offset-start",read.Strokes[1].StartKind);
+        Assert.Equal(0,read.Strokes[1].PlacementSourceStroke);
+        Assert.Equal(read.Strokes[0].StartSite,read.Strokes[1].PlacementSourceSite);
+        Assert.True(read.Strokes[1].ParallelToSource);
+        Assert.Equal("return-interior",read.Strokes[2].StartKind);
+        Assert.Equal("stop-at-interior",read.Strokes[2].EndKind);
+        Assert.Contains(read.Strokes[2].Events,e=>e.Kind=="landmark-to-landmark-join");
+        Assert.Equal(new[]{0},read.Strokes[2].StartSourceStrokes);
+        Assert.Equal(new[]{1},read.Strokes[2].EndSourceStrokes);
+    }
+
+    [Fact]
+    public void A_and_Y_start_from_the_taught_ends_and_make_distinct_landmark_returns()
+    {
+        var a=Get("A"); Assert.Equal(3,a.Strokes.Length);
+        var ar=a.ConstructionRead.Strokes;
+        Assert.Equal(ar[0].StartSite,ar[1].StartSite);
+        Assert.True(a.Sites[ar[0].StartSite].Y>a.Sites[ar[0].EndSite].Y);
+        Assert.True(a.Sites[ar[1].StartSite].Y>a.Sites[ar[1].EndSite].Y);
+        var y=Get("Y"); Assert.Single(y.Strokes[0].Visits);
+        Assert.Equal(2,y.Strokes[1].Visits.Length);
+        Assert.Contains(y.ConstructionRead.Strokes[1].Events,e=>e.Kind=="meet-landmark-and-continue");
+        Assert.Equal(0,y.Sites[y.ConstructionRead.Strokes[1].EndSite].Y);
+    }
+
+    [Fact]
+    public void X_descends_twice_and_round_letters_start_counterclockwise()
+    {
+        var x=Get("X");
+        Assert.All(x.ConstructionRead.Strokes,stroke=>Assert.True(x.Sites[stroke.StartSite].Y>x.Sites[stroke.EndSite].Y));
+        var six=Get("6").Lines[0].Controls;
+        Assert.True(six[1].X<six[0].X && six[1].Y<six[0].Y,"6 starts down-left rather than curling upwards first");
+        foreach(var glyph in new[]{"O","Q","0"})
+        {
+            var f=Get(glyph); var visit=f.Strokes[0].Visits[0]; var edge=f.Lines[visit.Section];
+            var controls=visit.Reverse?edge.Controls.Reverse().ToArray():edge.Controls;
+            Assert.True(controls[1].X<controls[0].X,$"{glyph} must begin towards the left from the top");
+            Assert.True(f.Strokes[0].Closed);
+        }
+    }
+
+    [Fact]
+    public void Eight_starts_at_top_and_crosses_the_waist_smoothly_instead_of_turning_back()
+    {
+        var eight=Get("8"); var stroke=Assert.Single(eight.Strokes);
+        var first=eight.Lines[stroke.Visits[0].Section];
+        Assert.Equal(10,first.Controls[0].Y);
+        Assert.Single(eight.Sites,s=>s.Joint=="crossing-like");
+        Assert.Equal(2,eight.Topology.CycleRank);
+        Assert.True(stroke.Closed);
+        Assert.DoesNotContain(eight.ConstructionRead.Strokes[0].Events,e=>e.Kind=="continuous-turn");
+        Assert.Equal(2,Get("8","two-loops").Strokes.Length);
+        Assert.All(Get("8","two-loops").Strokes,s=>Assert.True(s.Closed));
     }
 
     [Fact]

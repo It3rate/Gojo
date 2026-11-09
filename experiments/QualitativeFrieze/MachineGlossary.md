@@ -36,6 +36,11 @@ selects among routes; a material merge shares receiver capacity. Identical
 ink can support different construction histories and different route laws.
 Its [gallery](results/glyph-joints/index.html) shows these mechanisms beside
 the letter constructions and marks the limits of support/balance analogies.
+Its construction read now distinguishes a continuous L turn from F's later
+endpoint attachment and outward middle branch. Reversing F's bar gives an
+arrival and stop. H places its second stem relative to the first, then joins
+two earlier interior landmarks. These are chronological relations; a later
+material-flow law remains separate from the drawing history.
 
 The [construction-family study](ConstraintFamiliesStudy.md) extends this to
 finite output ranges. A six-equal-step walk keeps a fixed aspect ratio; a

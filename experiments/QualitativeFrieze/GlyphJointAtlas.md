@@ -33,10 +33,49 @@ dotnet run --project experiments/QualitativeFrieze -- --glyph-joints
 | What can use the junction? | Exposed ports, ordered routes, finite control laws and material receiver capacity. | A visible branch does not automatically select an outlet or copy material. |
 
 Ground, load, frame, closure and selected context supply further reads. They
-cannot be collapsed into the joint's degree or a glyph label. There is also
-no claim that these are universal handwriting orders: the corpus contains
-explicit, inspectable construction examples. A person can write the same
-letter another way.
+cannot be collapsed into the joint's degree or a glyph label.
+
+## Teaching order and visible landmarks
+
+All 26 capitals and ten digits have been reviewed against the supplied school
+cards, the [Learning Without Tears capital formation chart](https://www.lwtears.com/sites/default/files/2021-12/HWT%20Capital%20Letter%20Formation%20Chart.pdf),
+and the [Zaner-Bloser manuscript practice package](https://media.zaner-bloser.com/handwriting/pdfs/ZB_HW_Manuscript_Practice_Package.pdf).
+The selected baselines follow the supplied cards where they give a convention;
+the publisher guides fill the remaining cases. These are teaching conventions,
+not universal handwriting orders. J and T retain bar-first baselines from the
+cards and stem-first alternatives; G also has a separately attached-bar variant.
+The baseline 4 has the card's diagonal first arm, and 5 has its continuous,
+top-bar-first stroke. The publisher's alternatives are noted rather than silently
+substituted.
+
+The first stems of B, D, E, F, H, I, K, M, N, P and R descend. This does not mean
+every later vertical movement must descend: the selected N returns to its top,
+descends diagonally and then rises along its right stem. A uses two descending
+legs from the apex; X uses two descending diagonals; O, Q and 0 start at the top
+and travel leftwards around the contour. The figure-eight starts at its top,
+not its waist.
+
+The main drawing now shows green start rings, red stop dots, direction arrows
+and dashed pen-lift relocations. Selecting a stroke leaves earlier ink visible
+and fades later ink. Each stroke explains its evidence:
+
+| Example | Construction read | Distinction preserved |
+| --- | --- | --- |
+| L corner | Continue down the stem and turn right without lifting. | A continuous turn. |
+| F top bar | Return to the existing top endpoint, then leave rightwards. | A constructed endpoint attachment, not the L's continuous turn. |
+| F middle bar | Return to an interior landmark and leave orthogonally. | A later outward branch or secondary route. |
+| F incoming-bars variant | Approach the stem from outside and stop there. | Arrival and stop, rather than departure. |
+| H second stem | Locate a new start relative to the first stem's top, then descend parallel to it. | A supplied offset reference, not a shared site. |
+| H bridge | Start at one existing middle landmark and stop at the other. | A landmark-to-landmark join. |
+| B bowls | Return to the top, meet the existing middle landmark, then continue to the bottom. | Meeting need not mean stopping. |
+| 6 and 8 | Revisit a landmark already reached earlier in the same stroke. | Earlier evidence does not require a pen lift. |
+
+The construction column is separate from final geometric labels such as
+T-like or crossing-like. A construction stop means the pen stops there; it
+does not install a barrier for a later material flow. Landmark availability
+is inspected chronologically from connected visits, not inferred from the
+finished silhouette or the letter's name. Midline sites are supplied in these
+fixtures; this pass does not learn where a writer would estimate them.
 
 ## Native encoding
 
@@ -51,6 +90,9 @@ glyph surface = (frame -> closed section inventory) -> ordered stroke groups
 section       = (start site -> end site) -> (control words -> interpolation scheme)
 stroke        = ordered uses of sections
 use           = actual section -> ((chosen start -> chosen end) -> ordered control-word references)
+placement     = ((target stroke -> earlier source stroke) ->
+                 (earlier landmark site -> target start site)) -> offset word
+construction input = glyph surface -> closed placement inventory
 ```
 
 A straight section has two control words. Curved sections use the existing
@@ -73,6 +115,15 @@ settlement rules. The present experiment preserves the construction distinction
 and tests explicit passage laws; it does not infer mechanical properties from
 pen lifts.
 
+The construction reader retains actual previous sections, source strokes,
+incoming and outgoing visits, and completed visit prefixes in native event
+witnesses. The incoming section does not count as evidence that its destination
+was already available before arrival. Future landmarks, foreign sites and
+incompatible placement offsets remain unresolved. H's offset is an authored
+realization of an estimated spacing, not a universal distance requirement.
+`construction.gojo` preserves the glyph, supplied placements and read witnesses;
+the labels can be discarded and the chronology read again.
+
 The joint-use fixtures connect their own incident sections to exposed ports
 and route witnesses. A control law selects route candidates. A material step
 then asks the existing packet transport to accept those requests under the
@@ -94,7 +145,7 @@ that stroke from the native source or install a gate on an actual passage.
 
 ## Important comparisons
 
-The recorded run contains **36 glyphs, 47 constructions, 16 joint-use
+The recorded run contains **36 glyphs, 51 constructions, 16 joint-use
 machines, 21 route probes, and 12 contact contexts**. The constructions are
 supplied examples; the joint, topology, route and contact answers are reads
 of their connected native structure.
@@ -107,12 +158,13 @@ installs a traffic law or a material coupling by itself.
 - **L bend versus attachment:** compare the same sections and endpoint
   topology with different stroke groups. A later use law can allow the same
   continuation in either construction, or different ones.
-- **F:** stem, endpoint attachment and interior attachment make different
+- **F:** downward stem, endpoint attachment and outward interior branch make different
   local positions available. The intermediate site is a real incidence,
   not a decorative mark on an unsplit stroke.
 - **T:** a stop, a permitted turn, a conditional choice and a receiving merge
   can share a projected outline. Their input/output relations differ.
-- **H:** drawing the connecting bar left to right does not establish the
+- **H:** two downward stems precede their joining bar. The second stem's start
+  references the first stem's top plus an offset. Drawing the connecting bar left to right does not establish the
   direction in which a later observer or material packet may cross it.
 - **X:** two crossing strokes can remain independent. A shared centre is an
   additional topological commitment, not a consequence of drawing the same
@@ -170,11 +222,14 @@ receiver contention, absent laws, and false contact reads. The report can be
 regenerated from the fixture code; the tests do not infer success from a
 recognizable picture.
 
-Recorded verification on 9 November 2026: 54 new focused test cases passed;
-`dotnet test Gojo.slnx` passed 6,920 tests across 18 suites. Browser checks
-visited every construction, route probe and context, checked dropdown focus
-and click navigation, and found no script errors or page overflow at 1440px
-and 360px widths.
+Recorded verification on 9 November 2026: 78 focused glyph test cases passed;
+`dotnet test Gojo.slnx` passed 6,943 tests across 18 suites. The focused checks
+were repeated after the final 6-tail drawing correction and presentation
+wording changes. Browser checks visited all 51 constructions and 93 strokes,
+every route probe and context, checked start/stop markers against native
+chronology, dropdown focus and click navigation, and found no script errors
+or page overflow at 1440px and 360px widths. All 36 baseline renderings were
+also inspected together.
 
 The next useful experiment would select one of these structures under partial
 evidence, try a connected use, retain its success or remaining tension, and

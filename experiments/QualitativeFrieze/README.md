@@ -4,7 +4,9 @@ The [glyph joint atlas](results/glyph-joints/index.html) separates visible
 letter shapes from pen-stroke history, shared-site topology, route permissions
 and selected ground/contact contexts. It covers capitals and digits, then
 reuses bends, attachments, bridges, choices, merges and crossings in small
-native experiments. See the [overview and encoding](GlyphJointAtlas.md) and
+native experiments. School-guide baselines show downward first stems, pen
+lifts, start/stop landmarks and later attachments separately from final joint
+geometry. See the [overview and encoding](GlyphJointAtlas.md) and
 the [recorded Markdown report](results/glyph-joints/README.md). This report remains local.
 
 ```powershell
