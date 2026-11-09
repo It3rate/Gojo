@@ -347,6 +347,20 @@ write a target.
 A lower-resolution read is valid. It must not invent finer detail, and it must
 not be treated as an error merely because another reader could ask for more.
 
+For a participating measured quantity, zero means zero at the selected
+resolution, not absolute absence at every possible refinement. This also
+applies to a zero read produced by subtraction. Valid cancellation of shared
+terms preserves their dependence; it does not acquire infinite measurement
+precision or withdraw the source's participation. Removing selected
+participation is a separate structural act. An exhaustive count can establish
+that no admitted members remain in its declared scope, but not that all finer
+properties or material participation have vanished. Preserve the read basis
+and any participation, residue or unresolved support that the operation has
+not explicitly removed. An exact arithmetic reader conforms to its declared
+model and basis; that contract is not a claim of infinitely precise physical
+measurement. Do not invent an error interval merely because finer evidence is
+unavailable, or weaken a retained sign constraint when a magnitude reads zero.
+
 Resolution may be represented by frame extent, partition, `ResolutionOf`, a
 resolution ladder, or other connected basis structure. Coarse and fine reads
 can coexist. Retain exact residue when the read promises recoverable refinement.
@@ -703,6 +717,13 @@ variation; using it as an actual-value bound requires a conformance premise.
 Intentional clearance is assessed against its desired relation, not automatic
 equality. Omitted detail is not implicitly zero. A goal does not establish
 current truth, and uncertainty alone does not introduce carrier tension.
+
+Revising a guess changes a candidate interpretation, not the represented
+source state. Keep the observed source and the candidate's correspondence
+distinct. Evidence can narrow or revise the candidates; acting on the source
+still requires an explicit permitted mutation or transfer. Neither an unknown
+state nor permission to revise a hypothesis grants permission to change that
+state or silently relax its retained constraints.
 
 Keep the source instance, state or observation event, and shared unresolved
 causes connected wherever calculations depend on them. Reusing a category or

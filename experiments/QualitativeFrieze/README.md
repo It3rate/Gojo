@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [construction exchange comparison](results/construction-exchange/index.html)
+examines eight native constructions under four input conditions. It separates
+boundary agreement, flow direction, coarse topology and retained constraints,
+including an unresolved radial calibration and a participating zero notch.
+See the [overview and encoding](ConstructionExchangeStudy.md) and
+[recorded Markdown report](results/construction-exchange/README.md). This report remains local.
+
+```powershell
+dotnet run -c Release --project experiments/QualitativeFrieze -- --construction-exchange
+```
+
 The [preference-transfer comparison](results/preference-transfer/index.html)
 trains two small source machines and reuses their preferences in 54 supplied
 target conditions. It includes useful reuse, a reversed control that makes

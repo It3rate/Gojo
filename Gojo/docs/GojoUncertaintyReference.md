@@ -221,11 +221,22 @@ unit, with a justified bound `[0.9, 1.1]`.
 X - X = 0
 ```
 
-The cancellation is exact for the same finite quantity in a compatible basis.
-It does not require discovering the value of `X`. Treating the two occurrences
-as independent intervals and returning `[-0.2, 0.2]` loses known dependence.
-The zero result need not erase the input structure, unit or cancellation
-witness; those may still matter to later reads.
+The shared terms cancel in the selected arithmetic without discovering the
+value of `X`. Treating the two occurrences as independent intervals and
+returning `[-0.2, 0.2]` loses known dependence. For a participating measured
+quantity, however, the resulting zero is a read at the selected basis and
+resolution, not proof of absolute absence at every finer resolution. Preserve
+the input participation, unit and cancellation witness unless an explicit
+structural operation removes that participation. Exact conformance of the
+arithmetic does not supply infinitely precise knowledge of the physical source.
+
+There are two different outcomes to express: removing the selected
+participation, or retaining participation with a zero reading. An exhaustive
+count of admitted objects can have no remaining members in its declared scope;
+that does not establish absence of all their constituent material or properties.
+For measured water in a cup, a zero reading retains whatever finer participation
+the observation cannot resolve. This does not invent a bound or probability
+distribution, and a nonnegative domain still rules out negative water.
 
 Now let two separate volumes `X` and `Y` each satisfy the same bound:
 
@@ -240,11 +251,12 @@ contents. Distinct identities also do not prove statistical independence: both
 volumes could have been produced by a shared dispenser or constrained to sum
 to a known amount.
 
-Subtracting the exact whole physical parcel leaves zero under a complete
-transfer model. Real removal can have retained droplets, loss, inflow or other
-process participation; those belong to the action model. Algebraic
-cancellation of an observed value does not prove that an uncertain physical
-transfer completed.
+A transfer model may account for all represented participation and explicitly
+remove that selected parcel from the source scope. A remaining measured quantity
+still reads zero only at its resolution. Retained droplets, loss, inflow or other
+process participation belong to the action model when evidence exposes them;
+unavailable finer evidence is not proof of their absence. Algebraic cancellation
+of an observed value neither performs the transfer nor proves it completed.
 
 ### 4.2 Source Identity And Observation Identity Are Different
 

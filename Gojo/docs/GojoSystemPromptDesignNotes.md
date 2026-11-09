@@ -517,6 +517,35 @@ opt-in; it does not switch the phototaxis experiment or every Gojo equation to
 finite arithmetic. The canonical prompt describes the arithmetic and interface
 rules, while the fixture documents its concrete implemented scope and tests.
 
+## Participating Zero And Revisable Guesses, November 2026
+
+The user clarified that a participating measured quantity has no assertion of
+absolute zero beyond its finite read. This includes a zero obtained by
+`X - X`: shared dependence permits cancellation in the selected arithmetic,
+but the resulting measured read remains tied to its basis and resolution.
+It does not certify infinitely precise absence or remove source participation.
+The alternative of removing participation must be expressed structurally.
+An exhaustive count of admitted members can therefore become empty in its
+declared scope without claiming that their finer properties or material have
+ceased to exist. A zero magnitude also does not release a positive-only domain
+constraint; an unresolved amount of water need not admit negative water.
+
+Axiom 9 now states this distinction directly. This is a semantic clarification
+of measured participation, not a change to integer arithmetic, same-observation
+cancellation, finite-reader algorithms, or the existing tests for arithmetic
+conformance. It supplies neither an automatic uncertainty interval nor a
+general theorem that every mathematical zero requires infinite resolution.
+The two-cup example in the uncertainty reference now qualifies its zero and
+separates removal of scoped participation from a physical transfer claim.
+
+The same discussion distinguishes uncertainty from mutability. A candidate
+machine or interpretation may be revised while its observed source remains
+unchanged. Section 5.2 now requires that distinction: narrowing a hypothesis
+through evidence, relaxing a candidate's construction, and acting on the
+source are separate operations with separate correspondence and permissions.
+No general constraint-relaxation or machine-exchange law follows merely from
+that clarification.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

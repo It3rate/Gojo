@@ -9,6 +9,7 @@ using Gojo.Experiments.QualitativeFrieze;
 using Gojo.Experiments.QualitativeFrieze.Learning;
 using Gojo.Experiments.QualitativeFrieze.Composition;
 
+if (args.Contains("--construction-exchange")) return ConstructionExchangeStudy.RunExperiment(args.Where(argument => argument != "--construction-exchange").ToArray());
 if (args.Contains("--preference-transfer")) return PreferenceTransferStudy.RunExperiment(args.Where(argument => argument != "--preference-transfer").ToArray());
 if (args.Contains("--partial-decisions")) return PartialDecisionStudy.RunExperiment(args.Where(argument => argument != "--partial-decisions").ToArray());
 if (args.Contains("--adaptive-claims")) return AdaptiveClaimStudy.RunExperiment(args.Where(argument => argument != "--adaptive-claims").ToArray());

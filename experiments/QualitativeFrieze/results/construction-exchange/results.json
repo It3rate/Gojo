@@ -1,0 +1,3840 @@
+{
+  "Machines": [
+    {
+      "Id": "walk",
+      "Name": "Four-step closed walk",
+      "Preserves": "Ordered handoffs; closing return; opposing reaches share roles.",
+      "Changes": "Width and height vary independently. A notch needs extra phases."
+    },
+    {
+      "Id": "rails",
+      "Name": "Two pairs of rails",
+      "Preserves": "Shared intersections; parallel pairs; common width and height.",
+      "Changes": "Aspect changes directly. Concavity needs a different boundary construction."
+    },
+    {
+      "Id": "radial-equal",
+      "Name": "Four equal radial turns",
+      "Preserves": "Common contour; cyclic adjacency; equal-turn promise; equal component reaches.",
+      "Changes": "Uniform scaling fits. Stretching needs release of equal-turn calibration."
+    },
+    {
+      "Id": "radial-open",
+      "Name": "Four radial points, angular gaps open",
+      "Preserves": "Common contour and cyclic adjacency remain; equal-turn obligation stays open.",
+      "Changes": "Rectangles fit the supplied centered realization; general radial interpolation remains open."
+    },
+    {
+      "Id": "caps",
+      "Name": "Two opposed caps",
+      "Preserves": "Two three-phase routes share their authored start and end sites.",
+      "Changes": "Same rectangle outline; different section count and traversal."
+    },
+    {
+      "Id": "notch",
+      "Name": "Six-step notched walk",
+      "Preserves": "Ordered return survives the inserted left/up detour.",
+      "Changes": "A zero-at-resolution notch retains two phases. Increasing its binding exposes concavity."
+    },
+    {
+      "Id": "open",
+      "Name": "Three-step open walk",
+      "Preserves": "Order and shared adjacent sites; no return edge is supplied.",
+      "Changes": "Closing it requires adding the missing connection."
+    },
+    {
+      "Id": "detached",
+      "Name": "Four detached rails",
+      "Preserves": "Matching coordinate expressions, but independent endpoint identities.",
+      "Changes": "The outline can agree with a loop. Joining requires explicit topology."
+    }
+  ],
+  "Shapes": [
+    {
+      "Id": "walk",
+      "Name": "Four-step closed walk",
+      "Scenario": "square",
+      "Width": 2,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -2,
+            -2
+          ],
+          [
+            2,
+            -2
+          ]
+        ],
+        [
+          [
+            2,
+            -2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            -2,
+            2
+          ]
+        ],
+        [
+          [
+            -2,
+            2
+          ],
+          [
+            -2,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 4,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "rails",
+      "Name": "Two pairs of rails",
+      "Scenario": "square",
+      "Width": 2,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -2,
+            -2
+          ],
+          [
+            2,
+            -2
+          ]
+        ],
+        [
+          [
+            -2,
+            2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            -2,
+            -2
+          ],
+          [
+            -2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            -2
+          ],
+          [
+            2,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "radial-equal",
+      "Name": "Four equal radial turns",
+      "Scenario": "square",
+      "Width": 2,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": true,
+      "Lines": [
+        [
+          [
+            -2,
+            -2
+          ],
+          [
+            2,
+            -2
+          ]
+        ],
+        [
+          [
+            2,
+            -2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            -2,
+            2
+          ]
+        ],
+        [
+          [
+            -2,
+            2
+          ],
+          [
+            -2,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 1
+    },
+    {
+      "Id": "radial-open",
+      "Name": "Four radial points, angular gaps open",
+      "Scenario": "square",
+      "Width": 2,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": false,
+      "Lines": [
+        [
+          [
+            -2,
+            -2
+          ],
+          [
+            2,
+            -2
+          ]
+        ],
+        [
+          [
+            2,
+            -2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            -2,
+            2
+          ]
+        ],
+        [
+          [
+            -2,
+            2
+          ],
+          [
+            -2,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "caps",
+      "Name": "Two opposed caps",
+      "Scenario": "square",
+      "Width": 2,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 6,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -2,
+            0
+          ],
+          [
+            -2,
+            2
+          ]
+        ],
+        [
+          [
+            -2,
+            2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        [
+          [
+            -2,
+            0
+          ],
+          [
+            -2,
+            -2
+          ]
+        ],
+        [
+          [
+            -2,
+            -2
+          ],
+          [
+            2,
+            -2
+          ]
+        ],
+        [
+          [
+            2,
+            -2
+          ],
+          [
+            2,
+            0
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 6,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "notch",
+      "Name": "Six-step notched walk",
+      "Scenario": "square",
+      "Width": 2,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 6,
+      "ZeroSections": 2,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -2,
+            -2
+          ],
+          [
+            2,
+            -2
+          ]
+        ],
+        [
+          [
+            2,
+            -2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            -2,
+            2
+          ]
+        ],
+        [
+          [
+            -2,
+            2
+          ],
+          [
+            -2,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 6,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "open",
+      "Name": "Three-step open walk",
+      "Scenario": "square",
+      "Width": 2,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 3,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": false,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -2,
+            -2
+          ],
+          [
+            2,
+            -2
+          ]
+        ],
+        [
+          [
+            2,
+            -2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            -2,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 3,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "detached",
+      "Name": "Four detached rails",
+      "Scenario": "square",
+      "Width": 2,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 4,
+      "Closed": false,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -2,
+            -2
+          ],
+          [
+            2,
+            -2
+          ]
+        ],
+        [
+          [
+            -2,
+            2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            -2,
+            -2
+          ],
+          [
+            -2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            -2
+          ],
+          [
+            2,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 8,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "walk",
+      "Name": "Four-step closed walk",
+      "Scenario": "stretch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            -3,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 4,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "rails",
+      "Name": "Two pairs of rails",
+      "Scenario": "stretch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "radial-equal",
+      "Name": "Four equal radial turns",
+      "Scenario": "stretch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": false,
+      "Failed": 1,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": true,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            -3,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 1
+    },
+    {
+      "Id": "radial-open",
+      "Name": "Four radial points, angular gaps open",
+      "Scenario": "stretch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": false,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            -3,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "caps",
+      "Name": "Two opposed caps",
+      "Scenario": "stretch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 6,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            0
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        [
+          [
+            -3,
+            0
+          ],
+          [
+            -3,
+            -2
+          ]
+        ],
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            0
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 6,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "notch",
+      "Name": "Six-step notched walk",
+      "Scenario": "stretch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 6,
+      "ZeroSections": 2,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            -3,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 6,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "open",
+      "Name": "Three-step open walk",
+      "Scenario": "stretch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 3,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": false,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            -3,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 3,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "detached",
+      "Name": "Four detached rails",
+      "Scenario": "stretch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 4,
+      "Closed": false,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 8,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "walk",
+      "Name": "Four-step closed walk",
+      "Scenario": "notch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 1,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            -3,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 4,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "rails",
+      "Name": "Two pairs of rails",
+      "Scenario": "notch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 1,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "radial-equal",
+      "Name": "Four equal radial turns",
+      "Scenario": "notch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 1,
+      "Admissible": false,
+      "Failed": 1,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": true,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            -3,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 1
+    },
+    {
+      "Id": "radial-open",
+      "Name": "Four radial points, angular gaps open",
+      "Scenario": "notch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 1,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": false,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            -3,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "caps",
+      "Name": "Two opposed caps",
+      "Scenario": "notch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 1,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 6,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            0
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        [
+          [
+            -3,
+            0
+          ],
+          [
+            -3,
+            -2
+          ]
+        ],
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            0
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 6,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "notch",
+      "Name": "Six-step notched walk",
+      "Scenario": "notch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 1,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 6,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        [
+          [
+            3,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        [
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            -3,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 6,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "open",
+      "Name": "Three-step open walk",
+      "Scenario": "notch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 1,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 3,
+      "ZeroSections": 0,
+      "Components": 1,
+      "Closed": false,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            -3,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 3,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "detached",
+      "Name": "Four detached rails",
+      "Scenario": "notch",
+      "Width": 3,
+      "Height": 2,
+      "Notch": 1,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 0,
+      "Components": 4,
+      "Closed": false,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            3,
+            -2
+          ]
+        ],
+        [
+          [
+            -3,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        [
+          [
+            -3,
+            -2
+          ],
+          [
+            -3,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            -2
+          ],
+          [
+            3,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 8,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "walk",
+      "Name": "Four-step closed walk",
+      "Scenario": "zero-read",
+      "Width": 0,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 2,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            -2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 4,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "rails",
+      "Name": "Two pairs of rails",
+      "Scenario": "zero-read",
+      "Width": 0,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 2,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            -2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "radial-equal",
+      "Name": "Four equal radial turns",
+      "Scenario": "zero-read",
+      "Width": 0,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": false,
+      "Failed": 1,
+      "Unresolved": 1,
+      "Sections": 4,
+      "ZeroSections": 2,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": true,
+      "Lines": [
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            -2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 1
+    },
+    {
+      "Id": "radial-open",
+      "Name": "Four radial points, angular gaps open",
+      "Scenario": "zero-read",
+      "Width": 0,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": false,
+      "Failed": 0,
+      "Unresolved": 1,
+      "Sections": 4,
+      "ZeroSections": 2,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": false,
+      "Lines": [
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            -2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 4,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "caps",
+      "Name": "Two opposed caps",
+      "Scenario": "zero-read",
+      "Width": 0,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 6,
+      "ZeroSections": 2,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            -2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            -2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 6,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "notch",
+      "Name": "Six-step notched walk",
+      "Scenario": "zero-read",
+      "Width": 0,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 6,
+      "ZeroSections": 4,
+      "Components": 1,
+      "Closed": true,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            -2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            -2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 6,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "open",
+      "Name": "Three-step open walk",
+      "Scenario": "zero-read",
+      "Width": 0,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 3,
+      "ZeroSections": 2,
+      "Components": 1,
+      "Closed": false,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            -2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 1,
+      "AdvanceCount": 3,
+      "EqualityCount": 0
+    },
+    {
+      "Id": "detached",
+      "Name": "Four detached rails",
+      "Scenario": "zero-read",
+      "Width": 0,
+      "Height": 2,
+      "Notch": 0,
+      "Admissible": true,
+      "Failed": 0,
+      "Unresolved": 0,
+      "Sections": 4,
+      "ZeroSections": 2,
+      "Components": 4,
+      "Closed": false,
+      "EqualTurns": null,
+      "Lines": [
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            -2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            -2
+          ],
+          [
+            0,
+            2
+          ]
+        ]
+      ],
+      "SeedCount": 8,
+      "AdvanceCount": 0,
+      "EqualityCount": 0
+    }
+  ],
+  "Comparisons": [
+    {
+      "Scenario": "square",
+      "From": "walk",
+      "To": "rails",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "walk",
+      "To": "radial-equal",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "walk",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "walk",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "walk",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "walk",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 12,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "walk",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "rails",
+      "To": "radial-equal",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "rails",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "rails",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "rails",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "rails",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 12,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "rails",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "radial-equal",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "radial-equal",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "radial-equal",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "radial-equal",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 12,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "radial-equal",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "radial-open",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "radial-open",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "radial-open",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 12,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "radial-open",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "caps",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "square",
+      "From": "caps",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 12,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "caps",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "notch",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 12,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "notch",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "square",
+      "From": "open",
+      "To": "detached",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 12,
+      "SourceOnly": 0,
+      "TargetOnly": 4,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "walk",
+      "To": "rails",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "stretch",
+      "From": "walk",
+      "To": "radial-equal",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "walk",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "stretch",
+      "From": "walk",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "stretch",
+      "From": "walk",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "stretch",
+      "From": "walk",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "walk",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "rails",
+      "To": "radial-equal",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "rails",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "stretch",
+      "From": "rails",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "stretch",
+      "From": "rails",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "stretch",
+      "From": "rails",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "rails",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "radial-equal",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "radial-equal",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "radial-equal",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "radial-equal",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": false,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "radial-equal",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "radial-open",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "stretch",
+      "From": "radial-open",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "stretch",
+      "From": "radial-open",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "radial-open",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "caps",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "stretch",
+      "From": "caps",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "caps",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "notch",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "notch",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "stretch",
+      "From": "open",
+      "To": "detached",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 4,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "walk",
+      "To": "rails",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "notch",
+      "From": "walk",
+      "To": "radial-equal",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "walk",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "notch",
+      "From": "walk",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "notch",
+      "From": "walk",
+      "To": "notch",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 18,
+      "SourceOnly": 2,
+      "TargetOnly": 2,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "walk",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "walk",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "rails",
+      "To": "radial-equal",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "rails",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "notch",
+      "From": "rails",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "notch",
+      "From": "rails",
+      "To": "notch",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 18,
+      "SourceOnly": 2,
+      "TargetOnly": 2,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "rails",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "rails",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "radial-equal",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "radial-equal",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "radial-equal",
+      "To": "notch",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 18,
+      "SourceOnly": 2,
+      "TargetOnly": 2,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "radial-equal",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": false,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "radial-equal",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": false,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "radial-open",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "notch",
+      "From": "radial-open",
+      "To": "notch",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 18,
+      "SourceOnly": 2,
+      "TargetOnly": 2,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "radial-open",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "radial-open",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "caps",
+      "To": "notch",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 18,
+      "SourceOnly": 2,
+      "TargetOnly": 2,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "caps",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "caps",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 20,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "notch",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 14,
+      "SourceOnly": 6,
+      "TargetOnly": 2,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "notch",
+      "To": "detached",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 18,
+      "SourceOnly": 2,
+      "TargetOnly": 2,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "notch",
+      "From": "open",
+      "To": "detached",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 16,
+      "SourceOnly": 0,
+      "TargetOnly": 4,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "walk",
+      "To": "rails",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "walk",
+      "To": "radial-equal",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "walk",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "walk",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "walk",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "walk",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 4,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "walk",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "rails",
+      "To": "radial-equal",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "rails",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "rails",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "rails",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "rails",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 4,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "rails",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "radial-equal",
+      "To": "radial-open",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "radial-equal",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "radial-equal",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "radial-equal",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": false,
+      "Matches": 4,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "radial-equal",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "radial-open",
+      "To": "caps",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "radial-open",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "radial-open",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": false,
+      "Matches": 4,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "radial-open",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": false,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "caps",
+      "To": "notch",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": true,
+      "TopologyAgrees": true,
+      "Admissible": true,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": true
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "caps",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 4,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "caps",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "notch",
+      "To": "open",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 4,
+      "SourceOnly": 4,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "notch",
+      "To": "detached",
+      "BoundaryAgrees": true,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 8,
+      "SourceOnly": 0,
+      "TargetOnly": 0,
+      "Unresolved": 0,
+      "BoundaryExchange": true,
+      "BoundaryAndTopologyExchange": false
+    },
+    {
+      "Scenario": "zero-read",
+      "From": "open",
+      "To": "detached",
+      "BoundaryAgrees": false,
+      "DirectedAgrees": false,
+      "TopologyAgrees": false,
+      "Admissible": true,
+      "Matches": 4,
+      "SourceOnly": 0,
+      "TargetOnly": 4,
+      "Unresolved": 0,
+      "BoundaryExchange": false,
+      "BoundaryAndTopologyExchange": false
+    }
+  ],
+  "Contours": [
+    {
+      "Markers": 3,
+      "Closed": true,
+      "EqualTurns": true,
+      "OpenObligations": 0
+    },
+    {
+      "Markers": 4,
+      "Closed": true,
+      "EqualTurns": true,
+      "OpenObligations": 0
+    },
+    {
+      "Markers": 5,
+      "Closed": true,
+      "EqualTurns": true,
+      "OpenObligations": 0
+    },
+    {
+      "Markers": 6,
+      "Closed": true,
+      "EqualTurns": true,
+      "OpenObligations": 0
+    },
+    {
+      "Markers": 8,
+      "Closed": true,
+      "EqualTurns": true,
+      "OpenObligations": 0
+    }
+  ]
+}

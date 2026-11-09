@@ -19,6 +19,14 @@ native ornament action studies. They use related ideas but do not share one
 universal encoding or execution contract. Implementation links below identify
 which mechanism actually supplies each behavior.
 
+The [construction exchange study](ConstructionExchangeStudy.md) now compares
+eight supplied programs under common input probes. Its
+[interactive report](results/construction-exchange/index.html) separates
+boundary, directed-flow and coarse-topology agreement, while retaining the
+constraints that make a candidate admissible. It includes a four-step walk,
+paired caps, rails, radial alternatives and a latent notch. Matching output is
+an exchange opportunity for a selected read, not proof of identical machinery.
+
 ## Start with one concrete machine
 
 The baseline-return machine is a useful example because its purpose, state,
