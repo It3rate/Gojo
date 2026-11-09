@@ -1,5 +1,16 @@
 # Qualitative frieze generators
 
+The [glyph joint atlas](results/glyph-joints/index.html) separates visible
+letter shapes from pen-stroke history, shared-site topology, route permissions
+and selected ground/contact contexts. It covers capitals and digits, then
+reuses bends, attachments, bridges, choices, merges and crossings in small
+native experiments. See the [overview and encoding](GlyphJointAtlas.md) and
+the [recorded Markdown report](results/glyph-joints/README.md). This report remains local.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -- --glyph-joints
+```
+
 The [construction-family gallery](results/constraint-families/index.html)
 compares finite output ranges, source reuse and feedback, mirror/repeat order,
 phase correspondence, and nearby shape constructions. See the

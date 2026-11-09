@@ -29,6 +29,14 @@ an exchange opportunity for a selected read, not proof of identical machinery.
 
 ## Start with one concrete machine
 
+The [glyph joint atlas](GlyphJointAtlas.md) makes the distinction between
+shape and use explicit. A bend is an ordered continuation; an attachment
+adds an incident relation; a bridge exposes a crossing route; a switch
+selects among routes; a material merge shares receiver capacity. Identical
+ink can support different construction histories and different route laws.
+Its [gallery](results/glyph-joints/index.html) shows these mechanisms beside
+the letter constructions and marks the limits of support/balance analogies.
+
 The [construction-family study](ConstraintFamiliesStudy.md) extends this to
 finite output ranges. A six-equal-step walk keeps a fixed aspect ratio; a
 two-step corner and its half-turn allow independent reaches. Original reuse,

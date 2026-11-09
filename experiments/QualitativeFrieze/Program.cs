@@ -9,6 +9,7 @@ using Gojo.Experiments.QualitativeFrieze;
 using Gojo.Experiments.QualitativeFrieze.Learning;
 using Gojo.Experiments.QualitativeFrieze.Composition;
 
+if (args.Contains("--glyph-joints")) return GlyphJointAtlasStudy.RunExperiment(args.Where(argument => argument != "--glyph-joints").ToArray());
 if (args.Contains("--constraint-families")) return ConstraintFamiliesStudy.RunExperiment(args.Where(argument => argument != "--constraint-families").ToArray());
 if (args.Contains("--construction-exchange")) return ConstructionExchangeStudy.RunExperiment(args.Where(argument => argument != "--construction-exchange").ToArray());
 if (args.Contains("--preference-transfer")) return PreferenceTransferStudy.RunExperiment(args.Where(argument => argument != "--preference-transfer").ToArray());
