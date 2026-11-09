@@ -1,0 +1,263 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reusing a learned preference in a different situation · Gojo</title><style>
+body{margin:0;background:#f5f4ef;color:#243142;font:17px/1.65 system-ui,sans-serif}
+main{max-width:980px;margin:32px auto;padding:34px;background:white;border:1px solid #dce1e4;border-radius:12px}
+nav{display:flex;gap:22px;flex-wrap:wrap;font-size:14px;margin-bottom:32px}a{color:#176baa;text-underline-offset:3px;overflow-wrap:anywhere}
+h1{font-size:36px;line-height:1.2}h2{margin-top:38px;font-size:25px}h3{margin-top:25px}
+table{border-collapse:collapse;display:block;overflow:auto;font-size:14px}td,th{padding:9px 12px;border:1px solid #dce1e4;text-align:left;min-width:110px}th{background:#edf2f6}
+pre{background:#edf2f6;padding:18px;border-radius:6px;overflow:auto;font-size:14px}code{font-size:.88em}
+blockquote{border-left:3px solid #287158;padding-left:20px;color:#455467}img{max-width:100%}
+footer{margin-top:30px;font-size:13px;color:#596777}@media(max-width:650px){main{margin:0;padding:22px;border:0;border-radius:0}h1{font-size:29px}}
+</style></head><body><main>
+<nav><a href="index.html">Recorded experiment</a><a href="notes.html">Study notes</a>
+<a href="glossary.html">Machine glossary</a><a href="protocol.html">Prospective protocol</a></nav>
+<h1 id="reusing-a-learned-preference-in-a-different-situation">Reusing a learned preference in a different situation</h1>
+<h2 id="what-this-experiment-does">What this experiment does</h2>
+<p>A small machine learns which of two possible responses is useful. We then
+give that preference to a fresh machine facing a different situation. Does it
+save a bad first pass? When the old analogy becomes wrong, can the new machine
+recover by evaluating more complete passes?</p>
+<p>The answer in this supplied apparatus is <strong>both</strong>. Reuse often saves one or two
+passes. A reversed control makes the same prior actively harmful: it takes
+five passes to settle instead of two from a cold start. Keeping that imported
+preference fixed never settles within the six-pass budget.</p>
+<p>Open the <a href="index.html">interactive comparison</a>.
+Start with <strong>Reversed response</strong>, then compare <strong>Cold start</strong>, <strong>Transferred
+preference</strong>, and <strong>Fixed transferred preference</strong>. The three small drawings
+share the selected beat. The pass cards explain the local revisions.
+The <a href="glossary.html">glossary</a> connects these reads to the actual
+machines, and the <a href="protocol.html">prospective protocol</a> records
+the questions and limits set before running the campaign.</p>
+<h2 id="what-is-reused">What is reused</h2>
+<p>The source has two controls, height and width. Each keeps two motion candidates.
+Its six full passes produce a preference through the existing native
+keep-or-advance law. We export a preference only when its last retained pass
+is complete and useful: it improved the discrepancy or reached the goal with
+that selected option. An untried option reached by advancing after failure is
+not exported as learned success. An unresolved last evaluation also blocks export.</p>
+<p>Later source passes are already at the goal and issue hold responses. The
+export rule admits this maintained goal as local utility; these repeated holds
+are not independent confirmations of the option's motion prediction. The full
+source replay shows its earlier revision, but only two recent evaluations
+remain in its active pass memory.</p>
+<p>The target receives this connected structure:</p>
+<pre><code class="language-text">source context + captured preferred option + useful pass witness
+    -&gt; supplied source-option / target-option correspondence
+    -&gt; target preference position
+    -&gt; provisional response during the target pass
+    -&gt; target-local evaluation and next preference
+</code></pre>
+<p>Only the starting preference changes. The target begins with its own actuator
+state, empty local pass history, and two unsupported motion candidates per
+control. Source utility is not installed as evidence that either target motion
+candidate is true. The source's qualifying evidence remains attached as
+provenance; it is not counted as one of the target's own evaluations.</p>
+<p>The correspondence is supplied for this experiment. It is a mechanically
+readable analogy, not an automatically discovered or verified equivalence.
+This matters especially when it is wrong.</p>
+<h2 id="the-comparison">The comparison</h2>
+<p>We train two sources: an inset cap and a chevron cap. Each supplies nine new
+situations, tested with three policies: cold start with revision, imported
+preference with revision, and imported preference with a fixed keep law.
+That gives 54 target runs, each with six passes of six clock opportunities.</p>
+<p>The table gives the first jointly settled pass. Both source families produced
+the same pass counts. A dash means no joint settlement within the budget.</p>
+<table>
+<thead>
+<tr>
+<th>Target situation</th>
+<th style="text-align: right;">Cold start</th>
+<th style="text-align: right;">Reuse, then revise</th>
+<th style="text-align: right;">Reuse, keep fixed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Different starting extents</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Changed goal</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Other construction family</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Reordered candidate bank</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Reversed response, unchanged analogy</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>Reversed response, corrected correspondence</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Capacity too small</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>First pass observation withheld</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>Zero-width start / lost section</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<p>There are 46 final joint matches out of 54 supplied conditions. This is not
+learning accuracy or an ornament-quality score. The candidate banks deliberately
+contain a useful description, the analogies are authored, and several paired
+conditions share the same mechanics. The first-pass damage and recovery are
+more informative than the final count.</p>
+<h2 id="a-useful-analogy-does-not-depend-on-storage-position">A useful analogy does not depend on storage position</h2>
+<p>The source learns its second option. In the reordered target, that option's
+counterpart is first. The correspondence imports the first target option;
+copying the source's cursor would select the wrong one. This case reaches the
+goal in one pass. The cold start also succeeds because the reordered first
+option is already useful: transfer has no measured advantage there.</p>
+<p>Inset-to-chevron and chevron-to-inset use a supplied role correspondence across
+different motion words and reach counts. They show reuse of the controller's
+preference structure, not automatic recognition of a metaphor between domains.</p>
+<h2 id="the-bad-analogy-and-its-five-pass-recovery">The bad analogy and its five-pass recovery</h2>
+<p>The reversed target has a real affine publication:</p>
+<pre><code class="language-text">actuator height 0 .. 12 -&gt; drawing height 12 .. 0
+</code></pre>
+<p>Increasing the actuator now decreases the visible height. The uncorrected
+analogy preserves the source's old signed-motion assumption. This is not a
+hidden change in the controller; the reversal exists in the connected read.</p>
+<p>For the inset target, the gap goal is 12:</p>
+<table>
+<thead>
+<tr>
+<th>Pass</th>
+<th>Gap before → after</th>
+<th>Endpoint discrepancy before → after</th>
+<th>Local response to the evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>9 → 3</td>
+<td>0 → 0</td>
+<td>Height rejects its old option; width retains its option.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3 → 12</td>
+<td>0 → 2</td>
+<td>Height reaches its goal; width treats the worsening as a reason to switch.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>12 → 12</td>
+<td>2 → 8</td>
+<td>Width's new option makes things worse, so it switches back.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>12 → 12</td>
+<td>8 → 2</td>
+<td>Width improves and retains its option.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>12 → 12</td>
+<td>2 → 0</td>
+<td>Both goals settle.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>12 → 12</td>
+<td>0 → 0</td>
+<td>Both remain settled.</td>
+</tr>
+</tbody>
+</table>
+<p>The first pass reaches actuator height 12 with +1 pending tension. The first
+negative input of pass two repays that tension; it does not yet change the
+visible actuator value. Later steps reduce the actuator and grow the drawing.
+Nothing resets between passes.</p>
+<p>This exposes a real weakness in the small policy: <strong>a local worsening does not
+identify which participant caused it</strong>. Height's useful recovery shifts the
+endpoint that width is trying to match. Width's whole-pass rule switches away
+from a useful response because it cannot distinguish moving context from its
+own bad choice. Recovery still occurs, but with an unnecessary detour.</p>
+<p>We deliberately leave that failure visible. The corrected-correspondence case
+includes the known reversal explicitly and settles in one pass; it demonstrates
+what a better mapping could supply, not that the machine learned that mapping.</p>
+<h2 id="what-the-other-failures-tell-us">What the other failures tell us</h2>
+<p>Capacity remains a physical limit. Transferred preference cannot create height
+that the passage cannot accept. All three policies fail the joint goal there,
+and blocked movement remains visible as pending tension. Revision can change
+the preferred option, but cannot solve the missing capacity.</p>
+<p>During the withheld first pass, the viewer can still show diagnostic geometry.
+The controller cannot use it: no response is selected, no local utility is
+invented, and the imported preference survives until a readable pass occurs.</p>
+<p>A zero-width start can remove the primary section read. The existing landmark
+alternative can remain available without pretending that the missing section
+exists. Transfer helps restore the construction, but it does not redefine
+absence as zero or establish closure by assertion.</p>
+<h2 id="memory-encoding-and-remaining-gaps">Memory, encoding and remaining gaps</h2>
+<p>Each target policy retains at most two own pass evaluations, with an explicit
+discard count and open lost-history surface. The report retains a longer
+inspection history that the controller does not consult. A captured source
+preference does not change when the source later revises itself; target
+revision also does not rewrite the source.</p>
+<p>The native export includes source provenance and its reachable graph. It is
+not yet a tiny compiled transferable packet. This is evidence-preserving
+experimental storage, distinct from the size of the preference itself.
+Target operational exports span 465,477–683,120 bytes in this run; four full
+inspection exports span roughly 2.85–4.12 MB. These are archive sizes, not
+minimal machine sizes or timing measurements.</p>
+<p>The next useful extension is better local credit assignment: preserve the
+possibility that another connected machine moved the target during a pass.
+Repeated failure of a particular correspondence could also become evidence
+about that analogy, separate from evidence about the target's motion. We do
+not yet learn mappings, select among several source memories, invent new
+options, rewrite topology, or transfer safely between unrelated domains.</p>
+<p>All target motion candidates remain possible throughout this campaign. Useful
+action and preference revision proceed without upgrading either explanation
+to established truth.</p>
+<h2 id="verification-and-reproduction">Verification and reproduction</h2>
+<p>Four representative full traces agree between native and compiled finite
+laws, and their exported graphs decode. All 75 focused checks pass, covering
+transfer refusal, historical snapshots, reordered options, bad analogies,
+local recovery, restoration and the preceding pass behavior. The full solution
+passes 6,808 tests across 18 projects, with no failures or skips. Browser checks
+cover all 54 target conditions, synchronized comparisons, keyboard focus and
+narrow layouts; all local links in the four HTML pages resolve.</p>
+<pre><code class="language-powershell">dotnet run -c Release --project experiments/QualitativeFrieze -- --preference-transfer
+python experiments/QualitativeFrieze/RenderPreferenceTransferNotes.py
+dotnet test Tests/QualitativeExecution.Tests/QualitativeExecution.Tests.csproj --filter &quot;FullyQualifiedName~PreferenceTransferTests|FullyQualifiedName~PreferenceTransferStudyTests|FullyQualifiedName~PassPolicyMemoryTests|FullyQualifiedName~PartialDecisionStudyTests&quot;
+dotnet test Gojo.slnx
+</code></pre>
+<p>Source: <a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/PreferenceTransferStudy.cs">transfer apparatus</a>,
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/PassPolicyMemory.cs">pass policy and transfer surfaces</a>, and
+<a href="https://github.com/It3rate/Gojo/blob/master/experiments/QualitativeFrieze/Composition/PartialDecisionStudy.cs">shared whole-pass runner</a>.</p><footer>Generated from repository Markdown. Source links open readable repository pages.</footer>
+</main></body></html>

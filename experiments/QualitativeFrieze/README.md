@@ -1,5 +1,18 @@
 # Qualitative frieze generators
 
+The [preference-transfer comparison](results/preference-transfer/index.html)
+trains two small source machines and reuses their preferences in 54 supplied
+target conditions. It includes useful reuse, a reversed control that makes
+the old analogy harmful, and recovery through full passes without resetting
+state or tension. See the [overview](PreferenceTransferStudy.md),
+[machine glossary](PreferenceTransferGlossary.md), and
+[prospective protocol](PreferenceTransferProtocol.md). This report remains local.
+
+```powershell
+dotnet run -c Release --project experiments/QualitativeFrieze -- --preference-transfer
+python experiments/QualitativeFrieze/RenderPreferenceTransferNotes.py
+```
+
 The [partial-decision replay](results/partial-decisions/index.html) carries two
 controls through complete passes while preserving uncertain motion candidates.
 It compares shared responses, fixed guesses, pass-level preference revision,

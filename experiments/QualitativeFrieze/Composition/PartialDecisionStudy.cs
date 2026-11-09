@@ -35,8 +35,19 @@ public static class PartialDecisionStudy
     public static readonly string[] Modes = ["unique", "shared", "fixed", "passes", "adaptive"];
     public static readonly string[] Families = ["inset", "chevron"];
 
+    /// <summary>Supplied apparatus changes for paired transfer experiments.
+    /// Policy hooks run only at construction and export, never during action
+    /// selection or pass evaluation. Affine reversal is an actual publication
+    /// relation, not a change to the receiver's hidden response code.</summary>
+    public sealed record Configuration(long InitialHeight = 1, long InitialWidth = 10,
+        long UpperWidth = 12, long? Goal = null, long HeightCapacity = 12,
+        bool ReverseHeightProjection = false, bool ReverseOptionOrder = false,
+        int? UnavailablePass = null,
+        Action<PassPolicyMemory, bool>? InitializePolicy = null,
+        Action<PassPolicyMemory, bool>? ExportPolicy = null);
+
     public static Run Execute(string scenario, string mode, string family = "inset",
-        bool compiled = true, bool captureNative = false)
+        bool compiled = true, bool captureNative = false, Configuration? configuration = null)
     {
         if (!Scenarios.Contains(scenario) || !Modes.Contains(mode) || !Families.Contains(family))
             throw new ArgumentException("Unknown supplied partial-decision condition.");
@@ -44,22 +55,29 @@ public static class PartialDecisionStudy
         var allowTrials = mode == "adaptive";
         var requireUnique = mode == "unique";
         var inset = family == "inset";
+        var setup = configuration ?? new Configuration();
         var template = inset ? CoupledShapeTemplate.InsetCap() : CoupledShapeTemplate.ChevronCap();
         var frame = template.Frame;
-        var h = new Lane(frame, CoupledExtentMachine.Create(1, scenario == "capacity" ? 1 : 12),
-            frame.Word(inset ? 0 : 1, inset ? -3 : -1), scenario == "equivalent");
-        var w = new Lane(frame, CoupledExtentMachine.Create(scenario == "lost-section" ? 0 : 10, 20,
-            unit: h.Machine.StepUnit.UnitShape), frame.Word(1, 0), scenario == "equivalent");
+        var polarity = setup.ReverseHeightProjection ? -1 : 1;
+        var h = new Lane(frame, CoupledExtentMachine.Create(setup.InitialHeight, scenario == "capacity" ? 1 : setup.HeightCapacity),
+            frame.Word(polarity * (inset ? 0 : 1), polarity * (inset ? -3 : -1)), scenario == "equivalent", setup.ReverseOptionOrder);
+        var w = new Lane(frame, CoupledExtentMachine.Create(scenario == "lost-section" ? 0 : setup.InitialWidth, 20,
+            unit: h.Machine.StepUnit.UnitShape), frame.Word(1, 0), scenario == "equivalent", setup.ReverseOptionOrder);
         h.Trial = LocalTrialMachine.Create(h.Machine, w.Quiet.PublicPort, allowance: 2);
         w.Trial = LocalTrialMachine.Create(w.Machine, h.Quiet.PublicPort, allowance: 2);
         var common = new Carrier(h.Machine.StepUnit.UnitShape);
         Carrier Value(long v) { var c = new Carrier(common.UnitShape); c.Add((ulong)v); return c; }
-        var upperWidth = Value(12); var upperHeight = Value(1); var goal = Value(inset ? 12 : 4);
+        var upperWidth = Value(setup.UpperWidth); var upperHeight = Value(1); var goal = Value(setup.Goal ?? (inset ? 12 : 4));
+        var heightBinding = setup.ReverseHeightProjection
+            ? new Relation(h.Machine.ExtentPort, new Relation(
+                Relation.Segment((Carrier)h.Machine.ExtentPort.Right, 0, setup.HeightCapacity),
+                Relation.Segment(common, setup.HeightCapacity, 0)))
+            : CalibratedShapePublication.Bind(h.Machine.ExtentPort, common, 1);
         var publication = new CalibratedShapePublication(template, common,
             CalibratedShapePublication.Bind(Port(upperWidth), common, 1),
             CalibratedShapePublication.Bind(w.Machine.ExtentPort, common, 1),
             CalibratedShapePublication.Bind(Port(upperHeight), common, 1),
-            CalibratedShapePublication.Bind(h.Machine.ExtentPort, common, 1));
+            heightBinding);
         var gaps = new Dictionary<Relation, GeometricGapAlternative>(ReferenceEqualityComparer.Instance);
         var ends = new Dictionary<Relation, GeometricEndpointClaim>(ReferenceEqualityComparer.Instance);
         var evidence = new List<IElement>(); var oldContexts = new List<IElement>();
@@ -87,7 +105,7 @@ public static class PartialDecisionStudy
                 Keep(new Relation(before, new CarrierLocation(goal, (long)goal.Value)));
                 SetContexts(true);
             }
-            var available = scenario != "withheld" || pass != 2;
+            var available = (scenario != "withheld" || pass != 2) && setup.UnavailablePass != pass;
             var startGap = Gap(h.Authored, available); var startEnd = End(w.Authored, available);
             h.BeginPass(); w.BeginPass();
             var shared = 0; var provisional = 0; var trials = 0; var informative = 0;
@@ -192,6 +210,7 @@ public static class PartialDecisionStudy
                 h.Memory.RecentPasses.Length + w.Memory.RecentPasses.Length, h.Memory.DiscardedCount + w.Memory.DiscardedCount));
         }
         var final = frames[^1];
+        setup.ExportPolicy?.Invoke(h.Memory, true); setup.ExportPolicy?.Invoke(w.Memory, false);
         var live = S(template.Surface, publication.Surface, h.Archive(), w.Archive(), Port(goal),
             S(oldContexts.ToArray()), schedule);
         var native = captureNative ? S(live, S(evidence.ToArray())) : null;
@@ -210,11 +229,12 @@ public static class PartialDecisionStudy
             {
                 var previous = changed ? lane.Memory.ArchiveSurface() : null;
                 var context = new Relation(lane.Machine.ExtentPort,
-                    S(template.Surface, new CarrierLocation(goal, (long)goal.Value), ReferenceEquals(lane, h) ? frame.Motion.Down : frame.Motion.Right));
+                    S(publication.Surface, new CarrierLocation(goal, (long)goal.Value), ReferenceEquals(lane, h) ? frame.Motion.Down : frame.Motion.Right));
                 lane.Context = context;
                 lane.Memory = mode == "fixed"
                     ? PassPolicyMemory.CreateFixed(context, lane.Discrepancy, lane.Learner.Candidates.ToArray())
                     : PassPolicyMemory.Create(context, lane.Discrepancy, lane.Learner.Candidates.ToArray());
+                if (!changed) setup.InitializePolicy?.Invoke(lane.Memory, ReferenceEquals(lane, h));
                 if (previous is not null) oldContexts.Add(new Relation(previous, lane.Memory.ArchiveSurface()));
             }
         }
@@ -351,13 +371,14 @@ public static class PartialDecisionStudy
         public Relation? LastChoice;
         public List<Relation> PassChoices { get; } = [];
         public List<IElement> PassUses { get; } = [];
-        public Lane(Curve.Frame frame, CoupledExtentMachine machine, Relation authored, bool equivalent)
+        public Lane(Curve.Frame frame, CoupledExtentMachine machine, Relation authored, bool equivalent, bool reverseOptions = false)
         {
             Machine = machine; Authored = authored;
             frame.Vector(authored, out var v);
             var first = equivalent ? S(FiniteLaw.Entries(frame.Word(1, 0)).Concat(FiniteLaw.Entries(frame.Word(-1, 0))).Concat(FiniteLaw.Entries(authored)).ToArray())
                 : frame.Word(checked((int)-v.X), checked((int)-v.Y));
-            Learner = ObservedMotionCandidates.Create(frame, machine.ExtentPort, first, authored);
+            Learner = reverseOptions ? ObservedMotionCandidates.Create(frame, machine.ExtentPort, authored, first)
+                : ObservedMotionCandidates.Create(frame, machine.ExtentPort, first, authored);
             Response = CandidateResponseRead.Create(machine, Learner);
             Gate = PendingAdjustmentGate.Create(machine); Quiet = TrialQuietPort.Create(machine);
             Boundary = (Relation)FiniteLaw.Entries(machine.Surface)[3];

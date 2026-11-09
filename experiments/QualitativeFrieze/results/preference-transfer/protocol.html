@@ -1,0 +1,181 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Learned preferences in new situations: prospective protocol · Gojo</title><style>
+body{margin:0;background:#f5f4ef;color:#243142;font:17px/1.65 system-ui,sans-serif}
+main{max-width:980px;margin:32px auto;padding:34px;background:white;border:1px solid #dce1e4;border-radius:12px}
+nav{display:flex;gap:22px;flex-wrap:wrap;font-size:14px;margin-bottom:32px}a{color:#176baa;text-underline-offset:3px;overflow-wrap:anywhere}
+h1{font-size:36px;line-height:1.2}h2{margin-top:38px;font-size:25px}h3{margin-top:25px}
+table{border-collapse:collapse;display:block;overflow:auto;font-size:14px}td,th{padding:9px 12px;border:1px solid #dce1e4;text-align:left;min-width:110px}th{background:#edf2f6}
+pre{background:#edf2f6;padding:18px;border-radius:6px;overflow:auto;font-size:14px}code{font-size:.88em}
+blockquote{border-left:3px solid #287158;padding-left:20px;color:#455467}img{max-width:100%}
+footer{margin-top:30px;font-size:13px;color:#596777}@media(max-width:650px){main{margin:0;padding:22px;border:0;border-radius:0}h1{font-size:29px}}
+</style></head><body><main>
+<nav><a href="index.html">Recorded experiment</a><a href="notes.html">Study notes</a>
+<a href="glossary.html">Machine glossary</a><a href="protocol.html">Prospective protocol</a></nav>
+<h1 id="learned-preferences-in-new-situations-prospective-protocol">Learned preferences in new situations: prospective protocol</h1>
+<h2 id="the-question">The question</h2>
+<p>Can a small machine use a preference learned in one situation to make a useful
+first guess in another, notice when that guess was poor, and adjust through
+further complete passes? The target is reuse with visible limits. A successful
+source pass is a reason to try a mapped option; it is not proof about the new
+situation's motion, capacity, or attainable goals.</p>
+<p>This continues the <a href="../partial-decisions/notes.html">partial-decision experiment</a>.
+Each target keeps moving between passes. A poor first guess changes the actual
+state and may leave tension that subsequent passes must account for. Evaluation
+does not rewind the machine or silently clear the consequences of its actions.</p>
+<h2 id="what-crosses-the-boundary">What crosses the boundary</h2>
+<pre><code class="language-text">source context + retained useful pass
+    -&gt; captured preferred source option
+    -&gt; explicit source-option -&gt; target-option correspondence
+    -&gt; target provisional preference
+    -&gt; target actions over a complete pass
+    -&gt; target-local discrepancy evaluation
+    -&gt; keep or revise the preference for the next pass
+</code></pre>
+<p>The source trains through the existing six-pass opposed-candidate experiment,
+using pass-level revision. Both inset and chevron construction families supply
+sources. The source's candidate identities remain distinct from the target's.
+Correspondence connects particular source and target options; their positions
+in an array do not establish that relation.</p>
+<p>Export requires retained evidence that the selected option improved a complete
+pass or reached its goal. Merely copying the current preference cursor is not
+enough: after a failure that cursor may point to an option never yet tried.
+The export captures the option, source context and qualifying evidence rather
+than becoming a live reference to whatever the source prefers later.</p>
+<p>The target receives a provisional starting preference through a visible
+correspondence. It does not install the source's evaluation history as its own
+pass memory, copy source actuator values or tension into its actuators, or
+inherit source motion-identification support. Its motion candidates begin
+unsupported, and its pass evaluations belong to its own context. The export
+still retains source evidence as provenance; the full connected archive is
+larger than the few fields used to choose the target's starting preference.
+A supplied correspondence may be mechanically readable and still be a bad
+analogy in practice.</p>
+<h2 id="supplied-comparisons">Supplied comparisons</h2>
+<p>Each target is compared under three conditions:</p>
+<ul>
+<li><strong>Cold start:</strong> the original option order, with ordinary pass-level revision.</li>
+<li><strong>Transferred preference:</strong> start from the mapped source preference and allow
+  the same pass-level revision.</li>
+<li><strong>Fixed transferred preference:</strong> start from the same mapped preference but
+  retain it after readable outcomes. This separates the effect of reuse from
+  the ability to recover when reuse is harmful.</li>
+</ul>
+<p>All paired conditions start with equivalent target state and receive the same
+clock opportunities, observation rules and availability. Actual observations
+diverge as their actions change their worlds. Within each run, state continues
+across six passes of six beats. The host supplies the construction, candidate
+bank, correspondence and experimental perturbation. It must not consult a
+private correct answer to select a target action or revise the preference.</p>
+<p>Two source construction families, nine target situations and three modes give
+54 target runs. The target cases are:</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Recorded case</th>
+<th>What it tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Different starting extents</td>
+<td><code>new-start</code></td>
+<td>Reuse without copying a source's final state.</td>
+</tr>
+<tr>
+<td>Changed goal</td>
+<td><code>changed-goal</code></td>
+<td>Whether a useful response preference remains useful for another target.</td>
+</tr>
+<tr>
+<td>Another construction family</td>
+<td><code>cross-family</code></td>
+<td>Reuse between inset and chevron through supplied role correspondence.</td>
+</tr>
+<tr>
+<td>Reordered target options</td>
+<td><code>reordered-options</code></td>
+<td>Whether correspondence survives a changed storage position.</td>
+</tr>
+<tr>
+<td>Reversed response</td>
+<td><code>reversed-response</code></td>
+<td>Whether an unchanged analogy becomes a bad guess when the target response actually reverses.</td>
+</tr>
+<tr>
+<td>Reversed response with corrected correspondence</td>
+<td><code>corrected-reversal</code></td>
+<td>Whether an explicit changed mapping can recover the useful relation.</td>
+</tr>
+<tr>
+<td>Limited capacity</td>
+<td><code>capacity</code></td>
+<td>Whether transfer retains blockage and tension instead of claiming unattainable success.</td>
+</tr>
+<tr>
+<td>First pass observation withheld</td>
+<td><code>withheld-first</code></td>
+<td>Whether unavailable evaluation stays unresolved rather than rewarding or penalizing the prior.</td>
+</tr>
+<tr>
+<td>Zero-width start and section loss</td>
+<td><code>lost-section</code></td>
+<td>Whether the controller can continue when a section read disappears and another advertised read remains available.</td>
+</tr>
+</tbody>
+</table>
+<p>The reversed-response case uses an ordered affine publication whose lower
+height reads as <code>12 - h</code> rather than <code>h</code>. Increasing the source extent therefore
+decreases that published height. The reversal is connected calibration
+structure, not a hidden sign change in the controller. The corrected case
+changes the explicit option correspondence; it does not provide target motion
+observations. In both cases the machine must judge utility from its own passes.</p>
+<p>These are paired apparatus conditions, not independent samples of natural
+designs. Their role is to expose mechanisms and failures before drawing wider
+learning claims. No outcome is assumed in this protocol.</p>
+<h2 id="structural-safeguards">Structural safeguards</h2>
+<p>Source evidence, correspondence, imported preference and target evaluations
+must remain distinguishable in the native archive. A missing or ambiguous
+mapping does not select an arbitrary option. An imported preference cannot
+replace an outstanding choice in the middle of a pass. Current target
+admissibility still governs which responses can be used.</p>
+<p>Later source adaptation must not rewrite a captured export. Later target
+adaptation must not alter the source's history or preference. Native transport
+must preserve the connected identities and correspondence within the restored
+world; equal coordinates or equal-looking words are insufficient substitutes.</p>
+<p>Only a complete readable target evaluation can credit improvement, achievement,
+stall or regression. An unavailable comparison remains unresolved. The target
+retains two recent pass evaluations with explicit loss of older detail, as in
+the preceding experiment. A separate report may keep a longer history for
+inspection; the controller does not consult it.</p>
+<p>This campaign uses pass-level revision to isolate preference transfer. It does
+not need to identify a unique motion explanation before acting. Utility may
+alter the next choice without eliminating a motion candidate, and a correct
+motion guess cannot create missing capacity.</p>
+<h2 id="what-to-inspect">What to inspect</h2>
+<p>Record the source option and its qualifying pass, the target correspondence,
+the imported target option, and any refused or unresolved import. For each
+target pass, expose the selected options, before/after discrepancies, accepted
+movement, remaining tension, available reads, retained candidates and preference
+changes. Compare first-pass damage and the first jointly settled pass as well
+as the final result.</p>
+<p>A useful transfer should save effort relative to a cold start in at least some
+conditions. A harmful transfer should remain visible even if later passes
+recover. The fixed-preference comparison should help distinguish recovery from
+a target that would have settled regardless. A bounded run that does not settle
+must retain its remaining state and explanation rather than being scored as a
+hidden success.</p>
+<p>Focused checks should cover evidence-qualified export, option-order independence,
+missing or ambiguous correspondence, source/target independence, import while a
+choice is pending, unavailable evaluation, recovery without reset, and native
+archive round trips. Representative complete traces should agree between native
+and compiled finite-law execution.</p>
+<h2 id="limits-of-the-claim">Limits of the claim</h2>
+<p>The machines, candidate banks, analogy correspondences and evaluation law are
+supplied. This can show learned preference reuse and revision through explicit
+structure. It does not yet show automatic discovery of a metaphor, discovery of
+new candidate machines, learned correspondence between unrelated domains, or
+structural growth. Those remain subsequent questions whose design should be
+informed by both useful and harmful transfers here.</p><footer>Generated from repository Markdown. Source links open readable repository pages.</footer>
+</main></body></html>

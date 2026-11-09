@@ -17,7 +17,9 @@ public sealed class PassPolicyMemory
     //   magnitude-basis, change-basis, change-domain, goal-basis, goal-domain,
     //   step-basis, step-domain, keep/advance-law, step-outlets, discarded-port,
     //   (retained-capacity -> open-forgotten-history))
-    // archive = Closed(Surface, pending-choice scope, last-two-pass scope)
+    // archive = Closed(Surface, pending-choice scope, last-two-pass scope,
+    //   optional import-witness scope). A transfer imports a preference, not
+    //   a target observation or a motion fact.
     // choose evidence = Surface -> Closed(captured-phase, cyclic-membership-walk)
     // pass = (Surface -> event) -> Closed(context, choice receipt, captured
     //   before/after discrepancy, evaluator premise, magnitude claims,
@@ -38,6 +40,7 @@ public sealed class PassPolicyMemory
     private readonly FiniteLawPlan plan;
     private Relation pending;
     private Relation recent;
+    private Relation imported;
 
     public Relation Surface { get; }
     public IElement Identity { get; }
@@ -47,17 +50,22 @@ public sealed class PassPolicyMemory
     public IReadOnlyList<Relation> Options { get; }
     public Relation Law { get; }
     public long Phase => checked((long)phase.Value);
+    public long PhaseTension => phase.Tension;
     public long DiscardedCount => checked((long)discarded.Value);
     public Relation LossSurface => new(new CarrierLocation(discarded, DiscardedCount), E(Surface)[17]);
     public Relation[] RecentPasses => E(recent).Cast<Relation>().ToArray();
     public Relation? PendingChoice => E(pending).SingleOrDefault() as Relation;
+    public Relation? ImportedPreference => E(imported).SingleOrDefault() as Relation;
 
     public sealed record ChoiceRead(bool Selected, Relation? Candidate, Relation? Receipt,
         int SelectedIndex, long PhaseBefore, long PhaseAfter, Relation Witness);
     public sealed record PassRead(bool Recorded, bool Complete, bool Improved, bool Achieved,
         bool Advanced, long PhaseBefore, long PhaseAfter, Relation Witness, Relation LawRead);
+    public sealed record PreferenceRead(bool Available, Relation Surface, Relation? Option, Relation Evidence);
+    public sealed record ImportRead(bool Accepted, Relation? TargetOption, long PhaseBefore,
+        long PhaseAfter, Relation Witness);
 
-    private PassPolicyMemory(Relation surface, Relation pendingChoice, Relation recentPasses)
+    private PassPolicyMemory(Relation surface, Relation pendingChoice, Relation recentPasses, Relation? importScope = null)
     {
         if (!Closed(surface, out var fields) || fields is not
             [Placeholder identity, var context, Carrier error, Relation options,
@@ -69,7 +77,8 @@ public sealed class PassPolicyMemory
             loss.Right is not Relation forgotten || !StructuralConstraint.TryReadScope(forgotten, out var lost, out var lossStart, out var lossEnd) || lost.Length != 0 || lossStart.Equals(lossEnd) ||
             !Closed(options, out var words) || words.Length is < 2 or > 64 || words.Any(x => x is not Relation) ||
             words.Distinct(ReferenceEqualityComparer.Instance).Count() != words.Length ||
-            !Wrap(wrap, phase, words.Length) || !phase.IsAttached(wrap) || phase.Value >= (ulong)words.Length || phase.Tension != 0 ||
+            !Wrap(wrap, phase, words.Length) || !phase.IsAttached(wrap) || phase.Value >= (ulong)words.Length ||
+            phase.Tension < 0 || phase.Tension % words.Length != 0 ||
             !Closed(bindings, out var bound) || bound.Length != words.Length ||
             bound.Where((b, i) => b is not Relation { Left: CarrierLocation at } pair ||
                 !ReferenceEquals(at.Carrier, phase) || at.Ticks != i || !ReferenceEquals(pair.Right, words[i])).Any() ||
@@ -89,11 +98,15 @@ public sealed class PassPolicyMemory
         OptionDomain = options; Options = Array.AsReadOnly(words.Cast<Relation>().ToArray());
         positions = bindings; magnitude = abs; changeBasis = change; goalBasis = goal;
         stepBasis = step; outlets = routes; Law = law; pending = pendingChoice; recent = recentPasses;
+        imported = importScope ?? S();
         plan = FiniteLawPlan.Capture(law) ?? throw new ArgumentException("Expected a closed finite pass law.", nameof(surface));
         if (choices is [Relation choice] && !ReadChoice(choice, out _, out _, out _) ||
             passes.Cast<Relation>().Any(p => !PassEvent(p, out _)) ||
             passes.Cast<Relation>().Select(p => { PassEvent(p, out var e); return e; }).Distinct(ReferenceEqualityComparer.Instance).Count() != passes.Length)
             throw new ArgumentException("Pass history or pending choice does not belong to this policy.", nameof(surface));
+        if (!Closed(imported, out var imports) || imports.Length > 1 ||
+            imports is [var import] && (import is not Relation witness || !ReadImportWitness(witness)))
+            throw new ArgumentException("Preference import does not belong to this policy.", nameof(importScope));
     }
 
     public static PassPolicyMemory Create(IElement claimContext, Carrier discrepancyBasis, params Relation[] orderedOptions) =>
@@ -222,13 +235,151 @@ public sealed class PassPolicyMemory
         return new(true, complete, improved, achieved, advance, beforePhase, Phase, witness, lawRead);
     }
 
-    public Relation ArchiveSurface() => S(Surface, pending, recent);
-    public static PassPolicyMemory Restore(Relation archive) => Closed(archive, out var fields) &&
-        fields is [Relation surface, Relation pending, Relation recent] ? new(surface, pending, recent)
-        : throw new ArgumentException("Expected one bounded pass-memory archive.", nameof(archive));
+    /// <summary>Publishes a historical, locally useful preference. A bare
+    /// default, a newly advanced but untried option, an unresolved last pass,
+    /// or an outstanding choice cannot supply this witness. Its utility is
+    /// evidence about the source context only, not a fact about a new world.</summary>
+    public PreferenceRead ExportPreference()
+    {
+        var option = Options[(int)Phase]; var last = RecentPasses.LastOrDefault();
+        if (PendingChoice is not null || last is null || !UsefulPass(last, option, Phase))
+        {
+            var open = StructuralConstraint.Open(Surface, Context, OptionDomain, recent);
+            return new(false, open, null, open);
+        }
+        var capture = S(Surface, Context, OptionDomain, new CarrierLocation(phase, Phase), option, last);
+        return new(true, capture, option, last);
+    }
+
+    /// <summary>An explicit analogy between options in two contexts. Rows are
+    /// source option -> target option. Neither matching positions nor this
+    /// supplied correspondence proves the target option physically correct.</summary>
+    public Relation PreferenceMapping(Relation preference, Relation rows, IElement premise) =>
+        new(new Relation(preference, Surface), S(Context, OptionDomain, rows, premise));
+
+    /// <summary>One import into a fresh policy, through its exposed option and
+    /// phase surfaces. No source sample, pass history, or candidate support is
+    /// inserted into the target. Later ordinary pass evaluations may revise it.</summary>
+    public ImportRead ImportPreference(Relation preference, Relation mapping)
+    {
+        var before = Phase;
+        var refusal = new Relation(new Relation(preference, mapping),
+            StructuralConstraint.Open(Surface, pending, recent, imported));
+        if (PendingChoice is not null || RecentPasses.Length != 0 || DiscardedCount != 0 ||
+            ImportedPreference is not null || Phase != 0 || PhaseTension != 0 ||
+            !ReadMapping(preference, mapping, out var target, out var index))
+            return new(false, null, before, Phase, refusal);
+
+        var capturedBefore = new CarrierLocation(phase, before);
+        // The correspondence selects a position in this local option domain.
+        // Its positional displacement enters the actual phase carrier as
+        // tension; the same attached wrap used by pass feedback accounts it.
+        var destination = new CarrierLocation(phase, index);
+        var route = new Relation(new Relation(preference, mapping),
+            new Relation(E(Surface)[4], new Relation(positions, destination)));
+        phase.Add(checked((ulong)index));
+        var transition = S(capturedBefore, destination, route,
+            new CarrierLocation(phase, Phase), new CarrierLocation(phase, phase.Tension));
+        var witness = new Relation(new Relation(preference, mapping), S(Surface, Context,
+            OptionDomain, target, transition, StructuralConstraint.Open()));
+        imported = S(witness);
+        return new(true, target, before, Phase, witness);
+    }
+
+    public Relation ArchiveSurface() => ImportedPreference is null ? S(Surface, pending, recent) : S(Surface, pending, recent, imported);
+    public static PassPolicyMemory Restore(Relation archive)
+    {
+        if (Closed(archive, out var fields))
+        {
+            if (fields is [Relation surface, Relation pending, Relation recent]) return new(surface, pending, recent);
+            if (fields is [Relation importedSurface, Relation importedPending, Relation importedRecent, Relation imports])
+                return new(importedSurface, importedPending, importedRecent, imports);
+        }
+        throw new ArgumentException("Expected one bounded pass-memory archive.", nameof(archive));
+    }
     public byte[] Encode() => GojoNumericFormat.Encode(ArchiveSurface());
     public static PassPolicyMemory Decode(ReadOnlySpan<byte> bytes) => GojoNumericFormat.Decode(bytes) is [Relation archive]
         ? Restore(archive) : throw new ArgumentException("Expected one pass-memory root.", nameof(bytes));
+
+    private bool ReadMapping(Relation preference, Relation mapping, out Relation target, out int index)
+    {
+        target = null!; index = -1;
+        if (!ReadPreference(preference, out var source, out var selected) ||
+            mapping.Left is not Relation request || !ReferenceEquals(request.Left, preference) || !ReferenceEquals(request.Right, Surface) ||
+            mapping.Right is not Relation payload || !Closed(payload, out var fields) ||
+            fields is not [var context, Relation domain, Relation rows, _] || !Same(context, Context) ||
+            !ReferenceEquals(domain, OptionDomain) || !Closed(rows, out var pairs) || pairs.Length == 0 ||
+            pairs.Any(item => item is not Relation pair ||
+                !source.Options.Any(option => ReferenceEquals(option, pair.Left)) ||
+                !Options.Any(option => ReferenceEquals(option, pair.Right)))) return false;
+        var mappings = pairs.Cast<Relation>().ToArray();
+        // Every supplied source row must be unambiguous, including rows not
+        // selected today. Partial maps are valid if the selected row exists.
+        if (mappings.Select(row => row.Left).Distinct(ReferenceEqualityComparer.Instance).Count() != mappings.Length) return false;
+        var selectedRow = mappings.SingleOrDefault(row => ReferenceEquals(row.Left, selected));
+        if (selectedRow?.Right is not Relation selectedTarget) return false;
+        target = selectedTarget; index = Options.ToList().FindIndex(item => ReferenceEquals(item, selectedTarget));
+        return index >= 0;
+    }
+
+    private static bool ReadPreference(Relation preference, out PassPolicyMemory source, out Relation option)
+    {
+        source = null!; option = null!;
+        if (!Closed(preference, out var fields) || fields is not
+            [Relation surface, var context, Relation domain, CarrierLocation at, Relation selected, Relation witness]) return false;
+        try { source = new(surface, S(), S()); }
+        catch (ArgumentException) { return false; }
+        if (!Same(source.Context, context) || !ReferenceEquals(source.OptionDomain, domain) ||
+            !ReferenceEquals(at.Carrier, source.phase) || at.SameTickRefAs(source.phase.ValueSlot) ||
+            at.SameTickRefAs(source.phase.LiveTensionSlot) || at.Ticks < 0 || at.Ticks >= source.Options.Count ||
+            !ReferenceEquals(selected, source.Options[(int)at.Ticks]) || !source.UsefulPass(witness, selected, at.Ticks)) return false;
+        option = selected; return true;
+    }
+
+    private bool UsefulPass(Relation witness, Relation option, long capturedPhase)
+    {
+        if (!PassEvent(witness, out _) || witness.Right is not Relation body || !Closed(body, out var fields) ||
+            fields is not [_, Relation receipt, Relation samples, _, _, _, Relation lawRead, Relation transition, Relation outcome] ||
+            !ReadChoice(receipt, out var selected, out var index, out _) || !ReferenceEquals(selected, option) || index != capturedPhase ||
+            !Frozen(samples.Left) || !Frozen(samples.Right) ||
+            !Closed(outcome, out var result) || result is not [CarrierLocation reached, CarrierLocation changed] ||
+            !ReferenceEquals(reached.Carrier, goalBasis) || !ReferenceEquals(changed.Carrier, changeBasis) ||
+            reached.Ticks is < 0 or > 1 || changed.Ticks is < -1 or > 1 ||
+            reached.Ticks != 1 && changed.Ticks != -1 ||
+            !FiniteLaw.TryReadResult(lawRead, out var answers, out var rest, out _) ||
+            !Closed(answers, out var answer) || answer is not [CarrierLocation step] ||
+            !ReferenceEquals(step.Carrier, stepBasis) || step.Ticks != 0 || !Closed(rest, out var residue) || residue.Length != 0 ||
+            !Closed(transition, out var movement) || movement.Length != 6 ||
+            movement[4] is not CarrierLocation after || !ReferenceEquals(after.Carrier, phase) || after.Ticks != capturedPhase) return false;
+        // Re-read the retained discrepancies. A label-shaped "good outcome"
+        // without a readable useful before/after pair cannot export a prior.
+        var zero = new CarrierLocation(DiscrepancyBasis, 0);
+        var before = OperationClaim.Equality(new Carrier(), samples.Left, zero, magnitude);
+        var ending = OperationClaim.Equality(new Carrier(), samples.Right, zero, magnitude);
+        return OperationClaim.TryReadResolvedViolation(before, out var a) &&
+            OperationClaim.TryReadResolvedViolation(ending, out var b) &&
+            reached.Ticks == (b.Ticks == 0 ? 1 : 0) && changed.Ticks == Math.Sign(b.Ticks - a.Ticks) &&
+            (b.Ticks == 0 || b.Ticks < a.Ticks);
+    }
+
+    private bool ReadImportWitness(Relation witness)
+    {
+        if (witness.Left is not Relation { Left: Relation preference, Right: Relation mapping } ||
+            !ReadMapping(preference, mapping, out var target, out var index) ||
+            witness.Right is not Relation body || !Closed(body, out var fields) ||
+            fields is not [var owner, var context, var domain, var option, Relation transition, Relation uncertainty] ||
+            !ReferenceEquals(owner, Surface) || !Same(context, Context) || !ReferenceEquals(domain, OptionDomain) ||
+            !ReferenceEquals(option, target) || !StructuralConstraint.TryReadScope(uncertainty, out var unknown, out var start, out var end) ||
+            unknown.Length != 0 || start.Equals(end) || !Closed(transition, out var move) ||
+            move is not [CarrierLocation before, CarrierLocation destination, Relation route, CarrierLocation after, CarrierLocation remainder]) return false;
+        return ReferenceEquals(before.Carrier, phase) && before.Ticks == 0 &&
+            ReferenceEquals(destination.Carrier, phase) && destination.Ticks == index &&
+            ReferenceEquals(after.Carrier, phase) && after.Ticks == index &&
+            ReferenceEquals(remainder.Carrier, phase) && remainder.Ticks == 0 &&
+            route.Left is Relation origin && ReferenceEquals(origin.Left, preference) && ReferenceEquals(origin.Right, mapping) &&
+            route.Right is Relation destinationRoute && ReferenceEquals(destinationRoute.Left, E(Surface)[4]) &&
+            destinationRoute.Right is Relation binding && ReferenceEquals(binding.Left, positions) && Same(binding.Right, destination);
+    }
 
     private bool ReadChoice(Relation receipt, out Relation candidate, out int index, out long capturedPhase)
     {
