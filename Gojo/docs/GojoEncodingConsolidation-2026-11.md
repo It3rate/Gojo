@@ -7,6 +7,10 @@ up to `bb6856d7`, the finite-law compilers, the boundary/flow codex, the
 uncertainty and numeric-format references, and the `Gojo.Encoding` notes. It
 then proposes one structure they could all share.
 
+An exploratory implementation of §5, §6 and the workspace contract now lives
+in [Gojo.EncodingB](../../Gojo.EncodingB/README.md), with its tests; its README
+maps the roadmap steps below to what it covers.
+
 Revised the same day after the user's decision that participation is
 selection (canonical prompt §7.1). ODV stays as it is; selection, supplied
 evidence and support move out of source planes and into workspaces (§5.14).
@@ -606,7 +610,9 @@ sign constraint, these rows widen:
 | `+0` + `−?` | `−?` | `{−0, −?}` |
 | `−0` + `+?` | `+?` | `{+0, +?}` |
 
-The other rows are unchanged. Each widened row adds one product term to the
+The commuted pairs `−? + +0` and `+? + −0` widen the same way; the other rows
+are unchanged (checked by enumerating a threshold reader in Gojo.EncodingB).
+Each widened row adds one product term to the
 formulas above; for example, `r[+?]` gains `a[+0] & b[+0]`. If D at zero is
 direction memory rather than a sign constraint, the zero words carry no sign
 evidence and more rows widen. Any law built on `V = 0` should declare which

@@ -122,6 +122,7 @@
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
   <Project Path="Gojo.Encoding/Gojo.Encoding.csproj" />
+  <Project Path="Gojo.EncodingB/Gojo.EncodingB.csproj" />
   <Folder Name="/Applications/">
     <Project Path="Applications/GojoCAD/GojoCAD.csproj" />
     <Project Path="Applications/GojoDraw/GojoDraw.csproj" />
