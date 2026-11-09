@@ -888,6 +888,20 @@ provenance or timeline
 Do not substitute a UI selection object or a bag of indexes for structural
 focus.
 
+Selection is a read over structure or flow. It is not a property of the
+selected element and not a magnitude. A selection makes no claim about what it
+omits: within that focus an unselected participant and a nonexistent one read
+the same. Distinguishing them needs another inspection, or a selection
+declared exhaustive over a scope. A selected quantity that reads zero at the
+chosen resolution still participates in that read. Do not treat it as omitted
+or as an additive identity, because contributions that are individually
+undetectable can combine into a detectable one. Selecting for observation does
+not stop, drain or redirect flow. A selection affects execution only through
+an explicit connection to a gate, binding or execution input. A material
+transfer still accounts for all participation in its scope, including
+participants that a focus did not select. A retained selection is ordinary
+structure: it can be reused, transformed, or itself selected.
+
 ### 7.2 Transform And Application Are Different
 
 A reusable transform carries input ports, operation structure, output ports,
@@ -1170,6 +1184,8 @@ the current code and tests prove them:
   automatic precision or query-budget selection beyond the finite-read fixture;
 - discovery of mixtures, connection growth/decay, and utility-directed memory
   compression or revision;
+- a general workspace contract for selection, local introductions, candidate
+  completion, validated commit and writeback;
 - full transform solving, multi-parent histories, and complete abstraction reads.
 
 These gaps are invitations to extend Gojo structure, not invitations to hide

@@ -199,6 +199,18 @@ O D V
 `V=1` does **not** mean the quantity one. Direction and orientation remain separate
 even at zero. `?` below means some nonzero magnitude, not an unknown zero/nonzero bit.
 
+**Reading V, November 2026.** The word is unchanged. `V=0` reads "no magnitude
+detectable at this read's resolution" and `V=1` reads "detectable". This first
+experiment selects exact zero as its resolution, so the tables below are the
+exact-zero contract; the threshold reader in `DirectionMemory` is a coarser
+contract that agrees at threshold 0. Whether a word takes part in a
+computation is not stored in the word. Participation is selection, a separate
+read held by the focus or workspace that uses it (canonical prompt §7.1,
+[workspace notes](../../Gojo/Workspace/README.md)). Under a coarser detection
+contract some addition rows widen: two undetectable positive inputs can sum
+to a detectable one. See §6.1 of the
+[encoding consolidation note](../../Gojo/docs/GojoEncodingConsolidation-2026-11.md).
+
 | Word | Orientation | Direction | Value |
 | --- | --- | --- | --- |
 | 000 | positive-right | positive | zero |

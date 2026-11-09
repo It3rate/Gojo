@@ -7,6 +7,11 @@ up to `bb6856d7`, the finite-law compilers, the boundary/flow codex, the
 uncertainty and numeric-format references, and the `Gojo.Encoding` notes. It
 then proposes one structure they could all share.
 
+Revised the same day after the user's decision that participation is
+selection (canonical prompt §7.1). ODV stays as it is; selection, supplied
+evidence and support move out of source planes and into workspaces (§5.14).
+§3 C2, §4, §5.3, §5.11 and §6.1 changed accordingly.
+
 Labels follow the canonical prompt: **implemented** (code and tests),
 **documented direction**, **exploratory**, **superseded**. Everything in
 sections 5–10 is exploratory unless it says otherwise.
@@ -19,6 +24,7 @@ sections 5–10 is exploratory unless it says otherwise.
 | What to keep and what to change | §2, §3 |
 | Where uncertainty, resolution, missing structure and prediction live | §4 |
 | The proposed structure | §5 |
+| Selection, workspaces and writeback | §5.14 |
 | Concrete bit-level examples | §6 |
 | CPU / GPU / FPGA mapping | §7 |
 | The path toward learning, concepts and language | §8 |
@@ -92,22 +98,25 @@ in machine-learning work and worth keeping.
 designed its own framing and stepping. Each new experiment should lower into
 one substrate (§5) or document why it cannot.
 
-**C2. Retire ODV as a storage word; keep it as a named read.** The word mixes
-three concerns that later work separated:
+**C2. Keep ODV; move participation out of it.** My first draft proposed
+retiring ODV as a storage word and splitting V into participation, zero and
+"resolved by this reader" planes. The user's resolution is better:
+participation is not a property of the value at all. It is selection, a read
+held by the workspace that uses the word (§5.14). V then has one meaning:
+magnitude detectable at the read's resolution. The exact-zero contract of the
+first experiment is the finest case, and the threshold reader agrees with it at
+threshold 0. Two smaller points still stand:
 
-- **O** is a property of the basis (which sense is positive). It belongs to the
-  tile's position, as positional buckets already showed, not to each value.
-- **D** is a sign within that basis: a plane.
-- **V** is the coarsest magnitude rung under an exact-zero contract. It was
-  also used for participation (deep dive §3) and for "resolved by this reader"
-  (the threshold contract in `DirectionMemory`). Those are three planes.
+- **O** is often a property of the basis. Storage can supply it by position,
+  as positional buckets do, without changing the word.
+- **D** at zero doubles as direction memory, which is controller state worth
+  naming when a structure depends on it.
 
-D at zero also doubles as direction memory, which is controller state and
-should have its own plane. ODV's single direction bit also has to be
-reconciled with the canonical distinctions between scalar sign, opposed flow
-face, boundary side and reversed traversal (Axiom 4, §4.3). The substrate
-gives each its own plane where a structure needs it; traversal reversal stays a
-property of row reads, as `FamilyTable` already does.
+ODV's direction bit also stays distinct from opposed flow face, boundary side
+and traversal reversal (Axiom 4, §4.3). Traversal reversal remains a property
+of row reads, as `FamilyTable` already does. One audit follows from the new
+reading (§6.1): rows that treat `V = 0` as an additive identity hold only under
+the exact-zero contract.
 
 **C3. Make tension one thing.** Today there are three: kernel carrier tension
 (a signed i64 absorbed into value), OrnamentTension's unit pulses with
@@ -143,13 +152,16 @@ could become that page, with a conformance suite built from existing fixtures.
 
 Each kind of non-signal participation gets its own physical location, so a
 bit can never be ambiguous between them. This table is the core of the
-proposal.
+proposal. The first four rows are the selection decision: what the source
+asserts, what a workspace selects, what was supplied, and what is detectable
+are four different things.
 
 | Kind | Example | Where it lives | What it is not |
 | --- | --- | --- | --- |
-| Missing structure | Unbound role, unknown seam | `B` (bound) plane = 0; row reference to a placeholder site | Not zero, not an unknown value |
-| Unobserved | Control hidden by a visibility mask | `E` (observed) plane = 0 this epoch; support planes span the domain | Not missing structure, not zero |
-| Participating zero | Zero-extent notch phase | `B = 1, E = 1, P = 0` | Not absent; a finer rung may read nonzero |
+| Open slot | Unbound role, unknown seam | Source structure: a row references a placeholder | Not zero, not an unselected element |
+| Not selected | Two of six contour markers left out | Workspace selection plane bit = 0 | No claim about value or existence |
+| Selected, not supplied | Control hidden by a visibility mask | Workspace supplied bit = 0; support spans the domain | Not `V = 0` |
+| Selected, `V = 0` | Zero-extent notch phase | Selected; `V = 0` in the source word | Not absent; undetectable contributions can still combine into a detectable one |
 | Competing candidates | Bowl side of b / d | Support popcount > 1 | Not a probability |
 | Contradiction | No admitted tuple | Support popcount = 0, plus a residual on the laws that emptied it | Not a measured zero |
 | Resolution loss | Coarse publication | Rung planes plus residue planes (exact) or loss-support planes (lossy) | Not uncertainty about the source |
@@ -157,12 +169,13 @@ proposal.
 | Blocked / overflow | Occupied receiver | Per-passage blocked mask; per-receiver overflow count | Not destroyed participation |
 | Tension | Unmet draw, goal gap | `T+` / `T−` planes at sites; residuals at laws | Not confidence |
 | Stale | Captured plan after an edit | Epoch mismatch between plan and source | Not wrong, only unverified |
-| Prediction | Forecast after a passage | Shadow planes, a `Q` provenance plane, issue epoch and horizon | Not observation; never moves material |
+| Prediction | Forecast after a passage | A workspace that never commits, with issue epoch and horizon | Not observation; never moves material |
+| Introduced candidate | Proposed closing edge | Workspace site with the introduced provenance class | Not evidence about the source |
 | Decorrelation (new) | Correlation dropped between scopes | Loss record on the propagation witness | Not independence |
 
 ## 5. The proposed structure: a plane–law substrate
 
-### 5.1 Seven nouns
+### 5.1 Eight nouns
 
 ```text
 law store (shared, immutable)
@@ -179,13 +192,18 @@ tile (one owner; fixed capacity N sites; N = 64 by default)
   epoch          increments on every structural edit
 
 ladder           rung tiles + rung maps + residue / loss planes
+workspace        a tile of selections over source scopes, local introductions,
+                 correspondence and commit rules (§5.14)
 tick contract    ingest -> observe -> propagate -> offer -> accept -> account
                  -> (adapt) -> (restructure)
 witness lane     checkpoints + ingest log + law hashes -> replay -> witnesses
 ```
 
-Tile, plane, row, law, port, rung and tick. Everything in the current compact
-experiments maps onto these; §6 shows four of them.
+Tile, plane, row, law, port, rung, workspace and tick. Everything in the
+current compact experiments maps onto these; §6 shows four of them. Tiles hold
+what *is*: structure, value at its resolution, and tension. Workspaces hold
+what is *noticed, supposed or attempted*: selection, supplied evidence,
+support, prediction and candidates.
 
 ### 5.2 The address-meaning invariant
 
@@ -198,8 +216,7 @@ experiments maps onto these; §6 shows four of them.
 A universal decoder can then print the meaning of any bit in any buffer. That
 is the inspectability contract, and it is K3 generalized: position supplies
 meaning everywhere, not only for O and D. A plane that is constant across a
-tile (for example "all sites bound") is not stored at all; the grammar supplies
-it.
+tile (for example a fixed sign) is not stored at all; the grammar supplies it.
 
 **Authority: a clarification is needed.** The canonical prompt makes connected
 Gojo structure the source of meaning, and a packed tile must not become a
@@ -222,18 +239,32 @@ plane `p` of a 64-site tile is one `u64`, so one instruction applies one law
 to 64 sites. This struct-of-arrays layout is what SIMD units, GPU warps and FPGA
 registers want.
 
+**Source planes** hold what is. There is no participation plane: whether a
+site takes part is decided by the workspace that selects it. An open slot is
+structure, a row referencing a placeholder, and not a plane either.
+
 | Group | Plane | Bits per site | Meaning | Written by | Today's ancestor |
 | --- | --- | --- | --- | --- | --- |
-| Structure | `B` bound | 1 | Role is bound to a participant | Structural edit only (epoch++) | Placeholder binding; liveness bitmap |
-| Evidence | `E` observed | 1 | Evidence present this epoch | Observe phase | Visibility mask |
-| Evidence | `S[v]` support | domain size | Value `v` still possible | Propagate (narrow only within an epoch) | Support masks |
-| Evidence | `Q` predicted | 1 | Support derived by a forward law, not observed | Shadow propagation | `PredictScope` |
-| Participation | `P` present | 1 | Nonzero at the rung-0 exact-zero contract | Settlement | V |
-| Participation | `D` sign | 1 | Negative within the tile basis | Settlement, reversal | D |
-| Participation | `F` face | 1 | Opposed flow face, where the grammar has lanes | Lane transition | ConceptSurface F/I |
-| Participation | `M[k]` magnitude | K | Thermometer (`bit k ⇔ magnitude > k`) or a declared place-value code | Settlement | Unary gap slots |
+| Value | `V` detectable | 1 | Magnitude detectable at the tile's resolution | Settlement | ODV V |
+| Value | `D` sign | 1 | Negative within the tile basis | Settlement, reversal | ODV D |
+| Value | `F` face | 1 | Opposed flow face, where the grammar has lanes | Lane transition | ConceptSurface F/I |
+| Value | `M[k]` magnitude | K | Thermometer (`bit k ⇔ magnitude > k`) or a declared place-value code | Settlement | Unary gap slots |
 | Tension | `T+[k]`, `T−[k]` | 2K | Unaccounted positive / negative participation, kept opposed | Ingest, settlement | Carrier tension; pulse stock |
 | Controller | `H` history | h | Last resolved sign, phase bits | Controller law | `DirectionMemory` M.D; phase cycles |
+
+**Workspace planes** hold what is noticed, supposed or attempted. They are
+indexed by the source sites a workspace reads, plus its own introduced sites.
+
+| Plane | Bits per site | Meaning | Written by | Today's ancestor |
+| --- | --- | --- | --- | --- |
+| `Sel` selection | 1 | In this focus; 0 makes no claim | A selection machine (§5.14) | House face ranges and views |
+| `Sup` supplied | 1 | Evidence was supplied for this selected site in this epoch; 0 is open | Observe phase | Visibility mask |
+| `S[v]` support | domain size | Value `v` still possible | Propagate (narrow only within an epoch) | Support masks |
+| `J[t]` joint support | one per tuple of a law scope | Joint possibility within one law | Propagate | Scope prediction masks |
+| `K` provenance | 2 | Referenced live, referenced captured, introduced, or diverged | Workspace edits | none (proposed) |
+
+Prediction is a workspace that never commits, so it needs no separate
+"predicted" plane.
 
 Adaptation state belongs to row groups rather than sites:
 
@@ -294,6 +325,9 @@ into the output planes. Section 6 shows this concretely.
 | U3 invariant-restored | U1 plus accounting signatures used as constraints | Recovers much of U2 at U1 cost | none (proposed; §6.2) |
 | Quantity supports | Affine forms with shared noise symbols; each symbol is a source or observation identity | `X − X` cancels exactly; two instances do not | `BoundedQuantity` shared slots |
 
+Supports always live in the workspace that reads, never in the source. Two
+workspaces can hold different supports for the same source site.
+
 Propagation is generalized arc consistency: project each scope's joint support
 onto shared sites, intersect, push the result back, and repeat to a fixed
 point. Narrowing operators are monotone, so the result does not depend on the
@@ -329,7 +363,7 @@ Rung codes, in order of increasing promise:
 
 | Rung | Code | Operations | Status |
 | --- | --- | --- | --- |
-| R0 presence | 1 bit (`P`) | OR, AND | implemented (ODV V, presence sites) |
+| R0 detectable | 1 bit (`V`) | OR, AND | implemented (ODV V, presence sites) |
 | R1 thermometer / unary | K bits; bit k ⇔ magnitude > k | add = shift in, subtract = shift out, compare = mask test | implemented as gap stores |
 | R2 place value | K bits ⇒ 2^K levels, only under a declared weight grammar | binary arithmetic | documented direction (deep dive §22) |
 | R3 rational / affine | numerator and subdivision; calibrated reads | kernel arithmetic | implemented kernel |
@@ -352,7 +386,7 @@ with carry residue. These are the reductions GPU mipmaps already perform.
 
 - **Site tension** is held in `T+` and `T−` planes. They are never netted
   automatically (K6). Ingest adds packets (Axiom 5); absorption moves them
-  into `P` / `M` within capacity; unmet draw stays.
+  into `V` / `M` within capacity; unmet draw stays.
 - **A law residual** `r_k` is the count of violated tuples given committed
   supports, or an empty support, for a relation law; for a claim or goal it is
   the signed mismatch in its own basis.
@@ -389,7 +423,7 @@ not a global optimizer.
 | Phase | Reads | Writes | Notes |
 | --- | --- | --- | --- |
 | 0 ingest | ports | `T±` | Axiom 5 |
-| 1 observe | sensors, ports | `E`, `S`; epoch | New epoch if a source changed |
+| 1 observe | sensors, ports | workspace `Sup`, `S`; epoch | New epoch if a source changed |
 | 2 propagate | `S`, `J`, relation laws | `S`, `J`, residuals | C1 fixed point; an empty support becomes a residual |
 | 3 offer | committed state | offer buffer | Read only |
 | 4 accept | offers | each receiver's own planes | Capacity, declared priority or rotation |
@@ -413,14 +447,19 @@ Confluence classes give each law a defined meaning under parallel execution:
 There are three clocks: settle (phases 0–6), adapt (7) and restructure (8).
 `PassPolicyMemory`'s pass-level revision already acts on the middle clock.
 
-### 5.11 Prediction as shadow state
+Every computation runs these phases inside a workspace. The owner's own
+settlement is the workspace whose closed selection is everything it owns, so
+the world keeps settling whatever other workspaces are looking at. Any other
+workspace commits material only through the rule in §5.14.
 
-Prediction runs phases 2–5 on a shadow copy of the support, joint and material
-planes, with the `Q` plane marking derived support. It never writes committed
-planes, so prediction cannot move material by construction. A forecast records
+### 5.11 Prediction as a workspace that never commits
+
+A prediction workspace runs phases 2–5 over its own captured or diverged
+copies of the selected support, joint and material planes. It has no commit
+path, so prediction cannot move material by construction. A forecast records
 its issue epoch, horizon and assumed scenario (which actions it assumed). When
 the outcome arrives, the mismatch becomes a claim residual on the forecast,
-and that residual feeds the adapt clock. This is speculative execution with a
+and that residual feeds the adapt clock. This is speculative execution with no
 commit point. It is also the shape needed later for coarse rungs predicting
 fine supports (§8).
 
@@ -447,17 +486,94 @@ the gap noted in the invariance experiments: the generic port interface does
 not yet carry a self-describing basis. Observation ports may fan out; material
 ports cannot, and the accounting signature enforces that.
 
+### 5.14 Workspaces: selection, perspective and writeback
+
+This section records the user's decision that participation is selection and
+gives it a bit-level form. The conceptual contract, including writeback forms
+and a first test, is in the [Workspace README](../Workspace/README.md).
+
+**The rule.** A tile holds what is. A workspace holds what is noticed,
+supposed or attempted. Every computation runs in a workspace; the owner's own
+settlement is the workspace whose closed selection is everything it owns.
+
+**A workspace is a tile.** Its sites are either references to source sites,
+held as a gather map, or sites it introduced itself. The `K` plane gives each
+site's provenance: referenced live, referenced captured (with the source
+epoch), introduced, or diverged. Diverged means copy on write: a reference
+stays a reference until the workspace changes it, then becomes a local site
+with its correspondence kept. Copying is never required up front.
+
+**Selections are planes.** A selection over a 64-site source scope is one
+`u64`. It is Gojo structure only while it stays connected to that scope and to
+the machine that produced it; a detached mask would be the "bag of indexes"
+that canonical prompt §7.1 rejects. A selection is either **closed**, declared
+exhaustive over its scope and therefore able to support absence claims within
+it, or **open**, making no claim about anything else. Selection machines are
+small:
+
+```text
+every second element    Sel = 0x5555555555555555 & scope
+k connections deep      repeat k times:  F = F | N(F)
+                        chain N(F) = (F << 1) | (F >> 1); rows: CSR expansion
+everything in an area   Sel = predicate plane in a chosen frame
+```
+
+**Two order-free executions.** Growing a selection from seeds is a union that
+reaches a least fixed point. Narrowing support inside it is an intersection
+that reaches a greatest fixed point. Neither depends on application order, so
+both are safe to run in parallel. That supports the user's suggestion that
+running a structure as a selection mechanism is its most primitive execution.
+Material settlement comes after both and is the first step that needs
+accounting.
+
+**Commit rule.** Observation may use any selection. A material commit applies a
+law only if the selection covers the law's whole accounting scope:
+
+```text
+commit admissible  ⇔  (accountingScope & ~Sel) == 0      one AND per 64 sites
+```
+
+Partial attention can therefore never lose or duplicate material, and looking
+away from a passage never stops it.
+
+**Validated writeback.** A workspace records the epochs it read. A structural
+proposal commits only if those epochs still match; otherwise it fails
+validation, stays a proposal and leaves residue. This is optimistic concurrency
+control (Kung and Robinson 1981). Sibling workspaces, such as the roof and body
+reading the house seam in opposite directions, behave like concurrent
+transactions over one source. Value changes still enter only as tension.
+
+**Self-confirmation guard.** Introduced sites never feed source support. A
+closure that makes a computation succeed earns utility for the rule that
+introduced it. It is not evidence that the source was closed. Adoption into the
+source is an explicit edit with adoption provenance.
+
+**A graph, not a ladder.** A workspace can select from a source, another
+workspace or a retained selection. A rung is one relation between workspaces;
+siblings, candidates, trials, predictions and metaphors are others.
+
+**Cost.** A workspace made of masks and references costs a few words per
+64-site scope, so most can be ephemeral. Retention is a utility decision on
+the adapt and restructure clocks.
+
+Existing footholds are `FocusSurface`, the house seam's face ranges and
+windows over a shared edge catalogue, `NativePreviewWorkspace`'s private
+candidate preview, and `LocalTrialMachine`'s quiet grants.
+
 ## 6. Worked examples
 
 ### 6.1 ODV as a read over planes
 
-Site grammar `{P, D}`, with O supplied by the tile basis and `B`, `E` elided as
-constant. Then `word(i) = (O, D[i], P[i])`.
+Site grammar `{V, D}`, with O supplied by the tile basis. Then
+`word(i) = (O, D[i], V[i])`. The word is unchanged; whether site i takes part
+in an addition is decided by the workspace's selection, not by the word.
 
 ```text
-reorient tile:        O ^= 1;  D ^= B          (flips O and D together)
+reorient tile:        O ^= 1;  D ^= ALL        (flips O and D together)
 reverse selection m:  D ^= m
 ```
+
+`ALL` is the tile's allocated sites.
 
 For addition in one orientation, give each operand four support planes
 (`+0`, `+?`, `−0`, `−?`), and let `any_a` be the OR of operand a's planes:
@@ -476,6 +592,25 @@ use the *same* reference, only diagonal tuples are admitted, so `r = a`: at
 this rung `X + X` keeps `X`'s word. A same-reference subtraction law could
 admit only zero (the bounded-quantity fixture's `X − X = 0`); that is a new law
 choice, not a property of the historical codec.
+
+**Exact-zero versus detection contracts.** The formulas above are the
+historical table, which is exact at its exact-zero resolution. Under a coarser
+detection contract, `V = 0` means "below detection", so a selected zero is
+still an operand rather than an additive identity. If D at zero is kept as a
+sign constraint, these rows widen:
+
+| Operands | Exact-zero contract | Detection contract |
+| --- | --- | --- |
+| `+0` + `+0` | `+0` | `{+0, +?}` |
+| `−0` + `−0` | `−0` | `{−0, −?}` |
+| `+0` + `−?` | `−?` | `{−0, −?}` |
+| `−0` + `+?` | `+?` | `{+0, +?}` |
+
+The other rows are unchanged. Each widened row adds one product term to the
+formulas above; for example, `r[+?]` gains `a[+0] & b[+0]`. If D at zero is
+direction memory rather than a sign constraint, the zero words carry no sign
+evidence and more rows widen. Any law built on `V = 0` should declare which
+contract it uses. This is the audit item in §3 C2.
 
 ### 6.2 Sixty-four passages at once, and the correlation problem
 
@@ -570,6 +705,7 @@ it. Laws thereby acquire the same non-signal structure as values.
 | Tropical reads | min / add | min / add | Race logic: first arrival computes min |
 | Learning counters | Small integers | Integers | Saturating counters, as in branch predictors |
 | Inspection | Universal decoder over buffers | Copy back, then decode | Scan chains and readback |
+| Workspace | Cache-resident scratch tile: gather, compute, epoch-checked commit | Block gathers the selection into shared memory; commit with an epoch compare-and-swap | Local register file; commit on a clock edge after validation |
 
 The measured ≈196× fast path (`FiniteLawBatchPlan`) came from finite tables,
 compact state and omitted witnesses, on one thread, with no SIMD and no
@@ -602,13 +738,15 @@ Why this can scale metaphorically:
   motif networks that maps rows to rows and laws to laws, preferring large
   connected mappings (Gentner's systematicity principle). The canonical
   prompt's "structural ghost" is the mapped law network; descriptor
-  provenance is rebound.
-- **Language:** words reach motifs through hint tokens; a parse is a sequence
-  of binding operations over ports that retains alternative bindings as
-  support; meaning is the settled scene structure; next-token prediction is a
-  forward support read over shadow state; surprise is the prediction residual.
-  The "red trace near pin" fixture and the scene-mechanic read frames are the
-  existing footholds.
+  provenance is rebound. Operationally it is a workspace: the source is
+  selected at low resolution into the target, and residue shows where the fit
+  stops (Workspace README, Metaphor).
+- **Language:** words reach motifs through hint tokens; a parse is a workspace,
+  a sequence of selections and bindings over ports that retains alternative
+  bindings as support; meaning is the settled scene structure; next-token
+  prediction is a forward support read in a prediction workspace; surprise is
+  the prediction residual. The "red trace near pin" fixture and the
+  scene-mechanic read frames are the existing footholds.
 - **Hierarchy:** rung ladders give a predictive-coding shape. Coarse rungs
   predict fine supports through `γ`, and fine evidence returns residuals
   upward through `α`.
@@ -621,8 +759,9 @@ data. More authored machines will not settle the question.
 
 Ranked by how much they block the goal:
 
-1. **No shared substrate or tick contract.** Each fixture has its own layout
-   and beat (C1, C5).
+1. **No shared substrate, workspace or tick contract.** Each fixture has its
+   own layout and beat (C1, C5). Workspaces are documented direction only
+   (§5.14).
 2. **Acquisition.** Landmarks, frames, seams, candidate families and engines
    are authored. Discovery from drawings, signals or experience is the central
    open problem.
@@ -637,6 +776,8 @@ Ranked by how much they block the goal:
 8. **Witness and archive growth** (C6).
 9. **Perception front-ends** that turn strokes, images or signals into planes.
 10. **Parallel backends** beyond single-thread `ulong` masks.
+11. **Zero-row audit.** Laws that treat `V = 0` as an additive identity must
+    declare the exact-zero contract (§6.1).
 
 Risks:
 
@@ -659,21 +800,22 @@ Each step is small, testable and changes no kernel law.
 | Step | Work | Acceptance |
 | --- | --- | --- |
 | R1 | Substrate contract fixture: tile grammar, planes, law store with accounting signatures and confluence class. Re-express ODV addition, the passage chain, the conditional and gap balancing. | Bit-for-bit agreement with the existing PrimitiveMeasure expectations; the universal decoder prints a meaning for every stored bit. |
-| R2 | Scoped supports U0–U3 with decorrelation witnesses. | The passage chain matches the 32-bit joint mask under U2 and U3; U1 alone reports its loss. |
-| R3 | Counting and tropical reads on `FiniteLawBatchPlan`. | Counting equals enumerated completions; tropical equals brute-force minimum on small cases. |
-| R4 | Unified tension planes, law residuals, energy tiers; min-conflicts settlement with accounted loans. Apply to gap balancing and paired caps. | Monotone descent traces; local minima reported with their blocking topology. |
-| R5 | Tick contract with offer/accept double buffering. | C1 and C2 laws give identical results under shuffled site order; C3 laws replay exactly from their schedule state. |
-| R6 | Witnesses by replay. | Rematerialized witnesses equal stored witnesses for current studies; compute-lane runs retain none. |
-| R7 | Learned law tables and eligibility traces on signal-plan stages S1 and S2. | Predictions precede outcomes; unknown rows stay open; every admitted row cites its witness epochs. |
-| R8 | SIMD backend over tiles, then a GPU compute prototype. | Parity with the native interpreter; measured throughput with raw samples retained. |
-| R9 | Description-length crystallization of repeated row motifs in ornament programs. | Retained templates reduce total bits and preserve held-out predictions; rejected candidates are recorded. |
+| R2 | House workspaces (the Workspace README's first test): opposed seam selections, an introduced closure, validated adoption, a four-of-six marker selection, and the commit rule. Builds on the house seam experiment. | Source edge unchanged and shared by both siblings; introduced closure never feeds source support; a stale commit fails validation with residue; a commit missing part of an accounting scope is refused. |
+| R3 | Scoped supports U0–U3 with decorrelation witnesses. | The passage chain matches the 32-bit joint mask under U2 and U3; U1 alone reports its loss. |
+| R4 | Counting and tropical reads on `FiniteLawBatchPlan`; declared zero contracts on the three-bit tables. | Counting equals enumerated completions; tropical equals brute-force minimum on small cases; detection-contract rows match a threshold-reader enumeration. |
+| R5 | Unified tension planes, law residuals, energy tiers; min-conflicts settlement with accounted loans. Apply to gap balancing and paired caps. | Monotone descent traces; local minima reported with their blocking topology. |
+| R6 | Tick contract with offer/accept double buffering. | C1 and C2 laws give identical results under shuffled site order; C3 laws replay exactly from their schedule state. |
+| R7 | Witnesses by replay. | Rematerialized witnesses equal stored witnesses for current studies; compute-lane runs retain none. |
+| R8 | Learned law tables and eligibility traces on signal-plan stages S1 and S2. | Predictions precede outcomes; unknown rows stay open; every admitted row cites its witness epochs. |
+| R9 | SIMD backend over tiles, then a GPU compute prototype. | Parity with the native interpreter; measured throughput with raw samples retained. |
+| R10 | Description-length crystallization of repeated row motifs in ornament programs. | Retained templates reduce total bits and preserve held-out predictions; rejected candidates are recorded. |
 
 ## 11. Practical notes
 
 - **Archives in git.** 615 tracked `.gojo` files are about 65 MB in the working
   tree, and the pack is about 943 MB. Consider keeping generator commands and
   checksums in git and moving large regenerable archives to Git LFS or release
-  assets. R6 would make most of them unnecessary.
+  assets. R7 would make most of them unnecessary.
 - **One positive contract page.** After R1, promote §5 to a living contract,
   give each lineage in §1 a status row, and have new study documents link to
   the contract instead of re-deriving their scope.
@@ -703,6 +845,8 @@ Each step is small, testable and changes no kernel law.
   ed. (2018). Eligibility traces.
 - D. A. Jiménez, C. Lin, "Dynamic branch prediction with perceptrons," *HPCA*
   (2001). Inspectable bit-level learners.
+- H. T. Kung, J. T. Robinson, "On optimistic methods for concurrency control,"
+  *ACM Transactions on Database Systems* 6 (1981). Validated workspace commits.
 - E. Biham, "A fast new DES implementation in software," *FSE* (1997).
   Bit-slicing.
 
@@ -721,4 +865,6 @@ Repository sources: [encoding deep dive](../../experiments/PrimitiveMeasure/Gojo
 [uncertainty reference](GojoUncertaintyReference.md),
 [signal pattern learning plan](GojoSignalPatternLearningPlan-2026-09.md),
 [boundary/flow codex](../ConceptSurface/BoundaryFlowCodex.md),
+[Workspace README](../Workspace/README.md),
+[house seam and ladders](../../experiments/PrimitiveMeasure/SeamLadders.md),
 [structure through tension](../axioms/Gojo%20Structure%20Through%20Tension.md).

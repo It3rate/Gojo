@@ -546,6 +546,40 @@ source are separate operations with separate correspondence and permissions.
 No general constraint-relaxation or machine-exchange law follows merely from
 that clarification.
 
+## Selection, Detectability And Workspaces, November 2026
+
+The user resolved the long-running tension between participation and value.
+In the sense used to choose points, strokes and inputs, participation is
+selection: a read over structure or flow that determines what the current
+computation uses. It is not stored in the value. The ODV word is unchanged.
+`V = 0` reads "no magnitude detectable at this read's resolution", and
+`V = 1` reads "detectable", never the quantity one. The first three-bit
+experiment selected exact zero as its resolution. That is the finest case of
+the same contract, and the threshold reader agrees with it at threshold 0.
+
+Section 7.1 now states the consequences. Four situations stay distinct: not
+selected (no claim), selected without supplied evidence (open), selected and
+undetectable, and selected and detectable. Within one focus, an omitted
+participant and a nonexistent one read the same; only another inspection or
+an exhaustive selection over a declared scope distinguishes them. A selected
+undetectable quantity remains an operand, because undetectable contributions
+can combine into a detectable one. The three-bit addition table conforms to
+its exact-zero contract; a coarser detection contract needs separately audited
+rows. Observation selections never disconnect the world. Material transfers
+still account for their whole scope. A retained selection is ordinary
+structure and can itself be selected, which also keeps a selection from
+becoming the bag of indexes the same section rejects.
+
+The same discussion proposed that every use of structure runs in a local
+workspace: selections and references enter it, local candidates such as a
+proposed closing edge are introduced in it, and results are retained,
+published or proposed back to the source through validated structural edits.
+This extends the reserved `Gojo/Workspace` direction. It is recorded as a
+maturity boundary rather than a rule, because no general workspace contract
+is implemented. The exploratory bit-level form, including commit validation
+and the self-confirmation guard for introduced structure, is in the
+[encoding consolidation note](GojoEncodingConsolidation-2026-11.md).
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:
