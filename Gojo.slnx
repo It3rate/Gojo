@@ -117,6 +117,7 @@
     <File Path="Gojo/docs/GojoCurveReplayWalkthrough.md" />
     <File Path="Gojo/docs/examples/curve-replay.html" />
     <File Path="Gojo/docs/GojoEncodingConsolidation-2026-11.md" />
+    <File Path="Gojo/docs/GojoEncodingPodcast-2026-11.md" />
     <File Path="Visualizations/Gojo.Demos.Web/syntax/README.md" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
