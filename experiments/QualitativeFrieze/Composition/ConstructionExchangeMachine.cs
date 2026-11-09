@@ -50,6 +50,16 @@ public sealed class ConstructionExchangeMachine
         return S(Row(WidthRole, width), Row(HeightRole, height), Row(NotchRole, notch));
     }
 
+    /// <summary>A new candidate with an actual shared-extent obligation. The
+    /// source program, sites and publications remain unchanged; execution checks
+    /// the connected equality rather than a shape label or a filtered sample.</summary>
+    public ConstructionExchangeMachine WithEqualExtents()
+    {
+        var scopes = E((Relation)Surface.Right).Cast<Relation>().ToArray();
+        return new(Frame, WidthRole, HeightRole, NotchRole, scopes[1], scopes[2], scopes[3],
+            S(E(scopes[4]).Append(new Relation(WidthRole, HeightRole)).ToArray()), scopes[5], Contour);
+    }
+
     public Execution Execute(Relation publication)
     {
         var matched = new List<IElement>(); var failed = new List<IElement>(); var pending = new List<IElement>();
@@ -207,7 +217,9 @@ public sealed class ConstructionExchangeMachine
     /// <summary>Authoring apparatus only. Integer option selects which connected
     /// program to supply; Execute never sees it. 0 walk, 1 rails, 2 equal-turn
     /// radial quadrilateral, 3 radial quadrilateral with open angular spacing,
-    /// 4 paired caps, 5 notched walk, 6 open walk, 7 detached lookalike rails.</summary>
+    /// 4 paired caps, 5 notched walk, 6 open walk, 7 detached lookalike rails,
+    /// 8 two-step open corner (a repeat needs its own transform and seam law),
+    /// 9 six equal advances around a 2:1 rectangle (H remains an unused offer).</summary>
     public static ConstructionExchangeMachine Create(Curve.Frame frame, int option)
     {
         var w = new Placeholder(); var h = new Placeholder(); var n = new Placeholder();
@@ -222,7 +234,7 @@ public sealed class ConstructionExchangeMachine
         void Seed(int site, params IElement[] terms) => seeds.Add(new Relation(sites[site], S(terms)));
         void Advance(int from, int to, params IElement[] terms)
         { advances.Add(new Relation(new Relation(sites[from], sites[to]), S(terms))); edges.Add(new Relation(sites[from], sites[to])); }
-        if (option is 0 or 5 or 6)
+        if (option is 0 or 5 or 6 or 8)
         {
             Seed(0, L(w), D(h));
             Advance(0, 1, R(w), R(w));
@@ -233,9 +245,20 @@ public sealed class ConstructionExchangeMachine
             }
             else
             {
-                Advance(1, 2, U(h), U(h)); Advance(2, 3, L(w), L(w));
+                Advance(1, 2, U(h), U(h));
+                if (option != 8) Advance(2, 3, L(w), L(w));
                 if (option == 0) Advance(3, 0, D(h), D(h));
             }
+        }
+        else if (option == 9)
+        {
+            // Six actual phases share one extent role. Two uses per phase keep
+            // the centered seed in the same integral shared-reach frame; no
+            // fractional origin or scalar aspect-ratio tag is introduced.
+            Seed(0, L(w), L(w), D(w));
+            Advance(0, 1, R(w), R(w)); Advance(1, 2, R(w), R(w));
+            Advance(2, 3, U(w), U(w)); Advance(3, 4, L(w), L(w));
+            Advance(4, 5, L(w), L(w)); Advance(5, 0, D(w), D(w));
         }
         else if (option == 4)
         {

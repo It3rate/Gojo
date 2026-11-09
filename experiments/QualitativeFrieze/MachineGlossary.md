@@ -29,6 +29,15 @@ an exchange opportunity for a selected read, not proof of identical machinery.
 
 ## Start with one concrete machine
 
+The [construction-family study](ConstraintFamiliesStudy.md) extends this to
+finite output ranges. A six-equal-step walk keeps a fixed aspect ratio; a
+two-step corner and its half-turn allow independent reaches. Original reuse,
+previous-output feedback and accumulated-group reuse are distinct native source
+dependencies. Phase correspondence is a selected read, and stretch/reorientation
+order determines whether equal sides or right corners survive. The
+[gallery](results/constraint-families/index.html) separates these mechanisms
+from their geometric names and shows unmatched outputs as well as agreements.
+
 The baseline-return machine is a useful example because its purpose, state,
 action, and failure are all small enough to see.
 

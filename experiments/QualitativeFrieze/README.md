@@ -1,5 +1,15 @@
 # Qualitative frieze generators
 
+The [construction-family gallery](results/constraint-families/index.html)
+compares finite output ranges, source reuse and feedback, mirror/repeat order,
+phase correspondence, and nearby shape constructions. See the
+[overview and encoding](ConstraintFamiliesStudy.md) and the
+[recorded Markdown report](results/constraint-families/README.md). This report remains local.
+
+```powershell
+dotnet run --project experiments/QualitativeFrieze -- --constraint-families
+```
+
 The [construction exchange comparison](results/construction-exchange/index.html)
 examines eight native constructions under four input conditions. It separates
 boundary agreement, flow direction, coarse topology and retained constraints,

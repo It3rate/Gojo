@@ -20,6 +20,11 @@ the same explanations, measurements and complete comparison table.
 
 ## Recorded findings
 
+The [next study](ConstraintFamiliesStudy.md) compares finite output ranges rather
+than only these four probes, and adds source grouping, phase and nearby-shape
+changes. Its [interactive gallery](results/constraint-families/index.html) keeps
+the same distinction between a matching output and a matching machine.
+
 The run contains 32 constructions and 112 pair comparisons. Of those pairs,
 56 admit the selected boundary exchange and 37 also agree under the coarse
 topology contract. These counts include all four input conditions; they are
