@@ -18,7 +18,7 @@ public static class Selections
     /// <summary>Positions that share a row of <paramref name="rows"/> with a
     /// position in <paramref name="frontier"/>, plus the frontier. Rows bound to
     /// another surface are ignored.</summary>
-    public static Plane Expand(Plane frontier, Wiring rows, Structure structure)
+    public static Plane Expand(Plane frontier, Wiring rows, Surface structure)
     {
         ArgumentNullException.ThrowIfNull(frontier);
         ArgumentNullException.ThrowIfNull(rows);
@@ -35,7 +35,7 @@ public static class Selections
     }
 
     /// <summary>Positions within <paramref name="steps"/> rows of the seeds.</summary>
-    public static Plane Within(Plane seeds, int steps, Wiring rows, Structure structure)
+    public static Plane Within(Plane seeds, int steps, Wiring rows, Surface structure)
     {
         var selection = seeds;
         for (var i = 0; i < steps; i++) selection = Expand(selection, rows, structure);
