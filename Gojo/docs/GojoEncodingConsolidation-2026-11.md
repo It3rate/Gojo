@@ -7,6 +7,13 @@ up to `bb6856d7`, the finite-law compilers, the boundary/flow codex, the
 uncertainty and numeric-format references, and the `Gojo.Encoding` notes. It
 then proposes one structure they could all share.
 
+**Implementation entry point, 10 November 2026:** reviewed mechanisms from the
+existing experiments now have a reusable home in
+[Gojo.Encoding/Core](../../Gojo.Encoding/Core/README.md). That promotion keeps
+packed and native contracts distinct; it does not implement or adopt the
+unified plane-law proposal below. The core inventory documents what was
+promoted, what was corrected, and what remains experimental.
+
 An exploratory implementation of §5, §6, the ports of §5.13 and the workspace
 contract now lives in [Gojo.EncodingB](../../Gojo.EncodingB/README.md), with
 its tests; its README maps the roadmap steps below to what it covers.

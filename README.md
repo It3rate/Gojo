@@ -4,6 +4,11 @@ Gojo is a lean extraction of the current Gojo kernel and tests from the older Co
 
 The central rule is that meaning should live in inspectable Gojo structure: carriers, locations, relations, unit shapes, slots, residue, timelines, and tension. Helper code may build or read that structure, but it should not become the source of meaning.
 
+For reusable encoding code, start with the [shared encoding core](Gojo.Encoding/Core/README.md):
+packed storage and ports, native laws and machines, and connected construction
+reads promoted from the experiments. New studies can reuse these mechanisms
+while keeping unfinished additions local.
+
 For the research, start with the [experiment overview](experiments/OVERVIEW.md):
 a chronological guide to the studies in `experiments/`, with each study's
 question, results, conclusions and links to the evidence.

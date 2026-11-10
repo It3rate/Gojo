@@ -22,6 +22,22 @@ canonical prompt and its design notes together.
 - Discover current projects and test coverage from `Gojo.slnx` and project
   files; do not rely on copied project lists or historical test counts.
 
+## Encoding Reuse And Promotion
+
+For new encoding work, start with [`Gojo.Encoding/Core`](Gojo.Encoding/Core/README.md).
+It is the shared home for reviewed encoding mechanisms; the numeric kernel
+remains in `Gojo/Core`. Reuse the core mechanism whose documented contract fits
+the task. Packed storage and native relation surfaces are distinct representations;
+do not assume they are interchangeable or silently convert between them.
+
+New or uncertain mechanisms may live in the relevant experiment. When they
+prove useful, promote a domain-independent implementation into encoding core
+with its structural grammar, limits, provenance and focused conformance tests.
+Keep domain fixtures, renderers, evaluators and speculative policies in experiments.
+Existing experiments may retain their own implementations as historical evidence;
+they need not be migrated as part of every promotion. New work should prefer
+the promoted core implementation. Do not automatically synchronize old copies.
+
 ## Git Integration
 
 The repository default branch is `master`. Resolve the current remote default

@@ -141,6 +141,7 @@
     <Project Path="Tests/PrimitiveExplorer.Tests/PrimitiveExplorer.Tests.csproj" />
     <Project Path="Tests/Gojo.Tests/Gojo.Tests.csproj" />
     <Project Path="Tests/Gojo.Encoding.Tests/Gojo.Encoding.Tests.csproj" />
+    <Project Path="Tests/Gojo.Encoding.Core.Tests/Gojo.Encoding.Core.Tests.csproj" />
     <Project Path="Tests/Gojo.GearShapeLadder.Tests/Gojo.GearShapeLadder.Tests.csproj" />
     <Project Path="Tests/GojoCAD.Tests/GojoCAD.Tests.csproj" />
     <Project Path="Tests/Minds.Tests/Minds.Tests.csproj" />
