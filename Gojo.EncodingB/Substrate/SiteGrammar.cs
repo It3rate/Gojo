@@ -105,6 +105,24 @@ public sealed class SiteGrammar
         return [planeOrField];
     }
 
+    /// <summary>The values one site of a plane or field can read: a code field's
+    /// declared domain, a thermometer's magnitudes 0 … capacity, or a single
+    /// plane's two descriptor readings.</summary>
+    public Domain DomainOf(string planeOrField)
+    {
+        if (fields.TryGetValue(planeOrField, out var field))
+            return field switch
+            {
+                CodeField code => code.Domain,
+                ThermometerField thermometer => new Domain(
+                    $"{field.Name} magnitude",
+                    Enumerable.Range(0, thermometer.Capacity + 1).Select(k => k.ToString()).ToArray()),
+                _ => throw new InvalidOperationException($"Field '{field.Name}' has no declared domain."),
+            };
+        var plane = Plane(planeOrField);
+        return Domain.Binary(plane.Name, plane.WhenClear, plane.WhenSet);
+    }
+
     public sealed class Builder(string name)
     {
         private readonly List<PlaneDescriptor> planes = [];

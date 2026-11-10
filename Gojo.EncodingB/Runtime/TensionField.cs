@@ -20,10 +20,14 @@ public sealed class TensionField
         if (magnitude.Length != positive.Length || magnitude.Length != negative.Length)
             throw new ArgumentException("M, P and N need the same capacity.");
         overflow = new int[tile.SiteCount];
+        PositiveField = positiveField;
     }
 
     public Tile Tile { get; }
     public int Capacity => magnitude.Length;
+
+    /// <summary>The positive tension field: pending units that may leave through a material port.</summary>
+    public string PositiveField { get; }
 
     /// <summary>A grammar with M, P and N thermometers of the given capacity.</summary>
     public static SiteGrammar Grammar(int capacity, Action<SiteGrammar.Builder>? extra = null)
@@ -86,6 +90,43 @@ public sealed class TensionField
         Store(positive, p);
         Store(negative, n);
         return (drawn, filled);
+    }
+
+    /// <summary>Publishes a material port over these sites. Pending positive tension
+    /// may leave through it, one unit per lane per transfer. A reader sees only
+    /// whether a unit is pending, through a rung map, never how many.</summary>
+    public Port PublishMaterial(string name, int[] sites, string unit, PortAccounting accounting = PortAccounting.Material)
+    {
+        if (accounting == PortAccounting.Observation)
+            throw new ArgumentException("Publish an observation port with Tile.Publish.", nameof(accounting));
+        var units = new Domain("pending units", Enumerable.Range(0, Capacity + 1).Select(k => k.ToString()).ToArray());
+        var rung = new RungMap($"a unit of {unit} is pending", units, Passage.Presence, pending => pending == 0 ? 0 : 1);
+        return Tile.Publish(name, PositiveField, sites, new PortBasis(Passage.Presence, unit, rung), accounting, this);
+    }
+
+    /// <summary>Exposes these sites as a material inlet: an arriving unit of
+    /// <paramref name="unit"/> enters as one unit of positive tension.</summary>
+    public Inlet MaterialInlet(string name, int[] sites, string unit) =>
+        Tile.AddInlet(name, PositiveField, sites, new PortBasis(Passage.Presence, unit), this);
+
+    /// <summary>Removes one positive tension unit at every given site at once.
+    /// Returns sites that had none.</summary>
+    internal ulong Release(ulong sites)
+    {
+        var p = Load(positive);
+        var underflow = Thermometer.RemoveOneAt(p, sites);
+        Store(positive, p);
+        return underflow;
+    }
+
+    /// <summary>Adds one positive tension unit at every given site at once.
+    /// Returns sites whose tension planes were already full.</summary>
+    internal ulong Receive(ulong sites)
+    {
+        var p = Load(positive);
+        var full = Thermometer.AddOneAt(p, sites);
+        Store(positive, p);
+        return full;
     }
 
     /// <summary>Moves one positive tension unit from one site to another.</summary>

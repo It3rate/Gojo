@@ -3,7 +3,7 @@
 Status: **exploratory**, November 2026. A runnable form of the plane–law
 substrate proposed in the
 [encoding consolidation note](../Gojo/docs/GojoEncodingConsolidation-2026-11.md)
-(§5, §6), including the workspace contract in
+(§5, §6), including ports between tiles (§5.13) and the workspace contract in
 [Gojo/Workspace](../Gojo/Workspace/README.md). Hardware backends (SIMD, GPU,
 FPGA) are out of scope; planes are plain `ulong` words.
 
@@ -43,9 +43,8 @@ source except through a validated commit.
 | Tick | `Runtime`, `TensionField`, `RouteTable`, `GapBalance`, `Energy` | Phased settlement, accounting, adaptation and replay |
 | Support | `SupportPlanes`, `Propagation`, `JointSupport`, `UncertaintyReads` | U0–U3, decorrelation records, semiring reads |
 | Learning | `LearnedTransitionTable`, `RouteTable` | L1 route strengths, L3 learned law tables |
+| Port | `Port`, `Inlet`, `PortBasis`, `PortAccounting`, `Correspondence`, `PortConnection` | Exposed lanes with a self-describing basis; declared correspondences; reads and material transfers between tiles |
 | Inspection | `BitDecoder` | Prints the meaning of any tile or law bit from its address |
-
-Ports between tiles (consolidation §5.13) are not implemented yet.
 
 ## Where the bits mean something
 
@@ -91,6 +90,30 @@ once on bit-sliced planes.
 (positive tension) and N (negative tension, unmet draw). P and N are never
 netted directly.
 
+**Ports.** A port publishes an ordered subset of its owner's sites: lane i is
+the i-th published site, so one port is one 64-lane plane. Each lane reads one
+field, coarsened by the basis's rung map when it has one. A reader gets the
+contract and the publication, not the owner.
+- `PortBasis.Fingerprint` hashes the value names, the unit promise, the rung
+  table and the law hashes. `Odv.Basis(1, u)` and `Odv.Basis(2, u)` have the
+  same eight word names but different fingerprints, because their addition laws
+  (exact-zero and detection contracts) differ.
+- A read projects every lane at once through one `RelationLaw.Narrow`, with
+  `from[v]` = the lanes publishing v. One admitted receiver value is settled,
+  several are competing, none is blocked.
+- A material transfer runs the passage law across the lanes:
+  - S is the lanes with a pending unit. The publication is P read through
+    `α(t) = t ≠ 0`, so a receiver never sees how many units are waiting.
+  - C is the lanes where the receiver has room.
+  - T is the arrival, which starts empty.
+  - After one step, accepted = T′ and blocked = S ∧ ¬T′. Accepted units leave
+    the source's P and enter the receiver's P as tension.
+- Two material connections reading one committed lane compose into a joint law
+  whose transition
+  `[outflow=occupied, C1=open, T1=empty, C2=open, T2=empty] → [outflow=empty, C1=open, T1=occupied, C2=open, T2=occupied]`
+  breaks `outflow + T1 + T2 preserved`. The second connection is refused with
+  that transition as the reason.
+
 ## Non-signal parts
 
 | Kind | Where it lives here |
@@ -108,6 +131,10 @@ netted directly.
 | Introduced | Provenance `10`; never observable as source evidence; adopted only with a labelled edit |
 | Prediction | `PredictionWorkspace`, which has no commit method |
 | Unknown law rows | `LearnedRead.Unknown`; prediction through them is open |
+| Open connection | `PortConnection.IsOpen`: supports stay full, the publication is kept as `PortRead.Residue`, and pending material is `PortTransfer.Remainder` |
+| Blocked lane | `PortRead.Blocked`: the published value has no correspondent in the receiver basis. It stays residue and is never moved to a nearby legal value |
+| Coarse publication | `PortBasis.Rung`: γ bounds the owner's finer value and cannot recover it |
+| Refused fan-out | `ConnectResult.Read` names the joint transition that would duplicate a unit |
 
 ## Tick contract
 
@@ -146,6 +173,27 @@ row it conflicts with, so row order is the declared schedule.
   `These` is open.
 - **Ambiguous laws.** A non-functional transition law leaves ambiguous lanes
   unchanged and reports them. It never picks one after-state.
+- **Ports.**
+  - Even identical bases connect only through a declared law;
+    `Correspondence.Identity` is that declaration.
+  - An inlet's basis must use its field's own value names.
+  - Observation can narrow a workspace's support. It can also supply a
+    non-material inlet field as one grouped commit: every lane settles or none
+    is written, and a read older than the owner's version is stale.
+  - A material correspondence must be functional, preserve a sum spanning the
+    port lane and the arrival, and keep one unit promise. Moving between units
+    needs a calibration, which is not built.
+  - Publishing a port or an inlet is a structural edit (the epoch advances).
+    Connecting one is not.
+
+## Ports: what is not built
+
+- No multi-tile tick runs the ports. `Transfer` runs one connection when it is
+  called. Several material connections into one inlet share its room in call
+  order, not in one double-buffered accept.
+- Correspondences do not compose. Threshold and orientation are separate laws.
+- Ports are declared structure and are not part of `TileSnapshot`. Restoring a
+  tile leaves its ports and connections as they are.
 
 ## Status against the consolidation roadmap
 
@@ -162,7 +210,20 @@ row it conflicts with, so row order is the declared schedule.
 | R9 SIMD / GPU | Out of scope |
 | R10 crystallization by description length | Not done |
 
+Ports (§5.13) are not a roadmap step of their own. They are implemented here
+with the limits listed above.
+
 The test suite also checks everything the earlier sections claim: the exact
 table against the PrimitiveMeasure README, the six widened detection rows, the
 passage law bytes and LUT value, and that learning from witnessed transitions
 crystallizes a table with the same content hash as the authored passage law.
+The port tests cover:
+- coarse publication;
+- open connections with residue;
+- detection words read as exact ones;
+- reorientation that leaves a read unchanged;
+- observation fan-out and 64-lane reads;
+- grouped and stale commits;
+- accounting classes;
+- material transfer with blocked units;
+- the refused material fan-out.

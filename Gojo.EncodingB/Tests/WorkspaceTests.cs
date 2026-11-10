@@ -54,14 +54,14 @@ public sealed class WorkspaceTests
         roof.Retain(roofRows);
         body.Retain(bodyRows);
 
-        Assert.Equal([0, 1], roof.Traverse("edges", seam, reversed: false));
-        Assert.Equal([1, 0], body.Traverse("edges", seam, reversed: true));
+        Assert.Equal([0, 1], roof.Traverse("edges", seam, reversed: false)!);
+        Assert.Equal([1, 0], body.Traverse("edges", seam, reversed: true)!);
         Assert.Equal([0, 1], edges.Row(seam));
         Assert.Null(roof.Traverse("edges", bodyEdges[1], reversed: false));
 
         edges.Insert(seam, 1, 5);
-        Assert.Equal([0, 5, 1], roof.Traverse("edges", seam, reversed: false));
-        Assert.Equal([1, 5, 0], body.Traverse("edges", seam, reversed: true));
+        Assert.Equal([0, 5, 1], roof.Traverse("edges", seam, reversed: false)!);
+        Assert.Equal([1, 5, 0], body.Traverse("edges", seam, reversed: true)!);
     }
 
     private static bool Closed(IReadOnlyList<int[]> rows, int[] path) =>

@@ -25,6 +25,8 @@ public sealed class Tile : IPlaneStore
     private readonly bool[] basis;
     private readonly string[] siteNames;
     private readonly Dictionary<string, RowSet> rowSets = new(StringComparer.Ordinal);
+    private readonly List<Port> ports = [];
+    private readonly List<Inlet> inlets = [];
 
     public Tile(string name, SiteGrammar grammar, int siteCount, IReadOnlyList<string>? siteNames = null)
     {
@@ -171,6 +173,68 @@ public sealed class Tile : IPlaneStore
 
     public bool HasRows(string name) => rowSets.ContainsKey(name);
 
+    /// <summary>The ports this tile advertises. A reader discovers these contracts,
+    /// not the tile's other planes or sites.</summary>
+    public IReadOnlyList<Port> Ports => ports;
+
+    /// <summary>The receiving surfaces this tile exposes.</summary>
+    public IReadOnlyList<Inlet> Inlets => inlets;
+
+    /// <summary>Publishes an ordered subset of sites as a port: lane i is
+    /// <paramref name="sites"/>[i], read through <paramref name="field"/> and, when the
+    /// basis carries a rung map, coarsened by it. A structural edit, so the epoch
+    /// advances. Material ports publish tension; see <see cref="TensionField.PublishMaterial"/>.</summary>
+    public Port Publish(string name, string field, int[] sites, PortBasis basis, PortAccounting accounting = PortAccounting.Observation) =>
+        Publish(name, field, sites, basis, accounting, tension: null);
+
+    /// <summary>Exposes an ordered subset of sites as a receiving surface for
+    /// observations of <paramref name="field"/>, in this tile's own basis.</summary>
+    public Inlet AddInlet(string name, string field, int[] sites, PortBasis basis)
+    {
+        ArgumentNullException.ThrowIfNull(basis);
+        var domain = Grammar.DomainOf(field);
+        if (!basis.Domain.Values.SequenceEqual(domain.Values))
+            throw new ArgumentException($"Inlet basis reads {basis.Domain.Describe(basis.Domain.Full)}, but field '{field}' reads {domain.Describe(domain.Full)}.", nameof(basis));
+        return AddInlet(name, field, sites, basis, tension: null);
+    }
+
+    internal Port Publish(string name, string field, int[] sites, PortBasis basis, PortAccounting accounting, TensionField? tension)
+    {
+        ArgumentNullException.ThrowIfNull(basis);
+        if (ports.Any(p => p.Name == name)) throw new ArgumentException($"Tile {Name} already publishes a port '{name}'.", nameof(name));
+        if (accounting != PortAccounting.Observation && tension is null)
+            throw new ArgumentException("Material and coupled ports publish tension; use TensionField.PublishMaterial.", nameof(accounting));
+        var fine = Grammar.DomainOf(field);
+        var published = basis.Rung?.Coarse ?? fine;
+        if (basis.Rung is { } rung && rung.Fine.Size != fine.Size)
+            throw new ArgumentException($"Rung map {rung.Name} reads {rung.Fine.Size} fine values; field '{field}' has {fine.Size}.", nameof(basis));
+        if (!basis.Domain.Values.SequenceEqual(published.Values))
+            throw new ArgumentException($"Port basis reads {basis.Domain.Describe(basis.Domain.Full)}, but the publication reads {published.Describe(published.Full)}.", nameof(basis));
+        var port = new Port(this, name, field, CheckLanes(sites), basis, accounting, tension);
+        ports.Add(port);
+        StructuralEdit();
+        return port;
+    }
+
+    internal Inlet AddInlet(string name, string field, int[] sites, PortBasis basis, TensionField? tension)
+    {
+        if (inlets.Any(i => i.Name == name)) throw new ArgumentException($"Tile {Name} already has an inlet '{name}'.", nameof(name));
+        Grammar.PlanesOf(field);
+        var inlet = new Inlet(this, name, field, CheckLanes(sites), basis, tension);
+        inlets.Add(inlet);
+        StructuralEdit();
+        return inlet;
+    }
+
+    private int[] CheckLanes(int[] sites)
+    {
+        ArgumentNullException.ThrowIfNull(sites);
+        if (sites.Length is < 1 or > Bits.Width) throw new ArgumentException("A port has 1 to 64 lanes.", nameof(sites));
+        foreach (var site in sites) CheckSite(site);
+        if (sites.Distinct().Count() != sites.Length) throw new ArgumentException("A site appears in a port once.", nameof(sites));
+        return sites.ToArray();
+    }
+
     /// <summary>Problems a decoder must report: nonzero padding and broken
     /// thermometer prefixes. An empty list means every bit decodes cleanly.</summary>
     public IReadOnlyList<string> Validate()
@@ -243,6 +307,17 @@ public sealed class Tile : IPlaneStore
     internal void CheckSite(int site)
     {
         if (site < 0 || site >= SiteCount) throw new ArgumentOutOfRangeException(nameof(site), $"Tile {Name} has {SiteCount} sites.");
+    }
+
+    /// <summary>The value a site reads in <see cref="SiteGrammar.DomainOf"/>: a
+    /// thermometer's magnitude or a code. Null for a broken thermometer or a code
+    /// outside its domain: reported, never repaired.</summary>
+    internal static int? ReadValue(IPlaneStore store, string planeOrField, int site)
+    {
+        if (store.Grammar.TryField(planeOrField, out var field) && field is ThermometerField)
+            return Thermometer.Decode(Gather(store, field.Planes, site));
+        var code = ReadCode(store, planeOrField, site);
+        return code < store.Grammar.DomainOf(planeOrField).Size ? code : null;
     }
 
     internal static int ReadCode(IPlaneStore store, string planeOrField, int site)

@@ -146,6 +146,49 @@ public static class Odv
     /// evidence for exact cancellation.</summary>
     public static ulong Subtract(OdvWord a, OdvWord b, int threshold = 1) => Add(a, b.Reverse(), threshold);
 
+    /// <summary>The basis an ODV port publishes: the eight words, what they measure,
+    /// and the addition law their words obey. The law fixes the zero contract, so
+    /// an exact-zero port and a detection port have different bases even though
+    /// their words have the same names.</summary>
+    public static PortBasis Basis(int threshold, string unit) => new(OdvWord.Domain, unit, null, Addition(threshold));
+
+    /// <summary>How a word read by a threshold-<paramref name="fromThreshold"/> reader
+    /// may read for a threshold-<paramref name="toThreshold"/> reader, derived by
+    /// enumerating hidden values. A zero keeps its direction, and the orientation
+    /// is kept. From detection to exact, an undetectable word becomes competing
+    /// candidates (zero, or detectable with the same sign), never an exact zero.</summary>
+    public static RelationLaw ThresholdCorrespondence(int fromThreshold, int toThreshold)
+    {
+        if (fromThreshold < 1) throw new ArgumentOutOfRangeException(nameof(fromThreshold));
+        if (toThreshold < 1) throw new ArgumentOutOfRangeException(nameof(toThreshold));
+        var admitted = new HashSet<(int, int)>();
+        var reach = 3 * Math.Max(fromThreshold, toThreshold) + 1;
+        for (var orientation = 0; orientation <= 1; orientation++)
+            for (var x = -reach; x <= reach; x++)
+                foreach (var from in WordsOf(x, fromThreshold))
+                    foreach (var to in x == 0 ? new[] { from & 0b10 } : WordsOf(x, toThreshold))
+                        admitted.Add((from | orientation << 2, to | orientation << 2));
+        var roles = new[] { new LawRole("from", OdvWord.Domain), new LawRole("to", OdvWord.Domain) };
+        return RelationLaw.FromPredicate($"odv read at threshold {fromThreshold} as threshold {toThreshold}", roles,
+            t => admitted.Contains((t[0], t[1])),
+            $"derived by enumerating hidden values read at thresholds {fromThreshold} and {toThreshold}");
+    }
+
+    /// <summary>Reads every word in one orientation. A word from the other
+    /// orientation is the same thing seen by a reader facing the other way, so it
+    /// is reoriented (O and D flip together); the thing does not move.</summary>
+    public static RelationLaw ReadIn(bool positiveLeft)
+    {
+        var roles = new[] { new LawRole("from", OdvWord.Domain), new LawRole("to", OdvWord.Domain) };
+        return RelationLaw.FromPredicate($"odv read positive-{(positiveLeft ? "left" : "right")}", roles,
+            t =>
+            {
+                var word = new OdvWord((byte)t[0]);
+                return t[1] == (word.PositiveLeft == positiveLeft ? word : word.Reorient()).Code;
+            },
+            "a reader turning around flips O and D together");
+    }
+
     /// <summary>Reorients a whole tile: flip O in the basis and XOR D with all
     /// allocated sites. Two plane operations for every site at once.</summary>
     public static void ReorientTile(Tile tile)

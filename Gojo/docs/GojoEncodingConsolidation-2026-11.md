@@ -7,9 +7,9 @@ up to `bb6856d7`, the finite-law compilers, the boundary/flow codex, the
 uncertainty and numeric-format references, and the `Gojo.Encoding` notes. It
 then proposes one structure they could all share.
 
-An exploratory implementation of §5, §6 and the workspace contract now lives
-in [Gojo.EncodingB](../../Gojo.EncodingB/README.md), with its tests; its README
-maps the roadmap steps below to what it covers.
+An exploratory implementation of §5, §6, the ports of §5.13 and the workspace
+contract now lives in [Gojo.EncodingB](../../Gojo.EncodingB/README.md), with
+its tests; its README maps the roadmap steps below to what it covers.
 
 Revised the same day after the user's decision that participation is
 selection (canonical prompt §7.1). ODV stays as it is; selection, supplied
@@ -489,6 +489,15 @@ an open slot with residue rather than a silent reinterpretation. This closes
 the gap noted in the invariance experiments: the generic port interface does
 not yet carry a self-describing basis. Observation ports may fan out; material
 ports cannot, and the accounting signature enforces that.
+
+Gojo.EncodingB tries this out (exploratory). A material connection runs the
+passage law across port lanes, and the receiver's room is the gate. A second
+material connection is refused because the two connections, composed over one
+committed lane, break the sum of the lane and both arrivals. The refusal names
+the duplicating transition. The same experiment showed that a basis has to
+carry its law hashes, not just its value names. ODV words published under the
+detection contract read, through a derived correspondence, as competing
+candidates in an exact-zero receiver, never as an exact zero.
 
 ### 5.14 Workspaces: selection, perspective and writeback
 

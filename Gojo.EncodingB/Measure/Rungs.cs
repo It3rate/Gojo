@@ -1,3 +1,6 @@
+using System.Security.Cryptography;
+using System.Text;
+
 namespace Gojo.EncodingB;
 
 /// <summary>A map between a fine and a coarse rung. The abstraction α sends each
@@ -20,11 +23,17 @@ public sealed class RungMap
         abstraction = Enumerable.Range(0, fine.Size).Select(alpha).ToArray();
         if (abstraction.Any(c => c < 0 || c >= coarse.Size))
             throw new ArgumentException("α must map every fine value into the coarse domain.", nameof(alpha));
+        var table = $"rung:{fine.Size}:{coarse.Size}:{string.Join(",", abstraction)}";
+        ContentHash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(table)))[..16].ToLowerInvariant();
     }
 
     public string Name { get; }
     public Domain Fine { get; }
     public Domain Coarse { get; }
+
+    /// <summary>Identifies the α table (sizes and the coarse value of each fine
+    /// value), not a concept. Names are not hashed.</summary>
+    public string ContentHash { get; }
 
     public int Abstract(int fine) => abstraction[fine];
 

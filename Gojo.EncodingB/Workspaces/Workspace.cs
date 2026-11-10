@@ -177,23 +177,31 @@ public abstract class Workspace : IPlaneStore
     {
         if (!supports.TryGetValue(field, out var support))
         {
-            var planes = Grammar.PlanesOf(field);
-            var domain = Grammar.TryField(field, out var descriptor) && descriptor is CodeField code
-                ? code.Domain
-                : Domain.Binary(field, Grammar.Plane(planes[0]).WhenClear, Grammar.Plane(planes[0]).WhenSet);
-            support = new SupportPlanes(field, domain, Focus.Members);
+            support = new SupportPlanes(field, Grammar.DomainOf(field), Focus.Members);
             supports.Add(field, support);
         }
         return support;
     }
 
     /// <summary>Supplies evidence from the source into this workspace's support.
-    /// Refused (false) for introduced or unselected sites: the self-confirmation
-    /// guard at bit level.</summary>
+    /// Refused (false) for introduced or unselected sites (the self-confirmation
+    /// guard at bit level) and for bits that do not decode.</summary>
     public bool Observe(string field, int site)
     {
         if (!Bits.Get(Focus.Members, site) || Bits.Get(introduced, site)) return false;
-        Support(field).Supply(site, Tile.ReadCode(this, field, site));
+        if (Tile.ReadValue(this, field, site) is not int value) return false;
+        Support(field).Supply(site, value);
+        supplied |= Bits.Of(site);
+        return true;
+    }
+
+    /// <summary>Narrows support with evidence that arrived from elsewhere, such as
+    /// a read through a port. The same guard as <see cref="Observe"/>: refused
+    /// (false) for introduced or unselected sites.</summary>
+    internal bool Narrow(string field, int site, ulong allowed)
+    {
+        if (!Bits.Get(Focus.Members, site) || Bits.Get(introduced, site)) return false;
+        Support(field).Restrict(site, allowed);
         supplied |= Bits.Of(site);
         return true;
     }
