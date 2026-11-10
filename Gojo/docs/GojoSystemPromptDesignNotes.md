@@ -605,14 +605,24 @@ it as part of its own problem solving. One useful to many can stand on its
 own as a small structure with an input and an output. The user's example: a
 structure that receives an oscillating signal and outputs a value for its
 frequency. Evolution, not a rule, decides where a calibration lives. Section
-4.6 records this, and Section 4.1 now says a port's contract is its shape and
-accounting. Axiom 9's requirement that material refinement select a
-calibration still holds: an uncalibrated connection makes no scale claim, so
-any transfer that does make one needs the calibration.
+4.6 records this, and Section 4.1 now says a port's contract is its shape.
+Axiom 9's requirement that material refinement select a calibration still
+holds: an uncalibrated connection makes no scale claim, so any transfer that
+does make one needs the calibration.
 
-The accounting distinction is kept. Whether taking from a port consumes is a
-property of the medium (energy-like or information-like), not a description
-of meaning. A conserved medium still cannot fan out.
+The distinction between copying and transferring is kept, but it is not
+declared anywhere. A first revision had the port publish an accounting class.
+The user made the distinction structural instead: passing by reference is an
+information pass, and passing the value itself is a transfer. The connection
+shows which one it is, so nothing needs to record it. Section 4.6 says so. In
+`Gojo.EncodingC` a law that only reads a port is a reference. A law that
+writes through a port must preserve a sum, which makes it a move. Two takers
+of one unit run in a declared order, so one of them gets it, with no refusal
+flag and no duplication. The user suggested ownership types such as smart
+pointers as one way to enforce this. They were not adopted. Connections are
+created at run time by the structures themselves, so a compiler never sees
+them. The guarantee has to live in the structure, which also keeps it valid
+on other substrates.
 
 The same review found two further problems. The encoding identified planes,
 fields, values, law roles, row sets, sites and ports by strings. The user
@@ -633,6 +643,11 @@ execution layout, never a unit of ownership, basis, connection or meaning.
 
 Evolved calibration is recorded as a maturity boundary. Nothing discovers,
 places or shares calibrations yet.
+
+`Gojo.EncodingB` was then rebuilt from these rules as `Gojo.EncodingC` and
+deleted. Its goal is a lean bit-level encoding: positions, bits, small tables
+and declared order, with no stored names, no fixed sizes and no descriptions
+on ports.
 
 ## Prompt Shape
 

@@ -14,9 +14,13 @@ packed and native contracts distinct; it does not implement or adopt the
 unified plane-law proposal below. The core inventory documents what was
 promoted, what was corrected, and what remains experimental.
 
-An exploratory implementation of §5, §6, the ports of §5.13 and the workspace
-contract now lives in [Gojo.EncodingB](../../Gojo.EncodingB/README.md), with
-its tests; its README maps the roadmap steps below to what it covers.
+An exploratory implementation now lives in
+[Gojo.EncodingC](../../Gojo.EncodingC/README.md), with its tests. Its goal is
+a lean, bit-level encoding of structures that compute: positions, bits, small
+tables and declared order, nothing more. Its README maps the roadmap steps
+below to what it covers. It replaced `Gojo.EncodingB`, the first
+implementation of §5, §6, §5.13 and the workspace contract, which was deleted
+after the correction below. EncodingB is in git history.
 
 **Corrected 10 November 2026.** Two parts of §5 are superseded. The tile is a
 layout, not a unit of meaning (§5.1). Ports carry an uninterpreted medium and
@@ -514,8 +518,12 @@ what arrives in its own terms, and two receivers may interpret the same flow
 differently. Calibration is optional structure that evolves through use. It
 is absorbed into the sender or the receiver, or it stands alone as a small
 calibrator with an input and an output when many structures can use it.
-Observation may fan out. A conserved medium may not, because two connections
-composed over one lane break conservation. That is accounting, not meaning.
+Whether a connection copies or moves is structural (canonical prompt §4.6).
+A connection that only reads the port is a reference, and any number may
+read. A connection that changes the port's bits must preserve a sum spanning
+them and what it writes elsewhere, which makes it a move. Two takers of one
+unit run in a declared order, so exactly one gets it. Gojo.EncodingC
+implements this direction.
 
 **Superseded first version.** This section first had a port publish a
 self-describing basis: value names, law hashes, rung and unit promise. A
@@ -527,7 +535,9 @@ internal view, and it makes calibration a precondition rather than something
 the structures discover. Two results from that experiment carry over. A
 material transfer is the passage law run across lanes, with the receiver's
 room as the gate. Fan-out is refused through the joint accounting signature
-rather than a flag.
+rather than a flag. EncodingC keeps the first result. It replaces the second
+with declared order: no refusal is needed, because sequenced takers cannot
+duplicate a unit.
 
 ### 5.14 Workspaces: selection, perspective and writeback
 
@@ -650,7 +660,7 @@ sign constraint, these rows widen:
 | `−0` + `+?` | `+?` | `{+0, +?}` |
 
 The commuted pairs `−? + +0` and `+? + −0` widen the same way; the other rows
-are unchanged (checked by enumerating a threshold reader in Gojo.EncodingB).
+are unchanged (checked by enumerating a threshold reader in Gojo.EncodingB and again in Gojo.EncodingC).
 Each widened row adds one product term to the
 formulas above; for example, `r[+?]` gains `a[+0] & b[+0]`. If D at zero is
 direction memory rather than a sign constraint, the zero words carry no sign

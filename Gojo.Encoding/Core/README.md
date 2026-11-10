@@ -116,7 +116,8 @@ learned preferences, renderers, galleries, and experimental geometric receivers
 remain with their experiments. The general workspace runtime, automatic
 crystallization, and universal native-to-packed lowering remain incomplete.
 The [plane-law proposal](../../Gojo/docs/GojoEncodingConsolidation-2026-11.md)
-and `Gojo.EncodingB` are exploratory and have not been adopted as the common
+and [`Gojo.EncodingC`](../../Gojo.EncodingC/README.md), which replaced
+`Gojo.EncodingB`, are exploratory and have not been adopted as the common
 substrate by this consolidation.
 
 This organization follows the [canonical prompt](../../Gojo/docs/GojoSystemPrompt.md).

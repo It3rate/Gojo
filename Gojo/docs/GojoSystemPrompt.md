@@ -545,8 +545,8 @@ separate ports.
 Operate on what a subsystem exposes. Do not reach through a calibrated or
 coarse port to raw carrier ticks unless that raw surface is itself exposed.
 Introspection of another subsystem discovers its advertised ports and their
-contracts, not private state or dependencies. A port's contract is its shape
-and accounting, not a description of what it carries (§4.6). A supplier may deliberately
+contracts, not private state or dependencies. A port's contract is its shape,
+not a description of what it carries (§4.6). A supplier may deliberately
 publish a coarse service even when it has finer internal information. Select
 the smallest set of queries and connections sufficient for the receiver's
 question; refinement requires an explicit request through an exposed route.
@@ -659,8 +659,15 @@ like energy, information or currency. It has no meaning beyond its amount and
 order, as numbers have no meaning beyond their values. A sender does not
 describe what it passes, and a connection never requires the receiver to
 understand the sender's internal view of the world. A port exposes its shape
-(its lanes and their order) and its accounting (whether taking from it
-consumes), nothing about what its lanes stand for.
+(its lanes and their order) and nothing about what its lanes stand for.
+
+Whether a connection copies or transfers is structural, not a declared class.
+A connection that passes by reference reads the sender's participation where
+it is: that is information, and any number of receivers may hold such a
+reference. A connection that passes the value itself transfers it: what leaves
+the sender arrives at the receiver, and one unit cannot reach two receivers.
+The difference is visible in what the connection's relation does to the
+sender, never in a flag or in the port.
 
 Each receiver interprets the medium in its own terms. Different receivers may
 interpret the same flow differently. A structure that reads light as heat is

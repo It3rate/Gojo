@@ -152,6 +152,7 @@ Gojo/                       numeric and structural kernel
   axioms/                   current model notes
   docs/                     model documentation and experiment reports
 Gojo.Encoding/              experimental encoding and concept-address layer
+Gojo.EncodingC/             lean bit-level encoding of computing structures (exploratory)
 Applications/
   GojoCAD/                  graphical and geometric Gojo structure
   GojoDraw/                 Skia presentation adapter over GojoCAD

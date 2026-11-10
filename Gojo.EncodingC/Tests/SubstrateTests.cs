@@ -1,0 +1,149 @@
+using Xunit;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+
+namespace Gojo.EncodingC.Tests;
+
+public sealed class SubstrateTests
+{
+    [Fact]
+    public void APlaneIsAsLongAsItNeedsToBe()
+    {
+        var plane = new Plane(200);
+        plane[0] = plane[63] = plane[64] = plane[199] = true;
+
+        Assert.Equal(4, plane.Count);
+        Assert.Equal(new[] { 0, 63, 64, 199 }, plane.Indexes());
+        Assert.Equal(196, plane.Not().Count);
+        Assert.True(Plane.Ones(130).Covers(Plane.Of(130, 129)));
+        Assert.Equal("1010", Plane.Parse("1010").ToString());
+    }
+
+    [Fact]
+    public void AStructureGrowsAndNeverReusesARetiredPosition()
+    {
+        var structure = new Structure(1, 100);
+        structure.Retire(10);
+
+        Assert.False(structure.IsLive(10));
+        Assert.Equal(100, structure.Add(50));
+        Assert.Equal(150, structure.Count);
+        Assert.Equal(149, structure.Live.Count);
+        Assert.Throws<ArgumentOutOfRangeException>(() => structure.Write(0, 10, true));
+
+        var later = structure.AddPlane();
+        Assert.Equal(1, later);
+        Assert.True(structure.Read(later).None);
+    }
+
+    [Fact]
+    public void AReferenceCostsTheBitsItsTargetsNeed()
+    {
+        var references = new PackedInts();
+        foreach (var value in new[] { 0, 1, 2, 3, 3 }) references.Add(value);
+
+        Assert.Equal(2, references.Width);
+        Assert.Equal(10, references.BitLength);
+
+        references.Add(100);
+        Assert.Equal(7, references.Width);
+        Assert.Equal(new[] { 0, 1, 2, 3, 3, 100 }, references.ToArray());
+
+        references[0] = 1000;
+        Assert.Equal(10, references.Width);
+        Assert.Equal(1000, references[0]);
+        Assert.Equal(100, references[5]);
+    }
+
+    [Fact]
+    public void AConstantPlaneIsOneBitForEveryPosition()
+    {
+        var structure = new Structure(1, 5);
+        var orientation = structure.AddConstantPlane(false);
+        var epoch = structure.Epoch;
+
+        Assert.True(structure.Read(orientation).None);
+        structure.SetConstant(orientation, true);
+
+        Assert.Equal(5, structure.Read(orientation).Count);
+        Assert.True(structure.Epoch > epoch);
+        Assert.Throws<InvalidOperationException>(() => structure.Write(orientation, 0, false));
+    }
+
+    [Fact]
+    public void AShapeLaysValuesOutWithoutSayingWhatTheyMean()
+    {
+        var count = Shape.Unary(4);
+        Assert.Equal(5, count.Size);
+        Assert.Equal(4, count.Bits);
+        Assert.Equal(0b0111UL, count.Encode(3));
+        Assert.Equal(3, count.Decode(0b0111));
+        Assert.Null(count.Decode(0b0101));
+
+        var code = Shape.Binary(5);
+        Assert.Equal(3, code.Bits);
+        Assert.Null(code.Decode(6));
+
+        var structure = new Structure(4, 2);
+        var field = new Field(count, 0, 1, 2, 3);
+        field.Write(structure, 1, 2);
+        Assert.Equal(2, field.Read(structure, 1));
+        Assert.Equal(0, field.Read(structure, 0));
+    }
+
+    [Fact]
+    public void ChangeFromOutsideEntersAsUnitsAndOverflowIsReturned()
+    {
+        var (structure, count) = Stores.Store(3, 2);
+
+        Assert.True(Unary.Add(structure, count, structure.Live).None);
+        Assert.True(Unary.Add(structure, count, Plane.Of(3, 0, 1)).None);
+        var overflow = Unary.Add(structure, count, structure.Live);
+
+        Assert.Equal(Plane.Of(3, 0, 1), overflow);
+        Assert.All(Enumerable.Range(0, 3), i => Assert.Equal(2, count.Read(structure, i)));
+
+        var underflow = Unary.Remove(structure, count, Plane.Of(3, 2));
+        Assert.True(underflow.None);
+        Assert.Equal(1, count.Read(structure, 2));
+    }
+
+    /// <summary>Names belong to a lens for people. No type of the encoding itself
+    /// holds a string, so nothing in it can depend on one.</summary>
+    [Fact]
+    public void TheEncodingHoldsNoStrings()
+    {
+        const BindingFlags all = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+        var encoding = typeof(Structure).Assembly.GetTypes()
+            .Where(t => t.Namespace == typeof(Structure).Namespace)
+            .Where(t => t != typeof(Lens) && t != typeof(OdvNotation))
+            .Where(t => t.DeclaringType != typeof(Lens) && t.DeclaringType != typeof(OdvNotation));
+        var holders = encoding
+            .SelectMany(t => t.GetFields(all).Where(f => Stringy(f.FieldType)).Select(f => $"{t.Name}.{f.Name}"))
+            .ToArray();
+
+        Assert.Empty(holders);
+    }
+
+    private static bool Stringy(Type type) =>
+        type == typeof(string) ||
+        (type.IsArray && Stringy(type.GetElementType()!)) ||
+        (type.IsGenericType && type.GetGenericArguments().Any(Stringy));
+}
+
+internal static class Stores
+{
+    /// <summary>A structure whose planes 0 … capacity − 1 hold a unary count.</summary>
+    public static (Structure Structure, Field Count) Store(int positions, int capacity) =>
+        (new Structure(capacity, positions), new Field(Shape.Unary(capacity), Enumerable.Range(0, capacity).ToArray()));
+
+    /// <summary>A two-role law from lane or position 0 of one surface to position 0 of a structure.</summary>
+    public static Wiring Wire(TransitionLaw law, Surface from, Structure to)
+    {
+        var wiring = new Wiring(law,
+            new Binding(from, Enumerable.Range(0, law.Roles[0].Bits).ToArray()),
+            new Binding(to, Enumerable.Range(0, law.Roles[1].Bits).ToArray()));
+        wiring.Add(0, 0);
+        return wiring;
+    }
+}

@@ -92,8 +92,10 @@ The general [workspace contract](../../Gojo/Workspace/README.md) remains
 documented direction with narrow implemented relatives; this consolidation
 does not turn it into a complete workspace runtime.
 
-[EncodingB](../../Gojo.EncodingB/README.md) remains exploratory. Its current
-semantic port descriptions, named identities, and fixed site ownership limits
-need rework under the canonical rules. Its experiments provide useful evidence
-for future promotion, but this core does not depend on that project or claim
-that its substrate is already interchangeable with the native kernel.
+[EncodingC](../../Gojo.EncodingC/README.md) replaced EncodingB and remains
+exploratory. It is a lean bit-level substrate. Ports describe nothing. Copying
+and moving show in a connection's law. Nothing is identified by a stored name.
+Structures have any size. It borrows some ideas from this core but no code.
+Its experiments provide useful evidence for future promotion, but this core
+does not depend on that project or claim that its substrate is already
+interchangeable with the native kernel.
