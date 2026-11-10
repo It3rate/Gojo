@@ -4,7 +4,9 @@ Status: **documented direction**. There is no `Gojo.Workspace` code yet.
 Narrow implemented relatives are listed under [Existing footholds](#existing-footholds).
 The November 2026 selection decision is in canonical prompt §7.1. The
 exploratory bit-level form is in §5.14 of the
-[encoding consolidation note](../docs/GojoEncodingConsolidation-2026-11.md).
+[encoding consolidation note](../docs/GojoEncodingConsolidation-2026-11.md),
+and a running version is the rung in
+[`Gojo.EncodingC`](../../Gojo.EncodingC/README.md#rungs-workspaces).
 
 `Gojo.Workspace` is reserved for bounded, experimental Gojo structures. A
 workspace is not the whole world and not a detached DTO snapshot. It is a
@@ -81,6 +83,21 @@ written as a bag of indexes:
 | Three connections deep | Adjacency and a bounded traversal |
 | Everything in an area | A spatial read in a chosen frame |
 
+### Selecting without listing
+
+Selecting thousands of members one by one would be a problem of its own, and
+attention moves faster than computation. So selection works like resolution:
+
+- **Coarse first.** Select a whole area, then add finer layers that select
+  or set aside details. Later layers override earlier ones: "all of it", "not
+  this region", "except this detail". A coarse "all" can follow its source as
+  it grows.
+- **By use.** A relation applied to something selected brings in what it
+  touches, one step further from the request each time, up to a bounded
+  reach such as three steps. A relation that would go further, or into an
+  area set aside, does not run and is reported. Attention spreads from a
+  request and stops.
+
 Running a structure to produce a selection, by following its adjacency outward
 from seeds, is the most primitive execution. It only grows the view, so it does
 not depend on order. Narrowing what is possible inside the view is its
@@ -110,8 +127,13 @@ world heat carrier
   -> provenance link back to world heat
 ```
 
-Copying is not required up front. A workspace participant has one of four
-provenance classes:
+Copying is not required up front, and by default nothing is copied. A
+workspace reads its source live and copies a participant only when it changes
+it, like a rung over the source. It costs what it changes, not what it sees,
+so many can be open at once: one per loaded concept, or several suppositions
+from one start to compare. A live read may be slightly out of date; the
+workspace keeps running and later reads correct it. A workspace participant
+has one of four provenance classes:
 
 | Class | Meaning |
 | --- | --- |
@@ -255,6 +277,7 @@ that produced it.
 | House seam experiment ([SeamLadders](../../experiments/PrimitiveMeasure/SeamLadders.md)) | Face ranges over a shared edge catalogue; open and completed views as windows over signed uses |
 | `NativePreviewWorkspace` ([negotiation](../../experiments/ConstructionMachines/Negotiation.md)) | Tries candidates in a private preview before the real machine changes; uses an isolated preview for attached worlds, because reversing a transfer is not an undo |
 | `LocalTrialMachine` ([partial decisions](../../experiments/QualitativeFrieze/PartialDecisionStudy.md)) | A trial acts on the world only after an explicit quiet grant |
+| `Rung` ([EncodingC](../../Gojo.EncodingC/README.md#rungs-workspaces)) | Live reference with copy on write; selection by layers and by use with a reach; prediction, sibling comparison, partial revert and validated partial commit; introduced positions adopted on commit |
 
 ## First Test: The House
 

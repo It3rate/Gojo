@@ -20,7 +20,9 @@ a lean, bit-level encoding of structures that compute: positions, bits, small
 tables and declared order, nothing more. Its README maps the roadmap steps
 below to what it covers. It replaced `Gojo.EncodingB`, the first
 implementation of §5, §6, §5.13 and the workspace contract, which was deleted
-after the correction below. EncodingB is in git history.
+after the correction below. EncodingB is in git history. EncodingC's workspace
+is now a rung that reads its source live and copies only what it changes, and
+a machine can be saved as bits and restored without its builders.
 
 **Corrected 10 November 2026.** Two parts of §5 are superseded. The tile is a
 layout, not a unit of meaning (§5.1). Ports carry an uninterpreted medium and

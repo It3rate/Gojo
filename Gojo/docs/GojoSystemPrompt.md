@@ -936,6 +936,27 @@ transfer still accounts for all participation in its scope, including
 participants that a focus did not select. A retained selection is ordinary
 structure: it can be reused, transformed, or itself selected.
 
+Unselected is the nearest thing to nothing, as a null is in a program. A zero
+read is a sample: it keeps its unit and its context. Zero apples is still about
+apples; not thinking about apples is unselected. Even a count is exact only
+within the sampling its concept declares. One apple minus one apple is zero
+apples because both samples sit well inside what "apple" admits, and the read
+keeps that condition. What is unselected can be hinted at only through what is
+selected.
+
+Attention moves faster than computation, so selection must be cheap and
+dynamic. Select coarse first, as resolution does: a whole area, then finer
+layers that add or set aside details, never a list of individual members. Use
+can also select: a relation applied to something selected brings in what it
+touches, up to a bounded distance from the request. A workspace reads its
+source live by reference and copies only what it changes. Many workspaces can
+then hold different suppositions from one start, to be compared, dropped,
+remembered for their usefulness, or committed in part. A live read may be
+slightly out of date; the system keeps running, and later reads correct it.
+A commit still checks that nothing it would overwrite has moved. Gojo is
+closer to a training loop with a moving focus than to a solver that stops at
+an answer.
+
 ### 7.2 Transform And Application Are Different
 
 A reusable transform carries input ports, operation structure, output ports,
@@ -1148,6 +1169,13 @@ optimization must not shape the concept.
 - Packing sites into machine words, lanes or blocks is an execution layout for
   one substrate. It must not become a unit of ownership, basis, connection or
   meaning.
+- Primitives are coarse. A primitive read or operation needs only a few
+  distinctions, and an implementation may bound how many one operation tells
+  apart, refusing more rather than silently merging them. This bounds the
+  resolution of one operation, not the size of a structure. Finer resolution
+  is built from ladders of coarse rungs, an evolved capability, never by
+  widening a primitive. Primitives aim at the useful most of the information,
+  not at proof-level exactness.
 - An encoding is small and bit-level. Identity is position and connection,
   never a stored name. Names, labels and descriptions are an optional external
   lens for people and diagnostics: the encoding neither stores nor requires
@@ -1264,6 +1292,8 @@ Before finishing a change, ask:
   describing what it passes?
 - Would the concept survive on another substrate, with no name stored and no
   fixed size that is really a layout choice?
+- Is selection made coarse first, without listing members, and does a
+  workspace copy only what it changes?
 - Can multiple candidates or lower-resolution reads remain valid?
 - Is repeated behavior inspectable as controller, transition, feedback, and
   timeline?

@@ -649,6 +649,68 @@ deleted. Its goal is a lean bit-level encoding: positions, bits, small tables
 and declared order, with no stored names, no fixed sizes and no descriptions
 on ports.
 
+## Live Workspaces, Coarse Selection And Sampled Zero, November 2026
+
+An external review of `Gojo.EncodingC`, and the discussion of it, added four
+points.
+
+**Unselected is the only nothing.** The user stated that the system has no
+exact zero, as it has no exact anything and no infinity: everything is finite.
+What programs treat as an exact zero is closer to a null, and the nearest Gojo
+equivalent is "unselected". That may mean the thing would be found by looking,
+or that it does not exist; only what is selected can hint which. A zero read is
+different: like zero degrees, it is a value that keeps its unit and context.
+For count nouns, a concept such as "apple" is composed from properties (colour,
+size, taste, use), and a count samples well inside that distribution to be
+sure of one whole apple. One apple minus one apple is zero apples, still
+conditional on that sampling. One apple minus one apple blossom is fuzzy,
+especially as the blossom becomes an apple. Section 7.1 now says this beside
+the existing rule that a selected zero still participates. Operations are not
+expected to be proof-level: a slightly wrong, slightly stale or imperfectly
+reversible result is not fatal, because uncertainty is first class. Real bugs,
+such as a law that makes units, still are.
+
+**Workspaces read live and copy what they change.** A workspace should not copy
+what it selects. It references the source and puts a layer on top that is
+mutable as needed: a ladder rung over the source. Reading live suits a solver
+that never stops but moves its attention; what it reads out of date it has
+many chances to correct. The workspace can then be deleted, remembered
+statistically, copied back to different degrees, or used to create new
+structure, and it can be compared with the source or with another workspace
+from the same start. There may be many, perhaps one per loaded concept.
+Section 7.1 records this. The user framed the whole as closer to a training
+loop, or a recursive self-improvement loop with dynamic focus, than to an
+equation solver.
+
+**Selection is coarse first, and by use.** Selecting thousands of things one by
+one would be a problem of its own. Selection works like resolution: a coarse
+selection of a whole area, then finer selections of details to add or ignore.
+Use also selects: referencing something, even in an equation, brings it in,
+limited by a distance such as three steps from the request. Section 7.1
+records both.
+
+**Primitives are coarse.** A 64-value limit on what one uncertainty read tells
+apart is acceptable: no primitive operation needs more, most work happens at a
+much coarser level, and that is much of the saving. A larger capacity is an
+advanced system that evolves from the primitives, not one of them. The aim is
+roughly the useful 80 percent of the information. Section 9.6 now
+distinguishes this bound on one operation's resolution from the rule that no
+quota bounds a structure's size.
+
+`Gojo.EncodingC` was changed to match. Its workspace became a rung: a surface
+over a structure or another rung that reads unwritten positions live, copies
+a whole position on first write, selects by layers and by use with a unary
+reach, and commits all or part after validating everything first. Its ODV
+addition now defaults to the detection contract, and the exact-zero table
+discussed above is a contract a reader must ask for by name. Every detection
+threshold gives the same table. Learning keeps only a few samples
+per pair and marks exclusions that come only from not seeing a pair. The
+user's direction for learning is to record history briefly, then compress it
+into prediction by simple structure, such as an operation that stretches a
+value by two and is compared with the next input. A transport format now saves
+a machine as bits and restores it without its builders, with the same
+behaviour and the same unresolved states.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

@@ -22,7 +22,7 @@ wired. Concretely:
   - run operations;
   - branch and merge flow;
   - switch and change their own structure;
-  - copy a selection into a workspace and change it there;
+  - work in rungs: live views of a structure that copy only what they change;
   - learn laws from outcomes.
 
 At this level everything stays primitive and minimal. Higher-level concepts are
@@ -49,6 +49,11 @@ of what something means.
   - a binary code has up to 65,536 values;
   - a law table has up to 4,194,304 bits, so it can be checked exhaustively
     when it is made.
+
+  One bound is deliberate: a support or a projection tells apart at most 64
+  values, and refuses more instead of silently merging value 64 into value 0.
+  That bounds one primitive read, not a structure. Primitives are coarse
+  (canonical prompt §9.6); finer resolution comes from ladders of coarse rungs.
 - **No descriptions on ports.** A port is ordered lanes and planes. It carries
   no unit, type, value names, law hashes or accounting class (canonical prompt
   §4.6).
@@ -66,14 +71,16 @@ of what something means.
 | --- | --- | --- |
 | Plane | [`Plane`](Substrate/Plane.cs) | A bit per position. State, selections, lane sets and supports are all planes |
 | Layout | [`Shape`](Substrate/Shape.cs), [`Field`](Substrate/Field.cs), [`PackedInts`](Substrate/PackedInts.cs) | How a value sits in bits (binary or unary), which planes hold it, and references packed at the width they need |
+| Surface | [`Surface`](Substrate/Surface.cs) | What a law's role binds to: a structure, a port or a rung. Every read and write goes through it |
 | Structure | [`Structure`](Substrate/Structure.cs) | Positions and planes, constant planes, a live plane, version and epoch |
 | Port | [`Port`](Substrate/Port.cs) | Ordered lanes onto an owner's positions and an ordered list of its planes |
 | Law | [`RelationLaw`](Laws/RelationLaw.cs), [`TransitionLaw`](Laws/TransitionLaw.cs), [`Accounting`](Laws/Accounting.cs) | Tables of admitted tuples or transitions, with promises checked when the table is made |
 | Wiring | [`Wiring`](Flow/Wiring.cs), `Binding` | A law bound to rows over structures and ports. Topology is kept apart from rule |
 | Engine | [`Engine`](Flow/Engine.cs), [`Unary`](Flow/Unary.cs), [`Flows`](Flow/Flows.cs) | Steps wirings in waves; units enter from outside; stock laws for moving |
-| Workspace | [`Workspace`](Workspaces/Workspace.cs), [`Supports`](Workspaces/Supports.cs), [`Selections`](Workspaces/Selections.cs) | A selection copied into its own structure, validated writeback, and possible-value planes |
+| Rung | [`Rung`](Workspaces/Rung.cs), [`Supports`](Workspaces/Supports.cs), [`Selections`](Workspaces/Selections.cs) | A workspace: a live view with copy on write, selection by layers and by use, validated partial commits; and possible-value planes |
 | Learning | [`LearnedTable`](Learning/LearnedTable.cs) | A transition table learned from what happened, crystallized into a law |
 | Measure | [`OdvWord`, `Odv`](Measure/Odv.cs) | The three-bit ODV word, its planes and its arithmetic as laws |
+| Transport | [`Transport`](Transport/Transport.cs) | A machine as bits, restored without the code that built it |
 | Lens | [`Lens`, `OdvNotation`](Lens/Lens.cs) | Names and notation for people, outside the encoding |
 
 ## Where the bits are
@@ -82,7 +89,10 @@ of what something means.
 holds:
 - one plane per stored plane, the length of its structure;
 - a *constant plane* for anything the whole structure shares, held as a single
-  bit and never per position (ODV orientation is one);
+  bit and never per position (ODV orientation is one). It is positional, like
+  the core's buckets: belonging to the structure gives a position the bit, so
+  everything in it turns together, and turning one word means moving it into
+  a structure that faces the other way;
 - a live plane;
 - two counters: `Version` advances on every state change, and `Epoch` on every
   structural one.
@@ -124,22 +134,39 @@ repacked. Port lanes are stored the same way.
   structure reorients with one constant flip and `D ^= live`.
 - All eight words pack as `88 C6 FA`.
 - `Odv.Addition(threshold)` derives addition by enumerating a threshold reader:
-  - Threshold 1 is the exact-zero contract, the historical table.
-  - Threshold 2 or more is the detection contract. It widens six ordered pairs:
-    `+0 + +0 → {+0, +?}`, `−0 + −0 → {−0, −?}`, and the four mixed pairs
-    `(+0, −?)`, `(−?, +0)`, `(−0, +?)`, `(+?, −0)`.
+  - The default is the detection contract, under which an undetectable word
+    is still an operand. Every threshold from 2 up gives the same table, so
+    detection is one contract. Against the exact-zero table it widens six
+    ordered pairs: `+0 + +0 → {+0, +?}`, `−0 + −0 → {−0, −?}`, and the four
+    mixed pairs `(+0, −?)`, `(−?, +0)`, `(−0, +?)`, `(+?, −0)`.
+  - `Odv.ExactZero` (threshold 1) is the historical contract that reads
+    undetectable as a hidden zero. A reader has to ask for it.
   - One position read twice admits only diagonal tuples. So `X + X`, with X
     either `+?` or `−?`, excludes zero.
+- A zero read is a sample, not nothing: the word keeps its orientation and its
+  place in the computation. Nothing is what is not selected.
 
-**Workspace.** The workspace keeps three things:
-- its own structure, with the same planes;
-- a map back to the source, packed, with 0 marking an introduced position;
-- a copy of the bits it read.
-
-The commit rule compares that copy with the source.
+**Rung.** A rung keeps, per plane it has written, three planes over its
+positions: which bits it holds, its value for them, and the source bits they
+replaced. Positions it has not written cost nothing. It also keeps:
+- its selection, as a short list of layers (an area plane or "all", and a
+  keep-or-ignore bit);
+- a unary count per position brought in by use: how many steps are left;
+- packed references for introduced positions (0 while a candidate, s + 1 once
+  adopted as source position s);
+- a packed parent per position for changes made together.
 
 **Supports.** One plane per value. Every value set is open, one is settled,
-none is a contradiction.
+none is a contradiction. "Every value" means every value of a declared, finite
+set; a support says nothing about values outside it.
+
+**Transport.** A machine saves as one run of bits: structures (plane flags,
+live plane, stored planes, ports), laws (role shapes, table bits, accounting),
+and wirings (law, bindings, live rows, and each role's references packed at
+the width they need), in the engine's order. Whole numbers are Elias gamma
+codes of n + 1, so 0 takes one bit. There are no names, headers or fixed
+widths; a structure is identified by its place in the order. The passage
+chain of five positions and two rows is 25 bytes, a third of it the table.
 
 ## Copying and moving
 
@@ -151,10 +178,16 @@ the law a receiver wires to it:
 - A role the law changes is **written**:
   - Writing a structure's own positions is that structure's business.
   - Writing *through a port* reaches into another structure. It is allowed only
-    when the law's accounting puts the role in a preserved sum, so what leaves
-    there arrives somewhere the law also writes. That is a move, and nothing can
-    be made or destroyed in another structure. A law that would drain a port
-    without accounting for it is refused when it is wired.
+    when the law's accounting puts the role in a preserved sum of positive
+    amounts, so what leaves there arrives somewhere the law also writes. That
+    is a move, and nothing can be made or destroyed in another structure. A
+    law that would drain a port without accounting for it is refused when it
+    is wired. A sum with a zero or negative weight is still a promise, but
+    not conservation, and does not count.
+- **One bit is one position.** References are live, so a port's owner can move
+  a lane after a row was wired. A row whose roles now meet at a bit one of
+  them writes would let the law count one thing twice. It does not run, and
+  it is reported in `WiringStep.Aliased` until the lane moves again.
 
 Different receivers may take the same flow in their own terms. In
 `TwoReceiversCanTakeTheSameFlowInTheirOwnTerms`, an "eye" reads the light by
@@ -171,6 +204,11 @@ reference while a "body" takes it as units of heat.
   so running wirings one after another in declared order gives exactly the
   result of running each wave at once. `EngineStep.Waves` reports which wirings
   could have run together.
+
+Each row's before and after are read around its own wave. A unit that runs
+down a chain in one step is then recorded as a handoff at each row, not as a
+unit destroyed at the first row and made at the last, which is what a
+learner would otherwise learn.
 
 Declared order is structure, recorded and replayable. It is not a hidden
 priority, and it is what stops two takers from both having one unit
@@ -204,25 +242,49 @@ is left to whatever evolves the structures.
 
   A port's owner can move what a lane shows, and every connection follows,
   because connections hold lane numbers.
-- **Through a workspace.** Introduced positions are adopted into the source on
-  commit.
+- **Through a rung.** Values, and introduced positions, reach the source when
+  a rung commits.
 
-## Workspaces
+## Rungs (workspaces)
 
-A structure holds what is. A workspace holds what is noticed, supposed or
-attempted:
-- **A copy.** `new Workspace(source, selection)` copies the selected positions
-  into a structure of its own, and laws run on it like on any structure.
-- **Mapping.** `Map(wiring)` copies the source rows whose positions are all
-  selected. A row that reaches an unselected position cannot run there: the law
-  would see only part of what it accounts for. It is reported as missing.
-- **Commit.** `Commit()` writes back only if nothing the workspace read has
-  changed in the source. Otherwise it writes nothing and returns the stale
-  positions.
-- **Introduced positions.** A position introduced in the workspace is a
-  candidate. It is never read as evidence about the source, and it is added to
-  the source on commit.
-- **Prediction.** A workspace that is never committed is a prediction.
+A structure holds what is. A rung holds what is noticed, supposed or attempted.
+
+- **Reference first.** `new Rung(source)` copies nothing. Every position it has
+  not written reads the source as the source is now, so a rung sees the world
+  keep moving. A live read can be slightly out of date; the system keeps
+  running and later reads correct it.
+- **Copy on write.** Writing a position copies the whole position in, every
+  plane but the constants, so a count spread over several planes is never half
+  the rung's and half the source's. A rung costs what it changes, not what it
+  sees, so many can be open at once.
+- **Laws run unchanged.** A rung is a surface, so a wiring binds to it like to a
+  structure. `rung.Apply(wiring)` runs it; a law run in a rung writes only the
+  rung.
+- **Selection, coarse to fine.** `SelectAll()`, `Select(area)` and
+  `Ignore(area)` add layers; later layers override earlier ones. Nobody lists
+  positions. "All" follows the source as it grows.
+- **Selection by use.** A row that touches a selected position and unselected
+  ones brings those in when it runs, one step further from the request, up to
+  the rung's reach (three by default). A row that would go further, or into an
+  ignored area, does not run and is returned in `RungStep.Beyond`.
+- **Constants** are read by reference and cannot be changed in a rung. Every
+  position of the structure shares them.
+- **Leaving a rung:**
+  - *Drop it.* Nothing in the source changed.
+  - *Compare it.* `Changes()` is where it reads differently from the source.
+    Checked after the source has moved on, that is how far a prediction
+    missed (`APredictionIsARungComparedWithWhatTheSourceThenDid`). `Differs`
+    compares two sibling rungs over one source.
+  - *Revert part of it.* The positions read the source live again.
+  - *Commit part or all of it.* Everything is checked before anything is
+    written. A position whose source moved or was retired since it was copied
+    is stale, and a stale commit writes nothing. Changes one row made together,
+    such as both ends of a move, commit together or not at all (`Split`).
+  - *Adopt what it introduced.* `Introduce()` adds a candidate position with no
+    source. It is always selected, never read as evidence about the source,
+    and becomes a source position on commit.
+- **Rungs over rungs.** A rung over a rung sees its parent's changes live, and
+  commits into the parent, not the structure underneath.
 
 ## Learning
 
@@ -232,6 +294,15 @@ three ways:
 - **unsupported:** its before-state was seen often enough without it;
 - **unknown:** otherwise. Unknown pairs keep predictions open rather than
   guessed.
+
+History is kept small: counts, and the last few ticks that witnessed each pair.
+"Unsupported" is a rule of thumb, not proof. A crystallized law marks the pairs
+it left out only for not being seen (`Crystallized.Unsupported`), and the table
+keeps counting, so a later witness admits them again.
+
+The intended next step is prediction by structure: record a little history,
+then let a simple rule, such as an operation that stretches a value by two and
+is compared with the next input in a rung, stand in for the table.
 
 Once nothing is unknown, the table crystallizes into a law. That law is checked
 against the accounting it is asked to keep, like any authored law. A table that
@@ -243,19 +314,23 @@ run four times, and the learned table equals `Flows.Passage` bit for bit.
 
 | Kind | Where it lives |
 | --- | --- |
-| Not selected | Outside the workspace's selection plane: no claim either way |
+| Not selected | Outside a rung's selection: no claim either way. The nearest thing to nothing |
+| Ignored | A rung's ignore layer; use never brings it in |
 | Open / competing | A support plane per value; more than one set |
 | Contradiction | A support with no value set |
 | Not a code | `WiringStep.Unadmitted`: the bits stay as they are and are reported |
 | Several possible next states | `WiringStep.Ambiguous`: never picked from |
 | Retired | `WiringStep.Skipped` |
+| Aliased | `WiringStep.Aliased`: roles that meet at a written bit, after a lane moved |
 | Remainder / blocked | What did not move stays where it was; the lane is unchanged |
 | Overflow / underflow | Returned by `Unary.Add` and `Unary.Remove` as planes |
-| Stale | `Commit.Stale`; nothing is written |
-| Missing scope | The `Missing` rows from `Workspace.Map` |
-| Introduced | `Workspace.Introduced`; never source evidence |
+| Stale | `RungCommit.Stale`; nothing is written |
+| Split | `RungCommit.Split`: changes made together, asked for in part |
+| Beyond reach | `RungStep.Beyond`: rows that would reach too far from the request |
+| Introduced | `Rung.Introduced`; never source evidence |
 | Unknown law rows | `LearnedRead.Unknown`; predictions through them stay open |
-| Prediction | `TransitionLaw.PredictJoint`, or a workspace never committed |
+| Left out for not being seen | `Crystallized.Unsupported` |
+| Prediction | `TransitionLaw.PredictJoint`, or a rung compared with its source after the source moves |
 | Lossy read | A relation law such as presence over a count. It bounds what it dropped but cannot recover it (`ACoarseReadIsARelationAndCannotRecoverWhatItDropped`) |
 
 ## Where the ideas came from
@@ -312,9 +387,14 @@ run four times, and the learned table equals `Flows.Passage` bit for bit.
 ## Not built
 
 - **Laws that edit topology.** Positions, rows and lanes change through host
-  calls, which a workspace commit can carry. No law writes a reference yet.
-- **A general workspace across several structures.** A workspace copies a
-  selection of one structure.
+  calls; a rung commit can add positions it introduced. No law writes a
+  reference yet.
+- **A rung across several structures.** A rung views one structure or rung.
+- **Supports over a rung.** Supports read a structure.
+- **Relation wirings in a saved machine.** Transport saves an engine, which runs
+  transition laws.
+- **Prediction structures that replace a learned table**, and a counter that
+  adopts a rung after it keeps predicting well.
 - **The full tension model:** positive and negative tension, an absorbed
   magnitude, an absorb law, and accounted loans.
 - **Replay from checkpoints, energy tiers and missing-route witnesses.**
@@ -331,7 +411,7 @@ run four times, and the learned table equals `Flows.Passage` bit for bit.
 | Step | Here |
 | --- | --- |
 | R1 substrate contract | Planes, laws with accounting, ODV and the passage law. The decoder is replaced by the lens. Gap balancing is not ported |
-| R2 house workspaces | Workspace copy, missing rows, stale and introduced commits. The house seam example is not ported |
+| R2 house workspaces | Rungs: live reference with copy on write, layered and by-use selection, stale, split and introduced commits, sibling comparison. The house seam example is not ported |
 | R3 scoped supports | Per-position supports and narrowing (U0). U1–U3 are dropped |
 | R4 semiring reads and zero contracts | Exact and detection ODV contracts. Semiring reads are dropped |
 | R5 tension and energy | Units enter through `Unary` and move through laws. Energy tiers are dropped |
@@ -354,8 +434,9 @@ limits and tests.
 | File | What it shows |
 | --- | --- |
 | `SubstrateTests` | Planes of any length; growth and retirement; references at the width they need; constant planes; shapes; units entering as units, with overflow; the encoding holds no strings |
-| `LawTests` | The passage bytes and LUT6 value; accounting refusal with the breaking pair; 130 lanes in one step; unary moves; bits that are not codes; one position used twice; a coarse read as a relation; tables compared by content; joint prediction |
-| `FlowTests` | Ports as lanes and planes, and rebinding; references to one sender from many readers; writing through a port only as a move; one-to-one uncalibrated moves with a remainder; two receivers interpreting one flow; two takers and one unit; branches and merges; self-switching flow; a calibrator structure; a wired rate; retired positions |
-| `OdvTests` | Packing `88 C6 FA`; the two zero contracts; one position read twice; reorientation; addition narrowed across 100 rows; threshold calibration |
-| `WorkspaceTests` | Copy and commit; stale commits; rows outside the selection; introduced positions adopted; supports to a fixed point and contradictions; selections from structure |
-| `LearningAndLensTests` | Learning the passage law; refusing a learned table that makes units; unknown pairs staying open; a lens that the encoding never reads |
+| `LawTests` | The passage bytes and LUT6 value; accounting refusal with the breaking pair; 130 lanes in one step; unary moves; bits that are not codes; one position used twice; a coarse read as a relation; tables compared by content; joint prediction; read-only views; at most 64 values per read |
+| `FlowTests` | Ports as lanes and planes, and rebinding; references to one sender from many readers; writing through a port only as a move, and only with positive weights; a moved lane aliasing a row; one-to-one uncalibrated moves with a remainder; two receivers interpreting one flow; two takers and one unit; branches and merges; self-switching flow; a calibrator structure; a wired rate; retired positions |
+| `OdvTests` | Packing `88 C6 FA`; detection as the default and as one contract; exact zero by request; one position read twice; reorientation; addition narrowed across 100 rows; threshold calibration |
+| `RungTests` | Live reads and copy on write; stale and retired positions refusing a commit; changes made together; coarse-to-fine selection; selection by use up to a reach; sibling rungs and rungs over rungs; constants by reference; a prediction checked against the source; introduced positions adopted; supports to a fixed point; selections from structure |
+| `TransportTests` | A machine restored from bits running step for step with the same unresolved parts; 25 bytes for the passage chain; rungs refused; trailing bits refused |
+| `LearningAndLensTests` | Learning the passage law; evidence read around each wave; a learned exclusion undone by a later witness; refusing a learned table that makes units; unknown pairs staying open; a lens that the encoding never reads |
