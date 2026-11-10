@@ -56,15 +56,11 @@ public sealed class TransitionLaw : Law
         return BitAt(before + StateCount * after);
     }
 
-    public IReadOnlyList<int> Afters(int before)
-    {
-        afters ??= Enumerable.Range(0, StateCount)
-            .Select(b => Enumerable.Range(0, StateCount).Where(a => BitAt(b + StateCount * a)).ToArray())
-            .ToArray();
-        return afters[before];
-    }
+    /// <summary>The after-states a before-state admits. The table bits are the
+    /// law; nothing returned here can change it.</summary>
+    public IReadOnlyList<int> Afters(int before) => Array.AsReadOnly(AftersOf(before));
 
-    public bool IsFunctional => Enumerable.Range(0, StateCount).All(b => Afters(b).Count == 1);
+    public bool IsFunctional => Enumerable.Range(0, StateCount).All(b => AftersOf(b).Length == 1);
 
     /// <summary>Whether some admitted transition changes the role. A role no
     /// transition changes is only read.</summary>
@@ -79,7 +75,7 @@ public sealed class TransitionLaw : Law
     {
         ulong changing = 0;
         for (var before = 0; before < StateCount; before++)
-            foreach (var after in Afters(before))
+            foreach (var after in AftersOf(before))
                 changing |= Roles[role].Encode(Tuple(before)[role]) ^ Roles[role].Encode(Tuple(after)[role]);
         return changing;
     }
@@ -93,7 +89,7 @@ public sealed class TransitionLaw : Law
         if (joint.Length != StateCount) throw new ArgumentException($"Supply {StateCount} joint planes.", nameof(joint));
         var next = Enumerable.Range(0, StateCount).Select(_ => new Plane(joint[0].Length)).ToArray();
         for (var before = 0; before < StateCount; before++)
-            foreach (var after in Afters(before))
+            foreach (var after in AftersOf(before))
                 next[after] = next[after].Or(joint[before]);
         return next;
     }
@@ -124,8 +120,8 @@ public sealed class TransitionLaw : Law
         {
             var tuple = Tuple(before);
             for (var r = 0; r < Roles.Count; r++) patterns[r] = Roles[r].Encode(tuple[r]);
-            var candidates = Afters(before);
-            if (candidates.Count == 1)
+            var candidates = AftersOf(before);
+            if (candidates.Length == 1)
             {
                 var after = Tuple(candidates[0]);
                 for (var r = 0; r < Roles.Count; r++) afterPatterns[r] = Roles[r].Encode(after[r]);
@@ -137,9 +133,9 @@ public sealed class TransitionLaw : Law
                     for (var b = 0; b < codes[r].Length; b++)
                         m &= ((patterns[r] >> b) & 1) != 0 ? codes[r][b].Word(w) : ~codes[r][b].Word(w);
                 if (m == 0) continue;
-                if (candidates.Count != 1)
+                if (candidates.Length != 1)
                 {
-                    if (candidates.Count > 1) ambiguous.OrWord(w, m);
+                    if (candidates.Length > 1) ambiguous.OrWord(w, m);
                     continue;
                 }
                 covered.OrWord(w, m);
@@ -153,6 +149,15 @@ public sealed class TransitionLaw : Law
             for (var b = 0; b < next[r].Length; b++)
                 next[r][b] = next[r][b].Or(codes[r][b].And(unchanged));
         return new TransitionStep(next, unchanged.AndNot(ambiguous), ambiguous);
+    }
+
+    private int[] AftersOf(int before)
+    {
+        if ((uint)before >= (uint)StateCount) throw new ArgumentOutOfRangeException(nameof(before));
+        afters ??= Enumerable.Range(0, StateCount)
+            .Select(b => Enumerable.Range(0, StateCount).Where(a => BitAt(b + StateCount * a)).ToArray())
+            .ToArray();
+        return afters[before];
     }
 
     private static byte[] PackBits(IEnumerable<(int Before, int After)> pairs, IReadOnlyList<Shape> roles)

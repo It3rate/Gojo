@@ -21,7 +21,7 @@ public sealed class LearningAndLensTests
             table.Witness(step, rows.Live, tick);
         }
 
-        var (law, unknown, violations) = table.Crystallize(Flows.Passage.Accounting);
+        var (law, unknown, violations, _) = table.Crystallize(Flows.Passage.Accounting);
 
         Assert.Equal(0, unknown);
         Assert.Empty(violations);
@@ -42,10 +42,66 @@ public sealed class LearningAndLensTests
             table.Witness(3, 3, tick);
         }
 
-        var (law, _, violations) = table.Crystallize(new Accounting(true, new PreservedSum([0, 1])));
+        var (law, _, violations, _) = table.Crystallize(new Accounting(true, new PreservedSum([0, 1])));
 
         Assert.Null(law);
         Assert.Contains(new Violation(1, 3, 0), violations);
+    }
+
+    /// <summary>A unit runs down a chain in one step: row (0, 1, 2) hands it to
+    /// position 2, and row (2, 3, 4) runs in the next wave and hands it on.
+    /// Each row's evidence is read around its own wave, so both rows did the
+    /// same thing, a handoff. Read around the whole step instead, the first row
+    /// would seem to destroy a unit and the second to make one, and a structure
+    /// learning from that would learn something that never happened.</summary>
+    [Fact]
+    public void EachRowsEvidenceIsReadAroundItsOwnWave()
+    {
+        var chain = new Structure(2, 5);
+        var rows = new Wiring(Flows.Passage, new Binding(chain, 0), new Binding(chain, 1), new Binding(chain, 0));
+        rows.Add(0, 1, 2);
+        rows.Add(2, 3, 4);
+        chain.Write(0, 0, true);
+        chain.Write(1, 1, true);
+        chain.Write(1, 3, true);
+        var table = new LearnedTable(Flows.Passage.Roles);
+
+        var step = rows.Apply();
+        table.Witness(step, rows.Live, 0);
+
+        Assert.Equal(2, step.Waves.Count);
+        Assert.True(chain.Read(0, 4));
+        Assert.Equal(new[] { 3, 3 }, step.Before);
+        Assert.Equal(new[] { 6, 6 }, step.After);
+        Assert.Equal(LearnedRead.Admitted, table.Read(3, 6));
+        Assert.Equal(2, table.Observations);
+    }
+
+    /// <summary>A pair never seen after its before-state was seen four times is
+    /// left out of the crystallized law, and the law says it was left out for
+    /// that reason only. The table keeps counting: one later witness admits it.
+    /// History stays small, the last few ticks per pair.</summary>
+    [Fact]
+    public void APairLeftOutForNotBeingSeenIsARuleOfThumbThatALaterWitnessUndoes()
+    {
+        var table = new LearnedTable([Shape.Bit]);
+        for (var tick = 0; tick < 6; tick++)
+        {
+            table.Witness(0, 0, tick);
+            table.Witness(1, 1, tick);
+        }
+
+        var first = table.Crystallize(Accounting.None);
+
+        Assert.False(first.Law!.Admits(0, 1));
+        Assert.Equal(Plane.Of(4, 1, 2), first.Unsupported);
+        Assert.Equal(new long[] { 2, 3, 4, 5 }, table.WitnessesOf(0, 0));
+
+        table.Witness(0, 1, 6);
+        var second = table.Crystallize(Accounting.None);
+
+        Assert.True(second.Law!.Admits(0, 1));
+        Assert.Equal(Plane.Of(4, 1), second.Unsupported);
     }
 
     [Fact]

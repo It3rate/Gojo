@@ -20,7 +20,7 @@ public sealed class Field
 
     public Shape Shape { get; }
 
-    public IReadOnlyList<int> Planes => planes;
+    public IReadOnlyList<int> Planes => Array.AsReadOnly(planes);
 
     public static Field Bit(int plane) => new(Shape.Bit, plane);
 

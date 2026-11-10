@@ -29,13 +29,26 @@ public sealed class Port : Surface
 
     internal override bool ThroughPort => true;
 
-    internal override (Structure Structure, int Plane, int Position) Resolve(int index, int plane)
+    public override bool IsLive(int lane) => (uint)lane < (uint)Count && Owner.IsLive(lanes[lane]);
+
+    /// <summary>Reads one bit through a lane: what the owner exposes there now.</summary>
+    public override bool Read(int plane, int lane) => Owner.Read(OwnerPlane(plane), lanes[lane]);
+
+    internal override bool IsConstant(int plane) => Owner.IsConstantPlane(OwnerPlane(plane));
+
+    internal override void Set(int plane, int index, bool value) => Owner.Write(OwnerPlane(plane), lanes[index], value);
+
+    internal override (Surface Home, int Index, int Plane) Bit(int index, int plane) => Owner.Bit(lanes[index], OwnerPlane(plane));
+
+    internal override void ReadKeys(int index, List<(Surface, int)> keys) => Owner.ReadKeys(lanes[index], keys);
+
+    internal override (Surface, int) WriteKey(int index) => Owner.WriteKey(lanes[index]);
+
+    private int OwnerPlane(int plane)
     {
         if ((uint)plane >= (uint)planes.Length) throw new ArgumentOutOfRangeException(nameof(plane));
-        return (Owner, planes[plane], lanes[index]);
+        return planes[plane];
     }
-
-    internal override bool IsConstant(int plane) => Owner.IsConstantPlane(planes[plane]);
 
     internal void SetLane(int lane, int position) => lanes[lane] = position;
 

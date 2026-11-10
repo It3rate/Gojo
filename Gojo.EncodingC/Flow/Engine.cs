@@ -11,7 +11,7 @@ public sealed class Engine
 {
     private readonly List<Wiring> wirings = [];
 
-    public IReadOnlyList<Wiring> Wirings => wirings;
+    public IReadOnlyList<Wiring> Wirings => wirings.AsReadOnly();
 
     /// <summary>Steps run so far.</summary>
     public long Tick { get; private set; }
@@ -27,14 +27,14 @@ public sealed class Engine
     /// <summary>Wirings grouped into waves, by index.</summary>
     public IReadOnlyList<int[]> Waves()
     {
-        var lastWrite = new Dictionary<(Structure, int), int>();
-        var lastTouch = new Dictionary<(Structure, int), int>();
+        var lastWrite = new Dictionary<(Surface, int), int>();
+        var lastTouch = new Dictionary<(Surface, int), int>();
         var waves = new List<List<int>>();
         for (var i = 0; i < wirings.Count; i++)
         {
             var rows = wirings[i].Runnable().Indexes().ToArray();
-            var touched = rows.SelectMany(wirings[i].Sites).Select(s => (s.Structure, s.Position)).Distinct().ToArray();
-            var written = rows.SelectMany(wirings[i].WrittenSites).Distinct().ToArray();
+            var touched = rows.SelectMany(wirings[i].TouchedKeys).Distinct().ToArray();
+            var written = rows.SelectMany(wirings[i].WrittenKeys).Distinct().ToArray();
             var level = 0;
             foreach (var site in touched)
                 if (lastWrite.TryGetValue(site, out var w)) level = Math.Max(level, w + 1);

@@ -128,4 +128,38 @@ public sealed class LawTests
         Assert.False(next[3][0]);
         Assert.True(next[6][1]);
     }
+
+    /// <summary>The table bits are the law. Lists a law or binding hands out are
+    /// views or copies, so nothing outside can make execution disagree with
+    /// the bits.</summary>
+    [Fact]
+    public void WhatALawHandsOutCannotChangeIt()
+    {
+        var afters = Flows.Passage.Afters(3);
+        var binding = new Binding(new Structure(1, 1), 0);
+
+        Assert.IsNotType<int[]>(afters);
+        Assert.Throws<NotSupportedException>(() => ((IList<int>)afters)[0] = 3);
+        Assert.Throws<NotSupportedException>(() => ((IList<int>)Odv.Addition().AdmittedTuples()[0])[0] = 7);
+        Assert.Throws<NotSupportedException>(() => ((IList<int>)binding.Planes)[0] = 0);
+        Assert.Throws<NotSupportedException>(() => ((IList<Invariant>)Flows.Passage.Accounting.Invariants)[0] = new Unchanged(0));
+        Assert.Equal(new[] { 6 }, Flows.Passage.Afters(3));
+    }
+
+    /// <summary>A primitive read needs only a few distinctions. One support or
+    /// projection tells apart at most 64 values, and asking for more is
+    /// refused rather than silently merging value 64 into value 0. A larger
+    /// field is read through a coarser one first.</summary>
+    [Fact]
+    public void OnePrimitiveReadTellsApartAtMost64Values()
+    {
+        var structure = new Structure(7, 1);
+        var sixtyFour = new Supports(structure, new Field(Shape.Binary(64), 0, 1, 2, 3, 4, 5));
+        sixtyFour.Restrict(0, 1UL);
+
+        Assert.Equal(Plane.Ones(1), sixtyFour.Settled);
+        Assert.Throws<ArgumentException>(() => new Supports(structure, new Field(Shape.Binary(65), 0, 1, 2, 3, 4, 5, 6)));
+        var wide = RelationLaw.FromPredicate([Shape.Binary(65)], t => t[0] == 64);
+        Assert.Throws<ArgumentException>(() => wide.Project(0, [ulong.MaxValue]));
+    }
 }

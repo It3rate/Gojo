@@ -4,7 +4,13 @@ namespace Gojo.EncodingC;
 /// bit i set while value v is possible at position i. Nothing extra marks
 /// "unknown": every value possible is open, one is settled, none is a
 /// contradiction. Supports are narrowed by relation laws and never widened by
-/// them.</summary>
+/// them.
+/// <para>"Every value possible" is uncertainty inside a declared, finite set of
+/// values. It says nothing about values outside that set, and it cannot stand
+/// for a domain nobody has declared.</para>
+/// <para>One support tells apart at most 64 values. A primitive read needs far
+/// fewer; a field with more is read through a coarser field first, as a ladder
+/// does, rather than by widening the primitive.</para></summary>
 public sealed class Supports
 {
     private readonly Plane[] values;
@@ -13,6 +19,8 @@ public sealed class Supports
     {
         ArgumentNullException.ThrowIfNull(structure);
         ArgumentNullException.ThrowIfNull(field);
+        if (field.Shape.Size > 64)
+            throw new ArgumentException($"A support tells apart at most 64 values; this field has {field.Shape.Size}. Read it through a coarser field.", nameof(field));
         Structure = structure;
         Field = field;
         values = Enumerable.Range(0, field.Shape.Size).Select(_ => structure.Live).ToArray();

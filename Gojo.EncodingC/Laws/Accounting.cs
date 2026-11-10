@@ -8,10 +8,14 @@ public abstract record Invariant
     public abstract bool Holds(int[] before, int[] after);
 }
 
-/// <summary>Σ weightᵣ · valueᵣ is the same before and after: nothing is made or
-/// lost, only moved. Weights default to one. Unequal weights state a rate, such
-/// as two units taken for one given, which is how a calibration is written when
-/// one is wanted.</summary>
+/// <summary>Σ weightᵣ · valueᵣ is the same before and after. Weights default to
+/// one. With every weight positive this is conservation: a total of amounts,
+/// so what one role gains another must lose, and nothing is made or lost, only
+/// moved. Unequal positive weights state a rate, such as two units taken for
+/// one given, which is how a calibration is written when one is wanted. A zero
+/// or negative weight still makes a promise (a preserved difference, say) but
+/// not conservation: two roles can then grow together, or one can change
+/// without anything paying for it.</summary>
 public sealed record PreservedSum : Invariant
 {
     public PreservedSum(int[] roles, int[]? weights = null)
@@ -20,13 +24,17 @@ public sealed record PreservedSum : Invariant
         if (roles.Length == 0) throw new ArgumentException("Name at least one role.", nameof(roles));
         weights ??= Enumerable.Repeat(1, roles.Length).ToArray();
         if (weights.Length != roles.Length) throw new ArgumentException("One weight per role.", nameof(weights));
-        Roles = roles.ToArray();
-        Weights = weights.ToArray();
+        Roles = Array.AsReadOnly(roles.ToArray());
+        Weights = Array.AsReadOnly(weights.ToArray());
     }
 
     public IReadOnlyList<int> Roles { get; }
 
     public IReadOnlyList<int> Weights { get; }
+
+    /// <summary>Every weight is positive, so the sum is a total that nothing
+    /// can enter or leave without another role paying for it.</summary>
+    public bool Conserves => Weights.All(weight => weight > 0);
 
     public override bool Holds(int[] before, int[] after)
     {
@@ -71,7 +79,7 @@ public sealed class Accounting
     {
         ArgumentNullException.ThrowIfNull(invariants);
         Functional = functional;
-        Invariants = invariants.ToArray();
+        Invariants = Array.AsReadOnly(invariants.ToArray());
     }
 
     /// <summary>Every before-state admits exactly one after-state, so the law
@@ -82,9 +90,10 @@ public sealed class Accounting
 
     public static Accounting None { get; } = new(false);
 
-    /// <summary>The role is part of a preserved sum: what it gains or loses is
-    /// accounted against other roles.</summary>
-    public bool Conserves(int role) => Invariants.OfType<PreservedSum>().Any(sum => sum.Roles.Contains(role));
+    /// <summary>The role is part of a preserved sum of positive amounts: what it
+    /// gains or loses is paid for by other roles. A sum with a zero or negative
+    /// weight does not count.</summary>
+    public bool Conserves(int role) => Invariants.OfType<PreservedSum>().Any(sum => sum.Conserves && sum.Roles.Contains(role));
 
     internal IReadOnlyList<Violation> Check(Law law, int states, Func<int, int, bool> admits)
     {

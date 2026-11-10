@@ -1,34 +1,14 @@
 namespace Gojo.EncodingC;
 
-/// <summary>What a law's role can be bound to: a structure's own positions, or
-/// the lanes of a port another structure exposes. A role on a structure works
-/// inside it. A role on a port works across a boundary, and a law may write
-/// there only by moving what it takes (see <see cref="Wiring"/>).</summary>
-public abstract class Surface
-{
-    private protected Surface()
-    {
-    }
-
-    /// <summary>Positions of a structure, or lanes of a port.</summary>
-    public abstract int Count { get; }
-
-    public abstract int PlaneCount { get; }
-
-    internal abstract bool ThroughPort { get; }
-
-    /// <summary>The structure, plane and position behind a surface index and plane.</summary>
-    internal abstract (Structure Structure, int Plane, int Position) Resolve(int index, int plane);
-
-    internal abstract bool IsConstant(int plane);
-}
-
 /// <summary>Positions and the planes over them. A structure has as many
 /// positions as it needs and grows when it needs more. Each plane holds one bit
 /// per position, or is <em>constant</em>: one bit for every position, stored
-/// once, such as an orientation the whole structure shares. Planes and
-/// positions are numbers. Nothing is named; what a bit means is what the laws
-/// wired to it do with it.
+/// once, such as an orientation the whole structure shares. A constant is
+/// positional, as in the core's buckets: belonging to this structure is what
+/// gives a position the bit, so everything here turns together, and turning
+/// one word means moving it into a structure that faces the other way. Planes
+/// and positions are numbers. Nothing is named; what a bit means is what the
+/// laws wired to it do with it.
 /// <para>Retired positions stay allocated and are never reused, so a reference
 /// to a position never silently changes target. A structure counts every state
 /// change (<see cref="Version"/>) and every structural change
@@ -63,7 +43,7 @@ public sealed class Structure : Surface
 
     public long Epoch { get; private set; }
 
-    public IReadOnlyList<Port> Ports => ports;
+    public IReadOnlyList<Port> Ports => ports.AsReadOnly();
 
     internal override bool ThroughPort => false;
 
@@ -108,7 +88,7 @@ public sealed class Structure : Surface
         StructuralEdit();
     }
 
-    public bool IsLive(int position) => (uint)position < (uint)Count && live[position];
+    public override bool IsLive(int position) => (uint)position < (uint)Count && live[position];
 
     public bool IsConstantPlane(int plane)
     {
@@ -123,7 +103,7 @@ public sealed class Structure : Surface
         return constantValue[plane];
     }
 
-    public bool Read(int plane, int position)
+    public override bool Read(int plane, int position)
     {
         CheckPlane(plane);
         if ((uint)position >= (uint)Count) throw new ArgumentOutOfRangeException(nameof(position));
@@ -164,7 +144,9 @@ public sealed class Structure : Surface
         Version++;
     }
 
-    /// <summary>Changes a constant plane: one bit edit that applies to every position.</summary>
+    /// <summary>Changes a constant plane: one bit edit that applies to every
+    /// position, because they all share it. Only the structure itself does
+    /// this; a rung over it cannot.</summary>
     public void SetConstant(int plane, bool value)
     {
         ConstantValue(plane);
@@ -210,9 +192,15 @@ public sealed class Structure : Surface
         return lane;
     }
 
-    internal override (Structure Structure, int Plane, int Position) Resolve(int index, int plane) => (this, plane, index);
-
     internal override bool IsConstant(int plane) => IsConstantPlane(plane);
+
+    internal override void Set(int plane, int index, bool value) => Write(plane, index, value);
+
+    internal override (Surface Home, int Index, int Plane) Bit(int index, int plane) => (this, index, plane);
+
+    internal override void ReadKeys(int index, List<(Surface, int)> keys) => keys.Add((this, index));
+
+    internal override (Surface, int) WriteKey(int index) => (this, index);
 
     internal void CheckLive(int position)
     {

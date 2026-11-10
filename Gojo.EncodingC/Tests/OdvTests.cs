@@ -22,10 +22,21 @@ public sealed class OdvTests
     [Fact]
     public void UnderTheDetectionContractUndetectableOperandsStillCount()
     {
-        Assert.Equal("{R+0}", Words(Odv.Add(W("R+0"), W("R+0"), threshold: 1)));
-        Assert.Equal("{R+0, R+?}", Words(Odv.Add(W("R+0"), W("R+0"), threshold: 2)));
+        Assert.Equal("{R+0, R+?}", Words(Odv.Add(W("R+0"), W("R+0"))));
+        Assert.Equal("{R+0}", Words(Odv.Add(W("R+0"), W("R+0"), Odv.ExactZero)));
         Assert.Equal("{R+?}", Words(Odv.Add(W("R+?"), W("R+?"))));
         Assert.Equal(0UL, Odv.Add(W("R+?"), W("L+?")));
+    }
+
+    /// <summary>Detection is one contract: every threshold from 2 up gives the
+    /// same addition table. The exact-zero table is a different contract that a
+    /// reader has to ask for.</summary>
+    [Fact]
+    public void DetectionIsOneContractWhateverTheThreshold()
+    {
+        var detection = Odv.Addition();
+        for (var threshold = 3; threshold <= 6; threshold++) Assert.True(Odv.Addition(threshold).SameTable(detection));
+        Assert.False(Odv.Addition(Odv.ExactZero).SameTable(detection));
     }
 
     [Fact]

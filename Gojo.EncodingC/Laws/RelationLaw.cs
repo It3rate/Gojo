@@ -23,8 +23,12 @@ public sealed class RelationLaw : Law
 
     public bool Admits(params int[] values) => BitAt(TupleIndex(values));
 
-    public IReadOnlyList<int[]> AdmittedTuples() =>
-        admitted ??= Enumerable.Range(0, TupleCount).Where(BitAt).Select(Tuple).ToArray();
+    /// <summary>The admitted tuples, as copies. The table bits are the law;
+    /// nothing returned here can change it.</summary>
+    public IReadOnlyList<IReadOnlyList<int>> AdmittedTuples() =>
+        Admitted().Select(tuple => (IReadOnlyList<int>)Array.AsReadOnly(tuple.ToArray())).ToArray();
+
+    private int[][] Admitted() => admitted ??= Enumerable.Range(0, TupleCount).Where(BitAt).Select(Tuple).ToArray();
 
     /// <summary>Narrows supports across lanes in one pass. <paramref name="supports"/>[r][v]
     /// is a lane plane: bit i means "in lane i, role r may still be v". A value
@@ -45,7 +49,7 @@ public sealed class RelationLaw : Law
             next[r] = new Plane[Roles[r].Size];
             for (var v = 0; v < Roles[r].Size; v++) next[r][v] = new Plane(lanes.Length);
         }
-        foreach (var tuple in AdmittedTuples())
+        foreach (var tuple in Admitted())
             for (var w = 0; w < lanes.WordCount; w++)
             {
                 var m = lanes.Word(w);
@@ -64,10 +68,15 @@ public sealed class RelationLaw : Law
     /// <summary>The values role <paramref name="role"/> can take, given a value
     /// mask for every role. <paramref name="references"/>, when given, numbers the
     /// position each role reads; equal numbers are one position read twice and
-    /// must take equal values.</summary>
+    /// must take equal values. A mask tells apart at most 64 values, which is
+    /// as fine as one primitive read needs; a larger role is read through a
+    /// coarser one, or across lanes with <see cref="Narrow"/>.</summary>
     public ulong Project(int role, ReadOnlySpan<ulong> supports, ReadOnlySpan<int> references = default)
     {
         if (supports.Length != Roles.Count) throw new ArgumentException("Supply a support for every role.", nameof(supports));
+        for (var r = 0; r < Roles.Count; r++)
+            if (Roles[r].Size > 64)
+                throw new ArgumentException($"Role {r} has {Roles[r].Size} values; a mask tells apart at most 64. Read it through a coarser role, or use Narrow.", nameof(supports));
         var lanes = new Plane[Roles.Count][];
         for (var r = 0; r < Roles.Count; r++)
         {

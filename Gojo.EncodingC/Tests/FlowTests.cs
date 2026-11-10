@@ -73,6 +73,54 @@ public sealed class FlowTests
         _ = new Wiring(destroys, new Binding(sender, 0, 1, 2), new Binding(receiver, 0, 1, 2));
     }
 
+    /// <summary>A move between two lanes of one port, then the owner points the
+    /// second lane at the first lane's position. The law would see one count as
+    /// two and add a unit to it. The row is reported as aliased and does not
+    /// run; it runs again once the lane moves away.</summary>
+    [Fact]
+    public void ALaneMovedOntoAnotherRolesBitStopsTheRowInsteadOfMakingAUnit()
+    {
+        var (owner, count) = Stores.Store(3, 3);
+        count.Write(owner, 0, 1);
+        var port = owner.Publish([0, 1], [0, 1, 2]);
+        var move = new Wiring(Flows.Move(3, 3), new Binding(port, 0, 1, 2), new Binding(port, 0, 1, 2));
+        move.Add(0, 1);
+
+        owner.Rebind(port, 1, 0);
+        var stopped = move.Apply();
+
+        Assert.Equal(Plane.Of(1, 0), stopped.Aliased);
+        Assert.True(stopped.Changed.None);
+        Assert.Equal(1, count.Read(owner, 0));
+
+        owner.Rebind(port, 1, 2);
+        var runs = move.Apply();
+
+        Assert.True(runs.Aliased.None);
+        Assert.Equal((0, 1), (count.Read(owner, 0), count.Read(owner, 2)));
+    }
+
+    /// <summary>A preserved sum is conservation only when it adds up positive
+    /// amounts. With a zero weight, a role can change with nothing paying for
+    /// it; with a negative one, two roles can grow together. Neither may write
+    /// through a port, though both are still promises a law can keep.</summary>
+    [Fact]
+    public void OnlyASumOfPositiveAmountsLetsALawWriteThroughAPort()
+    {
+        var (sender, _) = Stores.Store(1, 1);
+        var (receiver, _) = Stores.Store(1, 1);
+        var port = sender.Publish([0], [0]);
+        var fills = TransitionLaw.FromFunction(
+            [Shape.Bit, Shape.Bit], s => [s[0], 1], new Accounting(true, new PreservedSum([1, 0], [0, 1])));
+        var growTogether = TransitionLaw.FromFunction(
+            [Shape.Bit, Shape.Bit], s => s is [0, 0] ? [1, 1] : s, new Accounting(true, new PreservedSum([0, 1], [1, -1])));
+
+        Assert.False(fills.Accounting.Conserves(1));
+        Assert.Throws<ArgumentException>(() => new Wiring(fills, new Binding(receiver, 0), new Binding(port, 0)));
+        Assert.Throws<ArgumentException>(() => new Wiring(growTogether, new Binding(port, 0), new Binding(receiver, 0)));
+        Assert.True(Flows.Convert(2, 1, 3, 3).Accounting.Conserves(0));
+    }
+
     [Fact]
     public void UnitsMoveOneToOneUncalibratedAndWhatDoesNotFitStays()
     {

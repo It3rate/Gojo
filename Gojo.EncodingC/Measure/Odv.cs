@@ -60,6 +60,14 @@ public static class Odv
     public const int D = 1;
     public const int O = 2;
 
+    /// <summary>The detection contract's threshold. Every threshold from 2 up
+    /// gives the same addition table.</summary>
+    public const int Detection = 2;
+
+    /// <summary>The historical exact-zero contract: undetectable means a hidden
+    /// zero. Never a default.</summary>
+    public const int ExactZero = 1;
+
     private static readonly Dictionary<int, RelationLaw> AdditionLaws = [];
 
     /// <summary>Eight values in three bits.</summary>
@@ -82,7 +90,8 @@ public static class Odv
     public static void Write(Structure structure, int position, OdvWord word) => WordField.Write(structure, position, word.Code);
 
     /// <summary>Reorients the whole structure: one constant bit and one XOR of D
-    /// over every live position.</summary>
+    /// over every live position. Every word in it shares the orientation, so
+    /// they all turn together.</summary>
     public static void Reorient(Structure structure)
     {
         ArgumentNullException.ThrowIfNull(structure);
@@ -126,13 +135,17 @@ public static class Odv
 
     /// <summary>Addition as a relation over (a, b, r), derived from a threshold
     /// reader: a hidden integer reads as detectable when its magnitude reaches
-    /// <paramref name="threshold"/>. Threshold 1 is the exact-zero contract, the
-    /// historical table. Threshold 2 or more is a detection contract, under which
-    /// V = 0 is still an operand: two undetectable positives can sum to a
-    /// detectable one. A zero result keeps the operands' direction when they
-    /// agree and admits both zero words when they do not. Across orientations
-    /// nothing is admitted.</summary>
-    public static RelationLaw Addition(int threshold = 1)
+    /// <paramref name="threshold"/>. The default is the detection contract, under
+    /// which V = 0 is still an operand: two undetectable positives can sum to a
+    /// detectable one. Every threshold from 2 up gives this same table, so
+    /// detection is one contract, not a family. Threshold 1 is the historical
+    /// exact-zero contract, which treats an undetectable word as a hidden zero;
+    /// it is there only for a reader that asks for it by name.
+    /// <para>A zero read is a sample, not nothing: the word keeps its orientation
+    /// and its place in the computation. Nothing is what is not selected. A zero
+    /// result keeps the operands' direction when they agree and admits both zero
+    /// words when they do not. Across orientations nothing is admitted.</para></summary>
+    public static RelationLaw Addition(int threshold = Detection)
     {
         if (threshold < 1) throw new ArgumentOutOfRangeException(nameof(threshold));
         lock (AdditionLaws)
@@ -155,16 +168,16 @@ public static class Odv
 
     /// <summary>Possible result words, as a mask over the eight words. A
     /// prediction, not a merge.</summary>
-    public static ulong Add(OdvWord a, OdvWord b, int threshold = 1) =>
+    public static ulong Add(OdvWord a, OdvWord b, int threshold = Detection) =>
         Addition(threshold).Project(2, [1UL << a.Code, 1UL << b.Code, 0xFF]);
 
     /// <summary>Adds a word to itself through one position: only diagonal tuples count.</summary>
-    public static ulong AddSameReference(OdvWord x, int threshold = 1) =>
+    public static ulong AddSameReference(OdvWord x, int threshold = Detection) =>
         Addition(threshold).Project(2, [1UL << x.Code, 1UL << x.Code, 0xFF], [0, 0, 1]);
 
     /// <summary>Reverses the second operand and adds. Equal words are not
     /// evidence of exact cancellation.</summary>
-    public static ulong Subtract(OdvWord a, OdvWord b, int threshold = 1) => Add(a, b.Reverse(), threshold);
+    public static ulong Subtract(OdvWord a, OdvWord b, int threshold = Detection) => Add(a, b.Reverse(), threshold);
 
     /// <summary>A reader's calibration, if it wants one: how a word read at
     /// threshold <paramref name="fromThreshold"/> may read at threshold
