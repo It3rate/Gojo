@@ -545,7 +545,8 @@ separate ports.
 Operate on what a subsystem exposes. Do not reach through a calibrated or
 coarse port to raw carrier ticks unless that raw surface is itself exposed.
 Introspection of another subsystem discovers its advertised ports and their
-contracts, not private state or dependencies. A supplier may deliberately
+contracts, not private state or dependencies. A port's contract is its shape
+and accounting, not a description of what it carries (§4.6). A supplier may deliberately
 publish a coarse service even when it has finer internal information. Select
 the smallest set of queries and connections sufficient for the receiver's
 question; refinement requires an explicit request through an exposed route.
@@ -650,6 +651,32 @@ Preserve:
 
 Shared numeric carrier identity alone does not make every value compete for one
 capacity.
+
+### 4.6 Low-Level Exchange Carries No Assigned Meaning
+
+At the lowest level, what crosses a connection is a primitive common medium,
+like energy, information or currency. It has no meaning beyond its amount and
+order, as numbers have no meaning beyond their values. A sender does not
+describe what it passes, and a connection never requires the receiver to
+understand the sender's internal view of the world. A port exposes its shape
+(its lanes and their order) and its accounting (whether taking from it
+consumes), nothing about what its lanes stand for.
+
+Each receiver interprets the medium in its own terms. Different receivers may
+interpret the same flow differently. A structure that reads light as heat is
+valid while that reading helps it solve its problems. More agreed meaning can
+grow between more complex structures; it is never a precondition of a
+low-level connection.
+
+A new connection is direct and one-to-one, with no calibration. Calibration is
+allowed and never required. When one helps, it is structure that evolves
+through use. It is absorbed into the sender or the receiver when only that
+structure needs it. It can stand on its own as a small structure with an input
+and an output when many structures can use it, such as one that turns an
+oscillating signal into a value for its frequency. Where a calibration lives is
+selected by use, not prescribed. An uncalibrated connection claims no scale
+between sender and receiver; a transfer that claims one, such as material
+refinement (Axiom 9), needs a calibration.
 
 ## 5. Reads, Uncertainty, And Self-Inspection
 
@@ -1102,6 +1129,25 @@ application frames should read only when their exact ordered structure is
 present. If evidence is weaker, return a lower-resolution read or preserve
 residue rather than inventing a stronger concept.
 
+### 9.6 Separate The Concept From Its Substrate
+
+A concept must be as expressible by a small living organism or an analog
+circuit as by a digital computer. Substrates differ and may be optimized; an
+optimization must not shape the concept.
+
+- A structure takes the room it needs to express what it is, and no more. No
+  fixed quota, such as a word width or a block of 64 sites, bounds it or
+  requires it to be filled.
+- Packing sites into machine words, lanes or blocks is an execution layout for
+  one substrate. It must not become a unit of ownership, basis, connection or
+  meaning.
+- An encoding is small and bit-level. Identity is position and connection,
+  never a stored name. Names, labels and descriptions are an optional external
+  lens for people and diagnostics: the encoding neither stores nor requires
+  them, and removing them changes nothing the structure can do. What a name
+  would say is carried, if at all, by structure several levels up, and not as
+  text.
+
 ## 10. Repository Boundaries
 
 Respect the current project files and dependency graph.
@@ -1186,6 +1232,8 @@ the current code and tests prove them:
   compression or revision;
 - a general workspace contract for selection, local introductions, candidate
   completion, validated commit and writeback;
+- evolved calibration: discovering, placing and sharing calibrations between
+  connected structures;
 - full transform solving, multi-parent histories, and complete abstraction reads.
 
 These gaps are invitations to extend Gojo structure, not invitations to hide
@@ -1205,6 +1253,10 @@ Before finishing a change, ask:
 - Are unit shape, calibration, resolution, accounting, and orientation separate?
 - Are accepted, blocked, residue, tension, and provenance still visible?
 - Can small systems connect through exposed ports without exposing raw internals?
+- Does a connection work one-to-one, uncalibrated, without the sender
+  describing what it passes?
+- Would the concept survive on another substrate, with no name stored and no
+  fixed size that is really a layout choice?
 - Can multiple candidates or lower-resolution reads remain valid?
 - Is repeated behavior inspectable as controller, transition, feedback, and
   timeline?

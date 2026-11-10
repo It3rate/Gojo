@@ -7,6 +7,24 @@ substrate proposed in the
 [Gojo/Workspace](../Gojo/Workspace/README.md). Hardware backends (SIMD, GPU,
 FPGA) are out of scope; planes are plain `ulong` words.
 
+**Needs rework (10 November 2026).** Three parts of this project contradict
+rules the canonical prompt now states (§4.6, §9.6):
+
+- **Ports describe what they carry.** `PortBasis` publishes value names, a
+  unit, law hashes and a rung map. A connection needs a declared
+  correspondence, and material moving between different units is refused. A
+  port should expose lanes and accounting only, and connect one-to-one,
+  uncalibrated.
+- **Identity is by string.** Planes, fields, values, law roles, row sets,
+  sites and ports are named and looked up by name. The encoding should
+  identify by position, with names at most an external lens.
+- **The tile is a unit of meaning.** It is the owner, basis, port holder and
+  edit counter for at most 64 sites. Domains and thermometer capacities are
+  capped at 64 for the same machine-word reason. Structures should take
+  the sites they need, with 64-wide words as a packing layout only.
+
+The description below is of the code as it stands.
+
 The tests live in this project under `Tests/`:
 
 ```powershell

@@ -580,6 +580,60 @@ is implemented. The exploratory bit-level form, including commit validation
 and the self-confirmation guard for introduced structure, is in the
 [encoding consolidation note](GojoEncodingConsolidation-2026-11.md).
 
+## Exchange Medium, Evolved Calibration And Substrate Independence, November 2026
+
+The first ports in `Gojo.EncodingB` made three mistakes that the user
+corrected. Each port published a self-describing basis: value names, a unit
+string, the hashes of the laws its codes obey and its rung map. A receiver
+could connect only through a correspondence declared from that basis to its
+own. A material transfer between different units was refused because it
+"needed a calibration".
+
+The user's correction is that what passes between structures at this level is
+a primitive common medium, like energy, information or currency, with no
+assigned meaning, as numbers have none beyond their values. Requiring the
+sender to describe it makes the receiver depend on the sender's internal view
+of the world. Each receiver interprets the medium its own way, and different
+interpretations are fine: a structure that reads light as heat is doing
+nothing wrong if that reading lets it solve its problems. Agreed meaning can
+build up as structures become more complex; it is not there at the bottom.
+
+Calibration therefore has to be allowed but cannot be required. A new
+connection is one-to-one and uncalibrated. The structures evolve whatever
+calibration they need. A calibration useful to one structure is absorbed into
+it as part of its own problem solving. One useful to many can stand on its
+own as a small structure with an input and an output. The user's example: a
+structure that receives an oscillating signal and outputs a value for its
+frequency. Evolution, not a rule, decides where a calibration lives. Section
+4.6 records this, and Section 4.1 now says a port's contract is its shape and
+accounting. Axiom 9's requirement that material refinement select a
+calibration still holds: an uncalibrated connection makes no scale claim, so
+any transfer that does make one needs the calibration.
+
+The accounting distinction is kept. Whether taking from a port consumes is a
+property of the medium (energy-like or information-like), not a description
+of meaning. A conserved medium still cannot fan out.
+
+The same review found two further problems. The encoding identified planes,
+fields, values, law roles, row sets, sites and ports by strings. The user
+noted that none of this needs strings, and that strings are harmful in what
+should be a small, fast, bit-level format. Meaning sits several structures up
+and probably not as text there either. Section 9.1 already excluded strings as
+canonical meaning; Section 9.6 now says an encoding identifies by position and
+connection and treats names as an optional external lens.
+
+The encoding's tile had also become a unit of meaning. It was the owner,
+basis, port holder and edit counter for a fixed block of at most 64 sites,
+because 64 bits fit a machine word. The user asked that what is done for the
+computer be kept apart from what the concept needs. A structure should have
+room to express what it is and no quota to fill afterwards. The concept
+should be as expressible by a small organism or an analog circuit as by a
+digital computer. Section 9.6 records this: packing into words is an
+execution layout, never a unit of ownership, basis, connection or meaning.
+
+Evolved calibration is recorded as a maturity boundary. Nothing discovers,
+places or shares calibrations yet.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

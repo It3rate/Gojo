@@ -11,6 +11,12 @@ An exploratory implementation of §5, §6, the ports of §5.13 and the workspace
 contract now lives in [Gojo.EncodingB](../../Gojo.EncodingB/README.md), with
 its tests; its README maps the roadmap steps below to what it covers.
 
+**Corrected 10 November 2026.** Two parts of §5 are superseded. The tile is a
+layout, not a unit of meaning (§5.1). Ports carry an uninterpreted medium and
+connect one-to-one without a basis description or a required calibration
+(§5.13). The canonical prompt now states both (§4.6 and §9.6). The encoding
+also identifies by position, never by stored names.
+
 Revised the same day after the user's decision that participation is
 selection (canonical prompt §7.1). ODV stays as it is; selection, supplied
 evidence and support move out of source planes and into workspaces (§5.14).
@@ -208,6 +214,18 @@ current compact experiments maps onto these; §6 shows four of them. Tiles hold
 what *is*: structure, value at its resolution, and tension. Workspaces hold
 what is *noticed, supposed or attempted*: selection, supplied evidence,
 support, prediction and candidates.
+
+**Correction (10 November 2026): a tile is a layout, not a concept.** As
+written above, a tile is the owner, basis, port holder and edit counter for
+at most 64 sites. That lets a machine word set the size and the boundaries of
+meaning-bearing structure, which canonical prompt §9.6 now rules out. A
+structure has as many sites as it needs, and its planes are bit vectors of
+that length. Grouping 64 sites into one word is how a digital backend batches
+sites that run the same law, the way a GPU warp batches threads, and it
+belongs to that backend. Ownership, basis, ports and versions belong to
+structures. Names are not part of the encoding: planes, law roles, values and
+ports are identified by position. Read "tile" below as "structure" for
+meaning and as "packed block" for layout.
 
 ### 5.2 The address-meaning invariant
 
@@ -479,25 +497,30 @@ Forgetting means dropping checkpoints and logs beyond a horizon. Witnesses
 before it become explicitly unrecoverable (open), while counters and summaries
 remain. This is the existing lost-history surface, made systematic.
 
-### 5.13 Ports and basis contracts
+### 5.13 Ports
 
-A port publishes a plane subset, a site subset, a basis descriptor (law hashes
-for its codes, rung and unit promise) and an accounting class (observation,
-material or coupled). A receiver connects only through a declared
-correspondence law from that basis to its own. Without one, the connection is
-an open slot with residue rather than a silent reinterpretation. This closes
-the gap noted in the invariance experiments: the generic port interface does
-not yet carry a self-describing basis. Observation ports may fan out; material
-ports cannot, and the accounting signature enforces that.
+**Corrected direction (10 November 2026).** A port exposes ordered lanes and
+an accounting class (whether taking from it consumes), nothing more. What
+crosses is a primitive medium with no assigned meaning (canonical prompt
+§4.6). A new connection is direct and one-to-one. The receiver interprets
+what arrives in its own terms, and two receivers may interpret the same flow
+differently. Calibration is optional structure that evolves through use. It
+is absorbed into the sender or the receiver, or it stands alone as a small
+calibrator with an input and an output when many structures can use it.
+Observation may fan out. A conserved medium may not, because two connections
+composed over one lane break conservation. That is accounting, not meaning.
 
-Gojo.EncodingB tries this out (exploratory). A material connection runs the
-passage law across port lanes, and the receiver's room is the gate. A second
-material connection is refused because the two connections, composed over one
-committed lane, break the sum of the lane and both arrivals. The refusal names
-the duplicating transition. The same experiment showed that a basis has to
-carry its law hashes, not just its value names. ODV words published under the
-detection contract read, through a derived correspondence, as competing
-candidates in an exact-zero receiver, never as an exact zero.
+**Superseded first version.** This section first had a port publish a
+self-describing basis: value names, law hashes, rung and unit promise. A
+receiver could connect only through a correspondence declared from that basis
+to its own; without one it got an open slot with residue. Gojo.EncodingB
+implemented that (exploratory) and refused material transfer between
+different units. The user rejected it. It makes the sender describe its
+internal view, and it makes calibration a precondition rather than something
+the structures discover. Two results from that experiment carry over. A
+material transfer is the passage law run across lanes, with the receiver's
+room as the gate. Fan-out is refused through the joint accounting signature
+rather than a flag.
 
 ### 5.14 Workspaces: selection, perspective and writeback
 
@@ -787,7 +810,8 @@ Ranked by how much they block the goal:
 5. **Delayed credit.** Route updates need immediate, acknowledged relief.
 6. **The quantity ladder between presence and calibrated numbers** is
    described but has no single implemented grammar (§5.8).
-7. **Self-describing port bases** (§5.13).
+7. **Evolved calibration** (§5.13). Ports no longer describe their bases;
+   how structures discover, place and share calibrations is open.
 8. **Witness and archive growth** (C6).
 9. **Perception front-ends** that turn strokes, images or signals into planes.
 10. **Parallel backends** beyond single-thread `ulong` masks.
