@@ -288,6 +288,22 @@ public sealed class Wiring
             if (changing[r] != 0) yield return bindings[r].Surface.WriteKey(rows[r][row]);
     }
 
+    /// <summary>The packed references of one role, row by row.</summary>
+    internal PackedInts Column(int role) => rows[role];
+
+    /// <summary>Puts back a saved row as it was, live or retired. Only ranges
+    /// are checked: a row that is aliased now was wired before a lane moved,
+    /// and stays reported rather than refused.</summary>
+    internal void Restore(int[] indexes, bool isLive)
+    {
+        for (var r = 0; r < indexes.Length; r++)
+            if ((uint)indexes[r] >= (uint)bindings[r].Surface.Count) throw new FormatException("A saved row points past its surface.");
+        for (var r = 0; r < rows.Length; r++) rows[r].Add(indexes[r]);
+        live.Grow(live.Length + 1);
+        live[live.Length - 1] = isLive;
+        Epoch++;
+    }
+
     private int[] Indexes(int row) => rows.Select(r => r[row]).ToArray();
 
     private (Plane Runnable, Plane Aliased) Classify()

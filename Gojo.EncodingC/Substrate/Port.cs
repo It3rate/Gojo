@@ -50,6 +50,10 @@ public sealed class Port : Surface
         return planes[plane];
     }
 
+    internal int Lane(int lane) => lanes[lane];
+
+    internal IReadOnlyList<int> OwnerPlanes => Array.AsReadOnly(planes);
+
     internal void SetLane(int lane, int position) => lanes[lane] = position;
 
     internal int AddLane(int position)
