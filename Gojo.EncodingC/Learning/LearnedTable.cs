@@ -78,6 +78,12 @@ public sealed class LearnedTable
     /// threshold.</summary>
     public Structure Counts { get; }
 
+    /// <summary>The pairs seen often enough to admit, one bit per pair at
+    /// <c>before + N·after</c>. It is one plane of <see cref="Counts"/>, the one
+    /// that says "at least the threshold": what was learned is already a table
+    /// in the planes, before anything turns it into a law.</summary>
+    public Plane Admitted => Plane.Of(StateCount * StateCount, Counts.Read(AdmitThreshold - 1).Indexes().Where(bit => bit < StateCount * StateCount));
+
     /// <summary>Rows the table was shown and could not learn from: their bits
     /// were not codes, or the row did not run. A learner should know how much
     /// it did not see.</summary>

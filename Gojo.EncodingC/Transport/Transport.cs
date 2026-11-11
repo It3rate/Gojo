@@ -92,6 +92,7 @@ public static class Transport
                 {
                     Structure structure => structure,
                     Port port => port.Owner,
+                    Life life => life.Of,
                     _ => throw new InvalidOperationException("A rung, or the gap between a rung and its source, is a working view and not part of a machine. Commit or drop it before saving."),
                 });
             Reach(wiring.Rows);
@@ -133,10 +134,13 @@ public static class Transport
             bits.Number(plane);
             bits.Bit(structure.ConstantValue(plane));
         }
+        // 0: every position is in use. 1: some are retired. 2: some are spare.
         bits.Number(structure.Count);
-        var retired = structure.Live.Count < structure.Count;
-        bits.Bit(retired);
-        if (retired) bits.Bits(structure.Live, structure.Count);
+        var spare = structure.Spare;
+        var states = spare.Any ? 2 : structure.Live.Count < structure.Count ? 1 : 0;
+        bits.Number(states);
+        if (states > 0) bits.Bits(structure.Live, structure.Count);
+        if (states > 1) bits.Bits(spare, structure.Count);
         for (var p = 0; p < structure.PlaneCount; p++)
             if (!structure.IsConstantPlane(p)) bits.Bits(structure.Read(p), structure.Count);
         bits.Number(structure.Ports.Count);
@@ -163,11 +167,21 @@ public static class Transport
             else structure.AddPlane();
         }
         var count = bits.Count(MaxCount);
-        if (count > 0) structure.Add(count);
-        var live = bits.Bit() ? bits.Bits(count) : Plane.Ones(count);
-        var all = Plane.Ones(count);
+        var states = bits.Count(2);
+        var live = states > 0 ? bits.Bits(count) : Plane.Ones(count);
+        var spare = states > 1 ? bits.Bits(count) : new Plane(count);
+        if (live.Overlaps(spare)) throw new FormatException("A position is saved as both spare and in use.");
+        for (var position = 0; position < count; position++)
+        {
+            if (spare[position]) structure.AddSpare();
+            else structure.Add();
+        }
         for (var p = 0; p < planes; p++)
-            if (!structure.IsConstantPlane(p)) structure.Write(p, bits.Bits(count), all);
+        {
+            if (structure.IsConstantPlane(p)) continue;
+            var stored = bits.Bits(count);
+            foreach (var position in stored.Indexes()) structure.Write(p, position, true);
+        }
         var ports = bits.Count(MaxCount);
         for (var i = 0; i < ports; i++)
         {
@@ -177,7 +191,8 @@ public static class Transport
             for (var k = 0; k < exposed.Length; k++) exposed[k] = bits.Count(planes - 1);
             structure.Publish(lanes, exposed);
         }
-        foreach (var position in live.Not().Indexes()) structure.Retire(position);
+        foreach (var position in live.Not().Indexes())
+            if (!spare[position]) structure.Retire(position);
         return structure;
     }
 
@@ -329,16 +344,22 @@ public static class Transport
         foreach (var binding in wiring.Bindings)
         {
             if (wiring.Law is RelationLaw) bits.Bit(binding.IsOpen);
-            if (binding.Surface is Port port)
+            // 0: a structure's own positions. 1: one of its ports. 2: whether its positions are in use.
+            switch (binding.Surface)
             {
-                bits.Bit(true);
-                bits.Number(structures[port.Owner]);
-                bits.Number(IndexOf(port.Owner.Ports, port));
-            }
-            else
-            {
-                bits.Bit(false);
-                bits.Number(structures[(Structure)binding.Surface]);
+                case Port port:
+                    bits.Number(1);
+                    bits.Number(structures[port.Owner]);
+                    bits.Number(IndexOf(port.Owner.Ports, port));
+                    break;
+                case Life life:
+                    bits.Number(2);
+                    bits.Number(structures[life.Of]);
+                    break;
+                default:
+                    bits.Number(0);
+                    bits.Number(structures[(Structure)binding.Surface]);
+                    break;
             }
             WritePlanes(bits, binding.Planes);
         }
@@ -369,9 +390,14 @@ public static class Transport
         for (var r = 0; r < bindings.Length; r++)
         {
             var open = law is RelationLaw && bits.Bit();
-            var throughPort = bits.Bit();
+            var kind = bits.Count(2);
             var owner = structures[bits.Count(structures.Length - 1)];
-            Surface surface = throughPort ? owner.Ports[bits.Count(owner.Ports.Count - 1)] : owner;
+            Surface surface = kind switch
+            {
+                1 => owner.Ports[bits.Count(owner.Ports.Count - 1)],
+                2 => owner.Life,
+                _ => owner,
+            };
             var planes = ReadPlanes(bits, open ? law.Roles[r].Size : law.Roles[r].Bits, surface.PlaneCount);
             bindings[r] = open ? Binding.Open(surface, planes) : new Binding(surface, planes);
         }

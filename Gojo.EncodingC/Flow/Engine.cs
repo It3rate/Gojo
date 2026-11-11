@@ -35,7 +35,7 @@ public sealed class Engine
         for (var i = 0; i < wirings.Count; i++)
         {
             var rows = wirings[i].Runnable().Indexes().ToArray();
-            var touched = rows.SelectMany(wirings[i].TouchedKeys).Distinct().ToArray();
+            var touched = rows.SelectMany(wirings[i].TouchedKeys).Concat(wirings[i].WatchedKeys()).Distinct().ToArray();
             var written = rows.SelectMany(wirings[i].WrittenKeys).Distinct().ToArray();
             var level = 0;
             foreach (var site in touched)

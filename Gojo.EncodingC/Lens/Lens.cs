@@ -53,7 +53,8 @@ public sealed class Lens
         var text = new StringBuilder($"{NameOf(structure)}[{position}]:");
         for (var p = 0; p < structure.PlaneCount; p++)
             text.Append($" {NameOf(structure, p)}={(structure.Read(p, position) ? 1 : 0)}");
-        if (!structure.IsLive(position)) text.Append(" (retired)");
+        if (structure.IsSpare(position)) text.Append(" (spare)");
+        else if (!structure.IsLive(position)) text.Append(" (retired)");
         return text.ToString();
     }
 

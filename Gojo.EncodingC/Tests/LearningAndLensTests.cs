@@ -27,6 +27,7 @@ public sealed class LearningAndLensTests
         Assert.Empty(violations);
         Assert.True(law!.SameTable(Flows.Passage));
         Assert.Equal(4, table.Count(3, 6));
+        Assert.Equal(Plane.Of(64, Enumerable.Range(0, 64).Where(Flows.Passage.BitAt)), table.Admitted);
 
         // What was learned is a structure of small counts, so it is saved like any other.
         var (_, copies) = Transport.Load(Transport.Save(new Engine(), table.Counts));

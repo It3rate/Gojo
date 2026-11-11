@@ -211,6 +211,18 @@ public sealed class Wiring
         return row;
     }
 
+    /// <summary>Adds a row that is wired and not yet in use: a connection that
+    /// could exist. It does not run until something recruits it, which a law
+    /// does by setting the row's bit in <c>Rows.Life</c>. Returns the row.</summary>
+    public int AddSpare(params int[] indexes)
+    {
+        CheckRow(indexes);
+        for (var r = 0; r < indexes.Length; r++) Widen(r, indexes[r]);
+        var row = Rows.AddSpare();
+        for (var r = 0; r < indexes.Length; r++) Point(row, r, indexes[r]);
+        return row;
+    }
+
     /// <summary>The index each role holds in a row, as the planes have it now.</summary>
     public int[] Row(int row)
     {
@@ -519,6 +531,14 @@ public sealed class Wiring
             var index = Reference(row, r);
             if ((uint)index < (uint)bindings[r].Surface.Count) yield return bindings[r].Surface.WriteKey(index);
         }
+    }
+
+    /// <summary>For scheduling: every row that is in use or could be recruited.
+    /// The wiring reads whether each is in use every time it runs.</summary>
+    internal IEnumerable<(Surface, int)> WatchedKeys()
+    {
+        for (var row = 0; row < Count; row++)
+            if (!Rows.IsRetired(row)) yield return (Rows, row);
     }
 
     private int Reference(int row, int role)

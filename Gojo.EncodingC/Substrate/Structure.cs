@@ -9,11 +9,16 @@ namespace Gojo.EncodingC;
 /// one word means moving it into a structure that faces the other way. Planes
 /// and positions are numbers. Nothing is named; what a bit means is what the
 /// laws wired to it do with it.
-/// <para>Retired positions stay allocated and are never reused, so a reference
-/// to a position never silently changes target. A structure counts every state
-/// change (<see cref="Version"/>) and every structural change
-/// (<see cref="Epoch"/>), so a copy can tell whether what it read is still
-/// current.</para></summary>
+/// <para><b>Spare, in use, retired.</b> A position is in one of three states,
+/// and only moves forward through them. A spare position is room: allocated,
+/// not yet in use, and rows that touch it do not run. It can be recruited
+/// once. A retired position stays allocated and is never reused, so a
+/// reference to a position never silently changes target. Whether a position
+/// is in use is state like any other: <see cref="Life"/> shows it as a
+/// surface, so a law grows a structure by recruiting a spare position and
+/// prunes it by retiring one.</para>
+/// <para>A structure counts every state change (<see cref="Version"/>) and
+/// every structural change (<see cref="Epoch"/>).</para></summary>
 public sealed class Structure : Surface
 {
     private readonly List<Plane?> planes = [];
@@ -21,23 +26,33 @@ public sealed class Structure : Surface
     private Plane constant = new(0);
     private Plane constantValue = new(0);
     private Plane live = new(0);
+    private Plane used = new(0);
 
     public Structure(int planes, int positions = 0)
     {
         if (planes < 0) throw new ArgumentOutOfRangeException(nameof(planes));
+        Life = new Life(this);
         for (var p = 0; p < planes; p++) AddPlane();
         if (positions > 0) Add(positions);
         Epoch = 0;
         Version = 0;
     }
 
-    /// <summary>Positions ever added, retired ones included.</summary>
+    /// <summary>Positions ever added: spare, in use and retired.</summary>
     public override int Count => live.Length;
 
     public override int PlaneCount => planes.Count;
 
     /// <summary>Positions in use.</summary>
     public Plane Live => live.Clone();
+
+    /// <summary>Positions that are room, not yet in use.</summary>
+    public Plane Spare => used.Not();
+
+    /// <summary>Whether each position is in use, as a surface with one plane.
+    /// A law bound to it recruits a spare position by setting its bit and
+    /// retires one in use by clearing it.</summary>
+    public Life Life { get; }
 
     public long Version { get; private set; }
 
@@ -67,16 +82,22 @@ public sealed class Structure : Surface
         return planes.Count - 1;
     }
 
-    /// <summary>Adds positions. Returns the first new one.</summary>
-    public int Add(int count = 1)
+    /// <summary>Adds positions in use. Returns the first new one.</summary>
+    public int Add(int count = 1) => Allocate(count, inUse: true);
+
+    /// <summary>Adds spare positions: room that nothing uses yet. Their bits
+    /// can be written, so a dormant part can be prepared before it is
+    /// recruited. Returns the first new one.</summary>
+    public int AddSpare(int count = 1) => Allocate(count, inUse: false);
+
+    /// <summary>Brings a spare position into use. A retired position is never
+    /// recruited again.</summary>
+    public void Recruit(int position)
     {
-        if (count < 1) throw new ArgumentOutOfRangeException(nameof(count));
-        var first = Count;
-        live.Grow(first + count);
-        for (var i = first; i < first + count; i++) live[i] = true;
-        foreach (var plane in planes) plane?.Grow(first + count);
+        if (!IsSpare(position)) throw new ArgumentOutOfRangeException(nameof(position), $"Position {position} is not spare.");
+        used[position] = true;
+        live[position] = true;
         StructuralEdit();
-        return first;
     }
 
     /// <summary>Takes a position out of use. Its number is never reused; laws
@@ -89,6 +110,11 @@ public sealed class Structure : Surface
     }
 
     public override bool IsLive(int position) => (uint)position < (uint)Count && live[position];
+
+    public bool IsSpare(int position) => (uint)position < (uint)Count && !used[position];
+
+    /// <summary>In use once, and no longer.</summary>
+    public bool IsRetired(int position) => (uint)position < (uint)Count && used[position] && !live[position];
 
     public bool IsConstantPlane(int plane)
     {
@@ -124,7 +150,7 @@ public sealed class Structure : Surface
     public void Write(int plane, int position, bool value)
     {
         CheckWritable(plane);
-        CheckLive(position);
+        if (!IsLive(position) && !IsSpare(position)) throw new ArgumentOutOfRangeException(nameof(position), $"Position {position} is retired or does not exist.");
         var stored = planes[plane]!;
         if (stored[position] == value) return;
         stored[position] = value;
@@ -206,6 +232,18 @@ public sealed class Structure : Surface
     internal void CheckLive(int position)
     {
         if (!IsLive(position)) throw new ArgumentOutOfRangeException(nameof(position), $"Position {position} is not live.");
+    }
+
+    private int Allocate(int count, bool inUse)
+    {
+        if (count < 1) throw new ArgumentOutOfRangeException(nameof(count));
+        var first = Count;
+        live.Grow(first + count);
+        used.Grow(first + count);
+        for (var i = first; inUse && i < first + count; i++) live[i] = used[i] = true;
+        foreach (var plane in planes) plane?.Grow(first + count);
+        StructuralEdit();
+        return first;
     }
 
     private void CheckWritable(int plane)
