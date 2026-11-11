@@ -21,6 +21,11 @@ namespace Gojo.EncodingC;
 /// count, at most <see cref="Reach"/>). A row that would reach past that, or
 /// into an area the rung ignores, does not run and is reported, so attention
 /// spreads only so far from a request.</para>
+/// <para><b>Prediction and goal.</b> A rung differs from its source only where
+/// it was written. Run a law ahead in it and that difference is a prediction;
+/// write a wanted state into it and the difference is what is left to do.
+/// <see cref="Gap"/> shows the difference as a surface laws can read, so a
+/// miss or a distance can drive something.</para>
 /// <para><b>Leaving.</b> A rung that is dropped changed nothing. One that is
 /// compared with its source after the source moves is a prediction. One can
 /// be reverted in part, or committed in part or in whole. A commit writes
@@ -41,6 +46,7 @@ public sealed class Rung : Surface
     private readonly List<Plane> left = [];
     private Plane used = new(0);
     private PackedInts? together;
+    private Gap? gap;
     private int span = -1;
 
     /// <summary>A rung over a structure.</summary>
@@ -104,6 +110,10 @@ public sealed class Rung : Surface
     /// <summary>Supposes a bit here: copies it in and changes it. The source is
     /// untouched.</summary>
     public void Write(int plane, int index, bool value) => Set(plane, index, value);
+
+    /// <summary>Where this rung and its source disagree, as a surface laws can
+    /// read: how a prediction missed, or what is left before a goal.</summary>
+    public Gap Gap => gap ??= new Gap(this);
 
     /// <summary>Adds a position with no source: a candidate, such as a proposed
     /// closing site. It is always selected, never read as evidence about the
@@ -222,13 +232,8 @@ public sealed class Rung : Surface
             var inside = mine.Where(i => selected[i]).ToArray();
             if (inside.Length == 0) continue;
             var outside = mine.Where(i => !selected[i]).ToArray();
-            if (outside.Length == 0)
-            {
-                run[row] = true;
-                continue;
-            }
             var steps = inside.Max(i => requested[i] ? Reach : Left(i));
-            if (steps == 0 || outside.Any(i => ignored[i]))
+            if (outside.Length > 0 && (steps == 0 || outside.Any(i => ignored[i])))
             {
                 beyondRows[row] = true;
                 continue;
@@ -239,6 +244,10 @@ public sealed class Rung : Surface
                 selected[i] = true;
                 brought[i] = true;
             }
+            // A position brought in earlier by a longer way round is now this
+            // close to a request: its steps left are the most any way gives.
+            foreach (var i in inside)
+                if (!requested[i] && Left(i) < steps - 1) BringIn(i, steps - 1);
             run[row] = true;
         }
 
@@ -419,6 +428,14 @@ public sealed class Rung : Surface
     };
 
     private bool Holds(int plane, int index) => plane < held.Count && held[plane] is { } h && index < h.Length && h[index];
+
+    /// <summary>Whether the rung holds this bit and the source now reads another.</summary>
+    internal bool Misses(int plane, int index)
+    {
+        CheckPlane(plane);
+        CheckIndex(index);
+        return Holds(plane, index) && SourceOf(index) is int s && source.Read(plane, s) != Fit(bits, plane)[index];
+    }
 
     /// <summary>Copies a whole position in: every plane it has that is not a
     /// constant. A value spread over several planes is then the rung's as a

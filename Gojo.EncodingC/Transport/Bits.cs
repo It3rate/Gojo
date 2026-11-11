@@ -62,7 +62,7 @@ internal sealed class BitReader(byte[] bytes)
     public int Count(int limit = int.MaxValue)
     {
         var value = Number();
-        if (value > limit) throw new FormatException("A count is out of range.");
+        if (value < 0 || value > limit) throw new FormatException("A count is out of range.");
         return (int)value;
     }
 

@@ -26,6 +26,7 @@ public abstract class Law
             throw new ArgumentException("Padding above the last tuple must be zero.", nameof(bytes));
         this.roles = roles.ToArray();
         Roles = Array.AsReadOnly(this.roles);
+        TupleCount = Product(this.roles);
         BitCount = (int)bitCount;
         table = new ulong[(BitCount + 63) / 64];
         for (var i = 0; i < bytes.Length; i++) table[i / 8] |= (ulong)bytes[i] << (8 * (i % 8));
@@ -35,7 +36,7 @@ public abstract class Law
     public IReadOnlyList<Shape> Roles { get; }
 
     /// <summary>Number of role tuples: the product of the role sizes.</summary>
-    public int TupleCount => Product(roles);
+    public int TupleCount { get; }
 
     public int BitCount { get; }
 

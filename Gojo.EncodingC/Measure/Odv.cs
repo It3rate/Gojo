@@ -83,11 +83,12 @@ public static class Odv
         return structure;
     }
 
-    public static OdvWord Read(Structure structure, int position) =>
-        new((byte)(WordField.Read(structure, position) ?? throw new InvalidOperationException("Every three-bit pattern is a word.")));
+    public static OdvWord Read(Surface surface, int position) =>
+        new((byte)(WordField.Read(surface, position) ?? throw new InvalidOperationException("Every three-bit pattern is a word.")));
 
-    /// <summary>Writes V and D. The word's O must match the structure's.</summary>
-    public static void Write(Structure structure, int position, OdvWord word) => WordField.Write(structure, position, word.Code);
+    /// <summary>Writes V and D, into a structure or into a rung as a
+    /// supposition. The word's O must match the structure's.</summary>
+    public static void Write(Surface surface, int position, OdvWord word) => WordField.Write(surface, position, word.Code);
 
     /// <summary>Reorients the whole structure: one constant bit and one XOR of D
     /// over every live position. Every word in it shares the orientation, so

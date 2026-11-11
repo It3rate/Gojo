@@ -71,6 +71,10 @@ public sealed class LawTests
         Assert.True(move.Apply().Changed.None);
     }
 
+    /// <summary>Two different reasons a row does nothing. Bits that are not a
+    /// code are noise in the state: the row is unread. A state the law says
+    /// nothing about is a gap in the law: the row is unadmitted. Neither is
+    /// guessed at, and they are reported apart.</summary>
     [Fact]
     public void BitsThatAreNotACodeAreReportedNotGuessed()
     {
@@ -82,9 +86,21 @@ public sealed class LawTests
 
         var step = move.Apply();
 
-        Assert.True(step.Unadmitted[0]);
+        Assert.True(step.Unread[0]);
+        Assert.True(step.Unadmitted.None);
         Assert.True(step.Changed.None);
         Assert.True(source.Read(2, 0));
+
+        var onlyFromZero = TransitionLaw.FromFunction([Shape.Bit], s => s[0] == 0 ? [1] : null, Accounting.None);
+        var bit = new Structure(1, 1);
+        bit.Write(0, 0, true);
+        var silent = new Wiring(onlyFromZero, new Binding(bit, 0));
+        silent.Add(0);
+
+        var stuck = silent.Apply();
+
+        Assert.True(stuck.Unadmitted[0]);
+        Assert.True(stuck.Unread.None);
     }
 
     [Fact]
@@ -154,11 +170,11 @@ public sealed class LawTests
     public void OnePrimitiveReadTellsApartAtMost64Values()
     {
         var structure = new Structure(7, 1);
-        var sixtyFour = new Supports(structure, new Field(Shape.Binary(64), 0, 1, 2, 3, 4, 5));
+        var sixtyFour = Supports.On(structure, new Field(Shape.Binary(64), 0, 1, 2, 3, 4, 5));
         sixtyFour.Restrict(0, 1UL);
 
         Assert.Equal(Plane.Ones(1), sixtyFour.Settled);
-        Assert.Throws<ArgumentException>(() => new Supports(structure, new Field(Shape.Binary(65), 0, 1, 2, 3, 4, 5, 6)));
+        Assert.Throws<ArgumentException>(() => Supports.On(structure, new Field(Shape.Binary(65), 0, 1, 2, 3, 4, 5, 6)));
         var wide = RelationLaw.FromPredicate([Shape.Binary(65)], t => t[0] == 64);
         Assert.Throws<ArgumentException>(() => wide.Project(0, [ulong.MaxValue]));
     }

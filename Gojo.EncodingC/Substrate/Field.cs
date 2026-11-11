@@ -3,7 +3,8 @@ namespace Gojo.EncodingC;
 /// <summary>Where one value sits in a structure: a shape, and the planes that
 /// hold its bits, low bit first. A field is a position in the layout, not a
 /// name. The same planes can be read as different fields by different
-/// readers.</summary>
+/// readers. A field reads any surface that shows those planes: the structure,
+/// a rung over it (where a write is a supposition), or a port.</summary>
 public sealed class Field
 {
     private readonly int[] planes;
@@ -25,32 +26,36 @@ public sealed class Field
     public static Field Bit(int plane) => new(Shape.Bit, plane);
 
     /// <summary>The bit pattern at a position, low bit first.</summary>
-    public ulong Pattern(Structure structure, int position)
+    public ulong Pattern(Surface surface, int position)
     {
-        ArgumentNullException.ThrowIfNull(structure);
+        ArgumentNullException.ThrowIfNull(surface);
         ulong pattern = 0;
         for (var k = 0; k < planes.Length; k++)
-            if (structure.Read(planes[k], position)) pattern |= 1UL << k;
+            if (surface.Read(planes[k], position)) pattern |= 1UL << k;
         return pattern;
     }
 
     /// <summary>The value at a position, or null when the bits are not a code
     /// of the shape.</summary>
-    public int? Read(Structure structure, int position) => Shape.Decode(Pattern(structure, position));
+    public int? Read(Surface surface, int position) => Shape.Decode(Pattern(surface, position));
 
-    /// <summary>Writes a value. A bit on a constant plane must already agree;
-    /// every such bit is checked before anything is written.</summary>
-    public void Write(Structure structure, int position, int value)
+    /// <summary>Writes a value: into a structure, or into a rung as a
+    /// supposition. A bit on a constant plane must already agree; every such
+    /// bit is checked before anything is written. A port is not written this
+    /// way: only a law that moves what it takes writes another structure.</summary>
+    public void Write(Surface surface, int position, int value)
     {
-        ArgumentNullException.ThrowIfNull(structure);
+        ArgumentNullException.ThrowIfNull(surface);
+        if (surface.ThroughPort || surface.ReadOnly)
+            throw new InvalidOperationException("A value is written into a structure or a rung. A port is written only by a law that moves what it takes.");
         var pattern = Shape.Encode(value);
         for (var k = 0; k < planes.Length; k++)
         {
             var bit = ((pattern >> k) & 1) != 0;
-            if (structure.IsConstantPlane(planes[k]) && structure.ConstantValue(planes[k]) != bit)
+            if (surface.IsConstant(planes[k]) && surface.Read(planes[k], position) != bit)
                 throw new ArgumentException($"Plane {planes[k]} is constant {(bit ? 0 : 1)} across the structure.", nameof(value));
         }
         for (var k = 0; k < planes.Length; k++)
-            if (!structure.IsConstantPlane(planes[k])) structure.Write(planes[k], position, ((pattern >> k) & 1) != 0);
+            if (!surface.IsConstant(planes[k])) surface.Set(planes[k], position, ((pattern >> k) & 1) != 0);
     }
 }

@@ -64,6 +64,19 @@ public sealed class LearnedTable
 
     public long Observations { get; private set; }
 
+    /// <summary>Rows the table was shown and could not learn from: their bits
+    /// were not codes, or the row did not run. A learner should know how much
+    /// it did not see.</summary>
+    public long Unread { get; private set; }
+
+    /// <summary>How many times a pair was witnessed.</summary>
+    public int Count(int before, int after) => pairCounts[before + StateCount * after];
+
+    /// <summary>How many times a before-state was witnessed, whatever followed.
+    /// With <see cref="Count"/> this is the evidence behind a read: how sure
+    /// the table can be, not only what it says.</summary>
+    public int Seen(int before) => beforeCounts[before];
+
     public void Witness(int before, int after, long tick)
     {
         if ((uint)before >= (uint)StateCount) throw new ArgumentOutOfRangeException(nameof(before));
@@ -80,13 +93,15 @@ public sealed class LearnedTable
         Observations++;
     }
 
-    /// <summary>Records every row a wiring ran, where both states were codes.</summary>
+    /// <summary>Records every row a wiring ran, where both states were codes.
+    /// The rest are counted in <see cref="Unread"/>.</summary>
     public void Witness(WiringStep step, Plane rows, long tick)
     {
         ArgumentNullException.ThrowIfNull(step);
         ArgumentNullException.ThrowIfNull(rows);
         foreach (var row in rows.Indexes())
             if (step.Before[row] >= 0 && step.After[row] >= 0) Witness(step.Before[row], step.After[row], tick);
+            else Unread++;
     }
 
     public LearnedRead Read(int before, int after)

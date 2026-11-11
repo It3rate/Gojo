@@ -232,6 +232,34 @@ public sealed class RungTests
         Assert.True(blinkered.Read(0, 2));
     }
 
+    /// <summary>Steps left are counted from the nearest request. Position 4 is
+    /// first reached the long way round, with no steps left, so the row
+    /// beyond it does not run. Asking for position 6, one row away, gives
+    /// position 4 a step back, and the row beyond it runs.</summary>
+    [Fact]
+    public void APositionNearerANewRequestGetsItsStepsBack()
+    {
+        var line = new Structure(2, 9);
+        var rung = new Rung(line, reach: 2).Select(Plane.Of(9, 0));
+        var rows = new Wiring(Flows.Passage, new Binding(rung, 0), new Binding(rung, 1), new Binding(rung, 0));
+        rows.Add(0, 1, 2);
+        rows.Add(2, 3, 4);
+        rows.Add(6, 5, 4);
+        rows.Add(4, 7, 8);
+
+        var first = rung.Apply(rows);
+
+        Assert.Equal(Plane.Of(4, 2, 3), first.Beyond);
+        Assert.Equal(0, rung.ReachLeft(4));
+
+        rung.Select(Plane.Of(9, 6));
+        var second = rung.Apply(rows);
+
+        Assert.True(second.Beyond.None);
+        Assert.Equal(1, rung.ReachLeft(4));
+        Assert.Equal(Plane.Of(9, 5, 7, 8), second.Brought);
+    }
+
     /// <summary>Two rungs over one chain suppose different things: one leaves
     /// the second gate open, the other shuts it. Compared, they differ where
     /// the suppositions led apart. A rung over a rung sees its parent's
@@ -344,7 +372,7 @@ public sealed class RungTests
             rows.Add(0, 1);
             rows.Add(1, 2);
             rows.Add(2, 3);
-            return (line, rows, new Supports(line, Field.Bit(0)));
+            return (line, rows, Supports.On(line, Field.Bit(0)));
         }
 
         var (line, rows, support) = Line();
@@ -369,12 +397,12 @@ public sealed class RungTests
 
     /// <summary>Supports describe a structure that keeps growing. A position
     /// added later starts open, since nothing has been observed or narrowed
-    /// there yet.</summary>
+    /// there yet. That is the planes' own default: nothing ruled out.</summary>
     [Fact]
     public void APositionAddedLaterIsOpen()
     {
         var line = new Structure(1, 2);
-        var support = new Supports(line, Field.Bit(0));
+        var support = Supports.On(line, Field.Bit(0));
         support.Observe(0);
 
         line.Add();

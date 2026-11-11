@@ -122,7 +122,7 @@ public sealed class OdvTests
             new Binding(structure, Odv.V, Odv.D, Odv.O),
             new Binding(structure, Odv.V, Odv.D, Odv.O),
             new Binding(structure, Odv.V, Odv.D, Odv.O));
-        var support = new Supports(structure, Odv.WordField);
+        var support = Supports.On(structure, Odv.WordField);
         for (var i = 0; i < rows; i++)
         {
             sum.Add(3 * i, 3 * i + 1, 3 * i + 2);

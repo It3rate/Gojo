@@ -42,7 +42,7 @@ public static class Transport
                 {
                     Structure structure => structure,
                     Port port => port.Owner,
-                    _ => throw new InvalidOperationException("A rung is a working view, not part of a machine. Commit or drop it before saving."),
+                    _ => throw new InvalidOperationException("A rung, or the gap between a rung and its source, is a working view and not part of a machine. Commit or drop it before saving."),
                 });
         }
 
@@ -61,16 +61,25 @@ public static class Transport
     public static (Engine Engine, IReadOnlyList<Structure> Structures) Load(byte[] machine)
     {
         ArgumentNullException.ThrowIfNull(machine);
-        var bits = new BitReader(machine);
-        var structures = new Structure[bits.Count(MaxCount)];
-        for (var i = 0; i < structures.Length; i++) structures[i] = ReadStructure(bits);
-        var laws = new Law[bits.Count(MaxCount)];
-        for (var i = 0; i < laws.Length; i++) laws[i] = ReadLaw(bits);
-        var engine = new Engine();
-        var wirings = bits.Count(MaxCount);
-        for (var i = 0; i < wirings; i++) engine.Add(ReadWiring(bits, laws, structures));
-        bits.End();
-        return (engine, structures);
+        try
+        {
+            var bits = new BitReader(machine);
+            var structures = new Structure[bits.Count(MaxCount)];
+            for (var i = 0; i < structures.Length; i++) structures[i] = ReadStructure(bits);
+            var laws = new Law[bits.Count(MaxCount)];
+            for (var i = 0; i < laws.Length; i++) laws[i] = ReadLaw(bits);
+            var engine = new Engine();
+            var wirings = bits.Count(MaxCount);
+            for (var i = 0; i < wirings; i++) engine.Add(ReadWiring(bits, laws, structures));
+            bits.End();
+            return (engine, structures);
+        }
+        catch (Exception refused) when (refused is ArgumentException or OverflowException)
+        {
+            // Bits that parse but describe something no builder would accept: a
+            // law that breaks its accounting, a port naming a plane twice.
+            throw new FormatException("The bits do not describe a machine.", refused);
+        }
     }
 
     private static void WriteStructure(BitWriter bits, Structure structure)

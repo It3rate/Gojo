@@ -28,6 +28,10 @@ public abstract class Surface
 
     internal abstract bool IsConstant(int plane);
 
+    /// <summary>A surface that is a read of other things, such as the gap
+    /// between a rung and its source. No law may write it.</summary>
+    internal virtual bool ReadOnly => false;
+
     /// <summary>Writes one bit as a law does.</summary>
     internal abstract void Set(int plane, int index, bool value);
 

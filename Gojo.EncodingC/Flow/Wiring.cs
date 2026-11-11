@@ -72,6 +72,8 @@ public sealed class Wiring
             for (var b = 0; b < roles[r].Planes.Count; b++)
                 if (((changing[r] >> b) & 1) != 0 && roles[r].Surface.IsConstant(roles[r].Planes[b]))
                     throw new ArgumentException($"Role {r} would write a constant plane, which holds one bit for every position.", nameof(roles));
+            if (roles[r].Surface.ReadOnly)
+                throw new ArgumentException($"Role {r} would write a surface that is a read of other things.", nameof(roles));
             if (roles[r].Surface.ThroughPort && !transition.Accounting.Conserves(r))
                 throw new ArgumentException(
                     $"Role {r} writes through a port but is in no preserved sum of positive amounts. Writing another structure's bits is allowed only as a move, where what leaves arrives elsewhere.",
@@ -236,6 +238,7 @@ public sealed class Wiring
         var before = Enumerable.Repeat(-1, Count).ToArray();
         var after = Enumerable.Repeat(-1, Count).ToArray();
         var changed = new Plane(Count);
+        var unread = new Plane(Count);
         var unadmitted = new Plane(Count);
         var ambiguous = new Plane(Count);
         var waves = Waves(lanes);
@@ -243,6 +246,7 @@ public sealed class Wiring
         {
             foreach (var row in wave.Indexes()) before[row] = TupleOf(row) ?? -1;
             var step = transition.Step(Gather(wave), wave);
+            unread = unread.Or(step.Unread);
             unadmitted = unadmitted.Or(step.Unadmitted);
             ambiguous = ambiguous.Or(step.Ambiguous);
             foreach (var row in wave.Indexes())
@@ -271,7 +275,7 @@ public sealed class Wiring
                 }
             }
         }
-        return new WiringStep(changed, unadmitted, ambiguous, skipped, aliased, before, after, waves);
+        return new WiringStep(changed, unread, unadmitted, ambiguous, skipped, aliased, before, after, waves);
     }
 
     /// <summary>The indexes of a row's roles that are bound to <paramref name="surface"/>.</summary>
@@ -372,10 +376,14 @@ public sealed class Wiring
 /// <summary>What one application of a wiring did, row by row.
 /// <see cref="Before"/> and <see cref="After"/> hold tuple indexes (−1 where a
 /// role was not a code or the row did not run), read around the row's own
-/// wave. Skipped rows touch a retired position or are retired. Aliased rows
-/// had roles meeting at a written bit and did not run.</summary>
+/// wave. Rows that did not change say why, each kind apart: unread rows held
+/// bits that are not codes; unadmitted rows were in a state the law says
+/// nothing about; ambiguous rows had several admitted next states and nothing
+/// chose; skipped rows touch a retired position or are retired; aliased rows
+/// had roles meeting at a written bit.</summary>
 public sealed record WiringStep(
     Plane Changed,
+    Plane Unread,
     Plane Unadmitted,
     Plane Ambiguous,
     Plane Skipped,

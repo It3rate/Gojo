@@ -77,6 +77,30 @@ public sealed class LearningAndLensTests
         Assert.Equal(2, table.Observations);
     }
 
+    /// <summary>A learner is shown three rows. One holds bits that are not a
+    /// code and one touches a retired position, so only one can be learned
+    /// from. The table counts the two it could not read, and keeps the counts
+    /// behind what it did learn: how sure it can be, not only what it says.</summary>
+    [Fact]
+    public void ALearnerKnowsHowMuchItCouldNotRead()
+    {
+        var (store, count) = Stores.Store(6, 2);
+        count.Write(store, 0, 1);
+        store.Write(1, 2, true);
+        var move = new Wiring(Flows.Move(2, 2), new Binding(store, 0, 1), new Binding(store, 0, 1));
+        move.Add(0, 1);
+        move.Add(2, 3);
+        move.Add(4, 5);
+        store.Retire(5);
+        var table = new LearnedTable(move.Law.Roles);
+
+        table.Witness(move.Apply(), move.Live, 0);
+
+        Assert.Equal(1, table.Observations);
+        Assert.Equal(2, table.Unread);
+        Assert.Equal((1, 1), (table.Count(1, 3), table.Seen(1)));
+    }
+
     /// <summary>A pair never seen after its before-state was seen four times is
     /// left out of the crystallized law, and the law says it was left out for
     /// that reason only. The table keeps counting: one later witness admits it.

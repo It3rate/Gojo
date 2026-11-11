@@ -80,6 +80,40 @@ public sealed class TransitionLaw : Law
         return changing;
     }
 
+    /// <summary>The same bits read as a relation between a before and an
+    /// after: roles 0 … R − 1 are the before, R … 2R − 1 the after, and the
+    /// table is unchanged. Narrowing supports through it runs the law in any
+    /// direction without executing it: from what is to what may follow, or
+    /// from what is wanted back to what the before, or an open choice in it,
+    /// must have been.</summary>
+    public RelationLaw AsRelation() => new([.. Roles, .. Roles], Bytes());
+
+    /// <summary>Gives the law's optionality a place. Where a before-state
+    /// admits several after-states the law alone cannot run: something has to
+    /// choose. This returns the same law with one more role, last, that picks:
+    /// value c takes the c-th admitted after-state, in table order. The new
+    /// role is only read, so it can be bound to a bit a structure sets, or
+    /// left open and narrowed from an outcome. Where only one after-state is
+    /// admitted the choice changes nothing. A choice that names no option
+    /// admits nothing and is reported, as any state the law is silent on.
+    /// The law keeps its promises.</summary>
+    public TransitionLaw WithChoice()
+    {
+        var most = Enumerable.Range(0, StateCount).Max(before => AftersOf(before).Length);
+        if (most < 2) throw new InvalidOperationException("The law admits at most one after-state everywhere, so there is nothing to choose.");
+        var pairs = new List<(int, int)>();
+        var functional = true;
+        for (var before = 0; before < StateCount; before++)
+        {
+            var options = AftersOf(before);
+            functional &= options.Length == 1 || options.Length == most;
+            for (var choice = 0; choice < most; choice++)
+                if (options.Length == 1) pairs.Add((before + StateCount * choice, options[0] + StateCount * choice));
+                else if (choice < options.Length) pairs.Add((before + StateCount * choice, options[choice] + StateCount * choice));
+        }
+        return FromPairs([.. Roles, Shape.Binary(most)], pairs, new Accounting(functional, [.. Accounting.Invariants, new Unchanged(Roles.Count)]));
+    }
+
     /// <summary>Prediction over joint support: <paramref name="joint"/>[t] marks
     /// the lanes that may be in whole state t. Each after-state collects every
     /// before-state that admits it. Nothing is executed.</summary>
@@ -99,7 +133,7 @@ public sealed class TransitionLaw : Law
     /// For each before-state the lanes in it are the AND of matching code
     /// planes, and those lanes take the after-state's bits. Lanes whose bits are
     /// not codes, or whose before-state admits no transition or several, keep
-    /// their bits and are reported.</summary>
+    /// their bits and are reported, each kind apart.</summary>
     public TransitionStep Step(Plane[][] codes, Plane lanes)
     {
         ArgumentNullException.ThrowIfNull(codes);
@@ -113,6 +147,7 @@ public sealed class TransitionLaw : Law
             for (var b = 0; b < next[r].Length; b++) next[r][b] = new Plane(lanes.Length);
         }
         var covered = new Plane(lanes.Length);
+        var readable = new Plane(lanes.Length);
         var ambiguous = new Plane(lanes.Length);
         var patterns = new ulong[Roles.Count];
         var afterPatterns = new ulong[Roles.Count];
@@ -133,6 +168,7 @@ public sealed class TransitionLaw : Law
                     for (var b = 0; b < codes[r].Length; b++)
                         m &= ((patterns[r] >> b) & 1) != 0 ? codes[r][b].Word(w) : ~codes[r][b].Word(w);
                 if (m == 0) continue;
+                readable.OrWord(w, m);
                 if (candidates.Length != 1)
                 {
                     if (candidates.Length > 1) ambiguous.OrWord(w, m);
@@ -148,7 +184,7 @@ public sealed class TransitionLaw : Law
         for (var r = 0; r < Roles.Count; r++)
             for (var b = 0; b < next[r].Length; b++)
                 next[r][b] = next[r][b].Or(codes[r][b].And(unchanged));
-        return new TransitionStep(next, unchanged.AndNot(ambiguous), ambiguous);
+        return new TransitionStep(next, lanes.AndNot(readable), readable.AndNot(covered).AndNot(ambiguous), ambiguous);
     }
 
     private int[] AftersOf(int before)
@@ -177,8 +213,10 @@ public sealed class TransitionLaw : Law
     }
 }
 
-/// <summary>One run of a transition law across lanes. <see cref="Unadmitted"/>
-/// lanes had no admitted transition (or bits that are not codes);
-/// <see cref="Ambiguous"/> lanes had several. Both keep their bits and stay
-/// visible.</summary>
-public sealed record TransitionStep(Plane[][] After, Plane Unadmitted, Plane Ambiguous);
+/// <summary>One run of a transition law across lanes. Three kinds of lane keep
+/// their bits and stay visible, and they are different things:
+/// <see cref="Unread"/> lanes held bits that are not codes, so the state
+/// itself is noise; <see cref="Unadmitted"/> lanes were in a state the law
+/// says nothing about, a gap in the law; <see cref="Ambiguous"/> lanes had
+/// several admitted next states, a choice nothing has made.</summary>
+public sealed record TransitionStep(Plane[][] After, Plane Unread, Plane Unadmitted, Plane Ambiguous);

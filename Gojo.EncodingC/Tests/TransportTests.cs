@@ -71,6 +71,7 @@ public sealed class TransportTests
             {
                 var (a, b) = (original.Steps[w], again.Steps[w]);
                 Assert.Equal(a.Changed, b.Changed);
+                Assert.Equal(a.Unread, b.Unread);
                 Assert.Equal(a.Unadmitted, b.Unadmitted);
                 Assert.Equal(a.Ambiguous, b.Ambiguous);
                 Assert.Equal(a.Skipped, b.Skipped);
@@ -84,7 +85,7 @@ public sealed class TransportTests
                     Assert.Equal(structures[s].Read(p), copies[s].Read(p));
         }
 
-        Assert.Equal(Plane.Of(3, 2), first!.Steps[0].Unadmitted);
+        Assert.Equal(Plane.Of(3, 2), first!.Steps[0].Unread);
         Assert.False(restored.Wirings[0].Live[1]);
         Assert.Equal(Plane.Of(1, 0), first.Steps[1].Aliased);
         Assert.Equal(Plane.Of(2, 0), first.Steps[2].Ambiguous);
@@ -124,5 +125,35 @@ public sealed class TransportTests
     {
         Assert.Throws<FormatException>(() => Transport.Load([0xFF]));
         Assert.Empty(Transport.Load([0x07]).Structures);
+    }
+
+    /// <summary>Bits can parse and still describe something no builder would
+    /// make, such as a passage table with one bit flipped, which breaks its
+    /// accounting. Every single-bit change to a saved machine either still
+    /// loads or is refused as malformed; nothing else escapes.</summary>
+    [Fact]
+    public void BitsThatDescribeNoMachineAreRefusedTheSameWay()
+    {
+        var chain = new Structure(2, 5);
+        var passages = new Wiring(Flows.Passage, new Binding(chain, 0), new Binding(chain, 1), new Binding(chain, 0));
+        passages.Add(0, 1, 2);
+        var saved = Transport.Save(new Engine().Add(passages));
+
+        var refused = 0;
+        for (var bit = 0; bit < saved.Length * 8; bit++)
+        {
+            var damaged = (byte[])saved.Clone();
+            damaged[bit / 8] ^= (byte)(1 << (bit % 8));
+            try
+            {
+                Transport.Load(damaged);
+            }
+            catch (FormatException)
+            {
+                refused++;
+            }
+        }
+
+        Assert.True(refused > 0);
     }
 }

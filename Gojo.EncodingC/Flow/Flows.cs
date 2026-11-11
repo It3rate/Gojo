@@ -5,6 +5,7 @@ namespace Gojo.EncodingC;
 public static class Flows
 {
     private static readonly Dictionary<(int, int, int, int), TransitionLaw> Converts = [];
+    private static readonly Dictionary<(int, int), TransitionLaw> GatedMoves = [];
 
     /// <summary>The smallest move: source S, gate C, target T, one bit each;
     /// state <c>S + 2C + 4T</c>. A whole unit hands off when S is set, the gate
@@ -51,8 +52,17 @@ public static class Flows
     /// <summary>A move that happens only while a gate bit is set. Roles: source,
     /// gate, target. Branches are built from these: the gates decide which
     /// target a unit goes to.</summary>
-    public static TransitionLaw GatedMove(int sourceCapacity, int targetCapacity) => TransitionLaw.FromFunction(
-        [Shape.Unary(sourceCapacity), Shape.Bit, Shape.Unary(targetCapacity)],
-        state => state[0] > 0 && state[1] == 1 && state[2] < targetCapacity ? [state[0] - 1, 1, state[2] + 1] : state,
-        new Accounting(true, new PreservedSum([0, 2]), new Unchanged(1), new NeverIncreases(0), new NeverDecreases(2)));
+    public static TransitionLaw GatedMove(int sourceCapacity, int targetCapacity)
+    {
+        lock (GatedMoves)
+        {
+            if (GatedMoves.TryGetValue((sourceCapacity, targetCapacity), out var cached)) return cached;
+            var law = TransitionLaw.FromFunction(
+                [Shape.Unary(sourceCapacity), Shape.Bit, Shape.Unary(targetCapacity)],
+                state => state[0] > 0 && state[1] == 1 && state[2] < targetCapacity ? [state[0] - 1, 1, state[2] + 1] : state,
+                new Accounting(true, new PreservedSum([0, 2]), new Unchanged(1), new NeverIncreases(0), new NeverDecreases(2)));
+            GatedMoves[(sourceCapacity, targetCapacity)] = law;
+            return law;
+        }
+    }
 }
