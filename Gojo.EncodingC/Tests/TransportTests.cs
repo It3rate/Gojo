@@ -93,9 +93,12 @@ public sealed class TransportTests
         Assert.True(copies[3].Read(0, 4));
     }
 
-    /// <summary>The passage chain: two planes over five positions, the 64-bit
-    /// passage table with its four promises, and two rows of three references.
-    /// The whole machine is 25 bytes, a third of them the table.</summary>
+    /// <summary>The passage chain: two planes over five positions, the passage
+    /// law with its four promises, and two rows of three references. The whole
+    /// machine is 22 bytes: 55 bits of structure (the chain and the rows), 80
+    /// of law and 36 of binding. The law is saved as its eight next states,
+    /// three bits each, which is all a table-driven device needs to run it;
+    /// the rows are a structure like the chain.</summary>
     [Fact]
     public void AMachineIsAFewBytes()
     {
@@ -103,10 +106,14 @@ public sealed class TransportTests
         var passages = new Wiring(Flows.Passage, new Binding(chain, 0), new Binding(chain, 1), new Binding(chain, 0));
         passages.Add(0, 1, 2);
         passages.Add(2, 3, 4);
+        var engine = new Engine().Add(passages);
 
-        var saved = Transport.Save(new Engine().Add(passages));
+        var saved = Transport.Save(engine);
+        var size = Transport.Measure(engine);
 
-        Assert.Equal(25, saved.Length);
+        Assert.Equal(22, saved.Length);
+        Assert.Equal(size.Bytes, saved.Length);
+        Assert.Equal((55L, 80L, 36L), (size.StructureBits, size.LawBits, size.WiringBits));
     }
 
     [Fact]

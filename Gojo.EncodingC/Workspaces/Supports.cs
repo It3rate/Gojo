@@ -12,12 +12,16 @@ namespace Gojo.EncodingC;
 /// saved machine keeps them, a law can read them, and a rung copies them on
 /// write. Narrowing in a rung is then a supposition: it can be compared,
 /// dropped when it reaches a contradiction, or committed.</para>
-/// <para><b>Narrowing and forgetting.</b> Relation laws only rule values out.
-/// <see cref="Forget"/> opens a position again: the next moment has not
-/// happened yet, and a place that may be changed is open by choice. A goal is
-/// a value settled in advance. Narrowing between what is and what is wanted
-/// then settles the open places in between (see
-/// <see cref="TransitionLaw.AsRelation"/>).</para>
+/// <para><b>Narrowing and forgetting.</b> Relation laws only rule values out,
+/// and they do it as wirings: bind a role to <see cref="Variable"/> and
+/// running the wiring narrows it. <see cref="Forget"/> opens a position
+/// again: the next moment has not happened yet, and a place that may be
+/// changed is open by choice. A goal is a value settled in advance. Narrowing
+/// between what is and what is wanted then settles the open places in between
+/// (see <see cref="TransitionLaw.AsRelation"/>).</para>
+/// <para>This class only reads and edits those planes for a host. A running
+/// machine needs none of it: observing, forgetting and enacting are small
+/// laws too (<see cref="Settling"/>).</para>
 /// <para>"Every value possible" is uncertainty inside a declared, finite set of
 /// values. It says nothing about values outside that set. One support tells
 /// apart at most 64 values; a field with more is read through a coarser field
@@ -74,6 +78,13 @@ public sealed class Supports
     /// same planes, such as a rung over this structure. What is narrowed or
     /// forgotten there is supposed, not known.</summary>
     public Supports In(Surface surface) => new(surface, Field, planes);
+
+    /// <summary>These supports as a role's binding: what the role may still
+    /// be. A relation wired to it narrows it.</summary>
+    public Binding Variable => Binding.Open(Surface, planes);
+
+    /// <summary>The field's bits as a role's binding: a sample, one value.</summary>
+    public Binding Sample => new(Surface, [.. Field.Planes]);
 
     /// <summary>Positions where a value is still possible.</summary>
     public Plane Of(int value)
@@ -152,74 +163,6 @@ public sealed class Supports
         Field.Write(Surface, position, System.Numerics.BitOperations.TrailingZeroCount(values));
         return true;
     }
-
-    /// <summary>Narrows through a relation wiring, every row at once.
-    /// <paramref name="roles"/> gives the supports each role reads; two roles
-    /// of a row that read one position of the same supports keep equal
-    /// values. Returns whether anything was ruled out.</summary>
-    public static bool Narrow(Wiring relation, params Supports[] roles)
-    {
-        ArgumentNullException.ThrowIfNull(relation);
-        ArgumentNullException.ThrowIfNull(roles);
-        if (relation.Law is not RelationLaw law) throw new ArgumentException("Supports narrow through relation laws.", nameof(relation));
-        if (roles.Length != law.Roles.Count) throw new ArgumentException($"Give supports for all {law.Roles.Count} roles.", nameof(roles));
-        for (var r = 0; r < roles.Length; r++)
-        {
-            var binding = relation.Bindings[r];
-            if (!ReferenceEquals(binding.Surface, roles[r].Surface) || !binding.Planes.SequenceEqual(roles[r].Field.Planes) || roles[r].Field.Shape != law.Roles[r])
-                throw new ArgumentException($"Role {r} is not bound to the field these supports describe.", nameof(roles));
-        }
-        var lanes = relation.Runnable();
-        var rows = lanes.Indexes().ToDictionary(row => row, relation.Row);
-        var supports = new Plane[roles.Length][];
-        for (var r = 0; r < roles.Length; r++)
-        {
-            supports[r] = Enumerable.Range(0, law.Roles[r].Size).Select(_ => new Plane(relation.Count)).ToArray();
-            foreach (var (row, indexes) in rows)
-            {
-                var possible = roles[r].Values(indexes[r]);
-                for (var v = 0; v < supports[r].Length; v++)
-                    if (((possible >> v) & 1) != 0) supports[r][v][row] = true;
-            }
-        }
-        var same = new Plane?[roles.Length, roles.Length];
-        for (var r = 0; r < roles.Length; r++)
-            for (var j = r + 1; j < roles.Length; j++)
-                if (roles[r].SameAs(roles[j]))
-                    same[r, j] = Plane.Of(relation.Count, rows.Where(e => e.Value[r] == e.Value[j]).Select(e => e.Key));
-        var next = law.Narrow(supports, lanes, same);
-        var changed = false;
-        foreach (var (row, indexes) in rows)
-            for (var r = 0; r < roles.Length; r++)
-            {
-                ulong allowed = 0;
-                for (var v = 0; v < next[r].Length; v++)
-                    if (next[r][v][row]) allowed |= 1UL << v;
-                changed |= roles[r].Restrict(indexes[r], allowed);
-            }
-        return changed;
-    }
-
-    /// <summary>Narrows through several relations until nothing changes.
-    /// Returns the rounds taken; narrowing only rules out, so this ends.</summary>
-    public static int Propagate(IReadOnlyList<(Wiring Relation, Supports[] Roles)> relations)
-    {
-        ArgumentNullException.ThrowIfNull(relations);
-        var rounds = 0;
-        bool changed;
-        do
-        {
-            changed = false;
-            foreach (var (relation, roles) in relations) changed |= Narrow(relation, roles);
-            rounds++;
-        }
-        while (changed);
-        return rounds;
-    }
-
-    /// <summary>The same planes on the same surface: one variable, however
-    /// many times it was described.</summary>
-    private bool SameAs(Supports other) => ReferenceEquals(other.Surface, Surface) && other.planes.AsSpan().SequenceEqual(planes);
 
     private Plane Positions(Func<int, bool> count)
     {

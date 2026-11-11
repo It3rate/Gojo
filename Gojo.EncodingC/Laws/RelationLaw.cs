@@ -12,6 +12,17 @@ public sealed class RelationLaw : Law
     {
     }
 
+    internal RelationLaw(TransitionLaw from)
+        : this([.. from.Roles, .. from.Roles], from.Bytes())
+    {
+        From = from;
+    }
+
+    /// <summary>The transition law this relation is a reading of, when it came
+    /// from <see cref="TransitionLaw.AsRelation"/>: the same bits, read as a
+    /// relation between a before and an after.</summary>
+    public TransitionLaw? From { get; }
+
     public static RelationLaw FromPredicate(IReadOnlyList<Shape> roles, Func<int[], bool> admits)
     {
         ArgumentNullException.ThrowIfNull(admits);

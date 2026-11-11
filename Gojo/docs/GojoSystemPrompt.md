@@ -1207,6 +1207,20 @@ optimization must not shape the concept.
   them, and removing them changes nothing the structure can do. What a name
   would say is carried, if at all, by structure several levels up, and not as
   text.
+- Computation comes from the structure running its own few rules. An encoding
+  is not a store of state for host code that does the calculating. An
+  accumulator collects its input over time because of what it is and what it
+  is connected to, not because code knows about accumulating. Giving
+  structure meaning takes some rules; keep them minimal and intuitive. Host
+  code may build, schedule, save and inspect. State plainly how much still
+  needs the host, and move it into structure over time.
+- At this level there are no real numbers and no math library. Counting,
+  comparing and looking up a table are enough. Floating point belongs only to
+  an adapter that emulates or presents the outside world.
+- Keep it small. History and options multiply quickly, so do not preserve
+  everything. A structure that fits predicts its own history; store what it
+  gets wrong, at a useful resolution, the way an equation near the right
+  pattern stands for many samples.
 
 ## 10. Repository Boundaries
 
@@ -1248,6 +1262,8 @@ For every substantive change:
 6. Preserve result, residue/tension, resolution, and provenance where the read
    matters.
 7. Test the stable concept and its important non-read or unresolved case.
+   Fill known gaps before running experiments. An experiment is for choosing
+   between paths when the right one is uncertain, not a routine step.
 8. Run focused tests while iterating, then run the repository solution:
 
 ```powershell
@@ -1319,6 +1335,8 @@ Before finishing a change, ask:
   describing what it passes?
 - Would the concept survive on another substrate, with no name stored and no
   fixed size that is really a layout choice?
+- Does the structure compute this itself from a few rules, or does host code
+  compute it and use the structure as storage?
 - Is selection made coarse first, without listing members, and does a
   workspace copy only what it changes?
 - Can multiple candidates or lower-resolution reads remain valid?

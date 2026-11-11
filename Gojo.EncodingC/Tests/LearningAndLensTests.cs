@@ -18,7 +18,7 @@ public sealed class LearningAndLensTests
                 for (var bit = 0; bit < 3; bit++)
                     structure.Write(0, 3 * state + bit, ((state >> bit) & 1) != 0);
             var step = rows.Apply();
-            table.Witness(step, rows.Live, tick);
+            table.Witness(step, rows.Live);
         }
 
         var (law, unknown, violations, _) = table.Crystallize(Flows.Passage.Accounting);
@@ -26,7 +26,14 @@ public sealed class LearningAndLensTests
         Assert.Equal(0, unknown);
         Assert.Empty(violations);
         Assert.True(law!.SameTable(Flows.Passage));
-        Assert.Equal(new long[] { 0, 1, 2, 3 }, table.WitnessesOf(3, 6));
+        Assert.Equal(4, table.Count(3, 6));
+
+        // What was learned is a structure of small counts, so it is saved like any other.
+        var (_, copies) = Transport.Load(Transport.Save(new Engine(), table.Counts));
+        var restored = new LearnedTable(Flows.Passage.Roles, copies[0]);
+
+        Assert.True(restored.Crystallize(Flows.Passage.Accounting).Law!.SameTable(Flows.Passage));
+        Assert.Equal(40, Transport.Measure(new Engine(), table.Counts).Bytes);
     }
 
     [Fact]
@@ -36,10 +43,10 @@ public sealed class LearningAndLensTests
         var table = new LearnedTable(roles);
         for (var tick = 0; tick < 4; tick++)
         {
-            table.Witness(0, 0, tick);
-            table.Witness(1, 3, tick);
-            table.Witness(2, 2, tick);
-            table.Witness(3, 3, tick);
+            table.Witness(0, 0);
+            table.Witness(1, 3);
+            table.Witness(2, 2);
+            table.Witness(3, 3);
         }
 
         var (law, _, violations, _) = table.Crystallize(new Accounting(true, new PreservedSum([0, 1])));
@@ -67,14 +74,14 @@ public sealed class LearningAndLensTests
         var table = new LearnedTable(Flows.Passage.Roles);
 
         var step = rows.Apply();
-        table.Witness(step, rows.Live, 0);
+        table.Witness(step, rows.Live);
 
         Assert.Equal(2, step.Waves.Count);
         Assert.True(chain.Read(0, 4));
         Assert.Equal(new[] { 3, 3 }, step.Before);
         Assert.Equal(new[] { 6, 6 }, step.After);
         Assert.Equal(LearnedRead.Admitted, table.Read(3, 6));
-        Assert.Equal(2, table.Observations);
+        Assert.Equal(2, table.Count(3, 6));
     }
 
     /// <summary>A learner is shown three rows. One holds bits that are not a
@@ -94,9 +101,8 @@ public sealed class LearningAndLensTests
         store.Retire(5);
         var table = new LearnedTable(move.Law.Roles);
 
-        table.Witness(move.Apply(), move.Live, 0);
+        table.Witness(move.Apply(), move.Live);
 
-        Assert.Equal(1, table.Observations);
         Assert.Equal(2, table.Unread);
         Assert.Equal((1, 1), (table.Count(1, 3), table.Seen(1)));
     }
@@ -104,24 +110,25 @@ public sealed class LearningAndLensTests
     /// <summary>A pair never seen after its before-state was seen four times is
     /// left out of the crystallized law, and the law says it was left out for
     /// that reason only. The table keeps counting: one later witness admits it.
-    /// History stays small, the last few ticks per pair.</summary>
+    /// A count stops at four, which is all "often enough" needs; no history of
+    /// when things happened is kept.</summary>
     [Fact]
     public void APairLeftOutForNotBeingSeenIsARuleOfThumbThatALaterWitnessUndoes()
     {
         var table = new LearnedTable([Shape.Bit]);
         for (var tick = 0; tick < 6; tick++)
         {
-            table.Witness(0, 0, tick);
-            table.Witness(1, 1, tick);
+            table.Witness(0, 0);
+            table.Witness(1, 1);
         }
 
         var first = table.Crystallize(Accounting.None);
 
         Assert.False(first.Law!.Admits(0, 1));
         Assert.Equal(Plane.Of(4, 1, 2), first.Unsupported);
-        Assert.Equal(new long[] { 2, 3, 4, 5 }, table.WitnessesOf(0, 0));
+        Assert.Equal(4, table.Count(0, 0));
 
-        table.Witness(0, 1, 6);
+        table.Witness(0, 1);
         var second = table.Crystallize(Accounting.None);
 
         Assert.True(second.Law!.Admits(0, 1));
@@ -132,7 +139,7 @@ public sealed class LearningAndLensTests
     public void UnseenPairsStayUnknownRatherThanGuessed()
     {
         var table = new LearnedTable([Shape.Bit]);
-        table.Witness(0, 1, 0);
+        table.Witness(0, 1);
 
         var (admitted, open) = table.Predict(0);
 

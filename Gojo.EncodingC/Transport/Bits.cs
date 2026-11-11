@@ -34,6 +34,9 @@ internal sealed class BitWriter
         for (var i = 0; i < length; i++) Bit(i < plane.Length && plane[i]);
     }
 
+    /// <summary>Bits written so far.</summary>
+    public long Length => length;
+
     public byte[] ToArray() => bytes.ToArray();
 }
 

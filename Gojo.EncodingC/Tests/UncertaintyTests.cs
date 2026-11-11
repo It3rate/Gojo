@@ -8,8 +8,6 @@ namespace Gojo.EncodingC.Tests;
 /// and what is, read by laws and used to steer.</summary>
 public sealed class UncertaintyTests
 {
-    private static readonly RelationLaw Equal = RelationLaw.FromPredicate([Shape.Bit, Shape.Bit], t => t[0] == t[1]);
-
     /// <summary>What is still possible at a position is planes of the
     /// structure: one per value, set where the value is ruled out. Everything
     /// starts open. A law can read those planes like any others, here to light
@@ -56,15 +54,17 @@ public sealed class UncertaintyTests
         line.Write(0, 0, true);
         known.Observe(0);
 
-        var rung = new Rung(line);
+        var rung = new Rung(line).SelectAll();
         var supposed = known.In(rung);
-        var rows = new Wiring(Equal, new Binding(rung, 0), new Binding(rung, 0));
+        var rows = new Wiring(Settling.Same(Shape.Bit), supposed.Variable, supposed.Variable);
         rows.Add(0, 1);
         rows.Add(1, 2);
         rows.Add(2, 3);
 
         supposed.Restrict(3, 0b01);
-        Supports.Propagate(new[] { (rows, new[] { supposed, supposed }) });
+        while (rung.Apply(rows).Step.Changed.Any)
+        {
+        }
 
         Assert.True(supposed.Empty.Any);
         Assert.Equal(3, known.Open.Count);
@@ -73,7 +73,7 @@ public sealed class UncertaintyTests
         Assert.Equal(known.Open, supposed.Open);
 
         supposed.Restrict(3, 0b10);
-        Supports.Propagate(new[] { (rows, new[] { supposed, supposed }) });
+        rung.Apply(rows);
 
         Assert.Equal(Plane.Ones(4), supposed.Settled);
         Assert.True(rung.Commit().Committed);
@@ -120,10 +120,10 @@ public sealed class UncertaintyTests
             units.In(goal).Observe(2);
 
             var step = new Wiring(Flows.Passage.AsRelation(),
-                new Binding(plan, 0), new Binding(plan, 1), new Binding(plan, 0),
-                new Binding(goal, 0), new Binding(goal, 1), new Binding(goal, 0));
+                units.In(plan).Variable, gates.In(plan).Variable, units.In(plan).Variable,
+                units.In(goal).Variable, gates.In(goal).Variable, units.In(goal).Variable);
             step.Add(0, 1, 2, 0, 1, 2);
-            Supports.Narrow(step, units.In(plan), gates.In(plan), units.In(plan), units.In(goal), gates.In(goal), units.In(goal));
+            step.Apply();
             return (chain, units, gates, plan, goal);
         }
 

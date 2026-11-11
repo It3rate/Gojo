@@ -361,18 +361,24 @@ public sealed class RungTests
         Assert.Equal(2, rung.SourceOf(rung.Count - 1));
     }
 
+    /// <summary>A relation wired to open roles narrows them when it runs, by
+    /// the same rule on every row: a value stays possible only if some
+    /// admitted tuple supports it. Rows in declared order carry what one
+    /// settles to the next, so a chain settles in one run. Two observations
+    /// that cannot both hold leave a contradiction in the planes, and the row
+    /// that found it is reported.</summary>
     [Fact]
     public void SupportsNarrowToAFixedPointAndKeepContradictions()
     {
-        var equal = RelationLaw.FromPredicate([Shape.Bit, Shape.Bit], t => t[0] == t[1]);
         (Structure, Wiring, Supports) Line()
         {
             var line = new Structure(1, 4);
-            var rows = new Wiring(equal, new Binding(line, 0), new Binding(line, 0));
+            var support = Supports.On(line, Field.Bit(0));
+            var rows = new Wiring(Settling.Same(Shape.Bit), support.Variable, support.Variable);
             rows.Add(0, 1);
             rows.Add(1, 2);
             rows.Add(2, 3);
-            return (line, rows, Supports.On(line, Field.Bit(0)));
+            return (line, rows, support);
         }
 
         var (line, rows, support) = Line();
@@ -380,18 +386,22 @@ public sealed class RungTests
         support.Observe(0);
         Assert.Equal(3, support.Open.Count);
 
-        Supports.Propagate(new[] { (rows, new[] { support, support }) });
+        var step = rows.Apply();
 
+        Assert.Equal(Plane.Ones(3), step.Changed);
+        Assert.Equal(3, step.Waves.Count);
         Assert.Equal(Plane.Ones(4), support.Settled);
         Assert.Equal(Plane.Ones(4), support.Of(1));
+        Assert.True(rows.Apply().Changed.None);
 
         var (other, otherRows, contradiction) = Line();
         other.Write(0, 0, true);
         contradiction.Observe(0);
         contradiction.Observe(3);
 
-        Supports.Propagate(new[] { (otherRows, new[] { contradiction, contradiction }) });
+        var found = otherRows.Apply();
 
+        Assert.Equal(Plane.Of(3, 2), found.Unadmitted);
         Assert.True(contradiction.Empty.Any);
     }
 

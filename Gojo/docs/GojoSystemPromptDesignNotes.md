@@ -769,6 +769,55 @@ it, structure or routing changed by laws rather than by a host, step evidence
 and learned counts in the planes, or supports that vary together. Section 12
 lists the first two.
 
+## Self-Computing Structure, Size And When To Experiment, November 2026
+
+After the uncertainty work the user set three directions. Section 9.6 and the
+workflow in section 11 record them.
+
+**Fill gaps before experimenting.** Experiments are for when we are uncertain
+which path the encoding should take. Known gaps are filled first.
+
+**The structure computes itself.** The user asked how much of the encoding is
+code that manipulates structure, as opposed to flow through structure under
+structural rules. The goal is a self-computing structure, where the
+computation comes from the meaning of the structure itself: if something is an
+accumulator, the structure collects its input signals over time. That needs
+some meaning assigned to structure, kept to minimal, intuitive rules, not a
+large body of code that uses the encoding as state storage and does the
+calculation elsewhere. Unless the outside world is being emulated, floats and
+math libraries are never used at this level.
+
+**Size is under pressure.** The encoding is meant to be compact and executable
+very simply, table driven at the lowest level. Remembered history and
+optionality can balloon, so there is always pressure not to preserve
+everything. The structure should predict the history to a certain extent, so
+that only the difference needs storing, as an equation near the right pattern
+represents many samples at a useful resolution.
+
+`Gojo.EncodingC` was measured and changed against these.
+
+- A running machine applies two rules, both table lookups across rows: a
+  transition takes the next state; a relation rules out what no admitted tuple
+  supports. The engine now runs both, so observing, narrowing, forgetting and
+  acting on what is known are wirings. One test machine plans back from a goal
+  two steps away and opens a valve with no host code in its loop.
+- A wiring's rows are a structure. References are values in planes, so a law
+  rewires a row, and a wiring can leave what each row did in planes where a
+  law counts it.
+- A learner's counts are a structure of small saturating counts, with no
+  history of when things happened.
+- Saved sizes are measured: 22 bytes for a two-row chain with its law, 114
+  bytes for the planning machine. A law with one next state per state is
+  saved as that list.
+- Of about 4,100 lines, roughly half is the machine (storage, the two rules
+  and build-time checks), a quarter is host tooling, and the rest is stock
+  tables, save and load, and names. The README lists what still needs the
+  host: growing, workspaces, working out which pair a learner saw, inflow,
+  the schedule and checking a law's promises.
+
+Not claimed: growth by laws, workspaces inside a saved machine, learning as
+structure, or sparse storage.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

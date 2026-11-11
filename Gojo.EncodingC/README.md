@@ -26,6 +26,8 @@ wired. Concretely:
   - hold what is not settled yet in the same planes as what is, and use it:
     open values, choices nothing has made, and the gap between what was
     supposed and what is;
+  - run themselves: observe, narrow, decide, act and forget are wirings the
+    engine steps, with no host code in the loop;
   - learn laws from outcomes.
 
 At this level everything stays primitive and minimal. Higher-level concepts are
@@ -78,11 +80,12 @@ of what something means.
 | Structure | [`Structure`](Substrate/Structure.cs) | Positions and planes, constant planes, a live plane, version and epoch |
 | Port | [`Port`](Substrate/Port.cs) | Ordered lanes onto an owner's positions and an ordered list of its planes |
 | Law | [`RelationLaw`](Laws/RelationLaw.cs), [`TransitionLaw`](Laws/TransitionLaw.cs), [`Accounting`](Laws/Accounting.cs) | Tables of admitted tuples or transitions, with promises checked when the table is made |
-| Wiring | [`Wiring`](Flow/Wiring.cs), `Binding` | A law bound to rows over structures and ports. Topology is kept apart from rule |
-| Engine | [`Engine`](Flow/Engine.cs), [`Unary`](Flow/Unary.cs), [`Flows`](Flow/Flows.cs) | Steps wirings in waves; units enter from outside; stock laws for moving |
+| Wiring | [`Wiring`](Flow/Wiring.cs), `Binding` | A law bound to rows over structures and ports. A role is bound to a code or, open, to what a value may still be. The rows are a structure of their own, so topology is state |
+| Engine | [`Engine`](Flow/Engine.cs), [`Unary`](Flow/Unary.cs) | Steps wirings in waves: a transition changes state, a relation rules out. Units enter from outside |
+| Stock laws | [`Flows`](Flow/Flows.cs), [`Settling`](Laws/Settling.cs) | Small tables for moving things, and for observing, forgetting and acting on what is known |
 | Rung | [`Rung`](Workspaces/Rung.cs), [`Gap`](Workspaces/Gap.cs), [`Selections`](Workspaces/Selections.cs) | A workspace: a live view with copy on write, selection by layers and by use, validated partial commits. Its gap is where it and its source disagree |
 | Supports | [`Supports`](Workspaces/Supports.cs) | A value not settled yet: one plane per value in the structure, set where the value is ruled out |
-| Learning | [`LearnedTable`](Learning/LearnedTable.cs) | A transition table learned from what happened, crystallized into a law |
+| Learning | [`LearnedTable`](Learning/LearnedTable.cs) | Small counts of what happened, held in a structure, crystallized into a law |
 | Measure | [`OdvWord`, `Odv`](Measure/Odv.cs) | The three-bit ODV word, its planes and its arithmetic as laws |
 | Transport | [`Transport`](Transport/Transport.cs) | A machine as bits, restored without the code that built it |
 | Lens | [`Lens`, `OdvNotation`](Lens/Lens.cs) | Names and notation for people, outside the encoding |
@@ -118,9 +121,13 @@ than j", so 3 is `0111`:
 Unary is the primitive medium: more of something sets more bits, and no
 arithmetic unit is needed.
 
-**References.** A wiring row stores one reference per role, packed back to back
-at the width the largest reference needs. When a larger one arrives the run is
-repacked. Port lanes are stored the same way.
+**References.** A wiring's rows are the positions of a structure of its own.
+Each role's reference is a value in that structure's planes, ⌈log₂ n⌉ bits for
+n targets, and a plane is added when a larger reference arrives. So a law
+bound to those planes reads or rewires a row, a saved machine keeps topology
+as it keeps any state, and retiring a row is retiring a position. Once a
+wiring records, six more planes hold what each row did in the last step. Port
+lanes are packed references at the width they need.
 
 **Laws.**
 - A relation sets one bit per admitted tuple. The tuple index is mixed-radix
@@ -176,13 +183,15 @@ bit set is one thing learned. "Every value" means every value of a declared,
 finite set; a support says nothing about values outside it. A one-bit value
 costs two planes: unknown, 0, 1 and contradiction.
 
-**Transport.** A machine saves as one run of bits: structures (plane flags,
-live plane, stored planes, ports), laws (role shapes, table bits, accounting),
-and wirings (law, bindings, live rows, and each role's references packed at
-the width they need), in the engine's order. Whole numbers are Elias gamma
-codes of n + 1, so 0 takes one bit. There are no names, headers or fixed
-widths; a structure is identified by its place in the order. The passage
-chain of five positions and two rows is 25 bytes, a third of it the table.
+**Transport.** A machine saves as one run of bits: structures (constant
+planes, retired positions if any, stored planes, ports), laws (role shapes,
+table, accounting), and wirings (law, bindings, and which structure holds the
+rows), then the engine's order where a wiring runs more than once. A law with
+one next state per state is saved as that list of next states; a law read as
+a relation is saved once, as a reading. Whole numbers are Elias gamma codes of
+n + 1, so 0 takes one bit. There are no names, headers or fixed widths; a
+structure is identified by its place in the order. The passage chain of five
+positions and two rows is 22 bytes (see [How big it is](#how-big-it-is)).
 
 ## Copying and moving
 
@@ -261,6 +270,12 @@ is left to whatever evolves the structures.
 
   A port's owner can move what a lane shows, and every connection follows,
   because connections hold lane numbers.
+- **By a law.** A row's references are values in the planes of the wiring's
+  rows, so a law bound to them rewires the row. In
+  `ALawRewiresARowAndFlowFollows`, a law reads two trust counts and points a
+  row's source at the more trusted supplier. A reference written to nowhere is
+  not an error: the row does not run and is reported as skipped. A law cannot
+  yet add a row or a position.
 - **Through a rung.** Values, and introduced positions, reach the source when
   a rung commits.
 
@@ -314,16 +329,18 @@ A structure holds what is. A rung holds what is noticed, supposed or attempted.
 Everything that flows in is uncertain until something accounts for it, and the
 places where a structure can change are the places that are not settled. So
 what is unsettled is kept in the same planes as what is settled, where laws
-can read it and rungs can suppose about it. Four pieces do this.
+read it, relations narrow it and rungs suppose about it.
 
 - **Open values.** A field's bits hold one value. Its supports hold what the
-  value may still be (`Supports.On`). `Observe` narrows a position to what its
-  bits read; a relation wiring narrows every row at once (`Supports.Narrow`,
-  `Propagate`); `Forget` opens a position again; `Enact` writes a settled
-  value into the bits. Seen through a rung (`supports.In(rung)`), all of this
-  is supposed rather than known: a supposition that reaches a contradiction
-  is dropped and the structure never held it
-  (`ASuppositionIsNarrowedInARungAndDroppedWhenItContradicts`).
+  value may still be: one plane per value, set where ruled out
+  (`Supports.On`). A role bound open to those planes (`supports.Variable`, or
+  `Binding.Open(surface, planes)`) is narrowed whenever a relation wired to it
+  runs: a value stays possible only if some admitted tuple supports it. A
+  plain role of a relation is a sample and is only read, so observing is the
+  relation `Settling.Same` between a field's bits and its supports.
+- **Forgetting and acting are laws too.** `Settling.Forget` clears what was
+  ruled out; wired to run every step it is the passing of time.
+  `Settling.Enact` writes a settled value into a field's bits.
 - **The gap.** A rung differs from its source only where it was written.
   `rung.Gap` shows the difference bit by bit as a surface, read by reference
   and never stored. If the rung ran a law ahead, the gap after the source
@@ -335,29 +352,61 @@ can read it and rungs can suppose about it. Four pieces do this.
   structure sets, or left open and narrowed from what happened
   (`AmbiguityBecomesAChoiceSomethingCanMake`).
 - **A law read both ways.** `AsRelation` is the same table read as a relation
-  between now and next. Bind its before roles to a rung of now and its after
-  roles to a rung of the next moment.
+  between now and next. It is one reading of the law, saved with it once.
+- **Knowledge across a boundary.** A port can expose supports. A reader
+  narrows its own values from them, and nothing behind a port is ever
+  narrowed (`WhatAnotherStructureKnowsIsReadThroughAPortAndNeverNarrowedThere`).
+  In the same way, what is supposed never narrows what is known: when a
+  relation reads a rung, only roles on rungs are narrowed.
+- **Values that vary together.** Per-value planes cannot say two values are
+  linked. The link is a third value, the pair, with a relation from it to
+  each (`ValuesThatVaryTogetherAreOneValueWithTwoReads`).
 
-Together these are a way to move toward a goal by using what is open
-(`AGoalSettlesTheOpenChoiceThatReachesIt`):
+### A machine that reaches a goal by itself
 
-1. Observe what is known now.
-2. In one rung, forget the places that may be changed: a valve, a choice.
-3. In another rung, the next moment, forget everything, because it has not
-   happened, then write the wanted state and observe it there. The prediction
-   is set to the goal.
-4. Narrow through the law as a relation between the two rungs. The open
-   places settle to what reaches the goal, or the rungs reach a contradiction
-   and are dropped, leaving what is known as it was.
-5. Enact and commit the settled choices. That commit is the decision.
-6. Run the law for real. The gap of the next-moment rung empties as the
-   source arrives, or shows where it did not.
+`AGoalTwoStepsAwayOpensTheValveNow` is the whole loop with no host code in it.
+A plant has a source, a gate and a target that takes one unit per step; two
+units must reach the target within two steps. A plan structure holds what is
+possible at three moments, all open. Each engine step runs these wirings in
+declared order:
 
-For continuous steering no planning is needed. A law that reads a level and
-the wanted level, held in a rung, opens whichever valve closes the gap; the
-flow brings the structure to the goal, follows the goal when it changes, and
-sends on a unit that arrives unasked
-(`FlowIsSteeredTowardAGoalByTheGapItLeaves`).
+| Wiring | Law | What it does |
+| --- | --- | --- |
+| forget | `Settling.Forget` | Opens the plan again |
+| observe | `Settling.Same` | Narrows the first moment to what the plant reads |
+| aim | `Settling.Same` | Narrows the last moment to the wanted level |
+| ahead, twice | the move law, `AsRelation` | Narrows from moment to moment; the second pass carries the goal back to now |
+| act | `Settling.Enact` | Writes the gate's one remaining value into the plant |
+| flow | the move law | Moves the unit |
+
+The goal settles the gate at the first moment, because both steps are needed.
+Asked for what cannot be reached, the plan holds a contradiction, the gate
+stays as it was, and the next step starts clean. The machine saves as 114
+bytes and runs the same when restored.
+
+### Other ways to use what is open
+
+- **A supposition in a rung.** Seen through a rung (`supports.In(rung)`),
+  narrowing is supposed rather than known. A supposition that reaches a
+  contradiction is dropped and the structure never held it
+  (`ASuppositionIsNarrowedInARungAndDroppedWhenItContradicts`). A one-off
+  decision works the same way: forget the places that may change in one rung,
+  write the wanted state into a next-moment rung, narrow between them, then
+  enact and commit what settled (`AGoalSettlesTheOpenChoiceThatReachesIt`).
+- **Steering by the gap.** A law that reads a level and the wanted level, held
+  in a rung, opens whichever valve closes the gap. The flow brings the
+  structure to the goal, follows the goal when it changes, and sends on a
+  unit that arrives unasked (`FlowIsSteeredTowardAGoalByTheGapItLeaves`).
+  Unlike a plan, this makes partial progress toward a goal it cannot reach.
+- **Prediction that never stops.** Predictors write their guess of a bit into
+  their own planes before the world moves; a judge compares each guess with
+  what happened and moves a count of trust. It is one structure and four
+  wirings, 47 bytes saved, and it keeps the trust, not the history
+  (`AStructurePredictsJudgesItselfAndTrustFollows`).
+- **Counting what happened.** A wiring that records leaves each row's result
+  in planes. A count and a law that reads the "changed" bit are an
+  accumulator of what flowed through the row
+  (`WhatARowDidIsLeftInPlanesALawCanCount`).
 
 ## Learning
 
@@ -368,23 +417,29 @@ three ways:
 - **unknown:** otherwise. Unknown pairs keep predictions open rather than
   guessed.
 
-History is kept small: counts, and the last few ticks that witnessed each pair.
-The counts are readable (`Count`, `Seen`), so how sure the table can be is
-evidence, not only what it says. Rows it was shown and could not read are
-counted too (`Unread`).
-"Unsupported" is a rule of thumb, not proof. A crystallized law marks the pairs
-it left out only for not being seen (`Crystallized.Unsupported`), and the table
-keeps counting, so a later witness admits them again.
+Everything it knows is a structure of small unary counts (`Counts`): one per
+pair, one per before-state, and one for rows it was shown and could not read.
+So what was learned is saved like any structure, a law can read how sure the
+table is, and nothing is kept beside the encoding. A count stops at the larger
+threshold, because "often enough" is all it has to say, and no history of
+when things happened is kept. For the passage law that is 73 counts, 40 bytes
+saved.
 
-The intended next step is prediction by structure: record a little history,
-then let a simple rule, such as an operation that stretches a value by two and
-is compared with the next input in a rung, stand in for the table.
+"Unsupported" is a rule of thumb, not proof. A crystallized law marks the pairs
+it left out only for not being seen (`Crystallized.Unsupported`), the counts
+they came from stay in the structure, and the table keeps counting, so a later
+witness admits them again.
 
 Once nothing is unknown, the table crystallizes into a law. That law is checked
 against the accounting it is asked to keep, like any authored law. A table that
 would make or lose units is refused, and the breaking pairs are returned. In
 `AStructureLearnsThePassageLawFromWhatHappened`, eight rows in eight states are
 run four times, and the learned table equals `Flows.Passage` bit for bit.
+
+Counting is the first step, not the aim. A law that fits predicts its own
+history, so only what it gets wrong is worth storing. The direction is
+prediction by structure: a simple rule, such as one that stretches a value by
+two, compared with what happens next, with trust kept as a small count.
 
 ## Non-signal parts
 
@@ -393,8 +448,7 @@ The table says where each unresolved kind lives today. *Bits* means planes of
 a structure, which laws read and transport saves. *Rung* means a rung's own
 planes, which are a working view and not saved. *Live* means a difference
 read by reference while both sides exist. *Returned* means a record handed to
-the caller after one call; nothing in the machine keeps it. *Beside* means a
-host object next to a structure.
+the caller after one call; nothing in the machine keeps it.
 
 | Kind | Where it lives | Kept |
 | --- | --- | --- |
@@ -403,28 +457,116 @@ host object next to a structure.
 | Open / competing | Supports with several values not ruled out | Bits |
 | Contradiction | Supports with every value ruled out | Bits |
 | A choice nothing has made | The choice role of `WithChoice`, bound to a bit or left open | Bits |
-| Not a code | The bits stay as they are; `WiringStep.Unread` reports them | Bits |
+| Not a code | The bits stay as they are; reported as unread | Bits |
 | Broken count | `Unary.Broken`, `UnaryStep.Broken`; never repaired | Bits |
 | Undetectable magnitude | ODV V = 0: a sample below this read's resolution, still an operand | Bits |
-| Retired | The live plane; `WiringStep.Skipped` | Bits |
-| Aliased | `WiringStep.Aliased`: roles that meet at a written bit, after a lane moved. Found again from the lanes | Bits |
+| Retired | The live plane; reported as skipped | Bits |
+| A reference to nowhere | A row whose reference a law wrote out of range; reported as skipped | Bits |
+| Aliased | Roles that meet at a written bit, after a lane or a reference moved. Found again each step | Bits |
 | Remainder / blocked | What did not move stays where it was; the lane is unchanged | Bits |
 | Lossy read | A relation law such as presence over a count. It bounds what it dropped but cannot recover it (`ACoarseReadIsARelationAndCannotRecoverWhatItDropped`) | Bits |
+| What a row did last step | Changed, unread, unadmitted, ambiguous, skipped, aliased: `WiringStep`, and six planes of the rows once the wiring records | Bits when recording, else returned |
+| How often a pair was seen, and rows a learner could not read | `LearnedTable.Counts` | Bits |
+| Left out for not being seen | `Crystallized.Unsupported`, read again from the counts at any time | Bits |
 | Supposed | What a rung holds: bits written and supports narrowed there | Rung |
 | Stale | The rung's basis planes; `RungCommit.Stale`, and nothing is written | Rung |
 | Changed together | The rung's groups; `RungCommit.Split` | Rung |
 | Introduced | `Rung.Introduced`; never source evidence | Rung |
 | Prediction missed / goal not reached | `Rung.Gap`: the bits where a rung and its source disagree | Live |
-| A state the law is silent on | `WiringStep.Unadmitted`; the lane keeps its bits | Returned |
-| Several possible next states | `WiringStep.Ambiguous`: never picked from, and the lane keeps its old bits | Returned |
 | Overflow / underflow | `UnaryStep.Blocked` | Returned |
 | Beyond reach | `RungStep.Beyond`: rows that would reach too far from the request | Returned |
-| Left out for not being seen | `Crystallized.Unsupported`; the law it comes with does not keep it | Returned |
-| Unknown law rows, how often a pair was seen, rows a learner could not read | `LearnedTable`: `Read`, `Count`, `Seen`, `Unread` | Beside |
 
-Open values, choices and the gap are now in the planes or read live, so laws
-can react to them. What a step did not resolve, overflow, and a learner's
-counts are still reported rather than encoded (see [Not built](#not-built)).
+In a step, "unadmitted" is a state the law admits nothing for; for a relation
+that is a contradiction. "Ambiguous" is several admitted possibilities and
+nothing to choose: for a transition, several next states; for a relation, a
+role still open.
+
+## What runs itself, and what the host still does
+
+The aim is a structure that computes by being what it is. An accumulator is a
+count with a law wired to it; it collects because the engine steps, not
+because any code knows about accumulating. A running machine does two things,
+both table lookups across all rows at once:
+
+- a transition row takes the next state its table gives;
+- a relation row rules out what no admitted tuple supports.
+
+Everything else in a step is those two rules applied in declared order. There
+is no arithmetic unit and no real number: `TheEncodingUsesNoRealNumbers`
+checks every field, parameter and result by reflection. Counting is unary, so
+adding is setting a bit and comparing is a table.
+
+| Part | Lines | What it is |
+| --- | --- | --- |
+| The machine: planes, structures, ports, laws, wirings, engine | about 2,050 | Storage, the two step rules (about 230 lines), and checks made when something is built |
+| Stock tables: `Flows`, `Settling`, `Odv` | about 370 | Builders that produce tables; nothing runs from them but the tables |
+| Host tools: `Rung`, `Gap`, `Selections`, `Supports`, `Unary`, `LearnedTable` | about 1,100 | Code that reads or edits structure from outside |
+| Save, load and names: `Transport`, `Lens` | about 600 | Outside the machine by nature |
+
+Line counts include comments.
+
+What a machine does for itself, as wirings: move, branch, merge and switch
+flow; observe, narrow, forget and act on what it knows; predict, judge its
+predictions and keep trust; plan back from a goal; count what flowed through
+a row; reroute a row.
+
+What still needs the host:
+
+- **Growing.** Adding positions, planes and rows. A law can point a row
+  somewhere else; it cannot make a new one.
+- **Workspaces.** Copy on write, selection, reach and commit are host code,
+  the largest single piece. A rung is not saved, and the engine does not
+  manage one.
+- **Learning a table.** The counts are planes, but which pair a row showed is
+  worked out by host code, and so is turning counts into a law.
+- **Inflow.** Units enter through `Unary.Add`.
+- **The schedule.** Waves are worked out with host dictionaries. On a physical
+  substrate that is locality, not a computation.
+- **Checking promises.** A law's accounting is verified when the law is made.
+
+## How big it is
+
+Sizes of saved machines, from `Transport.Measure` and pinned in tests:
+
+| Machine | Bytes | Structures / laws / bindings, in bits |
+| --- | --- | --- |
+| A passage chain: 5 positions, 2 rows, 1 law | 22 | 55 / 80 / 36 |
+| Two predictors, a judge and their trust | 47 | |
+| The machine that plans two steps ahead: 3 structures, 5 laws, 8 wirings | 114 | 298 / 291 / 320 |
+| What a learner of the passage law knows: 73 small counts | 40 | |
+
+What the bits go to:
+
+- **State** costs one bit per plane per position. A wiring's rows are state
+  too: ⌈log₂ n⌉ bits per reference.
+- **A law** with one next state per state is saved as that list:
+  N·⌈log₂ N⌉ bits for N states, 24 bits for the passage law, which is what a
+  table-driven device holds. Other laws take one bit per tuple, N² for a
+  transition. In memory this adapter keeps every table as one bit per tuple,
+  so it can check it exhaustively.
+- **An open value** costs one plane per value instead of ⌈log₂⌉ bits: two bits
+  for a one-bit value, five for a count of 0 to 4. That is the price of
+  holding "not settled" in the same medium as "settled".
+
+What makes it grow, and what holds it down:
+
+- **Law tables grow fastest.** N is the product of the role sizes. A law over
+  two counts of 0 to 4 and two bits has 100 states and 700 bits, and one more
+  such count multiplies that by more than five. The pressure is toward many
+  small laws wired together, and coarse roles, not one wide law.
+- **Options multiply.** A choice role multiplies a law's states by the number
+  of options. A plan costs its positions once per moment it looks ahead.
+- **History is not kept.** Nothing here stores what happened step by step. A
+  law is the compact form of a history: 24 bits predict every step of every
+  row it is wired to. What a law gets wrong is what is worth keeping, and it
+  is kept small: a trust count of a few bits, a learner's counts that stop at
+  "often enough", evidence planes that hold only the last step.
+- **Rungs cost what they change**, three planes per plane written, and are
+  not saved.
+
+Not done: sparse planes (a mostly empty plane still costs a bit per position),
+and storing only the difference between a learned law and a simpler one that
+nearly fits.
 
 ## Where the ideas came from
 
@@ -479,31 +621,24 @@ counts are still reported rather than encoded (see [Not built](#not-built)).
 
 ## Not built
 
-- **The rest of uncertainty in the planes.**
-  - Step evidence (changed, unread, unadmitted, ambiguous, blocked) written to
-    planes a law or a rung's selection can read, so attention can go where
-    things did not resolve and a row's flow can be counted.
-  - A step through an ambiguous law that writes "one of these" into supports
-    instead of keeping the old bits.
-  - Overflow carried up a ladder rung instead of handed back.
-  - A learned table held in planes and saved, and a learned law that keeps
-    which of its exclusions were guesses.
-- **Blame.** The gap says where a result differs from what was wanted, not
-  which earlier choice caused it. Narrowing back through one step finds the
-  choice; a chain of next-moment rungs for several steps is not built.
-- **Narrowing inside a rung's selection.** `Supports.Narrow` on a rung does not
-  yet go through the rung's selection and reach.
-- **Supports about what a port shows**, and supports that vary together
-  (joint supports beyond one position).
-- **Laws that edit topology.** Positions, rows and lanes change through host
-  calls; a rung commit can add positions it introduced. No law writes a
-  reference yet.
-- **A rung across several structures.** A rung views one structure or rung.
-- **Relation wirings in a saved machine.** Transport saves an engine, which runs
-  transition laws.
-- **Prediction structures that replace a learned table.** A trust count can
-  follow a rung's misses through its gap, but nothing yet adopts or drops a
-  rung on that count.
+- **A step through an ambiguous law that writes "one of these"** into supports
+  instead of keeping the old bits.
+- **Overflow carried up a ladder rung** instead of handed back.
+- **Growth by laws.** A law rewires a row; it cannot add a row, a position or
+  a plane. Recruiting spare positions by pointing rows at them is possible
+  but not tried.
+- **Partial progress from a plan.** Narrowing back from a goal is all or
+  nothing within the moments it looks ahead: an unreachable goal gives a
+  contradiction, not the nearest reachable state. Steering by the gap does
+  make partial progress; joining the two is open. A plan is forgotten every
+  step, not shifted one moment forward.
+- **Learning as structure.** Which pair a row showed, and turning counts into
+  a law, are host code. So is adopting or dropping a predictor on its trust.
+  Prediction structures that replace a learned table are not built.
+- **Workspaces in a machine.** A rung is not saved and the engine does not
+  manage one. A rung views one structure or rung. A wiring's rows cannot be
+  supposed about through a rung.
+- **Inflow as structure.** Units enter through a host call.
 - **The full tension model:** positive and negative tension, an absorbed
   magnitude, an absorb law, and accounted loans.
 - **Replay from checkpoints, energy tiers and missing-route witnesses.**
@@ -520,12 +655,12 @@ counts are still reported rather than encoded (see [Not built](#not-built)).
 | --- | --- |
 | R1 substrate contract | Planes, laws with accounting, ODV and the passage law. The decoder is replaced by the lens. Gap balancing is not ported |
 | R2 house workspaces | Rungs: live reference with copy on write, layered and by-use selection, stale, split and introduced commits, sibling comparison. The house seam example is not ported |
-| R3 scoped supports | Per-position supports in the planes, narrowed through relations and through laws read as relations, on structures and rungs (U0). U1–U3 are dropped |
+| R3 scoped supports | Per-position supports in the planes, narrowed by relation wirings the engine runs, through laws read as relations, on structures, rungs and through ports (U0). A joint is a pair value with two relations. U1–U3 are dropped |
 | R4 semiring reads and zero contracts | Exact and detection ODV contracts. Semiring reads are dropped |
 | R5 tension and energy | Units enter through `Unary` and move through laws. Energy tiers are dropped |
-| R6 tick contract | `Engine` with waves in declared order. Shuffled-order tests are not done |
+| R6 tick contract | `Engine` with waves in declared order, running transitions and relations. Shuffled-order tests are not done |
 | R7 witnesses by replay | Not built |
-| R8 learned law tables | Implemented, without eligibility traces |
+| R8 learned law tables | Implemented with counts in a structure, without eligibility traces |
 | R9 SIMD / GPU | Out of scope; `Plane` words are the seam |
 | R10 crystallization by description length | Not done |
 
@@ -541,11 +676,12 @@ limits and tests.
 
 | File | What it shows |
 | --- | --- |
-| `SubstrateTests` | Planes of any length; growth and retirement; references at the width they need; constant planes; shapes; units entering as units, with overflow; broken counts reported, never repaired; the encoding holds no strings |
+| `SubstrateTests` | Planes of any length; growth and retirement; references at the width they need; constant planes; shapes; units entering as units, with overflow; broken counts reported, never repaired; the encoding holds no strings and uses no real numbers |
 | `LawTests` | The passage bytes and LUT6 value; accounting refusal with the breaking pair; 130 lanes in one step; unary moves; bits that are not codes told apart from states a law is silent on; one position used twice; a coarse read as a relation; tables compared by content; joint prediction; read-only views; at most 64 values per read |
 | `FlowTests` | Ports as lanes and planes, and rebinding; references to one sender from many readers; writing through a port only as a move, and only with positive weights; a moved lane aliasing a row; no role counting one bit twice; one-to-one uncalibrated moves with a remainder; two receivers interpreting one flow; two takers and one unit; branches and merges; self-switching flow; a calibrator structure; a wired rate; retired positions |
 | `OdvTests` | Packing `88 C6 FA`; detection as the default and as one contract, checked against a reference reader; exact zero by request; a wrong orientation refused before any bit changes; one position read twice; reorientation; addition narrowed across 100 rows; threshold calibration |
 | `RungTests` | Live reads and copy on write; stale and retired positions refusing a commit; changes made together, however the wiring is run, through a parent rung, and when reverted into a candidate; coarse-to-fine selection; selection by use up to a reach, counted from the nearest request; sibling rungs and rungs over rungs; constants by reference; a prediction checked against the source; introduced positions adopted; supports to a fixed point, open at positions added later; selections from structure |
-| `TransportTests` | A machine restored from bits running step for step with the same unresolved parts; 25 bytes for the passage chain; rungs refused; trailing bits refused; any damaged bit either loads or is refused as malformed |
+| `TransportTests` | A machine restored from bits running step for step with the same unresolved parts; 22 bytes for the passage chain, by part; rungs refused; trailing bits refused; any damaged bit either loads or is refused as malformed |
+| `SelfRunningTests` | Machines that only step: a law rewiring a row to the more trusted supplier; a row's activity left in planes and counted by a law; predictors judged and trusted by the structure itself; a goal two steps away opening a valve now, saved and restored; knowledge read through a port and never narrowed there; linked values as a pair with two relations |
 | `UncertaintyTests` | Open values in the planes, read by a law and saved; a supposition narrowed in a rung and dropped on contradiction; a goal settling the open choice that reaches it; ambiguity given a choice role; a miss read by a law as trust; flow steered to a goal that changes, with an unasked unit sent on |
-| `LearningAndLensTests` | Learning the passage law; evidence read around each wave; a learned exclusion undone by a later witness; a learner counting what it could not read; refusing a learned table that makes units; unknown pairs staying open; a lens that the encoding never reads |
+| `LearningAndLensTests` | Learning the passage law into counts that are saved and restored; evidence read around each wave; a learned exclusion undone by a later witness; a learner counting what it could not read; refusing a learned table that makes units; unknown pairs staying open; a lens that the encoding never reads |

@@ -118,11 +118,8 @@ public sealed class OdvTests
     {
         const int rows = 100;
         var structure = Odv.Create(rows * 3);
-        var sum = new Wiring(Odv.Addition(),
-            new Binding(structure, Odv.V, Odv.D, Odv.O),
-            new Binding(structure, Odv.V, Odv.D, Odv.O),
-            new Binding(structure, Odv.V, Odv.D, Odv.O));
         var support = Supports.On(structure, Odv.WordField);
+        var sum = new Wiring(Odv.Addition(), support.Variable, support.Variable, support.Variable);
         for (var i = 0; i < rows; i++)
         {
             sum.Add(3 * i, 3 * i + 1, 3 * i + 2);
@@ -132,7 +129,7 @@ public sealed class OdvTests
             support.Observe(3 * i + 1);
         }
 
-        Supports.Narrow(sum, support, support, support);
+        sum.Apply();
 
         for (var i = 0; i < rows; i++)
             Assert.Equal(i % 2 == 0 ? "{R+?}" : "{R+0, R-0}", Words(support.Values(3 * i + 2)));

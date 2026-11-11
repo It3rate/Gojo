@@ -147,6 +147,28 @@ public sealed class SubstrateTests
         Assert.Empty(holders);
     }
 
+    /// <summary>The encoding counts, compares and looks up. It never measures
+    /// with real numbers: no field, parameter or result anywhere in it is a
+    /// floating-point or decimal number.</summary>
+    [Fact]
+    public void TheEncodingUsesNoRealNumbers()
+    {
+        const BindingFlags all = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+        static bool Real(Type type) =>
+            type == typeof(double) || type == typeof(float) || type == typeof(decimal) || type == typeof(Half) ||
+            (type.HasElementType && Real(type.GetElementType()!)) ||
+            (type.IsGenericType && type.GetGenericArguments().Any(Real));
+        var users = typeof(Structure).Assembly.GetTypes()
+            .Where(t => t.Namespace == typeof(Structure).Namespace)
+            .SelectMany(t => t.GetFields(all).Where(f => Real(f.FieldType)).Select(f => $"{t.Name}.{f.Name}")
+                .Concat(t.GetMethods(all)
+                    .Where(m => Real(m.ReturnType) || m.GetParameters().Any(p => Real(p.ParameterType)))
+                    .Select(m => $"{t.Name}.{m.Name}")))
+            .ToArray();
+
+        Assert.Empty(users);
+    }
+
     private static bool Stringy(Type type) =>
         type == typeof(string) ||
         (type.IsArray && Stringy(type.GetElementType()!)) ||

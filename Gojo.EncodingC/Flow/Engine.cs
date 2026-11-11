@@ -1,6 +1,9 @@
 namespace Gojo.EncodingC;
 
-/// <summary>Runs wirings, one step at a time, in their declared order. A
+/// <summary>Runs wirings, one step at a time, in their declared order: a
+/// transition law changes state, a relation law rules out what is no longer
+/// possible. Nothing else happens in a step, so a machine that observes,
+/// narrows, decides, acts and forgets does all of it as wirings. A
 /// wiring that touches a position another writes runs in a later wave and
 /// reads what the earlier one left; the rest could run at the same moment on a
 /// parallel substrate and give the same result. Running them one after
@@ -19,7 +22,6 @@ public sealed class Engine
     public Engine Add(Wiring wiring)
     {
         ArgumentNullException.ThrowIfNull(wiring);
-        if (wiring.Law is not TransitionLaw) throw new ArgumentException("The engine runs transition laws; relations are read.", nameof(wiring));
         wirings.Add(wiring);
         return this;
     }
@@ -37,11 +39,13 @@ public sealed class Engine
             var written = rows.SelectMany(wirings[i].WrittenKeys).Distinct().ToArray();
             var level = 0;
             foreach (var site in touched)
-                if (lastWrite.TryGetValue(site, out var w)) level = Math.Max(level, w + 1);
+                if (lastWrite.TryGetValue(site, out var w) && w >= level) level = w + 1;
             foreach (var site in written)
-                if (lastTouch.TryGetValue(site, out var t)) level = Math.Max(level, t + 1);
-            foreach (var site in touched) lastTouch[site] = Math.Max(lastTouch.GetValueOrDefault(site, -1), level);
-            foreach (var site in written) lastWrite[site] = Math.Max(lastWrite.GetValueOrDefault(site, -1), level);
+                if (lastTouch.TryGetValue(site, out var t) && t >= level) level = t + 1;
+            foreach (var site in touched)
+                if (lastTouch.GetValueOrDefault(site, -1) < level) lastTouch[site] = level;
+            foreach (var site in written)
+                if (lastWrite.GetValueOrDefault(site, -1) < level) lastWrite[site] = level;
             while (waves.Count <= level) waves.Add([]);
             waves[level].Add(i);
         }

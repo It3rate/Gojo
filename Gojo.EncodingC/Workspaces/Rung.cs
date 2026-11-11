@@ -203,7 +203,8 @@ public sealed class Rung : Surface
 
     // ---- Running ----
 
-    /// <summary>Runs a transition wiring here. Rows whose rung positions are all
+    /// <summary>Runs a wiring here: a transition changes the rung's state, a
+    /// relation narrows what the rung holds open. Rows whose rung positions are all
     /// selected run. A row that also touches unselected positions brings them
     /// in, one step further from the request, if one of its selected positions
     /// has steps left and none of the others is ignored; otherwise it does not
@@ -214,7 +215,6 @@ public sealed class Rung : Surface
     public RungStep Apply(Wiring wiring)
     {
         ArgumentNullException.ThrowIfNull(wiring);
-        if (wiring.Law is not TransitionLaw) throw new ArgumentException("Only transition laws change state.", nameof(wiring));
         var bound = Enumerable.Range(0, wiring.Bindings.Count).Where(r => ReferenceEquals(wiring.Bindings[r].Surface, this)).ToArray();
         if (bound.Length == 0) throw new ArgumentException("Bind at least one role to this rung.", nameof(wiring));
         for (var r = 0; r < wiring.Bindings.Count; r++)

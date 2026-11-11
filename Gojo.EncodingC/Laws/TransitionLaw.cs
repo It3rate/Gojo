@@ -9,6 +9,7 @@ public sealed class TransitionLaw : Law
 {
     private int[][]? afters;
     private bool[]? writtenRoles;
+    private RelationLaw? relation;
 
     public TransitionLaw(IReadOnlyList<Shape> roles, ReadOnlySpan<byte> bytes, Accounting accounting)
         : this(roles, bytes, accounting, out var violations)
@@ -85,8 +86,9 @@ public sealed class TransitionLaw : Law
     /// table is unchanged. Narrowing supports through it runs the law in any
     /// direction without executing it: from what is to what may follow, or
     /// from what is wanted back to what the before, or an open choice in it,
-    /// must have been.</summary>
-    public RelationLaw AsRelation() => new([.. Roles, .. Roles], Bytes());
+    /// must have been. It is one reading of this law, not a copy: a machine
+    /// that plans with it is saved with the law once.</summary>
+    public RelationLaw AsRelation() => relation ??= new RelationLaw(this);
 
     /// <summary>Gives the law's optionality a place. Where a before-state
     /// admits several after-states the law alone cannot run: something has to
