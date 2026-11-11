@@ -72,6 +72,9 @@ of what something means.
 
 ## Nouns
 
+The [glossary](GLOSSARY.md) lists every term used here, with what it means and
+how it is held in bits.
+
 | Noun | Types | What it is |
 | --- | --- | --- |
 | Plane | [`Plane`](Substrate/Plane.cs) | A bit per position. State, selections, lane sets and supports are all planes |
@@ -619,8 +622,10 @@ What makes it grow, and what holds it down:
   not saved.
 
 Not done: sparse planes (a mostly empty plane still costs a bit per position),
-and storing only the difference between a learned law and a simpler one that
-nearly fits.
+storing only the difference between a learned law and a simpler one that
+nearly fits, and saving a regular table by the rule that makes it or as
+smaller laws wired together (see the glossary,
+[Is a law always a table?](GLOSSARY.md#is-a-law-always-a-table)).
 
 ## Where the ideas came from
 
@@ -730,7 +735,7 @@ limits and tests.
 | File | What it shows |
 | --- | --- |
 | `SubstrateTests` | Planes of any length; growth and retirement; references at the width they need; constant planes; shapes; units entering as units, with overflow; broken counts reported, never repaired; the encoding holds no strings and uses no real numbers |
-| `LawTests` | The passage bytes and LUT6 value; accounting refusal with the breaking pair; 130 lanes in one step; unary moves; bits that are not codes told apart from states a law is silent on; one position used twice; a coarse read as a relation; tables compared by content; joint prediction; read-only views; at most 64 values per read |
+| `LawTests` | The passage bytes and LUT6 value; accounting refusal with the breaking pair; 130 lanes in one step; unary moves; bits that are not codes told apart from states a law is silent on; one position used twice; a coarse read as a relation; tables compared by content; joint prediction; read-only views; at most 64 values per read; a Boolean operation as one byte read in every direction; adding two counts as one relation that also subtracts |
 | `FlowTests` | Ports as lanes and planes, and rebinding; references to one sender from many readers; writing through a port only as a move, and only with positive weights; a moved lane aliasing a row; no role counting one bit twice; one-to-one uncalibrated moves with a remainder; two receivers interpreting one flow; two takers and one unit; branches and merges; self-switching flow; a calibrator structure; a wired rate; retired positions |
 | `OdvTests` | Packing `88 C6 FA`; detection as the default and as one contract, checked against a reference reader; exact zero by request; a wrong orientation refused before any bit changes; one position read twice; reorientation; addition narrowed across 100 rows; threshold calibration |
 | `RungTests` | Live reads and copy on write; stale and retired positions refusing a commit; changes made together, however the wiring is run, through a parent rung, and when reverted into a candidate; coarse-to-fine selection; selection by use up to a reach, counted from the nearest request; sibling rungs and rungs over rungs; constants by reference; a prediction checked against the source; introduced positions adopted; supports to a fixed point, open at positions added later; selections from structure |

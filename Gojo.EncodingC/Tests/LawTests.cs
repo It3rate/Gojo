@@ -178,4 +178,47 @@ public sealed class LawTests
         var wide = RelationLaw.FromPredicate([Shape.Binary(65)], t => t[0] == 64);
         Assert.Throws<ArgumentException>(() => wide.Project(0, [ulong.MaxValue]));
     }
+
+    /// <summary>A Boolean operation is the smallest relation there is: eight
+    /// bits over (a, b, out), one byte. Nothing else is needed to have the
+    /// operation. The one table reads in every direction, and what is open
+    /// passes through it: an output can settle its inputs, and one input can
+    /// settle the output while the other is still open.</summary>
+    [Fact]
+    public void ABooleanOperationIsOneByteReadInEveryDirection()
+    {
+        Shape[] roles = [Shape.Bit, Shape.Bit, Shape.Bit];
+        var and = RelationLaw.FromPredicate(roles, t => t[2] == (t[0] & t[1]));
+        var or = RelationLaw.FromPredicate(roles, t => t[2] == (t[0] | t[1]));
+        var xor = RelationLaw.FromPredicate(roles, t => t[2] == (t[0] ^ t[1]));
+
+        Assert.Equal(new byte[] { 0x87 }, and.Bytes());
+        Assert.Equal(new byte[] { 0xE1 }, or.Bytes());
+        Assert.Equal(new byte[] { 0x69 }, xor.Bytes());
+
+        const ulong zero = 0b01, one = 0b10, open = 0b11;
+        Assert.Equal(one, and.Project(2, [one, one, open]));
+        Assert.Equal(zero, and.Project(2, [zero, open, open]));
+        Assert.Equal(one, and.Project(0, [open, open, one]));
+        Assert.Equal(zero, and.Project(1, [one, open, zero]));
+        Assert.Equal(open, and.Project(0, [open, open, zero]));
+    }
+
+    /// <summary>Adding two small counts is one relation over (a, b, sum). The
+    /// same table subtracts, since a sum and one part settle the other part.
+    /// What is open stays exactly as open as it was. The table has one bit per
+    /// combination, so it grows with the product of the sizes: operands stay
+    /// coarse, and a wider sum is the same small table at each rung of a
+    /// ladder with a carry.</summary>
+    [Fact]
+    public void AddingTwoCountsIsOneRelationThatAlsoSubtracts()
+    {
+        var add = RelationLaw.FromPredicate([Shape.Unary(3), Shape.Unary(3), Shape.Unary(6)], t => t[2] == t[0] + t[1]);
+
+        Assert.Equal(112, add.BitCount);
+        Assert.Equal(16, add.AdmittedCount);
+        Assert.Equal(1UL << 5, add.Project(2, [1UL << 2, 1UL << 3, 0x7F]));
+        Assert.Equal(1UL << 3, add.Project(1, [1UL << 2, 0xF, 1UL << 5]));
+        Assert.Equal(0b110000UL, add.Project(2, [0b0110, 1UL << 3, 0x7F]));
+    }
 }
