@@ -833,6 +833,31 @@ that distinction whenever later behavior may depend on it.
 
 Do not use value equality as a substitute for physical identity or dependency.
 
+### 5.4 Uncertainty Is Where Change Can Happen
+
+Signal and noise are modeled together, as a layout has content and whitespace.
+Neither is an afterthought. Everything that flows in is uncertain until
+structure accounts for it by routing, sorting or absorbing it. A constant is
+pure information, and nothing is solved with constants alone. What can change
+is what is not settled: an open value, a choice of route, a connection, a
+focus, a goal, a rung's range of refinements, what happens next, an idea that
+may be wrong.
+
+Uncertainty is therefore a tool, not only something to reduce or report. A
+structure predicts, flow settles through it, and the difference between the
+prediction and the result is error, itself a form of noise. Keep three reads
+apart: how well a structure expects to predict, how well it did predict, and
+how far the present is from a goal. One valid way toward a goal is to set the
+prediction to the goal and let the flow, with its error, change valves,
+choices, structure and routing until the difference is small. Every such
+change happens at a place that was flexible, so that place was uncertain
+whether or not anything recorded it.
+
+Encode unsettled state in the same medium as settled state, where the
+structures that can act on it can read it. A result only reported to a caller
+cannot steer anything. Reducing uncertainty is not the goal by itself: a
+structure with nothing open has nowhere left to change.
+
 ## 6. Repetition, Time, And Feedback
 
 Repetition is first-class structure:
@@ -1261,6 +1286,8 @@ the current code and tests prove them:
 - complete structural denominator/unit-inverse semantics;
 - the core carrier axis/flow-face split now prototyped in ConceptSurface;
 - general confidence, attention, and candidate-lifetime mechanics;
+- distributing error to the flexible places that caused it, and changing
+  structure or routing from it without a host deciding where;
 - general demand-driven finite circuits, compressed execution lanes and
   automatic precision or query-budget selection beyond the finite-read fixture;
 - discovery of mixtures, connection growth/decay, and utility-directed memory
@@ -1295,6 +1322,8 @@ Before finishing a change, ask:
 - Is selection made coarse first, without listing members, and does a
   workspace copy only what it changes?
 - Can multiple candidates or lower-resolution reads remain valid?
+- Is what is unsettled held where structure can read and act on it, not only
+  reported to a caller?
 - Is repeated behavior inspectable as controller, transition, feedback, and
   timeline?
 - Does the test assert structure and unresolved behavior, not only the final

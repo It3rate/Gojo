@@ -277,7 +277,7 @@ that produced it.
 | House seam experiment ([SeamLadders](../../experiments/PrimitiveMeasure/SeamLadders.md)) | Face ranges over a shared edge catalogue; open and completed views as windows over signed uses |
 | `NativePreviewWorkspace` ([negotiation](../../experiments/ConstructionMachines/Negotiation.md)) | Tries candidates in a private preview before the real machine changes; uses an isolated preview for attached worlds, because reversing a transfer is not an undo |
 | `LocalTrialMachine` ([partial decisions](../../experiments/QualitativeFrieze/PartialDecisionStudy.md)) | A trial acts on the world only after an explicit quiet grant |
-| `Rung` ([EncodingC](../../Gojo.EncodingC/README.md#rungs-workspaces)) | Live reference with copy on write; selection by layers and by use with a reach; prediction, sibling comparison, partial revert and validated partial commit; introduced positions adopted on commit |
+| `Rung` ([EncodingC](../../Gojo.EncodingC/README.md#rungs-workspaces)) | Live reference with copy on write; selection by layers and by use with a reach; prediction, sibling comparison, partial revert and validated partial commit; introduced positions adopted on commit; its gap with the source read by laws as a miss or as what is left before a goal; open values narrowed in it as suppositions |
 
 ## First Test: The House
 

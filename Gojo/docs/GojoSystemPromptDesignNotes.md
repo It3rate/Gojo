@@ -711,6 +711,64 @@ value by two and is compared with the next input. A transport format now saves
 a machine as bits and restores it without its builders, with the same
 behaviour and the same unresolved states.
 
+## Uncertainty As Where Change Happens, November 2026
+
+The user asked for the encoding to be reviewed, and worked on for a while,
+from the point of view of uncertainty. Section 5.4 records the direction.
+
+**Signal and noise are equals.** One of the main goals of the format is that
+noise is as much a first-class element as signal, modeled together with it,
+the way a design has content and whitespace. Signal takes more of the
+bandwidth because it has more structure, but much of the noise is well
+characterized by structure too. Uncertainty comes before learning: a constant
+is pure information, and it is hard to solve a problem without the
+uncertainty of a variable.
+
+**All inflow is uncertain until accounted for.** A sensor's input is only a
+flow of value until it is routed, sorted and accounted for. The user listed
+where else this noise sits: below resolution; a ladder rung's range of
+refinements; the optionality in directing flow; changeable structure; focus
+that leads to other focus; mutable goals; an uncertain future; ideas that can
+be wrong.
+
+**Uncertainty is a tool.** A structure makes a prediction, the flow settles
+through it, and the difference is error, a form of noise. There is
+uncertainty in how well we feel we can predict, in how well we actually
+predict, and in how close we are to a goal. Moving to a goal can be done by
+setting the prediction to the goal and letting the flow, with its high error,
+modify the structure and valves. The aim is to convert an existing state
+into a goal state by modifying flow, choices, structure, and even routing to
+more qualified structures. All of that change happens in places with
+flexibility, which were uncertain in some way whether we knew it or not.
+
+Section 5.2 already listed kinds of unresolved participation. Section 5.4
+adds the active reading: those are the places a structure can act on, so they
+must be encoded where it can read them. The scan that prompted this found
+that `Gojo.EncodingC` had a complete vocabulary of unresolved states and
+stored almost none of it: most was returned to the caller or kept in a host
+object.
+
+`Gojo.EncodingC` was changed as a first foothold:
+
+- What a value may still be is planes of the structure, one per value, set
+  where the value is ruled out. Open is the default, each bit is one thing
+  learned, and a rung over the structure can suppose and drop.
+- The gap between a rung and its source is a surface laws read by reference.
+  For a rung that predicted, it is the miss; for a rung holding a wanted
+  state, it is what is left to do. Goal distance and prediction error are one
+  read.
+- A law's ambiguity can be given a choice role, bound to a bit or left open.
+- A transition table read as a relation between a before and an after lets a
+  goal settle the open choices that reach it, or reach a visible
+  contradiction.
+- A step now reports bits it could not read apart from states the law is
+  silent on, and a learned table counts what it could not read.
+
+Not claimed: a general way to assign error to the earlier choices that caused
+it, structure or routing changed by laws rather than by a host, step evidence
+and learned counts in the planes, or supports that vary together. Section 12
+lists the first two.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:
