@@ -41,4 +41,11 @@ public abstract class Surface
 
     /// <summary>For scheduling: the place a write to this index changes.</summary>
     internal abstract (Surface, int) WriteKey(int index);
+
+    /// <summary>One row of a law changed these indexes in one step, as a move
+    /// does. A structure holds what is and keeps nothing more; a rung records
+    /// them, so they are committed or reverted only together.</summary>
+    internal virtual void ChangedTogether(IReadOnlyList<int> indexes)
+    {
+    }
 }

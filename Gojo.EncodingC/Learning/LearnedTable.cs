@@ -41,6 +41,7 @@ public sealed class LearnedTable
         if (samples < 0) throw new ArgumentOutOfRangeException(nameof(samples));
         Samples = samples;
         this.roles = roles.ToArray();
+        Roles = Array.AsReadOnly(this.roles);
         StateCount = roles.Aggregate(1, (p, r) => checked(p * r.Size));
         if ((long)StateCount * StateCount > Law.MaxBits) throw new ArgumentException("Table too large.", nameof(roles));
         AdmitThreshold = admitThreshold;
@@ -50,7 +51,7 @@ public sealed class LearnedTable
         witnesses = new List<long>?[StateCount * StateCount];
     }
 
-    public IReadOnlyList<Shape> Roles => roles;
+    public IReadOnlyList<Shape> Roles { get; }
 
     public int StateCount { get; }
 

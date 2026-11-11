@@ -38,7 +38,8 @@ public sealed class Field
     /// of the shape.</summary>
     public int? Read(Structure structure, int position) => Shape.Decode(Pattern(structure, position));
 
-    /// <summary>Writes a value. A bit on a constant plane must already agree.</summary>
+    /// <summary>Writes a value. A bit on a constant plane must already agree;
+    /// every such bit is checked before anything is written.</summary>
     public void Write(Structure structure, int position, int value)
     {
         ArgumentNullException.ThrowIfNull(structure);
@@ -46,13 +47,10 @@ public sealed class Field
         for (var k = 0; k < planes.Length; k++)
         {
             var bit = ((pattern >> k) & 1) != 0;
-            if (structure.IsConstantPlane(planes[k]))
-            {
-                if (structure.ConstantValue(planes[k]) != bit)
-                    throw new ArgumentException($"Plane {planes[k]} is constant {(bit ? 0 : 1)} across the structure.", nameof(value));
-                continue;
-            }
-            structure.Write(planes[k], position, bit);
+            if (structure.IsConstantPlane(planes[k]) && structure.ConstantValue(planes[k]) != bit)
+                throw new ArgumentException($"Plane {planes[k]} is constant {(bit ? 0 : 1)} across the structure.", nameof(value));
         }
+        for (var k = 0; k < planes.Length; k++)
+            if (!structure.IsConstantPlane(planes[k])) structure.Write(planes[k], position, ((pattern >> k) & 1) != 0);
     }
 }

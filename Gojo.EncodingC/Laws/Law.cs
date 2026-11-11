@@ -25,12 +25,14 @@ public abstract class Law
         if (bitCount % 8 != 0 && (bytes[^1] >> (int)(bitCount % 8)) != 0)
             throw new ArgumentException("Padding above the last tuple must be zero.", nameof(bytes));
         this.roles = roles.ToArray();
+        Roles = Array.AsReadOnly(this.roles);
         BitCount = (int)bitCount;
         table = new ulong[(BitCount + 63) / 64];
         for (var i = 0; i < bytes.Length; i++) table[i / 8] |= (ulong)bytes[i] << (8 * (i % 8));
     }
 
-    public IReadOnlyList<Shape> Roles => roles;
+    /// <summary>The role shapes. Read-only: the shapes are part of the law.</summary>
+    public IReadOnlyList<Shape> Roles { get; }
 
     /// <summary>Number of role tuples: the product of the role sizes.</summary>
     public int TupleCount => Product(roles);

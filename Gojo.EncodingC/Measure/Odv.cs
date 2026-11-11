@@ -148,6 +148,7 @@ public static class Odv
     public static RelationLaw Addition(int threshold = Detection)
     {
         if (threshold < 1) throw new ArgumentOutOfRangeException(nameof(threshold));
+        threshold = Math.Min(threshold, Detection);
         lock (AdditionLaws)
         {
             if (AdditionLaws.TryGetValue(threshold, out var cached)) return cached;
@@ -183,11 +184,15 @@ public static class Odv
     /// threshold <paramref name="fromThreshold"/> may read at threshold
     /// <paramref name="toThreshold"/>, derived by enumerating hidden values. A zero
     /// keeps its direction and the orientation is kept. From detection to exact,
-    /// an undetectable word becomes competing candidates, never an exact zero.</summary>
+    /// an undetectable word becomes competing candidates, never an exact zero.
+    /// Only the order of the two thresholds, and whether either is exact, shape
+    /// the table, so large thresholds read as small ones in the same order.</summary>
     public static RelationLaw ThresholdCorrespondence(int fromThreshold, int toThreshold)
     {
         if (fromThreshold < 1) throw new ArgumentOutOfRangeException(nameof(fromThreshold));
         if (toThreshold < 1) throw new ArgumentOutOfRangeException(nameof(toThreshold));
+        (fromThreshold, toThreshold) = (Math.Min(fromThreshold, Detection) + (fromThreshold > toThreshold && toThreshold >= Detection ? 1 : 0),
+            Math.Min(toThreshold, Detection) + (toThreshold > fromThreshold && fromThreshold >= Detection ? 1 : 0));
         var admitted = new HashSet<(int, int)>();
         var reach = 3 * Math.Max(fromThreshold, toThreshold) + 1;
         for (var orientation = 0; orientation <= 1; orientation++)

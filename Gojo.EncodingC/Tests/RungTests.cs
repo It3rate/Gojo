@@ -113,6 +113,73 @@ public sealed class RungTests
         Assert.Equal((false, true), (chain.Read(0, 0), chain.Read(0, 2)));
     }
 
+    /// <summary>Grouping belongs to the wiring, not to the call that runs it. A
+    /// move run straight through <see cref="Wiring.Apply()"/> on a rung is still
+    /// committed whole or not at all. A law may not write a rung and anything
+    /// else in one step.</summary>
+    [Fact]
+    public void AMoveIsKeptWholeHoweverItIsRun()
+    {
+        var (source, count) = Stores.Store(2, 1);
+        count.Write(source, 0, 1);
+        var rung = new Rung(source).SelectAll();
+        var move = new Wiring(Flows.Move(1, 1), new Binding(rung, 0), new Binding(rung, 0));
+        move.Add(0, 1);
+
+        move.Apply();
+
+        Assert.Equal(Plane.Of(2, 0), rung.Commit(Plane.Of(2, 1)).Split);
+        Assert.Equal(1, count.Read(source, 0));
+        Assert.Throws<ArgumentException>(() => new Wiring(Flows.Move(1, 1), new Binding(rung, 0), new Binding(source, 0)));
+    }
+
+    /// <summary>A child rung moves a unit and commits into its parent. The
+    /// parent keeps the two ends together, so committing only the arrival is
+    /// refused there too, and the structure never holds the unit twice.</summary>
+    [Fact]
+    public void AMoveCommittedIntoAParentRungStaysWhole()
+    {
+        var (source, count) = Stores.Store(2, 1);
+        count.Write(source, 0, 1);
+        var parent = new Rung(source).SelectAll();
+        var child = new Rung(parent).SelectAll();
+        var move = new Wiring(Flows.Move(1, 1), new Binding(child, 0), new Binding(child, 0));
+        move.Add(0, 1);
+        child.Apply(move);
+
+        Assert.True(child.Commit().Committed);
+        var half = parent.Commit(Plane.Of(2, 1));
+
+        Assert.Equal(Plane.Of(2, 0), half.Split);
+        Assert.Equal((1, 0), (count.Read(source, 0), count.Read(source, 1)));
+
+        Assert.True(parent.Commit().Committed);
+        Assert.Equal((0, 1), (count.Read(source, 0), count.Read(source, 1)));
+    }
+
+    /// <summary>A unit moved into an introduced position, then reverted at its
+    /// donor: the unit goes home and the candidate stays, empty. Committing
+    /// adopts an empty position, not a second unit.</summary>
+    [Fact]
+    public void RevertingAMoveIntoACandidateTakesTheUnitBack()
+    {
+        var (source, count) = Stores.Store(1, 1);
+        count.Write(source, 0, 1);
+        var rung = new Rung(source).SelectAll();
+        var candidate = rung.Introduce();
+        var move = new Wiring(Flows.Move(1, 1), new Binding(rung, 0), new Binding(rung, 0));
+        move.Add(0, candidate);
+        rung.Apply(move);
+
+        Assert.Equal(Plane.Of(2, 0, candidate), rung.Revert(Plane.Of(2, 0)));
+        Assert.Equal((true, false), (rung.Read(0, 0), rung.Read(0, candidate)));
+
+        var commit = rung.Commit();
+
+        var adopted = Assert.Single(commit.Adopted);
+        Assert.Equal((1, 0), (count.Read(source, 0), count.Read(source, adopted)));
+    }
+
     /// <summary>Three layers select ten positions: all of it, but not the second
     /// half, except one detail. Nobody lists positions. "All" follows the source
     /// as it grows.</summary>
@@ -298,6 +365,24 @@ public sealed class RungTests
         Supports.Propagate(new[] { (otherRows, new[] { contradiction, contradiction }) });
 
         Assert.True(contradiction.Empty.Any);
+    }
+
+    /// <summary>Supports describe a structure that keeps growing. A position
+    /// added later starts open, since nothing has been observed or narrowed
+    /// there yet.</summary>
+    [Fact]
+    public void APositionAddedLaterIsOpen()
+    {
+        var line = new Structure(1, 2);
+        var support = new Supports(line, Field.Bit(0));
+        support.Observe(0);
+
+        line.Add();
+
+        Assert.Equal(Plane.Of(3, 1, 2), support.Open);
+        Assert.Equal(0b11UL, support.Values(2));
+        Assert.True(support.Restrict(2, 0b10));
+        Assert.Equal(Plane.Of(3, 0, 2), support.Settled);
     }
 
     [Fact]

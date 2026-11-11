@@ -163,6 +163,7 @@ public sealed class Structure : Surface
         ArgumentNullException.ThrowIfNull(planes);
         if (planes.Length == 0) throw new ArgumentException("A port exposes at least one plane.", nameof(planes));
         foreach (var plane in planes) CheckPlane(plane);
+        if (planes.Distinct().Count() != planes.Length) throw new ArgumentException("A port exposes each plane once; one bit shown twice would be counted twice.", nameof(planes));
         foreach (var position in positions) CheckLive(position);
         var port = new Port(this, positions, planes);
         ports.Add(port);

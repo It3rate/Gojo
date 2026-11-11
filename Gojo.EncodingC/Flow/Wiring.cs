@@ -12,6 +12,7 @@ public sealed class Binding
         ArgumentNullException.ThrowIfNull(planes);
         foreach (var plane in planes)
             if ((uint)plane >= (uint)surface.PlaneCount) throw new ArgumentOutOfRangeException(nameof(planes));
+        if (planes.Distinct().Count() != planes.Length) throw new ArgumentException("A plane holds one bit of a role.", nameof(planes));
         Surface = surface;
         this.planes = planes.ToArray();
     }
@@ -76,6 +77,11 @@ public sealed class Wiring
                     $"Role {r} writes through a port but is in no preserved sum of positive amounts. Writing another structure's bits is allowed only as a move, where what leaves arrives elsewhere.",
                     nameof(roles));
         }
+        var rung = Enumerable.Range(0, roles.Length).Where(r => changing[r] != 0).Select(r => roles[r].Surface).OfType<Rung>().FirstOrDefault();
+        if (rung is not null && Enumerable.Range(0, roles.Length).Any(r => changing[r] != 0 && !ReferenceEquals(roles[r].Surface, rung)))
+            throw new ArgumentException(
+                "A law that writes a rung writes only that rung. A supposition and what is are never changed in one step; the rung's commit decides what reaches anything else.",
+                nameof(roles));
     }
 
     public Law Law { get; }
@@ -256,7 +262,13 @@ public sealed class Wiring
             foreach (var row in wave.Indexes())
             {
                 after[row] = TupleOf(row) ?? -1;
-                if (after[row] != before[row]) changed[row] = true;
+                if (after[row] == before[row]) continue;
+                changed[row] = true;
+                foreach (var surface in bindings.Where((_, r) => changing[r] != 0).Select(b => b.Surface).Distinct())
+                {
+                    var written = IndexesOn(row, surface, writtenOnly: true).Distinct().ToArray();
+                    if (written.Length > 1) surface.ChangedTogether(written);
+                }
             }
         }
         return new WiringStep(changed, unadmitted, ambiguous, skipped, aliased, before, after, waves);
@@ -323,7 +335,8 @@ public sealed class Wiring
     }
 
     /// <summary>The first pair of roles that would hold one bit that one of
-    /// them writes, or null.</summary>
+    /// them writes, or null. A role can meet itself, when two of its bits reach
+    /// one bit of the structure underneath.</summary>
     private (int Writer, int Other)? MeetAtAWrittenBit(int[] indexes)
     {
         for (var r = 0; r < indexes.Length; r++)
@@ -332,11 +345,8 @@ public sealed class Wiring
                 if (((changing[r] >> b) & 1) == 0) continue;
                 var written = bindings[r].Surface.Bit(indexes[r], bindings[r].Plane(b));
                 for (var j = 0; j < indexes.Length; j++)
-                {
-                    if (j == r) continue;
                     for (var c = 0; c < bindings[j].Planes.Count; c++)
-                        if (bindings[j].Surface.Bit(indexes[j], bindings[j].Plane(c)) == written) return (r, j);
-                }
+                        if ((j != r || c != b) && bindings[j].Surface.Bit(indexes[j], bindings[j].Plane(c)) == written) return (r, j);
             }
         return null;
     }

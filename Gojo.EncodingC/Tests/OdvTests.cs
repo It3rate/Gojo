@@ -28,15 +28,59 @@ public sealed class OdvTests
         Assert.Equal(0UL, Odv.Add(W("R+?"), W("L+?")));
     }
 
-    /// <summary>Detection is one contract: every threshold from 2 up gives the
-    /// same addition table. The exact-zero table is a different contract that a
-    /// reader has to ask for.</summary>
+    /// <summary>Detection is one contract. A reference reader here enumerates
+    /// hidden integers at each threshold, and every threshold from 2 up gives
+    /// the detection table; every pair of thresholds in the same order gives the
+    /// same correspondence. So each table is built once, and a huge threshold
+    /// costs nothing and cannot overflow. The exact-zero table is a different
+    /// contract that a reader has to ask for.</summary>
     [Fact]
     public void DetectionIsOneContractWhateverTheThreshold()
     {
-        var detection = Odv.Addition();
-        for (var threshold = 3; threshold <= 6; threshold++) Assert.True(Odv.Addition(threshold).SameTable(detection));
-        Assert.False(Odv.Addition(Odv.ExactZero).SameTable(detection));
+        for (var threshold = 1; threshold <= 7; threshold++)
+            Assert.True(Odv.Addition(threshold).SameTable(ReferenceAddition(threshold)));
+        Assert.True(Odv.Addition(int.MaxValue).SameTable(Odv.Addition()));
+        Assert.False(Odv.Addition(Odv.ExactZero).SameTable(Odv.Addition()));
+
+        for (var from = 1; from <= 6; from++)
+            for (var to = 1; to <= 6; to++)
+                Assert.True(Odv.ThresholdCorrespondence(from, to).SameTable(ReferenceCorrespondence(from, to)));
+        Assert.True(Odv.ThresholdCorrespondence(int.MaxValue, 9).SameTable(Odv.ThresholdCorrespondence(3, 2)));
+    }
+
+    /// <summary>The words a hidden integer reads as: detectable at the
+    /// threshold, otherwise its sign, and both directions for zero.</summary>
+    private static int[] WordsOf(int hidden, int threshold) =>
+        hidden >= threshold ? [0b01] : hidden <= -threshold ? [0b11] : hidden > 0 ? [0b00] : hidden < 0 ? [0b10] : [0b00, 0b10];
+
+    private static RelationLaw ReferenceAddition(int threshold)
+    {
+        var admitted = new HashSet<(int, int, int)>();
+        var reach = 3 * threshold + 1;
+        for (var o = 0; o <= 4; o += 4)
+            for (var x = -reach; x <= reach; x++)
+                for (var y = -reach; y <= reach; y++)
+                    foreach (var a in WordsOf(x, threshold))
+                        foreach (var b in WordsOf(y, threshold))
+                        {
+                            var results = x + y != 0 ? WordsOf(x + y, threshold)
+                                : (a & 0b10) == (b & 0b10) ? [a & 0b10]
+                                : [0b00, 0b10];
+                            foreach (var r in results) admitted.Add((a | o, b | o, r | o));
+                        }
+        return RelationLaw.FromPredicate([Odv.Word, Odv.Word, Odv.Word], t => admitted.Contains((t[0], t[1], t[2])));
+    }
+
+    private static RelationLaw ReferenceCorrespondence(int from, int to)
+    {
+        var admitted = new HashSet<(int, int)>();
+        var reach = 3 * Math.Max(from, to) + 1;
+        for (var o = 0; o <= 4; o += 4)
+            for (var x = -reach; x <= reach; x++)
+                foreach (var a in WordsOf(x, from))
+                    foreach (var b in x == 0 ? [a & 0b10] : WordsOf(x, to))
+                        admitted.Add((a | o, b | o));
+        return RelationLaw.FromPredicate([Odv.Word, Odv.Word], t => admitted.Contains((t[0], t[1])));
     }
 
     [Fact]
@@ -101,5 +145,18 @@ public sealed class OdvTests
 
         Assert.Equal("{R+0, R+?}", Words(detectionToExact.Project(1, [1UL << W("R+0").Code, 0xFF])));
         Assert.Equal("{R+0}", Words(Odv.ThresholdCorrespondence(1, 1).Project(1, [1UL << W("R+0").Code, 0xFF])));
+    }
+
+    /// <summary>A write whose orientation does not match the structure's is
+    /// refused before any bit changes, so V and D are not left half written.</summary>
+    [Fact]
+    public void AWordFacingTheOtherWayIsRefusedBeforeAnyBitChanges()
+    {
+        var words = Odv.Create(1);
+        Odv.Write(words, 0, W("R+0"));
+
+        Assert.Throws<ArgumentException>(() => Odv.Write(words, 0, W("L-?")));
+
+        Assert.Equal("R+0", Odv.Read(words, 0).ToString());
     }
 }

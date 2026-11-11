@@ -96,16 +96,38 @@ public sealed class SubstrateTests
     {
         var (structure, count) = Stores.Store(3, 2);
 
-        Assert.True(Unary.Add(structure, count, structure.Live).None);
-        Assert.True(Unary.Add(structure, count, Plane.Of(3, 0, 1)).None);
+        Assert.True(Unary.Add(structure, count, structure.Live).Blocked.None);
+        Assert.True(Unary.Add(structure, count, Plane.Of(3, 0, 1)).Blocked.None);
         var overflow = Unary.Add(structure, count, structure.Live);
 
-        Assert.Equal(Plane.Of(3, 0, 1), overflow);
+        Assert.Equal(Plane.Of(3, 0, 1), overflow.Blocked);
+        Assert.Equal(Plane.Of(3, 2), overflow.Taken);
         Assert.All(Enumerable.Range(0, 3), i => Assert.Equal(2, count.Read(structure, i)));
 
         var underflow = Unary.Remove(structure, count, Plane.Of(3, 2));
-        Assert.True(underflow.None);
+        Assert.True(underflow.Blocked.None);
         Assert.Equal(1, count.Read(structure, 2));
+    }
+
+    /// <summary><c>010</c> is not a count. Adding to it would shift it into a
+    /// valid-looking 3; instead it is reported as broken and keeps its bits,
+    /// and no read counts it as holding anything.</summary>
+    [Fact]
+    public void ABrokenCountIsReportedAndNeverRepaired()
+    {
+        var (structure, count) = Stores.Store(2, 3);
+        structure.Write(1, 0, true);
+
+        var added = Unary.Add(structure, count, structure.Live);
+        var removed = Unary.Remove(structure, count, Plane.Of(2, 0));
+
+        Assert.Equal(Plane.Of(2, 0), added.Broken);
+        Assert.Equal(Plane.Of(2, 1), added.Taken);
+        Assert.Equal(Plane.Of(2, 0), removed.Broken);
+        Assert.Equal(0b010UL, count.Pattern(structure, 0));
+        Assert.Null(count.Read(structure, 0));
+        Assert.Equal(Plane.Of(2, 0), Unary.Broken(structure, count));
+        Assert.Equal(Plane.Of(2, 1), Unary.NonZero(structure, count));
     }
 
     /// <summary>Names belong to a lens for people. No type of the encoding itself

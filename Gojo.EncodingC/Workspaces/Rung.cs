@@ -199,7 +199,8 @@ public sealed class Rung : Surface
     /// has steps left and none of the others is ignored; otherwise it does not
     /// run and is returned in <see cref="RungStep.Beyond"/>. Rows that touch
     /// nothing selected are not this rung's business. Rows that changed several
-    /// of this rung's positions are remembered as changed together.</summary>
+    /// of this rung's positions are remembered as changed together; that is done
+    /// by the wiring, so it holds however the wiring is run.</summary>
     public RungStep Apply(Wiring wiring)
     {
         ArgumentNullException.ThrowIfNull(wiring);
@@ -241,13 +242,7 @@ public sealed class Rung : Surface
             run[row] = true;
         }
 
-        var step = wiring.Apply(run);
-        foreach (var row in step.Changed.Indexes())
-        {
-            var written = wiring.IndexesOn(row, this, writtenOnly: true).Distinct().ToArray();
-            for (var k = 1; k < written.Length; k++) Join(written[0], written[k]);
-        }
-        return new RungStep(step, beyondRows, brought);
+        return new RungStep(wiring.Apply(run), beyondRows, brought);
     }
 
     // ---- Reading what happened here ----
@@ -323,12 +318,13 @@ public sealed class Rung : Surface
 
     /// <summary>Forgets what was written at the given positions (all held
     /// positions when null), so they read the source live again. Changes made
-    /// together are forgotten together. Introduced positions stay.</summary>
+    /// together are forgotten together: a unit moved into an introduced
+    /// position goes back to where it came from, and the introduced position
+    /// stays, empty, as a candidate.</summary>
     public Plane Revert(Plane? positions = null)
     {
         var set = Groups(Restrict(positions));
-        foreach (var i in set.Indexes())
-            if (SourceOf(i) is not null) Release(i);
+        foreach (var i in set.Indexes()) Release(i);
         return set;
     }
 
@@ -336,7 +332,8 @@ public sealed class Rung : Surface
     /// positions when null) into its source. Refused, writing nothing, when the
     /// positions would split changes one row made together, or when anything
     /// they would overwrite has moved in the source since it was copied.
-    /// Introduced positions are adopted as new source positions.</summary>
+    /// Introduced positions are adopted as new source positions. Committed into
+    /// a parent rung, changes made together stay together there.</summary>
     public RungCommit Commit(Plane? positions = null)
     {
         var set = Restrict(positions);
@@ -374,6 +371,11 @@ public sealed class Rung : Surface
             adopted.Add(s);
             written[i] = true;
         }
+        foreach (var group in written.Indexes().GroupBy(Find))
+        {
+            var there = group.Select(i => SourceOf(i)!.Value).Distinct().ToArray();
+            if (there.Length > 1) source.ChangedTogether(there);
+        }
         foreach (var i in set.Indexes()) Release(i);
         return new RungCommit(true, none, none, written, adopted);
     }
@@ -401,6 +403,11 @@ public sealed class Rung : Surface
     }
 
     internal override (Surface, int) WriteKey(int index) => (this, index);
+
+    internal override void ChangedTogether(IReadOnlyList<int> indexes)
+    {
+        for (var k = 1; k < indexes.Count; k++) Join(indexes[0], indexes[k]);
+    }
 
     // ---- Internals ----
 

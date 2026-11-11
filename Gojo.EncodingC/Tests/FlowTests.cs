@@ -100,6 +100,18 @@ public sealed class FlowTests
         Assert.Equal((0, 1), (count.Read(owner, 0), count.Read(owner, 2)));
     }
 
+    /// <summary>One bit cannot stand for two bits of a count. A binding or a
+    /// port that names a plane twice would let a move read 1 and write 2, so
+    /// both are refused when they are made.</summary>
+    [Fact]
+    public void ARoleCannotCountOneBitTwice()
+    {
+        var (owner, _) = Stores.Store(2, 3);
+
+        Assert.Throws<ArgumentException>(() => new Binding(owner, 0, 0, 1));
+        Assert.Throws<ArgumentException>(() => owner.Publish([0, 1], [0, 0, 1]));
+    }
+
     /// <summary>A preserved sum is conservation only when it adds up positive
     /// amounts. With a zero weight, a role can change with nothing paying for
     /// it; with a negative one, two roles can grow together. Neither may write

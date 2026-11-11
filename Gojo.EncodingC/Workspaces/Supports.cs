@@ -10,7 +10,9 @@ namespace Gojo.EncodingC;
 /// for a domain nobody has declared.</para>
 /// <para>One support tells apart at most 64 values. A primitive read needs far
 /// fewer; a field with more is read through a coarser field first, as a ladder
-/// does, rather than by widening the primitive.</para></summary>
+/// does, rather than by widening the primitive.</para>
+/// <para>A position the structure adds later starts open: nothing has been
+/// observed there or narrowed yet.</para></summary>
 public sealed class Supports
 {
     private readonly Plane[] values;
@@ -30,14 +32,14 @@ public sealed class Supports
 
     public Field Field { get; }
 
-    public Plane Of(int value) => values[value].Clone();
+    public Plane Of(int value) => Value(value).Clone();
 
     /// <summary>The values still possible at a position, as a mask.</summary>
     public ulong Values(int position)
     {
         ulong mask = 0;
         for (var v = 0; v < values.Length; v++)
-            if (values[v][position]) mask |= 1UL << v;
+            if (Value(v)[position]) mask |= 1UL << v;
         return mask;
     }
 
@@ -52,7 +54,7 @@ public sealed class Supports
     {
         var changed = false;
         for (var v = 0; v < values.Length; v++)
-            if (((allowed >> v) & 1) == 0 && values[v][position])
+            if (((allowed >> v) & 1) == 0 && Value(v)[position])
             {
                 values[v][position] = false;
                 changed = true;
@@ -95,7 +97,7 @@ public sealed class Supports
             {
                 supports[r][v] = new Plane(relation.Count);
                 foreach (var (row, indexes) in rows)
-                    if (roles[r].values[v][indexes[r]]) supports[r][v][row] = true;
+                    if (roles[r].Value(v)[indexes[r]]) supports[r][v][row] = true;
             }
         }
         var same = new Plane?[roles.Length, roles.Length];
@@ -131,6 +133,19 @@ public sealed class Supports
         }
         while (changed);
         return rounds;
+    }
+
+    /// <summary>One value's plane, grown to the structure: positions added
+    /// since start open.</summary>
+    private Plane Value(int value)
+    {
+        var plane = values[value];
+        var from = plane.Length;
+        if (from == Structure.Count) return plane;
+        plane.Grow(Structure.Count);
+        for (var i = from; i < Structure.Count; i++)
+            if (Structure.IsLive(i)) plane[i] = true;
+        return plane;
     }
 
     private Plane Positions(Func<int, bool> count)
