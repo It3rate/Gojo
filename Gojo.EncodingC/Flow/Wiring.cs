@@ -67,7 +67,7 @@ public sealed class Binding
 /// considers possible, and cannot rule anything out there. Nothing checks yet
 /// that a store bound directly belongs to the same local structure as the
 /// wiring. What is supposed never rules anything out in what is
-/// known: when any role of a relation reads a rung, only roles on rungs are
+/// known: when any role of a relation reads a workspace, only roles on workspaces are
 /// narrowed.</para>
 /// <para><b>One bit is one position.</b> References are live, so a port's owner
 /// can move a lane, or a law a reference, after a row was wired. A row whose
@@ -107,7 +107,7 @@ public sealed class Wiring
         changing = new ulong[roles.Length];
         writes = new bool[roles.Length];
         var transition = law as TransitionLaw;
-        var supposed = roles.Any(role => role.Surface is Rung);
+        var supposed = roles.Any(role => role.Surface is Workspace);
         for (var r = 0; r < roles.Length; r++)
         {
             var surface = roles[r].Surface;
@@ -119,7 +119,7 @@ public sealed class Wiring
                     throw new ArgumentException($"Role {r} has {law.Roles[r].Size} values; an open binding names one plane for each.", nameof(roles));
                 if (roles[r].Planes.Any(surface.IsConstant))
                     throw new ArgumentException($"Role {r} is bound open on a constant plane, which holds one bit for every position.", nameof(roles));
-                writes[r] = !surface.ThroughPort && !surface.ReadOnly && (!supposed || surface is Rung);
+                writes[r] = !surface.ThroughPort && !surface.ReadOnly && (!supposed || surface is Workspace);
                 continue;
             }
             if (roles[r].Planes.Count != law.Roles[r].Bits)
@@ -140,10 +140,10 @@ public sealed class Wiring
         }
         if (transition is not null)
         {
-            var rung = Enumerable.Range(0, roles.Length).Where(r => writes[r]).Select(r => roles[r].Surface).OfType<Rung>().FirstOrDefault();
-            if (rung is not null && Enumerable.Range(0, roles.Length).Any(r => writes[r] && !ReferenceEquals(roles[r].Surface, rung)))
+            var workspace = Enumerable.Range(0, roles.Length).Where(r => writes[r]).Select(r => roles[r].Surface).OfType<Workspace>().FirstOrDefault();
+            if (workspace is not null && Enumerable.Range(0, roles.Length).Any(r => writes[r] && !ReferenceEquals(roles[r].Surface, workspace)))
                 throw new ArgumentException(
-                    "A law that writes a rung writes only that rung. A supposition and what is are never changed in one step; the rung's commit decides what reaches anything else.",
+                    "A law that writes a workspace writes only that workspace. A supposition and what is are never changed in one step; the workspace's commit decides what reaches anything else.",
                     nameof(roles));
         }
 

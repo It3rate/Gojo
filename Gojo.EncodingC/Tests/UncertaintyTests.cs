@@ -3,7 +3,7 @@ using Xunit;
 namespace Gojo.EncodingC.Tests;
 
 /// <summary>Uncertainty as a working part: open values held in the planes,
-/// suppositions narrowed in rungs, a goal that settles the open choices that
+/// suppositions narrowed in workspaces, a goal that settles the open choices that
 /// reach it, ambiguity given a place, and the gap between what was supposed
 /// and what is, read by laws and used to steer.</summary>
 public sealed class UncertaintyTests
@@ -43,59 +43,59 @@ public sealed class UncertaintyTests
     }
 
     /// <summary>Four positions that must hold equal bits; the first is known to
-    /// be 1. A rung supposes the last is 0 and narrows: a contradiction, found
-    /// in the rung only. Dropped, the rung reads what is known again. Supposing
+    /// be 1. A workspace supposes the last is 0 and narrows: a contradiction, found
+    /// in the workspace only. Dropped, the workspace reads what is known again. Supposing
     /// 1 instead settles everything, and a commit makes it known.</summary>
     [Fact]
-    public void ASuppositionIsNarrowedInARungAndDroppedWhenItContradicts()
+    public void ASuppositionIsNarrowedInAWorkspaceAndDroppedWhenItContradicts()
     {
         var line = new Store(1, 4);
         var known = Supports.On(line, Field.Bit(0));
         line.Write(0, 0, true);
         known.Observe(0);
 
-        var rung = new Rung(line).SelectAll();
-        var supposed = known.In(rung);
+        var workspace = new Workspace(line).SelectAll();
+        var supposed = known.In(workspace);
         var rows = new Wiring(Settling.Same(Shape.Bit), supposed.Variable, supposed.Variable);
         rows.Add(0, 1);
         rows.Add(1, 2);
         rows.Add(2, 3);
 
         supposed.Restrict(3, 0b01);
-        while (rung.Apply(rows).Step.Changed.Any)
+        while (workspace.Apply(rows).Step.Changed.Any)
         {
         }
 
         Assert.True(supposed.Empty.Any);
         Assert.Equal(3, known.Open.Count);
 
-        rung.Revert();
+        workspace.Revert();
         Assert.Equal(known.Open, supposed.Open);
 
         supposed.Restrict(3, 0b10);
-        rung.Apply(rows);
+        workspace.Apply(rows);
 
         Assert.Equal(Plane.Ones(4), supposed.Settled);
-        Assert.True(rung.Commit().Committed);
+        Assert.True(workspace.Commit().Committed);
         Assert.Equal(Plane.Ones(4), known.Settled);
     }
 
     /// <summary>A unit, a closed gate and an empty target; the goal is the unit
-    /// at the target. One rung is now with the gate opened as a place that may
+    /// at the target. One workspace is now with the gate opened as a place that may
     /// change. Another is the next moment: open, because it has not happened,
     /// except for the wanted state written into it. The passage law, read as a
     /// relation between the two, settles the one thing left open: the gate must
     /// be set. Enacting and committing that is the decision. The next-moment
-    /// rung becomes the prediction, and after the law runs for real its gap is
+    /// workspace becomes the prediction, and after the law runs for real its gap is
     /// empty. Without a unit to send, the same goal reaches a contradiction in
-    /// the rungs and what is known stays as it was.</summary>
+    /// the workspaces and what is known stays as it was.</summary>
     [Fact]
     public void AGoalSettlesTheOpenChoiceThatReachesIt()
     {
         var unit = Field.Bit(0);
         var gate = Field.Bit(1);
 
-        (Store Chain, Supports Units, Supports Gates, Rung Plan, Rung Goal) Plan(bool hasUnit)
+        (Store Chain, Supports Units, Supports Gates, Workspace Plan, Workspace Goal) Plan(bool hasUnit)
         {
             var chain = new Store(2, 3);
             chain.Write(0, 0, hasUnit);
@@ -107,10 +107,10 @@ public sealed class UncertaintyTests
                 gates.Observe(p);
             }
 
-            var plan = new Rung(chain);
+            var plan = new Workspace(chain);
             gates.In(plan).Forget(1);
 
-            var goal = new Rung(chain);
+            var goal = new Workspace(chain);
             unit.Write(goal, 2, 1);
             for (var p = 0; p < 3; p++)
             {
@@ -195,8 +195,8 @@ public sealed class UncertaintyTests
         Assert.Equal(0b10UL, whichWay);
     }
 
-    /// <summary>A rung predicts both bits will be set; one is. The gap between
-    /// the rung and its source is a surface, so a law reads the miss by
+    /// <summary>A workspace predicts both bits will be set; one is. The gap between
+    /// the workspace and its source is a surface, so a law reads the miss by
     /// reference and keeps a count of trust per prediction: up on a hit, down
     /// on a miss. How well a structure predicts becomes how far it is trusted,
     /// in the same medium. A gap is read and never written.</summary>
@@ -204,7 +204,7 @@ public sealed class UncertaintyTests
     public void AMissIsASignalALawReadsAndTrustFollowsIt()
     {
         var world = new Store(1, 2);
-        var guess = new Rung(world);
+        var guess = new Workspace(world);
         guess.Write(0, 0, true);
         guess.Write(0, 1, true);
         world.Write(0, 0, true);
@@ -214,7 +214,7 @@ public sealed class UncertaintyTests
         level.Write(trust, 1, 2);
         var judge = TransitionLaw.FromFunction(
             [Shape.Bit, Shape.Unary(3)],
-            s => [s[0], s[0] == 1 ? Math.Max(0, s[1] - 1) : Math.Min(3, s[1] + 1)],
+            s => [s[0], s[0] == 1 ? (s[1] > 0 ? s[1] - 1 : 0) : (s[1] < 3 ? s[1] + 1 : 3)],
             new Accounting(true, new Unchanged(0)));
         var judging = new Wiring(judge, new Binding(guess.Gap, 0), new Binding(trust, 0, 1, 2));
         judging.Add(0, 0);
@@ -227,7 +227,7 @@ public sealed class UncertaintyTests
     }
 
     /// <summary>A reservoir, a tank and a drain, with a valve into the tank and
-    /// one out of it. The goal is a rung over the plant with the wanted tank
+    /// one out of it. The goal is a workspace over the plant with the wanted tank
     /// level written in: the prediction is set to the goal. One law reads the
     /// level and the wanted level and opens whichever valve closes the gap, so
     /// the flow itself brings the plant to the goal and the gap empties. The
@@ -240,7 +240,7 @@ public sealed class UncertaintyTests
         var plant = new Store(5, 5);
         var count = new Field(Shape.Unary(4), 0, 1, 2, 3);
         count.Write(plant, 0, 4);
-        var goal = new Rung(plant);
+        var goal = new Workspace(plant);
         count.Write(goal, 1, 3);
 
         var steer = TransitionLaw.FromFunction(

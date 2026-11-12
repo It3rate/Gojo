@@ -69,7 +69,7 @@ public sealed class PackedInts
     private void Reserve(long bits)
     {
         var needed = (int)((bits + 63) >> 6);
-        if (needed > words.Length) Array.Resize(ref words, Math.Max(needed, words.Length * 2));
+        if (needed > words.Length) Array.Resize(ref words, needed > words.Length * 2 ? needed : words.Length * 2);
     }
 
     private ulong Get(long bit)

@@ -60,13 +60,11 @@ public sealed class SubstrateTests
     {
         var store = new Store(1, 5);
         var orientation = store.AddConstantPlane(false);
-        var epoch = store.Epoch;
 
         Assert.True(store.Read(orientation).None);
         store.SetConstant(orientation, true);
 
         Assert.Equal(5, store.Read(orientation).Count);
-        Assert.True(store.Epoch > epoch);
         Assert.Throws<InvalidOperationException>(() => store.Write(orientation, 0, false));
     }
 
@@ -167,6 +165,33 @@ public sealed class SubstrateTests
             .ToArray();
 
         Assert.Empty(users);
+    }
+
+    /// <summary>Counting, comparing and looking up a table are enough at this
+    /// level, so nothing in the encoding uses the math library, not even for a
+    /// minimum. The check reads every type the assembly refers to.</summary>
+    [Fact]
+    public void TheEncodingCallsNoMathLibrary()
+    {
+        var module = typeof(Store).Module;
+        var referenced = new List<string>();
+        for (var row = 1; ; row++)
+        {
+            Type type;
+            try
+            {
+                type = module.ResolveType(0x01000000 | row);
+            }
+            catch (ArgumentException)
+            {
+                break;
+            }
+            referenced.Add(type.FullName ?? type.Name);
+        }
+
+        Assert.Contains("System.Object", referenced);
+        Assert.DoesNotContain("System.Math", referenced);
+        Assert.DoesNotContain("System.MathF", referenced);
     }
 
     private static bool Stringy(Type type) =>

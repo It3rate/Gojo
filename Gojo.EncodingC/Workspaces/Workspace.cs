@@ -1,16 +1,16 @@
 namespace Gojo.EncodingC;
 
-/// <summary>A workspace: a live view of a store, or of another rung, with a
+/// <summary>A workspace: a live view of a store, or of another workspace, with a
 /// layer on top that holds only what was changed here.
-/// <para><b>Reference first.</b> A rung copies nothing when it is made. Every
+/// <para><b>Reference first.</b> A workspace copies nothing when it is made. Every
 /// position it has not written reads the source as the source is now, so a
-/// rung sees the world keep moving. Writing a position copies the whole
+/// workspace sees the world keep moving. Writing a position copies the whole
 /// position in, every plane but the constants, so a value spread over several
-/// planes is never half the rung's and half the source's. The rung keeps the
-/// new bits and the source bits they replaced. A rung therefore costs what it
+/// planes is never half the workspace's and half the source's. The workspace keeps the
+/// new bits and the source bits they replaced. A workspace therefore costs what it
 /// changes, not what it sees, and many can be open at once. Laws run on it
 /// exactly as on a store; a law run here writes only here.</para>
-/// <para><b>Selection, coarse to fine.</b> What a rung attends to is a short
+/// <para><b>Selection, coarse to fine.</b> What a workspace attends to is a short
 /// list of layers over the source's positions, each kept or ignored, later
 /// layers over earlier ones: "all of it", "but not that area", "except this
 /// detail". The caller never lists positions one by one. "All" follows the
@@ -19,14 +19,14 @@ namespace Gojo.EncodingC;
 /// some unselected ones brings those in when it runs, one step further from
 /// what was asked for. Each position keeps how many steps are left (a unary
 /// count, at most <see cref="Reach"/>). A row that would reach past that, or
-/// into an area the rung ignores, does not run and is reported, so attention
+/// into an area the workspace ignores, does not run and is reported, so attention
 /// spreads only so far from a request.</para>
-/// <para><b>Prediction and goal.</b> A rung differs from its source only where
+/// <para><b>Prediction and goal.</b> A workspace differs from its source only where
 /// it was written. Run a law ahead in it and that difference is a prediction;
 /// write a wanted state into it and the difference is what is left to do.
 /// <see cref="Gap"/> shows the difference as a surface laws can read, so a
 /// miss or a distance can drive something.</para>
-/// <para><b>Leaving.</b> A rung that is dropped changed nothing. One that is
+/// <para><b>Leaving.</b> A workspace that is dropped changed nothing. One that is
 /// compared with its source after the source moves is a prediction. One can
 /// be reverted in part, or committed in part or in whole. A commit writes
 /// only if nothing it would overwrite has moved since it was copied, writes
@@ -35,7 +35,7 @@ namespace Gojo.EncodingC;
 /// positions are candidates with no source; a commit adopts them.</para>
 /// <para>Constants are read by reference and cannot be changed here: every
 /// position of a store shares them.</para></summary>
-public sealed class Rung : Surface
+public sealed class Workspace : Surface
 {
     private readonly Surface source;
     private readonly List<Plane?> held = [];
@@ -49,20 +49,20 @@ public sealed class Rung : Surface
     private Gap? gap;
     private int span = -1;
 
-    /// <summary>A rung over a store.</summary>
-    public Rung(Store source, int reach = 3)
+    /// <summary>A workspace over a store.</summary>
+    public Workspace(Store source, int reach = 3)
         : this((Surface)source, reach)
     {
     }
 
-    /// <summary>A rung over another rung: it sees that rung's changes live, and
+    /// <summary>A workspace over another workspace: it sees that workspace's changes live, and
     /// its own commits go there, not to the store underneath.</summary>
-    public Rung(Rung source, int reach = 3)
+    public Workspace(Workspace source, int reach = 3)
         : this((Surface)source, reach)
     {
     }
 
-    private Rung(Surface source, int reach)
+    private Workspace(Surface source, int reach)
     {
         ArgumentNullException.ThrowIfNull(source);
         if (reach is < 0 or > 63) throw new ArgumentOutOfRangeException(nameof(reach));
@@ -85,7 +85,7 @@ public sealed class Rung : Surface
 
     private int Span => span < 0 ? source.Count : span;
 
-    /// <summary>The source position behind a rung position, or null for one
+    /// <summary>The source position behind a workspace position, or null for one
     /// introduced here.</summary>
     public int? SourceOf(int index)
     {
@@ -111,7 +111,7 @@ public sealed class Rung : Surface
     /// untouched.</summary>
     public void Write(int plane, int index, bool value) => Set(plane, index, value);
 
-    /// <summary>Where this rung and its source disagree, as a surface laws can
+    /// <summary>Where this workspace and its source disagree, as a surface laws can
     /// read: how a prediction missed, or what is left before a goal.</summary>
     public Gap Gap => gap ??= new Gap(this);
 
@@ -148,14 +148,14 @@ public sealed class Rung : Surface
     // ---- Selection ----
 
     /// <summary>Attends to everything in the source, as it grows. A coarse layer.</summary>
-    public Rung SelectAll()
+    public Workspace SelectAll()
     {
         layers.Add((null, true));
         return this;
     }
 
     /// <summary>Attends to an area of source positions.</summary>
-    public Rung Select(Plane area)
+    public Workspace Select(Plane area)
     {
         ArgumentNullException.ThrowIfNull(area);
         layers.Add((area.Clone(), true));
@@ -165,7 +165,7 @@ public sealed class Rung : Surface
     /// <summary>Ignores an area of source positions, even if an earlier layer
     /// selected it. A later layer can select within it again. Use never brings
     /// an ignored position in.</summary>
-    public Rung Ignore(Plane area)
+    public Workspace Ignore(Plane area)
     {
         ArgumentNullException.ThrowIfNull(area);
         layers.Add((area.Clone(), false));
@@ -181,7 +181,7 @@ public sealed class Rung : Surface
     /// <summary>Positions brought in by use.</summary>
     public Plane Used => Fit(ref used).Clone();
 
-    /// <summary>What the rung attends to: requested, plus what use brought in
+    /// <summary>What the workspace attends to: requested, plus what use brought in
     /// that no layer ignores.</summary>
     public Plane Selected
     {
@@ -203,23 +203,23 @@ public sealed class Rung : Surface
 
     // ---- Running ----
 
-    /// <summary>Runs a wiring here: a transition changes the rung's state, a
-    /// relation narrows what the rung holds open. Rows whose rung positions are all
+    /// <summary>Runs a wiring here: a transition changes the workspace's state, a
+    /// relation narrows what the workspace holds open. Rows whose workspace positions are all
     /// selected run. A row that also touches unselected positions brings them
     /// in, one step further from the request, if one of its selected positions
     /// has steps left and none of the others is ignored; otherwise it does not
-    /// run and is returned in <see cref="RungStep.Beyond"/>. Rows that touch
-    /// nothing selected are not this rung's business. Rows that changed several
-    /// of this rung's positions are remembered as changed together; that is done
+    /// run and is returned in <see cref="WorkspaceStep.Beyond"/>. Rows that touch
+    /// nothing selected are not this workspace's business. Rows that changed several
+    /// of this workspace's positions are remembered as changed together; that is done
     /// by the wiring, so it holds however the wiring is run.</summary>
-    public RungStep Apply(Wiring wiring)
+    public WorkspaceStep Apply(Wiring wiring)
     {
         ArgumentNullException.ThrowIfNull(wiring);
         var bound = Enumerable.Range(0, wiring.Bindings.Count).Where(r => ReferenceEquals(wiring.Bindings[r].Surface, this)).ToArray();
-        if (bound.Length == 0) throw new ArgumentException("Bind at least one role to this rung.", nameof(wiring));
+        if (bound.Length == 0) throw new ArgumentException("Bind at least one role to this workspace.", nameof(wiring));
         for (var r = 0; r < wiring.Bindings.Count; r++)
             if (wiring.Writes(r) && !ReferenceEquals(wiring.Bindings[r].Surface, this))
-                throw new ArgumentException($"Role {r} would write outside this rung. A rung writes only itself; its commit decides what reaches anything else.", nameof(wiring));
+                throw new ArgumentException($"Role {r} would write outside this workspace. A workspace writes only itself; its commit decides what reaches anything else.", nameof(wiring));
 
         var (requested, ignored) = Layers();
         var selected = requested.Or(Fit(ref used).AndNot(ignored));
@@ -251,7 +251,7 @@ public sealed class Rung : Surface
             run[row] = true;
         }
 
-        return new RungStep(wiring.Apply(run), beyondRows, brought);
+        return new WorkspaceStep(wiring.Apply(run), beyondRows, brought);
     }
 
     // ---- Reading what happened here ----
@@ -268,7 +268,7 @@ public sealed class Rung : Surface
         }
     }
 
-    /// <summary>Positions where this rung reads differently from its source now,
+    /// <summary>Positions where this workspace reads differently from its source now,
     /// and introduced positions: what a commit would change. Checked after the
     /// source has moved on, this is how far a prediction missed.</summary>
     public Plane Changes()
@@ -300,12 +300,12 @@ public sealed class Rung : Surface
         return stale;
     }
 
-    /// <summary>Positions a sibling rung over the same source reads differently
+    /// <summary>Positions a sibling workspace over the same source reads differently
     /// from this one: two suppositions from one start, compared.</summary>
-    public Plane Differs(Rung other)
+    public Plane Differs(Workspace other)
     {
         ArgumentNullException.ThrowIfNull(other);
-        if (!ReferenceEquals(other.source, source)) throw new ArgumentException("Compare rungs over the same source.", nameof(other));
+        if (!ReferenceEquals(other.source, source)) throw new ArgumentException("Compare workspaces over the same source.", nameof(other));
         var differs = new Plane(Count);
         var candidates = Held;
         foreach (var i in other.Held.Indexes())
@@ -337,20 +337,20 @@ public sealed class Rung : Surface
         return set;
     }
 
-    /// <summary>Writes this rung's changes at the given positions (all held
+    /// <summary>Writes this workspace's changes at the given positions (all held
     /// positions when null) into its source. Refused, writing nothing, when the
     /// positions would split changes one row made together, or when anything
     /// they would overwrite has moved in the source since it was copied.
     /// Introduced positions are adopted as new source positions. Committed into
-    /// a parent rung, changes made together stay together there.</summary>
-    public RungCommit Commit(Plane? positions = null)
+    /// a parent workspace, changes made together stay together there.</summary>
+    public WorkspaceCommit Commit(Plane? positions = null)
     {
         var set = Restrict(positions);
         var split = Groups(set).AndNot(set);
         var none = new Plane(Count);
-        if (split.Any) return new RungCommit(false, none, split, none, []);
+        if (split.Any) return new WorkspaceCommit(false, none, split, none, []);
         var stale = Stale().And(set);
-        if (stale.Any) return new RungCommit(false, stale, none, none, []);
+        if (stale.Any) return new WorkspaceCommit(false, stale, none, none, []);
 
         var written = new Plane(Count);
         for (var p = 0; p < held.Count; p++)
@@ -371,8 +371,8 @@ public sealed class Rung : Surface
             var s = source switch
             {
                 Store store => store.Add(),
-                Rung parent => parent.Introduce(),
-                _ => throw new InvalidOperationException("Only a store or a rung adopts positions."),
+                Workspace parent => parent.Introduce(),
+                _ => throw new InvalidOperationException("Only a store or a workspace adopts positions."),
             };
             for (var p = 0; p < held.Count; p++)
                 if (held[p] is not null && Fit(held, p)[i]) source.Set(p, s, Fit(bits, p)[i]);
@@ -386,7 +386,7 @@ public sealed class Rung : Surface
             if (there.Length > 1) source.ChangedTogether(there);
         }
         foreach (var i in set.Indexes()) Release(i);
-        return new RungCommit(true, none, none, written, adopted);
+        return new WorkspaceCommit(true, none, none, written, adopted);
     }
 
     // ---- Surface ----
@@ -397,7 +397,7 @@ public sealed class Rung : Surface
     {
         CheckPlane(plane);
         if (source.IsConstant(plane))
-            throw new InvalidOperationException($"Plane {plane} is a constant every position of the source shares. A rung reads it but cannot change it.");
+            throw new InvalidOperationException($"Plane {plane} is a constant every position of the source shares. A workspace reads it but cannot change it.");
         if (!IsLive(index)) throw new ArgumentOutOfRangeException(nameof(index), $"Position {index} is not live.");
         if (!Holds(plane, index)) CopyIn(index);
         Fit(bits, plane)[index] = value;
@@ -423,13 +423,13 @@ public sealed class Rung : Surface
     private bool ConstantBit(int plane) => source switch
     {
         Store store => store.ConstantValue(plane),
-        Rung parent => parent.ConstantBit(plane),
-        _ => throw new InvalidOperationException("A rung sits on a store or a rung."),
+        Workspace parent => parent.ConstantBit(plane),
+        _ => throw new InvalidOperationException("A workspace sits on a store or a workspace."),
     };
 
     private bool Holds(int plane, int index) => plane < held.Count && held[plane] is { } h && index < h.Length && h[index];
 
-    /// <summary>Whether the rung holds this bit and the source now reads another.</summary>
+    /// <summary>Whether the workspace holds this bit and the source now reads another.</summary>
     internal bool Misses(int plane, int index)
     {
         CheckPlane(plane);
@@ -438,7 +438,7 @@ public sealed class Rung : Surface
     }
 
     /// <summary>Copies a whole position in: every plane it has that is not a
-    /// constant. A value spread over several planes is then the rung's as a
+    /// constant. A value spread over several planes is then the workspace's as a
     /// whole, never half its own and half the source's.</summary>
     private void CopyIn(int index)
     {
@@ -459,7 +459,7 @@ public sealed class Rung : Surface
         var ignored = new Plane(Count);
         foreach (var (area, keep) in layers)
         {
-            var mask = ToRung(area);
+            var mask = ToWorkspace(area);
             if (keep)
             {
                 requested = requested.Or(mask);
@@ -474,9 +474,9 @@ public sealed class Rung : Surface
         return (requested.Or(Introduced), ignored.AndNot(Introduced));
     }
 
-    /// <summary>An area over source positions, as a plane over rung positions.
+    /// <summary>An area over source positions, as a plane over workspace positions.
     /// No area means every live source position.</summary>
-    private Plane ToRung(Plane? area)
+    private Plane ToWorkspace(Plane? area)
     {
         var mask = new Plane(Count);
         for (var i = 0; i < Count; i++)
@@ -572,15 +572,15 @@ public sealed class Rung : Surface
     }
 }
 
-/// <summary>What running a wiring on a rung did. <see cref="Beyond"/> marks rows
-/// that would have reached past the rung's reach or into an ignored area;
+/// <summary>What running a wiring on a workspace did. <see cref="Beyond"/> marks rows
+/// that would have reached past the workspace's reach or into an ignored area;
 /// <see cref="Brought"/> marks the positions use brought in.</summary>
-public sealed record RungStep(WiringStep Step, Plane Beyond, Plane Brought);
+public sealed record WorkspaceStep(WiringStep Step, Plane Beyond, Plane Brought);
 
 /// <summary>A commit's result. When refused, nothing was written:
 /// <see cref="Stale"/> marks positions whose source moved since they were
 /// copied, and <see cref="Split"/> marks positions changed together with the
-/// ones asked for but left out. <see cref="Written"/> marks rung positions
+/// ones asked for but left out. <see cref="Written"/> marks workspace positions
 /// whose changes reached the source; <see cref="Adopted"/> lists the source
 /// positions made for introduced ones.</summary>
-public sealed record RungCommit(bool Committed, Plane Stale, Plane Split, Plane Written, IReadOnlyList<int> Adopted);
+public sealed record WorkspaceCommit(bool Committed, Plane Stale, Plane Split, Plane Written, IReadOnlyList<int> Adopted);

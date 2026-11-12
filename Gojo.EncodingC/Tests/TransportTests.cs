@@ -117,11 +117,11 @@ public sealed class TransportTests
     }
 
     [Fact]
-    public void ARungIsAWorkingViewAndIsNotSavedWithAMachine()
+    public void AWorkspaceIsAWorkingViewAndIsNotSavedWithAMachine()
     {
         var chain = new Store(2, 5);
-        var rung = new Rung(chain).SelectAll();
-        var rows = new Wiring(Flows.Passage, new Binding(rung, 0), new Binding(rung, 1), new Binding(rung, 0));
+        var workspace = new Workspace(chain).SelectAll();
+        var rows = new Wiring(Flows.Passage, new Binding(workspace, 0), new Binding(workspace, 1), new Binding(workspace, 0));
         rows.Add(0, 1, 2);
 
         Assert.Throws<InvalidOperationException>(() => Transport.Save(new Engine().Add(rows)));

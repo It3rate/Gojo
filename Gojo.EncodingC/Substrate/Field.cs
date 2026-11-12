@@ -4,7 +4,7 @@ namespace Gojo.EncodingC;
 /// hold its bits, low bit first. A field is a position in the layout, not a
 /// name. The same planes can be read as different fields by different
 /// readers. A field reads any surface that shows those planes: the store,
-/// a rung over it (where a write is a supposition), or a port.</summary>
+/// a workspace over it (where a write is a supposition), or a port.</summary>
 public sealed class Field
 {
     private readonly int[] planes;
@@ -39,7 +39,7 @@ public sealed class Field
     /// of the shape.</summary>
     public int? Read(Surface surface, int position) => Shape.Decode(Pattern(surface, position));
 
-    /// <summary>Writes a value: into a store, or into a rung as a
+    /// <summary>Writes a value: into a store, or into a workspace as a
     /// supposition. A bit on a constant plane must already agree; every such
     /// bit is checked before anything is written. A port is not written this
     /// way: only a law that moves what it takes writes through a port.</summary>
@@ -47,7 +47,7 @@ public sealed class Field
     {
         ArgumentNullException.ThrowIfNull(surface);
         if (surface.ThroughPort || surface.ReadOnly)
-            throw new InvalidOperationException("A value is written into a store or a rung. A port is written only by a law that moves what it takes.");
+            throw new InvalidOperationException("A value is written into a store or a workspace. A port is written only by a law that moves what it takes.");
         var pattern = Shape.Encode(value);
         for (var k = 0; k < planes.Length; k++)
         {

@@ -23,9 +23,7 @@ namespace Gojo.EncodingC;
 /// reference to a position never silently changes target. Whether a position
 /// is in use is state like any other: <see cref="Life"/> shows it as a
 /// surface, so a law grows a store by recruiting a spare position and
-/// prunes it by retiring one.</para>
-/// <para>A store counts every state change (<see cref="Version"/>) and
-/// every structural change (<see cref="Epoch"/>).</para></summary>
+/// prunes it by retiring one.</para></summary>
 public sealed class Store : Surface
 {
     private readonly List<Plane?> planes = [];
@@ -41,8 +39,6 @@ public sealed class Store : Surface
         Life = new Life(this);
         for (var p = 0; p < planes; p++) AddPlane();
         if (positions > 0) Add(positions);
-        Epoch = 0;
-        Version = 0;
     }
 
     /// <summary>Positions ever added: spare, in use and retired.</summary>
@@ -61,10 +57,6 @@ public sealed class Store : Surface
     /// retires one in use by clearing it.</summary>
     public Life Life { get; }
 
-    public long Version { get; private set; }
-
-    public long Epoch { get; private set; }
-
     public IReadOnlyList<Port> Ports => ports.AsReadOnly();
 
     internal override bool ThroughPort => false;
@@ -74,7 +66,6 @@ public sealed class Store : Surface
     {
         planes.Add(new Plane(Count));
         GrowPlaneFlags();
-        StructuralEdit();
         return planes.Count - 1;
     }
 
@@ -85,7 +76,6 @@ public sealed class Store : Surface
         GrowPlaneFlags();
         constant[planes.Count - 1] = true;
         constantValue[planes.Count - 1] = value;
-        StructuralEdit();
         return planes.Count - 1;
     }
 
@@ -104,7 +94,6 @@ public sealed class Store : Surface
         if (!IsSpare(position)) throw new ArgumentOutOfRangeException(nameof(position), $"Position {position} is not spare.");
         used[position] = true;
         live[position] = true;
-        StructuralEdit();
     }
 
     /// <summary>Takes a position out of use. Its number is never reused; laws
@@ -113,7 +102,6 @@ public sealed class Store : Surface
     {
         CheckLive(position);
         live[position] = false;
-        StructuralEdit();
     }
 
     public override bool IsLive(int position) => (uint)position < (uint)Count && live[position];
@@ -161,7 +149,6 @@ public sealed class Store : Surface
         var stored = planes[plane]!;
         if (stored[position] == value) return;
         stored[position] = value;
-        Version++;
     }
 
     /// <summary>Replaces the plane's bits under <paramref name="mask"/>.</summary>
@@ -174,18 +161,16 @@ public sealed class Store : Surface
         var next = planes[plane]!.AndNot(mask).Or(bits.And(mask));
         if (next.Equals(planes[plane])) return;
         planes[plane] = next;
-        Version++;
     }
 
     /// <summary>Changes a constant plane: one bit edit that applies to every
     /// position, because they all share it. Only the store itself does
-    /// this; a rung over it cannot.</summary>
+    /// this; a workspace over it cannot.</summary>
     public void SetConstant(int plane, bool value)
     {
         ConstantValue(plane);
         if (constantValue[plane] == value) return;
         constantValue[plane] = value;
-        StructuralEdit();
     }
 
     /// <summary>Exposes positions and planes to other local structures. Lane i is the
@@ -200,7 +185,6 @@ public sealed class Store : Surface
         foreach (var position in positions) CheckLive(position);
         var port = new Port(this, positions, planes);
         ports.Add(port);
-        StructuralEdit();
         return port;
     }
 
@@ -212,7 +196,6 @@ public sealed class Store : Surface
         if (!ReferenceEquals(port.Owner, this)) throw new ArgumentException("Only the owner rebinds its port.", nameof(port));
         CheckLive(position);
         port.SetLane(lane, position);
-        StructuralEdit();
     }
 
     /// <summary>Adds a lane to one of this store's ports. Returns the lane.</summary>
@@ -222,7 +205,6 @@ public sealed class Store : Surface
         if (!ReferenceEquals(port.Owner, this)) throw new ArgumentException("Only the owner extends its port.", nameof(port));
         CheckLive(position);
         var lane = port.AddLane(position);
-        StructuralEdit();
         return lane;
     }
 
@@ -249,7 +231,6 @@ public sealed class Store : Surface
         used.Grow(first + count);
         for (var i = first; inUse && i < first + count; i++) live[i] = used[i] = true;
         foreach (var plane in planes) plane?.Grow(first + count);
-        StructuralEdit();
         return first;
     }
 
@@ -268,11 +249,5 @@ public sealed class Store : Surface
     {
         constant.Grow(planes.Count);
         constantValue.Grow(planes.Count);
-    }
-
-    private void StructuralEdit()
-    {
-        Epoch++;
-        Version++;
     }
 }

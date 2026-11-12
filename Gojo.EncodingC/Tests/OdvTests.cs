@@ -74,7 +74,7 @@ public sealed class OdvTests
     private static RelationLaw ReferenceCorrespondence(int from, int to)
     {
         var admitted = new HashSet<(int, int)>();
-        var reach = 3 * Math.Max(from, to) + 1;
+        var reach = 3 * (from > to ? from : to) + 1;
         for (var o = 0; o <= 4; o += 4)
             for (var x = -reach; x <= reach; x++)
                 foreach (var a in WordsOf(x, from))

@@ -20,7 +20,6 @@ Entries are marked in three ways:
 | Word | One sense | The other sense |
 | --- | --- | --- |
 | Structure | Connected parts that compute. A *local structure* is one isolated group of them: a local intelligence | Until 12 November 2026 the code called a block of state `Structure`. That is now a *store*, and this glossary never uses "structure" for it |
-| Rung | A level of a ladder: a coarser or finer count of the same thing | `Rung`, the workspace type: a live view of a store that holds only what was changed in it. This glossary says "ladder rung" and "workspace" |
 | Open | An open *value* is not settled: more than one value is still possible | An open *gate* or valve lets flow through: its bit is set. A gate that nothing has decided is a gate whose value is open |
 | Lane | A port's lane: the i-th position the port exposes | A lane of a running law: row i, when the table is applied to every row at once |
 | State | The bits a store holds now | One combination of a law's role values, numbered 0 to N − 1 |
@@ -44,7 +43,6 @@ Entries are marked in three ways:
 | Not a code, broken count | Bits that no value of the shape matches, such as unary `010`. Noise this read cannot interpret | Left exactly as they are, and reported |
 | Reference | A value that names a position or a lane | Binary, ⌈log₂ n⌉ bits for n targets. A plane is added when a larger target arrives |
 | Field *(host)* | Where one value sits: a shape and the planes that hold its bits. Different readers can read the same planes as different fields | Not stored. In a machine, a binding's list of planes does this job |
-| Version, epoch *(host)* | Two counters per store. Version advances on every change of state, epoch on every change of shape. Nothing in a machine reads them; they let a host tell that something changed | Not saved |
 
 ## Connections
 
@@ -105,7 +103,7 @@ The stock laws:
 | Skipped | The row touches a position that is not in use, or holds a reference to nowhere. It did not run | Evidence plane 4 |
 | Aliased | Two roles met at one bit that one of them writes. The row did not run | Evidence plane 5 |
 | Engine | Steps the wirings in their declared order | The order of the wirings. A separate list only when one runs more than once in a step |
-| Step, tick | One pass through every wiring | Not saved |
+| Step, tick | One pass through every wiring. The mechanism as a whole is expected to lower its energy from step to step, but a step need not, and a machine may never get there | Not saved |
 | The two step rules | A transition row takes the next state its table gives. A relation row rules out, for its open roles, every value no admitted tuple supports | Both are lookups in the law's table, across all rows at once |
 | Declared order | The order in which wirings were added and rows listed. It decides who goes first when two want the same thing | The order in the saved machine |
 | Wave *(host)* | Wirings, or rows, that touch nothing another one writes. They could run at the same moment | Worked out each step. Not stored |
@@ -136,7 +134,7 @@ The stock laws:
 | Judge *(pattern)* | A law that compares a prediction with what happened and moves trust | A row |
 | Trust *(pattern)* | How well a predictor has done | A small unary count |
 | Attention, focus *(pattern)* | What a row is looking at | A reference in the rows' planes, which a law can move |
-| Ladder, carry *(pattern)* | Counts of one thing at several resolutions. A carry turns several fine units into one coarse unit | Two unary counts and a `Convert` law. The weights of its preserved sum are the place values |
+| Ladder, rung, carry *(pattern)* | Counts of one thing at several resolutions. Each level is a rung. A carry turns several fine units into one coarse unit | Two unary counts and a `Convert` law. The weights of its preserved sum are the place values |
 | Pair value *(pattern)* | Two values that vary together, held as one value | One open value with a·b values, and a relation from it to each part |
 | Plant *(pattern)* | In the tests, the small structure being steered: a source, a gate and a target | Three positions: two planes for a count, one for the gate |
 
@@ -147,9 +145,9 @@ the same job is done by ordinary structure, such as a plan or a probe.
 
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
-| Workspace (`Rung`) | A live view of a store, or of another workspace, that holds only what was changed in it. It is where something is noticed, supposed or attempted | For each plane it has written, three planes: which bits it holds, its values, and the source bits they replaced |
+| Workspace | A fragment of an existing structure, held apart from it. Changes made there are the workspace's own values, and its work is refining the structure it refers to. It can later be dropped or folded back in. It is a live view of a store, or of another workspace, that holds only what was changed in it. The type was called `Rung` until 12 November 2026 | For each plane it has written, three planes: which bits it holds, its values, and the source bits they replaced |
 | Copy on write | Writing a position copies that whole position in. Everything else reads the source as it is now | As above. Positions never written cost nothing |
-| Selection | What a workspace attends to. It makes no claim about what it leaves out | A short list of layers: an area plane or "all", and one keep-or-ignore bit each |
+| Selection | Whatever is in a workspace. It makes no claim about what it leaves out. Kept that primitive for now | A short list of layers: an area plane or "all", and one keep-or-ignore bit each |
 | Not selected | The nearest thing to nothing: no claim either way. A zero is different: it is a sample that keeps its place | Absence from the selection |
 | Reach, selection by use | A row that touches something selected brings in what else it touches, up to a few steps from what was asked for | A unary count per position: steps left |
 | Introduced, candidate | A new position that exists only in the workspace until it is committed | One reference per introduced position: 0, or s + 1 once adopted as source position s |

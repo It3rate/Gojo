@@ -2,9 +2,9 @@ using Xunit;
 
 namespace Gojo.EncodingC.Tests;
 
-/// <summary>Rungs: live views with a layer that holds only what changed,
-/// selection coarse to fine and by use, and the ways a rung is left.</summary>
-public sealed class RungTests
+/// <summary>Workspaces: live views with a layer that holds only what changed,
+/// selection coarse to fine and by use, and the ways a workspace is left.</summary>
+public sealed class WorkspaceTests
 {
     /// <summary>A passage chain over six positions: plane 0 holds a unit, plane 1
     /// a gate. Rows (0, 1, 2) and (2, 3, 4). A unit at 0; gates 1 and 3 open.</summary>
@@ -33,29 +33,29 @@ public sealed class RungTests
     }
 
     [Fact]
-    public void ARungReadsItsSourceLiveAndCopiesOnlyWhatItWrites()
+    public void AWorkspaceReadsItsSourceLiveAndCopiesOnlyWhatItWrites()
     {
         var chain = Chain();
-        var rung = new Rung(chain).SelectAll();
-        Assert.True(rung.Held.None);
+        var workspace = new Workspace(chain).SelectAll();
+        Assert.True(workspace.Held.None);
 
         chain.Write(0, 5, true);
-        Assert.True(rung.Read(0, 5));
+        Assert.True(workspace.Read(0, 5));
 
-        rung.Apply(Passages(rung, 0, 2));
+        workspace.Apply(Passages(workspace, 0, 2));
 
-        Assert.True(rung.Read(0, 4));
+        Assert.True(workspace.Read(0, 4));
         Assert.True(chain.Read(0, 0));
         Assert.False(chain.Read(0, 4));
-        Assert.Equal(Plane.Of(6, 0, 2, 4), rung.Held);
-        Assert.Equal(Plane.Of(6, 0, 4), rung.Changes());
+        Assert.Equal(Plane.Of(6, 0, 2, 4), workspace.Held);
+        Assert.Equal(Plane.Of(6, 0, 4), workspace.Changes());
 
-        var commit = rung.Commit();
+        var commit = workspace.Commit();
 
         Assert.True(commit.Committed);
         Assert.Equal(Plane.Of(6, 0, 4), commit.Written);
         Assert.Equal((false, true), (chain.Read(0, 0), chain.Read(0, 4)));
-        Assert.True(rung.Held.None);
+        Assert.True(workspace.Held.None);
     }
 
     /// <summary>A commit checks everything it would overwrite before writing
@@ -66,26 +66,26 @@ public sealed class RungTests
     public void ACommitWritesNothingWhenAnythingItWouldOverwriteHasMoved()
     {
         var source = new Store(1, 3);
-        var rung = new Rung(source).SelectAll();
-        rung.Write(0, 0, true);
-        rung.Write(0, 1, true);
-        rung.Write(0, 2, true);
+        var workspace = new Workspace(source).SelectAll();
+        workspace.Write(0, 0, true);
+        workspace.Write(0, 1, true);
+        workspace.Write(0, 2, true);
         source.Write(0, 1, true);
         source.Retire(2);
 
-        var refused = rung.Commit();
+        var refused = workspace.Commit();
 
         Assert.False(refused.Committed);
         Assert.Equal(Plane.Of(3, 1, 2), refused.Stale);
         Assert.False(source.Read(0, 0));
 
-        Assert.True(rung.Commit(Plane.Of(3, 0)).Committed);
+        Assert.True(workspace.Commit(Plane.Of(3, 0)).Committed);
         Assert.True(source.Read(0, 0));
 
         source.Write(0, 1, false);
-        rung.Revert(Plane.Of(3, 1));
-        Assert.False(rung.Read(0, 1));
-        Assert.Equal(Plane.Of(3, 2), rung.Held);
+        workspace.Revert(Plane.Of(3, 1));
+        Assert.False(workspace.Read(0, 1));
+        Assert.Equal(Plane.Of(3, 2), workspace.Held);
     }
 
     /// <summary>A passage changes two positions at once. Committing one of them
@@ -95,54 +95,54 @@ public sealed class RungTests
     public void ChangesMadeTogetherCommitTogether()
     {
         var chain = Chain();
-        var rung = new Rung(chain).SelectAll();
-        rung.Apply(Passages(rung, 0));
-        rung.Write(1, 5, true);
+        var workspace = new Workspace(chain).SelectAll();
+        workspace.Apply(Passages(workspace, 0));
+        workspace.Write(1, 5, true);
 
-        var half = rung.Commit(Plane.Of(6, 2));
+        var half = workspace.Commit(Plane.Of(6, 2));
 
         Assert.False(half.Committed);
         Assert.Equal(Plane.Of(6, 0), half.Split);
         Assert.False(chain.Read(0, 2));
 
-        Assert.True(rung.Commit(Plane.Of(6, 5)).Committed);
+        Assert.True(workspace.Commit(Plane.Of(6, 5)).Committed);
         Assert.True(chain.Read(1, 5));
-        Assert.Equal(Plane.Of(6, 0, 2), rung.Held);
+        Assert.Equal(Plane.Of(6, 0, 2), workspace.Held);
 
-        Assert.True(rung.Commit(Plane.Of(6, 0, 2)).Committed);
+        Assert.True(workspace.Commit(Plane.Of(6, 0, 2)).Committed);
         Assert.Equal((false, true), (chain.Read(0, 0), chain.Read(0, 2)));
     }
 
     /// <summary>Grouping belongs to the wiring, not to the call that runs it. A
-    /// move run straight through <see cref="Wiring.Apply()"/> on a rung is still
-    /// committed whole or not at all. A law may not write a rung and anything
+    /// move run straight through <see cref="Wiring.Apply()"/> on a workspace is still
+    /// committed whole or not at all. A law may not write a workspace and anything
     /// else in one step.</summary>
     [Fact]
     public void AMoveIsKeptWholeHoweverItIsRun()
     {
         var (source, count) = Make.Counts(2, 1);
         count.Write(source, 0, 1);
-        var rung = new Rung(source).SelectAll();
-        var move = new Wiring(Flows.Move(1, 1), new Binding(rung, 0), new Binding(rung, 0));
+        var workspace = new Workspace(source).SelectAll();
+        var move = new Wiring(Flows.Move(1, 1), new Binding(workspace, 0), new Binding(workspace, 0));
         move.Add(0, 1);
 
         move.Apply();
 
-        Assert.Equal(Plane.Of(2, 0), rung.Commit(Plane.Of(2, 1)).Split);
+        Assert.Equal(Plane.Of(2, 0), workspace.Commit(Plane.Of(2, 1)).Split);
         Assert.Equal(1, count.Read(source, 0));
-        Assert.Throws<ArgumentException>(() => new Wiring(Flows.Move(1, 1), new Binding(rung, 0), new Binding(source, 0)));
+        Assert.Throws<ArgumentException>(() => new Wiring(Flows.Move(1, 1), new Binding(workspace, 0), new Binding(source, 0)));
     }
 
-    /// <summary>A child rung moves a unit and commits into its parent. The
+    /// <summary>A child workspace moves a unit and commits into its parent. The
     /// parent keeps the two ends together, so committing only the arrival is
     /// refused there too, and the store never holds the unit twice.</summary>
     [Fact]
-    public void AMoveCommittedIntoAParentRungStaysWhole()
+    public void AMoveCommittedIntoAParentWorkspaceStaysWhole()
     {
         var (source, count) = Make.Counts(2, 1);
         count.Write(source, 0, 1);
-        var parent = new Rung(source).SelectAll();
-        var child = new Rung(parent).SelectAll();
+        var parent = new Workspace(source).SelectAll();
+        var child = new Workspace(parent).SelectAll();
         var move = new Wiring(Flows.Move(1, 1), new Binding(child, 0), new Binding(child, 0));
         move.Add(0, 1);
         child.Apply(move);
@@ -165,16 +165,16 @@ public sealed class RungTests
     {
         var (source, count) = Make.Counts(1, 1);
         count.Write(source, 0, 1);
-        var rung = new Rung(source).SelectAll();
-        var candidate = rung.Introduce();
-        var move = new Wiring(Flows.Move(1, 1), new Binding(rung, 0), new Binding(rung, 0));
+        var workspace = new Workspace(source).SelectAll();
+        var candidate = workspace.Introduce();
+        var move = new Wiring(Flows.Move(1, 1), new Binding(workspace, 0), new Binding(workspace, 0));
         move.Add(0, candidate);
-        rung.Apply(move);
+        workspace.Apply(move);
 
-        Assert.Equal(Plane.Of(2, 0, candidate), rung.Revert(Plane.Of(2, 0)));
-        Assert.Equal((true, false), (rung.Read(0, 0), rung.Read(0, candidate)));
+        Assert.Equal(Plane.Of(2, 0, candidate), workspace.Revert(Plane.Of(2, 0)));
+        Assert.Equal((true, false), (workspace.Read(0, 0), workspace.Read(0, candidate)));
 
-        var commit = rung.Commit();
+        var commit = workspace.Commit();
 
         var adopted = Assert.Single(commit.Adopted);
         Assert.Equal((1, 0), (count.Read(source, 0), count.Read(source, adopted)));
@@ -187,14 +187,14 @@ public sealed class RungTests
     public void SelectionIsCoarseThenFine()
     {
         var source = new Store(1, 10);
-        var rung = new Rung(source).SelectAll().Ignore(Plane.Parse("0000011111")).Select(Plane.Of(10, 7));
+        var workspace = new Workspace(source).SelectAll().Ignore(Plane.Parse("0000011111")).Select(Plane.Of(10, 7));
 
-        Assert.Equal(Plane.Parse("1111100100"), rung.Selected);
-        Assert.Equal(Plane.Parse("0000011011"), rung.Ignored);
+        Assert.Equal(Plane.Parse("1111100100"), workspace.Selected);
+        Assert.Equal(Plane.Parse("0000011011"), workspace.Ignored);
 
         source.Add(2);
 
-        Assert.Equal(Plane.Parse("111110010011"), rung.Selected);
+        Assert.Equal(Plane.Parse("111110010011"), workspace.Selected);
     }
 
     /// <summary>A line of passages; only position 0 is asked for, and use may
@@ -208,24 +208,24 @@ public sealed class RungTests
         var line = new Store(2, 13);
         line.Write(0, 0, true);
         for (var gate = 1; gate < 13; gate += 2) line.Write(1, gate, true);
-        var rung = new Rung(line, reach: 2).Select(Plane.Of(13, 0));
-        var rows = Passages(rung, 0, 2, 4, 6, 8, 10);
+        var workspace = new Workspace(line, reach: 2).Select(Plane.Of(13, 0));
+        var rows = Passages(workspace, 0, 2, 4, 6, 8, 10);
 
-        var first = rung.Apply(rows);
+        var first = workspace.Apply(rows);
 
         Assert.Equal(Plane.Of(13, 1, 2, 3, 4), first.Brought);
         Assert.Equal(Plane.Of(6, 2), first.Beyond);
-        Assert.True(rung.Read(0, 4));
-        Assert.Equal((1, 0), (rung.ReachLeft(2), rung.ReachLeft(4)));
+        Assert.True(workspace.Read(0, 4));
+        Assert.Equal((1, 0), (workspace.ReachLeft(2), workspace.ReachLeft(4)));
         Assert.True(line.Read(0, 0));
 
-        rung.Select(Plane.Of(13, 4));
-        var second = rung.Apply(rows);
+        workspace.Select(Plane.Of(13, 4));
+        var second = workspace.Apply(rows);
 
         Assert.Equal(Plane.Of(6, 4), second.Beyond);
-        Assert.True(rung.Read(0, 8));
+        Assert.True(workspace.Read(0, 8));
 
-        var blinkered = new Rung(line, reach: 3).Select(Plane.Of(13, 0)).Ignore(Plane.Of(13, 3));
+        var blinkered = new Workspace(line, reach: 3).Select(Plane.Of(13, 0)).Ignore(Plane.Of(13, 3));
         var stopped = blinkered.Apply(Passages(blinkered, 0, 2, 4));
 
         Assert.Equal(Plane.Of(3, 1), stopped.Beyond);
@@ -240,36 +240,36 @@ public sealed class RungTests
     public void APositionNearerANewRequestGetsItsStepsBack()
     {
         var line = new Store(2, 9);
-        var rung = new Rung(line, reach: 2).Select(Plane.Of(9, 0));
-        var rows = new Wiring(Flows.Passage, new Binding(rung, 0), new Binding(rung, 1), new Binding(rung, 0));
+        var workspace = new Workspace(line, reach: 2).Select(Plane.Of(9, 0));
+        var rows = new Wiring(Flows.Passage, new Binding(workspace, 0), new Binding(workspace, 1), new Binding(workspace, 0));
         rows.Add(0, 1, 2);
         rows.Add(2, 3, 4);
         rows.Add(6, 5, 4);
         rows.Add(4, 7, 8);
 
-        var first = rung.Apply(rows);
+        var first = workspace.Apply(rows);
 
         Assert.Equal(Plane.Of(4, 2, 3), first.Beyond);
-        Assert.Equal(0, rung.ReachLeft(4));
+        Assert.Equal(0, workspace.ReachLeft(4));
 
-        rung.Select(Plane.Of(9, 6));
-        var second = rung.Apply(rows);
+        workspace.Select(Plane.Of(9, 6));
+        var second = workspace.Apply(rows);
 
         Assert.True(second.Beyond.None);
-        Assert.Equal(1, rung.ReachLeft(4));
+        Assert.Equal(1, workspace.ReachLeft(4));
         Assert.Equal(Plane.Of(9, 5, 7, 8), second.Brought);
     }
 
-    /// <summary>Two rungs over one chain suppose different things: one leaves
+    /// <summary>Two workspaces over one chain suppose different things: one leaves
     /// the second gate open, the other shuts it. Compared, they differ where
-    /// the suppositions led apart. A rung over a rung sees its parent's
+    /// the suppositions led apart. A workspace over a workspace sees its parent's
     /// changes live, and commits into the parent, not the chain.</summary>
     [Fact]
-    public void SiblingRungsAreTwoSuppositionsFromOneStart()
+    public void SiblingWorkspacesAreTwoSuppositionsFromOneStart()
     {
         var chain = Chain();
-        var open = new Rung(chain).SelectAll();
-        var shut = new Rung(chain).SelectAll();
+        var open = new Workspace(chain).SelectAll();
+        var shut = new Workspace(chain).SelectAll();
         shut.Write(1, 3, false);
 
         open.Apply(Passages(open, 0, 2));
@@ -279,7 +279,7 @@ public sealed class RungTests
         Assert.True(shut.Read(0, 2));
         Assert.Equal(Plane.Of(6, 2, 3, 4), open.Differs(shut));
 
-        var child = new Rung(open).SelectAll();
+        var child = new Workspace(open).SelectAll();
         Assert.True(child.Read(0, 4));
         child.Write(0, 5, true);
 
@@ -289,39 +289,39 @@ public sealed class RungTests
     }
 
     /// <summary>Every word of an ODV store shares its orientation bit, so a
-    /// rung reads it by reference and cannot turn it, by a write or by a law.
-    /// When the store turns, it turns as a whole and the rung sees it.</summary>
+    /// workspace reads it by reference and cannot turn it, by a write or by a law.
+    /// When the store turns, it turns as a whole and the workspace sees it.</summary>
     [Fact]
-    public void ARungReadsConstantsByReferenceAndCannotTurnThem()
+    public void AWorkspaceReadsConstantsByReferenceAndCannotTurnThem()
     {
         var words = Odv.Create(2);
         Odv.Write(words, 0, OdvNotation.Parse("R+?"));
-        var rung = new Rung(words).SelectAll();
+        var workspace = new Workspace(words).SelectAll();
 
-        Assert.Throws<InvalidOperationException>(() => rung.Write(Odv.O, 0, true));
-        Assert.Throws<ArgumentException>(() => new Wiring(Flows.Toggle, new Binding(rung, Odv.O)));
+        Assert.Throws<InvalidOperationException>(() => workspace.Write(Odv.O, 0, true));
+        Assert.Throws<ArgumentException>(() => new Wiring(Flows.Toggle, new Binding(workspace, Odv.O)));
 
         Odv.Reorient(words);
 
-        Assert.True(rung.Read(Odv.O, 1));
+        Assert.True(workspace.Read(Odv.O, 1));
         Assert.Equal("L-?", Odv.Read(words, 0).ToString());
-        Assert.True(rung.Read(Odv.D, 0));
+        Assert.True(workspace.Read(Odv.D, 0));
     }
 
-    /// <summary>Two rungs predict a counter's next value: one stretches it by
-    /// two, the other adds one. Then the counter doubles. The rung whose law
+    /// <summary>Two workspaces predict a counter's next value: one stretches it by
+    /// two, the other adds one. Then the counter doubles. The workspace whose law
     /// matched reads the same as the source; the other misses at the counter.
     /// Neither is committed: a prediction is compared, not written back.</summary>
     [Fact]
-    public void APredictionIsARungComparedWithWhatTheSourceThenDid()
+    public void APredictionIsAWorkspaceComparedWithWhatTheSourceThenDid()
     {
         var counter = new Store(8, 1);
         var count = new Field(Shape.Unary(8), Enumerable.Range(0, 8).ToArray());
         count.Write(counter, 0, 2);
-        var stretches = TransitionLaw.FromFunction([Shape.Unary(8)], s => [Math.Min(8, 2 * s[0])], new Accounting(true));
-        var adds = TransitionLaw.FromFunction([Shape.Unary(8)], s => [Math.Min(8, s[0] + 1)], new Accounting(true));
-        var byTwo = new Rung(counter).SelectAll();
-        var byOne = new Rung(counter).SelectAll();
+        var stretches = TransitionLaw.FromFunction([Shape.Unary(8)], s => [2 * s[0] < 8 ? 2 * s[0] : 8], new Accounting(true));
+        var adds = TransitionLaw.FromFunction([Shape.Unary(8)], s => [s[0] < 8 ? s[0] + 1 : 8], new Accounting(true));
+        var byTwo = new Workspace(counter).SelectAll();
+        var byOne = new Workspace(counter).SelectAll();
         byTwo.Apply(One(stretches, byTwo));
         byOne.Apply(One(adds, byOne));
 
@@ -340,25 +340,25 @@ public sealed class RungTests
     public void AnIntroducedPositionIsACandidateUntilACommitAdoptsIt()
     {
         var source = new Store(1, 2);
-        var rung = new Rung(source).SelectAll();
-        var candidate = rung.Introduce();
+        var workspace = new Workspace(source).SelectAll();
+        var candidate = workspace.Introduce();
 
         Assert.Equal(2, candidate);
-        Assert.Null(rung.SourceOf(candidate));
-        Assert.True(rung.Selected[candidate]);
+        Assert.Null(workspace.SourceOf(candidate));
+        Assert.True(workspace.Selected[candidate]);
 
-        rung.Write(0, candidate, true);
+        workspace.Write(0, candidate, true);
         source.Add();
-        var commit = rung.Commit();
+        var commit = workspace.Commit();
 
         var adopted = Assert.Single(commit.Adopted);
         Assert.Equal(3, adopted);
         Assert.True(source.Read(0, 3));
-        Assert.Equal(3, rung.SourceOf(candidate));
-        Assert.True(rung.Read(0, candidate));
+        Assert.Equal(3, workspace.SourceOf(candidate));
+        Assert.True(workspace.Read(0, candidate));
 
-        Assert.Equal(1, rung.Follow());
-        Assert.Equal(2, rung.SourceOf(rung.Count - 1));
+        Assert.Equal(1, workspace.Follow());
+        Assert.Equal(2, workspace.SourceOf(workspace.Count - 1));
     }
 
     /// <summary>A relation wired to open roles narrows them when it runs, by

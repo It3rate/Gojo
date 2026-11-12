@@ -86,7 +86,7 @@ public static class Odv
     public static OdvWord Read(Surface surface, int position) =>
         new((byte)(WordField.Read(surface, position) ?? throw new InvalidOperationException("Every three-bit pattern is a word.")));
 
-    /// <summary>Writes V and D, into a store or into a rung as a
+    /// <summary>Writes V and D, into a store or into a workspace as a
     /// supposition. The word's O must match the store's.</summary>
     public static void Write(Surface surface, int position, OdvWord word) => WordField.Write(surface, position, word.Code);
 
@@ -149,7 +149,7 @@ public static class Odv
     public static RelationLaw Addition(int threshold = Detection)
     {
         if (threshold < 1) throw new ArgumentOutOfRangeException(nameof(threshold));
-        threshold = Math.Min(threshold, Detection);
+        if (threshold > Detection) threshold = Detection;
         lock (AdditionLaws)
         {
             if (AdditionLaws.TryGetValue(threshold, out var cached)) return cached;
@@ -192,10 +192,10 @@ public static class Odv
     {
         if (fromThreshold < 1) throw new ArgumentOutOfRangeException(nameof(fromThreshold));
         if (toThreshold < 1) throw new ArgumentOutOfRangeException(nameof(toThreshold));
-        (fromThreshold, toThreshold) = (Math.Min(fromThreshold, Detection) + (fromThreshold > toThreshold && toThreshold >= Detection ? 1 : 0),
-            Math.Min(toThreshold, Detection) + (toThreshold > fromThreshold && fromThreshold >= Detection ? 1 : 0));
+        (fromThreshold, toThreshold) = (Capped(fromThreshold) + (fromThreshold > toThreshold && toThreshold >= Detection ? 1 : 0),
+            Capped(toThreshold) + (toThreshold > fromThreshold && fromThreshold >= Detection ? 1 : 0));
         var admitted = new HashSet<(int, int)>();
-        var reach = 3 * Math.Max(fromThreshold, toThreshold) + 1;
+        var reach = 3 * (fromThreshold > toThreshold ? fromThreshold : toThreshold) + 1;
         for (var orientation = 0; orientation <= 1; orientation++)
             for (var x = -reach; x <= reach; x++)
                 foreach (var from in WordsOf(x, fromThreshold))
@@ -213,6 +213,8 @@ public static class Odv
             var word = new OdvWord((byte)t[0]);
             return t[1] == (word.PositiveLeft == positiveLeft ? word : word.Reorient()).Code;
         });
+
+    private static int Capped(int threshold) => threshold < Detection ? threshold : Detection;
 
     private static IEnumerable<int> WordsOf(int hidden, int threshold)
     {

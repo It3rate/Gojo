@@ -115,7 +115,7 @@ public sealed class LawTests
     [Fact]
     public void ACoarseReadIsARelationAndCannotRecoverWhatItDropped()
     {
-        // A count of 0..4 read as "none" or "some". No special rung type: a relation law.
+        // A count of 0..4 read as "none" or "some". No special workspace type: a relation law.
         var presence = RelationLaw.FromPredicate([Shape.Unary(4), Shape.Bit], t => t[1] == (t[0] > 0 ? 1 : 0));
 
         Assert.Equal(0b10UL, presence.Project(1, [1UL << 3, 0b11]));

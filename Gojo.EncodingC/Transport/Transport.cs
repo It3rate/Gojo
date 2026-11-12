@@ -15,7 +15,7 @@ namespace Gojo.EncodingC;
 /// <para>A law with exactly one next state for every state is saved as that
 /// list of next states, which is what a table-driven device would hold. Any
 /// other law is saved as one bit per tuple.</para>
-/// <para>Rungs are not part of a machine. They are working views: commit or
+/// <para>Workspaces are not part of a machine. They are working views: commit or
 /// drop them first.</para></summary>
 public static class Transport
 {
@@ -93,7 +93,7 @@ public static class Transport
                     Store store => store,
                     Port port => port.Owner,
                     Life life => life.Of,
-                    _ => throw new InvalidOperationException("A rung, or the gap between a rung and its source, is a working view and not part of a machine. Commit or drop it before saving."),
+                    _ => throw new InvalidOperationException("A workspace, or the gap between a workspace and its source, is a working view and not part of a machine. Commit or drop it before saving."),
                 });
             Reach(wiring.Rows);
         }

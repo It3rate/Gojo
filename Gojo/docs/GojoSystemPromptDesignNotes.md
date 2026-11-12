@@ -851,6 +851,25 @@ Not claimed: a type that holds a local structure, a check that direct
 connections stay inside one, independent settlement of several, or ports on a
 saved machine.
 
+## Workspaces, Selection And Steps In The Encoding, November 2026
+
+Checking the `Gojo.EncodingC` primitives against their concepts, the user
+settled these. They fix the encoding's vocabulary; no canonical rule changed.
+
+- A workspace holds a fragment of an existing structure. Changes made there
+  are its own values. It is a separate entity whose work is refining the
+  structure it refers to, and that work can later be dropped or folded back
+  into the original. The encoding called its workspace type `Rung`, which
+  clashes with a rung as a level of a ladder, so the type is now `Workspace`.
+- For now, selection is whatever is in a workspace, and it is kept that
+  primitive.
+- A step is one pass. The mechanism as a whole is expected to lower its
+  energy from step to step, but a step need not, and a machine may never get
+  there.
+- "Relation", "relation law" and "shape" keep their meanings in the encoding.
+- Nothing at this level calls the math library, not even for a minimum, and a
+  test checks it. Two counters on a store that nothing read were removed.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:
