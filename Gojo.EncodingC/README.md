@@ -1,6 +1,6 @@
 # Gojo.EncodingC
 
-Status: **exploratory**, 11 November 2026. It replaces `Gojo.EncodingB`, which
+Status: **exploratory**, 12 November 2026. It replaces `Gojo.EncodingB`, which
 was deleted once this project covered what was worth keeping. The old project
 is in git history (`git show c9d4abb2:Gojo.EncodingB/README.md`).
 
@@ -16,13 +16,13 @@ wired. Concretely:
 
 - **Structures** are built from bit encodings in the sense of ODV. Each bit's
   role comes from its position, with no header and no name.
-- **Ports** carry what flows from one structure to another.
+- **Ports** carry what flows from one local structure to another.
 - **Values** flow through the structures once they are running.
 - **What structures do with them:**
   - run operations;
   - branch and merge flow;
   - switch and change their own structure;
-  - work in rungs: live views of a structure that copy only what they change;
+  - work in rungs: live views of a store that copy only what they change;
   - hold what is not settled yet in the same planes as what is, and use it:
     open values, choices nothing has made, and the gap between what was
     supposed and what is;
@@ -46,8 +46,8 @@ of what something means.
 - **No strings in the encoding.** Planes, positions, roles, values, ports and
   laws are numbers. Names belong to a [`Lens`](Lens/Lens.cs) that the encoding
   never reads. `TheEncodingHoldsNoStrings` checks every type by reflection.
-- **No fixed sizes.** A structure has as many positions as it needs, and a
-  plane is as long as its structure. A law runs across as many lanes as it has
+- **No fixed sizes.** A store has as many positions as it needs, and a
+  plane is as long as its store. A law runs across as many lanes as it has
   rows, and a reference costs ⌈log₂ n⌉ bits for n targets. The remaining bounds
   belong to this adapter, not to the concepts:
   - a unary count holds up to 63;
@@ -79,32 +79,65 @@ how it is held in bits.
 | --- | --- | --- |
 | Plane | [`Plane`](Substrate/Plane.cs) | A bit per position. State, selections, lane sets and supports are all planes |
 | Layout | [`Shape`](Substrate/Shape.cs), [`Field`](Substrate/Field.cs), [`PackedInts`](Substrate/PackedInts.cs) | How a value sits in bits (binary or unary), which planes hold it, and references packed at the width they need |
-| Surface | [`Surface`](Substrate/Surface.cs) | What a law's role binds to: a structure, a port, a rung, the gap between a rung and its source, or whether a structure's positions are in use. Every read and write goes through it |
-| Structure | [`Structure`](Substrate/Structure.cs), [`Life`](Substrate/Life.cs) | Positions and planes, and constant planes. A position is spare, in use or retired, and `Life` shows that as a surface, so a law grows and prunes |
+| Surface | [`Surface`](Substrate/Surface.cs) | What a law's role binds to: a store, a port, a rung, the gap between a rung and its source, or whether a store's positions are in use. Every read and write goes through it |
+| Store | [`Store`](Substrate/Store.cs), [`Life`](Substrate/Life.cs) | A block of state: positions and planes, and constant planes. It holds bits and does nothing. A position is spare, in use or retired, and `Life` shows that as a surface, so a law grows and prunes |
+| Local structure | No type yet | The stores and wirings that form one local intelligence. See [Stores and local structures](#stores-and-local-structures) |
 | Port | [`Port`](Substrate/Port.cs) | Ordered lanes onto an owner's positions and an ordered list of its planes |
 | Law | [`RelationLaw`](Laws/RelationLaw.cs), [`TransitionLaw`](Laws/TransitionLaw.cs), [`Accounting`](Laws/Accounting.cs) | Tables of admitted tuples or transitions, with promises checked when the table is made |
-| Wiring | [`Wiring`](Flow/Wiring.cs), `Binding` | A law bound to rows over structures and ports. A role is bound to a code or, open, to what a value may still be. The rows are a structure of their own, so topology is state |
+| Wiring | [`Wiring`](Flow/Wiring.cs), `Binding` | A law bound to rows over stores and ports. A role is bound to a code or, open, to what a value may still be. The rows are a store of their own, so topology is state |
 | Engine | [`Engine`](Flow/Engine.cs), [`Unary`](Flow/Unary.cs) | Steps wirings in waves: a transition changes state, a relation rules out. Units enter from outside |
 | Stock laws | [`Flows`](Flow/Flows.cs), [`Settling`](Laws/Settling.cs) | Small tables for moving things, and for observing, forgetting and acting on what is known |
 | Rung | [`Rung`](Workspaces/Rung.cs), [`Gap`](Workspaces/Gap.cs), [`Selections`](Workspaces/Selections.cs) | A workspace: a live view with copy on write, selection by layers and by use, validated partial commits. Its gap is where it and its source disagree |
-| Supports | [`Supports`](Workspaces/Supports.cs) | A value not settled yet: one plane per value in the structure, set where the value is ruled out |
-| Learning | [`LearnedTable`](Learning/LearnedTable.cs) | Small counts of what happened, held in a structure, crystallized into a law |
+| Supports | [`Supports`](Workspaces/Supports.cs) | A value not settled yet: one plane per value in the store, set where the value is ruled out |
+| Learning | [`LearnedTable`](Learning/LearnedTable.cs) | Small counts of what happened, held in a store, crystallized into a law |
 | Measure | [`OdvWord`, `Odv`](Measure/Odv.cs) | The three-bit ODV word, its planes and its arithmetic as laws |
 | Transport | [`Transport`](Transport/Transport.cs) | A machine as bits, restored without the code that built it |
 | Lens | [`Lens`, `OdvNotation`](Lens/Lens.cs) | Names and notation for people, outside the encoding |
 
+## Stores and local structures
+
+Two things are kept apart.
+
+A **store** is a block of state: positions and the planes over them. It holds
+bits and does nothing. The code's `Store` is this. It was called `Structure`
+until 12 November 2026.
+
+A **local structure** is the group of stores and wirings that forms one local
+intelligence. The canonical prompt (§4.7) also calls it a local space.
+
+- **Inside** a local structure, laws connect to any of its stores freely. Its
+  parts share state, patterns and calculation, and it settles as one.
+- **Between** local structures the only connection is a port, and each
+  settles independently.
+
+In this README, "structure" on its own means connected parts that compute, in
+that sense.
+
+What is built, and what is not:
+
+- The rules for crossing a port are built. Through a port a law reads, or
+  takes as a move, and never rules anything out on the other side (see
+  [Copying and moving](#copying-and-moving)).
+- The boundary is not built. No type holds a local structure, a wiring belongs
+  to no one, and a wiring can bind any store directly. Every machine in the
+  tests is one local structure, and a saved machine has no ports to the
+  outside. Until this is built, the boundary is kept by whoever wires.
+
+Local structures communicating over thin connections is essential to Gojo. The
+primitives are being settled first.
+
 ## Where the bits are
 
-**Planes and structures.** Bit i of a plane belongs to position i. A structure
+**Planes and stores.** Bit i of a plane belongs to position i. A store
 holds:
-- one plane per stored plane, the length of its structure;
-- a *constant plane* for anything the whole structure shares, held as a single
+- one plane per stored plane, the length of its store;
+- a *constant plane* for anything the whole store shares, held as a single
   bit and never per position (ODV orientation is one). It is positional, like
-  the core's buckets: belonging to the structure gives a position the bit, so
+  the core's buckets: belonging to the store gives a position the bit, so
   everything in it turns together, and turning one word means moving it into
-  a structure that faces the other way;
+  a store that faces the other way;
 - which positions are in use. A position is spare (room, not yet in use), in
-  use, or retired, and only moves forward through those. `structure.Life`
+  use, or retired, and only moves forward through those. `store.Life`
   shows "in use" as a surface with one plane, so a law recruits a spare
   position by setting its bit and retires one by clearing it;
 - two counters: `Version` advances on every state change, and `Epoch` on every
@@ -127,8 +160,8 @@ than j", so 3 is `0111`:
 Unary is the primitive medium: more of something sets more bits, and no
 arithmetic unit is needed.
 
-**References.** A wiring's rows are the positions of a structure of its own.
-Each role's reference is a value in that structure's planes, ⌈log₂ n⌉ bits for
+**References.** A wiring's rows are the positions of a store of its own.
+Each role's reference is a value in that store's planes, ⌈log₂ n⌉ bits for
 n targets, and a plane is added when a larger reference arrives. So a law
 bound to those planes reads or rewires a row, a saved machine keeps topology
 as it keeps any state, and retiring a row is retiring a position. Once a
@@ -156,7 +189,7 @@ lanes are packed references at the width they need.
 
 **ODV.**
 - V and D are stored planes 0 and 1. O is constant plane 2, so a whole
-  structure reorients with one constant flip and `D ^= live`.
+  store reorients with one constant flip and `D ^= live`.
 - All eight words pack as `88 C6 FA`.
 - `Odv.Addition(threshold)` derives addition by enumerating a threshold reader:
   - The default is the detection contract, under which an undetectable word
@@ -182,21 +215,21 @@ replaced. Positions it has not written cost nothing. It also keeps:
   adopted as source position s);
 - a packed parent per position for changes made together.
 
-**Supports.** One plane per value, in the structure, set where the value is
+**Supports.** One plane per value, in the store, set where the value is
 *ruled out*. Nothing ruled out is open, all but one is settled, all is a
 contradiction. A fresh position is therefore open with no extra step, and each
 bit set is one thing learned. "Every value" means every value of a declared,
 finite set; a support says nothing about values outside it. A one-bit value
 costs two planes: unknown, 0, 1 and contradiction.
 
-**Transport.** A machine saves as one run of bits: structures (constant
+**Transport.** A machine saves as one run of bits: stores (constant
 planes, retired positions if any, stored planes, ports), laws (role shapes,
-table, accounting), and wirings (law, bindings, and which structure holds the
+table, accounting), and wirings (law, bindings, and which store holds the
 rows), then the engine's order where a wiring runs more than once. A law with
 one next state per state is saved as that list of next states; a law read as
 a relation is saved once, as a reading. Whole numbers are Elias gamma codes of
 n + 1, so 0 takes one bit. There are no names, headers or fixed widths; a
-structure is identified by its place in the order. The passage chain of five
+store is identified by its place in the order. The passage chain of five
 positions and two rows is 22 bytes (see [How big it is](#how-big-it-is)).
 
 ## Copying and moving
@@ -207,11 +240,14 @@ the law a receiver wires to it:
 - A role the law never changes is **read**. Through a port, that is a
   reference: the sender is untouched, and any number of receivers can hold one.
 - A role the law changes is **written**:
-  - Writing a structure's own positions is that structure's business.
-  - Writing *through a port* reaches into another structure. It is allowed only
+  - Writing a store directly is the business of the local structure it
+    belongs to.
+  - Writing *through a port* reaches into another local structure. It is
+    allowed only
     when the law's accounting puts the role in a preserved sum of positive
     amounts, so what leaves there arrives somewhere the law also writes. That
-    is a move, and nothing can be made or destroyed in another structure. A
+    is a move, and nothing can be made or destroyed in another local
+    structure. A
     law that would drain a port without accounting for it is refused when it
     is wired. A sum with a zero or negative weight is still a promise, but
     not conservation, and does not count.
@@ -296,7 +332,7 @@ is left to whatever evolves the structures.
 
 ## Rungs (workspaces)
 
-A structure holds what is. A rung holds what is noticed, supposed or attempted.
+A store holds what is. A rung holds what is noticed, supposed or attempted.
 
 - **Reference first.** `new Rung(source)` copies nothing. Every position it has
   not written reads the source as the source is now, so a rung sees the world
@@ -307,7 +343,7 @@ A structure holds what is. A rung holds what is noticed, supposed or attempted.
   the rung's and half the source's. A rung costs what it changes, not what it
   sees, so many can be open at once.
 - **Laws run unchanged.** A rung is a surface, so a wiring binds to it like to a
-  structure. `rung.Apply(wiring)` runs it; a law run in a rung writes only the
+  store. `rung.Apply(wiring)` runs it; a law run in a rung writes only the
   rung.
 - **Selection, coarse to fine.** `SelectAll()`, `Select(area)` and
   `Ignore(area)` add layers; later layers override earlier ones. Nobody lists
@@ -317,7 +353,7 @@ A structure holds what is. A rung holds what is noticed, supposed or attempted.
   the rung's reach (three by default). A row that would go further, or into an
   ignored area, does not run and is returned in `RungStep.Beyond`.
 - **Constants** are read by reference and cannot be changed in a rung. Every
-  position of the structure shares them.
+  position of the store shares them.
 - **Leaving a rung:**
   - *Drop it.* Nothing in the source changed.
   - *Compare it.* `Changes()` is where it reads differently from the source.
@@ -337,7 +373,7 @@ A structure holds what is. A rung holds what is noticed, supposed or attempted.
     source. It is always selected, never read as evidence about the source,
     and becomes a source position on commit.
 - **Rungs over rungs.** A rung over a rung sees its parent's changes live, and
-  commits into the parent, not the structure underneath.
+  commits into the parent, not the store underneath.
 
 ## Working with what is not settled
 
@@ -381,7 +417,7 @@ read it, relations narrow it and rungs suppose about it.
 
 `AGoalTwoStepsAwayOpensTheValveNow` is the whole loop with no host code in it.
 A plant has a source, a gate and a target that takes one unit per step; two
-units must reach the target within two steps. A plan structure holds what is
+units must reach the target within two steps. A plan, one store, holds what is
 possible at three moments, all open. Each engine step runs these wirings in
 declared order:
 
@@ -403,7 +439,7 @@ bytes and runs the same when restored.
 
 - **A supposition in a rung.** Seen through a rung (`supports.In(rung)`),
   narrowing is supposed rather than known. A supposition that reaches a
-  contradiction is dropped and the structure never held it
+  contradiction is dropped and the store never held it
   (`ASuppositionIsNarrowedInARungAndDroppedWhenItContradicts`). A one-off
   decision works the same way: forget the places that may change in one rung,
   write the wanted state into a next-moment rung, narrow between them, then
@@ -415,7 +451,7 @@ bytes and runs the same when restored.
   Unlike a plan, this makes partial progress toward a goal it cannot reach.
 - **Prediction that never stops.** Predictors write their guess of a bit into
   their own planes before the world moves; a judge compares each guess with
-  what happened and moves a count of trust. It is one structure and four
+  what happened and moves a count of trust. It is one store and four
   wirings, 47 bytes saved, and it keeps the trust, not the history
   (`AStructurePredictsJudgesItselfAndTrustFollows`).
 - **Counting what happened.** A wiring that records leaves each row's result
@@ -460,9 +496,9 @@ three ways:
 - **unknown:** otherwise. Unknown pairs keep predictions open rather than
   guessed.
 
-Everything it knows is a structure of small unary counts (`Counts`): one per
+Everything it knows is a store of small unary counts (`Counts`): one per
 pair, one per before-state, and one for rows it was shown and could not read.
-So what was learned is saved like any structure, a law can read how sure the
+So what was learned is saved like any store, a law can read how sure the
 table is, and nothing is kept beside the encoding. A count stops at the larger
 threshold, because "often enough" is all it has to say, and no history of
 when things happened is kept. For the passage law that is 73 counts, 40 bytes
@@ -470,7 +506,7 @@ saved.
 
 "Unsupported" is a rule of thumb, not proof. A crystallized law marks the pairs
 it left out only for not being seen (`Crystallized.Unsupported`), the counts
-they came from stay in the structure, and the table keeps counting, so a later
+they came from stay in the store, and the table keeps counting, so a later
 witness admits them again.
 
 Once nothing is unknown, the table crystallizes into a law. That law is checked
@@ -488,7 +524,7 @@ two, compared with what happens next, with trust kept as a small count.
 
 Signal and noise are encoded together, as a layout has content and whitespace.
 The table says where each unresolved kind lives today. *Bits* means planes of
-a structure, which laws read and transport saves. *Rung* means a rung's own
+a store, which laws read and transport saves. *Rung* means a rung's own
 planes, which are a working view and not saved. *Live* means a difference
 read by reference while both sides exist. *Returned* means a record handed to
 the caller after one call; nothing in the machine keeps it.
@@ -503,7 +539,7 @@ the caller after one call; nothing in the machine keeps it.
 | Not a code | The bits stay as they are; reported as unread | Bits |
 | Broken count | `Unary.Broken`, `UnaryStep.Broken`; never repaired | Bits |
 | Undetectable magnitude | ODV V = 0: a sample below this read's resolution, still an operand | Bits |
-| Spare | Room that is allocated and not in use; `Structure.Spare`, and `Life` for laws | Bits |
+| Spare | Room that is allocated and not in use; `Store.Spare`, and `Life` for laws | Bits |
 | Retired | No longer in use, never reused; reported as skipped | Bits |
 | A reference to nowhere | A row whose reference a law wrote out of range; reported as skipped | Bits |
 | Aliased | Roles that meet at a written bit, after a lane or a reference moved. Found again each step | Bits |
@@ -542,7 +578,7 @@ adding is setting a bit and comparing is a table.
 
 | Part | Lines | What it is |
 | --- | --- | --- |
-| The machine: planes, structures, ports, laws, wirings, engine | about 2,150 | Storage, the two step rules (about 230 lines), and checks made when something is built |
+| The machine: planes, stores, ports, laws, wirings, engine | about 2,150 | Storage, the two step rules (about 230 lines), and checks made when something is built |
 | Stock tables: `Flows`, `Settling`, `Odv` | about 370 | Builders that produce tables; nothing runs from them but the tables |
 | Host tools: `Rung`, `Gap`, `Selections`, `Supports`, `Unary`, `LearnedTable` | about 1,100 | Code that reads or edits structure from outside |
 | Save, load and names: `Transport`, `Lens` | about 630 | Outside the machine by nature |
@@ -584,11 +620,11 @@ What still needs the host:
 
 Sizes of saved machines, from `Transport.Measure` and pinned in tests:
 
-| Machine | Bytes | Structures / laws / bindings, in bits |
+| Machine | Bytes | Stores / laws / bindings, in bits |
 | --- | --- | --- |
 | A passage chain: 5 positions, 2 rows, 1 law | 22 | 55 / 80 / 36 |
 | Two predictors, a judge and their trust | 47 | |
-| The machine that plans two steps ahead: 3 structures, 5 laws, 8 wirings | 114 | 298 / 291 / 320 |
+| The machine that plans two steps ahead: 3 stores of state, 5 laws, 8 wirings | 114 | 298 / 291 / 320 |
 | The same with a goal that gives way and a probe that supposes | 221 | |
 | What a learner of the passage law knows: 73 small counts | 40 | |
 
@@ -669,7 +705,7 @@ smaller laws wired together (see the glossary,
 | --- | --- |
 | Site grammars and descriptors | Meaning lived in English sentences attached to each bit |
 | The bit decoder | Replaced by the lens, which sits outside the encoding |
-| Tiles and the 64-site cap | Replaced by structures and planes of any size |
+| Tiles and the 64-site cap | Replaced by stores and planes of any size |
 | `PortBasis`, `Correspondence`, `PortAccounting` | Ports described their meaning, and copying versus moving was a flag |
 | `RungMap` | A coarse read is a relation law and needs no type of its own |
 | `TensionField` | Units and laws over unary fields cover it |
@@ -680,8 +716,13 @@ smaller laws wired together (see the glossary,
 
 ## Not built
 
+- **Local structures as a boundary.** No type holds a local structure. A
+  wiring belongs to no one and can bind any store directly. So nothing checks
+  that local structures connect only through ports, nothing steps two of
+  them independently, and a saved machine has no ports to the outside. See
+  [Stores and local structures](#stores-and-local-structures).
 - **Laws in the planes.** A law's table is fixed when it is made. A table held
-  in a structure, so that what was learned runs at once and a machine can
+  in a store, so that what was learned runs at once and a machine can
   change its own rules, is the largest open step. It needs an answer for how
   promises are kept by a table that changes.
 - **Allocation by laws.** A law recruits and retires what is there; it cannot
@@ -695,7 +736,7 @@ smaller laws wired together (see the glossary,
   counts, are host code. Prediction structures that replace a learned table
   are not built.
 - **Rungs in a machine.** A rung is not saved and the engine does not manage
-  one. A rung views one structure or rung. A wiring's rows cannot be supposed
+  one. A rung views one store or rung. A wiring's rows cannot be supposed
   about through a rung.
 - **The full tension model:** positive and negative tension, an absorbed
   magnitude, an absorb law, and accounted loans.
@@ -713,12 +754,12 @@ smaller laws wired together (see the glossary,
 | --- | --- |
 | R1 substrate contract | Planes, laws with accounting, ODV and the passage law. The decoder is replaced by the lens. Gap balancing is not ported |
 | R2 house workspaces | Rungs: live reference with copy on write, layered and by-use selection, stale, split and introduced commits, sibling comparison. The house seam example is not ported |
-| R3 scoped supports | Per-position supports in the planes, narrowed by relation wirings the engine runs, through laws read as relations, on structures, rungs and through ports (U0). A joint is a pair value with two relations. U1–U3 are dropped |
+| R3 scoped supports | Per-position supports in the planes, narrowed by relation wirings the engine runs, through laws read as relations, on stores, rungs and through ports (U0). A joint is a pair value with two relations. U1–U3 are dropped |
 | R4 semiring reads and zero contracts | Exact and detection ODV contracts. Semiring reads are dropped |
 | R5 tension and energy | Units enter through `Unary` and move through laws. Energy tiers are dropped |
 | R6 tick contract | `Engine` with waves in declared order, running transitions and relations. Shuffled-order tests are not done |
 | R7 witnesses by replay | Not built |
-| R8 learned law tables | Implemented with counts in a structure, without eligibility traces |
+| R8 learned law tables | Implemented with counts in a store, without eligibility traces |
 | R9 SIMD / GPU | Out of scope; `Plane` words are the seam |
 | R10 crystallization by description length | Not done |
 

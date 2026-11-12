@@ -1,6 +1,6 @@
 namespace Gojo.EncodingC;
 
-/// <summary>A workspace: a live view of a structure, or of another rung, with a
+/// <summary>A workspace: a live view of a store, or of another rung, with a
 /// layer on top that holds only what was changed here.
 /// <para><b>Reference first.</b> A rung copies nothing when it is made. Every
 /// position it has not written reads the source as the source is now, so a
@@ -9,7 +9,7 @@ namespace Gojo.EncodingC;
 /// planes is never half the rung's and half the source's. The rung keeps the
 /// new bits and the source bits they replaced. A rung therefore costs what it
 /// changes, not what it sees, and many can be open at once. Laws run on it
-/// exactly as on a structure; a law run here writes only here.</para>
+/// exactly as on a store; a law run here writes only here.</para>
 /// <para><b>Selection, coarse to fine.</b> What a rung attends to is a short
 /// list of layers over the source's positions, each kept or ignored, later
 /// layers over earlier ones: "all of it", "but not that area", "except this
@@ -34,7 +34,7 @@ namespace Gojo.EncodingC;
 /// together, so a move is never committed as half a move. Introduced
 /// positions are candidates with no source; a commit adopts them.</para>
 /// <para>Constants are read by reference and cannot be changed here: every
-/// position of a structure shares them.</para></summary>
+/// position of a store shares them.</para></summary>
 public sealed class Rung : Surface
 {
     private readonly Surface source;
@@ -49,14 +49,14 @@ public sealed class Rung : Surface
     private Gap? gap;
     private int span = -1;
 
-    /// <summary>A rung over a structure.</summary>
-    public Rung(Structure source, int reach = 3)
+    /// <summary>A rung over a store.</summary>
+    public Rung(Store source, int reach = 3)
         : this((Surface)source, reach)
     {
     }
 
     /// <summary>A rung over another rung: it sees that rung's changes live, and
-    /// its own commits go there, not to the structure underneath.</summary>
+    /// its own commits go there, not to the store underneath.</summary>
     public Rung(Rung source, int reach = 3)
         : this((Surface)source, reach)
     {
@@ -370,9 +370,9 @@ public sealed class Rung : Surface
             if (SourceOf(i) is not null) continue;
             var s = source switch
             {
-                Structure structure => structure.Add(),
+                Store store => store.Add(),
                 Rung parent => parent.Introduce(),
-                _ => throw new InvalidOperationException("Only a structure or a rung adopts positions."),
+                _ => throw new InvalidOperationException("Only a store or a rung adopts positions."),
             };
             for (var p = 0; p < held.Count; p++)
                 if (held[p] is not null && Fit(held, p)[i]) source.Set(p, s, Fit(bits, p)[i]);
@@ -422,9 +422,9 @@ public sealed class Rung : Surface
 
     private bool ConstantBit(int plane) => source switch
     {
-        Structure structure => structure.ConstantValue(plane),
+        Store store => store.ConstantValue(plane),
         Rung parent => parent.ConstantBit(plane),
-        _ => throw new InvalidOperationException("A rung sits on a structure or a rung."),
+        _ => throw new InvalidOperationException("A rung sits on a store or a rung."),
     };
 
     private bool Holds(int plane, int index) => plane < held.Count && held[plane] is { } h && index < h.Length && h[index];

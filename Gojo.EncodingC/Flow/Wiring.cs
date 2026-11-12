@@ -44,10 +44,10 @@ public sealed class Binding
 /// (or port lane) the role reads there. Row i is lane i when the law runs. The
 /// law is shared; the rows are topology.
 /// <para><b>Rows are positions.</b> A wiring's rows are the positions of a
-/// structure of its own, <see cref="Rows"/>, and a row's references are values
-/// in that structure's planes, at the width the surface needs. Topology is
+/// store of its own, <see cref="Rows"/>, and a row's references are values
+/// in that store's planes, at the width the surface needs. Topology is
 /// state like any other: a law bound to those planes rewires a row by writing
-/// a reference, a saved machine keeps it as it keeps any structure, and a
+/// a reference, a saved machine keeps it as it keeps any store, and a
 /// retired row is a retired position. A reference a law has written to
 /// nowhere is not an error; the row does not run and is reported.</para>
 /// <para><b>One rule per kind of law.</b> A transition law changes state: each
@@ -57,14 +57,16 @@ public sealed class Binding
 /// Both run across all rows at once from the table alone.</para>
 /// <para><b>Copying and moving are not flags.</b> A role the law never changes
 /// is read: bound to a port, that is a reference, and any number of readers can
-/// hold one. A role the law changes is written. Writing a structure's own
-/// positions is that structure's business. Writing through a port reaches into
-/// another structure, so it is allowed only when the law's accounting puts the
-/// role in a preserved sum of positive amounts: what leaves there arrives
-/// somewhere the law also writes. That is a move, and nothing can be made or
-/// destroyed in another structure. Narrowing never writes through a port: a
-/// reader may see what another structure considers possible, and cannot rule
-/// anything out there. What is supposed never rules anything out in what is
+/// hold one. A role the law changes is written. Writing a store directly is
+/// the business of the local structure the store belongs to. Writing through
+/// a port reaches into another local structure, so it is allowed only when
+/// the law's accounting puts the role in a preserved sum of positive amounts:
+/// what leaves there arrives somewhere the law also writes. That is a move,
+/// and nothing can be made or destroyed in another local structure. Narrowing
+/// never writes through a port: a reader may see what another local structure
+/// considers possible, and cannot rule anything out there. Nothing checks yet
+/// that a store bound directly belongs to the same local structure as the
+/// wiring. What is supposed never rules anything out in what is
 /// known: when any role of a relation reads a rung, only roles on rungs are
 /// narrowed.</para>
 /// <para><b>One bit is one position.</b> References are live, so a port's owner
@@ -95,7 +97,7 @@ public sealed class Wiring
     }
 
     /// <summary>A wiring over rows that already exist, as a saved machine has them.</summary>
-    internal Wiring(Law law, Binding[] roles, Structure? rows, int[][]? referencePlanes, int? evidenceFirst)
+    internal Wiring(Law law, Binding[] roles, Store? rows, int[][]? referencePlanes, int? evidenceFirst)
     {
         ArgumentNullException.ThrowIfNull(law);
         ArgumentNullException.ThrowIfNull(roles);
@@ -133,7 +135,7 @@ public sealed class Wiring
                 throw new ArgumentException($"Role {r} would write a surface that is a read of other things.", nameof(roles));
             if (surface.ThroughPort && !transition.Accounting.Conserves(r))
                 throw new ArgumentException(
-                    $"Role {r} writes through a port but is in no preserved sum of positive amounts. Writing another structure's bits is allowed only as a move, where what leaves arrives elsewhere.",
+                    $"Role {r} writes through a port but is in no preserved sum of positive amounts. Writing through a port reaches into another local structure, which is allowed only as a move, where what leaves arrives elsewhere.",
                     nameof(roles));
         }
         if (transition is not null)
@@ -145,7 +147,7 @@ public sealed class Wiring
                     nameof(roles));
         }
 
-        Rows = rows ?? new Structure(0);
+        Rows = rows ?? new Store(0);
         references = new List<int>[roles.Length];
         for (var r = 0; r < roles.Length; r++)
         {
@@ -170,9 +172,9 @@ public sealed class Wiring
 
     public IReadOnlyList<Binding> Bindings => Array.AsReadOnly(bindings);
 
-    /// <summary>The rows as a structure: one position per row, a reference per
+    /// <summary>The rows as a store: one position per row, a reference per
     /// role in its planes, and the evidence planes once recording.</summary>
-    public Structure Rows { get; }
+    public Store Rows { get; }
 
     /// <summary>Rows ever added, retired ones included.</summary>
     public int Count => Rows.Count;
@@ -606,7 +608,7 @@ public sealed class Wiring
 
     /// <summary>The first pair of roles that would hold one bit that one of
     /// them writes, or null. A role can meet itself, when two of its bits reach
-    /// one bit of the structure underneath.</summary>
+    /// one bit of the store underneath.</summary>
     private (int Writer, int Other)? MeetAtAWrittenBit(int[] indexes)
     {
         for (var r = 0; r < indexes.Length; r++)

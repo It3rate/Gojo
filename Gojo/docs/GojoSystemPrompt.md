@@ -685,6 +685,25 @@ selected by use, not prescribed. An uncalibrated connection claims no scale
 between sender and receiver; a transfer that claims one, such as material
 refinement (Axiom 9), needs a calibration.
 
+### 4.7 Local Structures Connect Freely Inside And Through Ports Outside
+
+A local structure, also called a local space, is a group of elements that
+forms one local intelligence. Its boundary is set by how elements connect and
+settle:
+
+- Inside a local structure, elements connect to one another freely. They
+  share information, patterns and calculation, and they settle together.
+- Between local structures, the only connection is a port. Each local
+  structure settles independently, and none reaches another's internal
+  elements.
+
+Local intelligence communicating with other local intelligence over thin
+connections is essential to Gojo.
+
+How state is held is a different matter. A block of positions and bits is a
+store. A local structure may use several stores, and a store is not a unit of
+meaning or of isolation. Do not let the word "structure" stand for a store.
+
 ## 5. Reads, Uncertainty, And Self-Inspection
 
 ### 5.1 Every Important Read Has A Witness
@@ -1310,6 +1329,9 @@ the current code and tests prove them:
   compression or revision;
 - a general workspace contract for selection, local introductions, candidate
   completion, validated commit and writeback;
+- an enforced boundary around a local structure in the bit encoding: which
+  elements belong to it, connection to other local structures only through
+  ports, and independent settlement;
 - evolved calibration: discovering, placing and sharing calibrations between
   connected structures;
 - full transform solving, multi-parent histories, and complete abstraction reads.
@@ -1331,6 +1353,8 @@ Before finishing a change, ask:
 - Are unit shape, calibration, resolution, accounting, and orientation separate?
 - Are accepted, blocked, residue, tension, and provenance still visible?
 - Can small systems connect through exposed ports without exposing raw internals?
+- Is free connection kept inside one local structure, with everything
+  between local structures going through a port?
 - Does a connection work one-to-one, uncalibrated, without the sender
   describing what it passes?
 - Would the concept survive on another substrate, with no name stored and no

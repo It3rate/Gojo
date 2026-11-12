@@ -1,6 +1,6 @@
 namespace Gojo.EncodingC;
 
-/// <summary>A machine as bits: its structures, the ports they expose, the laws
+/// <summary>A machine as bits: its stores, the ports they expose, the laws
 /// with their accounting, the wirings, and the order the engine runs them in.
 /// Loading needs nothing but these bits, so whatever code built the machine
 /// can be thrown away. The restored machine runs the same and leaves the same
@@ -9,8 +9,8 @@ namespace Gojo.EncodingC;
 /// bit.
 /// <para>Everything is a whole number or a run of bits, in a fixed order, with
 /// no names, no type tags beyond a bit or two where a choice is made, and no
-/// fixed widths: numbers are Elias gamma codes. What a structure is identified
-/// by is its place in the order. A wiring's rows are a structure like any
+/// fixed widths: numbers are Elias gamma codes. What a store is identified
+/// by is its place in the order. A wiring's rows are a store like any
 /// other, so its topology and anything it recorded are saved as planes.</para>
 /// <para>A law with exactly one next state for every state is saved as that
 /// list of next states, which is what a table-driven device would hold. Any
@@ -21,34 +21,34 @@ public static class Transport
 {
     private const int MaxCount = 1 << 24;
 
-    /// <summary>Saves the engine's wirings in order, every structure they reach,
-    /// and any further structures given. Structures given come first, in the
+    /// <summary>Saves the engine's wirings in order, every store they reach,
+    /// and any further stores given. Stores given come first, in the
     /// order given, then the ones the wirings reach, in the order reached.</summary>
-    public static byte[] Save(Engine engine, params Structure[] structures) => Write(engine, structures, out _).ToArray();
+    public static byte[] Save(Engine engine, params Store[] stores) => Write(engine, stores, out _).ToArray();
 
-    /// <summary>How many bits a saved machine spends on its structures (state,
+    /// <summary>How many bits a saved machine spends on its stores (state,
     /// and the rows of its wirings), its laws and its wirings' bindings.</summary>
-    public static MachineSize Measure(Engine engine, params Structure[] structures)
+    public static MachineSize Measure(Engine engine, params Store[] stores)
     {
-        Write(engine, structures, out var size);
+        Write(engine, stores, out var size);
         return size;
     }
 
     /// <summary>Restores a machine: an engine with its wirings in order, and the
-    /// structures in the order they were saved.</summary>
-    public static (Engine Engine, IReadOnlyList<Structure> Structures) Load(byte[] machine)
+    /// stores in the order they were saved.</summary>
+    public static (Engine Engine, IReadOnlyList<Store> Stores) Load(byte[] machine)
     {
         ArgumentNullException.ThrowIfNull(machine);
         try
         {
             var bits = new BitReader(machine);
-            var structures = new Structure[bits.Count(MaxCount)];
-            for (var i = 0; i < structures.Length; i++) structures[i] = ReadStructure(bits);
+            var stores = new Store[bits.Count(MaxCount)];
+            for (var i = 0; i < stores.Length; i++) stores[i] = ReadStore(bits);
             var laws = new Law[bits.Count(MaxCount)];
             for (var i = 0; i < laws.Length; i++) laws[i] = ReadLaw(bits, laws, i);
             var engine = new Engine();
             var wirings = new Wiring[bits.Count(MaxCount)];
-            for (var i = 0; i < wirings.Length; i++) wirings[i] = ReadWiring(bits, laws, structures);
+            for (var i = 0; i < wirings.Length; i++) wirings[i] = ReadWiring(bits, laws, stores);
             if (bits.Bit())
             {
                 var steps = bits.Count(MaxCount);
@@ -59,7 +59,7 @@ public static class Transport
                 foreach (var wiring in wirings) engine.Add(wiring);
             }
             bits.End();
-            return (engine, structures);
+            return (engine, stores);
         }
         catch (Exception refused) when (refused is ArgumentException or OverflowException)
         {
@@ -69,17 +69,17 @@ public static class Transport
         }
     }
 
-    private static BitWriter Write(Engine engine, Structure[] structures, out MachineSize size)
+    private static BitWriter Write(Engine engine, Store[] stores, out MachineSize size)
     {
         ArgumentNullException.ThrowIfNull(engine);
-        ArgumentNullException.ThrowIfNull(structures);
-        var order = new List<Structure>();
-        var place = new Dictionary<Structure, int>(ReferenceEqualityComparer.Instance);
-        void Reach(Structure structure)
+        ArgumentNullException.ThrowIfNull(stores);
+        var order = new List<Store>();
+        var place = new Dictionary<Store, int>(ReferenceEqualityComparer.Instance);
+        void Reach(Store store)
         {
-            if (place.TryAdd(structure, order.Count)) order.Add(structure);
+            if (place.TryAdd(store, order.Count)) order.Add(store);
         }
-        foreach (var structure in structures) Reach(structure);
+        foreach (var store in stores) Reach(store);
         var laws = new List<Law>();
         var lawPlace = new Dictionary<Law, int>(ReferenceEqualityComparer.Instance);
         foreach (var wiring in engine.Wirings)
@@ -90,7 +90,7 @@ public static class Transport
             foreach (var binding in wiring.Bindings)
                 Reach(binding.Surface switch
                 {
-                    Structure structure => structure,
+                    Store store => store,
                     Port port => port.Owner,
                     Life life => life.Of,
                     _ => throw new InvalidOperationException("A rung, or the gap between a rung and its source, is a working view and not part of a machine. Commit or drop it before saving."),
@@ -100,8 +100,8 @@ public static class Transport
 
         var bits = new BitWriter();
         bits.Number(order.Count);
-        foreach (var structure in order) WriteStructure(bits, structure);
-        var afterStructures = bits.Length;
+        foreach (var store in order) WriteStore(bits, store);
+        var afterStores = bits.Length;
         bits.Number(laws.Count);
         foreach (var law in laws) WriteLaw(bits, law, lawPlace);
         var afterLaws = bits.Length;
@@ -120,31 +120,31 @@ public static class Transport
             bits.Number(engine.Wirings.Count);
             foreach (var wiring in engine.Wirings) bits.Number(wiringPlace[wiring]);
         }
-        size = new MachineSize(afterStructures, afterLaws - afterStructures, bits.Length - afterLaws);
+        size = new MachineSize(afterStores, afterLaws - afterStores, bits.Length - afterLaws);
         return bits;
     }
 
-    private static void WriteStructure(BitWriter bits, Structure structure)
+    private static void WriteStore(BitWriter bits, Store store)
     {
-        bits.Number(structure.PlaneCount);
-        var constants = Enumerable.Range(0, structure.PlaneCount).Where(structure.IsConstantPlane).ToArray();
+        bits.Number(store.PlaneCount);
+        var constants = Enumerable.Range(0, store.PlaneCount).Where(store.IsConstantPlane).ToArray();
         bits.Number(constants.Length);
         foreach (var plane in constants)
         {
             bits.Number(plane);
-            bits.Bit(structure.ConstantValue(plane));
+            bits.Bit(store.ConstantValue(plane));
         }
         // 0: every position is in use. 1: some are retired. 2: some are spare.
-        bits.Number(structure.Count);
-        var spare = structure.Spare;
-        var states = spare.Any ? 2 : structure.Live.Count < structure.Count ? 1 : 0;
+        bits.Number(store.Count);
+        var spare = store.Spare;
+        var states = spare.Any ? 2 : store.Live.Count < store.Count ? 1 : 0;
         bits.Number(states);
-        if (states > 0) bits.Bits(structure.Live, structure.Count);
-        if (states > 1) bits.Bits(spare, structure.Count);
-        for (var p = 0; p < structure.PlaneCount; p++)
-            if (!structure.IsConstantPlane(p)) bits.Bits(structure.Read(p), structure.Count);
-        bits.Number(structure.Ports.Count);
-        foreach (var port in structure.Ports)
+        if (states > 0) bits.Bits(store.Live, store.Count);
+        if (states > 1) bits.Bits(spare, store.Count);
+        for (var p = 0; p < store.PlaneCount; p++)
+            if (!store.IsConstantPlane(p)) bits.Bits(store.Read(p), store.Count);
+        bits.Number(store.Ports.Count);
+        foreach (var port in store.Ports)
         {
             bits.Number(port.Count);
             for (var lane = 0; lane < port.Count; lane++) bits.Number(port.Lane(lane));
@@ -153,9 +153,9 @@ public static class Transport
         }
     }
 
-    private static Structure ReadStructure(BitReader bits)
+    private static Store ReadStore(BitReader bits)
     {
-        var structure = new Structure(0);
+        var store = new Store(0);
         var planes = bits.Count(MaxCount);
         var constants = new Dictionary<int, bool>();
         var constantCount = bits.Count(planes);
@@ -163,8 +163,8 @@ public static class Transport
             if (!constants.TryAdd(bits.Count(planes - 1), bits.Bit())) throw new FormatException("A constant plane is named twice.");
         for (var p = 0; p < planes; p++)
         {
-            if (constants.TryGetValue(p, out var value)) structure.AddConstantPlane(value);
-            else structure.AddPlane();
+            if (constants.TryGetValue(p, out var value)) store.AddConstantPlane(value);
+            else store.AddPlane();
         }
         var count = bits.Count(MaxCount);
         var states = bits.Count(2);
@@ -173,14 +173,14 @@ public static class Transport
         if (live.Overlaps(spare)) throw new FormatException("A position is saved as both spare and in use.");
         for (var position = 0; position < count; position++)
         {
-            if (spare[position]) structure.AddSpare();
-            else structure.Add();
+            if (spare[position]) store.AddSpare();
+            else store.Add();
         }
         for (var p = 0; p < planes; p++)
         {
-            if (structure.IsConstantPlane(p)) continue;
+            if (store.IsConstantPlane(p)) continue;
             var stored = bits.Bits(count);
-            foreach (var position in stored.Indexes()) structure.Write(p, position, true);
+            foreach (var position in stored.Indexes()) store.Write(p, position, true);
         }
         var ports = bits.Count(MaxCount);
         for (var i = 0; i < ports; i++)
@@ -189,11 +189,11 @@ public static class Transport
             for (var lane = 0; lane < lanes.Length; lane++) lanes[lane] = bits.Count(count - 1);
             var exposed = new int[bits.Count(planes)];
             for (var k = 0; k < exposed.Length; k++) exposed[k] = bits.Count(planes - 1);
-            structure.Publish(lanes, exposed);
+            store.Publish(lanes, exposed);
         }
         foreach (var position in live.Not().Indexes())
-            if (!spare[position]) structure.Retire(position);
-        return structure;
+            if (!spare[position]) store.Retire(position);
+        return store;
     }
 
     private static void WriteLaw(BitWriter bits, Law law, Dictionary<Law, int> laws)
@@ -338,36 +338,36 @@ public static class Transport
         return new PreservedSum(roles, weights);
     }
 
-    private static void WriteWiring(BitWriter bits, Wiring wiring, Dictionary<Law, int> laws, Dictionary<Structure, int> structures)
+    private static void WriteWiring(BitWriter bits, Wiring wiring, Dictionary<Law, int> laws, Dictionary<Store, int> stores)
     {
         bits.Number(laws[wiring.Law]);
         foreach (var binding in wiring.Bindings)
         {
             if (wiring.Law is RelationLaw) bits.Bit(binding.IsOpen);
-            // 0: a structure's own positions. 1: one of its ports. 2: whether its positions are in use.
+            // 0: a store's own positions. 1: one of its ports. 2: whether its positions are in use.
             switch (binding.Surface)
             {
                 case Port port:
                     bits.Number(1);
-                    bits.Number(structures[port.Owner]);
+                    bits.Number(stores[port.Owner]);
                     bits.Number(IndexOf(port.Owner.Ports, port));
                     break;
                 case Life life:
                     bits.Number(2);
-                    bits.Number(structures[life.Of]);
+                    bits.Number(stores[life.Of]);
                     break;
                 default:
                     bits.Number(0);
-                    bits.Number(structures[(Structure)binding.Surface]);
+                    bits.Number(stores[(Store)binding.Surface]);
                     break;
             }
             WritePlanes(bits, binding.Planes);
         }
 
-        // The rows are a structure like any other; here only where their
+        // The rows are a store like any other; here only where their
         // references sit in it. Usually that is role after role from plane 0,
         // and then the widths say it all.
-        bits.Number(structures[wiring.Rows]);
+        bits.Number(stores[wiring.Rows]);
         var next = 0;
         var inOrder = true;
         for (var r = 0; r < wiring.Bindings.Count; r++)
@@ -383,7 +383,7 @@ public static class Transport
         if (wiring.Recorded is { } evidence) bits.Number(evidence.Changed);
     }
 
-    private static Wiring ReadWiring(BitReader bits, Law[] laws, Structure[] structures)
+    private static Wiring ReadWiring(BitReader bits, Law[] laws, Store[] stores)
     {
         var law = laws[bits.Count(laws.Length - 1)];
         var bindings = new Binding[law.Roles.Count];
@@ -391,7 +391,7 @@ public static class Transport
         {
             var open = law is RelationLaw && bits.Bit();
             var kind = bits.Count(2);
-            var owner = structures[bits.Count(structures.Length - 1)];
+            var owner = stores[bits.Count(stores.Length - 1)];
             Surface surface = kind switch
             {
                 1 => owner.Ports[bits.Count(owner.Ports.Count - 1)],
@@ -401,7 +401,7 @@ public static class Transport
             var planes = ReadPlanes(bits, open ? law.Roles[r].Size : law.Roles[r].Bits, surface.PlaneCount);
             bindings[r] = open ? Binding.Open(surface, planes) : new Binding(surface, planes);
         }
-        var rows = structures[bits.Count(structures.Length - 1)];
+        var rows = stores[bits.Count(stores.Length - 1)];
         var inOrder = bits.Bit();
         var next = 0;
         var references = new int[bindings.Length][];
@@ -440,12 +440,12 @@ public static class Transport
     }
 }
 
-/// <summary>What a saved machine spends, in bits: on its structures (their
+/// <summary>What a saved machine spends, in bits: on its stores (their
 /// state, and the rows of its wirings), on its laws, and on binding laws to
-/// structures.</summary>
-public sealed record MachineSize(long StructureBits, long LawBits, long WiringBits)
+/// stores.</summary>
+public sealed record MachineSize(long StoreBits, long LawBits, long WiringBits)
 {
-    public long Bits => StructureBits + LawBits + WiringBits;
+    public long Bits => StoreBits + LawBits + WiringBits;
 
     public long Bytes => (Bits + 7) / 8;
 }

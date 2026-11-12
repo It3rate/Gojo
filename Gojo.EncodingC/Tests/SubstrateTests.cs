@@ -20,20 +20,20 @@ public sealed class SubstrateTests
     }
 
     [Fact]
-    public void AStructureGrowsAndNeverReusesARetiredPosition()
+    public void AStoreGrowsAndNeverReusesARetiredPosition()
     {
-        var structure = new Structure(1, 100);
-        structure.Retire(10);
+        var store = new Store(1, 100);
+        store.Retire(10);
 
-        Assert.False(structure.IsLive(10));
-        Assert.Equal(100, structure.Add(50));
-        Assert.Equal(150, structure.Count);
-        Assert.Equal(149, structure.Live.Count);
-        Assert.Throws<ArgumentOutOfRangeException>(() => structure.Write(0, 10, true));
+        Assert.False(store.IsLive(10));
+        Assert.Equal(100, store.Add(50));
+        Assert.Equal(150, store.Count);
+        Assert.Equal(149, store.Live.Count);
+        Assert.Throws<ArgumentOutOfRangeException>(() => store.Write(0, 10, true));
 
-        var later = structure.AddPlane();
+        var later = store.AddPlane();
         Assert.Equal(1, later);
-        Assert.True(structure.Read(later).None);
+        Assert.True(store.Read(later).None);
     }
 
     [Fact]
@@ -58,16 +58,16 @@ public sealed class SubstrateTests
     [Fact]
     public void AConstantPlaneIsOneBitForEveryPosition()
     {
-        var structure = new Structure(1, 5);
-        var orientation = structure.AddConstantPlane(false);
-        var epoch = structure.Epoch;
+        var store = new Store(1, 5);
+        var orientation = store.AddConstantPlane(false);
+        var epoch = store.Epoch;
 
-        Assert.True(structure.Read(orientation).None);
-        structure.SetConstant(orientation, true);
+        Assert.True(store.Read(orientation).None);
+        store.SetConstant(orientation, true);
 
-        Assert.Equal(5, structure.Read(orientation).Count);
-        Assert.True(structure.Epoch > epoch);
-        Assert.Throws<InvalidOperationException>(() => structure.Write(orientation, 0, false));
+        Assert.Equal(5, store.Read(orientation).Count);
+        Assert.True(store.Epoch > epoch);
+        Assert.Throws<InvalidOperationException>(() => store.Write(orientation, 0, false));
     }
 
     [Fact]
@@ -84,29 +84,29 @@ public sealed class SubstrateTests
         Assert.Equal(3, code.Bits);
         Assert.Null(code.Decode(6));
 
-        var structure = new Structure(4, 2);
+        var store = new Store(4, 2);
         var field = new Field(count, 0, 1, 2, 3);
-        field.Write(structure, 1, 2);
-        Assert.Equal(2, field.Read(structure, 1));
-        Assert.Equal(0, field.Read(structure, 0));
+        field.Write(store, 1, 2);
+        Assert.Equal(2, field.Read(store, 1));
+        Assert.Equal(0, field.Read(store, 0));
     }
 
     [Fact]
     public void ChangeFromOutsideEntersAsUnitsAndOverflowIsReturned()
     {
-        var (structure, count) = Stores.Store(3, 2);
+        var (store, count) = Make.Counts(3, 2);
 
-        Assert.True(Unary.Add(structure, count, structure.Live).Blocked.None);
-        Assert.True(Unary.Add(structure, count, Plane.Of(3, 0, 1)).Blocked.None);
-        var overflow = Unary.Add(structure, count, structure.Live);
+        Assert.True(Unary.Add(store, count, store.Live).Blocked.None);
+        Assert.True(Unary.Add(store, count, Plane.Of(3, 0, 1)).Blocked.None);
+        var overflow = Unary.Add(store, count, store.Live);
 
         Assert.Equal(Plane.Of(3, 0, 1), overflow.Blocked);
         Assert.Equal(Plane.Of(3, 2), overflow.Taken);
-        Assert.All(Enumerable.Range(0, 3), i => Assert.Equal(2, count.Read(structure, i)));
+        Assert.All(Enumerable.Range(0, 3), i => Assert.Equal(2, count.Read(store, i)));
 
-        var underflow = Unary.Remove(structure, count, Plane.Of(3, 2));
+        var underflow = Unary.Remove(store, count, Plane.Of(3, 2));
         Assert.True(underflow.Blocked.None);
-        Assert.Equal(1, count.Read(structure, 2));
+        Assert.Equal(1, count.Read(store, 2));
     }
 
     /// <summary><c>010</c> is not a count. Adding to it would shift it into a
@@ -115,19 +115,19 @@ public sealed class SubstrateTests
     [Fact]
     public void ABrokenCountIsReportedAndNeverRepaired()
     {
-        var (structure, count) = Stores.Store(2, 3);
-        structure.Write(1, 0, true);
+        var (store, count) = Make.Counts(2, 3);
+        store.Write(1, 0, true);
 
-        var added = Unary.Add(structure, count, structure.Live);
-        var removed = Unary.Remove(structure, count, Plane.Of(2, 0));
+        var added = Unary.Add(store, count, store.Live);
+        var removed = Unary.Remove(store, count, Plane.Of(2, 0));
 
         Assert.Equal(Plane.Of(2, 0), added.Broken);
         Assert.Equal(Plane.Of(2, 1), added.Taken);
         Assert.Equal(Plane.Of(2, 0), removed.Broken);
-        Assert.Equal(0b010UL, count.Pattern(structure, 0));
-        Assert.Null(count.Read(structure, 0));
-        Assert.Equal(Plane.Of(2, 0), Unary.Broken(structure, count));
-        Assert.Equal(Plane.Of(2, 1), Unary.NonZero(structure, count));
+        Assert.Equal(0b010UL, count.Pattern(store, 0));
+        Assert.Null(count.Read(store, 0));
+        Assert.Equal(Plane.Of(2, 0), Unary.Broken(store, count));
+        Assert.Equal(Plane.Of(2, 1), Unary.NonZero(store, count));
     }
 
     /// <summary>Names belong to a lens for people. No type of the encoding itself
@@ -136,8 +136,8 @@ public sealed class SubstrateTests
     public void TheEncodingHoldsNoStrings()
     {
         const BindingFlags all = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-        var encoding = typeof(Structure).Assembly.GetTypes()
-            .Where(t => t.Namespace == typeof(Structure).Namespace)
+        var encoding = typeof(Store).Assembly.GetTypes()
+            .Where(t => t.Namespace == typeof(Store).Namespace)
             .Where(t => t != typeof(Lens) && t != typeof(OdvNotation))
             .Where(t => t.DeclaringType != typeof(Lens) && t.DeclaringType != typeof(OdvNotation));
         var holders = encoding
@@ -158,8 +158,8 @@ public sealed class SubstrateTests
             type == typeof(double) || type == typeof(float) || type == typeof(decimal) || type == typeof(Half) ||
             (type.HasElementType && Real(type.GetElementType()!)) ||
             (type.IsGenericType && type.GetGenericArguments().Any(Real));
-        var users = typeof(Structure).Assembly.GetTypes()
-            .Where(t => t.Namespace == typeof(Structure).Namespace)
+        var users = typeof(Store).Assembly.GetTypes()
+            .Where(t => t.Namespace == typeof(Store).Namespace)
             .SelectMany(t => t.GetFields(all).Where(f => Real(f.FieldType)).Select(f => $"{t.Name}.{f.Name}")
                 .Concat(t.GetMethods(all)
                     .Where(m => Real(m.ReturnType) || m.GetParameters().Any(p => Real(p.ParameterType)))
@@ -175,14 +175,14 @@ public sealed class SubstrateTests
         (type.IsGenericType && type.GetGenericArguments().Any(Stringy));
 }
 
-internal static class Stores
+internal static class Make
 {
-    /// <summary>A structure whose planes 0 … capacity − 1 hold a unary count.</summary>
-    public static (Structure Structure, Field Count) Store(int positions, int capacity) =>
-        (new Structure(capacity, positions), new Field(Shape.Unary(capacity), Enumerable.Range(0, capacity).ToArray()));
+    /// <summary>A store whose planes 0 … capacity − 1 hold a unary count.</summary>
+    public static (Store Store, Field Count) Counts(int positions, int capacity) =>
+        (new Store(capacity, positions), new Field(Shape.Unary(capacity), Enumerable.Range(0, capacity).ToArray()));
 
-    /// <summary>A two-role law from lane or position 0 of one surface to position 0 of a structure.</summary>
-    public static Wiring Wire(TransitionLaw law, Surface from, Structure to)
+    /// <summary>A two-role law from lane or position 0 of one surface to position 0 of a store.</summary>
+    public static Wiring Wire(TransitionLaw law, Surface from, Store to)
     {
         var wiring = new Wiring(law,
             new Binding(from, Enumerable.Range(0, law.Roles[0].Bits).ToArray()),

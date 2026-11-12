@@ -40,12 +40,12 @@ public sealed class SelfRunningTests
     public void ALawRewiresARowAndFlowFollows()
     {
         // Store: 0 supplier A, 1 supplier B, 2 consumer. Trust: 0 for A, 1 for B.
-        var (store, count) = Stores.Store(3, 3);
+        var (store, count) = Make.Counts(3, 3);
         count.Write(store, 0, 3);
         count.Write(store, 1, 3);
         var take = new Wiring(Flows.Move(3, 3), new Binding(store, 0, 1, 2), new Binding(store, 0, 1, 2));
         take.Add(0, 2);
-        var (trust, level) = Stores.Store(2, 3);
+        var (trust, level) = Make.Counts(2, 3);
         level.Write(trust, 0, 1);
         level.Write(trust, 1, 2);
 
@@ -84,7 +84,7 @@ public sealed class SelfRunningTests
     public void ALawBringsADormantRowToLifeWhenFlowIsBlocked()
     {
         // Store: 0 source, 1 first target, 2 second target. A target holds one unit, in plane 0.
-        var (store, count) = Stores.Store(3, 3);
+        var (store, count) = Make.Counts(3, 3);
         count.Write(store, 0, 3);
         var routes = new Wiring(Flows.Move(3, 1), new Binding(store, 0, 1, 2), new Binding(store, 0));
         routes.Add(0, 1);
@@ -116,7 +116,7 @@ public sealed class SelfRunningTests
     [Fact]
     public void AWatcherMovesItsOwnAttentionUntilItFindsTheUnit()
     {
-        var chain = new Structure(2, 5);
+        var chain = new Store(2, 5);
         chain.Write(0, 0, true);
         chain.Write(1, 1, true);
         chain.Write(1, 3, true);
@@ -124,7 +124,7 @@ public sealed class SelfRunningTests
         flow.Add(2, 3, 4);
         flow.Add(0, 1, 2);
 
-        var watcher = new Structure(1, 1);
+        var watcher = new Store(1, 1);
         var look = new Wiring(Copy, new Binding(chain, 0), new Binding(watcher, 0));
         look.Add(0, 0);
         var where = look.ReferencePlanes(0);
@@ -153,13 +153,13 @@ public sealed class SelfRunningTests
     [Fact]
     public void WhatARowDidIsLeftInPlanesALawCanCount()
     {
-        var (store, count) = Stores.Store(2, 2);
+        var (store, count) = Make.Counts(2, 2);
         count.Write(store, 0, 2);
         var move = new Wiring(Flows.Move(2, 2), new Binding(store, 0, 1), new Binding(store, 0, 1));
         move.Add(0, 1);
         var did = move.Record();
 
-        var meter = new Structure(2, 1);
+        var meter = new Store(2, 1);
         var counting = new Wiring(Tally, new Binding(move.Rows, did.Changed), new Binding(meter, 0, 1));
         counting.Add(0, 0);
         var engine = new Engine().Add(move).Add(counting);
@@ -223,7 +223,7 @@ public sealed class SelfRunningTests
     // ---- Reaching a goal ----
 
     /// <summary>Two units must reach a target that takes one per step, through a
-    /// gate, within two steps. Nothing says "open the gate": a plan structure
+    /// gate, within two steps. Nothing says "open the gate": a plan, one store,
     /// holds what is possible at three moments, all open, because none has
     /// been worked out. Each step the machine forgets the plan, observes the
     /// plant into the first moment, sets the wanted level at the last, and
@@ -257,7 +257,7 @@ public sealed class SelfRunningTests
         for (var plane = 0; plane < plant.PlaneCount; plane++) Assert.Equal(plant.Read(plane), copies[0].Read(plane));
         var size = Transport.Measure(engine, plant, plan);
         Assert.Equal(114, saved.Length);
-        Assert.Equal((298L, 291L, 320L), (size.StructureBits, size.LawBits, size.WiringBits));
+        Assert.Equal((298L, 291L, 320L), (size.StoreBits, size.LawBits, size.WiringBits));
 
         var (stuck, starved, doubt, _) = Planner(units: 1);
         var refused = stuck.Step();
@@ -324,7 +324,7 @@ public sealed class SelfRunningTests
         var plan = Think(world, moments: 3, givesWay: true);
         var probe = Think(world, moments: 3, givesWay: true);
 
-        var shut = new Structure(1, 1);
+        var shut = new Store(1, 1);
         var suppose = new Wiring(Settling.Same(Shape.Bit), new Binding(shut, 0), probe.Gates);
         suppose.Add(0, 1);
         var learn = new Wiring(Latch, new Binding(probe.Ahead.Rows, probe.Ahead.Record().Unadmitted), new Binding(plan.Moments, 3));
@@ -363,7 +363,7 @@ public sealed class SelfRunningTests
             new Accounting(false, new PreservedSum([0, 1, 2])));
 
         // Positions 0-2 are the fork, left and right now; 3-5 the same next. Planes rule out a bit's 0 and 1.
-        var moments = new Structure(2, 6);
+        var moments = new Store(2, 6);
         var bit = Binding.Open(moments, 0, 1);
         var step = new Wiring(fork.AsRelation(), bit, bit, bit, bit, bit, bit);
         step.Add(0, 1, 2, 3, 4, 5);
@@ -394,11 +394,11 @@ public sealed class SelfRunningTests
     [Fact]
     public void WhatDoesNotFitIsCarriedUpARung()
     {
-        var (ladder, count) = Stores.Store(2, 3);
+        var (ladder, count) = Make.Counts(2, 3);
         var carry = new Wiring(Flows.Convert(3, 1, 3, 3), new Binding(ladder, 0, 1, 2), new Binding(ladder, 0, 1, 2));
         carry.Add(0, 1);
         var engine = new Engine().Add(carry);
-        var (flat, _) = Stores.Store(2, 3);
+        var (flat, _) = Make.Counts(2, 3);
         var (turnedAway, lost) = (0, 0);
 
         for (var unit = 0; unit < 7; unit++)
@@ -420,13 +420,13 @@ public sealed class SelfRunningTests
     [Fact]
     public void WhatAnotherStructureKnowsIsReadThroughAPortAndNeverNarrowedThere()
     {
-        var owner = new Structure(1, 2);
+        var owner = new Store(1, 2);
         var known = Supports.On(owner, Field.Bit(0));
         owner.Write(0, 0, true);
         known.Observe(0);
         var shown = owner.Publish([0, 1], [.. known.Planes]);
 
-        var reader = new Structure(1, 2);
+        var reader = new Store(1, 2);
         var mine = Supports.On(reader, Field.Bit(0));
         mine.Restrict(1, 0b01);
         var link = new Wiring(Settling.Same(Shape.Bit), Binding.Open(shown, 0, 1), mine.Variable);
@@ -449,7 +449,7 @@ public sealed class SelfRunningTests
     public void ValuesThatVaryTogetherAreOneValueWithTwoReads()
     {
         // Positions: 0 first bit, 1 second bit, 2 the pair. Planes 0-1 rule out a bit's 0, 1; planes 2-5 rule out pair values.
-        var linked = new Structure(6, 3);
+        var linked = new Store(6, 3);
         var bit = Binding.Open(linked, 0, 1);
         var pair = Binding.Open(linked, 2, 3, 4, 5);
         var first = new Wiring(RelationLaw.FromPredicate([Shape.Binary(4), Shape.Bit], t => t[1] == (t[0] & 1)), pair, bit);
@@ -474,10 +474,10 @@ public sealed class SelfRunningTests
 
     /// <summary>Two predictors of a bit that flips every step, a judge, and a
     /// count of trust for each.</summary>
-    private static (Engine Engine, Structure Mind, Field Trust, Wiring ExpectsSame, Wiring Judging) Mind()
+    private static (Engine Engine, Store Mind, Field Trust, Wiring ExpectsSame, Wiring Judging) Mind()
     {
         // Planes: 0 guess, 1 the bit, 2-4 trust. Positions: 0 expects a flip, 1 expects none, 2 the world.
-        var mind = new Structure(5, 3);
+        var mind = new Store(5, 3);
         var trust = new Field(Shape.Unary(3), 2, 3, 4);
         trust.Write(mind, 0, 1);
         trust.Write(mind, 1, 1);
@@ -503,28 +503,28 @@ public sealed class SelfRunningTests
     /// <summary>A plant (0 source, 1 gate, 2 target; planes 0-1 a count, plane 2
     /// the gate) with its flow, the level wanted at the target, and how far
     /// the aim has given way.</summary>
-    private sealed record Setting(Structure Plant, Structure Wanted, Structure Ease, Wiring Flow);
+    private sealed record Setting(Store Plant, Store Wanted, Store Ease, Wiring Flow);
 
     private static Setting World(int units)
     {
-        var plant = new Structure(3, 3);
+        var plant = new Store(3, 3);
         Count.Write(plant, 0, units);
-        var wanted = new Structure(2, 1);
+        var wanted = new Store(2, 1);
         Count.Write(wanted, 0, 2);
         var flow = new Wiring(Flows.GatedMove(2, 2), new Binding(plant, 0, 1), new Binding(plant, 2), new Binding(plant, 0, 1));
         flow.Add(0, 1, 2);
-        return new Setting(plant, wanted, new Structure(2, 1), flow);
+        return new Setting(plant, wanted, new Store(2, 1), flow);
     }
 
     /// <summary>What is possible at several moments of (source, gate, target):
     /// planes 0-2 rule out counts 0, 1, 2 and planes 3-4 rule out gate 0, 1.
     /// <see cref="Prepare"/> forgets, observes the plant into the first moment
     /// and aims the last; <see cref="Ahead"/> narrows from moment to moment.</summary>
-    private sealed record Thought(Structure Moments, Binding Gates, Wiring[] Prepare, Wiring Ahead);
+    private sealed record Thought(Store Moments, Binding Gates, Wiring[] Prepare, Wiring Ahead);
 
     private static Thought Think(Setting world, int moments, bool givesWay)
     {
-        var plan = new Structure(5, 3 * moments);
+        var plan = new Store(5, 3 * moments);
         var counts = Binding.Open(plan, 0, 1, 2);
         var gates = Binding.Open(plan, 3, 4);
 
@@ -562,7 +562,7 @@ public sealed class SelfRunningTests
     /// twice, act and flow, in that order. With <paramref name="givesWay"/> the
     /// aim is the wanted level lowered by a count that grows whenever the plan
     /// contradicts itself.</summary>
-    private static (Engine Engine, Structure Plant, Structure Plan, Structure Ease) Planner(int units, int moments = 3, bool givesWay = false)
+    private static (Engine Engine, Store Plant, Store Plan, Store Ease) Planner(int units, int moments = 3, bool givesWay = false)
     {
         var world = World(units);
         var plan = Think(world, moments, givesWay);

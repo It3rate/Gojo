@@ -15,15 +15,15 @@ public sealed class FlowTests
     [Fact]
     public void APortIsLanesAndPlanesAndItsOwnerCanMoveWhatALaneShows()
     {
-        var (sender, count) = Stores.Store(4, 3);
-        var (receiver, received) = Stores.Store(1, 3);
+        var (sender, count) = Make.Counts(4, 3);
+        var (receiver, received) = Make.Counts(1, 3);
         count.Write(sender, 2, 3);
         var port = sender.Publish([2], [0, 1, 2]);
 
         Assert.Equal(1, port.Count);
         Assert.Equal(3, port.PlaneCount);
 
-        var move = Stores.Wire(Flows.Move(3, 3), port, receiver);
+        var move = Make.Wire(Flows.Move(3, 3), port, receiver);
         move.Apply();
         Assert.Equal((2, 1), (count.Read(sender, 2), received.Read(receiver, 0)));
 
@@ -36,10 +36,10 @@ public sealed class FlowTests
     [Fact]
     public void ReadingThroughAPortLeavesTheSenderAsItIsAndAnyNumberCanRead()
     {
-        var (sender, count) = Stores.Store(1, 3);
+        var (sender, count) = Make.Counts(1, 3);
         count.Write(sender, 0, 2);
         var port = sender.Publish([0], [0, 1, 2]);
-        var readers = Enumerable.Range(0, 3).Select(_ => new Structure(1, 1)).ToArray();
+        var readers = Enumerable.Range(0, 3).Select(_ => new Store(1, 1)).ToArray();
         var engine = new Engine();
         foreach (var reader in readers)
         {
@@ -58,8 +58,8 @@ public sealed class FlowTests
     [Fact]
     public void WritingThroughAPortIsAllowedOnlyAsAMove()
     {
-        var (sender, _) = Stores.Store(1, 3);
-        var (receiver, _) = Stores.Store(1, 3);
+        var (sender, _) = Make.Counts(1, 3);
+        var (receiver, _) = Make.Counts(1, 3);
         var port = sender.Publish([0], [0, 1, 2]);
         var destroys = TransitionLaw.FromFunction(
             [Shape.Unary(3), Shape.Unary(3)],
@@ -80,7 +80,7 @@ public sealed class FlowTests
     [Fact]
     public void ALaneMovedOntoAnotherRolesBitStopsTheRowInsteadOfMakingAUnit()
     {
-        var (owner, count) = Stores.Store(3, 3);
+        var (owner, count) = Make.Counts(3, 3);
         count.Write(owner, 0, 1);
         var port = owner.Publish([0, 1], [0, 1, 2]);
         var move = new Wiring(Flows.Move(3, 3), new Binding(port, 0, 1, 2), new Binding(port, 0, 1, 2));
@@ -106,7 +106,7 @@ public sealed class FlowTests
     [Fact]
     public void ARoleCannotCountOneBitTwice()
     {
-        var (owner, _) = Stores.Store(2, 3);
+        var (owner, _) = Make.Counts(2, 3);
 
         Assert.Throws<ArgumentException>(() => new Binding(owner, 0, 0, 1));
         Assert.Throws<ArgumentException>(() => owner.Publish([0, 1], [0, 0, 1]));
@@ -119,8 +119,8 @@ public sealed class FlowTests
     [Fact]
     public void OnlyASumOfPositiveAmountsLetsALawWriteThroughAPort()
     {
-        var (sender, _) = Stores.Store(1, 1);
-        var (receiver, _) = Stores.Store(1, 1);
+        var (sender, _) = Make.Counts(1, 1);
+        var (receiver, _) = Make.Counts(1, 1);
         var port = sender.Publish([0], [0]);
         var fills = TransitionLaw.FromFunction(
             [Shape.Bit, Shape.Bit], s => [s[0], 1], new Accounting(true, new PreservedSum([1, 0], [0, 1])));
@@ -136,11 +136,11 @@ public sealed class FlowTests
     [Fact]
     public void UnitsMoveOneToOneUncalibratedAndWhatDoesNotFitStays()
     {
-        var (light, emitted) = Stores.Store(1, 3);
-        var (body, heat) = Stores.Store(1, 2);
+        var (light, emitted) = Make.Counts(1, 3);
+        var (body, heat) = Make.Counts(1, 2);
         emitted.Write(light, 0, 3);
         var port = light.Publish([0], [0, 1, 2]);
-        var engine = new Engine().Add(Stores.Wire(Flows.Move(3, 2), port, body));
+        var engine = new Engine().Add(Make.Wire(Flows.Move(3, 2), port, body));
 
         engine.Run(5);
 
@@ -151,14 +151,14 @@ public sealed class FlowTests
     [Fact]
     public void TwoReceiversCanTakeTheSameFlowInTheirOwnTerms()
     {
-        var (light, emitted) = Stores.Store(1, 3);
+        var (light, emitted) = Make.Counts(1, 3);
         emitted.Write(light, 0, 2);
         var port = light.Publish([0], [0, 1, 2]);
-        var (body, heat) = Stores.Store(1, 3);
-        var eye = new Structure(1, 1);
+        var (body, heat) = Make.Counts(1, 3);
+        var eye = new Store(1, 1);
         var sees = new Wiring(SeesAny, new Binding(port, 0, 1, 2), new Binding(eye, 0));
         sees.Add(0, 0);
-        var engine = new Engine().Add(sees).Add(Stores.Wire(Flows.Move(3, 3), port, body));
+        var engine = new Engine().Add(sees).Add(Make.Wire(Flows.Move(3, 3), port, body));
 
         var step = engine.Step();
 
@@ -170,14 +170,14 @@ public sealed class FlowTests
     [Fact]
     public void TwoTakersCannotBothHaveOneUnit()
     {
-        var (sender, count) = Stores.Store(1, 1);
+        var (sender, count) = Make.Counts(1, 1);
         count.Write(sender, 0, 1);
         var port = sender.Publish([0], [0]);
-        var (first, a) = Stores.Store(1, 1);
-        var (second, b) = Stores.Store(1, 1);
+        var (first, a) = Make.Counts(1, 1);
+        var (second, b) = Make.Counts(1, 1);
         var engine = new Engine()
-            .Add(Stores.Wire(Flows.Move(1, 1), port, first))
-            .Add(Stores.Wire(Flows.Move(1, 1), port, second));
+            .Add(Make.Wire(Flows.Move(1, 1), port, first))
+            .Add(Make.Wire(Flows.Move(1, 1), port, second));
 
         var step = engine.Step();
 
@@ -189,7 +189,7 @@ public sealed class FlowTests
     public void BranchesAndMergesAreRowsOfOneWiringInDeclaredOrder()
     {
         // 0 source, 1 gate A, 2 gate B, 3 target A, 4 target B.
-        var net = new Structure(2, 5);
+        var net = new Store(2, 5);
         var count = new Field(Shape.Unary(2), 0, 1);
         count.Write(net, 0, 1);
         net.Write(0, 2, true);
@@ -202,7 +202,7 @@ public sealed class FlowTests
         Assert.Equal(2, step.Waves.Count);
         Assert.Equal((0, 0, 1), (count.Read(net, 0), count.Read(net, 3), count.Read(net, 4)));
 
-        var pool = new Structure(2, 3);
+        var pool = new Store(2, 3);
         count.Write(pool, 0, 1);
         count.Write(pool, 1, 1);
         var merge = new Wiring(Flows.Move(2, 2), new Binding(pool, 0, 1), new Binding(pool, 0, 1));
@@ -218,7 +218,7 @@ public sealed class FlowTests
     public void AStructureSwitchesItsOwnFlowWithItsOwnBits()
     {
         // 0 source, 1 gate A, 2 gate B, 3 target A, 4 target B. The gates toggle every step.
-        var net = new Structure(2, 5);
+        var net = new Store(2, 5);
         var count = new Field(Shape.Unary(2), 0, 1);
         count.Write(net, 0, 2);
         net.Write(0, 1, true);
@@ -240,7 +240,7 @@ public sealed class FlowTests
     [Fact]
     public void ACalibratorIsJustASmallStructureWithAnInputAndAnOutput()
     {
-        var oscillator = new Structure(1, 1);
+        var oscillator = new Store(1, 1);
         var clock = new Wiring(Flows.Toggle, new Binding(oscillator, 0));
         clock.Add(0);
         var signal = oscillator.Publish([0], [0]);
@@ -250,12 +250,12 @@ public sealed class FlowTests
             [Shape.Bit, Shape.Bit, Shape.Unary(8)],
             s => [s[0], s[0], s[0] == 1 && s[1] == 0 && s[2] < 8 ? s[2] + 1 : s[2]],
             new Accounting(true, new Unchanged(0), new NeverDecreases(2)));
-        var calibrator = new Structure(9, 1);
+        var calibrator = new Store(9, 1);
         var counter = new Wiring(edges, new Binding(signal, 0), new Binding(calibrator, 0), new Binding(calibrator, Enumerable.Range(1, 8).ToArray()));
         counter.Add(0, 0, 0);
 
         // Another reader takes the same signal as it is: no calibration needed.
-        var raw = new Structure(1, 1);
+        var raw = new Store(1, 1);
         var copy = TransitionLaw.FromFunction([Shape.Bit, Shape.Bit], s => [s[0], s[0]], new Accounting(true, new Unchanged(0)));
         var mirror = new Wiring(copy, new Binding(signal, 0), new Binding(raw, 0));
         mirror.Add(0, 0);
@@ -273,11 +273,11 @@ public sealed class FlowTests
     [Fact]
     public void ACalibrationCanBeWiredButIsNeverRequired()
     {
-        var (light, emitted) = Stores.Store(1, 6);
-        var (body, heat) = Stores.Store(1, 4);
+        var (light, emitted) = Make.Counts(1, 6);
+        var (body, heat) = Make.Counts(1, 4);
         emitted.Write(light, 0, 5);
         var port = light.Publish([0], [0, 1, 2, 3, 4, 5]);
-        var engine = new Engine().Add(Stores.Wire(Flows.Convert(2, 1, 6, 4), port, body));
+        var engine = new Engine().Add(Make.Wire(Flows.Convert(2, 1, 6, 4), port, body));
 
         engine.Run(4);
 
@@ -288,10 +288,10 @@ public sealed class FlowTests
     [Fact]
     public void ARetiredPositionStopsTheRowsThatTouchIt()
     {
-        var (source, count) = Stores.Store(1, 2);
-        var (target, _) = Stores.Store(1, 2);
+        var (source, count) = Make.Counts(1, 2);
+        var (target, _) = Make.Counts(1, 2);
         count.Write(source, 0, 2);
-        var move = Stores.Wire(Flows.Move(2, 2), source, target);
+        var move = Make.Wire(Flows.Move(2, 2), source, target);
         target.Retire(0);
 
         var step = move.Apply();

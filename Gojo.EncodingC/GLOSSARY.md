@@ -1,6 +1,6 @@
 # Gojo.EncodingC glossary
 
-Status: **exploratory**, 11 November 2026. This describes the code as it is.
+Status: **exploratory**, 12 November 2026. This describes the code as it is.
 Each entry says what a word means and how it is held in bits. The
 [README](README.md) explains how the parts are used together.
 
@@ -12,25 +12,28 @@ Entries are marked in three ways:
   know the word.
 - *(host)*: code that reads or edits the encoding from outside. A saved machine
   does not contain it.
+- *(not built)*: something the project works toward. No code holds or checks
+  it yet.
 
 ## Words used in two senses
 
 | Word | One sense | The other sense |
 | --- | --- | --- |
-| Rung | A level of a ladder: a coarser or finer count of the same thing | `Rung`, the workspace type: a live view of a structure that holds only what was changed in it. This glossary says "ladder rung" and "workspace" |
+| Structure | Connected parts that compute. A *local structure* is one isolated group of them: a local intelligence | Until 12 November 2026 the code called a block of state `Structure`. That is now a *store*, and this glossary never uses "structure" for it |
+| Rung | A level of a ladder: a coarser or finer count of the same thing | `Rung`, the workspace type: a live view of a store that holds only what was changed in it. This glossary says "ladder rung" and "workspace" |
 | Open | An open *value* is not settled: more than one value is still possible | An open *gate* or valve lets flow through: its bit is set. A gate that nothing has decided is a gate whose value is open |
 | Lane | A port's lane: the i-th position the port exposes | A lane of a running law: row i, when the table is applied to every row at once |
-| State | The bits a structure holds now | One combination of a law's role values, numbered 0 to N − 1 |
+| State | The bits a store holds now | One combination of a law's role values, numbered 0 to N − 1 |
 | Read | To look at bits without changing them | One way of interpreting bits, as in "a coarse read" |
 
 ## Storage
 
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
-| Position | One numbered place in a structure. It has no name. Its number and what is wired to it are its identity | Not stored. Bit i of every plane belongs to position i |
-| Plane | One bit for every position. It is the only storage shape: state, selections, sets of rows and open values are all planes | A run of bits as long as its structure |
-| Structure | Positions and the planes over them. It has as many of each as it needs | planes × positions bits, plus the next three rows |
-| Constant plane | A bit every position of a structure shares, such as which way the whole structure faces | One bit for the whole structure |
+| Position | One numbered place in a store. It has no name. Its number and what is wired to it are its identity | Not stored. Bit i of every plane belongs to position i |
+| Plane | One bit for every position. It is the only storage shape: state, selections, sets of rows and open values are all planes | A run of bits as long as its store |
+| Store | A block of state: positions and the planes over them. It holds bits and does nothing. It has as many positions and planes as it needs | planes × positions bits, plus the next three rows |
+| Constant plane | A bit every position of a store shares, such as which way the whole store faces | One bit for the whole store |
 | Spare, in use, retired | A position is spare (room, not yet in use), in use, or retired (never reused). It only moves forward through these | Two bits per position: in use, and ever used. Saved only when some position is not in use |
 | Life | "In use" shown as something a law can bind to. A law recruits a spare position by setting its bit and retires one by clearing it | The in-use bits, read as one plane |
 | Shape | How many values something has, and which of two layouts holds them. It says nothing about what they mean | In a saved law: one bit (unary or binary) and the size |
@@ -41,18 +44,19 @@ Entries are marked in three ways:
 | Not a code, broken count | Bits that no value of the shape matches, such as unary `010`. Noise this read cannot interpret | Left exactly as they are, and reported |
 | Reference | A value that names a position or a lane | Binary, ⌈log₂ n⌉ bits for n targets. A plane is added when a larger target arrives |
 | Field *(host)* | Where one value sits: a shape and the planes that hold its bits. Different readers can read the same planes as different fields | Not stored. In a machine, a binding's list of planes does this job |
-| Version, epoch *(host)* | Two counters per structure. Version advances on every change of state, epoch on every change of shape. Nothing in a machine reads them; they let a host tell that something changed | Not saved |
+| Version, epoch *(host)* | Two counters per store. Version advances on every change of state, epoch on every change of shape. Nothing in a machine reads them; they let a host tell that something changed | Not saved |
 
 ## Connections
 
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
-| Surface | Anything a law's role can be bound to: a structure, a port, a structure's life, a workspace, or a workspace's gap. Every read and write goes through one | No bits of its own. In a saved wiring: 0, 1 or 2 (structure, port, life) and which one |
-| Port | What a structure shows to others: some of its positions, in order, and some of its planes, in order. It carries no unit, type or description | A list of references (the lanes) and a list of plane numbers |
+| Local structure *(not built)* | The stores and wirings that form one local intelligence. Inside it, laws connect to any of its stores freely and everything settles together. Between two local structures only ports connect, and each settles independently | No type yet. A wiring can bind any store directly, so the boundary is kept by whoever wires. Every machine in the tests is one local structure |
+| Surface | Anything a law's role can be bound to: a store, a port, a store's life, a workspace, or a workspace's gap. Every read and write goes through one | No bits of its own. In a saved wiring: 0, 1 or 2 (store, port, life) and which one |
+| Port | What a local structure shows to others, from one of its stores: some of that store's positions, in order, and some of its planes, in order. It carries no unit, type or description | A list of references (the lanes) and a list of plane numbers |
 | Lane (of a port) | The i-th position a port exposes. Connections hold lane numbers, so the owner can point a lane somewhere else and every connection follows | One reference |
 | Read (copy) | A role its law never changes. Through a port this is a reference: the sender is untouched, and any number of receivers can hold one | No flag. It is a fact about the law's table |
 | Written, move | A role its law changes. Writing through a port is allowed only as a move: what leaves there arrives somewhere the same law writes | No flag. The table changes the role, and the law's accounting holds a preserved sum over it |
-| Gate, valve *(pattern)* | A bit a move law reads to decide whether flow passes | One bit, in whichever structure owns the decision |
+| Gate, valve *(pattern)* | A bit a move law reads to decide whether flow passes | One bit, in whichever store holds it |
 | Blocked, remainder | What did not move because there was nothing to take or no room. It stays where it was | The count is unchanged |
 | Calibration *(pattern)* | A rate between two things, for a structure that wants one. A connection never needs one | A law whose preserved sum has unequal weights, or a small structure with an input and an output |
 
@@ -91,8 +95,8 @@ The stock laws:
 | --- | --- | --- |
 | Wiring | A law bound to rows. A binding per role says which surface and planes; each row says which position each role uses there | A law number, the bindings, and the rows |
 | Binding | Where one role reads and writes. Plain: the planes hold a code. Open: one plane per value, set where the value is ruled out | A surface, plane numbers and, for a relation, one bit for open or plain |
-| Row | One use of a law: one position per role | A position in the wiring's own structure. Each role's reference is a binary value in that structure's planes |
-| Rows | A wiring's rows, as a structure. What is connected to what is therefore state: a law can rewire a row, bring a spare one into use or retire one | An ordinary structure |
+| Row | One use of a law: one position per role | A position in the wiring's own store. Each role's reference is a binary value in that store's planes |
+| Rows | A wiring's rows, as a store. What is connected to what is therefore state: a law can rewire a row, bring a spare one into use or retire one | An ordinary store |
 | Evidence | What each row did in the last step, kept once a wiring is asked to record | Six planes of the rows, in the order below |
 | Changed | The row's bits changed | Evidence plane 0 |
 | Unread | The row's bits were not codes | Evidence plane 1 |
@@ -105,7 +109,7 @@ The stock laws:
 | The two step rules | A transition row takes the next state its table gives. A relation row rules out, for its open roles, every value no admitted tuple supports | Both are lookups in the law's table, across all rows at once |
 | Declared order | The order in which wirings were added and rows listed. It decides who goes first when two want the same thing | The order in the saved machine |
 | Wave *(host)* | Wirings, or rows, that touch nothing another one writes. They could run at the same moment | Worked out each step. Not stored |
-| Machine | An engine and every structure it reaches: what is saved | One run of bits |
+| Machine | An engine and every store it reaches: what is saved. So far a machine is one local structure | One run of bits |
 | Inflow *(host)* | Units arriving from outside. They enter as units, never as a value written directly | `Unary.Add` shifts one bit into a count |
 
 ## What is not settled
@@ -121,13 +125,13 @@ The stock laws:
 | Observe *(pattern)* | Narrow an open value to what a sample reads | `Same` wired from ordinary bits to an open value |
 | Forget *(pattern)* | Open a value again. Wired to run every step, it is the passing of time | `Forget` clears the ruled-out planes |
 | Enact, act *(pattern)* | Write a settled value into ordinary bits: what was worked out becomes what is | `Enact` wired from an open value to a field |
-| Supposition *(pattern)* | Something taken as true to see what follows, kept apart from what is | Bits written in a workspace, or a separate structure (a probe) |
+| Supposition *(pattern)* | Something taken as true to see what follows, kept apart from what is | Bits written in a workspace, or a separate store (a probe) |
 | Gap | Where a workspace and its source disagree: how a prediction missed, or what is left before a goal is reached | Not stored. A gap bit is set where the workspace holds a bit that differs from the source as it is now |
-| Plan *(pattern)* | What is possible at several moments ahead | A structure of open values. In the tests, three positions per moment and five planes: three rule out counts 0, 1, 2 and two rule out gate 0, 1 |
+| Plan *(pattern)* | What is possible at several moments ahead | A store of open values. In the tests, three positions per moment and five planes: three rule out counts 0, 1, 2 and two rule out gate 0, 1 |
 | Moment *(pattern)* | One time step in a plan | A group of the plan's positions |
 | Goal, aim *(pattern)* | A wanted value, treated as already settled at a later moment. Narrowing then works back to what has to happen now | Ordinary bits, observed into the plan's last moment |
 | Giving way *(pattern)* | Lowering a goal that cannot be reached | A unary count, raised by a law that reads the plan's "unadmitted" plane |
-| Probe *(pattern)* | A second plan in which one choice is supposed. If it contradicts itself, that choice is ruled out in the real plan | A second plan structure, and one row from its "unadmitted" plane to a ruled-out plane of the real plan |
+| Probe *(pattern)* | A second plan in which one choice is supposed. If it contradicts itself, that choice is ruled out in the real plan | A second plan store, and one row from its "unadmitted" plane to a ruled-out plane of the real plan |
 | Prediction *(pattern)* | What a structure expects next, written before it happens | Bits in the predictor's own planes |
 | Judge *(pattern)* | A law that compares a prediction with what happened and moves trust | A row |
 | Trust *(pattern)* | How well a predictor has done | A small unary count |
@@ -143,7 +147,7 @@ the same job is done by ordinary structure, such as a plan or a probe.
 
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
-| Workspace (`Rung`) | A live view of a structure, or of another workspace, that holds only what was changed in it. It is where something is noticed, supposed or attempted | For each plane it has written, three planes: which bits it holds, its values, and the source bits they replaced |
+| Workspace (`Rung`) | A live view of a store, or of another workspace, that holds only what was changed in it. It is where something is noticed, supposed or attempted | For each plane it has written, three planes: which bits it holds, its values, and the source bits they replaced |
 | Copy on write | Writing a position copies that whole position in. Everything else reads the source as it is now | As above. Positions never written cost nothing |
 | Selection | What a workspace attends to. It makes no claim about what it leaves out | A short list of layers: an area plane or "all", and one keep-or-ignore bit each |
 | Not selected | The nearest thing to nothing: no claim either way. A zero is different: it is a sample that keeps its place | Absence from the selection |
@@ -158,7 +162,7 @@ the same job is done by ordinary structure, such as a plan or a probe.
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
 | ODV word | Three bits about a quantity, at one read's resolution | V is plane 0, D is plane 1, O is constant plane 2 |
-| O, orientation | Which way this reader calls positive | One bit for the whole structure |
+| O, orientation | Which way this reader calls positive | One bit for the whole store |
 | D, direction | Positive or negative, within that orientation | One bit per position |
 | V | Whether any magnitude is detectable at this resolution. V = 1 is not the number one | One bit per position |
 | Undetectable | V = 0: a sample below this read's resolution. It is still an operand, and it is not nothing | V clear, D and O kept |
@@ -169,7 +173,7 @@ the same job is done by ordinary structure, such as a plan or a probe.
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
 | Learned table *(host)* | A transition table worked out from what happened | The counts below |
-| Counts | How often each (before, after) pair was seen, how often each before-state was seen, and how many rows could not be read | A structure of N² + N + 1 small unary counts. A count stops at "often enough" |
+| Counts | How often each (before, after) pair was seen, how often each before-state was seen, and how many rows could not be read | A store of N² + N + 1 small unary counts. A count stops at "often enough" |
 | Witness *(host)* | To show the table one thing that happened | One unit into two counts |
 | Admitted, unsupported, unknown | Seen often enough; its before-state was seen often enough and never led there; not seen enough to say | Read from the counts. "Admitted" is one plane of them |
 | Crystallize *(host)* | Make a law from the admitted table once nothing is unknown. The law is checked against its accounting like any other | A new law table |
@@ -178,9 +182,9 @@ the same job is done by ordinary structure, such as a plan or a probe.
 
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
-| Transport *(host)* | Saving a machine as bits, and restoring it without the code that built it | One run of bits: structures, laws, wirings, then the order where needed. No names, headers or fixed widths |
+| Transport *(host)* | Saving a machine as bits, and restoring it without the code that built it | One run of bits: stores, laws, wirings, then the order where needed. No names, headers or fixed widths |
 | Number | Any whole number in the saved form | The Elias gamma code of n + 1: 0 is `1`, 1 is `010`, 2 is `011`, 3 is `00100` |
-| Machine size | How many bits a saved machine takes, split into structures, laws and wirings | `Transport.Measure` |
+| Machine size | How many bits a saved machine takes, split into stores, laws and wirings | `Transport.Measure` |
 | Lens *(host)* | Names and notation for people. The encoding never reads it | Outside the encoding |
 
 ## Kernel words that are not parts here

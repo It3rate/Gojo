@@ -18,13 +18,13 @@ public static class Selections
     /// <summary>Positions that share a row of <paramref name="rows"/> with a
     /// position in <paramref name="frontier"/>, plus the frontier. Rows bound to
     /// another surface are ignored.</summary>
-    public static Plane Expand(Plane frontier, Wiring rows, Surface structure)
+    public static Plane Expand(Plane frontier, Wiring rows, Surface store)
     {
         ArgumentNullException.ThrowIfNull(frontier);
         ArgumentNullException.ThrowIfNull(rows);
-        ArgumentNullException.ThrowIfNull(structure);
+        ArgumentNullException.ThrowIfNull(store);
         var next = frontier.Clone();
-        var local = Enumerable.Range(0, rows.Bindings.Count).Where(r => ReferenceEquals(rows.Bindings[r].Surface, structure)).ToArray();
+        var local = Enumerable.Range(0, rows.Bindings.Count).Where(r => ReferenceEquals(rows.Bindings[r].Surface, store)).ToArray();
         foreach (var row in rows.Live.Indexes())
         {
             var indexes = rows.Row(row);
@@ -35,10 +35,10 @@ public static class Selections
     }
 
     /// <summary>Positions within <paramref name="steps"/> rows of the seeds.</summary>
-    public static Plane Within(Plane seeds, int steps, Wiring rows, Surface structure)
+    public static Plane Within(Plane seeds, int steps, Wiring rows, Surface store)
     {
         var selection = seeds;
-        for (var i = 0; i < steps; i++) selection = Expand(selection, rows, structure);
+        for (var i = 0; i < steps; i++) selection = Expand(selection, rows, store);
         return selection;
     }
 }

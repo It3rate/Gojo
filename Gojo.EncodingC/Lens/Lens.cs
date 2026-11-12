@@ -2,8 +2,8 @@ using System.Text;
 
 namespace Gojo.EncodingC;
 
-/// <summary>Names for people reading a structure. The encoding never stores a
-/// lens and never reads one: remove every lens and every structure, law, port,
+/// <summary>Names for people reading a machine. The encoding never stores a
+/// lens and never reads one: remove every lens and every store, law, port,
 /// wiring and workspace behaves exactly the same. Tests and diagnostics use a
 /// lens to print bits in words. A name here is a label for a reader, not where
 /// meaning lives; meaning is what the laws wired to the bits do.</summary>
@@ -13,7 +13,7 @@ public sealed class Lens
     private readonly Dictionary<(object Thing, int Part), string> parts = [];
     private readonly Dictionary<(object Thing, int Part), string[]> values = [];
 
-    /// <summary>Names a structure, port, wiring, law or field.</summary>
+    /// <summary>Names a store, port, wiring, law or field.</summary>
     public Lens Name(object thing, string name)
     {
         ArgumentNullException.ThrowIfNull(thing);
@@ -21,7 +21,7 @@ public sealed class Lens
         return this;
     }
 
-    /// <summary>Names a part: a plane of a structure, or a role of a law.</summary>
+    /// <summary>Names a part: a plane of a store, or a role of a law.</summary>
     public Lens Name(object thing, int part, string name)
     {
         ArgumentNullException.ThrowIfNull(thing);
@@ -47,14 +47,14 @@ public sealed class Lens
         : v.ToString();
 
     /// <summary>"valve[2]: occupied=1 open=0" — every plane at one position.</summary>
-    public string Describe(Structure structure, int position)
+    public string Describe(Store store, int position)
     {
-        ArgumentNullException.ThrowIfNull(structure);
-        var text = new StringBuilder($"{NameOf(structure)}[{position}]:");
-        for (var p = 0; p < structure.PlaneCount; p++)
-            text.Append($" {NameOf(structure, p)}={(structure.Read(p, position) ? 1 : 0)}");
-        if (structure.IsSpare(position)) text.Append(" (spare)");
-        else if (!structure.IsLive(position)) text.Append(" (retired)");
+        ArgumentNullException.ThrowIfNull(store);
+        var text = new StringBuilder($"{NameOf(store)}[{position}]:");
+        for (var p = 0; p < store.PlaneCount; p++)
+            text.Append($" {NameOf(store, p)}={(store.Read(p, position) ? 1 : 0)}");
+        if (store.IsSpare(position)) text.Append(" (spare)");
+        else if (!store.IsLive(position)) text.Append(" (retired)");
         return text.ToString();
     }
 

@@ -36,13 +36,13 @@ public sealed class LawTests
     public void ALawRunsAcrossAsManyLanesAsThereAreRows()
     {
         const int rows = 130;
-        var structure = new Structure(2, rows * 3);
-        var wiring = new Wiring(Flows.Passage, new Binding(structure, 0), new Binding(structure, 1), new Binding(structure, 0));
+        var store = new Store(2, rows * 3);
+        var wiring = new Wiring(Flows.Passage, new Binding(store, 0), new Binding(store, 1), new Binding(store, 0));
         for (var i = 0; i < rows; i++)
         {
             wiring.Add(3 * i, 3 * i + 1, 3 * i + 2);
-            structure.Write(0, 3 * i, true);
-            structure.Write(1, 3 * i + 1, i % 2 == 0);
+            store.Write(0, 3 * i, true);
+            store.Write(1, 3 * i + 1, i % 2 == 0);
         }
 
         var step = wiring.Apply();
@@ -51,18 +51,18 @@ public sealed class LawTests
         Assert.Equal(65, step.Changed.Count);
         for (var i = 0; i < rows; i++)
         {
-            Assert.Equal(i % 2 == 0, structure.Read(0, 3 * i + 2));
-            Assert.Equal(i % 2 != 0, structure.Read(0, 3 * i));
+            Assert.Equal(i % 2 == 0, store.Read(0, 3 * i + 2));
+            Assert.Equal(i % 2 != 0, store.Read(0, 3 * i));
         }
     }
 
     [Fact]
     public void AUnaryMoveTakesOneUnitPerStepUntilNothingIsLeft()
     {
-        var (source, count) = Stores.Store(1, 3);
-        var (target, _) = Stores.Store(1, 3);
+        var (source, count) = Make.Counts(1, 3);
+        var (target, _) = Make.Counts(1, 3);
         count.Write(source, 0, 2);
-        var move = Stores.Wire(Flows.Move(3, 3), source, target);
+        var move = Make.Wire(Flows.Move(3, 3), source, target);
 
         move.Apply();
         Assert.Equal((1, 1), (count.Read(source, 0), count.Read(target, 0)));
@@ -78,11 +78,11 @@ public sealed class LawTests
     [Fact]
     public void BitsThatAreNotACodeAreReportedNotGuessed()
     {
-        var (source, _) = Stores.Store(1, 3);
-        var (target, _) = Stores.Store(1, 3);
+        var (source, _) = Make.Counts(1, 3);
+        var (target, _) = Make.Counts(1, 3);
         source.Write(0, 0, true);
         source.Write(2, 0, true);
-        var move = Stores.Wire(Flows.Move(3, 3), source, target);
+        var move = Make.Wire(Flows.Move(3, 3), source, target);
 
         var step = move.Apply();
 
@@ -92,7 +92,7 @@ public sealed class LawTests
         Assert.True(source.Read(2, 0));
 
         var onlyFromZero = TransitionLaw.FromFunction([Shape.Bit], s => s[0] == 0 ? [1] : null, Accounting.None);
-        var bit = new Structure(1, 1);
+        var bit = new Store(1, 1);
         bit.Write(0, 0, true);
         var silent = new Wiring(onlyFromZero, new Binding(bit, 0));
         silent.Add(0);
@@ -106,8 +106,8 @@ public sealed class LawTests
     [Fact]
     public void OnePositionUsedTwiceCannotBeWrittenAsTwo()
     {
-        var structure = new Structure(2, 3);
-        var wiring = new Wiring(Flows.Passage, new Binding(structure, 0), new Binding(structure, 1), new Binding(structure, 0));
+        var store = new Store(2, 3);
+        var wiring = new Wiring(Flows.Passage, new Binding(store, 0), new Binding(store, 1), new Binding(store, 0));
 
         Assert.Throws<ArgumentException>(() => wiring.Add(0, 1, 0));
     }
@@ -152,7 +152,7 @@ public sealed class LawTests
     public void WhatALawHandsOutCannotChangeIt()
     {
         var afters = Flows.Passage.Afters(3);
-        var binding = new Binding(new Structure(1, 1), 0);
+        var binding = new Binding(new Store(1, 1), 0);
 
         Assert.IsNotType<int[]>(afters);
         Assert.Throws<NotSupportedException>(() => ((IList<int>)afters)[0] = 3);
@@ -169,12 +169,12 @@ public sealed class LawTests
     [Fact]
     public void OnePrimitiveReadTellsApartAtMost64Values()
     {
-        var structure = new Structure(7, 1);
-        var sixtyFour = Supports.On(structure, new Field(Shape.Binary(64), 0, 1, 2, 3, 4, 5));
+        var store = new Store(7, 1);
+        var sixtyFour = Supports.On(store, new Field(Shape.Binary(64), 0, 1, 2, 3, 4, 5));
         sixtyFour.Restrict(0, 1UL);
 
         Assert.Equal(Plane.Ones(1), sixtyFour.Settled);
-        Assert.Throws<ArgumentException>(() => Supports.On(structure, new Field(Shape.Binary(65), 0, 1, 2, 3, 4, 5, 6)));
+        Assert.Throws<ArgumentException>(() => Supports.On(store, new Field(Shape.Binary(65), 0, 1, 2, 3, 4, 5, 6)));
         var wide = RelationLaw.FromPredicate([Shape.Binary(65)], t => t[0] == 64);
         Assert.Throws<ArgumentException>(() => wide.Project(0, [ulong.MaxValue]));
     }

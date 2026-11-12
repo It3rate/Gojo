@@ -1,25 +1,32 @@
 namespace Gojo.EncodingC;
 
-/// <summary>Positions and the planes over them. A structure has as many
+/// <summary>Positions and the planes over them. A store has as many
 /// positions as it needs and grows when it needs more. Each plane holds one bit
 /// per position, or is <em>constant</em>: one bit for every position, stored
-/// once, such as an orientation the whole structure shares. A constant is
-/// positional, as in the core's buckets: belonging to this structure is what
+/// once, such as an orientation the whole store shares. A constant is
+/// positional, as in the core's buckets: belonging to this store is what
 /// gives a position the bit, so everything here turns together, and turning
-/// one word means moving it into a structure that faces the other way. Planes
+/// one word means moving it into a store that faces the other way. Planes
 /// and positions are numbers. Nothing is named; what a bit means is what the
 /// laws wired to it do with it.
+/// <para><b>A store is state, not a structure.</b> It holds bits and does
+/// nothing. A local structure is the group of stores and wirings that forms
+/// one local intelligence. Inside it, laws connect to any of its stores
+/// freely and everything settles together. Between local structures the only
+/// connection is a port, and each settles independently. Nothing here records
+/// which local structure a store belongs to yet, so that boundary is kept by
+/// whoever wires, and is not checked.</para>
 /// <para><b>Spare, in use, retired.</b> A position is in one of three states,
 /// and only moves forward through them. A spare position is room: allocated,
 /// not yet in use, and rows that touch it do not run. It can be recruited
 /// once. A retired position stays allocated and is never reused, so a
 /// reference to a position never silently changes target. Whether a position
 /// is in use is state like any other: <see cref="Life"/> shows it as a
-/// surface, so a law grows a structure by recruiting a spare position and
+/// surface, so a law grows a store by recruiting a spare position and
 /// prunes it by retiring one.</para>
-/// <para>A structure counts every state change (<see cref="Version"/>) and
+/// <para>A store counts every state change (<see cref="Version"/>) and
 /// every structural change (<see cref="Epoch"/>).</para></summary>
-public sealed class Structure : Surface
+public sealed class Store : Surface
 {
     private readonly List<Plane?> planes = [];
     private readonly List<Port> ports = [];
@@ -28,7 +35,7 @@ public sealed class Structure : Surface
     private Plane live = new(0);
     private Plane used = new(0);
 
-    public Structure(int planes, int positions = 0)
+    public Store(int planes, int positions = 0)
     {
         if (planes < 0) throw new ArgumentOutOfRangeException(nameof(planes));
         Life = new Life(this);
@@ -144,7 +151,7 @@ public sealed class Structure : Surface
         return planes[plane]!.Clone();
     }
 
-    /// <summary>Sets one bit. This is for building a structure and for supplying
+    /// <summary>Sets one bit. This is for building a store and for supplying
     /// observations; change that arrives from outside as material enters
     /// through <see cref="Unary.Add"/> as units.</summary>
     public void Write(int plane, int position, bool value)
@@ -171,7 +178,7 @@ public sealed class Structure : Surface
     }
 
     /// <summary>Changes a constant plane: one bit edit that applies to every
-    /// position, because they all share it. Only the structure itself does
+    /// position, because they all share it. Only the store itself does
     /// this; a rung over it cannot.</summary>
     public void SetConstant(int plane, bool value)
     {
@@ -181,7 +188,7 @@ public sealed class Structure : Surface
         StructuralEdit();
     }
 
-    /// <summary>Exposes positions and planes to other structures. Lane i is the
+    /// <summary>Exposes positions and planes to other local structures. Lane i is the
     /// i-th position given. The port says nothing about what its bits mean.</summary>
     public Port Publish(int[] positions, int[] planes)
     {
@@ -197,7 +204,7 @@ public sealed class Structure : Surface
         return port;
     }
 
-    /// <summary>Points a lane of one of this structure's ports at another of its
+    /// <summary>Points a lane of one of this store's ports at another of its
     /// positions. Connections hold lane numbers, so they follow the move.</summary>
     public void Rebind(Port port, int lane, int position)
     {
@@ -208,7 +215,7 @@ public sealed class Structure : Surface
         StructuralEdit();
     }
 
-    /// <summary>Adds a lane to one of this structure's ports. Returns the lane.</summary>
+    /// <summary>Adds a lane to one of this store's ports. Returns the lane.</summary>
     public int Extend(Port port, int position)
     {
         ArgumentNullException.ThrowIfNull(port);

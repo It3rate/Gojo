@@ -818,6 +818,39 @@ represents many samples at a useful resolution.
 Not claimed: growth by laws, workspaces inside a saved machine, learning as
 structure, or sparse storage.
 
+## Stores And Local Structures, November 2026
+
+Reading the `Gojo.EncodingC` glossary, the user asked what to call an isolated
+set of elements with ports to the outside world, and whether that was the
+encoding's engine or machine. It was neither.
+
+The user's meaning of "structure" is a group of relations that is isolated
+except for ports. It shares information, patterns and calculation internally,
+like a local intelligence, and communicates with other such structures over
+thin relations. `Gojo.EncodingC` had drifted from that. Its `Structure` type
+was a block of positions and planes that holds bits and does nothing. Its
+wirings belonged to no structure, and any wiring could bind any block
+directly, so nothing in it was a structure in the user's sense.
+
+The user's clarification, recorded as section 4.7:
+
+- Local structures settle freely and connect to elements within them freely.
+- External structures connect only through ports, and settle independently.
+- The naming matters less than keeping this distinction clear. "Store" is fine
+  for the block, and "local structure" or "local space" for the group.
+- Local intelligence communicating with other local intelligence is essential.
+  The primitives should be right before much work goes into it.
+
+What changed: `Structure` in `Gojo.EncodingC` is now `Store`, and its README
+and glossary define the local structure and say that its boundary is not
+built. Section 12 lists the enforced boundary as not yet built, and section 13
+adds a check. Earlier notes in this file that call a block of state a
+structure mean a store.
+
+Not claimed: a type that holds a local structure, a check that direct
+connections stay inside one, independent settlement of several, or ports on a
+saved machine.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

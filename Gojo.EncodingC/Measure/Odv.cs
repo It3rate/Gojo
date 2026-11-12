@@ -50,9 +50,9 @@ public readonly record struct OdvWord
     private static int Coarse(OdvWord word) => !word.Detectable ? 0 : word.Negative ? -1 : 1;
 }
 
-/// <summary>ODV on a structure, and its arithmetic as laws.
+/// <summary>ODV on a store, and its arithmetic as laws.
 /// V and D are planes 0 and 1, one bit per position. O is plane 2, a constant
-/// plane: one bit for the whole structure, never stored per position. Reading
+/// plane: one bit for the whole store, never stored per position. Reading
 /// planes 0, 1, 2 together gives the word V + 2D + 4O.</summary>
 public static class Odv
 {
@@ -76,36 +76,36 @@ public static class Odv
     /// <summary>The word read from planes V, D and O.</summary>
     public static Field WordField { get; } = new(Word, V, D, O);
 
-    public static Structure Create(int positions, bool positiveLeft = false)
+    public static Store Create(int positions, bool positiveLeft = false)
     {
-        var structure = new Structure(2, positions);
-        structure.AddConstantPlane(positiveLeft);
-        return structure;
+        var store = new Store(2, positions);
+        store.AddConstantPlane(positiveLeft);
+        return store;
     }
 
     public static OdvWord Read(Surface surface, int position) =>
         new((byte)(WordField.Read(surface, position) ?? throw new InvalidOperationException("Every three-bit pattern is a word.")));
 
-    /// <summary>Writes V and D, into a structure or into a rung as a
-    /// supposition. The word's O must match the structure's.</summary>
+    /// <summary>Writes V and D, into a store or into a rung as a
+    /// supposition. The word's O must match the store's.</summary>
     public static void Write(Surface surface, int position, OdvWord word) => WordField.Write(surface, position, word.Code);
 
-    /// <summary>Reorients the whole structure: one constant bit and one XOR of D
+    /// <summary>Reorients the whole store: one constant bit and one XOR of D
     /// over every live position. Every word in it shares the orientation, so
     /// they all turn together.</summary>
-    public static void Reorient(Structure structure)
+    public static void Reorient(Store store)
     {
-        ArgumentNullException.ThrowIfNull(structure);
-        structure.SetConstant(O, !structure.ConstantValue(O));
-        var live = structure.Live;
-        structure.Write(D, structure.Read(D).Xor(live), live);
+        ArgumentNullException.ThrowIfNull(store);
+        store.SetConstant(O, !store.ConstantValue(O));
+        var live = store.Live;
+        store.Write(D, store.Read(D).Xor(live), live);
     }
 
     /// <summary>Reverses the given positions: D ^= positions.</summary>
-    public static void Reverse(Structure structure, Plane positions)
+    public static void Reverse(Store store, Plane positions)
     {
-        ArgumentNullException.ThrowIfNull(structure);
-        structure.Write(D, structure.Read(D).Xor(positions), positions);
+        ArgumentNullException.ThrowIfNull(store);
+        store.Write(D, store.Read(D).Xor(positions), positions);
     }
 
     /// <summary>Packs three bits per word at bit offsets 0, 3, 6 …, low bit

@@ -7,8 +7,8 @@ public sealed class LearningAndLensTests
     [Fact]
     public void AStructureLearnsThePassageLawFromWhatHappened()
     {
-        var structure = new Structure(1, 24);
-        var rows = new Wiring(Flows.Passage, new Binding(structure, 0), new Binding(structure, 0), new Binding(structure, 0));
+        var store = new Store(1, 24);
+        var rows = new Wiring(Flows.Passage, new Binding(store, 0), new Binding(store, 0), new Binding(store, 0));
         for (var state = 0; state < 8; state++) rows.Add(3 * state, 3 * state + 1, 3 * state + 2);
         var table = new LearnedTable(Flows.Passage.Roles);
 
@@ -16,7 +16,7 @@ public sealed class LearningAndLensTests
         {
             for (var state = 0; state < 8; state++)
                 for (var bit = 0; bit < 3; bit++)
-                    structure.Write(0, 3 * state + bit, ((state >> bit) & 1) != 0);
+                    store.Write(0, 3 * state + bit, ((state >> bit) & 1) != 0);
             var step = rows.Apply();
             table.Witness(step, rows.Live);
         }
@@ -29,7 +29,7 @@ public sealed class LearningAndLensTests
         Assert.Equal(4, table.Count(3, 6));
         Assert.Equal(Plane.Of(64, Enumerable.Range(0, 64).Where(Flows.Passage.BitAt)), table.Admitted);
 
-        // What was learned is a structure of small counts, so it is saved like any other.
+        // What was learned is a store of small counts, so it is saved like any other.
         var (_, copies) = Transport.Load(Transport.Save(new Engine(), table.Counts));
         var restored = new LearnedTable(Flows.Passage.Roles, copies[0]);
 
@@ -65,7 +65,7 @@ public sealed class LearningAndLensTests
     [Fact]
     public void EachRowsEvidenceIsReadAroundItsOwnWave()
     {
-        var chain = new Structure(2, 5);
+        var chain = new Store(2, 5);
         var rows = new Wiring(Flows.Passage, new Binding(chain, 0), new Binding(chain, 1), new Binding(chain, 0));
         rows.Add(0, 1, 2);
         rows.Add(2, 3, 4);
@@ -92,7 +92,7 @@ public sealed class LearningAndLensTests
     [Fact]
     public void ALearnerKnowsHowMuchItCouldNotRead()
     {
-        var (store, count) = Stores.Store(6, 2);
+        var (store, count) = Make.Counts(6, 2);
         count.Write(store, 0, 1);
         store.Write(1, 2, true);
         var move = new Wiring(Flows.Move(2, 2), new Binding(store, 0, 1), new Binding(store, 0, 1));
@@ -153,7 +153,7 @@ public sealed class LearningAndLensTests
     [Fact]
     public void ALensNamesBitsForPeopleAndTheEncodingNeverReadsIt()
     {
-        var valve = new Structure(2, 3);
+        var valve = new Store(2, 3);
         valve.Write(0, 0, true);
         var lens = new Lens()
             .Name(valve, "valve").Name(valve, 0, "occupied").Name(valve, 1, "open")
@@ -163,12 +163,12 @@ public sealed class LearningAndLensTests
         Assert.Equal("valve[0]: occupied=1 open=0", lens.Describe(valve, 0));
         Assert.Equal("[S=1, C=open, T=0] -> [S=0, C=open, T=1]", lens.Describe(Flows.Passage, 3, 6));
 
-        var unnamed = new Structure(2, 3);
+        var unnamed = new Store(2, 3);
         unnamed.Write(0, 0, true);
-        foreach (var structure in new[] { valve, unnamed })
+        foreach (var store in new[] { valve, unnamed })
         {
-            structure.Write(1, 1, true);
-            var rows = new Wiring(Flows.Passage, new Binding(structure, 0), new Binding(structure, 1), new Binding(structure, 0));
+            store.Write(1, 1, true);
+            var rows = new Wiring(Flows.Passage, new Binding(store, 0), new Binding(store, 1), new Binding(store, 0));
             rows.Add(0, 1, 2);
             rows.Apply();
         }

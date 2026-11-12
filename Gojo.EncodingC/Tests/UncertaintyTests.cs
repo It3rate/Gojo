@@ -9,13 +9,13 @@ namespace Gojo.EncodingC.Tests;
 public sealed class UncertaintyTests
 {
     /// <summary>What is still possible at a position is planes of the
-    /// structure: one per value, set where the value is ruled out. Everything
+    /// store: one per value, set where the value is ruled out. Everything
     /// starts open. A law can read those planes like any others, here to light
     /// a lamp where a value is settled, and a saved machine keeps them.</summary>
     [Fact]
     public void AnOpenValueIsHeldInThePlanesAndSavedWithTheMachine()
     {
-        var line = new Structure(1, 3);
+        var line = new Store(1, 3);
         var bit = Field.Bit(0);
         var support = Supports.On(line, bit);
         var lamp = line.AddPlane();
@@ -49,7 +49,7 @@ public sealed class UncertaintyTests
     [Fact]
     public void ASuppositionIsNarrowedInARungAndDroppedWhenItContradicts()
     {
-        var line = new Structure(1, 4);
+        var line = new Store(1, 4);
         var known = Supports.On(line, Field.Bit(0));
         line.Write(0, 0, true);
         known.Observe(0);
@@ -95,9 +95,9 @@ public sealed class UncertaintyTests
         var unit = Field.Bit(0);
         var gate = Field.Bit(1);
 
-        (Structure Chain, Supports Units, Supports Gates, Rung Plan, Rung Goal) Plan(bool hasUnit)
+        (Store Chain, Supports Units, Supports Gates, Rung Plan, Rung Goal) Plan(bool hasUnit)
         {
-            var chain = new Structure(2, 3);
+            var chain = new Store(2, 3);
             chain.Write(0, 0, hasUnit);
             var units = Supports.On(chain, unit);
             var gates = Supports.On(chain, gate);
@@ -168,7 +168,7 @@ public sealed class UncertaintyTests
             [Shape.Bit, Shape.Bit, Shape.Bit],
             Enumerable.Range(0, 8).Where(s => s != 1).Select(s => (s, s)).Concat([(1, 2), (1, 4)]),
             new Accounting(false, new PreservedSum([0, 1, 2])));
-        var net = new Structure(1, 4);
+        var net = new Store(1, 4);
         net.Write(0, 0, true);
         var undecided = new Wiring(fork, new Binding(net, 0), new Binding(net, 0), new Binding(net, 0));
         undecided.Add(0, 1, 2);
@@ -203,13 +203,13 @@ public sealed class UncertaintyTests
     [Fact]
     public void AMissIsASignalALawReadsAndTrustFollowsIt()
     {
-        var world = new Structure(1, 2);
+        var world = new Store(1, 2);
         var guess = new Rung(world);
         guess.Write(0, 0, true);
         guess.Write(0, 1, true);
         world.Write(0, 0, true);
 
-        var (trust, level) = Stores.Store(2, 3);
+        var (trust, level) = Make.Counts(2, 3);
         level.Write(trust, 0, 2);
         level.Write(trust, 1, 2);
         var judge = TransitionLaw.FromFunction(
@@ -237,7 +237,7 @@ public sealed class UncertaintyTests
     public void FlowIsSteeredTowardAGoalByTheGapItLeaves()
     {
         // Positions: 0 reservoir, 1 tank, 2 drain, 3 valve in, 4 valve out. Planes 0-3 a count, plane 4 a valve.
-        var plant = new Structure(5, 5);
+        var plant = new Store(5, 5);
         var count = new Field(Shape.Unary(4), 0, 1, 2, 3);
         count.Write(plant, 0, 4);
         var goal = new Rung(plant);

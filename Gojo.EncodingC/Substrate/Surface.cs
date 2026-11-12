@@ -1,11 +1,11 @@
 namespace Gojo.EncodingC;
 
-/// <summary>What a law's role can be bound to: a structure's own positions, the
-/// lanes of a port another structure exposes, or a rung over a structure. A role
-/// on a structure works inside it. A role on a port works across a boundary,
-/// and a law may write there only by moving what it takes (see
-/// <see cref="Wiring"/>). A role on a rung works on a live view of a structure
-/// and copies a bit only when it writes it.
+/// <summary>What a law's role can be bound to: a store's positions, the
+/// lanes of a port another local structure exposes, or a rung over a store. A
+/// role on a store works inside a local structure. A role on a port works
+/// across a boundary, and a law may write there only by moving what it takes
+/// (see <see cref="Wiring"/>). A role on a rung works on a live view of a
+/// store and copies a bit only when it writes it.
 /// <para>Every read and write a law makes goes through its surface, so the same
 /// law runs unchanged on any of them.</para></summary>
 public abstract class Surface
@@ -14,7 +14,7 @@ public abstract class Surface
     {
     }
 
-    /// <summary>Positions of a structure or rung, or lanes of a port.</summary>
+    /// <summary>Positions of a store or rung, or lanes of a port.</summary>
     public abstract int Count { get; }
 
     public abstract int PlaneCount { get; }
@@ -47,7 +47,7 @@ public abstract class Surface
     internal abstract (Surface, int) WriteKey(int index);
 
     /// <summary>One row of a law changed these indexes in one step, as a move
-    /// does. A structure holds what is and keeps nothing more; a rung records
+    /// does. A store holds what is and keeps nothing more; a rung records
     /// them, so they are committed or reverted only together.</summary>
     internal virtual void ChangedTogether(IReadOnlyList<int> indexes)
     {

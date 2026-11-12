@@ -8,9 +8,9 @@ public sealed class RungTests
 {
     /// <summary>A passage chain over six positions: plane 0 holds a unit, plane 1
     /// a gate. Rows (0, 1, 2) and (2, 3, 4). A unit at 0; gates 1 and 3 open.</summary>
-    private static Structure Chain()
+    private static Store Chain()
     {
-        var chain = new Structure(2, 6);
+        var chain = new Store(2, 6);
         chain.Write(0, 0, true);
         chain.Write(1, 1, true);
         chain.Write(1, 3, true);
@@ -65,7 +65,7 @@ public sealed class RungTests
     [Fact]
     public void ACommitWritesNothingWhenAnythingItWouldOverwriteHasMoved()
     {
-        var source = new Structure(1, 3);
+        var source = new Store(1, 3);
         var rung = new Rung(source).SelectAll();
         rung.Write(0, 0, true);
         rung.Write(0, 1, true);
@@ -120,7 +120,7 @@ public sealed class RungTests
     [Fact]
     public void AMoveIsKeptWholeHoweverItIsRun()
     {
-        var (source, count) = Stores.Store(2, 1);
+        var (source, count) = Make.Counts(2, 1);
         count.Write(source, 0, 1);
         var rung = new Rung(source).SelectAll();
         var move = new Wiring(Flows.Move(1, 1), new Binding(rung, 0), new Binding(rung, 0));
@@ -135,11 +135,11 @@ public sealed class RungTests
 
     /// <summary>A child rung moves a unit and commits into its parent. The
     /// parent keeps the two ends together, so committing only the arrival is
-    /// refused there too, and the structure never holds the unit twice.</summary>
+    /// refused there too, and the store never holds the unit twice.</summary>
     [Fact]
     public void AMoveCommittedIntoAParentRungStaysWhole()
     {
-        var (source, count) = Stores.Store(2, 1);
+        var (source, count) = Make.Counts(2, 1);
         count.Write(source, 0, 1);
         var parent = new Rung(source).SelectAll();
         var child = new Rung(parent).SelectAll();
@@ -163,7 +163,7 @@ public sealed class RungTests
     [Fact]
     public void RevertingAMoveIntoACandidateTakesTheUnitBack()
     {
-        var (source, count) = Stores.Store(1, 1);
+        var (source, count) = Make.Counts(1, 1);
         count.Write(source, 0, 1);
         var rung = new Rung(source).SelectAll();
         var candidate = rung.Introduce();
@@ -186,7 +186,7 @@ public sealed class RungTests
     [Fact]
     public void SelectionIsCoarseThenFine()
     {
-        var source = new Structure(1, 10);
+        var source = new Store(1, 10);
         var rung = new Rung(source).SelectAll().Ignore(Plane.Parse("0000011111")).Select(Plane.Of(10, 7));
 
         Assert.Equal(Plane.Parse("1111100100"), rung.Selected);
@@ -205,7 +205,7 @@ public sealed class RungTests
     [Fact]
     public void UsingAPositionBringsItInUpToTheReach()
     {
-        var line = new Structure(2, 13);
+        var line = new Store(2, 13);
         line.Write(0, 0, true);
         for (var gate = 1; gate < 13; gate += 2) line.Write(1, gate, true);
         var rung = new Rung(line, reach: 2).Select(Plane.Of(13, 0));
@@ -239,7 +239,7 @@ public sealed class RungTests
     [Fact]
     public void APositionNearerANewRequestGetsItsStepsBack()
     {
-        var line = new Structure(2, 9);
+        var line = new Store(2, 9);
         var rung = new Rung(line, reach: 2).Select(Plane.Of(9, 0));
         var rows = new Wiring(Flows.Passage, new Binding(rung, 0), new Binding(rung, 1), new Binding(rung, 0));
         rows.Add(0, 1, 2);
@@ -288,9 +288,9 @@ public sealed class RungTests
         Assert.False(chain.Read(0, 5));
     }
 
-    /// <summary>Every word of an ODV structure shares its orientation bit, so a
+    /// <summary>Every word of an ODV store shares its orientation bit, so a
     /// rung reads it by reference and cannot turn it, by a write or by a law.
-    /// When the structure turns, it turns as a whole and the rung sees it.</summary>
+    /// When the store turns, it turns as a whole and the rung sees it.</summary>
     [Fact]
     public void ARungReadsConstantsByReferenceAndCannotTurnThem()
     {
@@ -315,7 +315,7 @@ public sealed class RungTests
     [Fact]
     public void APredictionIsARungComparedWithWhatTheSourceThenDid()
     {
-        var counter = new Structure(8, 1);
+        var counter = new Store(8, 1);
         var count = new Field(Shape.Unary(8), Enumerable.Range(0, 8).ToArray());
         count.Write(counter, 0, 2);
         var stretches = TransitionLaw.FromFunction([Shape.Unary(8)], s => [Math.Min(8, 2 * s[0])], new Accounting(true));
@@ -339,7 +339,7 @@ public sealed class RungTests
     [Fact]
     public void AnIntroducedPositionIsACandidateUntilACommitAdoptsIt()
     {
-        var source = new Structure(1, 2);
+        var source = new Store(1, 2);
         var rung = new Rung(source).SelectAll();
         var candidate = rung.Introduce();
 
@@ -370,9 +370,9 @@ public sealed class RungTests
     [Fact]
     public void SupportsNarrowToAFixedPointAndKeepContradictions()
     {
-        (Structure, Wiring, Supports) Line()
+        (Store, Wiring, Supports) Line()
         {
-            var line = new Structure(1, 4);
+            var line = new Store(1, 4);
             var support = Supports.On(line, Field.Bit(0));
             var rows = new Wiring(Settling.Same(Shape.Bit), support.Variable, support.Variable);
             rows.Add(0, 1);
@@ -405,13 +405,13 @@ public sealed class RungTests
         Assert.True(contradiction.Empty.Any);
     }
 
-    /// <summary>Supports describe a structure that keeps growing. A position
+    /// <summary>Supports describe a store that keeps growing. A position
     /// added later starts open, since nothing has been observed or narrowed
     /// there yet. That is the planes' own default: nothing ruled out.</summary>
     [Fact]
     public void APositionAddedLaterIsOpen()
     {
-        var line = new Structure(1, 2);
+        var line = new Store(1, 2);
         var support = Supports.On(line, Field.Bit(0));
         support.Observe(0);
 
@@ -426,7 +426,7 @@ public sealed class RungTests
     [Fact]
     public void SelectionsComeFromStructureNotFromNames()
     {
-        var line = new Structure(1, 4);
+        var line = new Store(1, 4);
         var equal = RelationLaw.FromPredicate([Shape.Bit, Shape.Bit], t => t[0] == t[1]);
         var rows = new Wiring(equal, new Binding(line, 0), new Binding(line, 0));
         rows.Add(0, 1);

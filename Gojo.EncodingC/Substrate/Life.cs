@@ -1,6 +1,6 @@
 namespace Gojo.EncodingC;
 
-/// <summary>Whether each position of a structure is in use, as a surface with
+/// <summary>Whether each position of a store is in use, as a surface with
 /// one plane. It lets existence be state like everything else: a law reads it,
 /// recruits a spare position by setting its bit, and retires a position in
 /// use by clearing it.
@@ -12,25 +12,25 @@ namespace Gojo.EncodingC;
 /// and a reference to it never comes to mean something else.</para></summary>
 public sealed class Life : Surface
 {
-    private readonly Structure structure;
+    private readonly Store store;
 
-    internal Life(Structure structure) => this.structure = structure;
+    internal Life(Store store) => this.store = store;
 
-    /// <summary>The structure whose positions these are.</summary>
-    internal Structure Of => structure;
+    /// <summary>The store whose positions these are.</summary>
+    internal Store Of => store;
 
-    public override int Count => structure.Count;
+    public override int Count => store.Count;
 
     public override int PlaneCount => 1;
 
     /// <summary>Spare and in-use positions can be reached here. Retired ones cannot.</summary>
-    public override bool IsLive(int index) => (uint)index < (uint)Count && !structure.IsRetired(index);
+    public override bool IsLive(int index) => (uint)index < (uint)Count && !store.IsRetired(index);
 
     public override bool Read(int plane, int index)
     {
         if (plane != 0) throw new ArgumentOutOfRangeException(nameof(plane));
         if ((uint)index >= (uint)Count) throw new ArgumentOutOfRangeException(nameof(index));
-        return structure.IsLive(index);
+        return store.IsLive(index);
     }
 
     internal override bool ThroughPort => false;
@@ -40,16 +40,16 @@ public sealed class Life : Surface
     internal override void Set(int plane, int index, bool value)
     {
         if (plane != 0) throw new ArgumentOutOfRangeException(nameof(plane));
-        if (value == structure.IsLive(index)) return;
-        if (value) structure.Recruit(index);
-        else structure.Retire(index);
+        if (value == store.IsLive(index)) return;
+        if (value) store.Recruit(index);
+        else store.Retire(index);
     }
 
     internal override (Surface Home, int Index, int Plane) Bit(int index, int plane) => (this, index, plane);
 
     // Whether a position is in use decides whether rows that touch it run, so
     // it is scheduled as that position.
-    internal override void ReadKeys(int index, List<(Surface, int)> keys) => keys.Add((structure, index));
+    internal override void ReadKeys(int index, List<(Surface, int)> keys) => keys.Add((store, index));
 
-    internal override (Surface, int) WriteKey(int index) => (structure, index);
+    internal override (Surface, int) WriteKey(int index) => (store, index);
 }

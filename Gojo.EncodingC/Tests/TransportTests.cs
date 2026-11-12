@@ -8,15 +8,15 @@ public sealed class TransportTests
     /// <summary>A small machine that leaves something of every kind unresolved:
     /// bits that are not a code, several possible next states, a retired row,
     /// a retired position, and a row whose roles a moved lane made meet.</summary>
-    private static (Engine Engine, Structure[] Structures) Build()
+    private static (Engine Engine, Store[] Stores) Build()
     {
-        var (sender, count) = Stores.Store(4, 3);
+        var (sender, count) = Make.Counts(4, 3);
         count.Write(sender, 0, 3);
         count.Write(sender, 2, 1);
         var outward = sender.Publish([0, 1], [0, 1, 2]);
         var inward = sender.Publish([2, 3], [0, 1, 2]);
 
-        var (receiver, _) = Stores.Store(3, 3);
+        var (receiver, _) = Make.Counts(3, 3);
         receiver.Write(0, 2, true);
         receiver.Write(2, 2, true);
 
@@ -30,14 +30,14 @@ public sealed class TransportTests
         shuffle.Add(0, 1);
         sender.Rebind(inward, 1, 2);
 
-        var flicker = new Structure(1, 2);
+        var flicker = new Store(1, 2);
         var either = TransitionLaw.FromPairs([Shape.Bit], [(0, 0), (0, 1), (1, 1)], Accounting.None);
         var maybe = new Wiring(either, new Binding(flicker, 0));
         maybe.Add(0);
         maybe.Add(1);
         flicker.Retire(1);
 
-        var chain = new Structure(2, 5);
+        var chain = new Store(2, 5);
         chain.Write(0, 0, true);
         chain.Write(1, 1, true);
         chain.Write(1, 3, true);
@@ -52,8 +52,8 @@ public sealed class TransportTests
     [Fact]
     public void AMachineRestoredFromItsBitsRunsTheSameAndLeavesTheSameThingsUnresolved()
     {
-        var (engine, structures) = Build();
-        var saved = Transport.Save(engine, structures);
+        var (engine, stores) = Build();
+        var saved = Transport.Save(engine, stores);
 
         var (restored, copies) = Transport.Load(saved);
 
@@ -80,9 +80,9 @@ public sealed class TransportTests
                 Assert.Equal(a.After, b.After);
             }
             Assert.Equal(original.Waves, again.Waves);
-            for (var s = 0; s < structures.Length; s++)
-                for (var p = 0; p < structures[s].PlaneCount; p++)
-                    Assert.Equal(structures[s].Read(p), copies[s].Read(p));
+            for (var s = 0; s < stores.Length; s++)
+                for (var p = 0; p < stores[s].PlaneCount; p++)
+                    Assert.Equal(stores[s].Read(p), copies[s].Read(p));
         }
 
         Assert.Equal(Plane.Of(3, 2), first!.Steps[0].Unread);
@@ -95,14 +95,14 @@ public sealed class TransportTests
 
     /// <summary>The passage chain: two planes over five positions, the passage
     /// law with its four promises, and two rows of three references. The whole
-    /// machine is 22 bytes: 55 bits of structure (the chain and the rows), 80
+    /// machine is 22 bytes: 55 bits of stores (the chain and the rows), 80
     /// of law and 36 of binding. The law is saved as its eight next states,
     /// three bits each, which is all a table-driven device needs to run it;
-    /// the rows are a structure like the chain.</summary>
+    /// the rows are a store like the chain.</summary>
     [Fact]
     public void AMachineIsAFewBytes()
     {
-        var chain = new Structure(2, 5);
+        var chain = new Store(2, 5);
         var passages = new Wiring(Flows.Passage, new Binding(chain, 0), new Binding(chain, 1), new Binding(chain, 0));
         passages.Add(0, 1, 2);
         passages.Add(2, 3, 4);
@@ -113,13 +113,13 @@ public sealed class TransportTests
 
         Assert.Equal(22, saved.Length);
         Assert.Equal(size.Bytes, saved.Length);
-        Assert.Equal((55L, 80L, 36L), (size.StructureBits, size.LawBits, size.WiringBits));
+        Assert.Equal((55L, 80L, 36L), (size.StoreBits, size.LawBits, size.WiringBits));
     }
 
     [Fact]
     public void ARungIsAWorkingViewAndIsNotSavedWithAMachine()
     {
-        var chain = new Structure(2, 5);
+        var chain = new Store(2, 5);
         var rung = new Rung(chain).SelectAll();
         var rows = new Wiring(Flows.Passage, new Binding(rung, 0), new Binding(rung, 1), new Binding(rung, 0));
         rows.Add(0, 1, 2);
@@ -131,7 +131,7 @@ public sealed class TransportTests
     public void BitsLeftOverAfterAMachineAreRefused()
     {
         Assert.Throws<FormatException>(() => Transport.Load([0xFF]));
-        Assert.Empty(Transport.Load([0x07]).Structures);
+        Assert.Empty(Transport.Load([0x07]).Stores);
     }
 
     /// <summary>Bits can parse and still describe something no builder would
@@ -141,7 +141,7 @@ public sealed class TransportTests
     [Fact]
     public void BitsThatDescribeNoMachineAreRefusedTheSameWay()
     {
-        var chain = new Structure(2, 5);
+        var chain = new Store(2, 5);
         var passages = new Wiring(Flows.Passage, new Binding(chain, 0), new Binding(chain, 1), new Binding(chain, 0));
         passages.Add(0, 1, 2);
         var saved = Transport.Save(new Engine().Add(passages));

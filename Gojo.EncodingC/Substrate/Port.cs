@@ -1,7 +1,8 @@
 namespace Gojo.EncodingC;
 
-/// <summary>What a structure exposes to others: an ordered list of its
-/// positions (lane i is the i-th) and an ordered list of its planes. That is
+/// <summary>What a local structure exposes to others, from one of its
+/// stores: an ordered list of that store's positions (lane i is the i-th) and
+/// an ordered list of its planes. That is
 /// all. A port carries no description of what its bits stand for, no unit and
 /// no type, and it does not say whether its bits may be read or taken. A
 /// receiver interprets them in its own terms, and whether a connection copies
@@ -14,7 +15,7 @@ public sealed class Port : Surface
     private readonly PackedInts lanes = new();
     private readonly int[] planes;
 
-    internal Port(Structure owner, int[] positions, int[] planes)
+    internal Port(Store owner, int[] positions, int[] planes)
     {
         Owner = owner;
         foreach (var position in positions) lanes.Add(position);
@@ -25,7 +26,7 @@ public sealed class Port : Surface
 
     public override int PlaneCount => planes.Length;
 
-    internal Structure Owner { get; }
+    internal Store Owner { get; }
 
     internal override bool ThroughPort => true;
 

@@ -4,7 +4,7 @@ using System.Text;
 namespace Gojo.EncodingC;
 
 /// <summary>A sequence of bits, one per position. This is the only storage
-/// shape in the project: a state plane over a structure's positions, a
+/// shape in the project: a state plane over a store's positions, a
 /// selection, a set of lanes and a support are all planes. A plane is exactly
 /// as long as it needs to be. Holding it in 64-bit words is layout for a
 /// digital machine; nothing outside this class sees the words, and no length

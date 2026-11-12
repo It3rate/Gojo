@@ -20,7 +20,7 @@ public enum LearnedRead
 /// nothing is unknown the table can crystallize into a law, checked against
 /// the accounting it is asked to keep like any authored law. A structure that
 /// learns its own law this way has decided something from outcomes.
-/// <para><b>The counts are a structure.</b> Everything the table knows is in
+/// <para><b>The counts are a store.</b> Everything the table knows is in
 /// <see cref="Counts"/>: one position per pair, then one per before-state,
 /// then one for rows it could not read, each holding a small unary count. So
 /// what was learned is saved with a machine, a law can read how sure the
@@ -32,7 +32,7 @@ public enum LearnedRead
 /// record to grow.</para>
 /// <para>"Unsupported" is a rule of thumb, not proof that a pair cannot happen.
 /// A crystallized law marks those exclusions (<see cref="Crystallized.Unsupported"/>),
-/// the counts they came from stay in the structure, and the table keeps
+/// the counts they came from stay in the store, and the table keeps
 /// counting, so a later witness can admit the pair again.</para></summary>
 public sealed class LearnedTable
 {
@@ -45,7 +45,7 @@ public sealed class LearnedTable
     }
 
     /// <summary>A table over counts that already exist, as a saved machine has them.</summary>
-    public LearnedTable(IReadOnlyList<Shape> roles, Structure? counts, int admitThreshold = 1, int unsupportedAfter = 4)
+    public LearnedTable(IReadOnlyList<Shape> roles, Store? counts, int admitThreshold = 1, int unsupportedAfter = 4)
     {
         ArgumentNullException.ThrowIfNull(roles);
         if (admitThreshold is < 1 or > 63) throw new ArgumentOutOfRangeException(nameof(admitThreshold));
@@ -60,7 +60,7 @@ public sealed class LearnedTable
         var positions = StateCount * StateCount + StateCount + 1;
         if (counts is not null && (counts.PlaneCount != capacity || counts.Count != positions))
             throw new ArgumentException($"These counts are not this table's: it needs {capacity} planes over {positions} positions.", nameof(counts));
-        Counts = counts ?? new Structure(capacity, positions);
+        Counts = counts ?? new Store(capacity, positions);
         count = new Field(Shape.Unary(capacity), Enumerable.Range(0, capacity).ToArray());
     }
 
@@ -76,7 +76,7 @@ public sealed class LearnedTable
     /// <c>N² + before</c> for each before-state, then one position for rows that
     /// could not be read. Each is a unary count that stops at the larger
     /// threshold.</summary>
-    public Structure Counts { get; }
+    public Store Counts { get; }
 
     /// <summary>The pairs seen often enough to admit, one bit per pair at
     /// <c>before + N·after</c>. It is one plane of <see cref="Counts"/>, the one

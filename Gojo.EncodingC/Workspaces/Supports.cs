@@ -7,8 +7,8 @@ namespace Gojo.EncodingC;
 /// every value is possible: everything that arrives is uncertain until
 /// something accounts for it. Each bit set is one thing learned. All but one
 /// ruled out is settled; all ruled out is a contradiction, kept visible. A
-/// position the structure adds later starts open with no extra step.</para>
-/// <para><b>In the planes.</b> These are ordinary planes of the structure. A
+/// position the store adds later starts open with no extra step.</para>
+/// <para><b>In the planes.</b> These are ordinary planes of the store. A
 /// saved machine keeps them, a law can read them, and a rung copies them on
 /// write. Narrowing in a rung is then a supposition: it can be compared,
 /// dropped when it reaches a contradiction, or committed.</para>
@@ -39,7 +39,7 @@ public sealed class Supports
         ArgumentNullException.ThrowIfNull(planes);
         CheckSize(field);
         if (surface.ThroughPort || surface.ReadOnly)
-            throw new ArgumentException("What is still possible is kept in a structure's or a rung's own planes, not behind a port.", nameof(surface));
+            throw new ArgumentException("What is still possible is kept in a store's or a rung's own planes, not behind a port.", nameof(surface));
         if (planes.Length != field.Shape.Size)
             throw new ArgumentException($"A field of {field.Shape.Size} values needs {field.Shape.Size} planes, one per value.", nameof(planes));
         if (planes.Distinct().Count() != planes.Length || planes.Intersect(field.Planes).Any())
@@ -63,19 +63,19 @@ public sealed class Supports
     /// <summary>The planes, one per value, set where the value is ruled out.</summary>
     public IReadOnlyList<int> Planes => Array.AsReadOnly(planes);
 
-    /// <summary>Adds one plane per value to a structure and returns the
+    /// <summary>Adds one plane per value to a store and returns the
     /// supports held there. Every position starts open.</summary>
-    public static Supports On(Structure structure, Field field)
+    public static Supports On(Store store, Field field)
     {
-        ArgumentNullException.ThrowIfNull(structure);
+        ArgumentNullException.ThrowIfNull(store);
         ArgumentNullException.ThrowIfNull(field);
         CheckSize(field);
-        var added = Enumerable.Range(0, field.Shape.Size).Select(_ => structure.AddPlane()).ToArray();
-        return new Supports(structure, field, added);
+        var added = Enumerable.Range(0, field.Shape.Size).Select(_ => store.AddPlane()).ToArray();
+        return new Supports(store, field, added);
     }
 
     /// <summary>The same supports seen through another surface that shows the
-    /// same planes, such as a rung over this structure. What is narrowed or
+    /// same planes, such as a rung over this store. What is narrowed or
     /// forgotten there is supposed, not known.</summary>
     public Supports In(Surface surface) => new(surface, Field, planes);
 

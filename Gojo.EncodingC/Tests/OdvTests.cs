@@ -97,17 +97,17 @@ public sealed class OdvTests
     }
 
     [Fact]
-    public void ReorientingAStructureIsOneConstantBitAndOneXor()
+    public void ReorientingAStoreIsOneConstantBitAndOneXor()
     {
-        var structure = Odv.Create(3);
-        Odv.Write(structure, 0, W("R+?"));
-        Odv.Write(structure, 1, W("R-0"));
-        Odv.Write(structure, 2, W("R+0"));
+        var store = Odv.Create(3);
+        Odv.Write(store, 0, W("R+?"));
+        Odv.Write(store, 1, W("R-0"));
+        Odv.Write(store, 2, W("R+0"));
 
-        Odv.Reorient(structure);
+        Odv.Reorient(store);
 
-        Assert.Equal(new[] { "L-?", "L+0", "L-0" }, Enumerable.Range(0, 3).Select(i => Odv.Read(structure, i).ToString()));
-        Assert.Throws<ArgumentException>(() => Odv.Write(structure, 0, W("R+0")));
+        Assert.Equal(new[] { "L-?", "L+0", "L-0" }, Enumerable.Range(0, 3).Select(i => Odv.Read(store, i).ToString()));
+        Assert.Throws<ArgumentException>(() => Odv.Write(store, 0, W("R+0")));
 
         // A reader facing the other way can read it back in its own terms, if it wants to.
         Assert.Equal("{R+?}", Words(Odv.ReadIn(positiveLeft: false).Project(1, [1UL << W("L-?").Code, 0xFF])));
@@ -117,14 +117,14 @@ public sealed class OdvTests
     public void AdditionNarrowsAHundredRowsInOnePass()
     {
         const int rows = 100;
-        var structure = Odv.Create(rows * 3);
-        var support = Supports.On(structure, Odv.WordField);
+        var store = Odv.Create(rows * 3);
+        var support = Supports.On(store, Odv.WordField);
         var sum = new Wiring(Odv.Addition(), support.Variable, support.Variable, support.Variable);
         for (var i = 0; i < rows; i++)
         {
             sum.Add(3 * i, 3 * i + 1, 3 * i + 2);
-            Odv.Write(structure, 3 * i, i % 2 == 0 ? W("R+?") : W("R+0"));
-            Odv.Write(structure, 3 * i + 1, i % 2 == 0 ? W("R+?") : W("R-0"));
+            Odv.Write(store, 3 * i, i % 2 == 0 ? W("R+?") : W("R+0"));
+            Odv.Write(store, 3 * i + 1, i % 2 == 0 ? W("R+?") : W("R-0"));
             support.Observe(3 * i);
             support.Observe(3 * i + 1);
         }
@@ -144,7 +144,7 @@ public sealed class OdvTests
         Assert.Equal("{R+0}", Words(Odv.ThresholdCorrespondence(1, 1).Project(1, [1UL << W("R+0").Code, 0xFF])));
     }
 
-    /// <summary>A write whose orientation does not match the structure's is
+    /// <summary>A write whose orientation does not match the store's is
     /// refused before any bit changes, so V and D are not left half written.</summary>
     [Fact]
     public void AWordFacingTheOtherWayIsRefusedBeforeAnyBitChanges()
