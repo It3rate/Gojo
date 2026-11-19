@@ -17,8 +17,10 @@ support—without making those names into primitive instructions.
 Open the [interactive atlas](results/glyph-joints/index.html). Its
 [Markdown equivalent](results/glyph-joints/README.md) records the constructions,
 probes and limits for repository readers. The page begins with the glyphs;
-it then shows flow experiments and contact-span examples. This is a local
-report, not a newly published website page.
+it then shows flow experiments and contact-span examples. The same captured
+atlas is [published on the Gojo site](https://gojo.inklingai.ca/ornaments/glyph-joints/),
+with [HTML notes](https://gojo.inklingai.ca/ornaments/glyph-joints/notes.html)
+and the complete downloadable records.
 
 ```powershell
 dotnet run --project experiments/QualitativeFrieze -- --glyph-joints

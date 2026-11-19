@@ -1,0 +1,54 @@
+{
+  "source": "experiments/QualitativeFrieze/results/glyph-joints",
+  "route": "/ornaments/glyph-joints/",
+  "scope": "All recorded glyph variants, route machines, contextual reads and native archives. Presentation-only adaptation.",
+  "glyphs": 36,
+  "variants": 51,
+  "files": [
+    {
+      "file": "README.md",
+      "sha256": "dd6a4b8ea847c703586f1679f78a1e5d96f6fae24d8c21023202c0a68e5e2c48",
+      "bytes": 166135
+    },
+    {
+      "file": "results.json",
+      "sha256": "d36bddea681611804662539a6d19e8c34f7bebae160e20b9b5b0e361451f1889",
+      "bytes": 463644
+    },
+    {
+      "file": "corpus.gojo",
+      "sha256": "91a01a918397d498c9200ac5546e7bf292668351e847c16e347f31a927fec1bf",
+      "bytes": 329268
+    },
+    {
+      "file": "construction.gojo",
+      "sha256": "58b2a1538b6dd592a35ae93d147a9c53e826e76ad04573c518567395d0795b3c",
+      "bytes": 450843
+    },
+    {
+      "file": "usage.gojo",
+      "sha256": "2742a24a562ce77398fd0f27c00b6eaafd88762f908fa1bc8022ee42d3301103",
+      "bytes": 86607
+    },
+    {
+      "file": "contexts.gojo",
+      "sha256": "bb83db2b8e6226a428c3203f0b9179c5afa6c3795c896b0948566ea7273766d7",
+      "bytes": 85856
+    },
+    {
+      "file": "index.html",
+      "sha256": "00bd87a2c2a000ec13890c4ecbb4abba7827dd57ea7bf0ca0d479bf535903e3f",
+      "bytes": 502120
+    },
+    {
+      "file": "notes.html",
+      "sha256": "ba8d9bff811c92a3818a703c339975b4a90884ed1d308b00d1e2f35c14ac76fd",
+      "bytes": 245553
+    },
+    {
+      "file": "GlyphJointOverview.svg",
+      "sha256": "89ff89c2481ddce2edfc3cf2cc69b577a6c3b4b3f07d3e0313979c7918121b68",
+      "bytes": 4616
+    }
+  ]
+}

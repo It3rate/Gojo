@@ -8,6 +8,8 @@ The production bundle mounts the browser applications beneath this page:
   drawings at `/quickdraw/line-art/`;
 - `/ornaments/` — ornament collections, source comparisons and native downloads;
   start with the [collection publishing guide](ornaments/README.md)
+- `/ornaments/glyph-joints/` — capitals and digits with stroke histories,
+  construction landmarks, joint uses and HTML notes; linked directly from the homepage
 - `/minds/` — captured Gojo experiments, step viewer, research notes and the
   experiment/development roadmap
 - `/syntax/` — illustrated syntax notebook, with thumbnails, stepped examples

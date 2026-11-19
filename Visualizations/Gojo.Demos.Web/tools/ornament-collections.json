@@ -1,9 +1,18 @@
 {
   "studies": [
     {
+      "id": "glyph-joints",
+      "title": "Glyph joint atlas",
+      "subtitle": "Glyphs · Construction and use",
+      "description": "Follow capital letters and digits through their strokes and landmarks. Compare bends with later attachments, then explore the routes a joint permits.",
+      "href": "/ornaments/glyph-joints/",
+      "detail": "36 glyphs · 51 construction variants",
+      "preview": { "source": "/ornaments/glyph-joints/GlyphJointOverview.svg", "viewBox": [0, 0, 900, 300], "alt": "L, F and H with colored pen strokes: a continuous bend, later attachments and connecting stems" }
+    },
+    {
       "id": "symmetry-actions",
       "title": "Symmetry as an action",
-      "subtitle": "Latest study · Reusable transformations",
+      "subtitle": "Symmetry · Reusable transformations",
       "description": "See how two readings share a stroke, change the action bits, and compare the small engines that repeat an ornament.",
       "href": "/ornaments/symmetry-actions/",
       "detail": "240 recorded applications",

@@ -2,9 +2,27 @@
 
 The landing page shows all published studies as visual tiles. The `studies`
 array in `tools/ornament-collections.json` lists the smaller interactive studies
-first, with symmetry actions and the centre-line atlas at the top. The existing
+first, with the glyph joint atlas, symmetry actions and the centre-line atlas at the top. The existing
 `collections` follow. Preview tiles crop the viewports of recorded SVGs without
 changing their geometry; generated thumbnails live in `previews/`.
+
+`/ornaments/glyph-joints/` publishes the recorded atlas of all 26 capitals and
+ten digits, with 51 construction variants, stroke landmarks, route machines
+and contextual reads. Both the homepage and this listing link to it. All six
+companion records are retained, including the Markdown report; the notes also
+open as HTML. Native archives retain their exact bytes; text records use LF
+newlines for portable publication. The publication adapter adds navigation and
+renders the tile preview from recorded L/F/H strokes without rerunning the
+experiment or changing its data. The study overview remains
+`experiments/QualitativeFrieze/GlyphJointAtlas.md`.
+
+Regenerate this edition before rebuilding the listing (Python requires the
+same `markdown` package as the encoding notes):
+
+~~~powershell
+python Visualizations/Gojo.Demos.Web/tools/build-glyph-joints.py
+python Visualizations/Gojo.Demos.Web/tools/build-glyph-joints.py --check
+~~~
 
 `/ornaments/symmetry-actions/` turns selected pattern correspondences into
 reusable native word substitutions, displacements and traversal actions.

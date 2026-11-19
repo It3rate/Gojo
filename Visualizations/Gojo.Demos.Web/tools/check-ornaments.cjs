@@ -44,6 +44,8 @@ async function walk(dir) {
     for (const file of (await walk(path.join(web,'ornaments'))).filter(f => f.endsWith('.html'))) {
       const route = '/' + path.relative(web,file).replaceAll(path.sep,'/');
       for (const [,raw] of (await fs.readFile(file,'utf8')).matchAll(/(?:href|src)=['"]([^'"]+)['"]/g)) {
+        // Template-literal URLs in scripts become links only after rendering.
+        if (raw.includes('${')) continue;
         const url = new URL(raw.replaceAll('&amp;','&'),base + route);
         if (url.origin !== base || raw.startsWith('#')) continue;
         url.hash = ''; links.add(url.href);

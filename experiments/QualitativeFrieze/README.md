@@ -7,7 +7,8 @@ reuses bends, attachments, bridges, choices, merges and crossings in small
 native experiments. School-guide baselines show downward first stems, pen
 lifts, start/stop landmarks and later attachments separately from final joint
 geometry. See the [overview and encoding](GlyphJointAtlas.md) and
-the [recorded Markdown report](results/glyph-joints/README.md). This report remains local.
+the [recorded Markdown report](results/glyph-joints/README.md). The atlas is also
+[published on the Gojo site](https://gojo.inklingai.ca/ornaments/glyph-joints/).
 
 ```powershell
 dotnet run --project experiments/QualitativeFrieze -- --glyph-joints
