@@ -48,9 +48,10 @@ Entries are marked in three ways:
 
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
-| Local structure *(not built)* | The stores and wirings that form one local intelligence. Inside it, laws connect to any of its stores freely and everything settles together. Between two local structures only ports connect, and each settles independently | No type yet. A wiring can bind any store directly, so the boundary is kept by whoever wires. Every machine in the tests is one local structure |
-| Surface | Anything a law's role can be bound to: a store, a port, a store's life, a workspace, or a workspace's gap. Every read and write goes through one | No bits of its own. In a saved wiring: 0, 1 or 2 (store, port, life) and which one |
+| Local structure | The stores and wirings that form one local intelligence. Inside it, laws connect to any of its stores freely and everything settles together. Between two local structures only ports connect, and each steps on its own | An `Engine`: its stores, and its wirings in order. A store belongs to one engine, and an engine refuses to bind another's store directly. Saved, it is the grouping of stores in one machine; nothing names it. Stepping two at the same moment is not built |
+| Surface | Anything a law's role can be bound to: a store, a port, a socket, a store's life, a workspace, or a workspace's gap. Every read and write goes through one | No bits of its own. In a saved wiring: 0, 1, 2 or 3 (store, port, life, socket) and which one |
 | Port | What a local structure shows to others, from one of its stores: some of that store's positions, in order, and some of its planes, in order. It carries no unit, type or description | A list of references (the lanes) and a list of plane numbers |
+| Socket | The receiving end of a connection: the shape a local structure expects from another's port, and which port fills it now. Empty, or on a lane the port lacks, it reaches nowhere, and rows through it are skipped | Saved as its shape (lanes, planes, which planes are constant) the first time a wiring binds it. Which port fills it is saved only with structures saved together |
 | Lane (of a port) | The i-th position a port exposes. Connections hold lane numbers, so the owner can point a lane somewhere else and every connection follows | One reference |
 | Read (copy) | A role its law never changes. Through a port this is a reference: the sender is untouched, and any number of receivers can hold one | No flag. It is a fact about the law's table |
 | Written, move | A role its law changes. Writing through a port is allowed only as a move: what leaves there arrives somewhere the same law writes | No flag. The table changes the role, and the law's accounting holds a preserved sum over it |
@@ -180,7 +181,7 @@ the same job is done by ordinary structure, such as a plan or a probe.
 
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
-| Transport *(host)* | Saving a machine as bits, and restoring it without the code that built it | One run of bits: stores, laws, wirings, then the order where needed. No names, headers or fixed widths |
+| Transport *(host)* | Saving a machine as bits, and restoring it without the code that built it. A machine is one local structure; a foreign port becomes a socket | One run of bits: stores, laws, wirings, then the order where needed. No names, headers or fixed widths. Several structures together: a count, each structure, then for each socket nothing or (structure, store, port) |
 | Number | Any whole number in the saved form | The Elias gamma code of n + 1: 0 is `1`, 1 is `010`, 2 is `011`, 3 is `00100` |
 | Machine size | How many bits a saved machine takes, split into stores, laws and wirings | `Transport.Measure` |
 | Lens *(host)* | Names and notation for people. The encoding never reads it | Outside the encoding |

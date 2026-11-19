@@ -83,6 +83,8 @@ public sealed class Workspace : Surface
 
     internal override bool ThroughPort => false;
 
+    internal override Store? Home => source.Home;
+
     private int Span => span < 0 ? source.Count : span;
 
     /// <summary>The source position behind a workspace position, or null for one

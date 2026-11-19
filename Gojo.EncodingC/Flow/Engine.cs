@@ -1,29 +1,87 @@
 namespace Gojo.EncodingC;
 
-/// <summary>Runs wirings, one step at a time, in their declared order: a
-/// transition law changes state, a relation law rules out what is no longer
-/// possible. Nothing else happens in a step, so a machine that observes,
-/// narrows, decides, acts and forgets does all of it as wirings. A
+/// <summary>One local structure, and the order it settles in. An engine holds
+/// its stores and runs its wirings, one step at a time, in their declared
+/// order: a transition law changes state, a relation law rules out what is no
+/// longer possible. Nothing else happens in a step, so a machine that
+/// observes, narrows, decides, acts and forgets does all of it as wirings. A
 /// wiring that touches a position another writes runs in a later wave and
 /// reads what the earlier one left; the rest could run at the same moment on a
 /// parallel substrate and give the same result. Running them one after
 /// another in declared order is therefore exactly the waved run. The order is
 /// structure: it is the schedule, and two takers of one unit cannot both have
-/// it.</summary>
+/// it.
+/// <para><b>Inside and outside.</b> A store belongs to the engine that holds
+/// it or first binds it directly, and to no other. Inside, wirings bind its
+/// stores freely: their positions, whether those are in use, and workspaces
+/// over them. Another local structure is reached only through a port, or a
+/// socket a port fills. Adding a wiring that would bind another's store
+/// directly is refused, so the boundary is kept by the structure, not by
+/// whoever wires. Membership is by connection: no name, flag or index marks
+/// it, and a saved machine keeps it as the grouping of its stores.</para>
+/// <para><b>Several local structures</b> each step on their own. Whoever runs
+/// them chooses the order; a peer that is not stepped holds still, and one
+/// that is absent leaves a socket empty. A move through a port takes from the
+/// owner's store during the taker's step, so the order between structures
+/// decides who takes a contested unit, as row order does inside one. Running
+/// structures at the same moment needs a handshake this project does not have
+/// yet.</para></summary>
 public sealed class Engine
 {
     private readonly List<Wiring> wirings = [];
+    private readonly List<Store> stores = [];
 
     public IReadOnlyList<Wiring> Wirings => wirings.AsReadOnly();
+
+    /// <summary>The stores that belong to this local structure, in the order
+    /// they joined it.</summary>
+    public IReadOnlyList<Store> Stores => stores.AsReadOnly();
+
+    /// <summary>The sockets its wirings bind, in the order first bound: what
+    /// this structure expects from others.</summary>
+    public IReadOnlyList<Socket> Sockets =>
+        wirings.SelectMany(wiring => wiring.Bindings).Select(binding => binding.Surface).OfType<Socket>().Distinct().ToArray();
 
     /// <summary>Steps run so far.</summary>
     public long Tick { get; private set; }
 
+    /// <summary>Takes stores into this local structure, such as one that only
+    /// exposes ports, which no wiring here binds directly.</summary>
+    public Engine Hold(params Store[] held)
+    {
+        ArgumentNullException.ThrowIfNull(held);
+        Claim(held);
+        return this;
+    }
+
+    /// <summary>Adds a wiring. Every store it binds directly, and the store of
+    /// its rows, joins this local structure; one that belongs to another is
+    /// refused.</summary>
     public Engine Add(Wiring wiring)
     {
         ArgumentNullException.ThrowIfNull(wiring);
+        Claim(wiring.Bindings.Select(binding => binding.Surface.Home).OfType<Store>().Append(wiring.Rows));
         wirings.Add(wiring);
         return this;
+    }
+
+    private void Claim(IEnumerable<Store> claimed)
+    {
+        var all = claimed.ToArray();
+        foreach (var store in all)
+        {
+            ArgumentNullException.ThrowIfNull(store);
+            if (store.Local is { } other && other != this)
+                throw new ArgumentException(
+                    "A store of another local structure is bound directly. Between local structures the only connection is a port.",
+                    nameof(claimed));
+        }
+        foreach (var store in all)
+        {
+            if (store.Local is not null) continue;
+            store.Local = this;
+            stores.Add(store);
+        }
     }
 
     /// <summary>Wirings grouped into waves, by index.</summary>

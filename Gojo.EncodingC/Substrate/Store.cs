@@ -13,9 +13,9 @@ namespace Gojo.EncodingC;
 /// nothing. A local structure is the group of stores and wirings that forms
 /// one local intelligence. Inside it, laws connect to any of its stores
 /// freely and everything settles together. Between local structures the only
-/// connection is a port, and each settles independently. Nothing here records
-/// which local structure a store belongs to yet, so that boundary is kept by
-/// whoever wires, and is not checked.</para>
+/// connection is a port, and each settles independently. A store belongs to
+/// the <see cref="Engine"/> that holds it or first binds it directly, and
+/// that engine refuses to let another bind it except through a port.</para>
 /// <para><b>Spare, in use, retired.</b> A position is in one of three states,
 /// and only moves forward through them. A spare position is room: allocated,
 /// not yet in use, and rows that touch it do not run. It can be recruited
@@ -60,6 +60,12 @@ public sealed class Store : Surface
     public IReadOnlyList<Port> Ports => ports.AsReadOnly();
 
     internal override bool ThroughPort => false;
+
+    internal override Store Home => this;
+
+    /// <summary>The local structure this store belongs to, once one holds it
+    /// or binds it directly. A store belongs to at most one.</summary>
+    internal Engine? Local { get; set; }
 
     /// <summary>Adds a plane with one bit per position. Returns its number.</summary>
     public int AddPlane()

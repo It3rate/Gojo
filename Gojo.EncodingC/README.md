@@ -86,7 +86,8 @@ how it is held in bits.
 | Layout | [`Shape`](Substrate/Shape.cs), [`Field`](Substrate/Field.cs), [`PackedInts`](Substrate/PackedInts.cs) | How a value sits in bits (binary or unary), which planes hold it, and references packed at the width they need |
 | Surface | [`Surface`](Substrate/Surface.cs) | What a law's role binds to: a store, a port, a workspace, the gap between a workspace and its source, or whether a store's positions are in use. Every read and write goes through it |
 | Store | [`Store`](Substrate/Store.cs), [`Life`](Substrate/Life.cs) | A block of state: positions and planes, and constant planes. It holds bits and does nothing. A position is spare, in use or retired, and `Life` shows that as a surface, so a law grows and prunes |
-| Local structure | No type yet | The stores and wirings that form one local intelligence. See [Stores and local structures](#stores-and-local-structures) |
+| Local structure | [`Engine`](Flow/Engine.cs) | The stores and wirings that form one local intelligence, and the order it settles in. See [Stores and local structures](#stores-and-local-structures) |
+| Socket | [`Socket`](Substrate/Socket.cs) | The receiving end of a connection: the shape a local structure expects from another's port, and which port fills it now |
 | Port | [`Port`](Substrate/Port.cs) | Ordered lanes onto an owner's positions and an ordered list of its planes |
 | Law | [`RelationLaw`](Laws/RelationLaw.cs), [`TransitionLaw`](Laws/TransitionLaw.cs), [`Accounting`](Laws/Accounting.cs) | Tables of admitted tuples or transitions, with promises checked when the table is made |
 | Wiring | [`Wiring`](Flow/Wiring.cs), `Binding` | A law bound to rows over stores and ports. A role is bound to a code or, open, to what a value may still be. The rows are a store of their own, so topology is state |
@@ -123,10 +124,32 @@ What is built, and what is not:
 - The rules for crossing a port are built. Through a port a law reads, or
   takes as a move, and never rules anything out on the other side (see
   [Copying and moving](#copying-and-moving)).
-- The boundary is not built. No type holds a local structure, a wiring belongs
-  to no one, and a wiring can bind any store directly. Every machine in the
-  tests is one local structure, and a saved machine has no ports to the
-  outside. Until this is built, the boundary is kept by whoever wires.
+- The boundary is built (`LocalStructureTests`). An `Engine` is one local
+  structure. A store belongs to the engine that holds it (`Hold`) or first
+  binds it directly, and to no other. An engine refuses a wiring that would
+  bind another's store directly: its positions, its `Life`, or a workspace
+  over it. The refusal is all or nothing. Membership is by connection: no
+  name, flag or index marks it.
+- A **socket** is the receiving end of a connection. It holds the shape a
+  structure expects from a port: lanes, planes, and which planes are
+  constant. A wiring binds it where it would bind a foreign port. With
+  nothing plugged in, or on a lane the port lacks, a row reaches nowhere and
+  is reported skipped. That is how an absent peer shows.
+- Each engine steps on its own, in an order chosen by whoever runs them. A
+  peer that is not stepped holds still. A move through a port takes from the
+  owner's store during the taker's step, so the order between structures
+  decides who takes a contested unit, as row order does inside one.
+- A saved machine is one local structure: the restored engine holds
+  everything saved with it. A foreign port is saved as a socket of its shape
+  and comes back empty. Several structures saved together (`SaveLocals`) also
+  keep which port fills each socket, as a structure, a store in its order and
+  a port. No foreign position is written.
+- Not built: stepping structures **at the same moment**. Two takers stepping
+  at once could both see one unit. That needs a handshake, an exclusive taker
+  per lane, or another law (see [Not built](#not-built)). A host can still
+  reach past the boundary by calling `Wiring.Apply` itself, or by publishing
+  or writing another structure's store. The engine guards what it runs, not
+  what the host does.
 
 Local structures communicating over thin connections is essential to Gojo. The
 primitives are being settled first.
@@ -626,6 +649,8 @@ What still needs the host:
   making a law from the counts. A law's table is not itself in the planes,
   so a machine cannot yet change its own rules.
 - **The edge of the machine.** Units from outside enter through `Unary.Add`.
+  Plugging a socket, and the order in which several local structures step,
+  are host acts.
 - **The schedule.** Waves are worked out with host dictionaries. On a physical
   substrate that is locality, not a computation.
 - **Checking promises.** A law's accounting is verified when the law is made.
@@ -730,11 +755,15 @@ smaller laws wired together (see the glossary,
 
 ## Not built
 
-- **Local structures as a boundary.** No type holds a local structure. A
-  wiring belongs to no one and can bind any store directly. So nothing checks
-  that local structures connect only through ports, nothing steps two of
-  them independently, and a saved machine has no ports to the outside. See
-  [Stores and local structures](#stores-and-local-structures).
+- **Local structures stepping at the same moment.** The boundary, sockets,
+  independent stepping in a chosen order and saving with connections are
+  built. What is not: a material handshake between structures that step
+  concurrently. Today, sequential order between engines is what stops two
+  takers in different structures from both having one unit. The open law
+  would make that a property of the connection: an offer and acceptance, an
+  exclusive taker per lane, or something else. Ports a structure grows,
+  sockets it grows, and plugging by a law rather than the host are not built
+  either. See [Stores and local structures](#stores-and-local-structures).
 - **Laws in the planes.** A law's table is fixed when it is made. A table held
   in a store, so that what was learned runs at once and a machine can
   change its own rules, is the largest open step. It needs an answer for how
@@ -794,6 +823,7 @@ limits and tests.
 | `FlowTests` | Ports as lanes and planes, and rebinding; references to one sender from many readers; writing through a port only as a move, and only with positive weights; a moved lane aliasing a row; no role counting one bit twice; one-to-one uncalibrated moves with a remainder; two receivers interpreting one flow; two takers and one unit; branches and merges; self-switching flow; a calibrator structure; a wired rate; retired positions |
 | `OdvTests` | Packing `88 C6 FA`; detection as the default and as one contract, checked against a reference reader; exact zero by request; a wrong orientation refused before any bit changes; one position read twice; reorientation; addition narrowed across 100 rows; threshold calibration |
 | `WorkspaceTests` | Live reads and copy on write; stale and retired positions refusing a commit; changes made together, however the wiring is run, through a parent workspace, and when reverted into a candidate; coarse-to-fine selection; selection by use up to a reach, counted from the nearest request; sibling workspaces and workspaces over workspaces; constants by reference; a prediction checked against the source; introduced positions adopted; supports to a fixed point, open at positions added later; selections from structure |
+| `LocalStructureTests` | Own stores bound freely and another's refused (positions, life, workspace), all or nothing; two structures and one unit, decided by step order; foreign supports read and never narrowed; a taker stepping on through an absent peer, a stalled peer and an unplugged socket; a retired lane reported and rebound; sockets taking only a port of their shape; a structure saved alone keeping its socket and plugged in again; three structures saved together keeping boundaries and connections, step for step; refusal to save a store no structure holds |
 | `TransportTests` | A machine restored from bits running step for step with the same unresolved parts; 22 bytes for the passage chain, by part; workspaces refused; trailing bits refused; any damaged bit either loads or is refused as malformed |
 | `SelfRunningTests` | Machines that only step: a law rewiring a row to the more trusted supplier; a dormant row recruited when flow is blocked; a watcher moving its own attention; a row's activity left in planes and counted by a law; predictors judged and trusted by the structure itself, and one retired when its trust runs out; a goal two steps away opening a valve now, saved and restored; a goal that gives way; what narrowing cannot settle, and a probe that settles it by being wrong; an ambiguous law leaving its next moment open; overflow carried up a workspace; knowledge read through a port and never narrowed there; linked values as a pair with two relations |
 | `UncertaintyTests` | Open values in the planes, read by a law and saved; a supposition narrowed in a workspace and dropped on contradiction; a goal settling the open choice that reaches it; ambiguity given a choice role; a miss read by a law as trust; flow steered to a goal that changes, with an unasked unit sent on |

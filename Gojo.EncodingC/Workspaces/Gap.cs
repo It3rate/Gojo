@@ -31,6 +31,8 @@ public sealed class Gap : Surface
 
     internal override bool ThroughPort => false;
 
+    internal override Store? Home => workspace.Home;
+
     internal override bool ReadOnly => true;
 
     internal override bool IsConstant(int plane) => false;

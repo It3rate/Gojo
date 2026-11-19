@@ -16,7 +16,14 @@ namespace Gojo.EncodingC;
 /// list of next states, which is what a table-driven device would hold. Any
 /// other law is saved as one bit per tuple.</para>
 /// <para>Workspaces are not part of a machine. They are working views: commit or
-/// drop them first.</para></summary>
+/// drop them first.</para>
+/// <para><b>A machine is one local structure.</b> Everything it saves belongs
+/// to the restored engine. A port of another local structure is not saved
+/// with it: it becomes a socket of that port's shape, so the structure keeps
+/// its boundary and can be plugged in again. Several local structures saved
+/// together (<see cref="SaveLocals"/>) also keep which port fills each socket,
+/// as a local structure, a store in its order and a port of that store. No
+/// foreign position is ever written.</para></summary>
 public static class Transport
 {
     private const int MaxCount = 1 << 24;
@@ -24,42 +31,77 @@ public static class Transport
     /// <summary>Saves the engine's wirings in order, every store they reach,
     /// and any further stores given. Stores given come first, in the
     /// order given, then the ones the wirings reach, in the order reached.</summary>
-    public static byte[] Save(Engine engine, params Store[] stores) => Write(engine, stores, out _).ToArray();
+    public static byte[] Save(Engine engine, params Store[] stores)
+    {
+        var bits = new BitWriter();
+        Write(bits, engine, stores, strict: false);
+        return bits.ToArray();
+    }
+
+    /// <summary>Saves several local structures and the connections between
+    /// them. Every store reached through a port must belong to one of them.</summary>
+    public static byte[] SaveLocals(params Engine[] locals)
+    {
+        ArgumentNullException.ThrowIfNull(locals);
+        if (locals.Distinct().Count() != locals.Length) throw new ArgumentException("A local structure is saved once.", nameof(locals));
+        var bits = new BitWriter();
+        bits.Number(locals.Length);
+        var saved = locals.Select(local => Write(bits, local, [], strict: true)).ToArray();
+        for (var i = 0; i < locals.Length; i++)
+            foreach (var socket in saved[i].Sockets)
+            {
+                if ((socket as Port ?? ((Socket)socket).Plugged) is not { } port)
+                {
+                    bits.Number(0);
+                    continue;
+                }
+                var j = Array.IndexOf(locals, port.Owner.Local);
+                if (j < 0) throw new InvalidOperationException("A socket is filled by a local structure that is not being saved.");
+                bits.Number(j + 1);
+                bits.Number(saved[j].Place[port.Owner]);
+                bits.Number(IndexOf(port.Owner.Ports, port));
+            }
+        return bits.ToArray();
+    }
 
     /// <summary>How many bits a saved machine spends on its stores (state,
     /// and the rows of its wirings), its laws and its wirings' bindings.</summary>
-    public static MachineSize Measure(Engine engine, params Store[] stores)
-    {
-        Write(engine, stores, out var size);
-        return size;
-    }
+    public static MachineSize Measure(Engine engine, params Store[] stores) => Write(new BitWriter(), engine, stores, strict: false).Size;
 
     /// <summary>Restores a machine: an engine with its wirings in order, and the
-    /// stores in the order they were saved.</summary>
-    public static (Engine Engine, IReadOnlyList<Store> Stores) Load(byte[] machine)
+    /// stores in the order they were saved. Ports of other local structures
+    /// come back as empty sockets, in <see cref="Engine.Sockets"/>.</summary>
+    public static (Engine Engine, IReadOnlyList<Store> Stores) Load(byte[] machine) => Parse(machine, bits =>
+    {
+        var local = ReadLocal(bits);
+        bits.End();
+        return local;
+    });
+
+    /// <summary>Restores local structures saved together, with every socket
+    /// plugged into the port it was connected to.</summary>
+    public static IReadOnlyList<(Engine Engine, IReadOnlyList<Store> Stores)> LoadLocals(byte[] machines) => Parse(machines, bits =>
+    {
+        var locals = new (Engine Engine, IReadOnlyList<Store> Stores)[bits.Count(MaxCount)];
+        for (var i = 0; i < locals.Length; i++) locals[i] = ReadLocal(bits);
+        foreach (var (engine, _) in locals)
+            foreach (var socket in engine.Sockets)
+            {
+                var filled = bits.Count(locals.Length);
+                if (filled == 0) continue;
+                var owner = locals[filled - 1].Stores[bits.Count(locals[filled - 1].Stores.Count - 1)];
+                socket.Plug(owner.Ports[bits.Count(owner.Ports.Count - 1)]);
+            }
+        bits.End();
+        return locals;
+    });
+
+    private static T Parse<T>(byte[] machine, Func<BitReader, T> read)
     {
         ArgumentNullException.ThrowIfNull(machine);
         try
         {
-            var bits = new BitReader(machine);
-            var stores = new Store[bits.Count(MaxCount)];
-            for (var i = 0; i < stores.Length; i++) stores[i] = ReadStore(bits);
-            var laws = new Law[bits.Count(MaxCount)];
-            for (var i = 0; i < laws.Length; i++) laws[i] = ReadLaw(bits, laws, i);
-            var engine = new Engine();
-            var wirings = new Wiring[bits.Count(MaxCount)];
-            for (var i = 0; i < wirings.Length; i++) wirings[i] = ReadWiring(bits, laws, stores);
-            if (bits.Bit())
-            {
-                var steps = bits.Count(MaxCount);
-                for (var i = 0; i < steps; i++) engine.Add(wirings[bits.Count(wirings.Length - 1)]);
-            }
-            else
-            {
-                foreach (var wiring in wirings) engine.Add(wiring);
-            }
-            bits.End();
-            return (engine, stores);
+            return read(new BitReader(machine));
         }
         catch (Exception refused) when (refused is ArgumentException or OverflowException)
         {
@@ -69,17 +111,59 @@ public static class Transport
         }
     }
 
-    private static BitWriter Write(Engine engine, Store[] stores, out MachineSize size)
+    private static (Engine Engine, IReadOnlyList<Store> Stores) ReadLocal(BitReader bits)
+    {
+        var stores = new Store[bits.Count(MaxCount)];
+        for (var i = 0; i < stores.Length; i++) stores[i] = ReadStore(bits);
+        var laws = new Law[bits.Count(MaxCount)];
+        for (var i = 0; i < laws.Length; i++) laws[i] = ReadLaw(bits, laws, i);
+        var engine = new Engine().Hold(stores);
+        var sockets = new List<Socket>();
+        var wirings = new Wiring[bits.Count(MaxCount)];
+        for (var i = 0; i < wirings.Length; i++) wirings[i] = ReadWiring(bits, laws, stores, sockets);
+        if (bits.Bit())
+        {
+            var steps = bits.Count(MaxCount);
+            for (var i = 0; i < steps; i++) engine.Add(wirings[bits.Count(wirings.Length - 1)]);
+        }
+        else
+        {
+            foreach (var wiring in wirings) engine.Add(wiring);
+        }
+        return (engine, stores);
+    }
+
+    /// <summary>Writes one local structure. A port whose store belongs to
+    /// another local structure, and any socket, is written as a socket; the
+    /// rest is written whole. Unless <paramref name="strict"/>, a store
+    /// reached only through a port and belonging to no local structure is
+    /// saved as this one's.</summary>
+    private static Written Write(BitWriter bits, Engine engine, Store[] stores, bool strict)
     {
         ArgumentNullException.ThrowIfNull(engine);
         ArgumentNullException.ThrowIfNull(stores);
+        var start = bits.Length;
         var order = new List<Store>();
         var place = new Dictionary<Store, int>(ReferenceEqualityComparer.Instance);
+        var sockets = new List<Surface>();
+        var socketPlace = new Dictionary<Surface, int>(ReferenceEqualityComparer.Instance);
         void Reach(Store store)
         {
             if (place.TryAdd(store, order.Count)) order.Add(store);
         }
-        foreach (var store in stores) Reach(store);
+        void Expect(Surface socket)
+        {
+            if (socketPlace.TryAdd(socket, sockets.Count)) sockets.Add(socket);
+        }
+        bool Foreign(Port port) => port.Owner.Local is { } local
+            ? local != engine
+            : strict ? throw new InvalidOperationException("A store reached through a port belongs to no local structure. Hold it in one before saving several together.") : false;
+        foreach (var store in stores)
+        {
+            ArgumentNullException.ThrowIfNull(store);
+            if (store.Local is { } other && other != engine) throw new ArgumentException("A store of another local structure is saved with its own.", nameof(stores));
+            Reach(store);
+        }
         var laws = new List<Law>();
         var lawPlace = new Dictionary<Law, int>(ReferenceEqualityComparer.Instance);
         foreach (var wiring in engine.Wirings)
@@ -88,23 +172,34 @@ public static class Transport
             if (wiring.Law is RelationLaw { From: { } from } && lawPlace.TryAdd(from, laws.Count)) laws.Add(from);
             if (lawPlace.TryAdd(wiring.Law, laws.Count)) laws.Add(wiring.Law);
             foreach (var binding in wiring.Bindings)
-                Reach(binding.Surface switch
+                switch (binding.Surface)
                 {
-                    Store store => store,
-                    Port port => port.Owner,
-                    Life life => life.Of,
-                    _ => throw new InvalidOperationException("A workspace, or the gap between a workspace and its source, is a working view and not part of a machine. Commit or drop it before saving."),
-                });
+                    case Store store:
+                        Reach(store);
+                        break;
+                    case Life life:
+                        Reach(life.Of);
+                        break;
+                    case Port port when Foreign(port):
+                    case Socket:
+                        Expect(binding.Surface);
+                        break;
+                    case Port port:
+                        Reach(port.Owner);
+                        break;
+                    default:
+                        throw new InvalidOperationException("A workspace, or the gap between a workspace and its source, is a working view and not part of a machine. Commit or drop it before saving.");
+                }
             Reach(wiring.Rows);
         }
+        foreach (var store in engine.Stores) Reach(store);
 
-        var bits = new BitWriter();
         bits.Number(order.Count);
         foreach (var store in order) WriteStore(bits, store);
-        var afterStores = bits.Length;
+        var afterStores = bits.Length - start;
         bits.Number(laws.Count);
         foreach (var law in laws) WriteLaw(bits, law, lawPlace);
-        var afterLaws = bits.Length;
+        var afterLaws = bits.Length - start;
         // Each wiring once, in the order first run. A wiring the engine runs more
         // than once in a step, such as a second pass of narrowing, costs only
         // its place in the order.
@@ -113,16 +208,21 @@ public static class Transport
         foreach (var wiring in engine.Wirings)
             if (wiringPlace.TryAdd(wiring, once.Count)) once.Add(wiring);
         bits.Number(once.Count);
-        foreach (var wiring in once) WriteWiring(bits, wiring, lawPlace, place);
+        var declared = 0;
+        foreach (var wiring in once) WriteWiring(bits, wiring, lawPlace, place, socketPlace, ref declared);
         bits.Bit(once.Count != engine.Wirings.Count);
         if (once.Count != engine.Wirings.Count)
         {
             bits.Number(engine.Wirings.Count);
             foreach (var wiring in engine.Wirings) bits.Number(wiringPlace[wiring]);
         }
-        size = new MachineSize(afterStores, afterLaws - afterStores, bits.Length - afterLaws);
-        return bits;
+        return new Written(new MachineSize(afterStores, afterLaws - afterStores, bits.Length - start - afterLaws), place, sockets);
     }
+
+    /// <summary>What writing one local structure fixed: its size, where each of
+    /// its stores sits in its order, and its sockets in order, each a socket or
+    /// a foreign port saved as one.</summary>
+    private sealed record Written(MachineSize Size, Dictionary<Store, int> Place, List<Surface> Sockets);
 
     private static void WriteStore(BitWriter bits, Store store)
     {
@@ -338,15 +438,29 @@ public static class Transport
         return new PreservedSum(roles, weights);
     }
 
-    private static void WriteWiring(BitWriter bits, Wiring wiring, Dictionary<Law, int> laws, Dictionary<Store, int> stores)
+    private static void WriteWiring(
+        BitWriter bits, Wiring wiring, Dictionary<Law, int> laws, Dictionary<Store, int> stores, Dictionary<Surface, int> sockets, ref int declared)
     {
         bits.Number(laws[wiring.Law]);
         foreach (var binding in wiring.Bindings)
         {
             if (wiring.Law is RelationLaw) bits.Bit(binding.IsOpen);
             // 0: a store's own positions. 1: one of its ports. 2: whether its positions are in use.
+            // 3: a socket, by its place; its shape follows the first time.
             switch (binding.Surface)
             {
+                case var surface when sockets.TryGetValue(surface, out var socket):
+                    bits.Number(3);
+                    bits.Number(socket);
+                    if (socket < declared) break;
+                    declared++;
+                    var shape = surface as Socket ?? Socket.For((Port)surface);
+                    bits.Number(shape.Count);
+                    bits.Number(shape.PlaneCount);
+                    var constants = Enumerable.Range(0, shape.PlaneCount).Where(shape.IsConstant).ToArray();
+                    bits.Number(constants.Length);
+                    foreach (var plane in constants) bits.Number(plane);
+                    break;
                 case Port port:
                     bits.Number(1);
                     bits.Number(stores[port.Owner]);
@@ -383,21 +497,38 @@ public static class Transport
         if (wiring.Recorded is { } evidence) bits.Number(evidence.Changed);
     }
 
-    private static Wiring ReadWiring(BitReader bits, Law[] laws, Store[] stores)
+    private static Wiring ReadWiring(BitReader bits, Law[] laws, Store[] stores, List<Socket> sockets)
     {
         var law = laws[bits.Count(laws.Length - 1)];
         var bindings = new Binding[law.Roles.Count];
         for (var r = 0; r < bindings.Length; r++)
         {
             var open = law is RelationLaw && bits.Bit();
-            var kind = bits.Count(2);
-            var owner = stores[bits.Count(stores.Length - 1)];
-            Surface surface = kind switch
+            var kind = bits.Count(3);
+            Surface surface;
+            if (kind == 3)
             {
-                1 => owner.Ports[bits.Count(owner.Ports.Count - 1)],
-                2 => owner.Life,
-                _ => owner,
-            };
+                var socket = bits.Count(sockets.Count);
+                if (socket == sockets.Count)
+                {
+                    var lanes = bits.Count(MaxCount);
+                    var shape = bits.Count(MaxCount);
+                    var constants = new int[bits.Count(shape)];
+                    for (var k = 0; k < constants.Length; k++) constants[k] = bits.Count(shape - 1);
+                    sockets.Add(Socket.Shaped(lanes, shape, constants));
+                }
+                surface = sockets[socket];
+            }
+            else
+            {
+                var owner = stores[bits.Count(stores.Length - 1)];
+                surface = kind switch
+                {
+                    1 => owner.Ports[bits.Count(owner.Ports.Count - 1)],
+                    2 => owner.Life,
+                    _ => owner,
+                };
+            }
             var planes = ReadPlanes(bits, open ? law.Roles[r].Size : law.Roles[r].Bits, surface.PlaneCount);
             bindings[r] = open ? Binding.Open(surface, planes) : new Binding(surface, planes);
         }

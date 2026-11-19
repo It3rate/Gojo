@@ -26,6 +26,12 @@ public abstract class Surface
 
     internal abstract bool ThroughPort { get; }
 
+    /// <summary>The store whose own positions this surface reaches directly,
+    /// or null for a port or socket, which reaches another local structure's
+    /// store only through lanes it exposes. A local structure binds directly
+    /// only surfaces whose home is one of its own stores.</summary>
+    internal virtual Store? Home => null;
+
     internal abstract bool IsConstant(int plane);
 
     /// <summary>A surface that is a read of other things, such as the gap

@@ -35,6 +35,8 @@ public sealed class Life : Surface
 
     internal override bool ThroughPort => false;
 
+    internal override Store Home => store;
+
     internal override bool IsConstant(int plane) => false;
 
     internal override void Set(int plane, int index, bool value)

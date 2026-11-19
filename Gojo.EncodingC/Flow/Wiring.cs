@@ -64,9 +64,9 @@ public sealed class Binding
 /// what leaves there arrives somewhere the law also writes. That is a move,
 /// and nothing can be made or destroyed in another local structure. Narrowing
 /// never writes through a port: a reader may see what another local structure
-/// considers possible, and cannot rule anything out there. Nothing checks yet
-/// that a store bound directly belongs to the same local structure as the
-/// wiring. What is supposed never rules anything out in what is
+/// considers possible, and cannot rule anything out there. The
+/// <see cref="Engine"/> a wiring joins checks that every store it binds
+/// directly belongs to that local structure. What is supposed never rules anything out in what is
 /// known: when any role of a relation reads a workspace, only roles on workspaces are
 /// narrowed.</para>
 /// <para><b>One bit is one position.</b> References are live, so a port's owner
