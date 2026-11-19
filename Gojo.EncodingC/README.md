@@ -4,6 +4,11 @@ Status: **exploratory**, 12 November 2026. It replaces `Gojo.EncodingB`, which
 was deleted once this project covered what was worth keeping. The old project
 is in git history (`git show c9d4abb2:Gojo.EncodingB/README.md`).
 
+For a cloud-session starting point, see the
+[19 November handoff](../Gojo/docs/GojoEncodingCCloudHandoff-2026-11-19.md).
+It connects the current implementation to the broader glyph, ornament,
+symmetry and learning work, separating retained decisions from open proposals.
+
 ```powershell
 dotnet test Gojo.EncodingC/Gojo.EncodingC.csproj
 ```
