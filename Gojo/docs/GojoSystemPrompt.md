@@ -121,11 +121,34 @@ S(C,a,b)     = Segment(C,a,b) = P(C,a) -> P(C,b)
 O(A)         = OrthogonalOutlet(A) = A -> S(Unknown,0,0)
 ```
 
-A directed segment may preserve opposed-start and forward-end participation:
+A segment is defined on an orientation and used by traversal; the two are
+kept apart. A directed segment is defined on one orientation and runs from its
+lower end to its higher end, so its lower end is its natural start. Its two
+ends are facts without priority: written in either order they define the same
+segment. The opposite direction is a definition on the opposite orientation.
+A range is defined on both orientations from the carrier's origin; it has
+extent and no direction or natural start:
 
 ```text
-DS(C,a,b) = P(C*,a) -> P(C,b)
+S(C,a,b)  = P(C,a) -> P(C,b)     lower end first on C's orientation
+S(C*,a,b)                        the same sites' order on the opposed orientation
+R(C,s,e)  = P(C*,s) -> P(C,e)    range: start read on C*, end on C
 ```
+
+Structures built to match share an origin by default; all else being equal,
+the origin is the point of departure, the here and now. A different origin is
+an explicit calibration.
+
+Before numbers, a segment's interior is an open position role between two
+landmarks on a declared order: `A < B < C` admits every site that can fill
+`B`, and a particular occupant is one binding of that role. Strict order
+leaves the landmarks out as boundary sites, available as connection sites;
+`≤` closes an end and admits its landmark. Adjacent landmarks with open ends
+enclose nothing, and coincident closed ends enclose a point. Interior,
+boundary and occupancy are separate reads: bounds say where participation can
+be, and a coverage rule says where it is. On a branching order, sites that do
+not precede one another can all lie between the same landmarks, so a
+traversal may also need a route choice.
 
 These helpers do not create wrapper concepts. The ordinary relation structure
 must continue to carry the meaning.
@@ -214,15 +237,24 @@ structure alone does not prove a producer-consumer dependency.
 
 ### Axiom 3: Order Is Primitive
 
-Relation order is meaningful before an algebraic label is applied.
+Relation order is meaningful before an algebraic label is applied. A
+definition's direction is its orientation: a directed segment runs from lower
+to higher on the orientation it is defined on.
 
 ```text
-S(C,a,b) != S(C,b,a) as an ordered frame
+S(C,a,b) != S(C*,a,b) as definitions
 ```
 
-Forward frame, reverse frame, wrap, clamp, projection, and routing behavior
-must emerge from visible ordered sites and local context. Do not sort away
-direction when direction participates in the read.
+Traversal is a use. A use may run along a definition or against it; the
+direction of each step, forward, staying or back, is read relative to the
+definition's orientation and kept as evidence. A backward step establishes
+backward travel; a turn is a change of step direction. A backward use of a
+definition and a forward use of its reorientation cover the same sites, and
+which was written is retained. Reorienting a read flips every step direction
+and preserves each change of direction. Forward frame, reverse traversal,
+wrap, clamp, projection and routing behavior must emerge from visible ordered
+sites and local context. Do not sort away the direction of a use when it
+participates in the read.
 
 ### Axiom 4: Duality, Reversal, And Contextual Inversion Are Distinct
 
@@ -230,20 +262,26 @@ Use these separate structural moves:
 
 ```text
 Dual(element)       element-local mirror
-Reverse(relation)   same surface traversed in the opposite order
-Invert(read/use)    contextual use of Dual, Reverse, or both
+Reorient(read)      the same sites read on the opposite orientation
+Reverse(use)        the same surface traversed in the opposite order
+Invert(read/use)    contextual use of Dual, Reorient, Reverse, or several
 ```
 
 Current primitive distinctions include:
 
 ```text
-Dual(C)       = C*          opposed-flow carrier face
-Dual(L(C,n))  = L(C,-n)     scalar negation on the same carrier
-Reverse(A->B) = B->A        reversed traversal
+Dual(C)          = C*          opposed-flow carrier face
+Dual(L(C,n))     = L(C,-n)     scalar negation on the same carrier
+Reorient(L(C,n)) = L(C*,-n)    same site, other orientation
+Reverse(A->B)    = B->A        reversed traversal
 ```
 
-Do not collapse negative scalar location, inverse flow face, reversed frame,
-unit denominator, subtraction, or division into one flag.
+Do not collapse negative scalar location, opposed face, reorientation,
+reversed traversal, unit denominator, subtraction, or division into one flag.
+Reorientation is the default conversion between orientations under a shared
+origin: it changes how a value is defined, not where it is, so it should be
+cheap and common. A reversed frame is a definition on the opposed
+orientation.
 
 ### Axiom 5: All External Change Enters As Tension
 
@@ -1334,6 +1372,12 @@ the current code and tests prove them:
   ports, and independent settlement;
 - evolved calibration: discovering, placing and sharing calibrations between
   connected structures;
+- loops as oriented definitions without a natural start, fill as a range in
+  two dimensions with a perimeter that is its own oriented loop, and the
+  generator's action read as moves between orientations;
+- kernel segments and projections written in the definition-and-use form:
+  `Segment(C,a,b)` with `a > b` and reversed target frames still read as
+  ordered relations;
 - full transform solving, multi-parent histories, and complete abstraction reads.
 
 These gaps are invitations to extend Gojo structure, not invitations to hide
@@ -1346,8 +1390,10 @@ Before finishing a change, ask:
 - Where does the meaning live if the helper type is deleted?
 - Can the structure be traversed locally?
 - Can its sites and parameters be perturbed numerically?
-- Are negative location, opposed face, reverse traversal, and inverse unit kept
-  distinct?
+- Are negative location, opposed face, reorientation, reverse traversal, and
+  inverse unit kept distinct?
+- Does each definition carry an orientation and each use its step directions,
+  with nothing defined backwards?
 - Did input enter through tension or an explicit structural retargeting?
 - Did projection remain separate from mutation?
 - Are unit shape, calibration, resolution, accounting, and orientation separate?

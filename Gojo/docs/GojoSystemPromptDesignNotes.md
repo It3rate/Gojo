@@ -870,6 +870,33 @@ settled these. They fix the encoding's vocabulary; no canonical rule changed.
 - Nothing at this level calls the math library, not even for a minimum, and a
   test checks it. Two counters on a store that nothing read were removed.
 
+## Orientation, Definition And Use, November 2026
+
+The user separated what a domain is from what is done with it. A definition
+has an orientation, and a use has a direction. Directed segments are defined
+low to high on one orientation, with the lower end as natural start; the two
+end facts carry no priority, so they may be written in either order, as the
+older model's always-imaginary start also made order of declaration
+irrelevant. The opposite direction is a definition on the opposite
+orientation. A range sits on both orientations from one origin with no start
+and no flow. Traversal against a definition is a use, recorded step by step.
+
+This moves reversal out of definitions. Axiom 4 previously kept "reversed
+frame" beside opposed face and reversed traversal; a reversed frame is now a
+definition on the opposed orientation, and reorientation (the same site on
+the other orientation) is named as the default, cheap conversion. Origins are
+shared by default, with the point of departure as the natural origin.
+
+External review added precision kept in §2.4 and Axiom 3: a segment's
+interior is the set of sites an open position role can take between its
+landmarks, separate from boundary and occupancy; a turn is a change of step
+direction, not a negative step; arrival is possible when an end is closed and
+established only by observation; branching orders can leave a route open.
+The full reasoning, the generator's decomposition into a face flip and a
+reorientation, and the deferred kernel migration are in
+[the orientation note](GojoOrientationDefinitionAndUse-2026-11.md). The
+generator reading and loops remain exploratory.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

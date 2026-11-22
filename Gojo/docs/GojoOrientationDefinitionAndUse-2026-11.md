@@ -1,9 +1,29 @@
 # Orientation, definition and use
 
-Status: **proposal for review**, 22 November 2026. Nothing here changes the
-canonical prompt or code until it is accepted. It records the model agreed in
-conversation, states its consequences precisely, and lists the exact prompt
-edits, code changes and tests it would need.
+Status: **accepted with changes**, 22 November 2026. The canonical prompt
+(§2.4, Axioms 3 and 4, §12, §13) and design notes now carry the pre-numeric
+part. Decisions made in review:
+
+- **Ends written high to low are not refused.** "B is after A" and "C is after
+  B" are two facts without priority, so a directed segment's ends may be
+  written in either order; the lower end is its start. This replaces
+  section 10, question 1.
+- **The origin** is, all else being equal, the point of departure: the here
+  and now. Other origins (driving home, setting out from midway) are fine.
+- **Stay pre-numeric.** Order is a declared chain of sites with reachability,
+  not a unary magnitude. Section 8, item 3, is deferred.
+- **The generator** (section 5) and the Axiom 10 note are deferred; they stay
+  here as exploratory analysis.
+- From external review: a segment's interior is an open position role between
+  landmarks; interior, boundary and occupancy are separate; a turn is a change
+  of step direction; arrival is possible at a closed end and established only
+  by observation; a branching order can leave a route open.
+
+Implemented in EncodingC: `Paths` (step, within, start, turned back,
+reversal, reorient) with `PathTests`, and the sentence fixture reworked onto a
+shared path in `TwoClauseTests`. Not implemented: the ODV face flip and turn,
+the reoriented view, and anything numeric. The text below is the reviewed
+draft, kept for its reasoning.
 
 ## 1. The change in one paragraph
 

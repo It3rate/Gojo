@@ -3,70 +3,85 @@ using Xunit;
 namespace Gojo.EncodingC.Tests;
 
 /// <summary>"Something was moving toward the store, then turned back", as two
-/// local structures joined by one thin lane.
-/// <para>Each clause holds the mover's distance to the store at a few moments,
-/// as a unary count that starts open: more distance, more participation, and
-/// nothing about it known until something rules values out. "Toward" is one
-/// relation over consecutive moments, closer than the moment before. "Turned
-/// back" is the reverse relation from the turning moment on, with the turn
-/// read as happening short of the store. No path type is named: whether the
-/// store was reached is a read of the turning moment's supports, open unless
-/// something settles it.</para>
-/// <para>The clauses share one moment, the turn, and nothing else. Each
-/// exposes what it considers possible there and reads the other's through a
-/// socket, narrowing only its own. Alone, each makes partial sense; joined,
-/// they settle what neither could.</para>
+/// local structures sharing one path definition and joined by one thin lane.
+/// <para>The goal defines the path: home, its origin and lower end, through
+/// three sites to the store, on one orientation. "Toward the store" is not a
+/// distance; it is the direction of the definition. Each clause is a use of
+/// that path: at each moment the mover's site is an open role, and each step
+/// has a direction, forward, staying or back, relative to the path. The
+/// approach's steps go forward. The return holds "turned back", a change of
+/// step direction from forward to back, across the turning moment.</para>
+/// <para>The clauses share one moment and nothing else: the mover's site there
+/// and the direction it arrived in. Each exposes what it considers possible at
+/// that moment and reads the other's through a socket, narrowing only its own.
+/// Admitting the store as a site makes arrival possible; only an observation
+/// there establishes it.</para>
 /// <code>
-/// approach: d0 ─closer→ d1 ─closer→ d2 ═╗ turn
-/// return:                       r0 ═════╝ ─farther→ r1      r0 &gt; 0
+/// path:      home 0 → 1 → 2 → 3 → store 4
+/// approach:  m0 ─fwd→ m1 ─fwd→ m2 ═╗ the turn: site and arrival
+/// return:                      r0 ═╝ ─back→ r1        forward then back
 /// </code></summary>
 public sealed class TwoClauseTests
 {
-    private const int Far = 4;
-    private static readonly Shape Distance = Shape.Unary(Far);
-    private static readonly RelationLaw Closer = RelationLaw.FromPredicate([Distance, Distance], t => t[1] < t[0]);
-    private static readonly RelationLaw Farther = RelationLaw.FromPredicate([Distance, Distance], t => t[1] > t[0]);
-    private static readonly RelationLaw ShortOfTheStore = RelationLaw.FromPredicate([Distance], t => t[0] > 0);
-    private static readonly RelationLaw AtTheStore = RelationLaw.FromPredicate([Distance], t => t[0] == 0);
-    private static readonly RelationLaw Shared = Settling.Same(Distance);
+    private const int Sites = 5;
+    private static readonly Shape Site = Shape.Binary(Sites);
+    private static readonly (int, int)[] Road = [(0, 1), (1, 2), (2, 3), (3, 4)];
+    private static readonly RelationLaw Step = Paths.Step(Sites, Road);
+    private static readonly RelationLaw Moving = RelationLaw.FromPredicate([Paths.Direction], t => t[0] == Paths.Forward);
 
-    private sealed record Clause(Engine Engine, Supports Distance, Wiring Steps, Port Turn, Socket Peer);
+    private sealed record Clause(Engine Engine, Supports Site, Supports Arrival, Wiring Steps, Port Turn, Socket Peer);
 
-    /// <summary>A clause of <paramref name="moments"/> moments, each related to
-    /// the next by <paramref name="step"/>, with one-moment marks, exposing and
-    /// reading the turning moment.</summary>
-    private static Clause Build(int moments, int turn, RelationLaw step, params (RelationLaw Law, int Moment)[] marks)
+    /// <summary>A use of the path over <paramref name="moments"/> moments: a
+    /// site per moment, and the direction of the step that arrived there,
+    /// exposing and reading the turning moment.</summary>
+    private static Clause Build(int moments, int turn)
     {
-        var store = new Store(Far, moments);
-        var distance = Supports.On(store, new Field(Distance, Enumerable.Range(0, Far).ToArray()));
+        var store = new Store(Site.Bits + Paths.Direction.Bits, moments);
+        var site = Supports.On(store, new Field(Site, 0, 1, 2));
+        var arrival = Supports.On(store, new Field(Paths.Direction, 3, 4));
         var engine = new Engine();
-        var steps = new Wiring(step, distance.Variable, distance.Variable);
-        for (var t = 0; t + 1 < moments; t++) steps.Add(t, t + 1);
+        var steps = new Wiring(Step, site.Variable, site.Variable, arrival.Variable);
+        for (var t = 1; t < moments; t++) steps.Add(t - 1, t, t);
         engine.Add(steps);
-        foreach (var (law, moment) in marks)
-        {
-            var mark = new Wiring(law, distance.Variable);
-            mark.Add(moment);
-            engine.Add(mark);
-        }
-        var exposed = store.Publish([turn], [.. distance.Planes]);
+        var exposed = store.Publish([turn], [.. site.Planes, .. arrival.Planes]);
         var peer = Socket.For(exposed);
-        var link = new Wiring(Shared, distance.Variable, Binding.Open(peer, [.. Enumerable.Range(0, peer.PlaneCount)]));
-        link.Add(turn, 0);
-        engine.Add(link);
-        return new Clause(engine, distance, steps, exposed, peer);
+        var sameSite = new Wiring(Settling.Same(Site), site.Variable, Binding.Open(peer, [.. Enumerable.Range(0, Sites)]));
+        sameSite.Add(turn, 0);
+        var sameArrival = new Wiring(Settling.Same(Paths.Direction), arrival.Variable, Binding.Open(peer, [.. Enumerable.Range(Sites, 3)]));
+        sameArrival.Add(turn, 0);
+        engine.Add(sameSite).Add(sameArrival);
+        return new Clause(engine, site, arrival, steps, exposed, peer);
     }
 
-    /// <summary>Moving toward the store, seen three away at the first of three moments.</summary>
-    private static Clause Approach(params (RelationLaw, int)[] marks)
+    /// <summary>Moving toward the store: three moments, each step forward.</summary>
+    private static Clause Approach()
     {
-        var clause = Build(3, 2, Closer, marks);
-        clause.Distance.Restrict(0, Values(3));
+        var clause = Build(3, 2);
+        var moving = new Wiring(Moving, clause.Arrival.Variable);
+        moving.Add(1);
+        moving.Add(2);
+        clause.Engine.Add(moving);
         return clause;
     }
 
-    /// <summary>Turned back: farther each moment from a turn short of the store.</summary>
-    private static Clause Return() => Build(2, 0, Farther, (ShortOfTheStore, 0));
+    /// <summary>Then turned back: from the turning moment, one more step, the
+    /// arrival there forward and the step after it back.</summary>
+    private static Clause Return()
+    {
+        var clause = Build(2, 0);
+        var turned = new Wiring(Paths.TurnedBack, clause.Arrival.Variable, clause.Arrival.Variable);
+        turned.Add(0, 1);
+        clause.Engine.Add(turned);
+        return clause;
+    }
+
+    /// <summary>Seen at site 1 after turning back.</summary>
+    private static Clause SeenOnTheWayBack()
+    {
+        var clause = Return();
+        clause.Site.Restrict(1, Values(1));
+        return clause;
+    }
 
     private static void Join(Clause a, Clause b)
     {
@@ -84,83 +99,91 @@ public sealed class TwoClauseTests
 
     private static ulong Values(params int[] values) => values.Aggregate(0UL, (mask, v) => mask | 1UL << v);
 
-    private static ulong[] Read(Clause clause, int moments) => [.. Enumerable.Range(0, moments).Select(clause.Distance.Values)];
+    private static ulong[] Read(Clause clause, int moments) => [.. Enumerable.Range(0, moments).Select(clause.Site.Values)];
 
+    private static ulong AnyDirection => Values(Paths.Back, Paths.Stay, Paths.Forward);
+
+    /// <summary>Alone, the approach knows only that it went forward twice, so
+    /// it may have started anywhere up to site 2. The return, seen at site 1
+    /// after turning back, settles its own turn at site 2 and that the mover
+    /// arrived there going forward.</summary>
     [Fact]
     public void EachClauseMakesPartialSenseAlone()
     {
         var approach = Approach();
-        var back = Return();
+        var back = SeenOnTheWayBack();
 
         Settle(approach.Engine);
         Settle(back.Engine);
 
-        Assert.Equal([Values(3), Values(1, 2), Values(0, 1)], Read(approach, 3));
-        Assert.Equal([Values(1, 2, 3), Values(2, 3, 4)], Read(back, 2));
+        Assert.Equal([Values(0, 1, 2), Values(1, 2, 3), Values(2, 3, 4)], Read(approach, 3));
+        Assert.Equal((AnyDirection, Values(Paths.Forward)), (approach.Arrival.Values(0), approach.Arrival.Values(2)));
+        Assert.Equal([Values(2), Values(1)], Read(back, 2));
+        Assert.Equal((Values(Paths.Forward), Values(Paths.Back)), (back.Arrival.Values(0), back.Arrival.Values(1)));
     }
 
-    /// <summary>Joined by the turn alone, the clauses settle where it turned
-    /// and where the mover was between, and rule out that it reached the
-    /// store. How far it went back stays open. Narrowing only rules values
-    /// out, so it ends the same whichever clause steps first.</summary>
+    /// <summary>Joined by the turn alone, the approach learns where it turned,
+    /// and from that where it was before: it set out from home. It never
+    /// reached the store. Narrowing only rules values out, so it ends the same
+    /// whichever clause steps first.</summary>
     [Fact]
-    public void TheThinLaneSettlesWhatNeitherClauseCould()
+    public void TheThinLaneSettlesWhereTheMoverSetOutFrom()
     {
         foreach (var approachFirst in new[] { true, false })
         {
             var approach = Approach();
-            var back = Return();
+            var back = SeenOnTheWayBack();
             Join(approach, back);
 
             Settle(approachFirst ? [approach.Engine, back.Engine] : [back.Engine, approach.Engine]);
 
-            Assert.Equal([Values(3), Values(2), Values(1)], Read(approach, 3));
-            Assert.Equal([Values(1), Values(2, 3, 4)], Read(back, 2));
-            Assert.True(approach.Distance.Of(0).None);
+            Assert.Equal([Values(0), Values(1), Values(2)], Read(approach, 3));
+            Assert.True(approach.Site.Of(4).None);
+            Assert.Equal([Values(2), Values(1)], Read(back, 2));
         }
     }
 
-    /// <summary>The removal test. Cutting the lane leaves each clause with its
-    /// own partial sense. Cutting a row inside a clause loses what that row
-    /// carried, and the lane cannot make up for it: the turn stays open.</summary>
+    /// <summary>The store is a site of the path, so arrival is possible: with
+    /// nothing seen on the way back, the turn may be there. Only seeing the
+    /// mover at the store establishes arrival, and then the way back starts
+    /// from it.</summary>
     [Fact]
-    public void TheLaneIsASeamAndTheRowsInsideAreNot()
+    public void AdmittingTheStoreMakesArrivalPossibleAndSeeingTheMoverThereEstablishesIt()
     {
         var approach = Approach();
         var back = Return();
         Join(approach, back);
+        Settle(approach.Engine, back.Engine);
+        Assert.Equal(Values(2, 3, 4), approach.Site.Values(2));
+        Assert.Equal(Values(1, 2, 3), back.Site.Values(1));
+
+        approach.Site.Restrict(2, Values(4));
+        Settle(approach.Engine, back.Engine);
+
+        Assert.Equal([Values(2), Values(3), Values(4)], Read(approach, 3));
+        Assert.Equal([Values(4), Values(3)], Read(back, 2));
+    }
+
+    /// <summary>The removal test. Cutting the lane leaves each clause with its
+    /// own partial sense. Cutting a step inside a clause loses what that step
+    /// carried, and the lane cannot make up for it.</summary>
+    [Fact]
+    public void TheLaneIsASeamAndTheStepsInsideAreNot()
+    {
+        var approach = Approach();
+        var back = SeenOnTheWayBack();
+        Join(approach, back);
         approach.Peer.Unplug();
         back.Peer.Unplug();
         Settle(approach.Engine, back.Engine);
-        Assert.Equal([Values(3), Values(1, 2), Values(0, 1)], Read(approach, 3));
+        Assert.Equal([Values(0, 1, 2), Values(1, 2, 3), Values(2, 3, 4)], Read(approach, 3));
 
         var cut = Approach();
         cut.Steps.Retire(0);
-        var other = Return();
+        var other = SeenOnTheWayBack();
         Join(cut, other);
         Settle(cut.Engine, other.Engine);
-        Assert.Equal(Values(1, 2, 3), cut.Distance.Values(2));
-        Assert.Equal(Values(1, 2, 3), other.Distance.Values(0));
-    }
-
-    /// <summary>"Moving to the store, then turned back" short of it cannot both
-    /// hold. Saying "to" settles the approach alone, and the lane carries the
-    /// clash into both clauses, where it stays visible as a moment with nothing
-    /// possible.</summary>
-    [Fact]
-    public void ToTheStoreThenTurningBackShortOfItContradicts()
-    {
-        var alone = Approach((AtTheStore, 2));
-        Settle(alone.Engine);
-        Assert.Equal([Values(3), Values(1, 2), Values(0)], Read(alone, 3));
-
-        var approach = Approach((AtTheStore, 2));
-        var back = Return();
-        Join(approach, back);
-        Settle(approach.Engine, back.Engine);
-
-        Assert.Equal(0UL, approach.Distance.Values(2));
-        Assert.Equal(0UL, back.Distance.Values(0));
+        Assert.Equal([Values(0, 1, 2, 3, 4), Values(1), Values(2)], Read(cut, 3));
     }
 
     /// <summary>The clauses fused into one structure settle as the joined pair
@@ -169,7 +192,7 @@ public sealed class TwoClauseTests
     public void FusedOrSavedTheClausesSettleTheSame()
     {
         var approach = Approach();
-        var back = Return();
+        var back = SeenOnTheWayBack();
         Join(approach, back);
         var restored = Transport.LoadLocals(Transport.SaveLocals(approach.Engine, back.Engine));
 
@@ -177,9 +200,9 @@ public sealed class TwoClauseTests
         Settle(approach.Engine);
         Settle([.. restored.Select(local => local.Engine)]);
 
-        Assert.Equal([Values(3), Values(2), Values(1)], Read(approach, 3));
-        Assert.Equal([Values(1), Values(2, 3, 4)], Read(back, 2));
-        var turn = new Supports(restored[0].Stores[0], approach.Distance.Field, [.. approach.Distance.Planes]);
-        Assert.Equal(Values(1), turn.Values(2));
+        Assert.Equal([Values(0), Values(1), Values(2)], Read(approach, 3));
+        Assert.Equal([Values(2), Values(1)], Read(back, 2));
+        var setOut = new Supports(restored[0].Stores[0], approach.Site.Field, [.. approach.Site.Planes]);
+        Assert.Equal(Values(0), setOut.Values(0));
     }
 }
