@@ -100,6 +100,26 @@ public static class Paths
     public static RelationLaw Reversal { get; } =
         RelationLaw.FromPredicate([Direction, Direction], t => (t[0], t[1]) is (Forward, Back) or (Back, Forward));
 
+    /// <summary>Moves a unit one site along the path when the use's direction
+    /// is <paramref name="direction"/>: from a site holding it to a neighbour
+    /// with room. Roles: from, direction, to. Each row is one neighbour pair
+    /// read the way this law moves: a forward row from a site to its next, a
+    /// back row from a site to its previous. The direction is only read, and
+    /// the unit is conserved, so the law may take through a port.</summary>
+    public static TransitionLaw Advance(int direction)
+    {
+        if (direction is not (Forward or Back)) throw new ArgumentOutOfRangeException(nameof(direction), "A unit advances forward or back.");
+        return direction == Forward ? AdvanceForward : AdvanceBack;
+    }
+
+    private static readonly TransitionLaw AdvanceForward = Carry(Forward);
+    private static readonly TransitionLaw AdvanceBack = Carry(Back);
+
+    private static TransitionLaw Carry(int direction) => TransitionLaw.FromFunction(
+        [Shape.Unary(1), Direction, Shape.Unary(1)],
+        s => s[0] == 1 && s[1] == direction && s[2] == 0 ? [0, s[1], 1] : s,
+        new Accounting(true, new PreservedSum([0, 2]), new Unchanged(1), new NeverIncreases(0), new NeverDecreases(2)));
+
     /// <summary>The same path defined on the opposite orientation: the same sites
     /// and neighbours, the order read the other way.</summary>
     public static (int From, int To)[] Reorient(IReadOnlyList<(int From, int To)> next) => [.. next.Select(e => (e.To, e.From))];
