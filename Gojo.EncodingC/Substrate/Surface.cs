@@ -21,6 +21,21 @@ public abstract class Surface
 
     public abstract bool IsLive(int index);
 
+    /// <summary>Whether this index and another surface's index reach one
+    /// position of one store, following ports and sockets. This is identity:
+    /// two positions holding equal bits are still two positions, and a lane
+    /// the owner rebinds reaches somewhere else. A lane that reaches nowhere is
+    /// the same as nothing but itself.</summary>
+    public bool SamePosition(int index, Surface other, int otherIndex)
+    {
+        ArgumentNullException.ThrowIfNull(other);
+        if ((uint)index >= (uint)Count || (uint)otherIndex >= (uint)other.Count) return false;
+        if (PlaneCount == 0 || other.PlaneCount == 0) return ReferenceEquals(this, other) && index == otherIndex;
+        var (home, at, _) = Bit(index, 0);
+        var (otherHome, otherAt, _) = other.Bit(otherIndex, 0);
+        return ReferenceEquals(home, otherHome) && at == otherAt;
+    }
+
     /// <summary>One bit, as the surface shows it now.</summary>
     public abstract bool Read(int plane, int index);
 

@@ -200,6 +200,30 @@ public sealed class LocalStructureTests
         Assert.Throws<ArgumentException>(() => first.Plug(left));
     }
 
+    /// <summary>A position is the same position whether reached directly,
+    /// through a port or through a socket plugged into that port. Another
+    /// position with equal bits is not it, and rebinding the lane moves what
+    /// the connection reaches.</summary>
+    [Fact]
+    public void IdentityIsPositionNotEqualBits()
+    {
+        var (well, count) = Make.Counts(2, 3);
+        count.Write(well, 0, 2);
+        count.Write(well, 1, 2);
+        var port = well.Publish([0], [0, 1, 2]);
+        var socket = Socket.For(port);
+
+        Assert.False(socket.SamePosition(0, well, 0));
+        socket.Plug(port);
+
+        Assert.True(socket.SamePosition(0, well, 0));
+        Assert.True(port.SamePosition(0, socket, 0));
+        Assert.False(socket.SamePosition(0, well, 1));
+        well.Rebind(port, 0, 1);
+        Assert.True(socket.SamePosition(0, well, 1));
+        Assert.False(socket.SamePosition(0, well, 0));
+    }
+
     /// <summary>A socket fits a port with as many planes, constant in the same
     /// places. Lane counts may differ.</summary>
     [Fact]
