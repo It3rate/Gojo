@@ -54,6 +54,31 @@ public static class Paths
             t => (Before(t[0], t[1]) && Before(t[1], t[2])) || (Before(t[2], t[1]) && Before(t[1], t[0])));
     }
 
+    /// <summary>A bound on one side: the site comes after the landmark along the
+    /// path, or at it when the end is closed. Roles: landmark, site. A bound
+    /// from above is the same law on the reoriented path. Several bounds on
+    /// one site are several rows: a lower and an upper bound give a segment,
+    /// two lower bounds give a ray after the greater of them, and the other
+    /// bound then rules nothing out.</summary>
+    public static RelationLaw After(int sites, IReadOnlyList<(int From, int To)> next, bool closed)
+    {
+        var reach = Reach(sites, next);
+        return RelationLaw.FromPredicate([Site(sites), Site(sites)], t => reach[t[0], t[1]] && (closed || t[0] != t[1]));
+    }
+
+    /// <summary>A gap: the site lies before both landmarks or after both,
+    /// written in either order. Roles: landmark, site, landmark. Closed ends
+    /// admit the landmarks. It is two rays, so no stack of one-sided bounds
+    /// gives it. Sites the path does not order against the landmarks are
+    /// neither in the gap nor between them.</summary>
+    public static RelationLaw Outside(int sites, IReadOnlyList<(int From, int To)> next, bool closed)
+    {
+        var reach = Reach(sites, next);
+        bool Before(int a, int b) => closed ? reach[a, b] : reach[a, b] && a != b;
+        return RelationLaw.FromPredicate([Site(sites), Site(sites), Site(sites)],
+            t => (Before(t[1], t[0]) && Before(t[1], t[2])) || (Before(t[0], t[1]) && Before(t[2], t[1])));
+    }
+
     /// <summary>A segment's natural start: the lower of its two landmarks,
     /// written in either order. Roles: landmark, start, landmark, the open
     /// role in the middle as in <see cref="Within"/>. Landmarks the path does

@@ -74,6 +74,72 @@ public sealed class PathTests
         Assert.Equal(0UL, Fill(Paths.Within(Sites, Forked, closed: true), 2, 3));
     }
 
+    /// <summary>One open site narrowed by several bound facts, each a row. The
+    /// site is position 0; landmarks are positions 1, 2, …</summary>
+    private static ulong Narrow(int[] landmarks, params (RelationLaw Law, int[] Row)[] facts)
+    {
+        var site = Open(1 + landmarks.Length, out _);
+        for (var i = 0; i < landmarks.Length; i++) site.Restrict(i + 1, Values(landmarks[i]));
+        var rows = facts.Select(fact =>
+        {
+            var row = new Wiring(fact.Law, [.. Enumerable.Repeat(site.Variable, fact.Law.Roles.Count)]);
+            row.Add(fact.Row);
+            return row;
+        }).ToArray();
+        for (var pass = 0; pass < 2; pass++)
+            foreach (var row in rows) row.Apply();
+        return site.Values(0);
+    }
+
+    /// <summary>A bound on one side leaves the other open: a ray. A bound from
+    /// above is the same law on the reoriented path. A lower and an upper bound
+    /// are the segment between them.</summary>
+    [Fact]
+    public void OneSidedBoundsAreRaysAndTwoSidesMakeTheSegment()
+    {
+        var after = Paths.After(Sites, Road, closed: false);
+        var before = Paths.After(Sites, Paths.Reorient(Road), closed: false);
+
+        Assert.Equal(Values(2, 3, 4), Narrow([1], (after, [1, 0])));
+        Assert.Equal(Values(1, 2, 3, 4), Narrow([1], (Paths.After(Sites, Road, closed: true), [1, 0])));
+        Assert.Equal(Values(0, 1, 2), Narrow([3], (before, [1, 0])));
+        Assert.Equal(Fill(Paths.Within(Sites, Road, closed: false), 0, 4), Narrow([0, 4], (after, [1, 0]), (before, [2, 0])));
+    }
+
+    /// <summary>"A &lt; B" and "C &lt; B" with A before C: both landmarks lie on one
+    /// side, and the bounds cancel to a ray after C. Dropping A's row changes
+    /// nothing, since it rules nothing out; dropping C's does.</summary>
+    [Fact]
+    public void TwoLowerBoundsCancelToTheGreaterAndTheOtherIsRedundant()
+    {
+        var after = Paths.After(Sites, Road, closed: false);
+
+        var both = Narrow([0, 2], (after, [1, 0]), (after, [2, 0]));
+
+        Assert.Equal(Values(3, 4), both);
+        Assert.Equal(both, Narrow([0, 2], (after, [2, 0])));
+        Assert.NotEqual(both, Narrow([0, 2], (after, [1, 0])));
+    }
+
+    /// <summary>A gap is what lies before both landmarks or after both: the
+    /// complement of the closed segment between them. It reads the same with
+    /// its landmarks written either way and on the reoriented path, so it
+    /// works on a non-flowing range as on a directed segment. On a branching
+    /// path, a site the landmarks do not order is in neither.</summary>
+    [Fact]
+    public void AGapIsWhatLiesBeyondBothLandmarks()
+    {
+        var gap = Paths.Outside(Sites, Road, closed: false);
+
+        Assert.Equal(Values(0, 4), Fill(gap, 1, 3));
+        Assert.Equal(Fill(gap, 1, 3), Fill(gap, 3, 1));
+        Assert.Equal(Values(0, 1, 3, 4), Fill(Paths.Outside(Sites, Road, closed: true), 1, 3));
+        Assert.Equal(Values(0, 1, 2, 3, 4) & ~Fill(Paths.Within(Sites, Road, closed: true), 1, 3), Fill(gap, 1, 3));
+        Assert.True(Paths.Outside(Sites, Paths.Reorient(Road), closed: false).SameTable(gap));
+        Assert.Equal(Values(0, 4), Fill(Paths.Outside(Sites, Forked, closed: false), 1, 3));
+        Assert.Equal(Values(0, 1, 4), Fill(Paths.Outside(Sites, Forked, closed: false), 2, 3));
+    }
+
     /// <summary>Two sites that neither precede the other can both lie between
     /// the ends. Traversing from the fork to the store in two steps leaves the
     /// route open: nothing chooses it.</summary>
