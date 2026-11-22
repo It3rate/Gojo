@@ -16,6 +16,7 @@ public sealed class Socket : Surface
     private readonly int lanes;
     private readonly Plane constant;
     private Port? port;
+    private bool taken;
 
     /// <summary>A socket of <paramref name="lanes"/> lanes over
     /// <paramref name="planes"/> planes, none of them constant.</summary>
@@ -57,13 +58,30 @@ public sealed class Socket : Surface
         return port.PlaneCount == PlaneCount && Enumerable.Range(0, PlaneCount).All(p => port.IsConstant(p) == constant[p]);
     }
 
+    /// <summary>Plugs a port in. A socket that something takes through is
+    /// that port's one taker, so a port another connection takes through is
+    /// refused.</summary>
     public void Plug(Port port)
     {
         if (!Fits(port)) throw new ArgumentException("The port's planes do not have this socket's shape.", nameof(port));
+        if (taken) port.Claim(this);
+        if (!ReferenceEquals(this.port, port)) Unplug();
         this.port = port;
     }
 
-    public void Unplug() => port = null;
+    public void Unplug()
+    {
+        port?.Release(this);
+        port = null;
+    }
+
+    internal override bool TakenByOther(Wiring taker) => port is not null && !port.Holds(this) && port.IsTaken;
+
+    internal override void Take(Wiring taker)
+    {
+        port?.Claim(this);
+        taken = true;
+    }
 
     public override bool IsLive(int lane) => Reaches(lane) && port!.IsLive(lane);
 

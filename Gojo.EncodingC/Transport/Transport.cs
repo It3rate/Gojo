@@ -23,7 +23,8 @@ namespace Gojo.EncodingC;
 /// its boundary and can be plugged in again. Several local structures saved
 /// together (<see cref="SaveLocals"/>) also keep which port fills each socket,
 /// as a local structure, a store in its order and a port of that store. No
-/// foreign position is ever written.</para></summary>
+/// foreign position is ever written. A socket plugged into a port of the
+/// structure's own stores, as after a fusion, is saved as that port.</para></summary>
 public static class Transport
 {
     private const int MaxCount = 1 << 24;
@@ -155,6 +156,7 @@ public static class Transport
         {
             if (socketPlace.TryAdd(socket, sockets.Count)) sockets.Add(socket);
         }
+        bool Inside(Port port) => port.Owner.Local == engine;
         bool Foreign(Port port) => port.Owner.Local is { } local
             ? local != engine
             : strict ? throw new InvalidOperationException("A store reached through a port belongs to no local structure. Hold it in one before saving several together.") : false;
@@ -181,6 +183,11 @@ public static class Transport
                         Reach(life.Of);
                         break;
                     case Port port when Foreign(port):
+                        Expect(binding.Surface);
+                        break;
+                    case Socket { Plugged: { } inside } when Inside(inside):
+                        Reach(inside.Owner);
+                        break;
                     case Socket:
                         Expect(binding.Surface);
                         break;
@@ -460,6 +467,11 @@ public static class Transport
                     var constants = Enumerable.Range(0, shape.PlaneCount).Where(shape.IsConstant).ToArray();
                     bits.Number(constants.Length);
                     foreach (var plane in constants) bits.Number(plane);
+                    break;
+                case Socket { Plugged: { } inside }:
+                    bits.Number(1);
+                    bits.Number(stores[inside.Owner]);
+                    bits.Number(IndexOf(inside.Owner.Ports, inside));
                     break;
                 case Port port:
                     bits.Number(1);

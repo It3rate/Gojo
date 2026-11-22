@@ -32,6 +32,16 @@ public abstract class Surface
     /// only surfaces whose home is one of its own stores.</summary>
     internal virtual Store? Home => null;
 
+    /// <summary>Whether something other than <paramref name="taker"/> already
+    /// takes through this surface. Only a port has one taker.</summary>
+    internal virtual bool TakenByOther(Wiring taker) => false;
+
+    /// <summary>Records that <paramref name="taker"/> writes through this
+    /// surface, as a move.</summary>
+    internal virtual void Take(Wiring taker)
+    {
+    }
+
     internal abstract bool IsConstant(int plane);
 
     /// <summary>A surface that is a read of other things, such as the gap

@@ -201,6 +201,7 @@ public sealed class Store : Surface
         ArgumentNullException.ThrowIfNull(port);
         if (!ReferenceEquals(port.Owner, this)) throw new ArgumentException("Only the owner rebinds its port.", nameof(port));
         CheckLive(position);
+        CheckUntaken(port, position);
         port.SetLane(lane, position);
     }
 
@@ -210,8 +211,19 @@ public sealed class Store : Surface
         ArgumentNullException.ThrowIfNull(port);
         if (!ReferenceEquals(port.Owner, this)) throw new ArgumentException("Only the owner extends its port.", nameof(port));
         CheckLive(position);
+        CheckUntaken(port, position);
         var lane = port.AddLane(position);
         return lane;
+    }
+
+    /// <summary>Whether a taken port other than <paramref name="port"/> shows the position.</summary>
+    internal bool TakenElsewhere(Port port, int position) =>
+        ports.Any(other => !ReferenceEquals(other, port) && other.IsTaken && Enumerable.Range(0, other.Count).Any(lane => other.Lane(lane) == position));
+
+    private void CheckUntaken(Port port, int position)
+    {
+        if (port.IsTaken && TakenElsewhere(port, position))
+            throw new ArgumentException("Another taken port shows this position. One position has one taker.", nameof(position));
     }
 
     internal override bool IsConstant(int plane) => IsConstantPlane(plane);

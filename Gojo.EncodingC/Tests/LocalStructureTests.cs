@@ -19,6 +19,19 @@ public sealed class LocalStructureTests
         return (new Engine().Add(inner), well, count, well.Publish([1], [0, 1, 2]));
     }
 
+    /// <summary>A well that splits its inner count between two outlets, 1 and 2,
+    /// one unit to each per step, and exposes each outlet as its own port: one
+    /// owner serving two takers by its own law.</summary>
+    private static (Engine Engine, Store Well, Field Count, Port Left, Port Right) Fork(int units)
+    {
+        var (well, count) = Make.Counts(3, 3);
+        count.Write(well, 0, units);
+        var split = new Wiring(Move, new Binding(well, 0, 1, 2), new Binding(well, 0, 1, 2));
+        split.Add(0, 1);
+        split.Add(0, 2);
+        return (new Engine().Add(split), well, count, well.Publish([1], [0, 1, 2]), well.Publish([2], [0, 1, 2]));
+    }
+
     private static (Engine Engine, Store Cup, Field Count, Wiring Take) Taker(Surface from)
     {
         var (cup, count) = Make.Counts(1, 3);
@@ -54,23 +67,29 @@ public sealed class LocalStructureTests
         Assert.Equal((0, 1), (count.Read(well, 1), cups.Read(cup, 0)));
     }
 
-    /// <summary>Two structures wire a move to one exposed unit. Whichever steps
-    /// first takes it; the other finds the lane empty. Nothing is made twice.</summary>
+    /// <summary>One position has one taker, so two structures never race for a
+    /// unit. A second taker on the same outlet is refused. An owner that serves
+    /// two splits what it has by its own law and exposes a port for each; then
+    /// the takers get the same whichever steps first, as structures stepping at
+    /// the same moment would.</summary>
     [Fact]
-    public void TwoStructuresTakingOneUnitCannotBothHaveIt()
+    public void TwoTakersAreServedAlikeWhicheverStepsFirst()
     {
+        var (_, _, _, outlet) = Well(1);
+        _ = Taker(outlet);
+        Assert.Throws<ArgumentException>(() => Taker(outlet));
+
         foreach (var leftFirst in new[] { true, false })
         {
-            var (_, well, count, outlet) = Well(0);
-            count.Write(well, 1, 1);
-            var left = Taker(outlet);
-            var right = Taker(outlet);
+            var (owner, well, count, leftOutlet, rightOutlet) = Fork(2);
+            var left = Taker(leftOutlet);
+            var right = Taker(rightOutlet);
 
+            owner.Step();
             foreach (var engine in leftFirst ? new[] { left.Engine, right.Engine } : [right.Engine, left.Engine]) engine.Step();
 
-            var (l, r) = (left.Count.Read(left.Cup, 0), right.Count.Read(right.Cup, 0));
-            Assert.Equal((0, 1), (count.Read(well, 1), l + r));
-            Assert.Equal(leftFirst ? 1 : 0, l);
+            Assert.Equal((0, 0, 0), (count.Read(well, 0), count.Read(well, 1), count.Read(well, 2)));
+            Assert.Equal((1, 1), (left.Count.Read(left.Cup, 0), right.Count.Read(right.Cup, 0)));
         }
     }
 
@@ -156,6 +175,31 @@ public sealed class LocalStructureTests
         Assert.Equal((0, 1), (count.Read(well, 1), cups.Read(cup, 0)));
     }
 
+    /// <summary>The owner lays out its ports as it likes, but never so that two
+    /// taken ports show one position. Unplugging lets a port go, and another
+    /// connection may then take through it.</summary>
+    [Fact]
+    public void OnePositionHasOneTakerHoweverTheOwnerLaysOutItsPorts()
+    {
+        var (_, well, _, left, right) = Fork(0);
+        var first = Socket.For(left);
+        _ = Taker(first);
+        first.Plug(left);
+        _ = Taker(right);
+
+        Assert.Throws<ArgumentException>(() => well.Rebind(right, 0, 1));
+        Assert.Throws<ArgumentException>(() => well.Extend(right, 1));
+        Assert.Throws<ArgumentException>(() => Taker(well.Publish([1, 0], [0, 1, 2])));
+        well.Extend(right, 0);
+
+        var second = Socket.For(left);
+        _ = Taker(second);
+        Assert.Throws<ArgumentException>(() => second.Plug(left));
+        first.Unplug();
+        second.Plug(left);
+        Assert.Throws<ArgumentException>(() => first.Plug(left));
+    }
+
     /// <summary>A socket fits a port with as many planes, constant in the same
     /// places. Lane counts may differ.</summary>
     [Fact]
@@ -185,7 +229,9 @@ public sealed class LocalStructureTests
     {
         var (_, well, count, outlet) = Well(0);
         count.Write(well, 1, 3);
-        var (taker, _, _, _) = Taker(outlet);
+        var original = Socket.For(outlet);
+        original.Plug(outlet);
+        var (taker, _, _, _) = Taker(original);
 
         var saved = Transport.Save(taker);
         var (restored, stores) = Transport.Load(saved);
@@ -197,6 +243,8 @@ public sealed class LocalStructureTests
         Assert.Equal((1, 3, null), (socket.Count, socket.PlaneCount, socket.Plugged));
         Assert.True(restored.Step().Steps[0].Skipped[0]);
 
+        Assert.Throws<ArgumentException>(() => socket.Plug(outlet));
+        original.Unplug();
         socket.Plug(outlet);
         restored.Step();
         var (cup, cups) = (stores[0], new Field(Shape.Unary(3), [0, 1, 2]));
@@ -210,10 +258,10 @@ public sealed class LocalStructureTests
     [Fact]
     public void StructuresSavedTogetherKeepTheirBoundariesAndConnections()
     {
-        var (sender, well, _, outlet) = Well(3);
-        var socket = Socket.For(outlet);
-        socket.Plug(outlet);
-        var left = Taker(outlet);
+        var (sender, well, _, leftOutlet, rightOutlet) = Fork(3);
+        var socket = Socket.For(rightOutlet);
+        socket.Plug(rightOutlet);
+        var left = Taker(leftOutlet);
         var right = Taker(socket);
         var originals = new[] { sender, left.Engine, right.Engine };
 
@@ -233,6 +281,40 @@ public sealed class LocalStructureTests
             Assert.Equal(Transport.SaveLocals(originals), Transport.SaveLocals(restored));
         }
         Assert.Equal(3, left.Count.Read(left.Cup, 0) + right.Count.Read(right.Cup, 0));
+    }
+
+    /// <summary>Two partial machines, a well and a taker joined through a
+    /// socket, fuse into one local structure. It steps as the two did in that
+    /// order, may now bind the well's store directly, and saves as one machine
+    /// with nothing left to plug in.</summary>
+    [Fact]
+    public void PartialStructuresFuseIntoOne()
+    {
+        var (sender, well, count, outlet) = Well(3);
+        var socket = Socket.For(outlet);
+        socket.Plug(outlet);
+        var (taker, cup, cups, _) = Taker(socket);
+        var (twinSender, twinWell, twinCount, twinOutlet) = Well(3);
+        var (twinTaker, twinCup, _, _) = Taker(twinOutlet);
+
+        var fused = sender.Fuse(taker);
+
+        Assert.Empty(taker.Stores);
+        Assert.Empty(taker.Wirings);
+        Assert.Contains(cup, fused.Stores);
+        Assert.Throws<ArgumentException>(() => taker.Hold(cup));
+        for (var tick = 0; tick < 3; tick++)
+        {
+            fused.Step();
+            twinSender.Step();
+            twinTaker.Step();
+        }
+        Assert.Equal((twinCount.Read(twinWell, 0), cups.Read(twinCup, 0)), (count.Read(well, 0), cups.Read(cup, 0)));
+        fused.Add(Make.Wire(Move, well, cup));
+
+        var (restored, _) = Transport.Load(Transport.Save(fused));
+        Assert.Empty(restored.Sockets);
+        Assert.Equal(Transport.Save(fused), Transport.Save(restored));
     }
 
     [Fact]

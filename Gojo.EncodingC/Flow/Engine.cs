@@ -21,11 +21,10 @@ namespace Gojo.EncodingC;
 /// it, and a saved machine keeps it as the grouping of its stores.</para>
 /// <para><b>Several local structures</b> each step on their own. Whoever runs
 /// them chooses the order; a peer that is not stepped holds still, and one
-/// that is absent leaves a socket empty. A move through a port takes from the
-/// owner's store during the taker's step, so the order between structures
-/// decides who takes a contested unit, as row order does inside one. Running
-/// structures at the same moment needs a handshake this project does not have
-/// yet.</para></summary>
+/// that is absent leaves a socket empty. A port has one taker (see
+/// <see cref="Port"/>), so no unit is contested between structures, and
+/// stepping them in any order, or at the same moment, moves the same units.
+/// Partial structures can <see cref="Fuse"/> into one.</para></summary>
 public sealed class Engine
 {
     private readonly List<Wiring> wirings = [];
@@ -62,6 +61,23 @@ public sealed class Engine
         ArgumentNullException.ThrowIfNull(wiring);
         Claim(wiring.Bindings.Select(binding => binding.Surface.Home).OfType<Store>().Append(wiring.Rows));
         wirings.Add(wiring);
+        return this;
+    }
+
+    /// <summary>Fuses another local structure into this one. Its stores
+    /// join this one, and its wirings run after this one's, in their order:
+    /// the two settle as one from now on. Ports and sockets between them keep
+    /// working, now as connections inside one structure, and its wirings may
+    /// bind the other's stores directly. The other is left empty.</summary>
+    public Engine Fuse(Engine other)
+    {
+        ArgumentNullException.ThrowIfNull(other);
+        if (ReferenceEquals(other, this)) throw new ArgumentException("A structure does not fuse with itself.", nameof(other));
+        foreach (var store in other.stores) store.Local = this;
+        stores.AddRange(other.stores);
+        wirings.AddRange(other.wirings);
+        other.stores.Clear();
+        other.wirings.Clear();
         return this;
     }
 

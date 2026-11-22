@@ -167,22 +167,36 @@ public sealed class FlowTests
         Assert.Equal(2, step.Waves.Count);
     }
 
+    /// <summary>A port has one taker. A second connection that would take
+    /// through it is refused, whether bound to the port, bound to another port
+    /// over the same position, or plugged in through a socket. Inside the one
+    /// taker, two rows may still compete for the unit, and row order decides.</summary>
     [Fact]
-    public void TwoTakersCannotBothHaveOneUnit()
+    public void APortHasOneTakerAndItsRowsCompeteInOrder()
     {
         var (sender, count) = Make.Counts(1, 1);
         count.Write(sender, 0, 1);
         var port = sender.Publish([0], [0]);
-        var (first, a) = Make.Counts(1, 1);
-        var (second, b) = Make.Counts(1, 1);
-        var engine = new Engine()
-            .Add(Make.Wire(Flows.Move(1, 1), port, first))
-            .Add(Make.Wire(Flows.Move(1, 1), port, second));
+        var again = sender.Publish([0], [0]);
+        var (takers, taken) = Make.Counts(2, 1);
+        var take = new Wiring(Flows.Move(1, 1), new Binding(port, 0), new Binding(takers, 0));
+        take.Add(0, 0);
+        take.Add(0, 1);
+        var (other, _) = Make.Counts(1, 1);
+        var socket = Socket.For(port);
+        _ = Make.Wire(Flows.Move(1, 1), socket, other);
 
-        var step = engine.Step();
+        Assert.Throws<ArgumentException>(() => Make.Wire(Flows.Move(1, 1), port, other));
+        Assert.Throws<ArgumentException>(() => Make.Wire(Flows.Move(1, 1), again, other));
+        Assert.Throws<ArgumentException>(() => socket.Plug(port));
+        var copies = TransitionLaw.FromFunction([Shape.Bit, Shape.Bit], s => [s[0], s[0]], new Accounting(true, new Unchanged(0)));
+        _ = new Wiring(copies, new Binding(port, 0), new Binding(other, 0));
 
+        var step = take.Apply();
+
+        Assert.True(port.IsTaken);
         Assert.Equal(2, step.Waves.Count);
-        Assert.Equal((0, 1, 0), (count.Read(sender, 0), a.Read(first, 0), b.Read(second, 0)));
+        Assert.Equal((0, 1, 0), (count.Read(sender, 0), taken.Read(takers, 0), taken.Read(takers, 1)));
     }
 
     [Fact]

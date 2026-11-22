@@ -147,6 +147,13 @@ public sealed class Wiring
                     nameof(roles));
         }
 
+        var takes = Enumerable.Range(0, roles.Length).Where(r => writes[r] && roles[r].Surface.ThroughPort).Select(r => roles[r].Surface).Distinct().ToArray();
+        if (takes.Any(surface => surface.TakenByOther(this)))
+            throw new ArgumentException(
+                "Another connection already takes through this port. A port has one taker: split what it carries with the owner's own law and publish a port for each.",
+                nameof(roles));
+        foreach (var surface in takes) surface.Take(this);
+
         Rows = rows ?? new Store(0);
         references = new List<int>[roles.Length];
         for (var r = 0; r < roles.Length; r++)
