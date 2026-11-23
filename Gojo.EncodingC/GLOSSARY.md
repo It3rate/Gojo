@@ -94,7 +94,7 @@ The stock laws:
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
 | Wiring | A law bound to rows. A binding per role says which surface and planes; each row says which position each role uses there | A law number, the bindings, and the rows |
-| Binding | Where one role reads and writes. Plain: the planes hold a code. Open: one plane per value, set where the value is ruled out | A surface, plane numbers and, for a relation, one bit for open or plain |
+| Binding | Where one role reads and writes. Plain: the planes hold a code. Open: one plane per value, set where the value is still possible | A surface, plane numbers and, for a relation, one bit for open or plain |
 | Row | One use of a law: one position per role | A position in the wiring's own store. Each role's reference is a binary value in that store's planes |
 | Rows | A wiring's rows, as a store. What is connected to what is therefore state: a law can rewire a row, bring a spare one into use or retire one | An ordinary store |
 | Evidence | What each row did in the last step, kept once a wiring is asked to record | Six planes of the rows, in the order below |
@@ -116,9 +116,9 @@ The stock laws:
 
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
-| Open value | A value that is not settled yet: what it may still be | One plane per value, set where that value is **ruled out** |
+| Open value | A value that is not settled yet: what it may still be | One plane per value, set where that value is **still possible**. The planes fill new positions with 1 |
 | Ruled out | One thing learned about an open value | One set bit |
-| Open, settled, contradiction | Nothing ruled out; all but one ruled out; everything ruled out | For a one-bit value, two planes ("0 is ruled out", "1 is ruled out"): `00` open, `10` the value is 1, `01` the value is 0, `11` contradiction |
+| Open, settled, contradiction | Everything possible; one value possible; nothing possible | For a one-bit value, two planes ("0 is possible", "1 is possible"): `11` open, `10` the value is 1, `01` the value is 0, `00` contradiction |
 | Supports *(host)* | The helper that reads and edits an open value's planes. In reports, "supports" also means the planes themselves | The planes above |
 | Sample | A plain, settled value that a relation reads. It is never narrowed | A code in ordinary bits |
 | Narrowing | Ruling out the values no admitted combination supports. It never rules out something possible. It can miss a conclusion that needs two rows taken together | Sets bits in ruled-out planes |
@@ -127,11 +127,11 @@ The stock laws:
 | Enact, act *(pattern)* | Write a settled value into ordinary bits: what was worked out becomes what is | `Enact` wired from an open value to a field |
 | Supposition *(pattern)* | Something taken as true to see what follows, kept apart from what is | Bits written in a workspace, or a separate store (a probe) |
 | Gap | Where a workspace and its source disagree: how a prediction missed, or what is left before a goal is reached | Not stored. A gap bit is set where the workspace holds a bit that differs from the source as it is now |
-| Plan *(pattern)* | What is possible at several moments ahead | A store of open values. In the tests, three positions per moment and five planes: three rule out counts 0, 1, 2 and two rule out gate 0, 1 |
+| Plan *(pattern)* | What is possible at several moments ahead | A store of open values. In the tests, three positions per moment and five planes: three hold whether counts 0, 1, 2 are possible and two whether gate 0, 1 are |
 | Moment *(pattern)* | One time step in a plan | A group of the plan's positions |
 | Goal, aim *(pattern)* | A wanted value, treated as already settled at a later moment. Narrowing then works back to what has to happen now | Ordinary bits, observed into the plan's last moment |
 | Giving way *(pattern)* | Lowering a goal that cannot be reached | A unary count, raised by a law that reads the plan's "unadmitted" plane |
-| Probe *(pattern)* | A second plan in which one choice is supposed. If it contradicts itself, that choice is ruled out in the real plan | A second plan store, and one row from its "unadmitted" plane to a ruled-out plane of the real plan |
+| Probe *(pattern)* | A second plan in which one choice is supposed. If it contradicts itself, that choice is ruled out in the real plan | A second plan store, and one row from its "unadmitted" plane that clears a "possible" plane of the real plan |
 | Prediction *(pattern)* | What a structure expects next, written before it happens | Bits in the predictor's own planes |
 | Judge *(pattern)* | A law that compares a prediction with what happened and moves trust | A row |
 | Trust *(pattern)* | How well a predictor has done | A small unary count |

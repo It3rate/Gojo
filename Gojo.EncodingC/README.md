@@ -96,7 +96,7 @@ how it is held in bits.
 | Engine | [`Engine`](Flow/Engine.cs), [`Unary`](Flow/Unary.cs) | Steps wirings in waves: a transition changes state, a relation rules out. Units enter from outside |
 | Stock laws | [`Flows`](Flow/Flows.cs), [`Settling`](Laws/Settling.cs) | Small tables for moving things, and for observing, forgetting and acting on what is known |
 | Workspace | [`Workspace`](Workspaces/Workspace.cs), [`Gap`](Workspaces/Gap.cs), [`Selections`](Workspaces/Selections.cs) | A fragment of an existing structure, held apart from it and refined there: a live view with copy on write, selection by layers and by use, validated partial commits. Its gap is where it and its source disagree |
-| Supports | [`Supports`](Workspaces/Supports.cs) | A value not settled yet: one plane per value in the store, set where the value is ruled out |
+| Supports | [`Supports`](Workspaces/Supports.cs) | A value not settled yet: one plane per value in the store, set where the value is still possible |
 | Learning | [`LearnedTable`](Learning/LearnedTable.cs) | Small counts of what happened, held in a store, crystallized into a law |
 | Measure | [`OdvWord`, `Odv`](Measure/Odv.cs) | The three-bit ODV word, its planes and its arithmetic as laws |
 | Transport | [`Transport`](Transport/Transport.cs) | A machine as bits, restored without the code that built it |
@@ -252,11 +252,14 @@ they replaced. Positions it has not written cost nothing. It also keeps:
 - a packed parent per position for changes made together.
 
 **Supports.** One plane per value, in the store, set where the value is
-*ruled out*. Nothing ruled out is open, all but one is settled, all is a
-contradiction. A fresh position is therefore open with no extra step, and each
-bit set is one thing learned. "Every value" means every value of a declared,
-finite set; a support says nothing about values outside it. A one-bit value
-costs two planes: unknown, 0, 1 and contradiction.
+*still possible* (canonical prompt §9.7: 1 is presence). Every bit set is
+open, one left is settled, none, all zeros, is a contradiction. Support
+planes fill: every position, including one added later, starts at 1, open
+with no extra step, and each bit cleared is one thing learned. What two
+constraints allow together is the AND of their planes. "Every value" means
+every value of a declared, finite set; a support says nothing about values
+outside it. A one-bit value costs two planes: unknown, 0, 1 and
+contradiction.
 
 **Transport.** A machine saves as one run of bits: stores (constant
 planes, retired positions if any, stored planes, ports), laws (role shapes,
@@ -429,14 +432,14 @@ what is unsettled is kept in the same planes as what is settled, where laws
 read it, relations narrow it and workspaces suppose about it.
 
 - **Open values.** A field's bits hold one value. Its supports hold what the
-  value may still be: one plane per value, set where ruled out
+  value may still be: one plane per value, set where still possible
   (`Supports.On`). A role bound open to those planes (`supports.Variable`, or
   `Binding.Open(surface, planes)`) is narrowed whenever a relation wired to it
   runs: a value stays possible only if some admitted tuple supports it. A
   plain role of a relation is a sample and is only read, so observing is the
   relation `Settling.Same` between a field's bits and its supports.
-- **Forgetting and acting are laws too.** `Settling.Forget` clears what was
-  ruled out; wired to run every step it is the passing of time.
+- **Forgetting and acting are laws too.** `Settling.Forget` makes every value
+  possible again; wired to run every step it is the passing of time.
   `Settling.Enact` writes a settled value into a field's bits.
 - **The gap.** A workspace differs from its source only where it was written.
   `workspace.Gap` shows the difference bit by bit as a surface, read by
@@ -478,7 +481,7 @@ declared order:
 
 The goal settles the gate at the first moment, because both steps are needed.
 Asked for what cannot be reached, the plan holds a contradiction, the gate
-stays as it was, and the next step starts clean. The machine saves as 114
+stays as it was, and the next step starts clean. The machine saves as 115
 bytes and runs the same when restored.
 
 ### Other ways to use what is open
@@ -530,8 +533,8 @@ plan wired like the first, with one thing supposed: here, that the gate stays
 shut. If the probe contradicts itself, a law that reads that bit rules the
 supposed value out in the real plan, which then has one value left and acts
 (`ASuppositionThatContradictsRulesTheChoiceOut`). The supposition is ordinary
-structure, saved with the machine. It costs a second plan, 221 bytes against
-114, so how much can be tried at once is bounded by room. Which choices
+structure, saved with the machine. It costs a second plan, 224 bytes against
+115, so how much can be tried at once is bounded by room. Which choices
 deserve a probe is not decided by anything yet.
 
 ## Learning
@@ -580,8 +583,8 @@ caller after one call; nothing in the machine keeps it.
 | --- | --- | --- |
 | Not selected | Outside a workspace's selection: no claim either way. The nearest thing to nothing | Workspace |
 | Ignored | A workspace's ignore layer; use never brings it in | Workspace |
-| Open / competing | Supports with several values not ruled out | Bits |
-| Contradiction | Supports with every value ruled out | Bits |
+| Open / competing | Supports with several values still possible | Bits |
+| Contradiction | Supports with no value possible: all zeros | Bits |
 | A choice nothing has made | The choice role of `WithChoice`, bound to a bit or left open | Bits |
 | Not a code | The bits stay as they are; reported as unread | Bits |
 | Broken count | `Unary.Broken`, `UnaryStep.Broken`; never repaired | Bits |
@@ -671,10 +674,10 @@ Sizes of saved machines, from `Transport.Measure` and pinned in tests:
 
 | Machine | Bytes | Stores / laws / bindings, in bits |
 | --- | --- | --- |
-| A passage chain: 5 positions, 2 rows, 1 law | 22 | 55 / 80 / 36 |
+| A passage chain: 5 positions, 2 rows, 1 law | 22 | 57 / 80 / 36 |
 | Two predictors, a judge and their trust | 47 | |
-| The machine that plans two steps ahead: 3 stores of state, 5 laws, 8 wirings | 114 | 298 / 291 / 320 |
-| The same with a goal that gives way and a probe that supposes | 221 | |
+| The machine that plans two steps ahead: 3 stores of state, 5 laws, 8 wirings | 115 | 308 / 291 / 320 |
+| The same with a goal that gives way and a probe that supposes | 224 | |
 | What a learner of the passage law knows: 73 small counts | 40 | |
 
 What the bits go to:

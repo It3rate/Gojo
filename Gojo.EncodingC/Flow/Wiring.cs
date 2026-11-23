@@ -3,7 +3,7 @@ namespace Gojo.EncodingC;
 /// <summary>Where one role of a law reads and writes: a surface, and planes
 /// there. A plain binding names the planes that hold the role's bits, low bit
 /// first: a code, one value. An <see cref="Open"/> binding names one plane per
-/// value, set where the value is ruled out: what the role may still be.</summary>
+/// value, set where the value is still possible: what the role may still be.</summary>
 public sealed class Binding
 {
     private readonly int[] planes;
@@ -26,8 +26,8 @@ public sealed class Binding
     }
 
     /// <summary>Binds a role to a value that is not settled: one plane per
-    /// value of the role, set where that value is ruled out. Relation laws
-    /// narrow such roles.</summary>
+    /// value of the role, set where that value is still possible. Relation
+    /// laws narrow such roles by clearing bits.</summary>
     public static Binding Open(Surface surface, params int[] planes) => new(surface, planes, true);
 
     public Surface Surface { get; }
@@ -298,7 +298,7 @@ public sealed class Wiring
             int? only = null;
             for (var v = 0; v < binding.Planes.Count; v++)
             {
-                if (binding.Surface.Read(binding.Plane(v), index)) continue;
+                if (!binding.Surface.Read(binding.Plane(v), index)) continue;
                 if (only is not null) return null;
                 only = v;
             }
@@ -470,7 +470,7 @@ public sealed class Wiring
                     if (binding.IsOpen)
                     {
                         for (var v = 0; v < supports[r].Length; v++)
-                            if (!binding.Surface.Read(binding.Plane(v), index)) supports[r][v][row] = true;
+                            if (binding.Surface.Read(binding.Plane(v), index)) supports[r][v][row] = true;
                     }
                     else if (Value(row, r) is int value) supports[r][value][row] = true;
                     else
@@ -497,7 +497,7 @@ public sealed class Wiring
                             continue;
                         }
                         if (!writes[r] || !supports[r][v][row]) continue;
-                        binding.Surface.Set(binding.Plane(v), index, true);
+                        binding.Surface.Set(binding.Plane(v), index, false);
                         changed[row] = true;
                     }
                     empty |= left == 0;

@@ -29,6 +29,7 @@ public sealed class Store : Surface
     private readonly List<Plane?> planes = [];
     private readonly List<Port> ports = [];
     private Plane constant = new(0);
+    private Plane fill = new(0);
     private Plane constantValue = new(0);
     private Plane live = new(0);
     private Plane used = new(0);
@@ -67,13 +68,27 @@ public sealed class Store : Surface
     /// or binds it directly. A store belongs to at most one.</summary>
     internal Engine? Local { get; set; }
 
-    /// <summary>Adds a plane with one bit per position. Returns its number.</summary>
-    public int AddPlane()
+    /// <summary>Adds a plane with one bit per position. Returns its number.
+    /// A plane that <paramref name="fills"/> starts at 1 at every position, and
+    /// at every position added later: its empty reading is presence, as for
+    /// what is still possible before anything is known. That is a default of
+    /// allocation, not a change of what its bits mean (canonical prompt §9.7).</summary>
+    public int AddPlane(bool fills = false)
     {
-        planes.Add(new Plane(Count));
+        planes.Add(fills ? Plane.Ones(Count) : new Plane(Count));
         GrowPlaneFlags();
+        fill[planes.Count - 1] = fills;
         return planes.Count - 1;
     }
+
+    /// <summary>Whether a plane starts at 1 at new positions.</summary>
+    public bool Fills(int plane)
+    {
+        CheckPlane(plane);
+        return fill[plane];
+    }
+
+    internal override bool Filled(int plane) => !constant[plane] && fill[plane];
 
     /// <summary>Adds a constant plane: one bit for every position, stored once.</summary>
     public int AddConstantPlane(bool value)
@@ -248,7 +263,12 @@ public sealed class Store : Surface
         live.Grow(first + count);
         used.Grow(first + count);
         for (var i = first; inUse && i < first + count; i++) live[i] = used[i] = true;
-        foreach (var plane in planes) plane?.Grow(first + count);
+        for (var p = 0; p < planes.Count; p++)
+        {
+            planes[p]?.Grow(first + count);
+            if (fill[p])
+                for (var i = first; i < first + count; i++) planes[p]![i] = true;
+        }
         return first;
     }
 
@@ -267,5 +287,6 @@ public sealed class Store : Surface
     {
         constant.Grow(planes.Count);
         constantValue.Grow(planes.Count);
+        fill.Grow(planes.Count);
     }
 }

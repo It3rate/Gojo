@@ -241,6 +241,9 @@ public static class Transport
             bits.Number(plane);
             bits.Bit(store.ConstantValue(plane));
         }
+        var fills = Enumerable.Range(0, store.PlaneCount).Where(p => !store.IsConstantPlane(p) && store.Fills(p)).ToArray();
+        bits.Number(fills.Length);
+        foreach (var plane in fills) bits.Number(plane);
         // 0: every position is in use. 1: some are retired. 2: some are spare.
         bits.Number(store.Count);
         var spare = store.Spare;
@@ -268,10 +271,14 @@ public static class Transport
         var constantCount = bits.Count(planes);
         for (var i = 0; i < constantCount; i++)
             if (!constants.TryAdd(bits.Count(planes - 1), bits.Bit())) throw new FormatException("A constant plane is named twice.");
+        var fills = new HashSet<int>();
+        var fillCount = bits.Count(planes);
+        for (var i = 0; i < fillCount; i++)
+            if (!fills.Add(bits.Count(planes - 1)) ) throw new FormatException("A filling plane is named twice.");
         for (var p = 0; p < planes; p++)
         {
             if (constants.TryGetValue(p, out var value)) store.AddConstantPlane(value);
-            else store.AddPlane();
+            else store.AddPlane(fills.Contains(p));
         }
         var count = bits.Count(MaxCount);
         var states = bits.Count(2);
@@ -287,7 +294,7 @@ public static class Transport
         {
             if (store.IsConstantPlane(p)) continue;
             var stored = bits.Bits(count);
-            foreach (var position in stored.Indexes()) store.Write(p, position, true);
+            for (var position = 0; position < count; position++) store.Write(p, position, stored[position]);
         }
         var ports = bits.Count(MaxCount);
         for (var i = 0; i < ports; i++)

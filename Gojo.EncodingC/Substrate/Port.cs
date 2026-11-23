@@ -47,6 +47,8 @@ public sealed class Port : Surface
 
     internal override bool IsConstant(int plane) => Owner.IsConstantPlane(OwnerPlane(plane));
 
+    internal override bool Filled(int plane) => Owner.Filled(OwnerPlane(plane));
+
     internal override void Set(int plane, int index, bool value) => Owner.Write(OwnerPlane(plane), lanes[index], value);
 
     internal override (Surface Home, int Index, int Plane) Bit(int index, int plane) => Owner.Bit(lanes[index], OwnerPlane(plane));

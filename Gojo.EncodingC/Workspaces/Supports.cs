@@ -2,12 +2,15 @@ namespace Gojo.EncodingC;
 
 /// <summary>A value that is not settled yet, held in the planes like any other
 /// value. A field's bits are a code: one value, a constant. Its supports are
-/// one more plane per value, set where that value has been <em>ruled out</em>.
-/// <para><b>Open is the start.</b> A fresh position has nothing ruled out, so
-/// every value is possible: everything that arrives is uncertain until
-/// something accounts for it. Each bit set is one thing learned. All but one
-/// ruled out is settled; all ruled out is a contradiction, kept visible. A
-/// position the store adds later starts open with no extra step.</para>
+/// one more plane per value, set where that value is <em>still possible</em>
+/// (canonical prompt §9.7: 1 is presence).
+/// <para><b>Open is the start.</b> A fresh position has every value possible,
+/// all ones: everything that arrives is uncertain until something accounts
+/// for it. Each bit cleared is one thing learned. One bit left is settled; no
+/// bit left, all zeros, is a contradiction, kept visible. The planes fill new
+/// positions with ones, so a position the store adds later starts open with
+/// no extra step. Combining what two constraints allow is the AND of their
+/// planes.</para>
 /// <para><b>In the planes.</b> These are ordinary planes of the store. A
 /// saved machine keeps them, a law can read them, and a workspace copies them on
 /// write. Narrowing in a workspace is then a supposition: it can be compared,
@@ -31,7 +34,7 @@ public sealed class Supports
     private readonly int[] planes;
 
     /// <summary>Supports for <paramref name="field"/> on a surface, held in
-    /// <paramref name="planes"/>: plane v is set where value v is ruled out.</summary>
+    /// <paramref name="planes"/>: plane v is set where value v is still possible.</summary>
     public Supports(Surface surface, Field field, params int[] planes)
     {
         ArgumentNullException.ThrowIfNull(surface);
@@ -60,17 +63,18 @@ public sealed class Supports
     /// sample of it sits.</summary>
     public Field Field { get; }
 
-    /// <summary>The planes, one per value, set where the value is ruled out.</summary>
+    /// <summary>The planes, one per value, set where the value is still possible.</summary>
     public IReadOnlyList<int> Planes => Array.AsReadOnly(planes);
 
-    /// <summary>Adds one plane per value to a store and returns the
-    /// supports held there. Every position starts open.</summary>
+    /// <summary>Adds one plane per value to a store, each filling every
+    /// position with 1, and returns the supports held there. Every position
+    /// starts open, including positions added later.</summary>
     public static Supports On(Store store, Field field)
     {
         ArgumentNullException.ThrowIfNull(store);
         ArgumentNullException.ThrowIfNull(field);
         CheckSize(field);
-        var added = Enumerable.Range(0, field.Shape.Size).Select(_ => store.AddPlane()).ToArray();
+        var added = Enumerable.Range(0, field.Shape.Size).Select(_ => store.AddPlane(fills: true)).ToArray();
         return new Supports(store, field, added);
     }
 
@@ -92,7 +96,7 @@ public sealed class Supports
         if ((uint)value >= (uint)planes.Length) throw new ArgumentOutOfRangeException(nameof(value));
         var possible = new Plane(Surface.Count);
         for (var i = 0; i < possible.Length; i++)
-            if (Surface.IsLive(i) && !Surface.Read(planes[value], i)) possible[i] = true;
+            if (Surface.IsLive(i) && Surface.Read(planes[value], i)) possible[i] = true;
         return possible;
     }
 
@@ -101,7 +105,7 @@ public sealed class Supports
     {
         ulong mask = 0;
         for (var v = 0; v < planes.Length; v++)
-            if (!Surface.Read(planes[v], position)) mask |= 1UL << v;
+            if (Surface.Read(planes[v], position)) mask |= 1UL << v;
         return mask;
     }
 
@@ -120,9 +124,9 @@ public sealed class Supports
     {
         var changed = false;
         for (var v = 0; v < planes.Length; v++)
-            if (((allowed >> v) & 1) == 0 && !Surface.Read(planes[v], position))
+            if (((allowed >> v) & 1) == 0 && Surface.Read(planes[v], position))
             {
-                Surface.Set(planes[v], position, true);
+                Surface.Set(planes[v], position, false);
                 changed = true;
             }
         return changed;
@@ -145,9 +149,9 @@ public sealed class Supports
     {
         var changed = false;
         for (var v = 0; v < planes.Length; v++)
-            if (Surface.Read(planes[v], position))
+            if (!Surface.Read(planes[v], position))
             {
-                Surface.Set(planes[v], position, false);
+                Surface.Set(planes[v], position, true);
                 changed = true;
             }
         return changed;

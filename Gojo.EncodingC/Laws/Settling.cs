@@ -5,9 +5,9 @@ namespace Gojo.EncodingC;
 /// acts on what it has worked out as wirings the engine runs, with no host
 /// code in the loop.
 /// <para>A value that is not settled is held as one plane per value, set where
-/// the value is ruled out (<see cref="Supports"/>). To a relation those planes
-/// are an open role. To a transition law they are plain bits, read as one
-/// code: bit v set means value v is ruled out.</para></summary>
+/// the value is still possible (<see cref="Supports"/>). To a relation those
+/// planes are an open role. To a transition law they are plain bits, read as
+/// one code: bit v set means value v is still possible.</para></summary>
 public static class Settling
 {
     private static readonly Dictionary<Shape, RelationLaw> Sames = [];
@@ -26,7 +26,7 @@ public static class Settling
         }
     }
 
-    /// <summary>Opens a value again: clears every ruled-out bit. One role, the
+    /// <summary>Opens a value again: sets every value possible. One role, the
     /// planes of a value with <paramref name="values"/> values read as plain
     /// bits. Wired to run every step, it is the passing of time: what was
     /// worked out about a moment does not hold for the next.</summary>
@@ -35,7 +35,7 @@ public static class Settling
         lock (Forgets)
         {
             if (Forgets.TryGetValue(values, out var cached)) return cached;
-            return Forgets[values] = TransitionLaw.FromFunction([Shape.Binary(1 << values)], _ => [0], new Accounting(true));
+            return Forgets[values] = TransitionLaw.FromFunction([Shape.Binary(1 << values)], _ => [(1 << values) - 1], new Accounting(true));
         }
     }
 
@@ -52,7 +52,7 @@ public static class Settling
                 [Shape.Binary(1 << shape.Size), shape],
                 state =>
                 {
-                    var left = Enumerable.Range(0, shape.Size).Where(v => ((state[0] >> v) & 1) == 0).ToArray();
+                    var left = Enumerable.Range(0, shape.Size).Where(v => ((state[0] >> v) & 1) != 0).ToArray();
                     return left.Length == 1 ? [state[0], left[0]] : state;
                 },
                 new Accounting(true, new Unchanged(0)));

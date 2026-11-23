@@ -106,8 +106,10 @@ public sealed class Workspace : Surface
         CheckIndex(index);
         if (source.IsConstant(plane)) return ConstantBit(plane);
         if (Holds(plane, index)) return Fit(bits, plane)[index];
-        return SourceOf(index) is int s && source.Read(plane, s);
+        return SourceOf(index) is int s ? source.Read(plane, s) : source.Filled(plane);
     }
+
+    internal override bool Filled(int plane) => source.Filled(plane);
 
     /// <summary>Supposes a bit here: copies it in and changes it. The source is
     /// untouched.</summary>

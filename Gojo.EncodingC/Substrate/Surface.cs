@@ -59,6 +59,11 @@ public abstract class Surface
 
     internal abstract bool IsConstant(int plane);
 
+    /// <summary>The bit a plane holds at a position nothing has written yet:
+    /// 0, absence, unless the plane declares that new positions start at 1, as
+    /// what is still possible does before anything is known.</summary>
+    internal virtual bool Filled(int plane) => false;
+
     /// <summary>A surface that is a read of other things, such as the gap
     /// between a workspace and its source. No law may write it.</summary>
     internal virtual bool ReadOnly => false;

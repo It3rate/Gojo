@@ -29,6 +29,19 @@ public sealed class SelfRunningTests
     private static readonly TransitionLaw Latch = TransitionLaw.FromFunction(
         [Shape.Bit, Shape.Bit], s => [s[0], s[0] == 1 ? 1 : s[1]], new Accounting(true, new Unchanged(0), new NeverDecreases(1)));
 
+    /// <summary>Clears a bit once another is set, and leaves it otherwise: how a
+    /// law rules a value out of what is still possible.</summary>
+    private static readonly TransitionLaw RuleOut = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit], s => [s[0], s[0] == 1 ? 0 : s[1]], new Accounting(true, new Unchanged(0), new NeverIncreases(1)));
+
+    /// <summary>A store whose planes are what is still possible: every value starts possible.</summary>
+    private static Store Possible(int planes, int positions)
+    {
+        var store = new Store(0, positions);
+        for (var p = 0; p < planes; p++) store.AddPlane(fills: true);
+        return store;
+    }
+
     // ---- Topology as state ----
 
     /// <summary>A row takes from one of two suppliers. Which one is a reference
@@ -242,8 +255,8 @@ public sealed class SelfRunningTests
 
         engine.Step();
 
-        Assert.True(plan.Read(3, 1));
-        Assert.False(plan.Read(4, 1));
+        Assert.False(plan.Read(3, 1));
+        Assert.True(plan.Read(4, 1));
         Assert.True(plant.Read(2, 1));
         Assert.Equal((1, 1), (Count.Read(plant, 0), Count.Read(plant, 2)));
 
@@ -256,14 +269,14 @@ public sealed class SelfRunningTests
         restored.Run(3);
         for (var plane = 0; plane < plant.PlaneCount; plane++) Assert.Equal(plant.Read(plane), copies[0].Read(plane));
         var size = Transport.Measure(engine, plant, plan);
-        Assert.Equal(114, saved.Length);
-        Assert.Equal((298L, 291L, 320L), (size.StoreBits, size.LawBits, size.WiringBits));
+        Assert.Equal(115, saved.Length);
+        Assert.Equal((308L, 291L, 320L), (size.StoreBits, size.LawBits, size.WiringBits));
 
         var (stuck, starved, doubt, _) = Planner(units: 1);
         var refused = stuck.Step();
 
         Assert.True(refused.Steps[5].Unadmitted[0]);
-        Assert.True(doubt.Read(3, 1) && doubt.Read(4, 1));
+        Assert.False(doubt.Read(3, 1) || doubt.Read(4, 1));
         Assert.False(starved.Read(2, 1));
         Assert.Equal((1, 0), (Count.Read(starved, 0), Count.Read(starved, 2)));
     }
@@ -303,7 +316,7 @@ public sealed class SelfRunningTests
 
         var step = engine.Step();
 
-        Assert.False(plan.Read(3, 1) || plan.Read(4, 1));
+        Assert.True(plan.Read(3, 1) && plan.Read(4, 1));
         Assert.True(step.Steps[5].Ambiguous[0]);
         Assert.Equal((1, 0), (Count.Read(plant, 0), Count.Read(plant, 2)));
     }
@@ -327,7 +340,7 @@ public sealed class SelfRunningTests
         var shut = new Store(1, 1);
         var suppose = new Wiring(Settling.Same(Shape.Bit), new Binding(shut, 0), probe.Gates);
         suppose.Add(0, 1);
-        var learn = new Wiring(Latch, new Binding(probe.Ahead.Rows, probe.Ahead.Record().Unadmitted), new Binding(plan.Moments, 3));
+        var learn = new Wiring(RuleOut, new Binding(probe.Ahead.Rows, probe.Ahead.Record().Unadmitted), new Binding(plan.Moments, 3));
         learn.Add(0, 1);
 
         var engine = new Engine();
@@ -338,15 +351,15 @@ public sealed class SelfRunningTests
 
         engine.Step();
 
-        Assert.True(plan.Moments.Read(3, 1));
-        Assert.False(plan.Moments.Read(4, 1));
+        Assert.False(plan.Moments.Read(3, 1));
+        Assert.True(plan.Moments.Read(4, 1));
         Assert.Equal((0, 1), (Count.Read(world.Plant, 0), Count.Read(world.Plant, 2)));
 
         engine.Step();
 
-        Assert.False(plan.Moments.Read(3, 1));
+        Assert.True(plan.Moments.Read(3, 1));
         Assert.Equal((0, 1), (Count.Read(world.Plant, 0), Count.Read(world.Plant, 2)));
-        Assert.Equal(221, Transport.Measure(engine).Bytes);
+        Assert.Equal(224, Transport.Measure(engine).Bytes);
     }
 
     /// <summary>A unit at a fork may go left or right and the law does not say
@@ -362,14 +375,14 @@ public sealed class SelfRunningTests
             Enumerable.Range(0, 8).Where(s => s != 1).Select(s => (s, s)).Concat([(1, 2), (1, 4)]),
             new Accounting(false, new PreservedSum([0, 1, 2])));
 
-        // Positions 0-2 are the fork, left and right now; 3-5 the same next. Planes rule out a bit's 0 and 1.
-        var moments = new Store(2, 6);
+        // Positions 0-2 are the fork, left and right now; 3-5 the same next. Planes hold whether a bit's 0 and 1 are possible.
+        var moments = Possible(2, 6);
         var bit = Binding.Open(moments, 0, 1);
         var step = new Wiring(fork.AsRelation(), bit, bit, bit, bit, bit, bit);
         step.Add(0, 1, 2, 3, 4, 5);
-        moments.Write(0, 0, true);
-        moments.Write(1, 1, true);
-        moments.Write(1, 2, true);
+        moments.Write(0, 0, false);
+        moments.Write(1, 1, false);
+        moments.Write(1, 2, false);
 
         var first = step.Apply();
 
@@ -377,7 +390,7 @@ public sealed class SelfRunningTests
         Assert.Equal(0, step.Value(0, 3));
         Assert.Equal((null, null), (step.Value(0, 4), step.Value(0, 5)));
 
-        moments.Write(0, 5, true);
+        moments.Write(0, 5, false);
         step.Apply();
 
         Assert.Equal(0, step.Value(0, 4));
@@ -448,8 +461,8 @@ public sealed class SelfRunningTests
     [Fact]
     public void ValuesThatVaryTogetherAreOneValueWithTwoReads()
     {
-        // Positions: 0 first bit, 1 second bit, 2 the pair. Planes 0-1 rule out a bit's 0, 1; planes 2-5 rule out pair values.
-        var linked = new Store(6, 3);
+        // Positions: 0 first bit, 1 second bit, 2 the pair. Planes 0-1 hold whether a bit's 0, 1 are possible; planes 2-5 the pair's values.
+        var linked = Possible(6, 3);
         var bit = Binding.Open(linked, 0, 1);
         var pair = Binding.Open(linked, 2, 3, 4, 5);
         var first = new Wiring(RelationLaw.FromPredicate([Shape.Binary(4), Shape.Bit], t => t[1] == (t[0] & 1)), pair, bit);
@@ -457,13 +470,13 @@ public sealed class SelfRunningTests
         var second = new Wiring(RelationLaw.FromPredicate([Shape.Binary(4), Shape.Bit], t => t[1] == t[0] >> 1), pair, bit);
         second.Add(2, 1);
         var engine = new Engine().Add(first).Add(second);
-        linked.Write(3, 2, true);
-        linked.Write(4, 2, true);
+        linked.Write(3, 2, false);
+        linked.Write(4, 2, false);
 
         engine.Step();
         Assert.Equal((null, null), (first.Value(0, 1), second.Value(0, 1)));
 
-        linked.Write(0, 0, true);
+        linked.Write(0, 0, false);
         engine.Step();
 
         Assert.Equal(3, first.Value(0, 0));
@@ -517,7 +530,7 @@ public sealed class SelfRunningTests
     }
 
     /// <summary>What is possible at several moments of (source, gate, target):
-    /// planes 0-2 rule out counts 0, 1, 2 and planes 3-4 rule out gate 0, 1.
+    /// planes 0-2 hold whether counts 0, 1, 2 are possible and planes 3-4 gate 0, 1.
     /// <see cref="Prepare"/> forgets, observes the plant into the first moment
     /// and aims the last; <see cref="Ahead"/> narrows from moment to moment.</summary>
     private sealed record Thought(Store Moments, Binding Gates, Wiring[] Prepare, Wiring Ahead);
