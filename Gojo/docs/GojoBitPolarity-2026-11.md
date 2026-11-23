@@ -4,9 +4,18 @@ Status: **decided**, 23 November 2026. The rule is now canonical prompt
 §9.7: 1 is presence or the dominant member, 0 absence or the recessive one.
 EncodingC is changed to it: supports set 1 for a value still possible, with
 planes that fill new positions with 1; ODV D sets 1 for positive; ODV O sets 1
-for the forward face (positive-right). The promoted core (`Gojo.Encoding/Core`)
-and the kernel's `Carrier.IsInverse` still use the older polarity and are
-listed as follow-ups. The inventory below is the audit that led here.
+for the forward face (positive-right). The inventory below is the audit that
+led here.
+
+**The older encodings keep their historical polarity and will not be
+changed.** `Gojo.Encoding`, including its promoted core, is historical
+evidence: EncodingC has no reference to it and shares no code with it, and
+the experiments and visualizations that use it record results under its
+original conventions. A difference in polarity between the two is not
+unfinished work. When EncodingC needs an idea that exists only there, the
+idea is rewritten in EncodingC under §9.7, never copied or backported. The
+kernel's `Carrier.IsInverse` is a named Boolean rather than a stored bit, and
+reads correctly as it is.
 
 ## The two rules in use
 

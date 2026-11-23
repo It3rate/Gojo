@@ -917,8 +917,10 @@ that default for the sake of zeroed memory; §9.7 instead lets a plane declare
 its fill for new positions, so allocation never dictates meaning.
 
 The [polarity audit](GojoBitPolarity-2026-11.md) lists each bit and the order
-of the changes. EncodingC changed first; the promoted core and the kernel's
-face flag are separate follow-ups.
+of the changes. EncodingC is changed. The older `Gojo.Encoding` and its
+promoted core keep their historical polarity and will not be changed:
+EncodingC does not reference them, and an idea needed from them is rewritten
+in EncodingC rather than backported.
 
 ## Prompt Shape
 
