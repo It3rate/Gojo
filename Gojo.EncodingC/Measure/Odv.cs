@@ -33,6 +33,12 @@ public readonly record struct OdvWord
     /// <summary>The thing now points the other way: flip D. R+? 111 → R−? 101.</summary>
     public OdvWord Reverse() => new((byte)(Code ^ DirectionBit));
 
+    /// <summary>The same amount on the other face: flip O only. R+? 111 → L+?
+    /// 011. The site is mirrored. With <see cref="Reverse"/> and
+    /// <see cref="Reorient"/> it makes three moves that each undo themselves,
+    /// commute, and are each the other two composed.</summary>
+    public OdvWord FaceFlip() => new((byte)(Code ^ OrientationBit));
+
     /// <summary>The reader turns around and the thing does not move: flip O and D
     /// together. R+? 111 → L−? 001. V is kept, including at zero.</summary>
     public OdvWord Reorient() => new((byte)(Code ^ (OrientationBit | DirectionBit)));
@@ -101,6 +107,11 @@ public static class Odv
         var live = store.Live;
         store.Write(D, store.Read(D).Xor(live), live);
     }
+
+    /// <summary>The store read by a reader facing the other way, as a live view:
+    /// D and O shown inverted, nothing copied and nothing in the store moved.
+    /// Writing through the view writes the store as the turned reader means it.</summary>
+    public static Flipped Reoriented(Surface words) => new(words, D, O);
 
     /// <summary>Reverses the given positions: D ^= positions.</summary>
     public static void Reverse(Store store, Plane positions)

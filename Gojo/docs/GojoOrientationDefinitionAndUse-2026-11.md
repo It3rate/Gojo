@@ -19,10 +19,11 @@ part. Decisions made in review:
   of step direction; arrival is possible at a closed end and established only
   by observation; a branching order can leave a route open.
 
-Implemented in EncodingC: `Paths` (step, within, start, turned back,
-reversal, reorient) with `PathTests`, and the sentence fixture reworked onto a
-shared path in `TwoClauseTests`. Not implemented: the ODV face flip and turn,
-the reoriented view, and anything numeric. The text below is the reviewed
+Implemented in EncodingC: `Paths` (step, within, start, reorient) with
+`PathTests`, the sentence fixture on a shared path in `TwoClauseTests`, path
+steps as ODV words, and the ODV face flip with a live reoriented view
+(`OdvWord.FaceFlip`, `Odv.Reoriented`, `OrientationMoveTests`). Not
+implemented: the generator turn of section 5, and anything numeric. The text below is the reviewed
 draft, kept for its reasoning.
 
 ## 1. The change in one paragraph

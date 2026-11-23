@@ -194,6 +194,9 @@ public static class Transport
                     case Port port:
                         Reach(port.Owner);
                         break;
+                    case Flipped { Source: Store viewed }:
+                        Reach(viewed);
+                        break;
                     default:
                         throw new InvalidOperationException("A workspace, or the gap between a workspace and its source, is a working view and not part of a machine. Commit or drop it before saving.");
                 }
@@ -461,6 +464,7 @@ public static class Transport
             if (wiring.Law is RelationLaw) bits.Bit(binding.IsOpen);
             // 0: a store's own positions. 1: one of its ports. 2: whether its positions are in use.
             // 3: a socket, by its place; its shape follows the first time.
+            // 4: a store read through a view with some planes flipped.
             switch (binding.Surface)
             {
                 case var surface when sockets.TryGetValue(surface, out var socket):
@@ -479,6 +483,12 @@ public static class Transport
                     bits.Number(1);
                     bits.Number(stores[inside.Owner]);
                     bits.Number(IndexOf(inside.Owner.Ports, inside));
+                    break;
+                case Flipped { Source: Store viewed } view:
+                    bits.Number(4);
+                    bits.Number(stores[viewed]);
+                    bits.Number(view.Planes.Count);
+                    foreach (var plane in view.Planes) bits.Number(plane);
                     break;
                 case Port port:
                     bits.Number(1);
@@ -523,7 +533,7 @@ public static class Transport
         for (var r = 0; r < bindings.Length; r++)
         {
             var open = law is RelationLaw && bits.Bit();
-            var kind = bits.Count(3);
+            var kind = bits.Count(4);
             Surface surface;
             if (kind == 3)
             {
@@ -537,6 +547,13 @@ public static class Transport
                     sockets.Add(Socket.Shaped(lanes, shape, constants));
                 }
                 surface = sockets[socket];
+            }
+            else if (kind == 4)
+            {
+                var viewed = stores[bits.Count(stores.Length - 1)];
+                var flipped = new int[bits.Count(viewed.PlaneCount)];
+                for (var k = 0; k < flipped.Length; k++) flipped[k] = bits.Count(viewed.PlaneCount - 1);
+                surface = new Flipped(viewed, flipped);
             }
             else
             {
