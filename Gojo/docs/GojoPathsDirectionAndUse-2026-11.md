@@ -1,6 +1,8 @@
 # Paths, direction and use: a deep dive
 
-Status: **analysis and proposal**, 22 November 2026. Nothing here changes the
+Status: **analysis and proposal**, 22 November 2026. Since then, steps are
+ODV words in `Paths` (section 3.1), and goal, source, route and completion are
+presence bits on a trail of sides (`Sides`, `SidesEventTests`). Nothing here changes the
 canonical prompt or code. It follows the accepted
 [orientation note](GojoOrientationDefinitionAndUse-2026-11.md) and asks how
 far its model of definitions, uses and orientation covers places and paths.

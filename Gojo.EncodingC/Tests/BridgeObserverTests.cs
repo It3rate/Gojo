@@ -27,7 +27,7 @@ public sealed class BridgeObserverTests
     private const int ForwardAcross = 1, BackAcross = 2;
     private static readonly Shape Count = Shape.Unary(Cap);
     private static readonly Field CountField = new(Count, 0, 1, 2);
-    private static readonly Field Direction = new(Paths.Direction, 0, 1);
+    private static readonly Field Direction = new(Sides.Word, 0, 1);
 
     /// <summary>Adds one when the observed bit is set. Roles: seen (read), count.</summary>
     private static readonly TransitionLaw Tally = TransitionLaw.FromFunction(
@@ -54,11 +54,11 @@ public sealed class BridgeObserverTests
         for (var h = 0; h < hikers; h++)
         {
             path.Write(h, Home, true);
-            var direction = new Field(Paths.Direction, 2 * h, 2 * h + 1);
-            direction.Write(control, 0, Paths.Stay);
-            var forward = new Wiring(Paths.Advance(Paths.Forward), new Binding(path, h), new Binding(control, 2 * h, 2 * h + 1), new Binding(path, h));
+            var direction = new Field(Sides.Word, 2 * h, 2 * h + 1);
+            direction.Write(control, 0, Sides.AtFromAfter);
+            var forward = new Wiring(Paths.Advance(Sides.With), new Binding(path, h), new Binding(control, 2 * h, 2 * h + 1), new Binding(path, h));
             foreach (var (from, to) in ForwardRows) forward.Add(from, 0, to);
-            var back = new Wiring(Paths.Advance(Paths.Back), new Binding(path, h), new Binding(control, 2 * h, 2 * h + 1), new Binding(path, h));
+            var back = new Wiring(Paths.Advance(Sides.Against), new Binding(path, h), new Binding(control, 2 * h, 2 * h + 1), new Binding(path, h));
             foreach (var (from, to) in ForwardRows.Reverse()) back.Add(to, 0, from);
             var (forwardMoved, backMoved) = (forward.Record().Changed, back.Record().Changed);
             engine.Add(forward).Add(back);
@@ -146,7 +146,7 @@ public sealed class BridgeObserverTests
     {
         foreach (var step in steps)
         {
-            for (var h = 0; h < step.Length; h++) new Field(Paths.Direction, 2 * h, 2 * h + 1).Write(world.Control, 0, step[h]);
+            for (var h = 0; h < step.Length; h++) new Field(Sides.Word, 2 * h, 2 * h + 1).Write(world.Control, 0, step[h]);
             world.Engine.Step();
             foreach (var observer in observers) observer.Engine.Step();
         }
@@ -163,7 +163,7 @@ public sealed class BridgeObserverTests
 
     private static ulong Values(params int[] values) => values.Aggregate(0UL, (mask, v) => mask | 1UL << v);
 
-    private const int F = Paths.Forward, B = Paths.Back, S = Paths.Stay;
+    private static readonly int F = Sides.With, B = Sides.Against, S = Sides.AtFromAfter;
 
     /// <summary>One hiker turns back before the bridge. The strip counts
     /// nothing, so the story knows the hiker is on the home side and never

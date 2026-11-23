@@ -149,7 +149,7 @@ public sealed class PathTests
         Assert.Equal(Values(1, 2, 3), Fill(Paths.Within(Sites, Forked, closed: false), 0, 4));
 
         var site = Open(3, out var store);
-        var direction = Supports.On(store, new Field(Paths.Direction, 0, 1));
+        var direction = Supports.On(store, new Field(Sides.Word, 0, 1));
         site.Restrict(0, Values(1));
         site.Restrict(2, Values(4));
         var steps = new Wiring(Paths.Step(Sites, Forked), site.Variable, site.Variable, direction.Variable);
@@ -159,7 +159,7 @@ public sealed class PathTests
         steps.Apply();
 
         Assert.Equal(Values(2, 3), site.Values(1));
-        Assert.Equal((Values(Paths.Forward), Values(Paths.Forward)), (direction.Values(1), direction.Values(2)));
+        Assert.Equal((Values(Sides.With), Values(Sides.With)), (direction.Values(1), direction.Values(2)));
     }
 
     /// <summary>A use, out and back along the road. Read on the road's
@@ -172,9 +172,9 @@ public sealed class PathTests
     public void AUseReadOnTheReorientedPathSwapsItsStepsAndKeepsItsTurn()
     {
         var site = Open(3, out var store);
-        var along = Supports.On(store, new Field(Paths.Direction, 0, 1));
-        var against = Supports.On(store, new Field(Paths.Direction, 0, 1));
-        var reread = Supports.On(store, new Field(Paths.Direction, 0, 1));
+        var along = Supports.On(store, new Field(Sides.Word, 0, 1));
+        var against = Supports.On(store, new Field(Sides.Word, 0, 1));
+        var reread = Supports.On(store, new Field(Sides.Word, 0, 1));
         foreach (var (moment, at) in new[] { (0, 1), (1, 2), (2, 1) }) site.Restrict(moment, Values(at));
         var step = Paths.Step(Sites, Road);
         var forward = new Wiring(step, site.Variable, site.Variable, along.Variable);
@@ -188,14 +188,14 @@ public sealed class PathTests
         }
         foreach (var wiring in new[] { forward, swapped, reoriented }) wiring.Apply();
 
-        Assert.Equal((Values(Paths.Forward), Values(Paths.Back)), (along.Values(1), along.Values(2)));
-        Assert.Equal((Values(Paths.Back), Values(Paths.Forward)), (against.Values(1), against.Values(2)));
+        Assert.Equal((Values(Sides.With), Values(Sides.Against)), (along.Values(1), along.Values(2)));
+        Assert.Equal((Values(Sides.Against), Values(Sides.With)), (against.Values(1), against.Values(2)));
         Assert.Equal([against.Values(1), against.Values(2)], new[] { reread.Values(1), reread.Values(2) });
         Assert.Equal([Values(1), Values(2), Values(1)], new[] { site.Values(0), site.Values(1), site.Values(2) });
-        Assert.True(Read(Paths.Reversal, along).None);
-        Assert.True(Read(Paths.Reversal, against).None);
-        Assert.True(Read(Paths.TurnedBack, along).None);
-        Assert.False(Read(Paths.TurnedBack, against).None);
+        Assert.True(Read(Sides.Reversal, along).None);
+        Assert.True(Read(Sides.Reversal, against).None);
+        Assert.True(Read(Sides.TurnedBack, along).None);
+        Assert.False(Read(Sides.TurnedBack, against).None);
     }
 
     /// <summary>Rows of a two-step direction read whose settled directions the law does not admit.</summary>

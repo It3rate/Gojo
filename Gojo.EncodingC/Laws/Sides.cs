@@ -67,6 +67,12 @@ public static class Sides
     /// detectable step against it. Roles: earlier step, later step.</summary>
     public static RelationLaw TurnedBack { get; } = RelationLaw.FromPredicate([Word, Word], t => t[0] == With && t[1] == Against);
 
+    /// <summary>A change of step direction either way, both steps detectable:
+    /// what a turn is on whichever orientation the use is read. Roles: earlier
+    /// step, later step.</summary>
+    public static RelationLaw Reversal { get; } = RelationLaw.FromPredicate([Word, Word], t =>
+        Of(t[0]).Detectable && Of(t[1]).Detectable && Of(t[0]).Negative != Of(t[1]).Negative);
+
     // ---- Events: presence bits a trail of side and step words settles ----
 
     /// <summary>At the landmark at this resolution: the side word is not

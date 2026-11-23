@@ -5,7 +5,8 @@ Status: **decided**, 23 November 2026. The rule is now canonical prompt
 EncodingC is changed to it: supports set 1 for a value still possible, with
 planes that fill new positions with 1; ODV D sets 1 for positive; ODV O sets 1
 for the forward face (positive-right). The inventory below is the audit that
-led here.
+led here. Since the audit, `Paths.Direction` is retired: path steps are ODV
+step words, so forward is D 1 like every other positive.
 
 **The older encodings keep their historical polarity and will not be
 changed.** `Gojo.Encoding`, including its promoted core, is historical

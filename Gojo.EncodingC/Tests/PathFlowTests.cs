@@ -25,12 +25,12 @@ public sealed class PathFlowTests
     {
         var path = new Store(1, sites);
         path.Write(0, start, true);
-        var control = new Store(Paths.Direction.Bits, 1);
-        var direction = new Field(Paths.Direction, 0, 1);
-        direction.Write(control, 0, Paths.Stay);
-        var forward = new Wiring(Paths.Advance(Paths.Forward), new Binding(path, 0), new Binding(control, 0, 1), new Binding(path, 0));
+        var control = new Store(Sides.Word.Bits, 1);
+        var direction = new Field(Sides.Word, 0, 1);
+        direction.Write(control, 0, Sides.AtFromAfter);
+        var forward = new Wiring(Paths.Advance(Sides.With), new Binding(path, 0), new Binding(control, 0, 1), new Binding(path, 0));
         foreach (var (from, to) in forwardRows) forward.Add(from, 0, to);
-        var back = new Wiring(Paths.Advance(Paths.Back), new Binding(path, 0), new Binding(control, 0, 1), new Binding(path, 0));
+        var back = new Wiring(Paths.Advance(Sides.Against), new Binding(path, 0), new Binding(control, 0, 1), new Binding(path, 0));
         foreach (var (from, to) in forwardRows.Reverse()) back.Add(to, 0, from);
         forward.Record();
         return new Walk(new Engine().Add(forward).Add(back), path, control, direction, forward, back);
@@ -58,7 +58,7 @@ public sealed class PathFlowTests
     {
         var store = new Store(3, trail.Count);
         var site = Supports.On(store, new Field(Shape.Binary(Sites), [0, 1, 2]));
-        var arrival = Supports.On(store, new Field(Paths.Direction, 0, 1));
+        var arrival = Supports.On(store, new Field(Sides.Word, 0, 1));
         for (var t = 0; t < trail.Count; t++) site.Restrict(t, 1UL << trail[t]);
         var steps = new Wiring(Paths.Step(Sites, Road), site.Variable, site.Variable, arrival.Variable);
         for (var t = 1; t < trail.Count; t++) steps.Add(t - 1, t, t);
@@ -72,7 +72,7 @@ public sealed class PathFlowTests
     public void AUnitAdvancesOneSiteAStepAndRestsAtTheEnd()
     {
         var walk = OnTheRoad();
-        walk.Direction.Write(walk.Control, 0, Paths.Forward);
+        walk.Direction.Write(walk.Control, 0, Sides.With);
 
         var trail = Run(walk, 6);
 
@@ -84,25 +84,26 @@ public sealed class PathFlowTests
     /// <summary>Forward twice, then turned back: the same path used with the
     /// direction set back. The unit retraces its sites to home and rests, and
     /// stays at rest without new input. Read from its sites, the use goes
-    /// forward, forward, back, back, then stays, and the turn is the change
-    /// from forward to back.</summary>
+    /// forward, forward, back, back, then stays, a step that moved nothing
+    /// detectably and whose heading the sites alone leave open; the turn is the
+    /// change from forward to back.</summary>
     [Fact]
     public void TurningBackIsTheSamePathUsedTheOtherWay()
     {
         var walk = OnTheRoad();
-        walk.Direction.Write(walk.Control, 0, Paths.Forward);
+        walk.Direction.Write(walk.Control, 0, Sides.With);
         var trail = new List<int> { At(walk) };
         trail.AddRange(Run(walk, 2));
 
-        walk.Direction.Write(walk.Control, 0, Paths.Back);
+        walk.Direction.Write(walk.Control, 0, Sides.Against);
         trail.AddRange(Run(walk, 3));
 
         Assert.Equal([0, 1, 2, 1, 0, 0], trail);
         var steps = Directions(trail);
-        Assert.Equal([Paths.Forward, Paths.Forward, Paths.Back, Paths.Back, Paths.Stay], steps);
-        bool Reads(RelationLaw law, int i) => law.BitAt(law.TupleIndex([steps[i - 1]!.Value, steps[i]!.Value]));
-        Assert.Equal([2], Enumerable.Range(1, steps.Length - 1).Where(i => Reads(Paths.Reversal, i)));
-        Assert.True(Reads(Paths.TurnedBack, 2));
+        Assert.Equal([Sides.With, Sides.With, Sides.Against, Sides.Against, null], steps);
+        bool Reads(RelationLaw law, int i) => steps[i - 1] is int a && steps[i] is int b && law.BitAt(law.TupleIndex([a, b]));
+        Assert.Equal([2], Enumerable.Range(1, steps.Length - 1).Where(i => Reads(Sides.Reversal, i)));
+        Assert.True(Reads(Sides.TurnedBack, 2));
         Assert.True(walk.Engine.Step().Steps.All(step => step.Changed.None));
         Assert.Equal(1, walk.Path.Read(0).Count);
     }
@@ -115,7 +116,7 @@ public sealed class PathFlowTests
     {
         var walk = OnTheRoad();
         walk.Path.Retire(3);
-        walk.Direction.Write(walk.Control, 0, Paths.Forward);
+        walk.Direction.Write(walk.Control, 0, Sides.With);
 
         var trail = Run(walk, 4);
         var step = walk.Engine.Step();
@@ -134,7 +135,7 @@ public sealed class PathFlowTests
     {
         var left = Build(Sites, [(3, 4), (2, 4), (1, 2), (1, 3), (0, 1)], 1);
         var right = Build(Sites, [(3, 4), (2, 4), (1, 3), (1, 2), (0, 1)], 1);
-        foreach (var walk in new[] { left, right }) walk.Direction.Write(walk.Control, 0, Paths.Forward);
+        foreach (var walk in new[] { left, right }) walk.Direction.Write(walk.Control, 0, Sides.With);
 
         Assert.Equal([2, 4], Run(left, 2));
         Assert.Equal([3, 4], Run(right, 2));

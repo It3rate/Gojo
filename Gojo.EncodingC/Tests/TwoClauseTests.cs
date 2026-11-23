@@ -28,12 +28,12 @@ namespace Gojo.EncodingC.Tests;
 public sealed class TwoClauseTests
 {
     private const int Sites = 5;
-    private const int Planes = Sites + 3;
+    private const int Planes = Sites + 4;
     private static readonly Shape Site = Shape.Binary(Sites);
     private static readonly (int, int)[] Road = [(0, 1), (1, 2), (2, 3), (3, 4)];
     private static readonly RelationLaw Step = Paths.Step(Sites, Road);
-    private static readonly RelationLaw Moving = RelationLaw.FromPredicate([Paths.Direction], t => t[0] == Paths.Forward);
-    private static readonly RelationLaw MovingBack = RelationLaw.FromPredicate([Paths.Direction], t => t[0] == Paths.Back);
+    private static readonly RelationLaw Moving = RelationLaw.FromPredicate([Sides.Word], t => t[0] == Sides.With);
+    private static readonly RelationLaw MovingBack = RelationLaw.FromPredicate([Sides.Word], t => t[0] == Sides.Against);
 
     /// <summary>A clause: its store of moments, a site and an arrival
     /// direction at each, the port showing its edge moment, and the socket
@@ -42,9 +42,9 @@ public sealed class TwoClauseTests
 
     private static Clause Build(int moments, int edge)
     {
-        var store = new Store(Site.Bits + Paths.Direction.Bits, moments);
+        var store = new Store(Site.Bits + Sides.Word.Bits, moments);
         var site = Supports.On(store, new Field(Site, 0, 1, 2));
-        var arrival = Supports.On(store, new Field(Paths.Direction, 3, 4));
+        var arrival = Supports.On(store, new Field(Sides.Word, 3, 4));
         var steps = new Wiring(Step, site.Variable, site.Variable, arrival.Variable);
         for (var t = 1; t < moments; t++) steps.Add(t - 1, t, t);
         var exposed = store.Publish([edge], [.. site.Planes, .. arrival.Planes]);
@@ -53,7 +53,7 @@ public sealed class TwoClauseTests
 
     private static Binding OtherSite(Clause clause) => Binding.Open(clause.Other, [.. Enumerable.Range(0, Sites)]);
 
-    private static Binding OtherArrival(Clause clause) => Binding.Open(clause.Other, [.. Enumerable.Range(Sites, 3)]);
+    private static Binding OtherArrival(Clause clause) => Binding.Open(clause.Other, [.. Enumerable.Range(Sites, 4)]);
 
     /// <summary>Moving toward the store: three moments, each step forward. Its
     /// last moment is the turn. Through its socket it reads the moment after,
@@ -66,7 +66,7 @@ public sealed class TwoClauseTests
         moving.Add(2);
         var leaving = new Wiring(Step, clause.Site.Variable, OtherSite(clause), OtherArrival(clause));
         leaving.Add(2, 0, 0);
-        var turned = new Wiring(Paths.TurnedBack, clause.Arrival.Variable, OtherArrival(clause));
+        var turned = new Wiring(Sides.TurnedBack, clause.Arrival.Variable, OtherArrival(clause));
         turned.Add(2, 0);
         clause.Engine.Add(moving).Add(leaving).Add(turned);
         return clause;
@@ -81,7 +81,7 @@ public sealed class TwoClauseTests
         back.Add(0);
         var from = new Wiring(Step, OtherSite(clause), clause.Site.Variable, clause.Arrival.Variable);
         from.Add(0, 0, 0);
-        var turned = new Wiring(Paths.TurnedBack, OtherArrival(clause), clause.Arrival.Variable);
+        var turned = new Wiring(Sides.TurnedBack, OtherArrival(clause), clause.Arrival.Variable);
         turned.Add(0, 0);
         clause.Engine.Add(back).Add(from).Add(turned);
         return clause;
@@ -134,8 +134,8 @@ public sealed class TwoClauseTests
         Settle(back.Engine);
 
         Assert.Equal([Values(0, 1, 2), Values(1, 2, 3), Values(2, 3, 4)], Read(approach));
-        Assert.Equal(Values(Paths.Forward), approach.Arrival.Values(2));
-        Assert.Equal((Values(1), Values(Paths.Back)), (back.Site.Values(0), back.Arrival.Values(0)));
+        Assert.Equal(Values(Sides.With), approach.Arrival.Values(2));
+        Assert.Equal((Values(1), Values(Sides.Against)), (back.Site.Values(0), back.Arrival.Values(0)));
         Assert.Equal([false, false, true, true], skipped);
     }
 

@@ -10,34 +10,30 @@ namespace Gojo.EncodingC;
 /// landmarks may be written in either order, since "B is after A" and "C is
 /// after B" are two facts without priority, and the lower landmark is the
 /// segment's natural start. A range is the same set of sites with no start
-/// and no flow. A traversal is a use: each step goes forward, stays, or goes
-/// back relative to the path's orientation, and a turn is a change of step
-/// direction. Reading a use on the reoriented path is binding the same step
-/// law with its two site roles swapped; the sites do not change.</para>
+/// and no flow. A traversal is a use: each step is an ODV step word on the
+/// path's orientation (<see cref="Sides.Word"/>): <see cref="Sides.With"/> is
+/// forward, <see cref="Sides.Against"/> back, and a zero word a stay that moved
+/// nothing detectably, its heading left open. A turn is a change of step
+/// direction (<see cref="Sides.TurnedBack"/>, <see cref="Sides.Reversal"/>).
+/// Reading a use on the reoriented path is binding the same step law with its
+/// two site roles swapped; the sites do not change.</para>
 /// <para>Where order between sites is needed, it is worked out once from the
 /// declared neighbours when the table is made, as any stock table is. The
 /// running machine holds only the table.</para></summary>
 public static class Paths
 {
-    /// <summary>Step directions, low to high: more forward reads as more.</summary>
-    public const int Back = 0, Stay = 1, Forward = 2;
-
-    /// <summary>A step's direction relative to the path's orientation.</summary>
-    public static Shape Direction { get; } = Shape.Binary(3);
-
-    /// <summary>A step from one site to the next moment's site, and its direction:
-    /// forward along a declared neighbour, back along one, or staying. Roles:
-    /// site, next site, direction. On a branching path a forward step from a
-    /// fork admits each branch; nothing chooses the route.</summary>
+    /// <summary>A step from one site to the next moment's site, and its step
+    /// word: forward along a declared neighbour, back along one, or staying,
+    /// which admits either zero word. Roles: site, next site, step. On a
+    /// branching path a forward step from a fork admits each branch; nothing
+    /// chooses the route.</summary>
     public static RelationLaw Step(int sites, IReadOnlyList<(int From, int To)> next)
     {
         var edge = Edges(sites, next);
-        return RelationLaw.FromPredicate([Site(sites), Site(sites), Direction], t => t[2] switch
-        {
-            Forward => edge[t[0], t[1]],
-            Back => edge[t[1], t[0]],
-            _ => t[0] == t[1],
-        });
+        return RelationLaw.FromPredicate([Site(sites), Site(sites), Sides.Word], t =>
+            t[2] == Sides.With ? edge[t[0], t[1]]
+            : t[2] == Sides.Against ? edge[t[1], t[0]]
+            : t[0] == t[1]);
     }
 
     /// <summary>Whether the middle site lies between two landmarks along the
@@ -90,33 +86,24 @@ public static class Paths
             t => (reach[t[0], t[2]] && t[1] == t[0]) || (reach[t[2], t[0]] && t[1] == t[2]));
     }
 
-    /// <summary>"Turned back": a forward step followed by a backward one.
-    /// Roles: earlier direction, later direction.</summary>
-    public static RelationLaw TurnedBack { get; } =
-        RelationLaw.FromPredicate([Direction, Direction], t => t[0] == Forward && t[1] == Back);
-
-    /// <summary>A change of step direction either way: what a turn is, whichever
-    /// orientation the use is read on. Roles: earlier direction, later direction.</summary>
-    public static RelationLaw Reversal { get; } =
-        RelationLaw.FromPredicate([Direction, Direction], t => (t[0], t[1]) is (Forward, Back) or (Back, Forward));
-
-    /// <summary>Moves a unit one site along the path when the use's direction
-    /// is <paramref name="direction"/>: from a site holding it to a neighbour
-    /// with room. Roles: from, direction, to. Each row is one neighbour pair
-    /// read the way this law moves: a forward row from a site to its next, a
-    /// back row from a site to its previous. The direction is only read, and
-    /// the unit is conserved, so the law may take through a port.</summary>
-    public static TransitionLaw Advance(int direction)
+    /// <summary>Moves a unit one site along the path when the use's step word
+    /// is <paramref name="step"/>, <see cref="Sides.With"/> or
+    /// <see cref="Sides.Against"/>: from a site holding it to a neighbour with
+    /// room. Roles: from, step, to. Each row is one neighbour pair read the way
+    /// this law moves: a forward row from a site to its next, a back row from a
+    /// site to its previous. A zero step word moves nothing. The step is only
+    /// read, and the unit is conserved, so the law may take through a port.</summary>
+    public static TransitionLaw Advance(int step)
     {
-        if (direction is not (Forward or Back)) throw new ArgumentOutOfRangeException(nameof(direction), "A unit advances forward or back.");
-        return direction == Forward ? AdvanceForward : AdvanceBack;
+        if (step != Sides.With && step != Sides.Against) throw new ArgumentOutOfRangeException(nameof(step), "A unit advances with the path or against it.");
+        return step == Sides.With ? AdvanceWith.Value : AdvanceAgainst.Value;
     }
 
-    private static readonly TransitionLaw AdvanceForward = Carry(Forward);
-    private static readonly TransitionLaw AdvanceBack = Carry(Back);
+    private static readonly Lazy<TransitionLaw> AdvanceWith = new(() => Carry(Sides.With));
+    private static readonly Lazy<TransitionLaw> AdvanceAgainst = new(() => Carry(Sides.Against));
 
     private static TransitionLaw Carry(int direction) => TransitionLaw.FromFunction(
-        [Shape.Unary(1), Direction, Shape.Unary(1)],
+        [Shape.Unary(1), Sides.Word, Shape.Unary(1)],
         s => s[0] == 1 && s[1] == direction && s[2] == 0 ? [0, s[1], 1] : s,
         new Accounting(true, new PreservedSum([0, 2]), new Unchanged(1), new NeverIncreases(0), new NeverDecreases(2)));
 
