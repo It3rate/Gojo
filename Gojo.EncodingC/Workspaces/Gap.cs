@@ -10,11 +10,27 @@ namespace Gojo.EncodingC;
 /// source has arrived. Both are the same read, so the same structure can use
 /// a miss to trust a predictor less and a distance to keep a valve open.</para>
 /// <para>The gap is never stored and never written. It is a difference that
-/// exists while both sides do, in the same medium as what it compares: for a
-/// unary count, the bits set are the units between the two counts. Which side
-/// is larger is read by binding a second role to the workspace at the same
-/// position. An introduced position has no source to differ from and reads
-/// clear.</para></summary>
+/// exists while both sides do, in the same medium as what it compares. An
+/// introduced position has no source to differ from and reads clear.</para>
+/// <para><b>What it is, and what it is not.</b> The gap is a per-bit
+/// disagreement: it says which bits differ, and nothing else. For a unary
+/// count the bits it sets are the units between the two counts as a set, not
+/// as a count: 1 (<c>0001</c>) against 3 (<c>0111</c>) reads <c>0110</c>, which is
+/// not a unary prefix, so a law reading it as a count finds it unread. And it
+/// has no direction: one unit too few and one too many give the same gap.
+/// It serves well as a detector of a miss, bit by bit; a law that must respond
+/// to how far off and which way still has to read both sides
+/// (<c>FlowIsSteeredTowardAGoalByTheGapItLeaves</c> does).</para>
+/// <para><b>A direction to take later.</b> An error that can drive laws
+/// directly would have two faces, as two-way traffic does: a deficit (too
+/// low) and an excess (too high), each a unary count, never merged into one
+/// signed value and never both present. A response law would then read one
+/// operand: a deficit opens the way in, an excess the way out. The likely
+/// form is a relation over (have, want, deficit, excess) built once, which can
+/// leave both open while the inputs are; cheaper live views (want and not
+/// have, have and not want) would carry the direction but, like this gap, a
+/// set of units rather than a count. Other per-bit reads at this level may
+/// need the same treatment when they come to drive responses.</para></summary>
 public sealed class Gap : Surface
 {
     private readonly Workspace workspace;
