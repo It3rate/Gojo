@@ -67,6 +67,54 @@ public static class Sides
     /// detectable step against it. Roles: earlier step, later step.</summary>
     public static RelationLaw TurnedBack { get; } = RelationLaw.FromPredicate([Word, Word], t => t[0] == With && t[1] == Against);
 
+    // ---- Events: presence bits a trail of side and step words settles ----
+
+    /// <summary>At the landmark at this resolution: the side word is not
+    /// detectably away. Roles: side, at.</summary>
+    public static RelationLaw At { get; } = RelationLaw.FromPredicate([Word, Shape.Bit], t => t[1] == (Of(t[0]).Detectable ? 0 : 1));
+
+    /// <summary>A step toward the landmark: a detectable step whose direction
+    /// is opposite to the side it starts on, so from the negative side with the
+    /// orientation, or from the positive side against it. At the mark the
+    /// side's D still says which edge it is on, so a step from the near edge
+    /// through the mark is toward it. Roles: side before the step, step, toward.</summary>
+    public static RelationLaw Toward { get; } = RelationLaw.FromPredicate([Word, Word, Shape.Bit], t => t[2] == (Approaches(t[0], t[1]) ? 1 : 0));
+
+    /// <summary>A step away from the landmark: a detectable step in the same
+    /// direction as the side it starts on, from the negative side against the
+    /// orientation, or from the positive side with it, at the mark or not.
+    /// Roles: side before, step, away.</summary>
+    public static RelationLaw Away { get; } = RelationLaw.FromPredicate([Word, Word, Shape.Bit], t => t[2] == (Recedes(t[0], t[1]) ? 1 : 0));
+
+    /// <summary>Passing the landmark: the side's D differs from one moment to
+    /// the next, which continuity allows only at the mark. Roles: side before,
+    /// side after, crossed.</summary>
+    public static RelationLaw Crosses { get; } = RelationLaw.FromPredicate([Word, Word, Shape.Bit], t => t[2] == (Of(t[0]).Negative != Of(t[1]).Negative ? 1 : 0));
+
+    /// <summary>Gave up on the landmark: having been heading toward it and not
+    /// yet reached it, the next step goes away. Once abandoned, a use stays
+    /// abandoned. Roles: abandoned before, reached before, toward before, away
+    /// now, abandoned after.</summary>
+    public static RelationLaw Abandons { get; } = RelationLaw.FromPredicate([Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit],
+        t => t[4] == (t[0] == 1 || (t[1] == 0 && t[2] == 1 && t[3] == 1) ? 1 : 0));
+
+    /// <summary>Under way: heading toward the landmark, not yet reached, not
+    /// abandoned. Roles: toward, reached, abandoned, under way.</summary>
+    public static RelationLaw UnderWay { get; } = RelationLaw.FromPredicate([Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit],
+        t => t[3] == (t[0] == 1 && t[1] == 0 && t[2] == 0 ? 1 : 0));
+
+    private static bool Approaches(int side, int step)
+    {
+        var (s, d) = (Of(side), Of(step));
+        return d.Detectable && s.Negative != d.Negative;
+    }
+
+    private static bool Recedes(int side, int step)
+    {
+        var (s, d) = (Of(side), Of(step));
+        return d.Detectable && s.Negative == d.Negative;
+    }
+
     /// <summary>A side word as the full ODV word on the positive-right orientation.</summary>
     private static OdvWord Of(int code) => new((byte)(code | OdvWord.OrientationBit));
 

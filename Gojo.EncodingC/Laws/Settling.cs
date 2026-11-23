@@ -26,6 +26,10 @@ public static class Settling
         }
     }
 
+    /// <summary>Has ever been: a presence that accumulates along a chain of
+    /// moments. Roles: before, now, after; after is before or now.</summary>
+    public static RelationLaw Ever { get; } = RelationLaw.FromPredicate([Shape.Bit, Shape.Bit, Shape.Bit], t => t[2] == (t[0] | t[1]));
+
     /// <summary>Opens a value again: sets every value possible. One role, the
     /// planes of a value with <paramref name="values"/> values read as plain
     /// bits. Wired to run every step, it is the passing of time: what was
