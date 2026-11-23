@@ -122,6 +122,59 @@ public sealed class Closure
         return new Closure(engine, areas, planes);
     }
 
+    /// <summary>The closure that follows a referent across structures, out and
+    /// back (formal concept analysis's closure): from the
+    /// <paramref name="seeds"/> to the structures in <paramref name="view"/>
+    /// that reference all of them, and back to the positions those structures
+    /// share. Positions are taken by identity, so a lane read through a port
+    /// or a socket is its owner's position, and positions private to one
+    /// structure drop out unless enough others reach them too.
+    /// <para><paramref name="missing"/> is how many of the using structures may
+    /// lack a position for it to stay. At 0 the result is the strict common
+    /// core, and computing it again from that core gives it back. At one less
+    /// than the number of users it is everything any of them references.
+    /// In between are the selections that are partly shared.</para>
+    /// <para>The rows selected are those of the using structures that bind a
+    /// shared position, so a fork or attention can run them. The first
+    /// structure in view is the one that asks.</para></summary>
+    public static Closure Common(IReadOnlyList<Engine> view, IReadOnlyDictionary<Surface, Plane> seeds, int missing = 0)
+    {
+        ArgumentNullException.ThrowIfNull(view);
+        ArgumentNullException.ThrowIfNull(seeds);
+        ArgumentOutOfRangeException.ThrowIfNegative(missing);
+        if (view.Count == 0) throw new ArgumentException("Nothing is in view.", nameof(view));
+        var seed = seeds.SelectMany(s => s.Value.Indexes().Select(i => Identity(s.Key, i))).ToHashSet();
+        IEnumerable<(Wiring W, int Row, (Surface, int)[] Binds)> Rows(Engine e) =>
+            e.Wirings.Distinct().SelectMany(w => w.Live.Indexes().Select(row => (w, row, w.Row(row).Select((i, r) => Identity(w.Bindings[r].Surface, i)).ToArray())));
+        var users = view.Where(e => seed.IsSubsetOf(Rows(e).SelectMany(x => x.Binds))).ToArray();
+        var references = users.Select(e => Rows(e).SelectMany(x => x.Binds).ToHashSet()).ToArray();
+        var shared = references.SelectMany(r => r).Distinct()
+            .Where(p => references.Count(r => r.Contains(p)) >= references.Length - missing)
+            .Union(seed).ToHashSet();
+
+        var areas = new Dictionary<Surface, Plane>(ReferenceEqualityComparer.Instance);
+        var planes = new Dictionary<Surface, Plane>(ReferenceEqualityComparer.Instance);
+        Plane Area(Dictionary<Surface, Plane> map, Surface surface, int length) =>
+            map.TryGetValue(surface, out var area) ? area : map[surface] = new Plane(length);
+        foreach (var (surface, index) in shared) Area(areas, surface, surface.Count)[index] = true;
+        foreach (var (w, row, binds) in users.SelectMany(Rows).Where(x => x.Binds.Any(shared.Contains)))
+        {
+            Area(areas, w.Rows, w.Count)[row] = true;
+            for (var role = 0; role < binds.Length; role++)
+            {
+                if (!shared.Contains(binds[role])) continue;
+                var read = Area(planes, binds[role].Item1, binds[role].Item1.PlaneCount);
+                foreach (var plane in w.Bindings[role].Planes) read[Behind(w.Bindings[role].Surface) is { } port ? port.OwnerPlanes[plane] : plane] = true;
+            }
+        }
+        return new Closure(view[0], areas, planes);
+    }
+
+    /// <summary>Where a position is: through a port or a plugged socket, the
+    /// owner's position; through a view, its source's.</summary>
+    private static (Surface, int) Identity(Surface surface, int index) =>
+        Behind(Key(surface)) is { } port && port.IsLive(index) ? (port.Owner, port.Lane(index)) : (Key(surface), index);
+
     /// <summary>A role bound open whose value is settled at this position: a
     /// finished unit, read through its edge and not grown through (phase, C8).</summary>
     private static bool Sealed(Binding binding, int index) =>

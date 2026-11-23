@@ -195,4 +195,55 @@ public sealed class ClosureTests
         Assert.Equal(Bob, sealedQuestion.Answer);
         Assert.Equal(0, new Question(openedWorld.Owner, ThisCar).Pursue(openedWorld.Engine, reach: 1, open: 1));
     }
+
+    /// <summary>Following a referent across structures, out and back. A town
+    /// publishes its places, and four structures read them: mornings (Bob on
+    /// Main Street, Bob at the garage, and something of its own about Bob),
+    /// evenings (Bob on Main Street, Bob in the park), a weekend that never
+    /// mentions Bob (Main Street, the library), and a walk read through a
+    /// socket (Bob on Main Street). From Bob, the structures that read him are
+    /// mornings, evenings and the walk; what all three share is Bob and Main
+    /// Street. Computing it again from that core gives it back: it is closed.
+    /// Letting one user lack a position changes nothing here; letting two lack
+    /// it gives everything any of them reaches, the mornings' own position
+    /// included. The weekend's rows are never selected.</summary>
+    [Fact]
+    public void FollowingAReferentAcrossStructuresKeepsWhatItsUsesShare()
+    {
+        const int Bob = 0, Main = 1, Garage = 2, Park = 3, Library = 4;
+        var town = new Store(1, 5);
+        var townEngine = new Engine().Hold(town);
+        var places = town.Publish([0, 1, 2, 3, 4], [0]);
+        Wiring Reads(Surface a, Surface b, params (int, int)[] rows)
+        {
+            var w = new Wiring(Settling.Same(Shape.Bit), new Binding(a, 0), new Binding(b, 0));
+            foreach (var (x, y) in rows) w.Add(x, y);
+            return w;
+        }
+        var own = new Store(1, 1);
+        var morningsOwn = Reads(places, own, (Bob, 0));
+        var mornings = new Engine().Add(Reads(places, places, (Bob, Main), (Bob, Garage))).Add(morningsOwn);
+        var evenings = new Engine().Add(Reads(places, places, (Bob, Main), (Bob, Park)));
+        var weekendRows = Reads(places, places, (Main, Library));
+        var weekend = new Engine().Add(weekendRows);
+        var socket = Socket.For(places);
+        socket.Plug(places);
+        var walk = new Engine().Add(Reads(socket, socket, (Bob, Main)));
+        Engine[] view = [mornings, evenings, weekend, walk, townEngine];
+
+        var core = Closure.Common(view, Seed(places, Bob));
+        var again = Closure.Common(view, new Dictionary<Surface, Plane>(ReferenceEqualityComparer.Instance) { [town] = core.Of(town) });
+        var loose = Closure.Common(view, Seed(town, Bob), missing: 1);
+        var any = Closure.Common(view, Seed(town, Bob), missing: 2);
+
+        Assert.Equal(Plane.Of(5, Bob, Main), core.Of(town));
+        Assert.Equal(core.Of(town), again.Of(town));
+        Assert.Equal(core.Of(town), loose.Of(town));
+        Assert.Equal(Plane.Of(5, Bob, Main, Garage, Park), any.Of(town));
+        Assert.Equal(Plane.Of(1, 0), any.Of(own));
+        Assert.True(core.Of(own).None);
+        Assert.True(core.Rows(weekendRows).None);
+        Assert.Equal(Plane.Of(1, 0), core.Rows(morningsOwn));
+        Assert.Equal(Plane.Of(1, 0), core.PlanesOf(town));
+    }
 }

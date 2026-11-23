@@ -102,7 +102,8 @@ In Gojo, evidence narrows open values; settled units are read, not extended.
 
 **C11. Following a referent** (centering, protagonist tracking). *Gathers.* A
 selection may follow one identity: every unit that binds the same position,
-through ports and sockets. **built: the identity read; following is direction**
+through ports and sockets. **built: `Closure.Common`, out to the structures
+that use a referent and back to what they share (section 4a)**
 
 **C12. Coherence relations** (rhetorical structure, segmented DRT). Units join
 by relations: narration ("then"), cause, elaboration, contrast, condition. In
@@ -182,6 +183,39 @@ dimensions are followed; and, for continuous domains, which landmarks are
 present. Gathering and filtering are both part of every selection: the
 same rules that complete a thought also drop what it does not use.
 
+## 4a. Out and back: what the uses of a referent share
+
+Growth (section 4) only gathers, so the further it reaches, the more it
+selects. Following a referent the other way can also trim. It is the closure
+of formal concept analysis (Ganter and Wille, 1999), with structures as the
+objects and the positions they reference as the attributes:
+
+1. **Out:** from the seed, to every structure in view that references all of
+   it. Positions are taken by identity, so a lane read through a port or a
+   socket is its owner's position.
+2. **Back:** from those structures, to the positions they share.
+
+What is shared is what every use of the referent also involves: Bob's days
+all happen on Main Street, so Bob and Main Street are one unit for selection,
+whatever else each day adds. A position private to one structure drops out.
+Doing it again from the result gives it back; it is closed.
+
+**One number between too little and too much.** The strict intersection can
+underselect: one odd use removes everything else. So the closure takes
+`missing`, how many of the using structures may lack a position for it to
+stay. At 0 it is the strict core; at one less than the number of users it is
+everything any of them references, the union. The selections in between are
+the partly shared ones, and the values of `missing` where the selection
+changes are its natural resolutions: a ladder read from the structure, not
+chosen in advance.
+
+**What it needs to know** is only which rows bind which positions, structure
+that is already there, plus which structures are in view. A port does not know
+its readers, so the view is given: it is the asker's world, and a different
+view is a different question.
+
+**built:** `Closure.Common`, tested in `ClosureTests`.
+
 ## 5. Questions as goals
 
 "Whose car is this?" builds "this car belongs to *someone*". *Someone* is an
@@ -239,10 +273,17 @@ Tests:
   that is enough is open.
 - **Coherence relations as structure.** Section 3 names how each maps; only
   "then" and cause exist as structure today.
-- **Following a referent across structures.** Opening a port follows a
-  referent from the reader to its owner. The other way, from an owner to
-  every structure reading its position, needs the structures in view, since a
-  port does not know its readers.
+- **Rows or structures as the objects.** `Closure.Common` takes whole
+  structures as the objects. Rows as objects give a finer closure, but a row
+  of two roles shares little with another; a structure is the unit that has
+  a point of view. Whether objects should be any unit, chosen like reach, is
+  open.
+- **Iterating with a tolerance.** With `missing` above 0 the result need not
+  be closed: going out again from it can find different users. Whether to
+  iterate to a fixed point, and whether that always settles, is open.
+- **Combining growth and sharing.** Growth gathers and sharing trims. A
+  selection that grows by reach and is then trimmed to what its uses share,
+  or the reverse, is not built.
 - **Which settled units seal.** Today a settled open value seals growth
   through the row that reads it as open. A plain state code is never sealed,
   since a transition may still change it. Whether settled means more, such as
