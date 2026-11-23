@@ -1,7 +1,12 @@
 # Bit polarity: what 1 and 0 mean
 
-Status: **analysis**, 23 November 2026. No code changes. The question is
-whether the meanings of 1 and 0 flip arbitrarily across Gojo's encodings.
+Status: **decided**, 23 November 2026. The rule is now canonical prompt
+§9.7: 1 is presence or the dominant member, 0 absence or the recessive one.
+EncodingC is changed to it: supports set 1 for a value still possible, with
+planes that fill new positions with 1; ODV D sets 1 for positive; ODV O sets 1
+for the forward face (positive-right). The promoted core (`Gojo.Encoding/Core`)
+and the kernel's `Carrier.IsInverse` still use the older polarity and are
+listed as follow-ups. The inventory below is the audit that led here.
 
 ## The two rules in use
 

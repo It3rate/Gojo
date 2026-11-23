@@ -897,6 +897,29 @@ reorientation, and the deferred kernel migration are in
 [the orientation note](GojoOrientationDefinitionAndUse-2026-11.md). The
 generator reading and loops remain exploratory.
 
+## One Is Presence, November 2026
+
+An audit of EncodingC, the promoted encoding core and the kernel found two
+coherent rules in use. Presence bits (detection, unary counts, liveness,
+occupancy, gates, admitted tuples, events) set 1 for "there". Sign,
+orientation and face followed markedness instead: 0 for the usual member,
+1 for the exception, so negative, positive-left and the opposed face were 1.
+Supports set 1 for "ruled out", the opposite of the law tables they are
+narrowed against. The user decided for one rule, recorded as §9.7: 1 is
+presence or the dominant member of a pair.
+
+The reason is physical legibility. With presence as 1, a product is AND,
+`x · 0 = 0`, combining constraints multiplies possibilities, a fill is 1
+inside its range, and a contradiction is all zeros. Language shows the same
+pull: "it's six feet" assumes height, and most adjective pairs have an
+unmarked, dominant member that is the default read. Markedness chose 0 for
+that default for the sake of zeroed memory; §9.7 instead lets a plane declare
+its fill for new positions, so allocation never dictates meaning.
+
+The [polarity audit](GojoBitPolarity-2026-11.md) lists each bit and the order
+of the changes. EncodingC changed first; the promoted core and the kernel's
+face flag are separate follow-ups.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

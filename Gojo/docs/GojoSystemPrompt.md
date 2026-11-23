@@ -1279,6 +1279,38 @@ optimization must not shape the concept.
   gets wrong, at a useful resolution, the way an equation near the right
   pattern stands for many samples.
 
+### 9.7 One Is Presence, Zero Is Absence
+
+Every bit in an encoding has one polarity: **1 is presence, the dominant or
+positive member of a pair; 0 is absence, or the recessive member.** This is
+not a convenience of storage. It is what makes the arithmetic of bits read as
+physics:
+
+- A product is presence of both. `1 · 1 = 1` and `x · 0 = 0`, so combining
+  constraints is AND, and a combined possibility exists only where every part
+  allows it.
+- More participation sets more bits. A unary count of three is three set bits;
+  a fill is 1 inside its range and 0 outside it; occupancy is 1 where a unit
+  is.
+- What is still possible is 1. A value with nothing possible reads as all
+  zeros, absence, and is kept as visible evidence rather than an error.
+- An admitted tuple, an open gate, a live position, a detectable magnitude,
+  and an event that happened are each 1.
+
+Most concepts come as dual pairs with a natural dominant member: height over
+depth ("six feet" is assumed to be a height), big over small, fast over slow,
+hot over cold, positive over negative, the forward face over the opposed one.
+The dominant member is 1. Some pairs are less obvious, such as easy and hard;
+choose one, record the choice beside the pair, and keep it. The recessive
+member is still a full participant: 0 in a sign bit is a negative sample, not
+a missing one.
+
+An allocation default is layout, not meaning (§9.6). When a plane's absence
+reading is not its natural empty state, for example what is still possible
+before anything is known, the plane declares that new positions start at 1,
+rather than inverting the meaning of its bits. Discriminator bits in a
+serialization grammar choose a parse and are exempt; they carry no concept.
+
 ## 10. Repository Boundaries
 
 Respect the current project files and dependency graph.
