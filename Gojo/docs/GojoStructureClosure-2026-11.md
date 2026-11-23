@@ -43,7 +43,7 @@ coherence (Kaplan and Bresnan, 1982); phases (Chomsky, 2001); chunking
 | A situation (a sentence) | Clauses joined by shared participants, settling together | Rows joined through shared positions within one local structure | built |
 | An episode (a paragraph) | Units about the same participants and one stretch of time | Units sharing identity through ports and sockets, along a trail | built in fixtures |
 | A story | Events toward an outcome, with a point | A trail with a goal and completion reads | built in fixtures |
-| A question ("whose car is this?") | A proposition with one role open and marked to be settled | An open value plus a goal that it settle | this note, section 5 |
+| A question ("whose car is this?") | A proposition with one role open and marked to be settled | An open value plus a goal that it settle | built: `Question` |
 
 ## 3. Closure rules
 
@@ -58,7 +58,7 @@ not incomplete. In Gojo a row is saturated by construction. **built**
 **C2. Snapping up.** *Gathers.* Selecting part of a unit, a role or one
 position of a row, selects the smallest saturated unit containing it: "Mary
 put" is never selected, the clause is. A position alone may still be selected
-as a referent (C3), but anything that runs is a whole row.
+as a referent (C3), but anything that runs is a whole row. **built: `Closure`**
 
 **C3. Reference.** A referent is something pointed at: a position and its
 fields. Its identity is its position, never its values: two equal-looking
@@ -70,7 +70,8 @@ out.
 
 **C5. Coherence** (lexical-functional grammar). *Filters.* Nothing is kept that
 no selected unit uses: positions no selected row binds, and planes no
-selected row reads, are dropped. Seeds are kept as referents.
+selected row reads, are dropped. Seeds are kept as referents. **built:
+`Closure`, for positions and planes**
 
 **C6. Head.** Every unit has a head: the place its interface passes through
 and the handle it is named by from outside. For a local structure it is its
@@ -80,7 +81,8 @@ ports; for a goal, its selected positions; for a question, its open value.
 units is itself a unit when its connections to everything else pass through
 a small interface, so the group could be replaced by that interface. Ports
 are the clearest case. Growth stops at a thin boundary and keeps only the
-head on the far side; a finer selection opens it.
+head on the far side; a finer selection opens it. **built: ports kept as
+heads; opening them is not built**
 
 **C8. Phase** (locality). *Filters.* Once a unit is settled, its inside is
 sealed and only its edge is read. A settled local structure is read through
@@ -121,6 +123,7 @@ possible answers: exactly an open value's supports. Accepting a question makes
 settling that value a goal. The selection a question needs is the cone back
 from its open value: every unit that could narrow it. Answering is narrowing
 to one value; no answer is a value left open, or a contradiction. See section 5.
+**built: `Question`**
 
 **C15. Event boundaries** (event segmentation). *Closes units in time.* An event
 closes where the model's prediction fails or the situation changes: a turn, an
@@ -199,6 +202,12 @@ A missing element is found by constructing the goal state with the element
 open and settling toward it.
 
 ## 6. First implementation
+
+Built, 23 November 2026: `Closure` and `Question` in EncodingC, tested in
+`ClosureTests`. Steps 1 to 4 and 6 of section 4 are built; step 5 keeps ports
+as heads and does not yet stop at settled units. A question's remaining
+answers are a count: one answered, more open, zero contradicted.
+
 
 - **Closure from a seed** (section 4, steps 1 to 6) over one local structure,
   with reach and with ports kept as heads, giving areas and rows that a fork
