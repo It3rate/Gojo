@@ -107,6 +107,29 @@ public static class Paths
         s => s[0] == 1 && s[1] == direction && s[2] == 0 ? [0, s[1], 1] : s,
         new Accounting(true, new PreservedSum([0, 2]), new Unchanged(1), new NeverIncreases(0), new NeverDecreases(2)));
 
+    /// <summary>A site read as a side of a landmark on the path: before it,
+    /// at it, or after it, along the path's order. At the landmark either zero
+    /// word is admitted; which edge is a read for continuity to settle. A site
+    /// the path does not order against the landmark has no side. Roles: site,
+    /// side word.</summary>
+    public static RelationLaw SideOf(int sites, IReadOnlyList<(int From, int To)> next, int landmark)
+    {
+        var reach = Reach(sites, next);
+        if ((uint)landmark >= (uint)sites) throw new ArgumentOutOfRangeException(nameof(landmark));
+        return RelationLaw.FromPredicate([Site(sites), Sides.Word], t =>
+            t[0] == landmark ? t[1] == Sides.AtFromBefore || t[1] == Sides.AtFromAfter
+            : reach[t[0], landmark] ? t[1] == Sides.Before
+            : reach[landmark, t[0]] && t[1] == Sides.After);
+    }
+
+    /// <summary>A moment of a trail, recorded from occupancy: while a clock
+    /// reads the moment's stamp, the site held is the one whose lane shows the
+    /// unit. At any other time the row rules nothing out. Roles: clock, stamp,
+    /// one occupancy bit per site, site.</summary>
+    public static RelationLaw Seen(int sites, int moments) =>
+        RelationLaw.FromPredicate([Shape.Unary(moments), Shape.Unary(moments), .. Enumerable.Repeat(Shape.Bit, sites), Site(sites)],
+            t => t[0] != t[1] || t[2 + t[^1]] == 1);
+
     /// <summary>The same path defined on the opposite orientation: the same sites
     /// and neighbours, the order read the other way.</summary>
     public static (int From, int To)[] Reorient(IReadOnlyList<(int From, int To)> next) => [.. next.Select(e => (e.To, e.From))];

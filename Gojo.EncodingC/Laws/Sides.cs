@@ -101,6 +101,18 @@ public static class Sides
     /// side after, crossed.</summary>
     public static RelationLaw Crosses { get; } = RelationLaw.FromPredicate([Word, Word, Shape.Bit], t => t[2] == (Of(t[0]).Negative != Of(t[1]).Negative ? 1 : 0));
 
+    /// <summary>Passed the landmark between two moments: both detectably away,
+    /// on opposite sides. The moments need not be adjacent; a sample at the
+    /// mark between them may leave its own edge open while the pass is
+    /// certain. Roles: earlier side, later side, passed.</summary>
+    public static RelationLaw Passes { get; } = RelationLaw.FromPredicate([Word, Word, Shape.Bit], t =>
+        t[2] == (Of(t[0]).Detectable && Of(t[1]).Detectable && Of(t[0]).Negative != Of(t[1]).Negative ? 1 : 0));
+
+    /// <summary>Turned back at a moment: the step before went with the
+    /// orientation and this one against it. Roles: step before, step, turned.</summary>
+    public static RelationLaw TurnsBack { get; } = RelationLaw.FromPredicate([Word, Word, Shape.Bit], t =>
+        t[2] == (t[0] == With && t[1] == Against ? 1 : 0));
+
     /// <summary>Gave up on the landmark: having been heading toward it and not
     /// yet reached it, the next step goes away. Once abandoned, a use stays
     /// abandoned. Roles: abandoned before, reached before, toward before, away

@@ -26,6 +26,11 @@ public static class Settling
         }
     }
 
+    /// <summary>A clock: a count that adds one every step it runs, up to its
+    /// capacity. One role, the count.</summary>
+    public static TransitionLaw Clock(int capacity) => TransitionLaw.FromFunction(
+        [Shape.Unary(capacity)], s => [s[0] < capacity ? s[0] + 1 : s[0]], new Accounting(true, new NeverDecreases(0)));
+
     /// <summary>Has ever been: a presence that accumulates along a chain of
     /// moments. Roles: before, now, after; after is before or now.</summary>
     public static RelationLaw Ever { get; } = RelationLaw.FromPredicate([Shape.Bit, Shape.Bit, Shape.Bit], t => t[2] == (t[0] | t[1]));

@@ -240,6 +240,86 @@ public sealed class BridgeObserverTests
         Assert.Equal(Values(0), tracked.Reached.Values(3));
     }
 
+    /// <summary>A tracker's trail of one hiker: for each moment, a stamp, and the
+    /// hiker's site, step word and side of the bridge, all open; and bits for
+    /// turning back and for passing the bridge. A clock of its own says which
+    /// moment is being recorded; the world is read only through a port showing
+    /// the hiker's occupancy at every site.</summary>
+    private sealed record Trail(Engine Engine, Supports Site, Supports Step, Supports Side, Supports Turned, Supports Passed);
+
+    private static Trail Follow(World world, int hiker, int moments)
+    {
+        const int Bridge = 2;
+        var lanes = world.Path.Publish([.. Enumerable.Range(0, Sites)], [hiker]);
+        var words = Odv.Create(moments);
+        var stepCode = new Field(Sides.Word, words.AddPlane(), words.AddPlane());
+        var siteCode = new Field(Shape.Binary(Sites), words.AddPlane(), words.AddPlane(), words.AddPlane());
+        var stampPlanes = Enumerable.Range(0, moments).Select(_ => words.AddPlane()).ToArray();
+        var stamp = new Field(Shape.Unary(moments), stampPlanes);
+        for (var t = 0; t < moments; t++) stamp.Write(words, t, t);
+        var side = Supports.On(words, Sides.Field);
+        var step = Supports.On(words, stepCode);
+        var site = Supports.On(words, siteCode);
+        var turned = Supports.On(new Store(1, moments), Field.Bit(0));
+        var passed = Supports.On(new Store(1, moments), Field.Bit(0));
+        var clock = new Store(moments, 1);
+        var road = ForwardRows.Select(row => (row.Item2 - 1, row.Item2)).ToArray();
+
+        var seen = new Wiring(Paths.Seen(Sites, moments),
+            [new Binding(clock, [.. Enumerable.Range(0, moments)]), new Binding(words, stampPlanes), .. Enumerable.Repeat(new Binding(lanes, 0), Sites), site.Variable]);
+        var sideOf = new Wiring(Paths.SideOf(Sites, road, Bridge), site.Variable, side.Variable);
+        var steps = new Wiring(Paths.Step(Sites, road), site.Variable, site.Variable, step.Variable);
+        var turns = new Wiring(Sides.TurnsBack, step.Variable, step.Variable, turned.Variable);
+        var passes = new Wiring(Sides.Passes, side.Variable, side.Variable, passed.Variable);
+        for (var t = 0; t < moments; t++)
+        {
+            seen.Add([0, t, .. Enumerable.Range(0, Sites), t]);
+            sideOf.Add(t, t);
+            if (t >= 1) steps.Add(t - 1, t, t);
+            if (t >= 2) turns.Add(t - 1, t, t);
+            if (t >= 1 && t + 1 < moments) passes.Add(t - 1, t + 1, t);
+        }
+        foreach (var bits in new[] { turned, passed }) bits.Restrict(0, 0b01);
+        turned.Restrict(1, 0b01);
+        passed.Restrict(moments - 1, 0b01);
+        var tick = new Wiring(Settling.Clock(moments), new Binding(clock, [.. Enumerable.Range(0, moments)]));
+        tick.Add(0);
+        var engine = new Engine().Add(seen).Add(sideOf).Add(steps).Add(turns).Add(passes).Add(tick);
+        return new Trail(engine, site, step, side, turned, passed);
+    }
+
+    private static int?[] Settled(Supports values) =>
+        [.. Enumerable.Range(0, values.Surface.Count).Select(t => System.Numerics.BitOperations.PopCount(values.Values(t)) == 1
+            ? System.Numerics.BitOperations.TrailingZeroCount(values.Values(t)) : (int?)null)];
+
+    /// <summary>The hiker walks three sites out, over the bridge, and back
+    /// home. The tracker records only occupancy, one moment per step, by its
+    /// own clock. From its own trail it reads its own step words, sees the turn
+    /// where a step with the road is followed by one against it, and sees the
+    /// bridge passed twice, out and back, though the moments on the bridge
+    /// leave their edge open. Nothing was told to it but what the port showed.</summary>
+    [Fact]
+    public void ATrackersTrailShowsTheTurnAndBothCrossingsFromEvidenceAlone()
+    {
+        const int Moments = 7;
+        var world = Road(1);
+        var trail = Follow(world, 0, Moments);
+
+        trail.Engine.Step();
+        foreach (var step in new[] { F, F, F, B, B, B })
+        {
+            Walk(world, [], [step]);
+            trail.Engine.Step();
+        }
+        Settle(trail.Engine);
+
+        Assert.Equal([0, 1, 2, 3, 2, 1, 0], Settled(trail.Site));
+        Assert.Equal([null, F, F, F, B, B, B], Settled(trail.Step));
+        Assert.Equal([0, 0, 0, 0, 1, 0, 0], Settled(trail.Turned));
+        Assert.Equal([0, 0, 1, 0, 1, 0, 0], Settled(trail.Passed));
+        Assert.Equal(Values(Sides.AtFromBefore, Sides.AtFromAfter), trail.Side.Values(2));
+    }
+
     /// <summary>No structure has a god's view. The story binds only its own
     /// stores and the ports observers expose; it holds no binding to the world.
     /// Every observer reaches the world only through ports.</summary>
