@@ -226,7 +226,10 @@ lanes are packed references at the width they need.
 **ODV.**
 - V and D are stored planes 0 and 1. O is constant plane 2, so a whole
   store reorients with one constant flip and `D ^= live`.
-- All eight words pack as `88 C6 FA`.
+- Each bit is 1 for the dominant member (canonical prompt §9.7): V 1 is
+  detectable, D 1 is positive, O 1 is positive-right, the forward face.
+  `R+?` is `111` and `L-0` is `000`.
+- All eight words, in code order, pack as `88 C6 FA`.
 - `Odv.Addition(threshold)` derives addition by enumerating a threshold reader:
   - The default is the detection contract, under which an undetectable word
     is still an operand. Every threshold from 2 up gives the same table, so

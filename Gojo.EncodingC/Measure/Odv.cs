@@ -1,9 +1,10 @@
 namespace Gojo.EncodingC;
 
-/// <summary>The three-bit word O D V, high to low.
-/// O: 0 positive-right, 1 positive-left (which way this reader calls positive).
-/// D: 0 positive, 1 negative, within that orientation.
-/// V: 0 no magnitude detectable at this read's resolution, 1 detectable.
+/// <summary>The three-bit word O D V, high to low. Each bit is 1 for presence,
+/// the dominant member (canonical prompt §9.7).
+/// O: 1 positive-right, the forward face; 0 positive-left, the opposed face.
+/// D: 1 positive, 0 negative, within that orientation.
+/// V: 1 a magnitude is detectable at this read's resolution, 0 not.
 /// V = 1 is not the quantity one. Whether a word takes part in a computation is
 /// not stored here: that is selection, which a workspace holds.</summary>
 public readonly record struct OdvWord
@@ -20,20 +21,20 @@ public readonly record struct OdvWord
 
     public byte Code { get; }
 
-    public bool PositiveLeft => (Code & OrientationBit) != 0;
+    public bool PositiveLeft => (Code & OrientationBit) == 0;
 
-    public bool Negative => (Code & DirectionBit) != 0;
+    public bool Negative => (Code & DirectionBit) == 0;
 
     public bool Detectable => (Code & ValueBit) != 0;
 
     public static OdvWord Of(bool positiveLeft, bool negative, bool detectable) =>
-        new((byte)((positiveLeft ? OrientationBit : 0) | (negative ? DirectionBit : 0) | (detectable ? ValueBit : 0)));
+        new((byte)((positiveLeft ? 0 : OrientationBit) | (negative ? 0 : DirectionBit) | (detectable ? ValueBit : 0)));
 
-    /// <summary>The thing now points the other way: flip D. 001 → 011.</summary>
+    /// <summary>The thing now points the other way: flip D. R+? 111 → R−? 101.</summary>
     public OdvWord Reverse() => new((byte)(Code ^ DirectionBit));
 
     /// <summary>The reader turns around and the thing does not move: flip O and D
-    /// together. 001 → 111. V is kept, including at zero.</summary>
+    /// together. R+? 111 → L−? 001. V is kept, including at zero.</summary>
     public OdvWord Reorient() => new((byte)(Code ^ (OrientationBit | DirectionBit)));
 
     /// <summary>negative detectable &lt; undetectable &lt; positive detectable, within
@@ -79,7 +80,7 @@ public static class Odv
     public static Store Create(int positions, bool positiveLeft = false)
     {
         var store = new Store(2, positions);
-        store.AddConstantPlane(positiveLeft);
+        store.AddConstantPlane(!positiveLeft);
         return store;
     }
 
@@ -216,30 +217,34 @@ public static class Odv
 
     private static int Capped(int threshold) => threshold < Detection ? threshold : Detection;
 
+    // Words on one orientation as the code V + 2D: positive detectable 11,
+    // negative detectable 01, positive undetectable 10, negative undetectable 00.
+    private const int PositiveDetectable = 0b11, NegativeDetectable = 0b01, PositiveZero = 0b10, NegativeZero = 0b00;
+
     private static IEnumerable<int> WordsOf(int hidden, int threshold)
     {
-        if (hidden >= threshold) yield return 0b01;
-        else if (hidden <= -threshold) yield return 0b11;
-        else if (hidden > 0) yield return 0b00;
-        else if (hidden < 0) yield return 0b10;
+        if (hidden >= threshold) yield return PositiveDetectable;
+        else if (hidden <= -threshold) yield return NegativeDetectable;
+        else if (hidden > 0) yield return PositiveZero;
+        else if (hidden < 0) yield return NegativeZero;
         else
         {
-            yield return 0b00;
-            yield return 0b10;
+            yield return PositiveZero;
+            yield return NegativeZero;
         }
     }
 
     private static IEnumerable<int> ResultWords(int sum, int threshold, int a, int b)
     {
-        if (sum >= threshold) yield return 0b01;
-        else if (sum <= -threshold) yield return 0b11;
-        else if (sum > 0) yield return 0b00;
-        else if (sum < 0) yield return 0b10;
-        else if ((a & 0b10) == (b & 0b10)) yield return a & 0b10;
+        if (sum >= threshold) yield return PositiveDetectable;
+        else if (sum <= -threshold) yield return NegativeDetectable;
+        else if (sum > 0) yield return PositiveZero;
+        else if (sum < 0) yield return NegativeZero;
+        else if ((a & OdvWord.DirectionBit) == (b & OdvWord.DirectionBit)) yield return a & OdvWord.DirectionBit;
         else
         {
-            yield return 0b00;
-            yield return 0b10;
+            yield return PositiveZero;
+            yield return NegativeZero;
         }
     }
 }

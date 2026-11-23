@@ -161,7 +161,7 @@ the same job is done by ordinary structure, such as a plan or a probe.
 
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
-| ODV word | Three bits about a quantity, at one read's resolution | V is plane 0, D is plane 1, O is constant plane 2 |
+| ODV word | Three bits about a quantity, at one read's resolution | V is plane 0, D is plane 1, O is constant plane 2. Each is 1 for the dominant member: detectable, positive, positive-right |
 | O, orientation | Which way this reader calls positive | One bit for the whole store |
 | D, direction | Positive or negative, within that orientation | One bit per position |
 | V | Whether any magnitude is detectable at this resolution. V = 1 is not the number one | One bit per position |

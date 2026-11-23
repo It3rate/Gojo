@@ -303,9 +303,9 @@ public sealed class WorkspaceTests
 
         Odv.Reorient(words);
 
-        Assert.True(workspace.Read(Odv.O, 1));
+        Assert.False(workspace.Read(Odv.O, 1));
         Assert.Equal("L-?", Odv.Read(words, 0).ToString());
-        Assert.True(workspace.Read(Odv.D, 0));
+        Assert.False(workspace.Read(Odv.D, 0));
     }
 
     /// <summary>Two workspaces predict a counter's next value: one stretches it by

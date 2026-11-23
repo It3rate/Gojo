@@ -22,7 +22,7 @@ public static class Sides
     public static Field Field { get; } = new(Word, Odv.V, Odv.D);
 
     /// <summary>The side word for a side and whether it is detectably away.</summary>
-    public static int Of(bool negative, bool detectable) => OdvWord.Of(false, negative, detectable).Code;
+    public static int Of(bool negative, bool detectable) => OdvWord.Of(false, negative, detectable).Code & (OdvWord.DirectionBit | OdvWord.ValueBit);
 
     public static int After => Of(negative: false, detectable: true);
 
@@ -67,7 +67,8 @@ public static class Sides
     /// detectable step against it. Roles: earlier step, later step.</summary>
     public static RelationLaw TurnedBack { get; } = RelationLaw.FromPredicate([Word, Word], t => t[0] == With && t[1] == Against);
 
-    private static OdvWord Of(int code) => new((byte)code);
+    /// <summary>A side word as the full ODV word on the positive-right orientation.</summary>
+    private static OdvWord Of(int code) => new((byte)(code | OdvWord.OrientationBit));
 
-    private static bool Holds(ulong mask, int code) => ((mask >> code) & 1) != 0;
+    private static bool Holds(ulong mask, int code) => ((mask >> Of(code).Code) & 1) != 0;
 }

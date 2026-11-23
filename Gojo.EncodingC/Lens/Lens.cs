@@ -75,7 +75,8 @@ public sealed class Lens
 /// their three bits.</summary>
 public static class OdvNotation
 {
-    private static readonly string[] Names = ["R+0", "R+?", "R-0", "R-?", "L+0", "L+?", "L-0", "L-?"];
+    // By code O D V: O 1 is positive-right, D 1 positive, V 1 detectable.
+    private static readonly string[] Names = ["L-0", "L-?", "L+0", "L+?", "R-0", "R-?", "R+0", "R+?"];
 
     public static string Name(OdvWord word) => Names[word.Code];
 

@@ -92,8 +92,8 @@ public sealed class OdvTests
         var apart = law.Project(2, [either, either, 0xFF]);
         var same = law.Project(2, [either, either, 0xFF], [0, 0, 1]);
 
-        Assert.Equal("{R+0, R+?, R-0, R-?}", Words(apart));
-        Assert.Equal("{R+?, R-?}", Words(same));
+        Assert.Equal("{R-0, R-?, R+0, R+?}", Words(apart));
+        Assert.Equal("{R-?, R+?}", Words(same));
     }
 
     [Fact]
@@ -132,7 +132,7 @@ public sealed class OdvTests
         sum.Apply();
 
         for (var i = 0; i < rows; i++)
-            Assert.Equal(i % 2 == 0 ? "{R+?}" : "{R+0, R-0}", Words(support.Values(3 * i + 2)));
+            Assert.Equal(i % 2 == 0 ? "{R+?}" : "{R-0, R+0}", Words(support.Values(3 * i + 2)));
     }
 
     [Fact]
