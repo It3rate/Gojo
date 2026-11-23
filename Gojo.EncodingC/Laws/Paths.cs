@@ -107,6 +107,22 @@ public static class Paths
         s => s[0] == 1 && s[1] == direction && s[2] == 0 ? [0, s[1], 1] : s,
         new Accounting(true, new PreservedSum([0, 2]), new Unchanged(1), new NeverIncreases(0), new NeverDecreases(2)));
 
+    /// <summary>Moves a unit onto a site that is shared one at a time: as
+    /// <see cref="Advance"/>, and only while the other face's lane there is
+    /// clear and the active orientation is this face's. Which face may use the
+    /// site is a bit, 1 for the forward face, so the choice is stated rather
+    /// than left to row order. Roles: from, step, to, the other face at the
+    /// target (read), the active orientation (read).</summary>
+    public static TransitionLaw AdvanceInTurn(bool forwardFace) => forwardFace ? InTurnForward.Value : InTurnOpposed.Value;
+
+    private static readonly Lazy<TransitionLaw> InTurnForward = new(() => Turned(1));
+    private static readonly Lazy<TransitionLaw> InTurnOpposed = new(() => Turned(0));
+
+    private static TransitionLaw Turned(int active) => TransitionLaw.FromFunction(
+        [Shape.Unary(1), Sides.Word, Shape.Unary(1), Shape.Bit, Shape.Bit],
+        s => s[0] == 1 && s[1] == Sides.With && s[2] == 0 && s[3] == 0 && s[4] == active ? [0, s[1], 1, s[3], s[4]] : s,
+        new Accounting(true, new PreservedSum([0, 2]), new Unchanged(1), new Unchanged(3), new Unchanged(4), new NeverIncreases(0), new NeverDecreases(2)));
+
     /// <summary>A site read as a side of a landmark on the path: before it,
     /// at it, or after it, along the path's order. At the landmark either zero
     /// word is admitted; which edge is a read for continuity to settle. A site

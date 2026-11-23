@@ -77,6 +77,15 @@ public static class Sides
     public static RelationLaw Reversal { get; } = RelationLaw.FromPredicate([Word, Word], t =>
         Of(t[0]).Detectable && Of(t[1]).Detectable && Of(t[0]).Negative != Of(t[1]).Negative);
 
+    /// <summary>One count read against another as a side word: after it when
+    /// greater, before it when smaller, at it when equal, with either zero
+    /// word since equal counts lean neither way. Exact: a difference of one is
+    /// detectable. This is how a net is read without subtracting: which side
+    /// of the other count this one is on. Roles: count, other count, side.</summary>
+    public static RelationLaw Compare(int capacity) =>
+        RelationLaw.FromPredicate([Shape.Unary(capacity), Shape.Unary(capacity), Word], t =>
+            t[0] > t[1] ? t[2] == After : t[0] < t[1] ? t[2] == Before : t[2] == AtFromAfter || t[2] == AtFromBefore);
+
     // ---- Events: presence bits a trail of side and step words settles ----
 
     /// <summary>At the landmark at this resolution: the side word is not
