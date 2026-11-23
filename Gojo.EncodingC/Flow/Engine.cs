@@ -44,6 +44,18 @@ public sealed class Engine
     /// <summary>Steps run so far.</summary>
     public long Tick { get; private set; }
 
+    /// <summary>The structure this one is a fork of, or null. A fork is the
+    /// same local intelligence supposing: it reads its parent's stores through
+    /// workspaces and never binds them directly.</summary>
+    public Engine? Parent { get; private init; }
+
+    /// <summary>A fork of this local structure: its state read by reference
+    /// through copy-on-write workspaces, its topology copied so it can be
+    /// rewired, its laws shared. See <see cref="EncodingC.Fork"/>.</summary>
+    public Fork Fork() => EncodingC.Fork.Of(this);
+
+    internal static Engine ForkOf(Engine parent) => new() { Parent = parent };
+
     /// <summary>Takes stores into this local structure, such as one that only
     /// exposes ports, which no wiring here binds directly.</summary>
     public Engine Hold(params Store[] held)
@@ -59,9 +71,21 @@ public sealed class Engine
     public Engine Add(Wiring wiring)
     {
         ArgumentNullException.ThrowIfNull(wiring);
-        Claim(wiring.Bindings.Select(binding => binding.Surface.Home).OfType<Store>().Append(wiring.Rows));
+        Claim(wiring.Bindings.Where(binding => !Supposes(binding.Surface)).Select(binding => binding.Surface.Home).OfType<Store>().Append(wiring.Rows));
         wirings.Add(wiring);
         return this;
+    }
+
+    /// <summary>A surface this structure supposes about rather than owns: a
+    /// workspace, or a view of one, over a store of a structure this one is a
+    /// fork of.</summary>
+    private bool Supposes(Surface surface)
+    {
+        var view = surface is Flipped flipped ? flipped.Source : surface;
+        if (view is not Workspace || surface.Home?.Local is not { } owner) return false;
+        for (var ancestor = Parent; ancestor is not null; ancestor = ancestor.Parent)
+            if (ancestor == owner) return true;
+        return false;
     }
 
     /// <summary>Fuses another local structure into this one. Its stores
