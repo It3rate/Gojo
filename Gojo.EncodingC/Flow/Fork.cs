@@ -6,6 +6,13 @@ namespace Gojo.EncodingC;
 /// is read through a workspace over it, which reads the parent live and copies
 /// a position only when the fork writes it. Where the fork has not written, it
 /// sees the parent as it is now.</para>
+/// <para><b>Material held fixed.</b> A plane is material when a law moves
+/// units on it and its accounting conserves them: a role it writes that is in
+/// a preserved sum of positive amounts. By default a fork holds every material
+/// plane as it was when the fork was made, so the parent's units moving on do
+/// not show through beside the fork's own; information, everything else, is
+/// still read live. The structure says which planes are material; nothing is
+/// declared.</para>
 /// <para><b>Topology copied, for now.</b> Each wiring is rebuilt over the
 /// workspaces with the same law and a copy of its rows, so the fork can be
 /// rewired, rows recruited or retired, without touching the parent's wiring.
@@ -24,13 +31,17 @@ public sealed class Fork
     private readonly Dictionary<Store, Workspace> views;
     private readonly Dictionary<Wiring, Wiring> wirings;
 
-    private Fork(Engine parent, Engine engine, Dictionary<Store, Workspace> views, Dictionary<Wiring, Wiring> wirings)
+    private Fork(Engine parent, Engine engine, Dictionary<Store, Workspace> views, Dictionary<Wiring, Wiring> wirings, IReadOnlyList<(Store, int)> held)
     {
         Parent = parent;
         Engine = engine;
         this.views = views;
         this.wirings = wirings;
+        Held = held;
     }
+
+    /// <summary>The parent's planes this fork holds fixed, by store and plane.</summary>
+    public IReadOnlyList<(Store Store, int Plane)> Held { get; }
 
     public Engine Parent { get; }
 
@@ -45,7 +56,7 @@ public sealed class Fork
 
     public IReadOnlyCollection<Workspace> Workspaces => views.Values;
 
-    internal static Fork Of(Engine parent)
+    internal static Fork Of(Engine parent, bool holdMaterial)
     {
         ArgumentNullException.ThrowIfNull(parent);
         var rows = parent.Wirings.Select(w => w.Rows).ToHashSet(ReferenceEqualityComparer.Instance);
@@ -66,8 +77,21 @@ public sealed class Fork
             }
             engine.Add(copy);
         }
-        return new Fork(parent, engine, views, copies);
+        var held = holdMaterial ? Material(parent).Where(m => views.ContainsKey(m.Store)).ToArray() : [];
+        foreach (var (store, plane) in held) views[store].Fix(plane);
+        return new Fork(parent, engine, views, copies, held);
     }
+
+    /// <summary>Planes a structure's own laws move conserved units on: the
+    /// planes of roles a transition writes and keeps in a preserved sum of
+    /// positive amounts, where they are bound to one of its stores.</summary>
+    internal static IEnumerable<(Store Store, int Plane)> Material(Engine engine) =>
+        engine.Wirings.Distinct()
+            .Where(w => w.Law is TransitionLaw)
+            .SelectMany(w => Enumerable.Range(0, w.Bindings.Count)
+                .Where(r => w.Writes(r) && ((TransitionLaw)w.Law).Accounting.Conserves(r))
+                .SelectMany(r => (w.Bindings[r].Surface is Store store ? w.Bindings[r].Planes.Select(p => (store, p)) : [])))
+            .Distinct();
 
     /// <summary>Writes the fork's state back into the parent, all or nothing.</summary>
     public bool Commit()

@@ -50,9 +50,10 @@ public sealed class Engine
     public Engine? Parent { get; private init; }
 
     /// <summary>A fork of this local structure: its state read by reference
-    /// through copy-on-write workspaces, its topology copied so it can be
-    /// rewired, its laws shared. See <see cref="EncodingC.Fork"/>.</summary>
-    public Fork Fork() => EncodingC.Fork.Of(this);
+    /// through copy-on-write workspaces, material held fixed as it is now
+    /// unless <paramref name="holdMaterial"/> is false, its topology copied so
+    /// it can be rewired, its laws shared. See <see cref="EncodingC.Fork"/>.</summary>
+    public Fork Fork(bool holdMaterial = true) => EncodingC.Fork.Of(this, holdMaterial);
 
     internal static Engine ForkOf(Engine parent) => new() { Parent = parent };
 

@@ -36,16 +36,16 @@ public sealed class ForkTests
         for (var i = 0; i < steps; i++) engine.Step();
     }
 
-    /// <summary>A fork walks two steps while its parent stays put: the unit is
-    /// at site 2 in the fork and still at home in the parent. The fork copied
-    /// only the path positions it changed and none of the control. And it reads
-    /// the parent live where it has not written: when the parent's direction
-    /// changes, the fork turns with it.</summary>
+    /// <summary>A fork that reads everything live walks two steps while its
+    /// parent stays put: the unit is at site 2 in the fork and still at home in
+    /// the parent. The fork copied only the path positions it changed and none
+    /// of the control. And it reads the parent live where it has not written:
+    /// when the parent's direction changes, the fork turns with it.</summary>
     [Fact]
     public void AForkReadsItsParentLiveAndCopiesOnlyWhatItWrites()
     {
         var walk = Road(start: 0, direction: Sides.With);
-        var fork = walk.Engine.Fork();
+        var fork = walk.Engine.Fork(holdMaterial: false);
 
         Run(fork.Engine, 2);
 
@@ -94,13 +94,12 @@ public sealed class ForkTests
     /// was there and the parent has since left, is stale, and a commit is
     /// refused. Site 1 is not stale: the parent's unit passed through it and
     /// left it as the fork copied it, since staleness compares bits, not
-    /// history. A fork that supposes about material while its parent runs
-    /// needs to hold that material fixed, which forks do not do yet.</summary>
+    /// history. This is why forks hold material fixed by default.</summary>
     [Fact]
     public void AForkReadingAMovingParentSeesBothVersionsAndKnowsIt()
     {
         var walk = Road(start: 0, direction: Sides.With);
-        var fork = walk.Engine.Fork();
+        var fork = walk.Engine.Fork(holdMaterial: false);
         fork.Of(walk.Forward).Rewire(2, 2, 3);
 
         for (var i = 0; i < 2; i++)
@@ -113,6 +112,37 @@ public sealed class ForkTests
         Assert.Equal(2, At(walk.Path));
         Assert.Equal(Plane.Of(Sites, 0), fork.Of(walk.Path).Stale());
         Assert.False(fork.Commit());
+    }
+
+    /// <summary>By default a fork holds its material fixed: the planes the
+    /// structure's own conserving laws move units on, here the road's
+    /// occupancy, found from the laws and not declared. Run while the parent
+    /// moves differently, the fork keeps exactly its own unit; the parent's
+    /// does not show through. Information is still live: when the parent's
+    /// direction changes, the fork turns with it. And because the held copy is
+    /// what a commit checks, the fork will not commit over a parent that moved.</summary>
+    [Fact]
+    public void AForkHoldsItsMaterialFixedAndStillReadsInformationLive()
+    {
+        var walk = Road(start: 0, direction: Sides.With);
+        var fork = walk.Engine.Fork();
+        fork.Of(walk.Forward).Rewire(2, 2, 3);
+
+        Assert.Equal([(walk.Path, 0)], fork.Held);
+        for (var i = 0; i < 2; i++)
+        {
+            fork.Engine.Step();
+            walk.Engine.Step();
+        }
+
+        Assert.Equal([3], Units(fork.Of(walk.Path)));
+        Assert.Equal(2, At(walk.Path));
+
+        Direction.Write(walk.Control, 0, Sides.Against);
+        fork.Engine.Step();
+        Assert.Equal([2], Units(fork.Of(walk.Path)));
+        Assert.False(fork.Commit());
+        Assert.Equal(2, At(walk.Path));
     }
 
     /// <summary>Two forks from one start hold two versions at once: one walks

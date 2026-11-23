@@ -111,6 +111,26 @@ public sealed class Workspace : Surface
 
     internal override bool Filled(int plane) => source.Filled(plane);
 
+    /// <summary>Holds a plane as the source has it now, at every source position:
+    /// from here on this workspace reads its own copy of the plane, not the
+    /// source, so the source moving no longer shows through. The copy is the
+    /// basis a commit checks, so if the source moves, those positions are
+    /// stale. For what must not be read live, such as material a supposition
+    /// moves while the world goes on; information can stay live.</summary>
+    public void Fix(int plane)
+    {
+        CheckPlane(plane);
+        if (source.IsConstant(plane)) return;
+        for (var i = 0; i < Span; i++)
+        {
+            if (Holds(plane, i)) continue;
+            Fit(held, plane)[i] = true;
+            var bit = source.Read(plane, i);
+            Fit(basis, plane)[i] = bit;
+            Fit(bits, plane)[i] = bit;
+        }
+    }
+
     /// <summary>Supposes a bit here: copies it in and changes it. The source is
     /// untouched.</summary>
     public void Write(int plane, int index, bool value) => Set(plane, index, value);
