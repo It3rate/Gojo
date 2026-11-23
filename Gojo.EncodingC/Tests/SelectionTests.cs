@@ -9,8 +9,10 @@ namespace Gojo.EncodingC.Tests;
 /// reach is left; an ignored area never comes in, and rows that would need it
 /// are reported as beyond. So the selection need not be right at the start:
 /// what is touched comes into context, and what is set aside stays out.
-/// <para>In a running structure the same connection is an attention plane on
-/// a wiring's rows: an explicit execution input that laws can move.</para></summary>
+/// <para>It is one rule wherever a wiring runs, through the workspace, by
+/// itself or in an engine: live rows, those an attention plane on its rows
+/// holds 1 for, within the selection of every workspace it binds. The
+/// attention plane is an explicit execution input that laws can move.</para></summary>
 public sealed class SelectionTests
 {
     private const int Length = 1000;

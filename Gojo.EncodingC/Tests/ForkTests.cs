@@ -145,6 +145,34 @@ public sealed class ForkTests
         Assert.Equal(2, At(walk.Path));
     }
 
+    /// <summary>A fork of a long road that attends to eleven sites around the
+    /// walker. It holds only those, runs only rows there, and as the walk goes
+    /// on, running brings the next sites in by use, up to its reach, holding
+    /// each as it comes. Then the walk stops at the edge of the fork's
+    /// attention: the row beyond does not run, and the unit stays, conserved.
+    /// The parent, two hundred sites long, is untouched and mostly unread.</summary>
+    [Fact]
+    public void AForkThatAttendsToAWindowCostsOnlyTheWindowAndWhatItBringsIn()
+    {
+        const int Long = 200;
+        var path = new Store(1, Long);
+        path.Write(0, 52, true);
+        var control = new Store(2, 1);
+        Direction.Write(control, 0, Sides.With);
+        var forward = new Wiring(Paths.Advance(Sides.With), new Binding(path, 0), new Binding(control, 0, 1), new Binding(path, 0));
+        for (var from = Long - 2; from >= 0; from--) forward.Add(from, 0, from + 1);
+        var parent = new Engine().Add(forward).Hold(path, control);
+        var window = Plane.Of(Long, Enumerable.Range(50, 11));
+
+        var fork = parent.Fork(select: new Dictionary<Store, Plane>(ReferenceEqualityComparer.Instance) { [path] = window });
+        for (var i = 0; i < 15; i++) fork.Engine.Step();
+
+        var view = fork.Of(path);
+        Assert.Equal(63, Assert.Single(Enumerable.Range(0, Long), i => view.Read(0, i)));
+        Assert.True(Plane.Of(Long, Enumerable.Range(47, 17)).Covers(view.Held));
+        Assert.Equal(52, Assert.Single(Enumerable.Range(0, Long), i => path.Read(0, i)));
+    }
+
     /// <summary>Two forks from one start hold two versions at once: one walks
     /// on, one waits. Each reads differently from the other where they acted,
     /// and the parent holds neither.</summary>

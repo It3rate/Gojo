@@ -13,6 +13,11 @@ namespace Gojo.EncodingC;
 /// not show through beside the fork's own; information, everything else, is
 /// still read live. The structure says which planes are material; nothing is
 /// declared.</para>
+/// <para><b>Selection.</b> A fork can attend to areas of its parent's stores.
+/// Its wirings then run only where their positions are selected, it holds
+/// material only there, and running brings in by use what it touches, holding
+/// material at each position as it comes in. Its cost follows what it attends
+/// to, not the size of the parent.</para>
 /// <para><b>Topology copied, for now.</b> Each wiring is rebuilt over the
 /// workspaces with the same law and a copy of its rows, so the fork can be
 /// rewired, rows recruited or retired, without touching the parent's wiring.
@@ -56,13 +61,14 @@ public sealed class Fork
 
     public IReadOnlyCollection<Workspace> Workspaces => views.Values;
 
-    internal static Fork Of(Engine parent, bool holdMaterial)
+    internal static Fork Of(Engine parent, bool holdMaterial, IReadOnlyDictionary<Store, Plane>? select = null)
     {
         ArgumentNullException.ThrowIfNull(parent);
         var rows = parent.Wirings.Select(w => w.Rows).ToHashSet(ReferenceEqualityComparer.Instance);
         var views = new Dictionary<Store, Workspace>(ReferenceEqualityComparer.Instance);
         foreach (var store in parent.Stores)
-            if (!rows.Contains(store)) views[store] = new Workspace(store).SelectAll();
+            if (!rows.Contains(store))
+                views[store] = select is not null && select.TryGetValue(store, out var area) ? new Workspace(store).Select(area) : new Workspace(store).SelectAll();
         var engine = Engine.ForkOf(parent);
         var copies = new Dictionary<Wiring, Wiring>(ReferenceEqualityComparer.Instance);
         foreach (var wiring in parent.Wirings)
@@ -78,7 +84,7 @@ public sealed class Fork
             engine.Add(copy);
         }
         var held = holdMaterial ? Material(parent).Where(m => views.ContainsKey(m.Store)).ToArray() : [];
-        foreach (var (store, plane) in held) views[store].Fix(plane);
+        foreach (var (store, plane) in held) views[store].Fix(plane, select is not null && select.TryGetValue(store, out var area) ? area : null);
         return new Fork(parent, engine, views, copies, held);
     }
 

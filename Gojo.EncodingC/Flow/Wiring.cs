@@ -377,9 +377,22 @@ public sealed class Wiring
         return waves;
     }
 
-    /// <summary>Runs every runnable row it attends to: every live row, or with
-    /// an attention plane, the live rows whose bit there is 1.</summary>
-    public WiringStep Apply() => Apply(attention is int a ? Live.And(Rows.Read(a)) : Live);
+    /// <summary>Runs the rows selection lets run: live rows, those its
+    /// attention plane holds 1 for if it has one, and within the selection of
+    /// every workspace it binds, which brings in by use what running touches.
+    /// This is one rule, whether the wiring runs by itself or in an engine.</summary>
+    public WiringStep Apply()
+    {
+        var rows = Attended();
+        foreach (var workspace in Workspaces) rows = workspace.Gate(this, rows);
+        return Apply(rows);
+    }
+
+    /// <summary>Live rows its attention plane holds 1 for, or every live row.</summary>
+    internal Plane Attended() => attention is int a ? Live.And(Rows.Read(a)) : Live;
+
+    /// <summary>The workspaces its roles are bound to.</summary>
+    internal IEnumerable<Workspace> Workspaces => bindings.Select(b => b.Surface).OfType<Workspace>().Distinct();
 
     /// <summary>Runs the law over the given rows, wave by wave, each wave across
     /// all its rows at once. A transition law changes state; a relation law

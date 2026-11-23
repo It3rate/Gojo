@@ -44,6 +44,7 @@ public sealed class Workspace : Surface
     private readonly PackedInts beyond = new();
     private readonly List<(Plane? Area, bool Keep)> layers = [];
     private readonly List<Plane> left = [];
+    private readonly List<int> fixedPlanes = [];
     private Plane used = new(0);
     private PackedInts? together;
     private Gap? gap;
@@ -111,24 +112,30 @@ public sealed class Workspace : Surface
 
     internal override bool Filled(int plane) => source.Filled(plane);
 
-    /// <summary>Holds a plane as the source has it now, at every source position:
-    /// from here on this workspace reads its own copy of the plane, not the
-    /// source, so the source moving no longer shows through. The copy is the
+    /// <summary>Holds a plane as the source has it now, at every source position
+    /// or only within <paramref name="area"/>, and at any position brought in
+    /// by use later, as it is then: from there on this workspace reads its own
+    /// copy of the plane, not the source, so the source moving no longer shows
+    /// through. The copy is the
     /// basis a commit checks, so if the source moves, those positions are
     /// stale. For what must not be read live, such as material a supposition
     /// moves while the world goes on; information can stay live.</summary>
-    public void Fix(int plane)
+    public void Fix(int plane, Plane? area = null)
     {
         CheckPlane(plane);
         if (source.IsConstant(plane)) return;
+        if (!fixedPlanes.Contains(plane)) fixedPlanes.Add(plane);
         for (var i = 0; i < Span; i++)
-        {
-            if (Holds(plane, i)) continue;
-            Fit(held, plane)[i] = true;
-            var bit = source.Read(plane, i);
-            Fit(basis, plane)[i] = bit;
-            Fit(bits, plane)[i] = bit;
-        }
+            if (area is null || (i < area.Length && area[i])) FixAt(plane, i);
+    }
+
+    private void FixAt(int plane, int index)
+    {
+        if (index >= Span || Holds(plane, index)) return;
+        Fit(held, plane)[index] = true;
+        var bit = source.Read(plane, index);
+        Fit(basis, plane)[index] = bit;
+        Fit(bits, plane)[index] = bit;
     }
 
     /// <summary>Supposes a bit here: copies it in and changes it. The source is
@@ -227,15 +234,11 @@ public sealed class Workspace : Surface
 
     // ---- Running ----
 
-    /// <summary>Runs a wiring here: a transition changes the workspace's state, a
-    /// relation narrows what the workspace holds open. Rows whose workspace positions are all
-    /// selected run. A row that also touches unselected positions brings them
-    /// in, one step further from the request, if one of its selected positions
-    /// has steps left and none of the others is ignored; otherwise it does not
-    /// run and is returned in <see cref="WorkspaceStep.Beyond"/>. Rows that touch
-    /// nothing selected are not this workspace's business. Rows that changed several
-    /// of this workspace's positions are remembered as changed together; that is done
-    /// by the wiring, so it holds however the wiring is run.</summary>
+    /// <summary>Runs a wiring here and reports what selection did: a
+    /// transition changes the workspace's state, a relation narrows what the
+    /// workspace holds open. Which rows run is <see cref="Gate"/>, the same
+    /// rule that applies whenever the wiring runs, by itself or in an engine;
+    /// this only adds what it brought in and which rows went beyond.</summary>
     public WorkspaceStep Apply(Wiring wiring)
     {
         ArgumentNullException.ThrowIfNull(wiring);
@@ -244,13 +247,33 @@ public sealed class Workspace : Surface
         for (var r = 0; r < wiring.Bindings.Count; r++)
             if (wiring.Writes(r) && !ReferenceEquals(wiring.Bindings[r].Surface, this))
                 throw new ArgumentException($"Role {r} would write outside this workspace. A workspace writes only itself; its commit decides what reaches anything else.", nameof(wiring));
+        var beyond = new Plane(wiring.Count);
+        var brought = new Plane(Count);
+        var run = wiring.Attended();
+        foreach (var other in wiring.Workspaces)
+            run = other.Gate(wiring, run, ReferenceEquals(other, this) ? beyond : null, ReferenceEquals(other, this) ? brought : null);
+        return new WorkspaceStep(wiring.Apply(run), beyond, brought.Length == Count ? brought : Fit(brought));
+    }
 
+    /// <summary>Whether a selection has been made. A workspace with no layer
+    /// does not gate: nothing has been set aside, so every row runs.</summary>
+    internal bool Gates => layers.Count > 0;
+
+    /// <summary>Selection connected to execution: of the given rows, those this
+    /// workspace lets run. Rows whose workspace positions are all selected run.
+    /// A row that also touches unselected positions brings them in, one step
+    /// further from the request, if one of its selected positions has steps
+    /// left and none of the others is ignored; otherwise it does not run and is
+    /// marked in <paramref name="beyondRows"/>. Rows that touch nothing selected
+    /// are not this workspace's business. Bringing a position in holds its
+    /// fixed planes there as they are now.</summary>
+    internal Plane Gate(Wiring wiring, Plane rows, Plane? beyondRows = null, Plane? brought = null)
+    {
+        if (!Gates) return rows;
         var (requested, ignored) = Layers();
         var selected = requested.Or(Fit(ref used).AndNot(ignored));
         var run = new Plane(wiring.Count);
-        var beyondRows = new Plane(wiring.Count);
-        var brought = new Plane(Count);
-        foreach (var row in wiring.Live.Indexes())
+        foreach (var row in rows.Indexes())
         {
             var mine = wiring.IndexesOn(row, this).Distinct().ToArray();
             var inside = mine.Where(i => selected[i]).ToArray();
@@ -259,14 +282,18 @@ public sealed class Workspace : Surface
             var steps = inside.Max(i => requested[i] ? Reach : Left(i));
             if (outside.Length > 0 && (steps == 0 || outside.Any(i => ignored[i])))
             {
-                beyondRows[row] = true;
+                if (beyondRows is not null) beyondRows[row] = true;
                 continue;
             }
             foreach (var i in outside)
             {
                 BringIn(i, steps - 1);
                 selected[i] = true;
-                brought[i] = true;
+                if (brought is not null)
+                {
+                    if (brought.Length < Count) brought.Grow(Count);
+                    brought[i] = true;
+                }
             }
             // A position brought in earlier by a longer way round is now this
             // close to a request: its steps left are the most any way gives.
@@ -274,8 +301,7 @@ public sealed class Workspace : Surface
                 if (!requested[i] && Left(i) < steps - 1) BringIn(i, steps - 1);
             run[row] = true;
         }
-
-        return new WorkspaceStep(wiring.Apply(run), beyondRows, brought);
+        return run;
     }
 
     // ---- Reading what happened here ----
@@ -518,6 +544,7 @@ public sealed class Workspace : Surface
     private void BringIn(int index, int steps)
     {
         Fit(ref used)[index] = true;
+        foreach (var plane in fixedPlanes) FixAt(plane, index);
         for (var k = 0; k < steps; k++)
         {
             if (left[k].Length < Count) left[k].Grow(Count);

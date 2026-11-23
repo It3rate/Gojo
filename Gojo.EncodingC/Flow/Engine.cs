@@ -52,8 +52,11 @@ public sealed class Engine
     /// <summary>A fork of this local structure: its state read by reference
     /// through copy-on-write workspaces, material held fixed as it is now
     /// unless <paramref name="holdMaterial"/> is false, its topology copied so
-    /// it can be rewired, its laws shared. See <see cref="EncodingC.Fork"/>.</summary>
-    public Fork Fork(bool holdMaterial = true) => EncodingC.Fork.Of(this, holdMaterial);
+    /// it can be rewired, its laws shared. With <paramref name="select"/>, the
+    /// fork attends only to those areas of those stores, holds material only
+    /// there, and brings in by use what running touches. See
+    /// <see cref="EncodingC.Fork"/>.</summary>
+    public Fork Fork(bool holdMaterial = true, IReadOnlyDictionary<Store, Plane>? select = null) => EncodingC.Fork.Of(this, holdMaterial, select);
 
     internal static Engine ForkOf(Engine parent) => new() { Parent = parent };
 
