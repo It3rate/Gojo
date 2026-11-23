@@ -492,6 +492,23 @@ Asked for what cannot be reached, the plan holds a contradiction, the gate
 stays as it was, and the next step starts clean. The machine saves as 115
 bytes and runs the same when restored.
 
+### A goal is a selection, a condition and a target
+
+A goal is ordinary structure in three parts (`GoalTests`):
+
+- a **selection**: the plan positions its rows reference, and nothing else;
+- a **condition**: the law on those rows, such as `Settling.Same`;
+- a **target**: the values it holds fixed, read as samples that narrowing
+  never changes.
+
+Its horizon is the plan's last moment; a stay is a step, so "arrive by then"
+is "be there then". What a goal does not select it does not constrain, so
+"end at the store" selects only the last moment and leaves every route open,
+by road or by helicopter, while "go by the road" selects every moment and
+settles the trip. A waypoint selects one moment in the middle. Whether a goal
+is met is a read of its rows' violations against a plan or a trail. Why a
+goal was chosen is not modelled yet: goals are supplied.
+
 ### Other ways to use what is open
 
 - **A supposition in a workspace.** Seen through a workspace
@@ -851,6 +868,7 @@ limits and tests.
 | `SidesSentenceTests` | The sentence on sides of one landmark, a bridge, with one side word and one step word per moment and no road length stored: each clause's partial sense alone; being seen at the bridge on the way back establishing that the approach crossed it, in either step order; being seen short of it ruling out a turn past it and leaving the rest open; the lanes as the seam |
 | `OrientationMoveTests` | Reverse, face flip and reorient each undoing themselves, commuting and composing into one another for all eight words; reorient keeping the site and the others mirroring it; a reoriented view reading and writing the store turned around without copying; a law on the view matching the store reoriented in place; a view keeping its store's boundary and saved as a view |
 | `TwoFaceTests` | Traffic both ways as two faces of one road, each flowing forward on its own orientation: two units passing mid-road at once; a face-aware strip whose gross is two and whose net, one count read as a side of the other, is at zero; a single-lane bridge used one way at a time by an explicit active-orientation bit, never both lanes on it, nothing lost |
+| `GoalTests` | A goal as selection, condition and target: an outcome goal selecting only the end and leaving every route open; a route goal selecting every moment and settling the trip; a goal met or not read from its violations, the helicopter meeting the outcome and not the route; a waypoint selecting one moment in the middle |
 | `TwoClauseTests` | "Moving toward the store, then turned back" as two local structures using one path definition, the turning moment one position owned by the approach: the return's step back starts from it through a socket, and the approach reads the return's next moment through a second lane; each clause's partial sense alone, the return's missing antecedent left as skipped rows; the approach settling that it set out from home and never reached the store, in either step order; an equal-looking approach, equal in every bit, told apart by position and not by value; arrival possible at the closed end and established only by seeing the mover there; the lanes as a seam and the steps inside as not; fused or saved, the return still continuing the same turn |
 | `TransportTests` | A machine restored from bits running step for step with the same unresolved parts; 22 bytes for the passage chain, by part; workspaces refused; trailing bits refused; any damaged bit either loads or is refused as malformed |
 | `SelfRunningTests` | Machines that only step: a law rewiring a row to the more trusted supplier; a dormant row recruited when flow is blocked; a watcher moving its own attention; a row's activity left in planes and counted by a law; predictors judged and trusted by the structure itself, and one retired when its trust runs out; a goal two steps away opening a valve now, saved and restored; a goal that gives way; what narrowing cannot settle, and a probe that settles it by being wrong; an ambiguous law leaving its next moment open; overflow carried up a workspace; knowledge read through a port and never narrowed there; linked values as a pair with two relations |
