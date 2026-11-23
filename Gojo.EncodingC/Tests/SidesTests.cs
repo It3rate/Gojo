@@ -108,8 +108,10 @@ public sealed class SidesTests
         Assert.Equal(After, Sides.Field.Read(store, 2));
     }
 
-    /// <summary>From one moment to the next a side changes only while at the
-    /// landmark: before, at, at on the other side, after. Never straight across.</summary>
+    /// <summary>Two moments in a row are never detectably on opposite sides:
+    /// something had to be at the mark between them. When either moment is at
+    /// the mark, the side may change, so one sample at the mark is enough to
+    /// pass it.</summary>
     [Fact]
     public void NothingJumpsAcrossAMark()
     {
@@ -119,15 +121,15 @@ public sealed class SidesTests
         Assert.True(Allows(Before, AtFromBefore) && Allows(AtFromBefore, AtFromAfter) && Allows(AtFromAfter, After));
         Assert.False(Allows(Before, After));
         Assert.False(Allows(After, Before));
-        Assert.False(Allows(Before, AtFromAfter));
+        Assert.True(Allows(Before, AtFromAfter) && Allows(AtFromBefore, After));
     }
 
     /// <summary>The sentence on sides, against the store alone: one word per
-    /// moment, one word per step. Starting before the store and stepping with
-    /// the orientation twice, the mover may have reached the store but cannot
-    /// have passed it. Then it turned back, and is before the store again or
-    /// just leaving it. Arrival stays possible and unestablished until it is
-    /// seen there.</summary>
+    /// moment, one word per step. Starting before the store, one detectable step
+    /// of unknown size cannot carry the mover detectably past it, since two
+    /// samples in a row would then be on opposite sides; a second step can.
+    /// Arrival stays possible and unestablished until it is seen there, and
+    /// once seen there, the step back leaves it before the store or still at it.</summary>
     [Fact]
     public void MovingTowardTheStoreThenTurningBackOnSides()
     {
@@ -150,14 +152,14 @@ public sealed class SidesTests
 
         Settle(engine);
 
-        Assert.Equal(Values(Before, AtFromBefore), side.Values(1));
-        Assert.Equal(Values(Before, AtFromBefore, AtFromAfter), side.Values(2));
-        Assert.Equal(Values(Before, AtFromBefore), side.Values(3));
+        Assert.Equal(Values(Before, AtFromBefore, AtFromAfter), side.Values(1));
+        Assert.Equal(Values(Before, AtFromBefore, AtFromAfter, After), side.Values(2));
         Assert.True(turned.Violations().None);
 
         side.Restrict(2, Values(AtFromBefore, AtFromAfter));
         Settle(engine);
         Assert.Equal(Values(AtFromBefore, AtFromAfter), side.Values(2));
+        Assert.Equal(Values(Before, AtFromBefore), side.Values(3));
         Assert.True(side.Empty.None);
     }
 

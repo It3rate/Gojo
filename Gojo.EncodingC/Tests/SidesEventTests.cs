@@ -145,17 +145,18 @@ public sealed class SidesEventTests
 
     /// <summary>Seen before the store, then after a step back still before it,
     /// with the moment between unseen: it may have reached the store and come
-    /// back, or turned short of it. Whether the goal was reached or abandoned
-    /// stays open, and nothing is guessed.</summary>
+    /// back, or turned short of it, or have stepped just past it and back. Whether
+    /// the goal was reached or abandoned, and even whether the last step went
+    /// away from it, stays open, and nothing is guessed.</summary>
     [Fact]
     public void PartialEvidenceLeavesTheOutcomeOpen()
     {
         var trail = Seen([Before, null, Before], [With, Against]);
 
-        Assert.Equal(Values(Before, AtFromBefore), trail.Side.Values(1));
+        Assert.Equal(Values(Before, AtFromBefore, AtFromAfter), trail.Side.Values(1));
         Assert.Equal([0, null, null], Read(trail.Reached));
         Assert.Equal([0, 0, null], Read(trail.Abandoned));
-        Assert.Equal([0, 0, 1], Read(trail.Away));
+        Assert.Equal([0, 0, null], Read(trail.Away));
     }
 
     /// <summary>Expected is a supposition, not an observation. In a workspace,

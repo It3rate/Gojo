@@ -48,12 +48,16 @@ public static class Sides
     public static RelationLaw Agree(int threshold = Odv.Detection) =>
         RelationLaw.FromPredicate([Word, Word, Word], t => Holds(Odv.Subtract(Of(t[0]), Of(t[2]), threshold), t[1]));
 
-    /// <summary>Nothing jumps across a mark: from one moment to the next, the
-    /// side may change only while at the landmark. Roles: earlier, later.</summary>
+    /// <summary>Nothing jumps across a mark: two moments in a row cannot both be
+    /// detectably away on opposite sides of the landmark, because something
+    /// had to be at the mark in between and would have been seen there. If
+    /// either moment is at the mark, the side may change. This is a promise
+    /// about how densely the trail is sampled, not about how far a step can
+    /// go. Roles: earlier, later.</summary>
     public static RelationLaw Continuous { get; } = RelationLaw.FromPredicate([Word, Word], t =>
     {
         var (earlier, later) = (Of(t[0]), Of(t[1]));
-        return !(earlier.Detectable || later.Detectable) || earlier.Negative == later.Negative;
+        return !(earlier.Detectable && later.Detectable && earlier.Negative != later.Negative);
     });
 
     /// <summary>A step moves the side by what the step is: the later side is

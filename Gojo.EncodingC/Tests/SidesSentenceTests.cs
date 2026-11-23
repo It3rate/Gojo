@@ -103,8 +103,8 @@ public sealed class SidesSentenceTests
     private static ulong[] SidesOf(Clause clause) => [.. Enumerable.Range(0, clause.Store.Count).Select(clause.Side.Values)];
 
     /// <summary>Alone, the approach knows it set out before the bridge and
-    /// moved with the road twice: it may have reached the bridge, even got
-    /// onto its far side, or still be short of it. The return alone knows only
+    /// moved with the road twice: it may be short of the bridge, at it, or
+    /// past it, though not past it after its first step. The return alone knows only
     /// that it stepped back and was seen at the bridge; what it came back from
     /// is not there, and its rows through the empty socket say so.</summary>
     [Fact]
@@ -117,17 +117,16 @@ public sealed class SidesSentenceTests
         var skipped = back.Engine.Step().Steps.Select(step => step.Skipped.Any).ToArray();
         Settle(back.Engine);
 
-        Assert.Equal([Values(Before), Values(Before, AtFromBefore), Values(Before, AtFromBefore, AtFromAfter)], SidesOf(approach));
+        Assert.Equal([Values(Before), Values(Before, AtFromBefore, AtFromAfter), Values(Before, AtFromBefore, AtFromAfter, After)], SidesOf(approach));
         Assert.Equal(Values(AtFromBefore, AtFromAfter), back.Side.Values(0));
         Assert.Equal([false, false, true, true, true], skipped);
     }
 
     /// <summary>Joined, being seen at the bridge one step back from the turn
-    /// means the turn was on the bridge's far side: the mover reached the bridge
-    /// at its first step, got onto the far side at its second, turned, and
-    /// came back onto the near side. Nothing in between was stored, and the
-    /// crossing is established, not supposed. It ends the same whichever
-    /// clause steps first.</summary>
+    /// means the turn was on the bridge's far side: the mover crossed it, then
+    /// turned and came back to it. When it first reached the bridge stays open.
+    /// Nothing in between was stored, and the crossing is established, not
+    /// supposed. It ends the same whichever clause steps first.</summary>
     [Fact]
     public void BeingSeenAtTheBridgeOnTheWayBackShowsTheApproachCrossedIt()
     {
@@ -139,16 +138,17 @@ public sealed class SidesSentenceTests
 
             Settle(approachFirst ? [approach.Engine, back.Engine] : [back.Engine, approach.Engine]);
 
-            Assert.Equal([Values(Before), Values(AtFromBefore), Values(AtFromAfter)], SidesOf(approach));
-            Assert.Equal(Values(AtFromBefore), back.Side.Values(0));
+            Assert.Equal([Values(Before), Values(Before, AtFromBefore, AtFromAfter), Values(AtFromAfter, After)], SidesOf(approach));
+            Assert.Equal(Values(AtFromBefore, AtFromAfter), back.Side.Values(0));
             Assert.True(back.Other.SamePosition(0, approach.Store, 2));
         }
     }
 
     /// <summary>Seen detectably short of the bridge one step after turning, the
-    /// mover cannot have turned on the bridge's far side: getting back would
-    /// have crossed the mark in one step. Whether it reached the bridge at all
-    /// stays open. Partial evidence rules out what it can reach and no more.</summary>
+    /// mover cannot have turned detectably past it: two samples in a row would
+    /// then be on opposite sides with nothing seen at the mark. Whether it
+    /// reached the bridge stays open. Partial evidence rules out what it can
+    /// reach and no more.</summary>
     [Fact]
     public void SeenShortOfTheBridgeTheTurnWasNotPastIt()
     {
@@ -163,7 +163,7 @@ public sealed class SidesSentenceTests
 
         Settle(approach.Engine, back.Engine);
 
-        Assert.Equal(Values(Before, AtFromBefore), approach.Side.Values(2));
+        Assert.Equal(Values(Before, AtFromBefore, AtFromAfter), approach.Side.Values(2));
         Assert.True(approach.Side.Empty.None);
     }
 
@@ -179,7 +179,7 @@ public sealed class SidesSentenceTests
 
         Settle(approach.Engine, back.Engine);
 
-        Assert.Equal(Values(Before, AtFromBefore, AtFromAfter), approach.Side.Values(2));
+        Assert.Equal(Values(Before, AtFromBefore, AtFromAfter, After), approach.Side.Values(2));
         Assert.Equal(Values(AtFromBefore, AtFromAfter), back.Side.Values(0));
     }
 }
