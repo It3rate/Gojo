@@ -163,6 +163,48 @@ public sealed class Engine
     }
 
     public IReadOnlyList<EngineStep> Run(int steps) => Enumerable.Range(0, steps).Select(_ => Step()).ToArray();
+
+    /// <summary>Steps until a step changes nothing, taken together or in order,
+    /// and returns how many steps that took, the quiet one included; null if
+    /// it is still changing after <paramref name="limit"/> steps. Quiet is read
+    /// from what the rows did, not decided outside them.</summary>
+    public int? Settle(int limit, bool together = false)
+    {
+        for (var i = 1; i <= limit; i++)
+            if ((together ? StepTogether() : Step()).Steps.All(step => step.Changed.None)) return i;
+        return null;
+    }
+
+    /// <summary>A step taken together: every row of every wiring reads the
+    /// state before the step, and the step's writes land afterwards. Nothing a
+    /// row writes is seen by another row in the same step, so the order rows
+    /// and wirings are declared in no longer decides what moves. Where two
+    /// different rows would write the same bit, unless both only rule the same
+    /// value out, both are contested: neither runs, and the step says so. A
+    /// wiring listed twice plans once.</summary>
+    public EngineStep StepTogether()
+    {
+        var once = wirings.Distinct().ToArray();
+        var plans = once.Select(w => w.Plan()).ToArray();
+        var writers = new Dictionary<(Surface, int, int), List<(int Wiring, int Row, bool Value, bool Rules)>>();
+        for (var w = 0; w < once.Length; w++)
+            foreach (var (row, writes) in plans[w].Writes)
+                foreach (var write in writes)
+                {
+                    var bit = write.Surface.Bit(write.Index, write.Plane);
+                    if (!writers.TryGetValue(bit, out var list)) writers[bit] = list = [];
+                    if (!list.Any(x => x.Wiring == w && x.Row == row)) list.Add((w, row, write.Value, once[w].Law is RelationLaw));
+                }
+        var contested = once.Select(w => new Plane(w.Count)).ToArray();
+        foreach (var list in writers.Values)
+        {
+            if (list.Count < 2 || list.All(x => x.Rules && !x.Value)) continue;
+            foreach (var (w, row, _, _) in list) contested[w][row] = true;
+        }
+        var stepped = once.Select((w, i) => (w, step: w.Commit(plans[i], contested[i]))).ToDictionary(x => x.w, x => x.step, ReferenceEqualityComparer.Instance);
+        Tick++;
+        return new EngineStep(Tick, [.. wirings.Select(w => stepped[w])], [once.Length == 0 ? [] : Enumerable.Range(0, wirings.Count).ToArray()]);
+    }
 }
 
 /// <summary>One engine step: what each wiring did, and which wirings could have

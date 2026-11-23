@@ -403,10 +403,67 @@ public sealed class Wiring
         ArgumentNullException.ThrowIfNull(rowMask);
         var step = Law switch
         {
-            TransitionLaw transition => Run(rowMask, transition),
-            RelationLaw relation => Narrow(rowMask, relation),
+            TransitionLaw transition => Run(rowMask, transition, null),
+            RelationLaw relation => Narrow(rowMask, relation, null),
             _ => throw new InvalidOperationException("A law is a transition or a relation."),
         };
+        Leave(step, rowMask);
+        return step;
+    }
+
+    /// <summary>One bit a row would write in a step where every row reads the
+    /// state before the step.</summary>
+    internal readonly record struct Write(Surface Surface, int Index, int Plane, bool Value);
+
+    /// <summary>What the rows this wiring would run now would write, read from
+    /// the state as it is, without writing anything: the first half of a step
+    /// taken together (<see cref="Engine.StepTogether"/>).</summary>
+    internal (WiringStep Step, Plane Rows, Dictionary<int, List<Write>> Writes) Plan()
+    {
+        var rows = Attended();
+        foreach (var workspace in Workspaces) rows = workspace.Gate(this, rows);
+        var writes = new Dictionary<int, List<Write>>();
+        var step = Law switch
+        {
+            TransitionLaw transition => Run(rows, transition, writes),
+            RelationLaw relation => Narrow(rows, relation, writes),
+            _ => throw new InvalidOperationException("A law is a transition or a relation."),
+        };
+        return (step, rows, writes);
+    }
+
+    /// <summary>The second half: writes the planned rows that are not
+    /// contested, and reports what each row did, contested rows apart.</summary>
+    internal WiringStep Commit((WiringStep Step, Plane Rows, Dictionary<int, List<Write>> Writes) plan, Plane contested)
+    {
+        var changed = new Plane(Count);
+        var after = plan.Step.After.ToArray();
+        foreach (var (row, writes) in plan.Writes)
+        {
+            if (contested[row] || writes.Count == 0) continue;
+            // Every planned write differs from the state before the step, so
+            // the row changed something even where an agreeing row wrote first.
+            changed[row] = true;
+            foreach (var write in writes)
+                if (write.Surface.Read(write.Plane, write.Index) != write.Value) write.Surface.Set(write.Plane, write.Index, write.Value);
+            if (Law is TransitionLaw) after[row] = TupleOf(row) ?? -1;
+            foreach (var surface in writes.Select(w => w.Surface).Distinct())
+            {
+                var together = writes.Where(w => ReferenceEquals(w.Surface, surface)).Select(w => w.Index).Distinct().ToArray();
+                if (together.Length > 1) surface.ChangedTogether(together);
+            }
+        }
+        if (Law is TransitionLaw)
+            foreach (var row in plan.Rows.Indexes())
+                if (!changed[row]) after[row] = plan.Step.Before[row];
+        var step = plan.Step with { Changed = changed, After = after, Contested = contested.And(plan.Rows) };
+        Leave(step, plan.Rows);
+        return step;
+    }
+
+    /// <summary>Leaves what each row did in the evidence planes, when recording.</summary>
+    private void Leave(WiringStep step, Plane rowMask)
+    {
         if (evidence is not null)
         {
             var mask = rowMask.And(Rows.Live);
@@ -417,10 +474,9 @@ public sealed class Wiring
             Rows.Write(evidence.Skipped, step.Skipped, mask);
             Rows.Write(evidence.Aliased, step.Aliased, mask);
         }
-        return step;
     }
 
-    private WiringStep Run(Plane rowMask, TransitionLaw transition)
+    private WiringStep Run(Plane rowMask, TransitionLaw transition, Dictionary<int, List<Write>>? planned)
     {
         var (runnable, aliasedRows) = Classify();
         var lanes = rowMask.And(runnable);
@@ -451,11 +507,14 @@ public sealed class Wiring
                         if (((changing[r] >> b) & 1) == 0) continue;
                         var plane = bindings[r].Plane(b);
                         var value = step.After[r][b][row];
-                        if (surface.Read(plane, index) != value) surface.Set(plane, index, value);
+                        if (surface.Read(plane, index) == value) continue;
+                        if (planned is not null) (planned.TryGetValue(row, out var list) ? list : planned[row] = []).Add(new Write(surface, index, plane, value));
+                        else surface.Set(plane, index, value);
                     }
                 }
             foreach (var row in wave.Indexes())
             {
+                if (planned is not null) continue;
                 after[row] = TupleOf(row) ?? -1;
                 if (after[row] == before[row]) continue;
                 changed[row] = true;
@@ -477,7 +536,7 @@ public sealed class Wiring
     /// code, unadmitted when no tuple fits at all (a contradiction, left in the
     /// planes it could write), and ambiguous while an open role still has
     /// several values.</summary>
-    private WiringStep Narrow(Plane rowMask, RelationLaw relation)
+    private WiringStep Narrow(Plane rowMask, RelationLaw relation, Dictionary<int, List<Write>>? planned)
     {
         var (runnable, _) = Classify();
         var lanes = rowMask.And(runnable);
@@ -529,7 +588,8 @@ public sealed class Wiring
                             continue;
                         }
                         if (!writes[r] || !supports[r][v][row]) continue;
-                        binding.Surface.Set(binding.Plane(v), index, false);
+                        if (planned is not null) (planned.TryGetValue(row, out var list) ? list : planned[row] = []).Add(new Write(binding.Surface, index, binding.Plane(v), false));
+                        else binding.Surface.Set(binding.Plane(v), index, false);
                         changed[row] = true;
                     }
                     empty |= left == 0;
@@ -707,4 +767,10 @@ public sealed record WiringStep(
     Plane Aliased,
     int[] Before,
     int[] After,
-    IReadOnlyList<Plane> Waves);
+    IReadOnlyList<Plane> Waves)
+{
+    /// <summary>Rows a step taken together did not run because another row
+    /// would have written the same bit: neither runs, and nothing is decided
+    /// by order. Null for a step taken in order.</summary>
+    public Plane? Contested { get; init; }
+}
