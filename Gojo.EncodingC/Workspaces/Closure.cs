@@ -31,9 +31,11 @@ public sealed class Closure
 {
     private readonly Dictionary<Surface, Plane> areas;
     private readonly Dictionary<Surface, Plane> planes;
+    private readonly Dictionary<(Surface, int), int>? scores;
 
-    private Closure(Engine engine, Dictionary<Surface, Plane> areas, Dictionary<Surface, Plane> planes)
+    private Closure(Engine engine, Dictionary<Surface, Plane> areas, Dictionary<Surface, Plane> planes, Dictionary<(Surface, int), int>? scores = null)
     {
+        this.scores = scores;
         Engine = engine;
         this.areas = areas;
         this.planes = planes;
@@ -52,6 +54,14 @@ public sealed class Closure
 
     /// <summary>Selected positions of a surface; none if it was not reached.</summary>
     public Plane Of(Surface surface) => areas.TryGetValue(Key(surface), out var area) ? area.Clone() : new Plane(surface.Count);
+
+    /// <summary>How many uses reached a position, kept or not, by identity. A
+    /// closure grown in one structure has one use: 1 where it selected, else 0.</summary>
+    public int Score(Surface surface, int index)
+    {
+        var (home, at) = Identity(surface, index);
+        return scores is null ? (Of(home) is var area && at < area.Length && area[at] ? 1 : 0) : scores.GetValueOrDefault((home, at));
+    }
 
     /// <summary>Selected rows of a wiring.</summary>
     public Plane Rows(Wiring wiring) => Of(wiring.Rows);
@@ -123,51 +133,69 @@ public sealed class Closure
     }
 
     /// <summary>The closure that follows a referent across structures, out and
-    /// back (formal concept analysis's closure): from the
-    /// <paramref name="seeds"/> to the structures in <paramref name="view"/>
-    /// that reference all of them, and back to the positions those structures
-    /// share. Positions are taken by identity, so a lane read through a port
-    /// or a socket is its owner's position, and positions private to one
-    /// structure drop out unless enough others reach them too.
-    /// <para><paramref name="missing"/> is how many of the using structures may
-    /// lack a position for it to stay. At 0 the result is the strict common
-    /// core, and computing it again from that core gives it back. At one less
-    /// than the number of users it is everything any of them references.
-    /// In between are the selections that are partly shared.</para>
-    /// <para>The rows selected are those of the using structures that bind a
-    /// shared position, so a fork or attention can run them. The first
-    /// structure in view is the one that asks.</para></summary>
-    public static Closure Common(IReadOnlyList<Engine> view, IReadOnlyDictionary<Surface, Plane> seeds, int missing = 0)
+    /// back (formal concept analysis's closure), with growth inside each use:
+    /// from the <paramref name="seeds"/> out to the structures in
+    /// <paramref name="view"/> that reference all of them; within each of
+    /// those, growth by <paramref name="reach"/> from the seeds through that
+    /// structure's own rows; and back to the positions enough of those uses
+    /// reached. Positions are taken by identity, so a lane read through a port
+    /// or a socket is its owner's position.
+    /// <para><b>Gather, then trim.</b> Reach says how far one use may gather,
+    /// and sharing trims what too few uses gathered. A position's
+    /// <see cref="Score"/> is how many uses reached it; <paramref name="missing"/>
+    /// is how many uses may lack a position for it to stay. At 0 the result is
+    /// the strict common core; at one less than the number of uses it is the
+    /// union, which is plain growth. Unlimited reach (null) gives each use's
+    /// whole connected part, and at 0 missing, computing it again from the
+    /// result gives the result back.</para>
+    /// <para><b>Whole rows.</b> A row is selected only if a use reached it and
+    /// every position it binds stayed, so trimming never leaves part of a row
+    /// (C2 before C5). A kept position no selected row binds stays as a
+    /// referent. The first structure in view is the one that asks.</para></summary>
+    public static Closure Common(IReadOnlyList<Engine> view, IReadOnlyDictionary<Surface, Plane> seeds, int missing = 0, int? reach = null)
     {
         ArgumentNullException.ThrowIfNull(view);
         ArgumentNullException.ThrowIfNull(seeds);
         ArgumentOutOfRangeException.ThrowIfNegative(missing);
+        if (reach is < 0) throw new ArgumentOutOfRangeException(nameof(reach));
         if (view.Count == 0) throw new ArgumentException("Nothing is in view.", nameof(view));
         var seed = seeds.SelectMany(s => s.Value.Indexes().Select(i => Identity(s.Key, i))).ToHashSet();
         IEnumerable<(Wiring W, int Row, (Surface, int)[] Binds)> Rows(Engine e) =>
             e.Wirings.Distinct().SelectMany(w => w.Live.Indexes().Select(row => (w, row, w.Row(row).Select((i, r) => Identity(w.Bindings[r].Surface, i)).ToArray())));
-        var users = view.Where(e => seed.IsSubsetOf(Rows(e).SelectMany(x => x.Binds))).ToArray();
-        var references = users.Select(e => Rows(e).SelectMany(x => x.Binds).ToHashSet()).ToArray();
-        var shared = references.SelectMany(r => r).Distinct()
-            .Where(p => references.Count(r => r.Contains(p)) >= references.Length - missing)
-            .Union(seed).ToHashSet();
+        (HashSet<(Surface, int)> Reached, List<(Wiring W, int Row, (Surface, int)[] Binds)> Rows) Grow(Engine e)
+        {
+            var all = Rows(e).ToList();
+            var reached = new HashSet<(Surface, int)>(seed);
+            var rows = new List<(Wiring, int, (Surface, int)[])>();
+            for (var round = 0; reach is null || round <= reach; round++)
+            {
+                var picked = all.Where(x => x.Binds.Any(reached.Contains)).ToArray();
+                if (picked.Length == 0) break;
+                rows.AddRange(picked);
+                all.RemoveAll(x => x.Binds.Any(reached.Contains));
+                foreach (var x in picked) reached.UnionWith(x.Binds);
+            }
+            return (reached, rows);
+        }
+        var uses = view.Where(e => seed.IsSubsetOf(Rows(e).SelectMany(x => x.Binds))).Select(Grow).ToArray();
+        var scores = uses.SelectMany(u => u.Reached).GroupBy(p => p).ToDictionary(g => g.Key, g => g.Count());
+        var kept = scores.Where(x => x.Value >= uses.Length - missing).Select(x => x.Key).Union(seed).ToHashSet();
 
         var areas = new Dictionary<Surface, Plane>(ReferenceEqualityComparer.Instance);
         var planes = new Dictionary<Surface, Plane>(ReferenceEqualityComparer.Instance);
         Plane Area(Dictionary<Surface, Plane> map, Surface surface, int length) =>
             map.TryGetValue(surface, out var area) ? area : map[surface] = new Plane(length);
-        foreach (var (surface, index) in shared) Area(areas, surface, surface.Count)[index] = true;
-        foreach (var (w, row, binds) in users.SelectMany(Rows).Where(x => x.Binds.Any(shared.Contains)))
+        foreach (var (surface, index) in kept) Area(areas, surface, surface.Count)[index] = true;
+        foreach (var (w, row, binds) in uses.SelectMany(u => u.Rows).Where(x => x.Binds.All(kept.Contains)))
         {
             Area(areas, w.Rows, w.Count)[row] = true;
             for (var role = 0; role < binds.Length; role++)
             {
-                if (!shared.Contains(binds[role])) continue;
                 var read = Area(planes, binds[role].Item1, binds[role].Item1.PlaneCount);
                 foreach (var plane in w.Bindings[role].Planes) read[Behind(w.Bindings[role].Surface) is { } port ? port.OwnerPlanes[plane] : plane] = true;
             }
         }
-        return new Closure(view[0], areas, planes);
+        return new Closure(view[0], areas, planes, scores);
     }
 
     /// <summary>Where a position is: through a port or a plugged socket, the

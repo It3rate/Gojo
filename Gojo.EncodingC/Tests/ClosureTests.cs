@@ -206,7 +206,8 @@ public sealed class ClosureTests
     /// Street. Computing it again from that core gives it back: it is closed.
     /// Letting one user lack a position changes nothing here; letting two lack
     /// it gives everything any of them reaches, the mornings' own position
-    /// included. The weekend's rows are never selected.</summary>
+    /// included. The weekend's rows are never selected, and neither is a row
+    /// that would bind a position trimmed away: rows stay whole.</summary>
     [Fact]
     public void FollowingAReferentAcrossStructuresKeepsWhatItsUsesShare()
     {
@@ -243,7 +244,50 @@ public sealed class ClosureTests
         Assert.Equal(Plane.Of(1, 0), any.Of(own));
         Assert.True(core.Of(own).None);
         Assert.True(core.Rows(weekendRows).None);
-        Assert.Equal(Plane.Of(1, 0), core.Rows(morningsOwn));
+        Assert.True(core.Rows(morningsOwn).None);
+        Assert.Equal(Plane.Of(1, 0), any.Rows(morningsOwn));
         Assert.Equal(Plane.Of(1, 0), core.PlanesOf(town));
+    }
+
+    /// <summary>Gathering by reach, then trimming to what the uses share. Bob's
+    /// day is three structures, each a chain from Bob: mornings go Bob, Main
+    /// Street, the bakery, the river; evenings go Bob, Main Street, the bakery,
+    /// and Bob to the park; a walk goes Bob, Main Street, the library. Each use
+    /// grows from Bob through its own rows only, and a place's score is how
+    /// many uses reached it. Plain growth two rows out takes in the river,
+    /// which only the mornings reach that far. Letting one use lack a place
+    /// keeps the bakery, two rows out but reached by two days, and drops the
+    /// park, the library and the river; the rows kept are exactly the whole
+    /// rows among the places kept.</summary>
+    [Fact]
+    public void GatheringByReachThenTrimmingKeepsWhatIsNearAndShared()
+    {
+        const int Bob = 0, Main = 1, Bakery = 2, Park = 3, Library = 4, River = 5;
+        var town = new Store(1, 6);
+        var townEngine = new Engine().Hold(town);
+        var places = town.Publish([0, 1, 2, 3, 4, 5], [0]);
+        Wiring Chain(params (int, int)[] rows)
+        {
+            var w = new Wiring(Settling.Same(Shape.Bit), new Binding(places, 0), new Binding(places, 0));
+            foreach (var (x, y) in rows) w.Add(x, y);
+            return w;
+        }
+        var morningRows = Chain((Bob, Main), (Main, Bakery), (Bakery, River));
+        var eveningRows = Chain((Bob, Main), (Main, Bakery), (Bob, Park));
+        var walkRows = Chain((Bob, Main), (Main, Library));
+        Engine[] view = [new Engine().Add(morningRows), new Engine().Add(eveningRows), new Engine().Add(walkRows), townEngine];
+
+        var near = Closure.Common(view, Seed(town, Bob), reach: 0);
+        var reached = Closure.Common(view, Seed(town, Bob), reach: 1);
+        var grown = Closure.Common(view, Seed(town, Bob), missing: 2, reach: 2);
+        var trimmed = Closure.Common(view, Seed(town, Bob), missing: 1, reach: 2);
+
+        Assert.Equal(Plane.Of(6, Bob, Main), near.Of(town));
+        Assert.Equal([3, 3, 2, 1, 1, 0], Enumerable.Range(0, 6).Select(p => reached.Score(town, p)));
+        Assert.Equal(Plane.Of(6, Bob, Main, Bakery, Park, Library, River), grown.Of(town));
+        Assert.Equal(Plane.Of(6, Bob, Main, Bakery), trimmed.Of(town));
+        Assert.Equal(Plane.Of(3, 0, 1), trimmed.Rows(morningRows));
+        Assert.Equal(Plane.Of(3, 0, 1), trimmed.Rows(eveningRows));
+        Assert.Equal(Plane.Of(2, 0), trimmed.Rows(walkRows));
     }
 }

@@ -214,7 +214,18 @@ that is already there, plus which structures are in view. A port does not know
 its readers, so the view is given: it is the asker's world, and a different
 view is a different question.
 
-**built:** `Closure.Common`, tested in `ClosureTests`.
+**Gather, then trim.** Growth and sharing combine: each use grows by reach
+from the seed through its own rows, and the uses then vote. A position's score
+is how many uses reached it, a number that can be read and compared, and
+`missing` sets how many votes it may lack. Reach says how far one use may
+gather; sharing trims what too few uses gathered. Plain growth is the case
+where one vote is enough; the strict concept is the case with unlimited reach
+and every vote needed. A row is kept only whole: if a use reached it and every
+position it binds stayed. Trimming never leaves part of a unit (C2 is applied
+before C5).
+
+**built:** `Closure.Common` with `reach`, `missing` and `Score`, tested in
+`ClosureTests`.
 
 ## 5. Questions as goals
 
@@ -281,9 +292,12 @@ Tests:
 - **Iterating with a tolerance.** With `missing` above 0 the result need not
   be closed: going out again from it can find different users. Whether to
   iterate to a fixed point, and whether that always settles, is open.
-- **Combining growth and sharing.** Growth gathers and sharing trims. A
-  selection that grows by reach and is then trimmed to what its uses share,
-  or the reverse, is not built.
+- **Trimming, then gathering.** Gathering by reach then trimming is built.
+  The reverse, growing from the shared core, would keep growth anchored on
+  what every use agrees on. Whether it differs usefully is open.
+- **Scores beyond counting.** A use counts once whatever it is. Weighting uses
+  by trust, recency or how far they reached is open, and would need a reason
+  in the structure rather than a chosen weight.
 - **Which settled units seal.** Today a settled open value seals growth
   through the row that reads it as open. A plain state code is never sealed,
   since a transition may still change it. Whether settled means more, such as
