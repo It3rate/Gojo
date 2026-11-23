@@ -288,6 +288,28 @@ public sealed class WorkspaceTests
         Assert.False(chain.Read(0, 5));
     }
 
+    /// <summary>A position introduced in a workspace reads each plane's fill
+    /// until written: what is still possible starts open there, as at a
+    /// position the store adds. Writing one plane copies the others in at their
+    /// fill, so supposing one value open does not make the rest impossible.</summary>
+    [Fact]
+    public void AnIntroducedPositionStartsAtEachPlanesFill()
+    {
+        var store = new Store(1, 1);
+        var possible = Supports.On(store, Field.Bit(0));
+        var workspace = new Workspace(store).SelectAll();
+        var introduced = workspace.Introduce();
+        var supposed = possible.In(workspace);
+
+        Assert.Equal(0b11UL, supposed.Values(introduced));
+        Assert.False(workspace.Read(0, introduced));
+
+        supposed.Restrict(introduced, 0b10);
+
+        Assert.Equal(0b10UL, supposed.Values(introduced));
+        Assert.Equal(0b11UL, possible.Values(0));
+    }
+
     /// <summary>Every word of an ODV store shares its orientation bit, so a
     /// workspace reads it by reference and cannot turn it, by a write or by a law.
     /// When the store turns, it turns as a whole and the workspace sees it.</summary>

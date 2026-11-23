@@ -451,7 +451,7 @@ public sealed class Workspace : Surface
         {
             if (source.IsConstant(p) || Holds(p, index)) continue;
             Fit(held, p)[index] = true;
-            var bit = s is int at && source.Read(p, at);
+            var bit = s is int at ? source.Read(p, at) : source.Filled(p);
             Fit(basis, p)[index] = bit;
             Fit(bits, p)[index] = bit;
         }
