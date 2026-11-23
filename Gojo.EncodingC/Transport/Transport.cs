@@ -524,6 +524,8 @@ public static class Transport
         }
         bits.Bit(wiring.Recorded is not null);
         if (wiring.Recorded is { } evidence) bits.Number(evidence.Changed);
+        bits.Bit(wiring.Attention is not null);
+        if (wiring.Attention is int attention) bits.Number(attention);
     }
 
     private static Wiring ReadWiring(BitReader bits, Law[] laws, Store[] stores, List<Socket> sockets)
@@ -579,7 +581,8 @@ public static class Transport
                 references[r][k] = inOrder ? next++ : bits.Count(rows.PlaneCount - 1);
         }
         int? evidence = bits.Bit() ? bits.Count(rows.PlaneCount) : null;
-        return new Wiring(law, bindings, rows, references, evidence);
+        int? attention = bits.Bit() ? bits.Count(rows.PlaneCount - 1) : null;
+        return new Wiring(law, bindings, rows, references, evidence, attention);
     }
 
     /// <summary>A role's planes. Several planes one after another are written

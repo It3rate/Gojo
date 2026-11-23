@@ -205,7 +205,7 @@ public sealed class SelfRunningTests
         engine.Run(3);
 
         Assert.Equal((3, 0), (trust.Read(mind, 0), trust.Read(mind, 1)));
-        Assert.Equal(47, Transport.Measure(engine).Bytes);
+        Assert.Equal(48, Transport.Measure(engine).Bytes);
     }
 
     /// <summary>The same machine with one more small law: a predictor whose
@@ -269,8 +269,8 @@ public sealed class SelfRunningTests
         restored.Run(3);
         for (var plane = 0; plane < plant.PlaneCount; plane++) Assert.Equal(plant.Read(plane), copies[0].Read(plane));
         var size = Transport.Measure(engine, plant, plan);
-        Assert.Equal(115, saved.Length);
-        Assert.Equal((308L, 291L, 320L), (size.StoreBits, size.LawBits, size.WiringBits));
+        Assert.Equal(116, saved.Length);
+        Assert.Equal((308L, 291L, 327L), (size.StoreBits, size.LawBits, size.WiringBits));
 
         var (stuck, starved, doubt, _) = Planner(units: 1);
         var refused = stuck.Step();
@@ -359,7 +359,7 @@ public sealed class SelfRunningTests
 
         Assert.True(plan.Moments.Read(3, 1));
         Assert.Equal((0, 1), (Count.Read(world.Plant, 0), Count.Read(world.Plant, 2)));
-        Assert.Equal(224, Transport.Measure(engine).Bytes);
+        Assert.Equal(225, Transport.Measure(engine).Bytes);
     }
 
     /// <summary>A unit at a fork may go left or right and the law does not say

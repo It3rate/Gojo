@@ -489,7 +489,7 @@ declared order:
 
 The goal settles the gate at the first moment, because both steps are needed.
 Asked for what cannot be reached, the plan holds a contradiction, the gate
-stays as it was, and the next step starts clean. The machine saves as 115
+stays as it was, and the next step starts clean. The machine saves as 116
 bytes and runs the same when restored.
 
 ### A goal is a selection, a condition and a target
@@ -527,7 +527,7 @@ goal was chosen is not modelled yet: goals are supplied.
 - **Prediction that never stops.** Predictors write their guess of a bit into
   their own planes before the world moves; a judge compares each guess with
   what happened and moves a count of trust. It is one store and four
-  wirings, 47 bytes saved, and it keeps the trust, not the history
+  wirings, 48 bytes saved, and it keeps the trust, not the history
   (`AStructurePredictsJudgesItselfAndTrustFollows`).
 - **Counting what happened.** A wiring that records leaves each row's result
   in planes. A count and a law that reads the "changed" bit are an
@@ -558,8 +558,8 @@ plan wired like the first, with one thing supposed: here, that the gate stays
 shut. If the probe contradicts itself, a law that reads that bit rules the
 supposed value out in the real plan, which then has one value left and acts
 (`ASuppositionThatContradictsRulesTheChoiceOut`). The supposition is ordinary
-structure, saved with the machine. It costs a second plan, 224 bytes against
-115, so how much can be tried at once is bounded by room. Which choices
+structure, saved with the machine. It costs a second plan, 225 bytes against
+116, so how much can be tried at once is bounded by room. Which choices
 deserve a probe is not decided by anything yet.
 
 ## Learning
@@ -699,10 +699,10 @@ Sizes of saved machines, from `Transport.Measure` and pinned in tests:
 
 | Machine | Bytes | Stores / laws / bindings, in bits |
 | --- | --- | --- |
-| A passage chain: 5 positions, 2 rows, 1 law | 22 | 57 / 80 / 36 |
-| Two predictors, a judge and their trust | 47 | |
-| The machine that plans two steps ahead: 3 stores of state, 5 laws, 8 wirings | 115 | 308 / 291 / 320 |
-| The same with a goal that gives way and a probe that supposes | 224 | |
+| A passage chain: 5 positions, 2 rows, 1 law | 22 | 57 / 80 / 37 |
+| Two predictors, a judge and their trust | 48 | |
+| The machine that plans two steps ahead: 3 stores of state, 5 laws, 8 wirings | 116 | 308 / 291 / 327 |
+| The same with a goal that gives way and a probe that supposes | 225 | |
 | What a learner of the passage law knows: 73 small counts | 40 | |
 
 What the bits go to:
@@ -869,6 +869,7 @@ limits and tests.
 | `OrientationMoveTests` | Reverse, face flip and reorient each undoing themselves, commuting and composing into one another for all eight words; reorient keeping the site and the others mirroring it; a reoriented view reading and writing the store turned around without copying; a law on the view matching the store reoriented in place; a view keeping its store's boundary and saved as a view |
 | `TwoFaceTests` | Traffic both ways as two faces of one road, each flowing forward on its own orientation: two units passing mid-road at once; a face-aware strip whose gross is two and whose net, one count read as a side of the other, is at zero; a single-lane bridge used one way at a time by an explicit active-orientation bit, never both lanes on it, nothing lost |
 | `GoalTests` | A goal as selection, condition and target: an outcome goal selecting only the end and leaving every route open; a route goal selecting every moment and settling the trip; a goal met or not read from its violations, the helicopter meeting the outcome and not the route; a waypoint selecting one moment in the middle |
+| `SelectionTests` | A five-position window of a thousand-position structure costing only the window, the rows leaving it reported as beyond; reach bringing in by use what the window's edge rows touch, and stopping; an ignored area staying out though touched; a route plan bringing in the bridge's status it never selected, finding the route impossible while the world is untouched; an attention plane connecting selection to execution in a running structure, moved by one bit and saved with the machine |
 | `TwoClauseTests` | "Moving toward the store, then turned back" as two local structures using one path definition, the turning moment one position owned by the approach: the return's step back starts from it through a socket, and the approach reads the return's next moment through a second lane; each clause's partial sense alone, the return's missing antecedent left as skipped rows; the approach settling that it set out from home and never reached the store, in either step order; an equal-looking approach, equal in every bit, told apart by position and not by value; arrival possible at the closed end and established only by seeing the mover there; the lanes as a seam and the steps inside as not; fused or saved, the return still continuing the same turn |
 | `TransportTests` | A machine restored from bits running step for step with the same unresolved parts; 22 bytes for the passage chain, by part; workspaces refused; trailing bits refused; any damaged bit either loads or is refused as malformed |
 | `SelfRunningTests` | Machines that only step: a law rewiring a row to the more trusted supplier; a dormant row recruited when flow is blocked; a watcher moving its own attention; a row's activity left in planes and counted by a law; predictors judged and trusted by the structure itself, and one retired when its trust runs out; a goal two steps away opening a valve now, saved and restored; a goal that gives way; what narrowing cannot settle, and a probe that settles it by being wrong; an ambiguous law leaving its next moment open; overflow carried up a workspace; knowledge read through a port and never narrowed there; linked values as a pair with two relations |

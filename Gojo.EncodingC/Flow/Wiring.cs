@@ -90,6 +90,7 @@ public sealed class Wiring
     private readonly ulong[] changing;
     private readonly bool[] writes;
     private Evidence? evidence;
+    private int? attention;
 
     public Wiring(Law law, params Binding[] roles)
         : this(law, roles, null, null, null)
@@ -97,7 +98,7 @@ public sealed class Wiring
     }
 
     /// <summary>A wiring over rows that already exist, as a saved machine has them.</summary>
-    internal Wiring(Law law, Binding[] roles, Store? rows, int[][]? referencePlanes, int? evidenceFirst)
+    internal Wiring(Law law, Binding[] roles, Store? rows, int[][]? referencePlanes, int? evidenceFirst, int? attentionPlane = null)
     {
         ArgumentNullException.ThrowIfNull(law);
         ArgumentNullException.ThrowIfNull(roles);
@@ -173,6 +174,11 @@ public sealed class Wiring
             if (first < 0 || first + Evidence.Kinds > Rows.PlaneCount) throw new ArgumentException("The evidence planes are not among the rows' planes.", nameof(evidenceFirst));
             evidence = Evidence.From(first);
         }
+        if (attentionPlane is int a)
+        {
+            if ((uint)a >= (uint)Rows.PlaneCount || Rows.IsConstantPlane(a)) throw new ArgumentException("The attention plane is not among the rows' planes.", nameof(attentionPlane));
+            attention = a;
+        }
     }
 
     public Law Law { get; }
@@ -209,6 +215,18 @@ public sealed class Wiring
         for (var kind = 0; kind < Evidence.Kinds; kind++) Rows.AddPlane();
         return evidence = Evidence.From(first);
     }
+
+    /// <summary>The attention plane, or null when every live row runs.</summary>
+    public int? Attention => attention;
+
+    /// <summary>From now on, only rows whose bit in an attention plane of
+    /// <see cref="Rows"/> is 1 run when the wiring runs by itself or in an
+    /// engine. This is selection connected to execution: an explicit input,
+    /// not a property of the rows. The plane fills, so rows attend until
+    /// something clears their bit, and a law bound to it moves attention as it
+    /// moves any other state. Attention never stops material flow by accident:
+    /// a wiring has one only if one is asked for. Returns the plane.</summary>
+    public int Attend() => attention ??= Rows.AddPlane(fills: true);
 
     /// <summary>Adds a row: one surface index per role. Returns the row.</summary>
     public int Add(params int[] indexes)
@@ -359,8 +377,9 @@ public sealed class Wiring
         return waves;
     }
 
-    /// <summary>Runs every runnable row.</summary>
-    public WiringStep Apply() => Apply(Live);
+    /// <summary>Runs every runnable row it attends to: every live row, or with
+    /// an attention plane, the live rows whose bit there is 1.</summary>
+    public WiringStep Apply() => Apply(attention is int a ? Live.And(Rows.Read(a)) : Live);
 
     /// <summary>Runs the law over the given rows, wave by wave, each wave across
     /// all its rows at once. A transition law changes state; a relation law

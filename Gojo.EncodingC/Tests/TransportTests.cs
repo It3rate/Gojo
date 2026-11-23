@@ -113,7 +113,7 @@ public sealed class TransportTests
 
         Assert.Equal(22, saved.Length);
         Assert.Equal(size.Bytes, saved.Length);
-        Assert.Equal((57L, 80L, 36L), (size.StoreBits, size.LawBits, size.WiringBits));
+        Assert.Equal((57L, 80L, 37L), (size.StoreBits, size.LawBits, size.WiringBits));
     }
 
     [Fact]
