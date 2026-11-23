@@ -22,14 +22,14 @@ public sealed record Question(Supports Value, int Position)
     public int? Answer => Remaining == 1 ? BitOperations.TrailingZeroCount(Value.Values(Position)) : null;
 
     /// <summary>The selection the question needs: closure from its open value.</summary>
-    public Closure Cone(Engine engine, int reach = 0) =>
-        Closure.Of(engine, new Dictionary<Surface, Plane>(ReferenceEqualityComparer.Instance) { [Value.Surface] = Plane.Of(Value.Surface.Count, Position) }, reach);
+    public Closure Cone(Engine engine, int reach = 0, int open = 0) =>
+        Closure.Of(engine, new Dictionary<Surface, Plane>(ReferenceEqualityComparer.Instance) { [Value.Surface] = Plane.Of(Value.Surface.Count, Position) }, reach, open);
 
     /// <summary>Accepts the question in a structure: attends to its cone and
     /// settles there. Returns <see cref="Remaining"/>.</summary>
-    public int Pursue(Engine engine, int reach = 0, int limit = 64)
+    public int Pursue(Engine engine, int reach = 0, int open = 0, int limit = 64)
     {
-        Cone(engine, reach).Attend();
+        Cone(engine, reach, open).Attend();
         if (engine.Settle(limit) is null) throw new InvalidOperationException("Narrowing did not come to rest.");
         return Remaining;
     }

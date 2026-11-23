@@ -14,13 +14,19 @@ namespace Gojo.EncodingC;
 /// <c>reach</c> repeats that once more from what is now selected (growth).
 /// Growth stops at a port or socket: the lane a selected row binds is kept as
 /// the head of the structure behind it, and nothing is followed through it
-/// (thin boundary, C7). Nothing is kept that no selected row uses: positions
+/// (thin boundary, C7). A position whose open value is settled is a finished
+/// unit: rows reach it, and it reaches no further rows (phase, C8).
+/// <para><b>Resolution.</b> Both are sealed boundaries, and <c>open</c> says
+/// how many of them growth may cross on the way to any position. Crossing a
+/// port selects the owner's position and runs on in the owner's structure;
+/// crossing a settled position rereads what settled it.</para> Nothing is kept that no selected row uses: positions
 /// only come in through rows, and <see cref="Planes"/> holds only the planes
 /// selected rows read (coherence, C5). Seeds stay, as referents, even when
 /// nothing binds them (C3).</para>
 /// <para><b>Use.</b> <see cref="Stores"/> is a fork's selection;
 /// <see cref="Attend"/> writes the selected rows into each wiring's attention
-/// plane, so the structure runs only there.</para></summary>
+/// plane of this structure only, so it runs only there; another structure's
+/// attention is its own.</para></summary>
 public sealed class Closure
 {
     private readonly Dictionary<Surface, Plane> areas;
@@ -55,44 +61,79 @@ public sealed class Closure
     public Plane PlanesOf(Surface surface) => planes.TryGetValue(Key(surface), out var read) ? read.Clone() : new Plane(surface.PlaneCount);
 
     /// <summary>The closure of <paramref name="seeds"/> in <paramref name="engine"/>,
-    /// grown <paramref name="reach"/> rows beyond the units the seeds belong to.</summary>
-    public static Closure Of(Engine engine, IReadOnlyDictionary<Surface, Plane> seeds, int reach = 0)
+    /// grown <paramref name="reach"/> rows beyond the units the seeds belong to,
+    /// opening at most <paramref name="open"/> sealed boundaries on the way to
+    /// any position.</summary>
+    public static Closure Of(Engine engine, IReadOnlyDictionary<Surface, Plane> seeds, int reach = 0, int open = 0)
     {
         ArgumentNullException.ThrowIfNull(engine);
         ArgumentNullException.ThrowIfNull(seeds);
         ArgumentOutOfRangeException.ThrowIfNegative(reach);
+        ArgumentOutOfRangeException.ThrowIfNegative(open);
         var areas = new Dictionary<Surface, Plane>(ReferenceEqualityComparer.Instance);
         var planes = new Dictionary<Surface, Plane>(ReferenceEqualityComparer.Instance);
+        var crossed = new Dictionary<(Surface, int), int>();
+        var engines = new List<Engine> { engine };
         Plane Area(Dictionary<Surface, Plane> map, Surface surface, int length) =>
             map.TryGetValue(surface, out var area) ? area : map[surface] = new Plane(length);
-        bool Selected(Surface surface, int index) => areas.TryGetValue(surface, out var area) && index < area.Length && area[index];
+        void Mark(Surface surface, int index, int boundaries)
+        {
+            Area(areas, surface, surface.Count)[index] = true;
+            if (!crossed.TryGetValue((surface, index), out var before) || boundaries < before) crossed[(surface, index)] = boundaries;
+        }
+        void Read(Surface surface, IEnumerable<int> read)
+        {
+            var area = Area(planes, surface, surface.PlaneCount);
+            foreach (var plane in read) area[plane] = true;
+        }
 
-        foreach (var (surface, seed) in seeds) areas[Key(surface)] = Area(areas, Key(surface), surface.Count).Or(seed);
-        var wirings = engine.Wirings.Distinct().ToArray();
+        foreach (var (surface, seed) in seeds)
+            foreach (var index in seed.Indexes()) Mark(Key(surface), index, 0);
         for (var round = 0; round <= reach; round++)
         {
-            var picked = wirings.Select(w => w.Live.Indexes().Where(row =>
-                w.Row(row).Select((index, role) => (index, surface: w.Bindings[role].Surface))
-                    .Any(x => !x.surface.ThroughPort && Selected(Key(x.surface), x.index))).ToArray()).ToArray();
-            for (var i = 0; i < wirings.Length; i++)
-            {
-                var rows = Area(areas, wirings[i].Rows, wirings[i].Count);
-                foreach (var row in picked[i]) rows[row] = true;
-            }
+            var wirings = engines.SelectMany(e => e.Wirings).Distinct().ToArray();
+            var picked = wirings.SelectMany(w => w.Live.Indexes()
+                .Where(row => !crossed.ContainsKey((w.Rows, row)))
+                .Select(row => (w, row, boundaries: w.Row(row).Select((index, role) =>
+                        w.Bindings[role].Surface.ThroughPort || !crossed.TryGetValue((Key(w.Bindings[role].Surface), index), out var c)
+                            ? int.MaxValue
+                            : c + (Sealed(w.Bindings[role], index) ? 1 : 0)).Min()))
+                .Where(x => x.boundaries <= open)).ToArray();
+            foreach (var (w, row, boundaries) in picked) Mark(w.Rows, row, boundaries);
             foreach (var w in wirings)
-                foreach (var row in Area(areas, w.Rows, w.Count).Indexes())
-                    for (var role = 0; role < w.Bindings.Count; role++)
+                foreach (var row in Area(areas, w.Rows, w.Count).Indexes().ToArray())
+                {
+                    var boundaries = crossed[(w.Rows, row)];
+                    var indexes = w.Row(row);
+                    for (var role = 0; role < indexes.Length; role++)
                     {
-                        var surface = Key(w.Bindings[role].Surface);
-                        Area(areas, surface, surface.Count)[w.Row(row)[role]] = true;
-                        var read = Area(planes, surface, surface.PlaneCount);
-                        foreach (var plane in w.Bindings[role].Planes) read[plane] = true;
-                        var refs = Area(planes, w.Rows, w.Rows.PlaneCount);
-                        foreach (var plane in w.ReferencePlanes(role)) refs[plane] = true;
+                        var binding = w.Bindings[role];
+                        var surface = Key(binding.Surface);
+                        Mark(surface, indexes[role], boundaries);
+                        Read(surface, binding.Planes);
+                        Read(w.Rows, w.ReferencePlanes(role));
+                        if (boundaries >= open || Behind(surface) is not { } port || !port.IsLive(indexes[role])) continue;
+                        Mark(port.Owner, port.Lane(indexes[role]), boundaries + 1);
+                        Read(port.Owner, binding.Planes.Select(p => port.OwnerPlanes[p]));
+                        if (port.Owner.Local is { } owner && !engines.Contains(owner)) engines.Add(owner);
                     }
+                }
         }
         return new Closure(engine, areas, planes);
     }
+
+    /// <summary>A role bound open whose value is settled at this position: a
+    /// finished unit, read through its edge and not grown through (phase, C8).</summary>
+    private static bool Sealed(Binding binding, int index) =>
+        binding.IsOpen && binding.Planes.Count(plane => binding.Surface.Read(plane, index)) == 1;
+
+    /// <summary>The port a surface reaches another structure through, if any.</summary>
+    private static Port? Behind(Surface surface) => surface switch
+    {
+        Port port => port,
+        Socket socket => socket.Plugged,
+        _ => null,
+    };
 
     /// <summary>Runs the structure only on the selected rows from now on:
     /// writes them into each wiring's attention plane, and clears the rest.</summary>

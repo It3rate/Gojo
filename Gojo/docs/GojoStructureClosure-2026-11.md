@@ -82,12 +82,13 @@ units is itself a unit when its connections to everything else pass through
 a small interface, so the group could be replaced by that interface. Ports
 are the clearest case. Growth stops at a thin boundary and keeps only the
 head on the far side; a finer selection opens it. **built: ports kept as
-heads; opening them is not built**
+heads, and opened by `open`**
 
 **C8. Phase** (locality). *Filters.* Once a unit is settled, its inside is
 sealed and only its edge is read. A settled local structure is read through
 its ports; a settled clause through its referents. At a coarse resolution a
-finished unit collapses to its head.
+finished unit collapses to its head. **built: a position whose open value is
+settled is read and not grown through, unless opened**
 
 **C9. Accessibility** (discourse representation theory). A supposition sees
 what it supposes about; what it supposes about does not see the supposition
@@ -204,8 +205,11 @@ open and settling toward it.
 ## 6. First implementation
 
 Built, 23 November 2026: `Closure` and `Question` in EncodingC, tested in
-`ClosureTests`. Steps 1 to 4 and 6 of section 4 are built; step 5 keeps ports
-as heads and does not yet stop at settled units. A question's remaining
+`ClosureTests`. Steps 1 to 6 of section 4 are built. Step 5 treats a port and
+a settled position as one kind of sealed boundary, and `open` is a number:
+how many sealed boundaries growth may cross on the way to any position.
+Crossing a port selects the owner's position and grows on in the owner's
+structure; crossing a settled position rereads what settled it. A question's remaining
 answers are a count: one answered, more open, zero contradicted.
 
 
@@ -235,5 +239,11 @@ Tests:
   that is enough is open.
 - **Coherence relations as structure.** Section 3 names how each maps; only
   "then" and cause exist as structure today.
-- **Following a referent across structures** needs to read through ports from
-  the inside, which closure can do only to a head today.
+- **Following a referent across structures.** Opening a port follows a
+  referent from the reader to its owner. The other way, from an owner to
+  every structure reading its position, needs the structures in view, since a
+  port does not know its readers.
+- **Which settled units seal.** Today a settled open value seals growth
+  through the row that reads it as open. A plain state code is never sealed,
+  since a transition may still change it. Whether settled means more, such as
+  a unit whose rows are all quiet, is open.

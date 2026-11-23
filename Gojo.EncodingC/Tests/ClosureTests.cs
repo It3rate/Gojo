@@ -70,6 +70,34 @@ public sealed class ClosureTests
         Assert.Equal(Plane.Of(2, 0), far.PlanesOf(chain));
     }
 
+    /// <summary>Opening a port is crossing one sealed boundary. Kept closed,
+    /// the row reading the port brings in only its lane. Opened once, the lane
+    /// selects the owner's position, the plane it shows there, and growth runs
+    /// on in the owner's own structure. Opening is a selection, not a
+    /// connection: nothing binds the owner's store.</summary>
+    [Fact]
+    public void OpeningAPortSelectsTheOwnersPositionAndGrowsInItsStructure()
+    {
+        var other = new Store(2, 4);
+        var inside = new Wiring(Settling.Same(Shape.Bit), new Binding(other, 1), new Binding(other, 1));
+        for (var i = 0; i < 3; i++) inside.Add(i, i + 1);
+        new Engine().Add(inside);
+        var port = other.Publish([2, 3], [1]);
+        var here = new Store(1, 1);
+        var reads = new Wiring(Settling.Same(Shape.Bit), new Binding(port, 0), new Binding(here, 0));
+        reads.Add(0, 0);
+        var engine = new Engine().Add(reads);
+
+        var closed = Closure.Of(engine, Seed(here, 0), reach: 1);
+        var opened = Closure.Of(engine, Seed(here, 0), reach: 1, open: 1);
+
+        Assert.False(closed.Areas.ContainsKey(other));
+        Assert.Equal(Plane.Of(2, 0), closed.Of(port));
+        Assert.Equal(Plane.Of(4, 1, 2, 3), opened.Of(other));
+        Assert.Equal(Plane.Of(3, 1, 2), opened.Rows(inside));
+        Assert.Equal(Plane.Of(2, 1), opened.PlanesOf(other));
+    }
+
     /// <summary>"Whose car is this?"</summary>
     private sealed record Cars(Engine Engine, Store Facts, Store Owned, Supports Owner, Wiring Deeds, Wiring Parked);
 
@@ -141,5 +169,30 @@ public sealed class ClosureTests
         var contradicted = new Question(conflicting.Owner, ThisCar);
         Assert.Equal(0, contradicted.Pursue(conflicting.Engine, reach: 1));
         Assert.Null(contradicted.Answer);
+    }
+
+    /// <summary>A settled unit is read through its edge. Garage 1 has been
+    /// seen to be Bob's, so the question's cone reaches the garage and stops:
+    /// what settled the garage is not reread, and the answer is Bob. Opening
+    /// that one boundary rereads the inside, a deed saying Dee, and the
+    /// question is contradicted: sealing is a resolution, not a proof.</summary>
+    [Fact]
+    public void ASettledUnitSealsGrowthUntilItIsOpened()
+    {
+        Cars Seen()
+        {
+            var cars = World((Dee, Garage1));
+            cars.Owner.Restrict(Garage1, 1UL << Bob);
+            return cars;
+        }
+        var sealedWorld = Seen();
+        var sealedQuestion = new Question(sealedWorld.Owner, ThisCar);
+        var openedWorld = Seen();
+
+        Assert.True(sealedQuestion.Cone(sealedWorld.Engine, reach: 1).Rows(sealedWorld.Deeds).None);
+        Assert.Equal(Plane.Of(2, 0), sealedQuestion.Cone(sealedWorld.Engine, reach: 1, open: 1).Rows(sealedWorld.Deeds));
+        Assert.Equal(1, sealedQuestion.Pursue(sealedWorld.Engine, reach: 1));
+        Assert.Equal(Bob, sealedQuestion.Answer);
+        Assert.Equal(0, new Question(openedWorld.Owner, ThisCar).Pursue(openedWorld.Engine, reach: 1, open: 1));
     }
 }
