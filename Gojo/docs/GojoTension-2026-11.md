@@ -457,9 +457,11 @@ fixture had the case:
   a live view, like the gap, instead of the planned relation: the deficit is
   values left less one, as a unary count, and the excess is one bit,
   contradiction. "Settled" is both read through flipped views.
-- **Saving the views** (binding kinds 5 and 6 in `Transport`). A machine whose
-  valves read a gap or an openness could not be saved, so it could not be
-  copied for a trial. Views are saved as their definitions.
+- **Saving the views** (binding kinds 5, 6 and 7 in `Transport`). A machine
+  whose valves read a gap or an openness could not be saved, so it could not
+  be copied for a trial. Views are saved as their definitions, and a flipped
+  view of one, such as a "settled" gate, as its flipped planes and then the
+  view.
 - **Forking the views.** A fork rebuilt only flipped views over its
   workspaces, so any structure with a gap or openness could not fork. They
   are now rebuilt the same way.

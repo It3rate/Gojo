@@ -197,11 +197,8 @@ public static class Transport
                     case Flipped { Source: Store viewed }:
                         Reach(viewed);
                         break;
-                    case Difference gap when gap.Have.Concat(gap.Want).All(t => t.Surface is Store):
-                        foreach (var (store, _) in gap.Have.Concat(gap.Want)) Reach((Store)store);
-                        break;
-                    case Openness { Source: Store read }:
-                        Reach(read);
+                    case var view when ViewedStores(view) is { } viewed:
+                        foreach (var store in viewed) Reach(store);
                         break;
                     default:
                         throw new InvalidOperationException("A workspace, or the gap between a workspace and its source, is a working view and not part of a machine. Commit or drop it before saving.");
@@ -473,6 +470,7 @@ public static class Transport
             // 4: a store read through a view with some planes flipped.
             // 5: the two-faced gap between sums of counts of stores, as its counts.
             // 6: the openness of a store's supports, as its support planes.
+            // 7: a flipped view of a gap or an openness: its flipped planes, then the view.
             switch (binding.Surface)
             {
                 case var surface when sockets.TryGetValue(surface, out var socket):
@@ -503,24 +501,14 @@ public static class Transport
                     bits.Number(stores[port.Owner]);
                     bits.Number(IndexOf(port.Owner.Ports, port));
                     break;
-                case Difference gap:
-                    bits.Number(5);
-                    foreach (var side in new[] { gap.Have, gap.Want })
-                    {
-                        bits.Number(side.Count);
-                        foreach (var (store, count) in side)
-                        {
-                            bits.Number(stores[(Store)store]);
-                            bits.Number(count.Planes.Count);
-                            foreach (var plane in count.Planes) bits.Number(plane);
-                        }
-                    }
+                case Difference or Openness:
+                    WriteView(bits, binding.Surface, stores);
                     break;
-                case Openness open:
-                    bits.Number(6);
-                    bits.Number(stores[(Store)open.Source]);
-                    bits.Number(open.Planes.Count);
-                    foreach (var plane in open.Planes) bits.Number(plane);
+                case Flipped { Source: Difference or Openness } flipped:
+                    bits.Number(7);
+                    bits.Number(flipped.Planes.Count);
+                    foreach (var plane in flipped.Planes) bits.Number(plane);
+                    WriteView(bits, flipped.Source, stores);
                     break;
                 case Life life:
                     bits.Number(2);
@@ -555,6 +543,69 @@ public static class Transport
         if (wiring.Attention is int attention) bits.Number(attention);
     }
 
+    /// <summary>The stores a computed view reads, when they are all stores of
+    /// the machine; null for a view that is not saved, such as one over a
+    /// workspace.</summary>
+    private static IEnumerable<Store>? ViewedStores(Surface surface) => surface switch
+    {
+        Difference gap when gap.Have.Concat(gap.Want).All(t => t.Surface is Store) => gap.Have.Concat(gap.Want).Select(t => (Store)t.Surface),
+        Openness { Source: Store read } => [read],
+        Flipped { Source: Difference or Openness } flipped => ViewedStores(flipped.Source),
+        _ => null,
+    };
+
+    /// <summary>A computed view as its definition. 5: a two-faced gap, as the
+    /// counts summed on each side. 6: an openness, as the support planes it reads.</summary>
+    private static void WriteView(BitWriter bits, Surface view, Dictionary<Store, int> stores)
+    {
+        switch (view)
+        {
+            case Difference gap:
+                bits.Number(5);
+                foreach (var side in new[] { gap.Have, gap.Want })
+                {
+                    bits.Number(side.Count);
+                    foreach (var (store, count) in side)
+                    {
+                        bits.Number(stores[(Store)store]);
+                        bits.Number(count.Planes.Count);
+                        foreach (var plane in count.Planes) bits.Number(plane);
+                    }
+                }
+                break;
+            case Openness open:
+                bits.Number(6);
+                bits.Number(stores[(Store)open.Source]);
+                bits.Number(open.Planes.Count);
+                foreach (var plane in open.Planes) bits.Number(plane);
+                break;
+        }
+    }
+
+    private static Surface ReadView(BitReader bits, int kind, Store[] stores)
+    {
+        if (kind == 6)
+        {
+            var read = stores[bits.Count(stores.Length - 1)];
+            var supports = new int[bits.Count(read.PlaneCount)];
+            for (var k = 0; k < supports.Length; k++) supports[k] = bits.Count(read.PlaneCount - 1);
+            return new Openness(read, supports);
+        }
+        var sides = new (Surface, Field)[2][];
+        for (var side = 0; side < 2; side++)
+        {
+            sides[side] = new (Surface, Field)[bits.Count(MaxCount)];
+            for (var t = 0; t < sides[side].Length; t++)
+            {
+                var store = stores[bits.Count(stores.Length - 1)];
+                var count = new int[bits.Count(store.PlaneCount)];
+                for (var k = 0; k < count.Length; k++) count[k] = bits.Count(store.PlaneCount - 1);
+                sides[side][t] = (store, new Field(Shape.Unary(count.Length), count));
+            }
+        }
+        return new Difference(sides[0], sides[1]);
+    }
+
     private static Wiring ReadWiring(BitReader bits, Law[] laws, Store[] stores, List<Socket> sockets)
     {
         var law = laws[bits.Count(laws.Length - 1)];
@@ -562,7 +613,7 @@ public static class Transport
         for (var r = 0; r < bindings.Length; r++)
         {
             var open = law is RelationLaw && bits.Bit();
-            var kind = bits.Count(6);
+            var kind = bits.Count(7);
             Surface surface;
             if (kind == 3)
             {
@@ -577,28 +628,17 @@ public static class Transport
                 }
                 surface = sockets[socket];
             }
-            else if (kind == 5)
+            else if (kind is 5 or 6)
             {
-                var sides = new (Surface, Field)[2][];
-                for (var side = 0; side < 2; side++)
-                {
-                    sides[side] = new (Surface, Field)[bits.Count(MaxCount)];
-                    for (var t = 0; t < sides[side].Length; t++)
-                    {
-                        var store = stores[bits.Count(stores.Length - 1)];
-                        var count = new int[bits.Count(store.PlaneCount)];
-                        for (var k = 0; k < count.Length; k++) count[k] = bits.Count(store.PlaneCount - 1);
-                        sides[side][t] = (store, new Field(Shape.Unary(count.Length), count));
-                    }
-                }
-                surface = new Difference(sides[0], sides[1]);
+                surface = ReadView(bits, kind, stores);
             }
-            else if (kind == 6)
+            else if (kind == 7)
             {
-                var read = stores[bits.Count(stores.Length - 1)];
-                var supports = new int[bits.Count(read.PlaneCount)];
-                for (var k = 0; k < supports.Length; k++) supports[k] = bits.Count(read.PlaneCount - 1);
-                surface = new Openness(read, supports);
+                var flipped = new int[bits.Count(MaxCount)];
+                for (var k = 0; k < flipped.Length; k++) flipped[k] = bits.Count(MaxCount);
+                var inner = bits.Count(6);
+                if (inner is not (5 or 6)) throw new ArgumentException("A flipped view saved with kind 7 views a gap or an openness.");
+                surface = new Flipped(ReadView(bits, inner, stores), flipped);
             }
             else if (kind == 4)
             {
