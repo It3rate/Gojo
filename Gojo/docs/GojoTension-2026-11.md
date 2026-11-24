@@ -254,10 +254,10 @@ support planes and the demand that selects them:
 - the open planes AND the demand plane is the deficit;
 - the empty planes AND the demand plane is the excess.
 
-These reads are already available (`Supports.Open`, `Supports.Empty`,
-`Question.Remaining`). What is missing is a law that writes them where other
-laws can read them: a small relation from a value's support planes to a
-two-bit code (settled, open, empty) per position.
+Built as a law: a tally of the support planes (`Counts.Tally`) writes how
+many values remain as a count, whose thermometer bits are the reads. Bit 0 is
+"any possible", bit 1 "more than one"; settled is bit 0 without bit 1, and
+contradicted is no bit 0.
 
 **Laws: residuals in the evidence planes.** Each run already leaves one bit per
 row and kind:
@@ -405,106 +405,86 @@ The user's three motivators for structural action, as tension:
 Splitting has a numeric cue from the closure work: where `Closure.Common`'s
 scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
 
-## 8. Proposed first steps in EncodingC
+## 8. What is built, on branch `claude_tension`
 
-1. **Material tension.** Built on branch `claude_tension` (`Tension`,
-   `Field.Room`, `TensionTests`). Change from outside enters as `T+` or `T−`
-   and never into the value, so blocked entry is no longer a case: the value
-   is only ever filled by absorbing, and a full value leaves `T+` waiting.
-   Taken together, absorbing and drawing on one value contend; settling that
-   needs explicit route choice (step 6).
-   - Make `T+` and `T−` unary fields at a site.
-   - Make blocked entry write `T+`.
-   - Absorb, draw and cancel as `Flows.Move` into the value or a room view
-     (§4), not as new laws.
-   - Tests:
-     - units arriving at a full site wait as `T+` and are absorbed when room
-       frees;
-     - a draw with no supply stays as `T−`;
-     - the two are never netted unless a law connects them;
-     - the conservation promise holds.
-2. **The two-faced gap,** as planned in `Gap.cs`. Built on branch
-   `claude_tension` as a live view, `Difference`, rather than a relation: bit
-   k of the deficit is set when have's bit j is clear and want's bit j + k is
-   set, for some j, and the excess the same with the two swapped. Both are
-   unary counts, never both nonzero, computed and never stored. A relation is
-   still needed where have or want is open rather than a count.
-3. **Information tension as a law:** support planes to a settled/open/empty
-   code per demanded position, so laws can read where questions are unanswered
-   or contradicted.
-4. **The tension tuple:** a read over all tiers of a structure, and an
-   admissibility check on a step.
-5. **Structural reads** from evidence (idle, duplicate, joined, persistent,
-   contested) and description length, as the inputs for splitting and merging.
-6. **Explicit route choice:** the taker as an open value, so a contest is
-   narrowing and a turn-taking gate is an ordinary law. Built on branch
-   `claude_tension` (§3.5).
+1. **Material tension** (`Tension`, `Field.Room`). Change from outside enters
+   as `T+` or `T−`, never into the value. Absorbing, paying and cancelling are
+   each the one-unit move, into the value or into a count's room.
+   **Delivering** (`Flows.Fulfill`, `Tension.Deliver`) pays a debt by sending
+   the unit on to an outlet and closing the order in the same move, so a
+   delivered unit is somewhere, not gone.
+2. **Counting as laws** (`Counts`), emulating the arithmetic numeric support
+   will provide:
+   - `Sum`: accumulation, with an optional rate;
+   - `Shortfall`: one face of a gap; the other face is the same law swapped;
+   - `Tally`: bits set, used over a value's supports for information tension;
+   - `AtLeast`: a threshold read, with the threshold held as data;
+   - `Accumulate` and `Streak`: accumulation, held or reset.
 
-The radial and linear work is a separate thread, but step 1 should keep the
-face of each tension explicit, so the orientation hypothesis in §4 can be
-tested there.
+   Each writes one result from read inputs, only when it changes, so its
+   meaning is a saved table and a structure settles quietly around it. They
+   replace the earlier host-computed views (§11).
+3. **Information tension** is a tally of a value's supports: thermometer bit 0
+   is "any possible", bit 1 "more than one". Settled is bit 0 without bit 1;
+   contradicted is no bit 0. A law waits on "settled" through the bit and the
+   flipped view of the other.
+4. **Route choice** (§3.5): moves gated by any number of bits (`Flows.When`,
+   `Tension.Route`, `Tension.Wire`); open choices whose contest is the choice;
+   justified possibilities (`Settling.Justify`) that reopen with their
+   reasons; and a turn (`Flows.Turn`) that alternates only while both sides
+   have work, so taking turns settles.
+5. **The slow clock** from small laws: a streak of a signal, read against a
+   patience held as data, triggers a latch (`Settling.Latch`) that recruits or
+   retires a row. Ashby's step change, made by structure.
+6. **Revision of what was learned:** of two contradicting premises, the less
+   firm is retired by a law (firmness compared by `Shortfall`, the trigger by
+   `Justify`, the retirement by `Latch`), and a gated `Forget` reopens the
+   value so the remaining premises narrow it again. No host call reopens it.
 
-## 9. First field test: the corner shop
+**Not built yet:** the tension tuple and its admissibility check (§5) as
+structure, and structural reads (idle, duplicate, joined rows) as laws.
 
-Built on branch `claude_tension` as `ShopTests`: a shop selling one product,
-two wholesalers as structures of their own behind ports, and the books.
+## 9. Field test: the corner shop
 
-| Iteration | What runs | What it showed |
+`ShopTests` runs a shop as four local structures joined only by ports: a
+customer, the shop, and two wholesalers. The host builds them, steps them and
+posts what arrives from outside; everything else is laws. Items and requests
+are conserved across all four.
+
+| Iteration | What runs | What it shows |
 | --- | --- | --- |
-| 1. Shelf, dock, backorders | Deliveries enter as pressure (the dock), orders as debt (backorders); the shop pays orders from the shelf, then shelves from the dock | Material tension works as a shop: a full shelf leaves items at the dock, an empty one leaves orders owed, and an order with no room in the books is refused, not lost |
-| 2. Reordering through a port | A gap between shelf plus dock and target plus backorders gates a case-to-items conversion through a wholesaler's port | Counting only the shelf over-orders while items wait at the dock: it empties the wholesaler and leaves two extra at the dock. A dry wholesaler leaves backorders and a short gap visible in the quiet state |
-| 3. Two wholesalers | Ordering is an open choice; each route waits on "short" and "still possible"; A's status, read through a port, rules A out | Taken together, both routes are contested while the choice is open. Narrowed, the choice never reopens when A opens again, and the shop settles with backorders while A has stock; justified (`Settling.Justify`), A is ordered from again |
-| 4. The books | Which wholesaler each batch came from is an open value narrowed by delivery notes; invoices are paid only once that is settled | One note: paid to B. Two notes that disagree: held as a contradiction. No note: held as open. Each is a result, and the question's cone is only the notes about that batch |
-| 5. A trial | "Buy only from B" on a copy of the shop and both wholesalers, saved and loaded together | A fork is refused, since the shop takes through ports. The copy runs the trial and leaves the shop unchanged, bit for bit |
+| 1. Material | The customer's requests arrive through a port as backorders; the shop hands items over at a pickup counter, from which the customer collects through the shop's port | Five of six requests are filled from shelf and dock; the sixth stays owed, with a case booked against it that nobody can fill |
+| 2. Reordering | On hand (shelf, dock, two per case on order) and wanted (target, backorders) are sums; their shortfall against a reorder point places orders; a wholesaler's delivery fills an order | The shop stops at four, in whole cases; selling three books one more |
+| 2b. A cut line | The line to the wholesaler is a socket, unplugged and restored | Counting orders on the books, two cases are booked and delivered on restore. Not counting them, three are booked, leaving two extra at the dock and a case still owed |
+| 3. Two wholesalers | A is closed; a law reading A's status makes A impossible | Narrowed, A never reopens and the shop ends owing two while A has stock. Justified, A reopens and everything is delivered |
+| 4. The slow clock | B is wired but not in use; backorders that last three steps recruit it | A single request served at once does not recruit B; backorders that persist do, and everything owed is delivered |
+| 5. The books | Batches' suppliers are open values narrowed by delivery notes; invoices are paid when the batch is settled | One note: paid. Conflicting notes of unequal firmness: the weaker is retired, the batch reopened and paid. Equal firmness: stays contradicted. No note: stays open |
+| 6. A trial | "Buy only from B" on a saved and loaded copy of all four structures | A fork is refused while the shop takes through its lines; the copy runs the trial and leaves everything unchanged |
 
-**Extensions made for it**, each needed by the shop and not earlier because no
-fixture had the case:
-
-- **Gates that compose** (`Flows.When`, used by `Tension.Route`). An order
-  waits on "the shop is short" and "this wholesaler is still possible". Every
-  earlier gated move had one condition.
-- **The gap over sums of counts** (`Difference` with several counts a side).
-  Stock sits in two places, shelf and dock, and the want is a target plus what
-  is owed. The first gap compared one count with one.
-- **Information tension as a view** (`Openness`, step 3 of §8). A payment
-  waits until a batch's supplier is settled. Questions were only read by the
-  host before (`Question.Remaining`); nothing let a law wait on one. Built as
-  a live view, like the gap, instead of the planned relation: the deficit is
-  values left less one, as a unary count, and the excess is one bit,
-  contradiction. "Settled" is both read through flipped views.
-- **Saving the views** (binding kinds 5, 6 and 7 in `Transport`). A machine
-  whose valves read a gap or an openness could not be saved, so it could not
-  be copied for a trial. Views are saved as their definitions, and a flipped
-  view of one, such as a "settled" gate, as its flipped planes and then the
-  view.
-- **Forking the views.** A fork rebuilt only flipped views over its
-  workspaces, so any structure with a gap or openness could not fork. They
-  are now rebuilt the same way.
+**Taken from the other branches.** Three branches built tension in parallel.
+This one took, from `sol_tension`, the conserving delivery move, the customer
+as a structure whose requests enter through a port, orders on the books closed
+by the delivery that answers them, and gaps held in law tables rather than
+host code; and from `tension_neon`, firmness resolving contradictions, the
+slow clock as streaks and thresholds driving recruitment, and turn-taking
+that goes quiet. Each was rebuilt from the small primitives above rather than
+as a special-purpose law.
 
 **Findings left open:**
 
-- **A choice that never reopens. Fixed for choices about now:** a justified
-  possibility reopens with its reason, and iteration 3 now runs both ways as a
-  contrast: narrowed, the shop ends two owed while A has stock; justified, A
-  delivers again and nothing is owed. **Still open for accumulated
-  knowledge:** a contradiction among delivery notes stays one even if a note
-  is corrected. Revising what was learned needs its support recomputed from
-  all the notes about it, a justification over a varying number of reasons,
-  which one law per bit does not yet express.
 - **Trials while taking.** A structure that takes through a port cannot fork,
-  so a trial is a copy, which costs a full copy and sees copies of the
-  wholesalers, not the live ones.
-- **One dock, two uses.** Shelving from the dock and receiving into it write
-  the same count, so taken together they contend every step. The shop runs in
-  declared order; taken together it would need turn-taking at the dock.
-- **Provenance is lost on the shelf.** Units in a count are interchangeable,
-  so which wholesaler an item came from is known only from records. Writing a
-  record when a case arrives needs allocation by laws, or a trail observer.
-- **Priority is declared order.** Serving backorders before shelving, and
-  shelving before ordering, is the order the wirings were added in, not a
-  ranked tension tuple (§5).
-- **Whole cases overshoot.** Ordering in cases of two ends one over target;
-  the gap shows it as an excess of one, and nothing needs to release it.
+  so a trial is a full copy and sees copies of its peers. `tension_neon`
+  snapshots taken ports into a fork instead, refusing commit; that is cheaper
+  and worth adopting.
+- **One dock, two uses.** Receiving into the dock and shelving from it write
+  the same count. The shop runs in declared order; taken together it would
+  need a turn at the dock (`Flows.Turn` now exists for that).
+- **Provenance is lost on the shelf.** Units in a count are interchangeable;
+  writing a record when a case arrives needs allocation by laws.
+- **Priority is declared order.** Serving, shelving and ordering run in the
+  order they were added, not by a ranked tension tuple (§5).
+- **Table size.** Counting laws enumerate their counts, so capacities stay
+  small (a shelf of four). This is what numeric support removes.
 
 ## 10. Questions for the axioms
 
@@ -522,32 +502,28 @@ fixture had the case:
 - **Where demand comes from.** Questions, goals and laws that need a code are
   clear. Whether attention alone is a demand is open.
 
-## 11. Host-computed views, and the step toward numbers
+## 11. Host-computed views, replaced by counting laws
 
-`Difference` and `Openness` are live views whose meaning is computed in host
-code on every read: whether a sum of counts is at least m, and how many
-support bits are set. The rest of the tension work is structure: planes, law
-tables and wirings. These two are not. Nothing in a plane or a table says
-what a deficit is, and no law can change how one is computed.
+An earlier version read the gap and information tension through live views,
+`Difference` and `Openness`, whose meaning was computed in host code on every
+read. Nothing in a plane or a table said what a deficit was, and no law could
+change how one was computed. This came from two axioms pulling apart: "prefer
+calculated to stored" led to live views, while "meaning lives in Gojo
+structure" says the calculation itself must be structure.
 
-This came from two axioms pulling apart. "Prefer calculated to stored" led
-to live views; "meaning lives in Gojo structure" says the calculation itself
-must be structure. The views kept the first at the cost of the second.
+Both were thresholds over counts, and both are now counting laws (§8, item
+2): a sum and a shortfall for the gap, a tally and its thermometer bits for
+information tension. The laws keep "calculated": a law writes its result from
+current inputs each step and only when it changes, so nothing is stored that
+is not derived. What changes is that the calculation is a table the structure
+holds. The views, and the save and fork code they needed, are removed.
 
-Both are thresholds. The gap asks whether want − have exceeds k, and openness
-whether the count of possible values exceeds k + 1 or is 0. The host code is
-complicated only because pre-numeric Gojo has no magnitude: each thermometer
-bit is rebuilt from other counts. The direction of the gap is already
-structural in pre-numeric form, as a side of a landmark (`Sides`); what is
-missing is how far.
-
-They are kept as placeholders. Everything that uses them binds only their
-planes (the deficit's lowest bit, the excess bit), so their inside can be
-replaced without changing any wiring. The intended replacement is the first
-numeric step: magnitudes held in planes, thresholds stored as data a law can
-read and move, and one generic comparison, "magnitude at least threshold",
-used everywhere. Accumulation and thresholds are likely the first two pieces;
-how to introduce them gradually is still to be explored.
+The counting laws are the emulation of the first numeric step. Their roles
+are the arithmetic numeric support will provide: accumulation (`Sum`,
+`Accumulate`, `Streak`) and threshold reads with thresholds held as data
+(`AtLeast`, and the thermometer bits of a count, a bank of fixed thresholds).
+With magnitudes in planes, each becomes arithmetic on a magnitude, the tables
+stop growing with capacity, and every wiring that reads them stays as it is.
 
 ## Sources
 
