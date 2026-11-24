@@ -200,7 +200,7 @@ public sealed class ShopTests
     /// the batch's openness. So batch 0 is paid to B, batch 1 is held as a
     /// contradiction and batch 2 as unanswered, each invoice still owed.
     /// "Which supplier did batch 1 come from?" selects only the notes about
-    /// batch 1. The books fork, views and all, and the fork settles to the same.</summary>
+    /// batch 1. The books fork, views and all, and the fork settles to the same; saved and loaded, they save to the same bits.</summary>
     [Fact]
     public void TheBooksPayABatchOnlyOnceItsSupplierIsSettled()
     {
@@ -239,6 +239,9 @@ public sealed class ShopTests
         var fork = engine.Fork();
         Assert.NotNull(fork.Engine.Settle(16));
         Assert.Equal(1, owed.Read(fork.Of(books), 1));
+
+        var saved = Transport.Save(engine);
+        Assert.Equal(saved, Transport.Save(Transport.Load(saved).Engine));
     }
 
     /// <summary>Iteration 5, trying "buy only from B" without touching the shop.
