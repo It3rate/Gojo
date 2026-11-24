@@ -91,6 +91,10 @@ and each has two faces.
 | **Information** (possibilities) | *Openness under demand:* more than one value left where one is required | *Contradiction:* no value left; the premises disagree |
 | **Structure** (form) | *Missing structure:* a residual no available route can lower; a unit joined to nothing | *Redundancy:* structure the flows do not use, or use twice; ambiguity that never settles |
 
+Contention, two actions over one site, is not a fourth kind. It is an
+information tension on a choice the structure has not represented, and,
+when it persists, a structural one (§3.5).
+
 ### 3.1 Material
 
 Material tension is the canonical prompt's carrier tension (Axiom 5): external
@@ -164,6 +168,37 @@ that produce the kinds above, and §5.4 keeps three of them apart:
 A goal does not establish current truth (§5.2), so goal tension lives in the
 supposition, never as carrier tension in the source.
 
+### 3.5 Contention
+
+When two rows would take the same unit, or write the same bit, in one step
+taken together, both are held back (`Engine.StepTogether`). Neither row is
+wrong, no premise is false and nothing is redundant: two consumers need one
+resource. This point was raised in review; credit to that comment.
+
+It breaks into the kinds above:
+
+- **In one step, it is an unwritten choice.** "Which row takes the unit" is a
+  value with two possibilities, and one taker per position demands one. That
+  is information deficit on a choice variable the structure has not
+  represented. Petri nets call two transitions that share an input place a
+  conflict, and treat it the same way: as a choice.
+- **Over time, it is missing structure.** The same pair colliding again and
+  again says the structure lacks capacity or a route. That is the slow-clock
+  signal to duplicate or split the bottleneck.
+- **Its two faces:**
+  - *Excess:* two writers for one bit.
+  - *Deficit:* a unit something needs that no row takes (starvation).
+
+Lowering it needs no special mechanism once the choice is a value. A
+turn-taking gate is a law that settles the choice, for example by
+alternating. The single-lane bridge's active-orientation bit in `TwoFaceTests`
+is one already built. Conversation does the same: turn-taking has rules for
+who goes next, and overlap is resolved by them (Sacks, Schegloff and
+Jefferson, 1974).
+
+So the missing piece is explicit route choice: the taker as an open value.
+It belongs with the tension work, not as a separate case.
+
 ## 4. Down to the bit
 
 Everything below follows §9.7: 1 is presence, here the presence of something
@@ -198,7 +233,10 @@ row and kind:
 - unadmitted is a violation;
 - ambiguous is openness at the law;
 - skipped is a missing antecedent;
-- aliased is a structural fault.
+- aliased is a structural fault;
+- contested is an open choice of taker that nothing settled (built).
+
+A step in order never sets contested, since declared order chose.
 
 These planes are a law's tension, at the row where it sits.
 
@@ -300,6 +338,7 @@ The user's three motivators for structural action, as tension:
 | Uncertain | Information deficit under demand, persisting | Reach further, ask, split a confused unit, add a route |
 | Contradictory | Information excess, persisting | Revise a premise, split what was wrongly joined, lower a demand |
 | Stuck | Material or goal tension with no route | Add a route, take a loan, change a law |
+| Contended | Information deficit on an unwritten choice; persisting, structural deficit | Make the choice a value and settle it by a gate; duplicate or split the bottleneck |
 
 Splitting has a numeric cue from the closure work: where `Closure.Common`'s
 scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
@@ -323,8 +362,10 @@ scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
    or contradicted.
 4. **The tension tuple:** a read over all tiers of a structure, and an
    admissibility check on a step.
-5. **Structural reads** from evidence (idle, duplicate, joined, persistent) and
-   description length, as the inputs for splitting and merging.
+5. **Structural reads** from evidence (idle, duplicate, joined, persistent,
+   contested) and description length, as the inputs for splitting and merging.
+6. **Explicit route choice:** the taker as an open value, so a contest is
+   narrowing and a turn-taking gate is an ordinary law.
 
 The radial and linear work is a separate thread, but step 1 should keep the
 face of each tension explicit, so the orientation hypothesis in §4 can be
@@ -374,5 +415,9 @@ Recalled from reading, except where checked for this note (marked *):
 - Festinger, L. (1957). *A Theory of Cognitive Dissonance*.
 - Björner, A., Lovász, L. and Shor, P. (1991). Chip-firing games on graphs.
 - Bak, P., Tang, C. and Wiesenfeld, K. (1987). Self-organized criticality.
+- Sacks, H., Schegloff, E. A. and Jefferson, G. (1974). A simplest systematics
+  for the organization of turn-taking for conversation.
+- Petri, C. A. (1962); Murata, T. (1989). Petri nets: properties, analysis
+  and applications.
 - Selman, B., Kautz, H. and Cohen, B. (1994). Noise strategies for improving
   local search (WalkSAT).
