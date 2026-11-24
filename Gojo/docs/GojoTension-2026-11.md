@@ -525,6 +525,84 @@ are the arithmetic numeric support will provide: accumulation (`Sum`,
 With magnitudes in planes, each becomes arithmetic on a magnitude, the tables
 stop growing with capacity, and every wiring that reads them stays as it is.
 
+## 12. Field test: a short dialogue
+
+`DialogueTests` (branch `claude_tension`) builds the mechanics of a short
+exchange: asking, answering, asking which one, declining and grounding. What a
+car or an owner is does not matter; only the structure of the exchange does.
+
+**The construct.** Each speaker is a local structure; they meet only through
+ports. An utterance has two parts: a **token**, an obligation moved and
+conserved like any material, and **content**, a value the listener reads
+through the speaker's port to narrow an open value of its own. A question's
+token has one ledger: asked, owed (debt at the answerer), answered or declined
+(the answerer's outbox), heard (pressure at the asker), grounded.
+
+| Scenario | What runs | What it shows |
+| --- | --- | --- |
+| Whose car is this? (clear) | Ask, answer, acknowledge | The token passes through every stage, conserved; the answer is pressure until acknowledged |
+| Whose car? "This" is one of two cars, both John's | The answer settles despite the open referent | Ambiguity is tracked (two cars still possible) but not repaired: it does not reach the answer |
+| Whose car? Two cars, different owners | The answerer asks which one; the asker answers with the car it means | An inserted question, its own debt, resolves the referent; both questions are grounded |
+| Is this car red? Same two cars, both red | Answered yes at once | Same data, different question: no repair. Scope, not data, decides |
+| Whose car? The answerer does not know | Nothing to ask would settle it, so it declines | The obligation is discharged; the question stays open, its deficit visible |
+| Two answerers disagree | Both answers heard, neither acknowledged | The asker's value is contradicted; both answers stay as pressure |
+
+Saved, an exchange with a clarification is about 460 bytes, with under 0.5 KB
+of law tables in memory, and settles in four rounds (about 2.6 ms).
+
+**Strategies chosen, and why:**
+
+- **Obligations as material tension.** A question is a unit of debt that only
+  an answer or a decline can discharge, so "unanswered" is visible and
+  conserved, not a flag.
+- **Content read through ports, not sent as material.** Words are information:
+  any number of listeners may read them, and reading narrows only the
+  reader's own value. Narrowing waits until the words have arrived
+  (`Settling.SameWhen`), so nothing is narrowed by what was never said.
+- **Each utterance is its own position.** The one-taker rule applies to a
+  position, and two listeners taking different fields of one position were
+  refused. Rather than loosen the rule, each outgoing utterance became a slot
+  of its own: an utterance is a thing, so it has its own identity.
+- **Demand comes from the question.** The answerer repairs only while the
+  answer, the value the question demands, is open. An open referent is
+  information tension only if it reaches the answer, which the relation from
+  car to answer decides by narrowing. Whether to resolve an ambiguity is
+  computed from the question's scope, not from what happens to be uncertain.
+- **Repair ranked by exclusive gates.** Answer if settled; else ask which one
+  while an input to the answer is open; else decline. Each gate is a
+  justified bit, and they exclude each other, so the cheaper repair is always
+  the one taken, without a ranking table.
+- **Turns from obligations, not a controller.** Whoever owes something acts.
+  An obligation selects the next speaker, as in conversation (Sacks, Schegloff
+  and Jefferson, 1974), so no turn bit runs, and the exchange settles.
+- **Grounding waits on settledness.** The asker acknowledges an answer only
+  when its value is settled, so a contradicted answer is never grounded.
+
+**Strategies rejected, and why:**
+
+- **A turn-taking controller** (`Flows.Turn`). Not needed: obligations already
+  order the exchange, and a controller would add state with no work to do.
+- **Closure to choose the clarifying question.** Closure is host planning.
+  With one input to the answer, the clarification is wired in advance; choosing
+  among several open inputs is the open case below.
+- **A gap relation over open values.** Not needed here: "is the answer
+  settled" is a tally of its supports, which works on open values directly.
+- **Messages as one field of the speaker's position.** Refused by the
+  one-taker rule, correctly: see slots above.
+- **Narrowing from the speaker's words without waiting.** It would narrow by
+  whatever the speaker's planes held before speaking.
+
+**Open:**
+
+- **Choosing among several clarifications.** With more than one open input
+  ("which car?" and "when?"), the narrowest question is the one whose answer
+  settles the most. That is a ranking over candidate questions, the first
+  place ranking is needed as structure here.
+- **Contradiction stays unresolved.** Firmness (as in the shop's books) could
+  retire the weaker answer; the dialogue leaves it visible instead.
+- **One question at a time.** A speaker's ledger holds one question; several
+  open questions at once need slots allocated as they are asked.
+
 ## Sources
 
 Recalled from reading, except where checked for this note (marked *):

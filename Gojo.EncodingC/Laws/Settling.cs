@@ -67,6 +67,23 @@ public static class Settling
         }
     }
 
+    /// <summary>Two values are the same once something has been heard. Roles:
+    /// heard (a bit, read), a sample (read), the value (narrowed while heard is
+    /// 1, left alone while it is 0). A listener reading a speaker's words
+    /// through a port narrows only after the words have arrived; before, the
+    /// speaker's planes may hold anything, and reading them would narrow by
+    /// what was never said.</summary>
+    public static RelationLaw SameWhen(Shape shape)
+    {
+        lock (SameWhens)
+        {
+            if (SameWhens.TryGetValue(shape, out var cached)) return cached;
+            return SameWhens[shape] = RelationLaw.FromPredicate([Shape.Bit, shape, shape], t => t[0] == 0 || t[1] == t[2]);
+        }
+    }
+
+    private static readonly Dictionary<Shape, RelationLaw> SameWhens = [];
+
     /// <summary>A latch: while a trigger bit is 1, sets a bit to
     /// <paramref name="to"/>, and otherwise leaves it. Roles: trigger (read),
     /// bit (written). Latching a row's life bit to 1 recruits a spare row, and
