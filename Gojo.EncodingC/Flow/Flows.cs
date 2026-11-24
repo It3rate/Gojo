@@ -6,6 +6,7 @@ public static class Flows
 {
     private static readonly Dictionary<(int, int, int, int), TransitionLaw> Converts = [];
     private static readonly Dictionary<(int, int), TransitionLaw> GatedMoves = [];
+    private static readonly Dictionary<(int, int, int, int, int), TransitionLaw> Fulfills = [];
 
     /// <summary>The smallest move: source S, gate C, target T, one bit each;
     /// state <c>S + 2C + 4T</c>. A whole unit hands off when S is set, the gate
@@ -48,6 +49,43 @@ public static class Flows
             return law;
         }
     }
+
+    /// <summary>Fills an outstanding order: takes <paramref name="take"/> units
+    /// from a source, clears one unit of order, and gives
+    /// <paramref name="give"/> to a target, all at once, or nothing when the
+    /// source is short, nothing is on order or the target has no room. Roles:
+    /// source, order, target. Both the material and the order are accounted:
+    /// give · source + take · target and give · order + target are preserved,
+    /// so a unit never arrives without the order it answers, and an order is
+    /// only closed by what arrives.
+    /// <para>A delivery to a customer is this law from the shelf, against a
+    /// backorder, into a pickup counter; a supplier's delivery is it from the
+    /// supplier's stock, against an order on the books, into the dock. A draw
+    /// that only empties the value leaves the unit nowhere; this one keeps it.</para></summary>
+    public static TransitionLaw Fulfill(int sourceCapacity, int orderCapacity, int targetCapacity, int take = 1, int give = 1)
+    {
+        if (take < 1 || give < 1) throw new ArgumentOutOfRangeException(nameof(take), "Take and give at least one unit.");
+        lock (Fulfills)
+        {
+            var key = (sourceCapacity, orderCapacity, targetCapacity, take, give);
+            if (Fulfills.TryGetValue(key, out var cached)) return cached;
+            return Fulfills[key] = TransitionLaw.FromFunction(
+                [Shape.Unary(sourceCapacity), Shape.Unary(orderCapacity), Shape.Unary(targetCapacity)],
+                s => s[0] >= take && s[1] >= 1 && s[2] + give <= targetCapacity ? [s[0] - take, s[1] - 1, s[2] + give] : s,
+                new Accounting(true, new PreservedSum([0, 2], [give, take]), new PreservedSum([1, 2], [give, 1])));
+        }
+    }
+
+    /// <summary>Whose turn it is between two routes that would contend for one
+    /// count: 0 for the first, 1 for the second. Roles: first has work, second
+    /// has work (read), turn (written). With work on both sides the turn
+    /// alternates; with work on one side it goes there; with none it holds, so
+    /// a structure taking turns still settles. A route waits on the turn bit
+    /// itself or on its flipped view.</summary>
+    public static TransitionLaw Turn { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit],
+        s => [s[0], s[1], s[0] == 1 && s[1] == 1 ? 1 - s[2] : s[0] == 1 ? 0 : s[1] == 1 ? 1 : s[2]],
+        new Accounting(true, new Unchanged(0), new Unchanged(1)));
 
     /// <summary>The same law, waiting on <paramref name="gates"/> gate bits
     /// appended after its own roles: it acts only while every gate is 1, and

@@ -67,6 +67,20 @@ public static class Settling
         }
     }
 
+    /// <summary>A latch: while a trigger bit is 1, sets a bit to
+    /// <paramref name="to"/>, and otherwise leaves it. Roles: trigger (read),
+    /// bit (written). Latching a row's life bit to 1 recruits a spare row, and
+    /// to 0 retires one: a structural change made by structure, the slow
+    /// clock's step (Ashby's ultrastability), when the trigger is a threshold
+    /// read of a streak.</summary>
+    public static TransitionLaw Latch(bool to) => to ? LatchOn : LatchOff;
+
+    private static readonly TransitionLaw LatchOn = TransitionLaw.FromFunction([Shape.Bit, Shape.Bit],
+        s => [s[0], s[0] == 1 ? 1 : s[1]], new Accounting(true, new Unchanged(0), new NeverDecreases(1)));
+
+    private static readonly TransitionLaw LatchOff = TransitionLaw.FromFunction([Shape.Bit, Shape.Bit],
+        s => [s[0], s[0] == 1 ? 0 : s[1]], new Accounting(true, new Unchanged(0), new NeverIncreases(1)));
+
     /// <summary>Opens a value again: sets every value possible. One role, the
     /// planes of a value with <paramref name="values"/> values read as plain
     /// bits. Wired to run every step, it is the passing of time: what was

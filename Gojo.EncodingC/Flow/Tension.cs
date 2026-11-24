@@ -75,24 +75,36 @@ public sealed class Tension
     /// the same quantity.</summary>
     public Wiring Cancel(Plane positions, params Binding[] gates) => Route(Plus.On(Store), Minus.Room(Store), positions, gates);
 
+    /// <summary>Pays debt by sending a unit of value on to an outlet, such as
+    /// a customer's pickup counter, one a step, while there is value, debt and
+    /// room at the outlet (<see cref="Flows.Fulfill"/>). Unlike
+    /// <see cref="Draw"/>, the unit is not gone: it is at the outlet, where its
+    /// receiver can take it through a port.</summary>
+    public Wiring Deliver(Binding outlet, Plane positions, params Binding[] gates) =>
+        Wire(Flows.Fulfill(Value.Planes.Count, Minus.Planes.Count, outlet.Planes.Count), [Value.On(Store), Minus.On(Store), outlet], positions, gates);
+
     /// <summary>The one-unit move from one count to another at each position,
-    /// waiting on any <paramref name="gates"/>: a route.</summary>
+    /// waiting on any <paramref name="gates"/>: a route. Its source can be a
+    /// port, so units arrive from another structure as pressure or as debt.</summary>
     public static Wiring Route(Binding from, Binding to, Plane positions, params Binding[] gates) =>
         Route(Flows.Move(from.Planes.Count, to.Planes.Count), from, to, positions, gates);
 
     /// <summary>A two-role move law, such as a conversion that takes one case
-    /// and gives several items, from one count to another at each position. It
-    /// runs only while every gate bit at that position is 1 (see
-    /// <see cref="Flows.When"/>): a route choice, a gap, or both together.</summary>
-    public static Wiring Route(TransitionLaw move, Binding from, Binding to, Plane positions, params Binding[] gates)
+    /// and gives several items, from one count to another at each position.</summary>
+    public static Wiring Route(TransitionLaw move, Binding from, Binding to, Plane positions, params Binding[] gates) =>
+        Wire(move, [from, to], positions, gates);
+
+    /// <summary>Any law, its roles bound at the same position of each surface,
+    /// one row per position, running only while every gate bit at that
+    /// position is 1 (see <see cref="Flows.When"/>).</summary>
+    public static Wiring Wire(TransitionLaw law, Binding[] roles, Plane positions, params Binding[] gates)
     {
-        ArgumentNullException.ThrowIfNull(move);
+        ArgumentNullException.ThrowIfNull(law);
+        ArgumentNullException.ThrowIfNull(roles);
         ArgumentNullException.ThrowIfNull(positions);
         ArgumentNullException.ThrowIfNull(gates);
-        var wiring = gates.Length == 0
-            ? new Wiring(move, from, to)
-            : new Wiring(Flows.When(move, gates.Length), [from, to, .. gates]);
-        foreach (var position in positions.Indexes()) wiring.Add([.. Enumerable.Repeat(position, 2 + gates.Length)]);
+        var wiring = gates.Length == 0 ? new Wiring(law, roles) : new Wiring(Flows.When(law, gates.Length), [.. roles, .. gates]);
+        foreach (var position in positions.Indexes()) wiring.Add([.. Enumerable.Repeat(position, roles.Length + gates.Length)]);
         return wiring;
     }
 }
