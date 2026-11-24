@@ -1,11 +1,13 @@
 # Tension: what is unaccounted, and what lowers it
 
-Status: **proposal**, 23 November 2026. Nothing here is built in EncodingC
-yet except where marked. It gathers what the canonical prompt (Axioms 5 to 7,
-§2.7, §5.2, §5.4), the consolidation note (§5.9, §5.10) and the EncodingC
-pieces already say. It then proposes one account of tension down to the bit,
-as the motivator for the structural actions that come next: splitting,
-merging and changing laws.
+Status: **proposal / exploratory implementation on branch `tension_neon`**,
+24 November 2026. Steps 1–6 plus slow-clock structural adaptation fixtures are
+implemented in `Gojo.EncodingC` on branch `tension_neon` (see §8); the broader
+axiom questions (§9) and autonomous restructuring policies remain open. It
+gathers what the canonical prompt (Axioms 5 to 7, §2.7, §5.2, §5.4), the
+consolidation note (§5.9, §5.10) and the EncodingC pieces already say. It then
+proposes one account of tension down to the bit, as the motivator for the
+structural actions that come next: splitting, merging and changing laws.
 
 ## 1. The stance
 
@@ -374,34 +376,84 @@ The user's three motivators for structural action, as tension:
 Splitting has a numeric cue from the closure work: where `Closure.Common`'s
 scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
 
-## 8. Proposed first steps in EncodingC
+## 8. First steps in EncodingC (implemented on branch `tension_neon`)
 
-1. **Material tension.**
-   - Make `T+` and `T−` unary fields at a site.
-   - Make blocked entry write `T+`.
-   - Absorb, draw and cancel as `Flows.Move` into the value or a room view
-     (§4), not as new laws.
-   - Tests:
-     - units arriving at a full site wait as `T+` and are absorbed when room
-       frees;
-     - a draw with no supply stays as `T−`;
-     - the two are never netted unless a law connects them;
-     - the conservation promise holds.
-2. **The two-faced gap,** as planned in `Gap.cs`: a relation over (have, want,
-   deficit, excess), read in a goal's workspace.
-3. **Information tension as a law:** support planes to a settled/open/empty
-   code per demanded position, so laws can read where questions are unanswered
-   or contradicted.
-4. **The tension tuple:** a read over all tiers of a structure, and an
-   admissibility check on a step.
-5. **Structural reads** from evidence (idle, duplicate, joined, persistent,
-   contested) and description length, as the inputs for splitting and merging.
-6. **Explicit route choice:** the taker as an open value, so a contest is
-   narrowing and a turn-taking gate is an ordinary law.
+On branch `tension_neon`, the six steps below plus slow-clock structural
+adaptation fixtures are **implemented** as exploratory EncodingC mechanisms
+in [`Unary.cs`](../../Gojo.EncodingC/Flow/Unary.cs),
+[`TensionLaws.cs`](../../Gojo.EncodingC/Laws/TensionLaws.cs), and
+[`Tension.cs`](../../Gojo.EncodingC/Workspaces/Tension.cs), covered by
+`TensionMaterialTests`, `TensionGapTests`, `TensionInformationTests`,
+`TensionContentionTests`, `TensionProfileTests`, and `TensionAdaptationTests`.
 
-The radial and linear work is a separate thread, but step 1 should keep the
-face of each tension explicit, so the orientation hypothesis in §4 can be
-tested there.
+1. **Material tension** (`TensionMaterialTests`):
+   - `T+` and `T−` are ordinary unary fields at a site; `Unary.Offer` spills
+     blocked overflow into `T+` and `Unary.Draw` records unmet draws in `T−`,
+     reporting broken counts without repairing them.
+   - `Unary.Room` exposes a bounded unary count's anti-fill (`capacity − value`)
+     as a zero-copy `Flipped` view with reversed planes, kept distinct from
+     reorientation.
+   - `Tension.Absorb`, `Tension.Draw`, and `Tension.Cancel` all collapse to
+     `Flows.Move` + `Unary.Room`, conserving `value + T+`, `value − T−`, and
+     `T+ − T−` with no automatic netting. All three save/load through
+     `Transport` and isolate inside `Fork`.
+2. **The two-faced gap** (`TensionGapTests`):
+   - `TensionLaws.Gap(capacity)` is an exact 4-role `RelationLaw` over
+     `(have, want, deficit, excess)` for small widths, narrowing open supports
+     in both directions.
+   - `TensionLaws.MismatchFold` + `Tension.ObserveMismatch` fold arbitrary
+     unary widths (up to 63) bit by bit into two direction presence bits
+     `(needMore, haveExtra)`—directly steering valves without hitting
+     `Law.MaxBits` and exposing broken unary counts as `(1, 1)`.
+3. **Information tension as a law** (`TensionInformationTests`):
+   - Rather than an exponential `2^k` truth table over support planes (which
+     hits `Law.MaxBits` above 8 values), `TensionLaws.SupportFold` folds any
+     support width (up to 64 values) bit by bit into two presence planes
+     `(seen1, seen2)`: `(0, 0)` contradiction, `(1, 0)` settled, `(1, 1)` open.
+   - `TensionLaws.DemandedStatus` masks by a demand plane (`deficit = demand & seen2`,
+     `excess = demand & ~seen1`), so openness without demand raises zero
+     tension and a coarse demanded read settles quietly while fine values stay
+     open.
+4. **The tension tuple and admissibility** (`TensionProfileTests`):
+   - `Tension.Measure` reads all tiers (`Hard`, `Obligation`, `MaterialPlus`,
+     `MaterialMinus`, `Goal`, `Contention`, `StructuralDeficit`,
+     `StructuralExcess`, `DescriptionBits`) from existing planes, supports, and
+     evidence without netting `T+` and `T−`.
+   - `Tension.AdmissibleStrict` implements strict Optimality Theory ranking;
+     `Tension.AdmissibleViable` implements Ashby viability thresholds (`Hard == 0`
+     always strictly dominant; bounded tiers allow lossy crystallization that
+     cuts redundancy/description length within tolerance) with explicit,
+     accounted `loanBudget` / `LoanUsed`.
+5. **Structural reads and slow-clock adaptation** (`TensionProfileTests`,
+   `TensionAdaptationTests`):
+   - `Tension.Duplicates` detects duplicate live rows by resolved underlying
+     identity; `Tension.Snapshot` / `Tension.Joined` detect co-moving positions
+     across a snapshot window.
+   - `TensionLaws.Streak`, `RecruitAt`, and `RetireAt` count persistent tension
+     and idle streaks on a slow clock and recruit/retire rows through
+     `Rows.Life`, with `Fork` + `Closure.Of` localizing and validating trials
+     before committing (plus `Fork.Rebind` extended to rebind wiring `Rows` and
+     `Rows.Life` inside forks).
+   - `TensionLaws.YieldByFirmness` resolves contradictions inside a `Closure`
+     cone by unary firmness (retiring weaker assumptions while keeping hard
+     observations and leaving equal-firmness ties visible).
+   - `Closure.Common` exposes candidate split boundaries and `Engine.Fuse`
+     combines coupled structures with measured wire-bit reduction.
+6. **Contention resolution** (`TensionContentionTests`):
+   - `TensionLaws.TurnStep` reads `Evidence.Contested` under `StepTogether` to
+     break open ties and alternate turns cleanly with full conservation, saving
+     and restoring via `Transport`.
+   - `TensionLaws.YieldTurn` resolves the starvation face by yielding a turn
+     bit when the holder is idle (`Changed = 0`) and a waiting consumer holds
+     unmet `T−`.
+
+**Still open (documented direction / not built):**
+- Automatic host-free restructuring policy (deciding *which* split, merge, or
+  probe to trial without host orchestration, and splitting one `Engine` into
+  two automatically).
+- Laws held in planes so a machine can revise its own law tables under tension.
+- Testing the orientation hypothesis in §4 directly against the radial/linear
+  direction thread.
 
 ## 9. Questions for the axioms
 
@@ -413,9 +465,12 @@ tested there.
   structural tension with their demands. If not, the other two need another
   name.
 - **Whether material tension may ever be netted by default.** This proposes no,
-  consistent with K6 in the consolidation note.
-- **Ranking versus weights.** This proposes strict ranking until a structure
-  supplies a reason for weights.
+  consistent with K6 in the consolidation note, and `tension_neon` enforces
+  explicit `Tension.Cancel` wiring.
+- **Ranking versus viability thresholds.** `tension_neon` implements both
+  strict ranking (`AdmissibleStrict`) and Ashby viability thresholds with
+  explicit loans (`AdmissibleViable`), showing that lossy crystallization needs
+  viability bounds below `Hard == 0` while still refusing hidden scalar weights.
 - **Where demand comes from.** Questions, goals and laws that need a code are
   clear. Whether attention alone is a demand is open.
 

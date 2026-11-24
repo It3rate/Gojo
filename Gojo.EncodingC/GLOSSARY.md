@@ -89,6 +89,10 @@ The stock laws:
 | `Same` (relation) | two roles of one shape | They hold the same value. Between a sample and an open value, this is observing |
 | `Forget` | an open value's planes, as plain bits | Clear them: the value is open again |
 | `Enact` | an open value's planes, then a field | Write the one value left into the field. Otherwise leave the field alone |
+| `Clear2`, `SupportFold`, `DemandedStatus` | scratch bits / possible bit / demand | Reset two scratch bits, fold any support width into `(seen1, seen2)`, and mask by demand into `(deficit, excess)` without an exponential table |
+| `MismatchFold`, `Gap` | have, want, direction bits or `(deficit, excess)` | Bit-by-bit unary comparison `(needMore, haveExtra)` for wide counts, and an exact 4-role two-faced gap relation for small counts |
+| `ToggleWhen`, `YieldTurn`, `TurnStep` | trigger/contested/active and gate bits | Break a contested tie, alternate turns without double-firing under `StepTogether`, and yield a turn when idle against unmet `T−` |
+| `Streak`, `RecruitAt`, `RetireAt`, `YieldByFirmness` | signal/counter/firmness and `Life` | Slow-clock unary streak counters, recruiting/retiring rows via `Rows.Life`, and AGM-style firmness conflict resolution |
 
 ## Running
 
@@ -112,7 +116,11 @@ The stock laws:
 | Declared order | The order in which wirings were added and rows listed. It decides who goes first when two want the same thing | The order in the saved machine |
 | Wave *(host)* | Wirings, or rows, that touch nothing another one writes. They could run at the same moment | Worked out each step. Not stored |
 | Machine | An engine and every store it reaches: what is saved. So far a machine is one local structure | One run of bits |
-| Inflow *(host)* | Units arriving from outside. They enter as units, never as a value written directly | `Unary.Add` shifts one bit into a count |
+| Inflow *(host)* | Units arriving from outside. They enter as units, never as a value written directly | `Unary.Add` shifts one bit into a count; `Unary.Offer` / `Unary.Draw` spill overflow or unmet draw into `T+` / `T−` |
+| Room *(view)* | Capacity minus a unary count: anti-fill from the capacity landmark, distinct from reorientation | `Unary.Room`: a zero-copy `Flipped` view with its planes bound in reverse order |
+| Material tension (`T+`, `T−`) *(pattern)* | Pressure (blocked incoming units) and draw (unmet outgoing demand), kept apart and never netted automatically | Two unary fields at a site. `Tension.Absorb`, `Draw` and `Cancel` are all `Flows.Move` into the value or a room view |
+| Demanded information tension *(pattern)* | Openness (`deficit`) or contradiction (`excess`) on supports only where a demand bit is 1 | `(seen1, seen2)` folded by `SupportFold` and masked by demand via `DemandedStatus` |
+| Tension profile, admissibility *(host)* | Uniform read of all tension tiers (`Hard`, `Obligation`, `MaterialPlus`/`Minus`, `Goal`, `Contention`, `StructuralDeficit`/`Excess`, `DescriptionBits`) and strict vs Ashby viability checks with explicit loans | Read from existing planes and evidence by `Tension.Measure`; never stored as hidden state |
 
 ## What is not settled
 
@@ -128,7 +136,7 @@ The stock laws:
 | Forget *(pattern)* | Open a value again. Wired to run every step, it is the passing of time | `Forget` clears the ruled-out planes |
 | Enact, act *(pattern)* | Write a settled value into ordinary bits: what was worked out becomes what is | `Enact` wired from an open value to a field |
 | Supposition *(pattern)* | Something taken as true to see what follows, kept apart from what is | Bits written in a workspace, or a separate store (a probe) |
-| Gap | Where a workspace and its source disagree: how a prediction missed, or what is left before a goal is reached | Not stored. A gap bit is set where the workspace holds a bit that differs from the source as it is now. A per-bit disagreement: for a unary count, a set of units rather than a count, and with no direction. A two-faced error (deficit and excess counts) is a later direction |
+| Gap | Where a workspace and its source disagree: how a prediction missed, or what is left before a goal is reached | Not stored in `Workspace.Gap` (a per-bit disagreement). Directional two-faced gaps are built as `TensionLaws.Gap` (small exact relation) and `TensionLaws.MismatchFold` (scalable 2-bit direction fold) |
 | Plan *(pattern)* | What is possible at several moments ahead | A store of open values. In the tests, three positions per moment and five planes: three hold whether counts 0, 1, 2 are possible and two whether gate 0, 1 are |
 | Moment *(pattern)* | One time step in a plan | A group of the plan's positions |
 | Goal, aim *(pattern)* | A wanted value, treated as already settled at a later moment. Narrowing then works back to what has to happen now | Ordinary bits, observed into the plan's last moment |
@@ -191,8 +199,11 @@ the same job is done by ordinary structure, such as a plan or a probe.
 
 ## Kernel words that are not parts here
 
-- **Tension** is not built. Units entering from outside and moving through laws
-  stand in for it.
+- **Carrier tension (signed i64)** belongs to the kernel. In EncodingC,
+  material tension is built as separate unary `T+` and `T−` fields settled by
+  `Flows.Move` and `Unary.Room`, alongside demanded information tension,
+  contention turn-taking, structural reads and viability-threshold profiles
+  (`Tension`, `TensionLaws`).
 - **Residue** has no type. What a move could not take stays where it was, and
   what a coarse read drops is bounded by the relation that did the read.
 - **Carrier, location, relation, unit shape** belong to the kernel. This
