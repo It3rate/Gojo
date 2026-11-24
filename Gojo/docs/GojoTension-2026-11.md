@@ -251,10 +251,41 @@ Each is a count over planes that already exist, and each points at a specific
 place, so a structural action has somewhere to happen.
 
 **Sign and orientation.** A deficit on one orientation is an excess on the
-reoriented one, as a debt is a credit seen from the other side. If that holds,
-reorienting a site swaps `T+` and `T−`, a zero-copy view like `Flipped`. This
-is a hypothesis to test with the work on radial and linear direction; it
-would tie tension's two faces to ODV's D bit.
+reoriented one, as a debt is a credit seen from the other side: excess credit
+of 3 is a debt of −3. Reorientation keeps the amount and flips the sign and
+face (Axiom 4: `Reorient(L(C,n)) = L(C*, −n)`). It does not turn a full
+bucket into an empty one. Reorienting a site therefore swaps which of `T+`
+and `T−` reads as positive: a relabelling, with no bit changed and no
+capacity involved. This is a hypothesis to test with the work on radial and
+linear direction; it would tie tension's two faces to ODV's D bit.
+
+**Room is not reorientation.** A bounded unary count has a second reading:
+the room left, capacity minus value. Inverting a unary count's planes and
+reading them in reverse order gives exactly that, with nothing copied, so a
+`Flipped` view bound with its planes in reverse order is the room. Room is a
+different quantity from the reoriented value: 1 held of 3 is 2 of room, not
+−1. It needs the capacity as a second landmark and measures from that end. In
+the canonical prompt's terms it is anti-fill (§8.2), a dual read of a bounded
+segment, not a reorientation under a shared origin. Keep the three moves
+apart: the face swap (reorientation), the room read (anti-fill), and the
+reversed plane order that builds the room view.
+
+**Absorb, draw and cancel are one law.** The room read makes the material
+operations a single existing law, `Flows.Move`, checked against EncodingC on
+24 November 2026:
+
+- **Absorb:** a move from `T+` into the value. It stops when the value is at
+  capacity, and `T+` waits.
+- **Draw:** a move from `T−` into the value's room. Filling the room empties
+  the value, so the debt is paid from what is held. It stops when the value
+  is 0, and the unmet draw stays in `T−`.
+- **Cancel:** a move from `T+` into the room of `T−`, lowering both by one. It
+  is wired only where the structure says the two are the same quantity, so
+  nothing is netted by default.
+
+Each conserves through the move's own preserved sum: value plus `T+`, value
+minus `T−`, `T+` minus `T−`. This was pointed out in review; credit to that
+analysis.
 
 ## 5. Ranking: which tension matters first
 
@@ -348,7 +379,8 @@ scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
 1. **Material tension.**
    - Make `T+` and `T−` unary fields at a site.
    - Make blocked entry write `T+`.
-   - Add absorb and draw transition laws that conserve tension plus value.
+   - Absorb, draw and cancel as `Flows.Move` into the value or a room view
+     (§4), not as new laws.
    - Tests:
      - units arriving at a full site wait as `T+` and are absorbed when room
        frees;
