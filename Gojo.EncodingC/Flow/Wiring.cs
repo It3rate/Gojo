@@ -108,7 +108,7 @@ public sealed class Wiring
         changing = new ulong[roles.Length];
         writes = new bool[roles.Length];
         var transition = law as TransitionLaw;
-        var supposed = roles.Any(role => role.Surface is Workspace);
+        var supposed = roles.Any(role => role.Surface.Underlying is Workspace);
         for (var r = 0; r < roles.Length; r++)
         {
             var surface = roles[r].Surface;
@@ -120,7 +120,7 @@ public sealed class Wiring
                     throw new ArgumentException($"Role {r} has {law.Roles[r].Size} values; an open binding names one plane for each.", nameof(roles));
                 if (roles[r].Planes.Any(surface.IsConstant))
                     throw new ArgumentException($"Role {r} is bound open on a constant plane, which holds one bit for every position.", nameof(roles));
-                writes[r] = !surface.ThroughPort && !surface.ReadOnly && (!supposed || surface is Workspace);
+                writes[r] = !surface.ThroughPort && !surface.ReadOnly && (!supposed || surface.Underlying is Workspace);
                 continue;
             }
             if (roles[r].Planes.Count != law.Roles[r].Bits)
@@ -141,8 +141,8 @@ public sealed class Wiring
         }
         if (transition is not null)
         {
-            var workspace = Enumerable.Range(0, roles.Length).Where(r => writes[r]).Select(r => roles[r].Surface).OfType<Workspace>().FirstOrDefault();
-            if (workspace is not null && Enumerable.Range(0, roles.Length).Any(r => writes[r] && !ReferenceEquals(roles[r].Surface, workspace)))
+            var workspace = Enumerable.Range(0, roles.Length).Where(r => writes[r]).Select(r => roles[r].Surface.Underlying).OfType<Workspace>().FirstOrDefault();
+            if (workspace is not null && Enumerable.Range(0, roles.Length).Any(r => writes[r] && !ReferenceEquals(roles[r].Surface.Underlying, workspace)))
                 throw new ArgumentException(
                     "A law that writes a workspace writes only that workspace. A supposition and what is are never changed in one step; the workspace's commit decides what reaches anything else.",
                     nameof(roles));
@@ -394,7 +394,7 @@ public sealed class Wiring
     internal Plane Attended() => attention is int a ? Live.And(Rows.Read(a)) : Live;
 
     /// <summary>The workspaces its roles are bound to.</summary>
-    internal IEnumerable<Workspace> Workspaces => bindings.Select(b => b.Surface).OfType<Workspace>().Distinct();
+    internal IEnumerable<Workspace> Workspaces => bindings.Select(b => b.Surface.Underlying).OfType<Workspace>().Distinct();
 
     /// <summary>Runs the law over the given rows, wave by wave, each wave across
     /// all its rows at once. A transition law changes state; a relation law
@@ -409,8 +409,20 @@ public sealed class Wiring
             RelationLaw relation => Narrow(rowMask, relation, null),
             _ => throw new InvalidOperationException("A law is a transition or a relation."),
         };
-        Leave(step, rowMask);
-        return step;
+        return Leave(step, rowMask);
+    }
+
+    /// <summary>Every bit of the codes a transition row writes, changed or not.
+    /// A code is one value, so a row writing any of its bits claims all of them:
+    /// two rows writing different bits of one count would otherwise leave a
+    /// pattern that is no count.</summary>
+    internal IEnumerable<(Surface, int, int)> Claims(int row)
+    {
+        if (Law is not TransitionLaw) yield break;
+        var indexes = Indexes(row);
+        for (var r = 0; r < bindings.Length; r++)
+            if (writes[r])
+                foreach (var plane in bindings[r].Planes) yield return bindings[r].Surface.Bit(indexes[r], plane);
     }
 
     /// <summary>One bit a row would write in a step where every row reads the
@@ -459,16 +471,18 @@ public sealed class Wiring
             foreach (var row in plan.Rows.Indexes())
                 if (!changed[row]) after[row] = plan.Step.Before[row];
         var step = plan.Step with { Changed = changed, After = after, Contested = contested.And(plan.Rows) };
-        Leave(step, plan.Rows);
-        return step;
+        return Leave(step, plan.Rows);
     }
 
-    /// <summary>Leaves what each row did in the evidence planes, when recording.</summary>
-    private void Leave(WiringStep step, Plane rowMask)
+    /// <summary>Leaves what each row did in the evidence planes, when
+    /// recording, and returns the step with the rows whose evidence changed.</summary>
+    private WiringStep Leave(WiringStep step, Plane rowMask)
     {
         if (evidence is not null)
         {
             var mask = rowMask.And(Rows.Live);
+            var planes = Enumerable.Range(evidence.Changed, Evidence.Kinds).ToArray();
+            var before = planes.Select(p => Rows.Read(p)).ToArray();
             Rows.Write(evidence.Changed, step.Changed, mask);
             Rows.Write(evidence.Unread, step.Unread, mask);
             Rows.Write(evidence.Unadmitted, step.Unadmitted, mask);
@@ -476,7 +490,11 @@ public sealed class Wiring
             Rows.Write(evidence.Skipped, step.Skipped, mask);
             Rows.Write(evidence.Aliased, step.Aliased, mask);
             Rows.Write(evidence.Contested, step.Contested ?? new Plane(Count), mask);
+            var noted = new Plane(Count);
+            for (var k = 0; k < planes.Length; k++) noted = noted.Or(before[k].Xor(Rows.Read(planes[k])));
+            return step with { Noted = noted };
         }
+        return step;
     }
 
     private WiringStep Run(Plane rowMask, TransitionLaw transition, Dictionary<int, List<Write>>? planned)
@@ -776,4 +794,11 @@ public sealed record WiringStep(
     /// would have written the same bit: neither runs, and nothing is decided
     /// by order. Null for a step taken in order.</summary>
     public Plane? Contested { get; init; }
+
+    /// <summary>Rows whose evidence planes changed in this step: something a
+    /// law can read changed even where no state did. Null when not recording.</summary>
+    public Plane? Noted { get; init; }
+
+    /// <summary>Nothing a law can read changed: no state and no evidence.</summary>
+    public bool Quiet => Changed.None && (Noted?.None ?? true);
 }

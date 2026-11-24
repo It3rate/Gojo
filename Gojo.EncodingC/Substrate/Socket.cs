@@ -16,7 +16,7 @@ public sealed class Socket : Surface
     private readonly int lanes;
     private readonly Plane constant;
     private Port? port;
-    private bool taken;
+    private Wiring? taker;
 
     /// <summary>A socket of <paramref name="lanes"/> lanes over
     /// <paramref name="planes"/> planes, none of them constant.</summary>
@@ -64,7 +64,7 @@ public sealed class Socket : Surface
     public void Plug(Port port)
     {
         if (!Fits(port)) throw new ArgumentException("The port's planes do not have this socket's shape.", nameof(port));
-        if (taken) port.Claim(this);
+        if (taker is not null) port.Claim(this);
         if (!ReferenceEquals(this.port, port)) Unplug();
         this.port = port;
     }
@@ -75,12 +75,16 @@ public sealed class Socket : Surface
         port = null;
     }
 
-    internal override bool TakenByOther(Wiring taker) => port is not null && !port.Holds(this) && port.IsTaken;
+    /// <summary>A socket that something takes through has one taker, as a port
+    /// does: a second connection taking through it, from any structure, would
+    /// make step order decide who gets a unit.</summary>
+    internal override bool TakenByOther(Wiring taker) =>
+        (this.taker is not null && !ReferenceEquals(this.taker, taker)) || (port is not null && !port.Holds(this) && port.IsTaken);
 
     internal override void Take(Wiring taker)
     {
         port?.Claim(this);
-        taken = true;
+        this.taker = taker;
     }
 
     public override bool IsLive(int lane) => Reaches(lane) && port!.IsLive(lane);

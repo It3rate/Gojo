@@ -231,5 +231,5 @@ public sealed class Closure
 
     /// <summary>A view of a surface is the surface: a flipped view shows the
     /// same positions.</summary>
-    private static Surface Key(Surface surface) => surface is Flipped flipped ? flipped.Source : surface;
+    private static Surface Key(Surface surface) => surface.Underlying;
 }

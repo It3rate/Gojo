@@ -47,6 +47,11 @@ public abstract class Surface
     /// only surfaces whose home is one of its own stores.</summary>
     internal virtual Store? Home => null;
 
+    /// <summary>What this surface shows: itself, or for a view, what the view
+    /// shows. Whether a surface is supposed, gated or material is decided
+    /// here, so a view never changes what its source may do.</summary>
+    internal virtual Surface Underlying => this;
+
     /// <summary>Whether something other than <paramref name="taker"/> already
     /// takes through this surface. Only a port has one taker.</summary>
     internal virtual bool TakenByOther(Wiring taker) => false;

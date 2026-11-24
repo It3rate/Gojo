@@ -354,4 +354,23 @@ public sealed class LocalStructureTests
         Assert.Throws<InvalidOperationException>(() => Transport.SaveLocals(elsewhere));
         Assert.NotEmpty(Transport.SaveLocals(sender, elsewhere));
     }
+
+    /// <summary>A socket that something takes through has one taker, as a port
+    /// does. A second connection taking through the same socket, from another
+    /// structure, is refused, so step order never decides who gets a unit.</summary>
+    [Fact]
+    public void ASocketThatIsTakenThroughHasOneTaker()
+    {
+        var (owner, count) = Make.Counts(1, 3);
+        count.Write(owner, 0, 1);
+        new Engine().Hold(owner);
+        var port = owner.Publish([0], [0, 1, 2]);
+        var socket = Socket.For(port);
+        socket.Plug(port);
+        var (first, _) = Make.Counts(1, 3);
+        new Engine().Add(Make.Wire(Flows.Move(3, 3), socket, first));
+        var (second, _) = Make.Counts(1, 3);
+
+        Assert.Throws<ArgumentException>(() => Make.Wire(Flows.Move(3, 3), socket, second));
+    }
 }

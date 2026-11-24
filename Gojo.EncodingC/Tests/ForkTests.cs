@@ -233,4 +233,25 @@ public sealed class ForkTests
 
         Assert.Throws<ArgumentException>(() => taker.Fork());
     }
+
+    /// <summary>A draw is a move into the room of a value, a flipped view of its
+    /// planes. The fork finds the value's planes as material through the view,
+    /// holds them, and does not follow the parent when the parent's value later
+    /// changes.</summary>
+    [Fact]
+    public void AForkHoldsMaterialAWiringReachesThroughAView()
+    {
+        var site = new Store(6, 1);
+        var value = new Field(Shape.Unary(3), 0, 1, 2);
+        value.Write(site, 0, 2);
+        var draw = new Wiring(Flows.Move(3, 3), new Binding(site, 3, 4, 5), new Binding(new Flipped(site, 0, 1, 2), 2, 1, 0));
+        draw.Add(0, 0);
+        var parent = new Engine().Add(draw);
+
+        var fork = parent.Fork();
+        value.Write(site, 0, 3);
+
+        Assert.Contains((site, 0), fork.Held);
+        Assert.Equal(2, value.Read(fork.Of(site), 0));
+    }
 }

@@ -127,4 +127,56 @@ public sealed class RuntimeTests
         Assert.All(Enumerable.Range(0, Sites), i => Assert.Equal(settledInOrder.Values(i), settledTogether.Values(i)));
         Assert.All(Enumerable.Range(0, Sites), i => Assert.Equal(0b10UL, settledTogether.Values(i)));
     }
+
+    /// <summary>A unary count is one value, not independent bits. Absorbing
+    /// into it sets its next bit, and drawing from it, a move into its room,
+    /// clears its last one, so the two rows write different bits of one count.
+    /// Taken together, they would leave 010, which is no count at all. A row
+    /// claims every bit of a code it writes, so the two are contested and the
+    /// count stays whole. Taken in order, each reads what the other left.</summary>
+    [Fact]
+    public void TwoMovesOnOneCountAreContestedThoughTheirBitsDiffer()
+    {
+        const int Capacity = 3;
+        var site = new Store(3 * Capacity, 1);
+        var (value, plus, minus) = (Count(0), Count(3), Count(6));
+        Field Count(int first) => new(Shape.Unary(Capacity), first, first + 1, first + 2);
+        value.Write(site, 0, 1);
+        plus.Write(site, 0, 1);
+        minus.Write(site, 0, 1);
+        var absorb = new Wiring(Flows.Move(Capacity, Capacity), new Binding(site, 3, 4, 5), new Binding(site, 0, 1, 2));
+        absorb.Add(0, 0);
+        var draw = new Wiring(Flows.Move(Capacity, Capacity), new Binding(site, 6, 7, 8), new Binding(new Flipped(site, 0, 1, 2), 2, 1, 0));
+        draw.Add(0, 0);
+        var engine = new Engine().Add(absorb).Add(draw);
+
+        var step = engine.StepTogether();
+
+        Assert.Equal((1, 1, 1), (value.Read(site, 0), plus.Read(site, 0), minus.Read(site, 0)));
+        Assert.True(step.Steps.All(s => s.Contested![0]));
+
+        engine.Step();
+        Assert.Equal((1, 0, 0), (value.Read(site, 0), plus.Read(site, 0), minus.Read(site, 0)));
+    }
+
+    /// <summary>Quiet means nothing a law can read changed, evidence included.
+    /// Two rows racing for a unit are contested, and an observer latches when
+    /// it reads the contest. The first step changes no state but sets the
+    /// contested evidence, so settling goes on, the observer latches, and only
+    /// then is a step quiet.</summary>
+    [Fact]
+    public void SettlingWaitsForEvidenceToBeRead()
+    {
+        var (engine, _) = Road([(1, 2), (1, 3)], 1);
+        var moves = engine.Wirings[0];
+        var contested = moves.Record().Contested;
+        var flag = new Store(1, 1);
+        var latch = new Wiring(TransitionLaw.FromFunction([Shape.Bit, Shape.Bit], s => [s[0], s[0] | s[1]], new Accounting(true)),
+            new Binding(moves.Rows, contested), new Binding(flag, 0));
+        latch.Add(0, 0);
+        engine.Add(latch);
+
+        Assert.NotNull(engine.Settle(8, together: true));
+        Assert.True(flag.Read(0, 0));
+    }
 }

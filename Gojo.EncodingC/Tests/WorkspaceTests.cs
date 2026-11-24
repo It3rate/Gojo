@@ -458,4 +458,22 @@ public sealed class WorkspaceTests
         Assert.Equal("101010", Selections.Every(6, 2).ToString());
         Assert.Equal(Plane.Of(4, 0, 1, 2), Selections.Within(Plane.Of(4, 0), 2, rows, line));
     }
+
+    /// <summary>What is supposed never narrows what is known, even when it is
+    /// read through a view. A relation reading a workspace through a flipped
+    /// view does not write the store's supports.</summary>
+    [Fact]
+    public void ASuppositionReadThroughAViewNeverNarrowsWhatIsKnown()
+    {
+        var store = new Store(1, 1);
+        var known = Supports.On(store, Field.Bit(0));
+        var supposed = new Workspace(store);
+        var same = new Wiring(Settling.Same(Shape.Bit), new Binding(new Flipped(supposed, 0), 0), known.Variable);
+        same.Add(0, 0);
+
+        same.Apply();
+
+        Assert.False(same.Writes(1));
+        Assert.Equal(0b11UL, known.Values(0));
+    }
 }

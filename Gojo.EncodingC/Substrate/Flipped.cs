@@ -48,6 +48,8 @@ public sealed class Flipped : Surface
 
     internal override Store? Home => source.Home;
 
+    internal override Surface Underlying => source.Underlying;
+
     internal override bool IsConstant(int plane) => source.IsConstant(plane);
 
     internal override bool Filled(int plane) => source.Filled(plane) ^ flipped[plane];

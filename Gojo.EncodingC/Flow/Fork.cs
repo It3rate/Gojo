@@ -96,7 +96,7 @@ public sealed class Fork
             .Where(w => w.Law is TransitionLaw)
             .SelectMany(w => Enumerable.Range(0, w.Bindings.Count)
                 .Where(r => w.Writes(r) && ((TransitionLaw)w.Law).Accounting.Conserves(r))
-                .SelectMany(r => (w.Bindings[r].Surface is Store store ? w.Bindings[r].Planes.Select(p => (store, p)) : [])))
+                .SelectMany(r => (w.Bindings[r].Surface.Underlying is Store store ? w.Bindings[r].Planes.Select(p => (store, p)) : [])))
             .Distinct();
 
     /// <summary>Writes the fork's state back into the parent, all or nothing.</summary>

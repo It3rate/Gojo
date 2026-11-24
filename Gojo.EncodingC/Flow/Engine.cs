@@ -85,8 +85,7 @@ public sealed class Engine
     /// fork of.</summary>
     private bool Supposes(Surface surface)
     {
-        var view = surface is Flipped flipped ? flipped.Source : surface;
-        if (view is not Workspace || surface.Home?.Local is not { } owner) return false;
+        if (surface.Underlying is not Workspace || surface.Home?.Local is not { } owner) return false;
         for (var ancestor = Parent; ancestor is not null; ancestor = ancestor.Parent)
             if (ancestor == owner) return true;
         return false;
@@ -167,11 +166,12 @@ public sealed class Engine
     /// <summary>Steps until a step changes nothing, taken together or in order,
     /// and returns how many steps that took, the quiet one included; null if
     /// it is still changing after <paramref name="limit"/> steps. Quiet is read
-    /// from what the rows did, not decided outside them.</summary>
+    /// from what the rows did, not decided outside them: no state changed, and
+    /// no evidence a law could read, so a contest a law reacts to is not quiet.</summary>
     public int? Settle(int limit, bool together = false)
     {
         for (var i = 1; i <= limit; i++)
-            if ((together ? StepTogether() : Step()).Steps.All(step => step.Changed.None)) return i;
+            if ((together ? StepTogether() : Step()).Steps.All(step => step.Quiet)) return i;
         return null;
     }
 
@@ -181,6 +181,8 @@ public sealed class Engine
     /// and wirings are declared in no longer decides what moves. Where two
     /// different rows would write the same bit, unless both only rule the same
     /// value out, both are contested: neither runs, and the step says so. A
+    /// transition row writes codes whole, so it claims every bit of each code
+    /// it writes, and two rows writing different bits of one count contest. A
     /// wiring listed twice plans once.</summary>
     public EngineStep StepTogether()
     {
@@ -189,12 +191,15 @@ public sealed class Engine
         var writers = new Dictionary<(Surface, int, int), List<(int Wiring, int Row, bool Value, bool Rules)>>();
         for (var w = 0; w < once.Length; w++)
             foreach (var (row, writes) in plans[w].Writes)
-                foreach (var write in writes)
+            {
+                var claimed = writes.Select(write => (Bit: write.Surface.Bit(write.Index, write.Plane), write.Value))
+                    .Concat(writes.Count == 0 ? [] : once[w].Claims(row).Select(bit => (Bit: bit, Value: true)));
+                foreach (var (bit, value) in claimed)
                 {
-                    var bit = write.Surface.Bit(write.Index, write.Plane);
                     if (!writers.TryGetValue(bit, out var list)) writers[bit] = list = [];
-                    if (!list.Any(x => x.Wiring == w && x.Row == row)) list.Add((w, row, write.Value, once[w].Law is RelationLaw));
+                    if (!list.Any(x => x.Wiring == w && x.Row == row)) list.Add((w, row, value, once[w].Law is RelationLaw));
                 }
+            }
         var contested = once.Select(w => new Plane(w.Count)).ToArray();
         foreach (var list in writers.Values)
         {
