@@ -408,8 +408,12 @@ scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
      - a draw with no supply stays as `T−`;
      - the two are never netted unless a law connects them;
      - the conservation promise holds.
-2. **The two-faced gap,** as planned in `Gap.cs`: a relation over (have, want,
-   deficit, excess), read in a goal's workspace.
+2. **The two-faced gap,** as planned in `Gap.cs`. Built on branch
+   `claude_tension` as a live view, `Difference`, rather than a relation: bit
+   k of the deficit is set when have's bit j is clear and want's bit j + k is
+   set, for some j, and the excess the same with the two swapped. Both are
+   unary counts, never both nonzero, computed and never stored. A relation is
+   still needed where have or want is open rather than a count.
 3. **Information tension as a law:** support planes to a settled/open/empty
    code per demanded position, so laws can read where questions are unanswered
    or contradicted.
