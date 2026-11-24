@@ -19,6 +19,13 @@ namespace Gojo.EncodingC;
 /// the move's own accounting: value plus pressure, value minus debt, pressure
 /// minus debt. A full value leaves pressure waiting, and an empty one leaves
 /// debt unpaid. Both are results, read where laws can read them.</para>
+/// <para><b>Route choice.</b> Where absorbing and drawing, or any two moves,
+/// would take from one count in one step taken together, they contend. Each
+/// move can take a gate: it runs only while its gate bit is 1. Gates from an
+/// open choice (<see cref="Supports.Possible"/>) leave every possible route
+/// open, so contention is exactly an open choice, and narrowing settles it.
+/// Gates from a settled code, such as a turn bit and its flipped view, open
+/// one route at a time.</para>
 /// <para>This class only lays the planes out and wires the moves. Everything
 /// it makes is ordinary planes and wirings, saved and forked like any
 /// other.</para></summary>
@@ -57,22 +64,30 @@ public sealed class Tension
     public UnaryStep Demand(Plane positions) => Unary.Add(Store, Minus, positions);
 
     /// <summary>Moves pressure into the value, one unit a step, while there is room.</summary>
-    public Wiring Absorb(Plane positions) => Moves(Plus.On(Store), Value.On(Store), positions);
+    public Wiring Absorb(Plane positions, Binding? gate = null) => Moves(Plus.On(Store), Value.On(Store), positions, gate);
 
     /// <summary>Pays debt from the value, one unit a step, while there is value:
     /// a move from debt into the value's room.</summary>
-    public Wiring Draw(Plane positions) => Moves(Minus.On(Store), Value.Room(Store), positions);
+    public Wiring Draw(Plane positions, Binding? gate = null) => Moves(Minus.On(Store), Value.Room(Store), positions, gate);
 
     /// <summary>Cancels a unit of pressure against a unit of debt, one a step: a
     /// move from pressure into the room of debt. Wire it only where the two are
     /// the same quantity.</summary>
-    public Wiring Cancel(Plane positions) => Moves(Plus.On(Store), Minus.Room(Store), positions);
+    public Wiring Cancel(Plane positions, Binding? gate = null) => Moves(Plus.On(Store), Minus.Room(Store), positions, gate);
 
-    private static Wiring Moves(Binding from, Binding to, Plane positions)
+    /// <summary>The one-unit move at each position, or, with a
+    /// <paramref name="gate"/>, the move that runs only while the gate's bit
+    /// at that position is 1: a route choice (see <see cref="Supports.Possible"/>).</summary>
+    internal static Wiring Moves(Binding from, Binding to, Plane positions, Binding? gate = null)
     {
         ArgumentNullException.ThrowIfNull(positions);
-        var wiring = new Wiring(Flows.Move(from.Planes.Count, to.Planes.Count), from, to);
-        foreach (var position in positions.Indexes()) wiring.Add(position, position);
+        var (source, target) = (from.Planes.Count, to.Planes.Count);
+        var wiring = gate is null
+            ? new Wiring(Flows.Move(source, target), from, to)
+            : new Wiring(Flows.GatedMove(source, target), from, gate, to);
+        foreach (var position in positions.Indexes())
+            if (gate is null) wiring.Add(position, position);
+            else wiring.Add(position, position, position);
         return wiring;
     }
 }

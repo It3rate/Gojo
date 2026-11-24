@@ -199,6 +199,22 @@ Jefferson, 1974).
 So the missing piece is explicit route choice: the taker as an open value.
 It belongs with the tension work, not as a separate case.
 
+**Built on branch `claude_tension`** (`Supports.Possible`, gated moves in
+`Tension`, `RouteChoiceTests`). A route is a move gated by one bit:
+- **Gates from an open choice:** a choice with one support plane per route
+  gates each route by "still possible". While several remain possible, their
+  rows are contested, so the contested rows are exactly the open options.
+  Narrowing the choice, by the host or by a law reading a fact, settles it,
+  and taken together only the chosen route runs.
+- **Gates from a settled code:** a turn bit gates one move directly and the
+  other through its flipped view, so exactly one may run in a step. Absorbing
+  and drawing on one value then take turns and both settle.
+
+A turn bit that toggles every step never goes quiet: it is a driven
+controller (consolidation class C4) and needs its own stop. Re-deciding an
+open choice every step needs a reopening that does not contend with the
+narrowing; that is not built.
+
 ## 4. Down to the bit
 
 Everything below follows §9.7: 1 is presence, here the presence of something
@@ -402,7 +418,8 @@ scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
 5. **Structural reads** from evidence (idle, duplicate, joined, persistent,
    contested) and description length, as the inputs for splitting and merging.
 6. **Explicit route choice:** the taker as an open value, so a contest is
-   narrowing and a turn-taking gate is an ordinary law.
+   narrowing and a turn-taking gate is an ordinary law. Built on branch
+   `claude_tension` (§3.5).
 
 The radial and linear work is a separate thread, but step 1 should keep the
 face of each tension explicit, so the orientation hypothesis in §4 can be
