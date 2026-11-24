@@ -45,7 +45,8 @@ public static class Settling
     /// reason bits (read), then the support plane as a plain bit (written).</summary>
     public static TransitionLaw Justify(int reasons)
     {
-        if (reasons < 1) throw new ArgumentOutOfRangeException(nameof(reasons), "A justification needs at least one reason.");
+        if (reasons is < 1 or > 10)
+            throw new ArgumentOutOfRangeException(nameof(reasons), "A justification takes between 1 and 10 reason bits within Law.MaxBits.");
         lock (Justifies)
         {
             if (Justifies.TryGetValue(reasons, out var cached)) return cached;
@@ -55,6 +56,23 @@ public static class Settling
                 new Accounting(true, [.. Enumerable.Range(0, reasons).Select(r => (Invariant)new Unchanged(r))]));
         }
     }
+
+    private static readonly TransitionLaw LatchOn = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit],
+        state => [state[0], state[0] == 1 ? 1 : state[1]],
+        new Accounting(true, new Unchanged(0), new NeverDecreases(1)));
+
+    private static readonly TransitionLaw LatchOff = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit],
+        state => [state[0], state[0] == 1 ? 0 : state[1]],
+        new Accounting(true, new Unchanged(0), new NeverIncreases(1)));
+
+    /// <summary>Monotonic latch: when the trigger bit is 1, writes
+    /// <paramref name="to"/> (<c>1</c> or <c>0</c>) into the target bit; holds
+    /// otherwise. Useful for recruiting or retiring wiring rows
+    /// (<see cref="Store.Life"/>) or recording one-shot dialogue acts without a
+    /// counter table. Roles: trigger (read), target (written).</summary>
+    public static TransitionLaw Latch(bool to) => to ? LatchOn : LatchOff;
 
     /// <summary>Opens a value again: sets every value possible. One role, the
     /// planes of a value with <paramref name="values"/> values read as plain

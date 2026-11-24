@@ -10,6 +10,7 @@ namespace Gojo.EncodingC;
 public static class TensionLaws
 {
     private static readonly Dictionary<int, RelationLaw> Gaps = [];
+    private static readonly Dictionary<Shape, RelationLaw> ValueGaps = [];
     private static readonly Dictionary<int, TransitionLaw> TrackGaps = [];
     private static readonly Dictionary<(int, int), TransitionLaw> Sums = [];
     private static readonly Dictionary<(int, bool), TransitionLaw> Streaks = [];
@@ -137,6 +138,29 @@ public static class TensionLaws
             return Gaps[capacity] = RelationLaw.FromPredicate(
                 [unary, unary, unary, unary],
                 t => t[2] == (t[1] > t[0] ? t[1] - t[0] : 0) && t[3] == (t[0] > t[1] ? t[0] - t[1] : 0));
+        }
+    }
+
+    /// <summary>Relation form of the open-value gap over any finite
+    /// <paramref name="shape"/>: relates <c>(left, right, disagrees)</c> where
+    /// <c>disagrees = 1</c> iff <c>left != right</c>. Bound to open
+    /// <see cref="Supports"/> roles, it narrows in both directions: disjoint
+    /// open values settle <c>disagrees = {1}</c> without settling either side;
+    /// overlapping open values leave <c>disagrees = {0, 1}</c> (an open gap);
+    /// asserting <c>disagrees = {0}</c> narrows both sides toward agreement,
+    /// and asserting <c>disagrees = {1}</c> eliminates a settled value from an
+    /// open referent.</summary>
+    public static RelationLaw ValueGap(Shape shape)
+    {
+        var size = (long)shape.Size;
+        if (size * size * 2 > Law.MaxBits)
+            throw new ArgumentOutOfRangeException(nameof(shape), "Open-value gap table exceeds Law.MaxBits.");
+        lock (ValueGaps)
+        {
+            if (ValueGaps.TryGetValue(shape, out var cached)) return cached;
+            return ValueGaps[shape] = RelationLaw.FromPredicate(
+                [shape, shape, Shape.Bit],
+                t => t[2] == (t[0] != t[1] ? 1 : 0));
         }
     }
 

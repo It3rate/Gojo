@@ -23,6 +23,26 @@ public static class Flows
         state => [1 - state[0]],
         new Accounting(true));
 
+    /// <summary>Quiet two-party turn-taking: alternates <c>turn</c> when both
+    /// sides have work (<c>needA = 1, needB = 1</c>), yields the floor to the
+    /// active side when only one has work, and holds still when neither has
+    /// work so <see cref="Engine.Settle"/> comes to rest. Roles: <c>needA</c>,
+    /// <c>needB</c>, <c>turn</c> (<c>0</c> = A's floor, <c>1</c> = B's floor).</summary>
+    public static TransitionLaw Turn { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit],
+        state =>
+        {
+            var next = (state[0], state[1]) switch
+            {
+                (1, 1) => 1 - state[2],
+                (1, 0) => 0,
+                (0, 1) => 1,
+                _ => state[2],
+            };
+            return [state[0], state[1], next];
+        },
+        new Accounting(true, new Unchanged(0), new Unchanged(1)));
+
     /// <summary>One unit from a unary source to a unary target, one to one and
     /// uncalibrated, when the source has one and the target has room. Roles:
     /// source, target.</summary>
@@ -99,6 +119,13 @@ public static class Flows
         ArgumentNullException.ThrowIfNull(law);
         if (gates < 1) throw new ArgumentOutOfRangeException(nameof(gates), "Wait on at least one gate.");
         if (!law.IsFunctional) throw new ArgumentException("A gated law runs on concrete state, so the law must admit one next state for each state.", nameof(law));
+        var limit = Law.MaxBits;
+        for (var i = 0; i < gates; i++)
+        {
+            limit /= 4;
+            if (law.BitCount > limit)
+                throw new ArgumentOutOfRangeException(nameof(gates), "Gated transition table exceeds Law.MaxBits.");
+        }
         var own = law.Roles.Count;
         var roles = law.Roles.Concat(Enumerable.Repeat(Shape.Bit, gates)).ToArray();
         var invariants = law.Accounting.Invariants.Concat(Enumerable.Range(own, gates).Select(r => (Invariant)new Unchanged(r))).ToArray();
