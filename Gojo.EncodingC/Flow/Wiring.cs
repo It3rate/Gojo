@@ -142,7 +142,7 @@ public sealed class Wiring
         if (transition is not null)
         {
             var workspace = Enumerable.Range(0, roles.Length).Where(r => writes[r]).Select(r => roles[r].Surface.Underlying).OfType<Workspace>().FirstOrDefault();
-            if (workspace is not null && Enumerable.Range(0, roles.Length).Any(r => writes[r] && !ReferenceEquals(roles[r].Surface.Underlying, workspace)))
+            if (workspace is not null && Enumerable.Range(0, roles.Length).Any(r => writes[r] && (roles[r].Surface.Underlying is not Workspace other || !ReferenceEquals(other.Group, workspace.Group))))
                 throw new ArgumentException(
                     "A law that writes a workspace writes only that workspace. A supposition and what is are never changed in one step; the workspace's commit decides what reaches anything else.",
                     nameof(roles));

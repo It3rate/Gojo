@@ -54,13 +54,14 @@ public static class Tension
 
     // ---- Information & mismatch observer wirings (ordinary tables in Engine) ----
 
-    /// <summary>Wires an in-machine observer that folds <paramref name="supports"/>
-    /// of any width (up to 64 values) into two presence planes
+    /// <summary>Wires a single-writer combinational fold tree that summarizes
+    /// <paramref name="supports"/> of any width (up to 64 values) into
     /// <c>(seen1, seen2)</c> and writes demanded information tension into
-    /// <c>(deficit, excess)</c> on <paramref name="statusStore"/>. Uses only
-    /// <see cref="TensionLaws.Clear2"/>, <see cref="TensionLaws.SupportFold"/>
-    /// and <see cref="TensionLaws.DemandedStatus"/> so the entire observer
-    /// saves and loads via <see cref="Transport"/>.</summary>
+    /// <c>(deficit, excess)</c> on <paramref name="statusStore"/>. Because each
+    /// plane has a single writer and nothing is cleared and re-set per step,
+    /// steady states stay quiet in <see cref="Engine.Settle"/> (even when
+    /// tension remains nonzero) and never self-contest under
+    /// <see cref="Engine.StepTogether"/>.</summary>
     public static IReadOnlyList<Wiring> ObserveSupports(
         Engine engine,
         Supports supports,
@@ -78,23 +79,73 @@ public static class Tension
         ArgumentNullException.ThrowIfNull(demandSurface);
         ArgumentNullException.ThrowIfNull(statusStore);
         var targets = positions.Length > 0 ? positions : Enumerable.Range(0, supports.Surface.Count).ToArray();
-        var added = new List<Wiring>(supports.Planes.Count + 2);
+        var planes = supports.Planes;
+        var added = new List<Wiring>();
 
-        var clear = new Wiring(TensionLaws.Clear2, new Binding(statusStore, seen1), new Binding(statusStore, seen2));
-        foreach (var p in targets) clear.Add(p, p);
-        engine.Add(clear);
-        added.Add(clear);
-
-        foreach (var plane in supports.Planes)
+        if (planes.Count == 1)
         {
-            var fold = new Wiring(
-                TensionLaws.SupportFold,
-                new Binding(supports.Surface, plane),
-                new Binding(statusStore, seen1),
-                new Binding(statusStore, seen2));
-            foreach (var p in targets) fold.Add(p, p, p);
-            engine.Add(fold);
-            added.Add(fold);
+            var leaf = new Wiring(TensionLaws.SupportLeaf, new Binding(supports.Surface, planes[0]), new Binding(statusStore, seen1), new Binding(statusStore, seen2));
+            foreach (var p in targets) leaf.Add(p, p, p);
+            engine.Add(leaf);
+            added.Add(leaf);
+        }
+        else if (planes.Count == 2)
+        {
+            var pair = new Wiring(TensionLaws.SupportPair, new Binding(supports.Surface, planes[0]), new Binding(supports.Surface, planes[1]), new Binding(statusStore, seen1), new Binding(statusStore, seen2));
+            foreach (var p in targets) pair.Add(p, p, p, p);
+            engine.Add(pair);
+            added.Add(pair);
+        }
+        else
+        {
+            var level = new List<(int S1, int S2)>();
+            for (var i = 0; i < planes.Count; i += 2)
+            {
+                var o1 = statusStore.AddPlane();
+                var o2 = statusStore.AddPlane();
+                Wiring w;
+                if (i + 1 < planes.Count)
+                {
+                    w = new Wiring(TensionLaws.SupportPair, new Binding(supports.Surface, planes[i]), new Binding(supports.Surface, planes[i + 1]), new Binding(statusStore, o1), new Binding(statusStore, o2));
+                    foreach (var p in targets) w.Add(p, p, p, p);
+                }
+                else
+                {
+                    w = new Wiring(TensionLaws.SupportLeaf, new Binding(supports.Surface, planes[i]), new Binding(statusStore, o1), new Binding(statusStore, o2));
+                    foreach (var p in targets) w.Add(p, p, p);
+                }
+                engine.Add(w);
+                added.Add(w);
+                level.Add((o1, o2));
+            }
+            while (level.Count > 1)
+            {
+                var next = new List<(int S1, int S2)>();
+                for (var i = 0; i < level.Count; i += 2)
+                {
+                    if (i + 1 >= level.Count)
+                    {
+                        next.Add(level[i]);
+                        continue;
+                    }
+                    var isRoot = level.Count == 2;
+                    var o1 = isRoot ? seen1 : statusStore.AddPlane();
+                    var o2 = isRoot ? seen2 : statusStore.AddPlane();
+                    var merge = new Wiring(
+                        TensionLaws.SupportCombine,
+                        new Binding(statusStore, level[i].S1),
+                        new Binding(statusStore, level[i].S2),
+                        new Binding(statusStore, level[i + 1].S1),
+                        new Binding(statusStore, level[i + 1].S2),
+                        new Binding(statusStore, o1),
+                        new Binding(statusStore, o2));
+                    foreach (var p in targets) merge.Add(p, p, p, p, p, p);
+                    engine.Add(merge);
+                    added.Add(merge);
+                    next.Add((o1, o2));
+                }
+                level = next;
+            }
         }
 
         var status = new Wiring(
@@ -110,11 +161,12 @@ public static class Tension
         return added;
     }
 
-    /// <summary>Wires an in-machine observer that folds two unary fields
-    /// (<paramref name="have"/> and <paramref name="want"/>) of any capacity up
-    /// to 63 into two directional mismatch bits <c>(needMore, haveExtra)</c> on
-    /// <paramref name="outStore"/>. Uses only <see cref="TensionLaws.Clear2"/>
-    /// and <see cref="TensionLaws.MismatchFold"/>.</summary>
+    /// <summary>Wires a single-writer combinational fold tree comparing two
+    /// unary fields (<paramref name="have"/> and <paramref name="want"/>) of
+    /// any capacity up to 63 into <c>(needMore, haveExtra)</c> on
+    /// <paramref name="outStore"/>. Stays quiet in <see cref="Engine.Settle"/>
+    /// even when a mismatch persists, and never self-contests under
+    /// <see cref="Engine.StepTogether"/>.</summary>
     public static IReadOnlyList<Wiring> ObserveMismatch(
         Engine engine,
         Surface haveSurface,
@@ -135,24 +187,65 @@ public static class Tension
         if (have.Shape.Bits != want.Shape.Bits)
             throw new ArgumentException("Both unary fields must have the same capacity.", nameof(want));
         var targets = positions.Length > 0 ? positions : Enumerable.Range(0, haveSurface.Count).ToArray();
-        var added = new List<Wiring>(have.Planes.Count + 1);
+        var added = new List<Wiring>();
 
-        var clear = new Wiring(TensionLaws.Clear2, new Binding(outStore, needMore), new Binding(outStore, haveExtra));
-        foreach (var p in targets) clear.Add(p, p);
-        engine.Add(clear);
-        added.Add(clear);
-
-        for (var k = 0; k < have.Planes.Count; k++)
+        if (have.Planes.Count == 1)
         {
-            var fold = new Wiring(
-                TensionLaws.MismatchFold,
-                new Binding(haveSurface, have.Planes[k]),
-                new Binding(wantSurface, want.Planes[k]),
+            var leaf = new Wiring(
+                TensionLaws.MismatchPair,
+                new Binding(haveSurface, have.Planes[0]),
+                new Binding(wantSurface, want.Planes[0]),
                 new Binding(outStore, needMore),
                 new Binding(outStore, haveExtra));
-            foreach (var p in targets) fold.Add(p, p, p, p);
-            engine.Add(fold);
-            added.Add(fold);
+            foreach (var p in targets) leaf.Add(p, p, p, p);
+            engine.Add(leaf);
+            added.Add(leaf);
+            return added;
+        }
+
+        var level = new List<(int Need, int Extra)>();
+        for (var k = 0; k < have.Planes.Count; k++)
+        {
+            var n = outStore.AddPlane();
+            var e = outStore.AddPlane();
+            var leaf = new Wiring(
+                TensionLaws.MismatchPair,
+                new Binding(haveSurface, have.Planes[k]),
+                new Binding(wantSurface, want.Planes[k]),
+                new Binding(outStore, n),
+                new Binding(outStore, e));
+            foreach (var p in targets) leaf.Add(p, p, p, p);
+            engine.Add(leaf);
+            added.Add(leaf);
+            level.Add((n, e));
+        }
+        while (level.Count > 1)
+        {
+            var next = new List<(int Need, int Extra)>();
+            for (var i = 0; i < level.Count; i += 2)
+            {
+                if (i + 1 >= level.Count)
+                {
+                    next.Add(level[i]);
+                    continue;
+                }
+                var isRoot = level.Count == 2;
+                var n = isRoot ? needMore : outStore.AddPlane();
+                var e = isRoot ? haveExtra : outStore.AddPlane();
+                var merge = new Wiring(
+                    TensionLaws.MismatchCombine,
+                    new Binding(outStore, level[i].Need),
+                    new Binding(outStore, level[i].Extra),
+                    new Binding(outStore, level[i + 1].Need),
+                    new Binding(outStore, level[i + 1].Extra),
+                    new Binding(outStore, n),
+                    new Binding(outStore, e));
+                foreach (var p in targets) merge.Add(p, p, p, p, p, p);
+                engine.Add(merge);
+                added.Add(merge);
+                next.Add((n, e));
+            }
+            level = next;
         }
         return added;
     }

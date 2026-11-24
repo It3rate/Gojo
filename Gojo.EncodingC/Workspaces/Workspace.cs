@@ -52,25 +52,36 @@ public sealed class Workspace : Surface
 
     /// <summary>A workspace over a store.</summary>
     public Workspace(Store source, int reach = 3)
-        : this((Surface)source, reach)
+        : this((Surface)source, reach, null)
     {
     }
 
     /// <summary>A workspace over another workspace: it sees that workspace's changes live, and
     /// its own commits go there, not to the store underneath.</summary>
     public Workspace(Workspace source, int reach = 3)
-        : this((Surface)source, reach)
+        : this((Surface)source, reach, null)
     {
     }
 
-    private Workspace(Surface source, int reach)
+    internal Workspace(Store source, object group, int reach = 3)
+        : this((Surface)source, reach, group)
+    {
+    }
+
+    private Workspace(Surface source, int reach, object? group)
     {
         ArgumentNullException.ThrowIfNull(source);
         if (reach is < 0 or > 63) throw new ArgumentOutOfRangeException(nameof(reach));
         this.source = source;
         Reach = reach;
+        Group = group ?? this;
         for (var k = 0; k < reach; k++) left.Add(new Plane(0));
     }
+
+    /// <summary>Shared atomic supposition group: standalone workspaces form a
+    /// singleton group; workspaces created together by one <see cref="Fork"/>
+    /// share its group so multi-store moves stay atomic inside the fork.</summary>
+    internal object Group { get; }
 
     /// <summary>How many steps from a requested position use can still bring
     /// positions in.</summary>

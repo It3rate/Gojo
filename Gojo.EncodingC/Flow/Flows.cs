@@ -5,7 +5,7 @@ namespace Gojo.EncodingC;
 public static class Flows
 {
     private static readonly Dictionary<(int, int, int, int), TransitionLaw> Converts = [];
-    private static readonly Dictionary<(int, int), TransitionLaw> GatedMoves = [];
+    private static readonly Dictionary<(int, int, int, int), TransitionLaw> GatedConverts = [];
 
     /// <summary>The smallest move: source S, gate C, target T, one bit each;
     /// state <c>S + 2C + 4T</c>. A whole unit hands off when S is set, the gate
@@ -49,20 +49,30 @@ public static class Flows
         }
     }
 
-    /// <summary>A move that happens only while a gate bit is set. Roles: source,
-    /// gate, target. Branches are built from these: the gates decide which
-    /// target a unit goes to.</summary>
-    public static TransitionLaw GatedMove(int sourceCapacity, int targetCapacity)
+    /// <summary>A calibrated move that runs only while a gate bit is set:
+    /// takes <paramref name="take"/> units from the source and gives
+    /// <paramref name="give"/> to the target, preserving
+    /// give·source + take·target. Roles: source, gate, target.</summary>
+    public static TransitionLaw GatedConvert(int take, int give, int sourceCapacity, int targetCapacity)
     {
-        lock (GatedMoves)
+        if (take < 1 || give < 1) throw new ArgumentOutOfRangeException(nameof(take), "Take and give at least one unit.");
+        lock (GatedConverts)
         {
-            if (GatedMoves.TryGetValue((sourceCapacity, targetCapacity), out var cached)) return cached;
+            var key = (take, give, sourceCapacity, targetCapacity);
+            if (GatedConverts.TryGetValue(key, out var cached)) return cached;
             var law = TransitionLaw.FromFunction(
                 [Shape.Unary(sourceCapacity), Shape.Bit, Shape.Unary(targetCapacity)],
-                state => state[0] > 0 && state[1] == 1 && state[2] < targetCapacity ? [state[0] - 1, 1, state[2] + 1] : state,
-                new Accounting(true, new PreservedSum([0, 2]), new Unchanged(1), new NeverIncreases(0), new NeverDecreases(2)));
-            GatedMoves[(sourceCapacity, targetCapacity)] = law;
+                state => state[0] >= take && state[1] == 1 && state[2] + give <= targetCapacity
+                    ? [state[0] - take, 1, state[2] + give]
+                    : state,
+                new Accounting(true, new PreservedSum([0, 2], [give, take]), new Unchanged(1), new NeverIncreases(0), new NeverDecreases(2)));
+            GatedConverts[key] = law;
             return law;
         }
     }
+
+    /// <summary>A move that happens only while a gate bit is set. Roles: source,
+    /// gate, target. Branches are built from these: the gates decide which
+    /// target a unit goes to.</summary>
+    public static TransitionLaw GatedMove(int sourceCapacity, int targetCapacity) => GatedConvert(1, 1, sourceCapacity, targetCapacity);
 }

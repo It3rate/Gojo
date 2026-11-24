@@ -34,13 +34,21 @@ namespace Gojo.EncodingC;
 public sealed class Fork
 {
     private readonly Dictionary<Store, Workspace> views;
+    private readonly Dictionary<Surface, Workspace> portViews;
     private readonly Dictionary<Wiring, Wiring> wirings;
 
-    private Fork(Engine parent, Engine engine, Dictionary<Store, Workspace> views, Dictionary<Wiring, Wiring> wirings, IReadOnlyList<(Store, int)> held)
+    private Fork(
+        Engine parent,
+        Engine engine,
+        Dictionary<Store, Workspace> views,
+        Dictionary<Surface, Workspace> portViews,
+        Dictionary<Wiring, Wiring> wirings,
+        IReadOnlyList<(Store, int)> held)
     {
         Parent = parent;
         Engine = engine;
         this.views = views;
+        this.portViews = portViews;
         this.wirings = wirings;
         Held = held;
     }
@@ -53,24 +61,45 @@ public sealed class Fork
     /// <summary>The fork's own structure, stepped on its own.</summary>
     public Engine Engine { get; }
 
+    /// <summary>Whether taken foreign ports/sockets were isolated into local
+    /// snapshots for a non-committing trial.</summary>
+    public bool PortsIsolated => portViews.Count > 0;
+
     /// <summary>The workspace through which the fork reads a parent store.</summary>
     public Workspace Of(Store store) => views[store];
+
+    /// <summary>The fork-owned supposition workspace standing in for an
+    /// isolated taken port or socket.</summary>
+    public Workspace PortView(Surface portOrSocket) => portViews[portOrSocket];
 
     /// <summary>The fork's copy of one of the parent's wirings.</summary>
     public Wiring Of(Wiring wiring) => wirings[wiring];
 
     public IReadOnlyCollection<Workspace> Workspaces => views.Values;
 
-    internal static Fork Of(Engine parent, bool holdMaterial, IReadOnlyDictionary<Store, Plane>? select = null)
+    internal static Fork Of(Engine parent, bool holdMaterial, IReadOnlyDictionary<Store, Plane>? select = null, bool isolatePorts = false)
     {
         ArgumentNullException.ThrowIfNull(parent);
+        var group = new object();
         var rows = parent.Wirings.Select(w => w.Rows).ToHashSet(ReferenceEqualityComparer.Instance);
         var views = new Dictionary<Store, Workspace>(ReferenceEqualityComparer.Instance);
         foreach (var store in parent.Stores)
             if (!rows.Contains(store))
-                views[store] = select is not null && select.TryGetValue(store, out var area) ? new Workspace(store).Select(area) : new Workspace(store).SelectAll();
+                views[store] = select is not null && select.TryGetValue(store, out var area)
+                    ? new Workspace(store, group).Select(area)
+                    : new Workspace(store, group).SelectAll();
         var engine = Engine.ForkOf(parent);
         var distinctWirings = parent.Wirings.Distinct().ToArray();
+        var portViews = new Dictionary<Surface, Workspace>(ReferenceEqualityComparer.Instance);
+        if (isolatePorts)
+            foreach (var wiring in distinctWirings)
+                for (var r = 0; r < wiring.Bindings.Count; r++)
+                {
+                    if (!wiring.Writes(r)) continue;
+                    var surface = wiring.Bindings[r].Surface;
+                    if ((surface is Port or Socket) && !portViews.ContainsKey(surface))
+                        portViews[surface] = new Workspace(SnapshotPort(surface), group).SelectAll();
+                }
         var rowCopies = new Dictionary<Store, Store>(ReferenceEqualityComparer.Instance);
         foreach (var wiring in distinctWirings) rowCopies[wiring.Rows] = Copy(wiring.Rows);
         var copies = new Dictionary<Wiring, Wiring>(ReferenceEqualityComparer.Instance);
@@ -78,7 +107,7 @@ public sealed class Fork
         {
             if (!copies.TryGetValue(wiring, out var copy))
             {
-                var bindings = wiring.Bindings.Select(binding => Rebind(binding, views, rowCopies)).ToArray();
+                var bindings = wiring.Bindings.Select(binding => Rebind(binding, views, portViews, rowCopies)).ToArray();
                 copy = new Wiring(wiring.Law, bindings, rowCopies[wiring.Rows],
                     [.. Enumerable.Range(0, bindings.Length).Select(r => wiring.ReferencePlanes(r).ToArray())],
                     wiring.Recorded?.Changed, wiring.Attention);
@@ -88,7 +117,7 @@ public sealed class Fork
         }
         var held = holdMaterial ? Material(parent).Where(m => views.ContainsKey(m.Store)).ToArray() : [];
         foreach (var (store, plane) in held) views[store].Fix(plane, select is not null && select.TryGetValue(store, out var area) ? area : null);
-        return new Fork(parent, engine, views, copies, held);
+        return new Fork(parent, engine, views, portViews, copies, held);
     }
 
     /// <summary>Planes a structure's own laws move conserved units on: the
@@ -102,15 +131,23 @@ public sealed class Fork
                 .SelectMany(r => (w.Bindings[r].Surface.Underlying is Store store ? w.Bindings[r].Planes.Select(p => (store, p)) : [])))
             .Distinct();
 
-    /// <summary>Writes the fork's state back into the parent, all or nothing.</summary>
+    /// <summary>Writes the fork's state back into the parent, all or nothing.
+    /// Refused when foreign taken ports were isolated for a trial, since units
+    /// moved from a port snapshot cannot be committed without draining the real
+    /// peer.</summary>
     public bool Commit()
     {
+        if (PortsIsolated) return false;
         if (views.Values.Any(view => view.Stale().Any)) return false;
         var results = views.Values.Select(view => view.Commit()).ToArray();
         return results.All(result => result.Committed);
     }
 
-    private static Binding Rebind(Binding binding, Dictionary<Store, Workspace> views, Dictionary<Store, Store> rowCopies)
+    private static Binding Rebind(
+        Binding binding,
+        Dictionary<Store, Workspace> views,
+        Dictionary<Surface, Workspace> portViews,
+        Dictionary<Store, Store> rowCopies)
     {
         Surface surface = binding.Surface switch
         {
@@ -119,10 +156,34 @@ public sealed class Fork
             Flipped { Source: Store store } flipped when views.TryGetValue(store, out var view) => new Flipped(view, [.. flipped.Planes]),
             Flipped { Source: Store store } flipped when rowCopies.TryGetValue(store, out var copiedRows) => new Flipped(copiedRows, [.. flipped.Planes]),
             Life { Of: Store store } when rowCopies.TryGetValue(store, out var copiedRows) => copiedRows.Life,
+            Port or Socket when portViews.TryGetValue(binding.Surface, out var portView) => portView,
             Port or Socket => binding.Surface,
             _ => throw new InvalidOperationException("A fork supposes about a structure's own stores, views of them, and what it reads through ports; whether positions are in use, workspaces and gaps cannot be forked yet."),
         };
         return binding.IsOpen ? Binding.Open(surface, [.. binding.Planes]) : new Binding(surface, [.. binding.Planes]);
+    }
+
+    /// <summary>Snapshots only the publicly exposed lanes and planes of a
+    /// foreign port or socket into a fork-owned store without reaching behind
+    /// the boundary.</summary>
+    private static Store SnapshotPort(Surface surface)
+    {
+        var copy = new Store(0);
+        for (var p = 0; p < surface.PlaneCount; p++)
+        {
+            if (surface.IsConstant(p)) copy.AddConstantPlane(surface.Count > 0 && surface.Read(p, 0));
+            else copy.AddPlane(surface.Filled(p));
+        }
+        for (var i = 0; i < surface.Count; i++) copy.Add();
+        for (var p = 0; p < surface.PlaneCount; p++)
+        {
+            if (copy.IsConstantPlane(p)) continue;
+            for (var i = 0; i < surface.Count; i++)
+                if (surface.IsLive(i)) copy.Write(p, i, surface.Read(p, i));
+        }
+        for (var i = 0; i < surface.Count; i++)
+            if (!surface.IsLive(i)) copy.Retire(i);
+        return copy;
     }
 
     /// <summary>A copy of a wiring's rows: the same planes, positions, liveness

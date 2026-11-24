@@ -54,9 +54,13 @@ public sealed class Engine
     /// unless <paramref name="holdMaterial"/> is false, its topology copied so
     /// it can be rewired, its laws shared. With <paramref name="select"/>, the
     /// fork attends only to those areas of those stores, holds material only
-    /// there, and brings in by use what running touches. See
-    /// <see cref="EncodingC.Fork"/>.</summary>
-    public Fork Fork(bool holdMaterial = true, IReadOnlyDictionary<Store, Plane>? select = null) => EncodingC.Fork.Of(this, holdMaterial, select);
+    /// there, and brings in by use what running touches. With
+    /// <paramref name="isolatePorts"/> true, taken foreign ports or sockets are
+    /// snapshotted into fork-owned supposition workspaces so trials can run
+    /// without mutating peers (commit is then refused to protect conservation).
+    /// See <see cref="EncodingC.Fork"/>.</summary>
+    public Fork Fork(bool holdMaterial = true, IReadOnlyDictionary<Store, Plane>? select = null, bool isolatePorts = false) =>
+        EncodingC.Fork.Of(this, holdMaterial, select, isolatePorts);
 
     internal static Engine ForkOf(Engine parent) => new() { Parent = parent };
 

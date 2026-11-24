@@ -22,6 +22,47 @@ public static class TensionLaws
         _ => [0, 0],
         new Accounting(true));
 
+    /// <summary>Bitwise conjunction written to a gate output (<c>out = a &amp; b</c>).
+    /// Composes with <see cref="Flipped"/> to suppress reorders while stock is
+    /// already in flight (<c>needMore &amp; ~dockNonEmpty</c>) or to activate a
+    /// uniquely settled route (<c>possible[i] &amp; ~seen2</c>). Roles: a, b, out.</summary>
+    public static TransitionLaw And { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit],
+        s => [s[0], s[1], s[0] & s[1]],
+        new Accounting(true, new Unchanged(0), new Unchanged(1)));
+
+    /// <summary>Bitwise disjunction written to a gate output (<c>out = a | b</c>).
+    /// Roles: a, b, out.</summary>
+    public static TransitionLaw Or { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit],
+        s => [s[0], s[1], s[0] | s[1]],
+        new Accounting(true, new Unchanged(0), new Unchanged(1)));
+
+    /// <summary>Combinational leaf for one support bit: writes
+    /// <c>(seen1 = possible, seen2 = 0)</c> without resetting a shared scratch
+    /// pair. Roles: possible, seen1, seen2.</summary>
+    public static TransitionLaw SupportLeaf { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit],
+        s => [s[0], s[0], 0],
+        new Accounting(true, new Unchanged(0)));
+
+    /// <summary>Combinational leaf for two support bits: writes
+    /// <c>(seen1 = a | b, seen2 = a &amp; b)</c> in one single-writer step, so
+    /// steady states stay quiet in <see cref="Engine.Settle"/> and never contest
+    /// in <see cref="Engine.StepTogether"/>. Roles: a, b, seen1, seen2.</summary>
+    public static TransitionLaw SupportPair { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit],
+        s => [s[0], s[1], s[0] | s[1], s[0] & s[1]],
+        new Accounting(true, new Unchanged(0), new Unchanged(1)));
+
+    /// <summary>Combinational tree merge of two <c>(seen1, seen2)</c> support
+    /// summaries: <c>out1 = a1 | b1</c> and <c>out2 = a2 | b2 | (a1 &amp; b1)</c>.
+    /// Roles: a1, a2, b1, b2, out1, out2.</summary>
+    public static TransitionLaw SupportCombine { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit],
+        s => [s[0], s[1], s[2], s[3], s[0] | s[2], s[1] | s[3] | (s[0] & s[2])],
+        new Accounting(true, new Unchanged(0), new Unchanged(1), new Unchanged(2), new Unchanged(3)));
+
     /// <summary>Folds one support plane (<c>1</c> = value still possible) into
     /// two presence planes <c>(seen1, seen2)</c>:
     /// <list type="bullet">
@@ -45,6 +86,22 @@ public static class TensionLaws
         [Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit],
         s => [s[0], s[1], s[2], s[0] & s[2], s[0] & (1 - s[1])],
         new Accounting(true, new Unchanged(0), new Unchanged(1), new Unchanged(2)));
+
+    /// <summary>Combinational leaf for one unary bit pair <c>(have, want)</c>:
+    /// writes <c>needMore = want &amp; ~have</c> and <c>haveExtra = have &amp; ~want</c>.
+    /// Roles: have, want, needMore, haveExtra.</summary>
+    public static TransitionLaw MismatchPair { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit],
+        s => [s[0], s[1], s[1] & (1 - s[0]), s[0] & (1 - s[1])],
+        new Accounting(true, new Unchanged(0), new Unchanged(1)));
+
+    /// <summary>Combinational tree merge of two unary mismatch pairs:
+    /// <c>needOut = na | nb</c> and <c>extraOut = ea | eb</c>. Roles: na, ea,
+    /// nb, eb, needOut, extraOut.</summary>
+    public static TransitionLaw MismatchCombine { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit],
+        s => [s[0], s[1], s[2], s[3], s[0] | s[2], s[1] | s[3]],
+        new Accounting(true, new Unchanged(0), new Unchanged(1), new Unchanged(2), new Unchanged(3)));
 
     /// <summary>Folds one bit pair of two unary counts (<c>have</c> and
     /// <c>want</c>) into two directional presence bits:

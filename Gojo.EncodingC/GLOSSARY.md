@@ -84,13 +84,14 @@ The stock laws:
 | --- | --- | --- |
 | `Passage` | source, gate, target: one bit each | The unit hands over when the source is set, the gate is set and the target is clear. 64 bits, `01 02 04 00 10 20 48 80`; 24 saved |
 | `Move`, `Convert` | source count, target count | Take some units and give some, or do nothing. `Move` is one for one |
-| `GatedMove` | source count, gate bit, target count | Move one unit while the gate is set |
+| `GatedMove`, `GatedConvert` | source count, gate bit, target count | Move or convert (`take` for `give`) while the gate is set, preserving `give·source + take·target` |
 | `Toggle` | one bit | Flip every step: an oscillator |
 | `Same` (relation) | two roles of one shape | They hold the same value. Between a sample and an open value, this is observing |
 | `Forget` | an open value's planes, as plain bits | Clear them: the value is open again |
 | `Enact` | an open value's planes, then a field | Write the one value left into the field. Otherwise leave the field alone |
-| `Clear2`, `SupportFold`, `DemandedStatus` | scratch bits / possible bit / demand | Reset two scratch bits, fold any support width into `(seen1, seen2)`, and mask by demand into `(deficit, excess)` without an exponential table |
-| `MismatchFold`, `Gap` | have, want, direction bits or `(deficit, excess)` | Bit-by-bit unary comparison `(needMore, haveExtra)` for wide counts, and an exact 4-role two-faced gap relation for small counts |
+| `And`, `Or` | two bits, output bit | Bitwise gate combinators; compose with `Flipped` for in-flight suppression and uniquely settled route selection |
+| `SupportLeaf`, `SupportPair`, `SupportCombine`, `DemandedStatus` | support planes / demand | Single-writer combinational fold tree summarizing any support width into `(seen1, seen2)` and masking by demand into `(deficit, excess)` so steady nonzero states stay quiet in `Settle` and never self-contest in `StepTogether` |
+| `MismatchPair`, `MismatchCombine`, `Gap` | have, want, direction bits or `(deficit, excess)` | Single-writer combinational unary comparison `(needMore, haveExtra)` for wide counts, and an exact 4-role two-faced gap relation for small counts |
 | `ToggleWhen`, `YieldTurn`, `TurnStep` | trigger/contested/active and gate bits | Break a contested tie, alternate turns without double-firing under `StepTogether`, and yield a turn when idle against unmet `T−` |
 | `Streak`, `RecruitAt`, `RetireAt`, `YieldByFirmness` | signal/counter/firmness and `Life` | Slow-clock unary streak counters, recruiting/retiring rows via `Rows.Life`, and AGM-style firmness conflict resolution |
 
