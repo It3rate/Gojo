@@ -191,8 +191,9 @@ the same job is done by ordinary structure, such as a plan or a probe.
 
 ## Kernel words that are not parts here
 
-- **Tension** is not built. Units entering from outside and moving through laws
-  stand in for it.
+- **Tension** is built for material only (`Tension`): pressure and debt as two
+  unary counts beside a value. Information and structural tension are reads
+  proposed in the tension note.
 - **Residue** has no type. What a move could not take stays where it was, and
   what a coarse read drops is bounded by the relation that did the read.
 - **Carrier, location, relation, unit shape** belong to the kernel. This

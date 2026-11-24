@@ -376,7 +376,12 @@ scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
 
 ## 8. Proposed first steps in EncodingC
 
-1. **Material tension.**
+1. **Material tension.** Built on branch `claude_tension` (`Tension`,
+   `Field.Room`, `TensionTests`). Change from outside enters as `T+` or `T−`
+   and never into the value, so blocked entry is no longer a case: the value
+   is only ever filled by absorbing, and a full value leaves `T+` waiting.
+   Taken together, absorbing and drawing on one value contend; settling that
+   needs explicit route choice (step 6).
    - Make `T+` and `T−` unary fields at a site.
    - Make blocked entry write `T+`.
    - Absorb, draw and cancel as `Flows.Move` into the value or a room view
