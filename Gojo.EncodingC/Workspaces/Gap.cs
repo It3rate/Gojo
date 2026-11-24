@@ -46,6 +46,10 @@ public sealed class Gap : Surface
 
     internal override Store? Home => workspace.Home;
 
+    /// <summary>A gap is a read of a workspace, so it is supposed: a relation
+    /// reading it narrows only what is supposed, never what is known.</summary>
+    internal override Surface Underlying => workspace;
+
     internal override bool ReadOnly => true;
 
     internal override bool IsConstant(int plane) => false;
