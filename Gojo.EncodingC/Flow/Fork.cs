@@ -70,13 +70,16 @@ public sealed class Fork
             if (!rows.Contains(store))
                 views[store] = select is not null && select.TryGetValue(store, out var area) ? new Workspace(store).Select(area) : new Workspace(store).SelectAll();
         var engine = Engine.ForkOf(parent);
+        var distinctWirings = parent.Wirings.Distinct().ToArray();
+        var rowCopies = new Dictionary<Store, Store>(ReferenceEqualityComparer.Instance);
+        foreach (var wiring in distinctWirings) rowCopies[wiring.Rows] = Copy(wiring.Rows);
         var copies = new Dictionary<Wiring, Wiring>(ReferenceEqualityComparer.Instance);
         foreach (var wiring in parent.Wirings)
         {
             if (!copies.TryGetValue(wiring, out var copy))
             {
-                var bindings = wiring.Bindings.Select(binding => Rebind(binding, views)).ToArray();
-                copy = new Wiring(wiring.Law, bindings, Copy(wiring.Rows),
+                var bindings = wiring.Bindings.Select(binding => Rebind(binding, views, rowCopies)).ToArray();
+                copy = new Wiring(wiring.Law, bindings, rowCopies[wiring.Rows],
                     [.. Enumerable.Range(0, bindings.Length).Select(r => wiring.ReferencePlanes(r).ToArray())],
                     wiring.Recorded?.Changed, wiring.Attention);
                 copies[wiring] = copy;
@@ -107,12 +110,15 @@ public sealed class Fork
         return results.All(result => result.Committed);
     }
 
-    private static Binding Rebind(Binding binding, Dictionary<Store, Workspace> views)
+    private static Binding Rebind(Binding binding, Dictionary<Store, Workspace> views, Dictionary<Store, Store> rowCopies)
     {
         Surface surface = binding.Surface switch
         {
-            Store store => views[store],
-            Flipped { Source: Store store } view => new Flipped(views[store], [.. view.Planes]),
+            Store store when views.TryGetValue(store, out var view) => view,
+            Store store when rowCopies.TryGetValue(store, out var copiedRows) => copiedRows,
+            Flipped { Source: Store store } flipped when views.TryGetValue(store, out var view) => new Flipped(view, [.. flipped.Planes]),
+            Flipped { Source: Store store } flipped when rowCopies.TryGetValue(store, out var copiedRows) => new Flipped(copiedRows, [.. flipped.Planes]),
+            Life { Of: Store store } when rowCopies.TryGetValue(store, out var copiedRows) => copiedRows.Life,
             Port or Socket => binding.Surface,
             _ => throw new InvalidOperationException("A fork supposes about a structure's own stores, views of them, and what it reads through ports; whether positions are in use, workspaces and gaps cannot be forked yet."),
         };

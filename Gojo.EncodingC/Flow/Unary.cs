@@ -59,6 +59,70 @@ public static class Unary
     public static Plane Broken(Store store, Field field) =>
         BrokenIn(Load(store, field, store.Live)).And(store.Live);
 
+    /// <summary>Live positions on any <see cref="Surface"/> (including a
+    /// <see cref="Workspace"/>) whose bits are not a valid unary count.</summary>
+    public static Plane Broken(Surface surface, Field field)
+    {
+        ArgumentNullException.ThrowIfNull(surface);
+        ArgumentNullException.ThrowIfNull(field);
+        if (!field.Shape.IsUnary) throw new ArgumentException("A unary field is needed.", nameof(field));
+        if (surface is Store store) return Broken(store, field);
+        var broken = new Plane(surface.Count);
+        for (var i = 0; i < surface.Count; i++)
+        {
+            if (!surface.IsLive(i)) continue;
+            for (var k = 0; k + 1 < field.Planes.Count; k++)
+                if (surface.Read(field.Planes[k + 1], i) && !surface.Read(field.Planes[k], i))
+                {
+                    broken[i] = true;
+                    break;
+                }
+        }
+        return broken;
+    }
+
+    /// <summary>The room left in a bounded unary count: capacity minus value,
+    /// as a zero-copy <see cref="Flipped"/> view bound with its planes in
+    /// reverse order. Room is anti-fill from the capacity landmark, distinct
+    /// from reorientation under a shared origin. Moving a unit into a field's
+    /// room removes one from the field, conserving their difference.</summary>
+    public static Binding Room(Surface surface, Field field)
+    {
+        ArgumentNullException.ThrowIfNull(surface);
+        ArgumentNullException.ThrowIfNull(field);
+        if (!field.Shape.IsUnary) throw new ArgumentException("A unary field is needed.", nameof(field));
+        var planes = field.Planes.ToArray();
+        var reversed = new int[planes.Length];
+        for (var i = 0; i < planes.Length; i++) reversed[i] = planes[planes.Length - 1 - i];
+        return new Binding(new Flipped(surface, planes), reversed);
+    }
+
+    /// <summary>Offers one unit at each given position: absorbs into
+    /// <paramref name="value"/> where room exists, and holds any overflow as
+    /// positive material tension in <paramref name="plus"/> (<c>T+</c>) rather
+    /// than discarding it. Only units that exceed both value and tension
+    /// capacity are returned in <see cref="TensionEntry.Blocked"/>.</summary>
+    public static TensionEntry Offer(Store store, Field value, Field plus, Plane positions)
+    {
+        var first = Add(store, value, positions);
+        if (first.Blocked.None) return new TensionEntry(first.Taken, new Plane(positions.Length), first.Blocked, first.Broken);
+        var held = Add(store, plus, first.Blocked);
+        return new TensionEntry(first.Taken, held.Taken, held.Blocked, first.Broken.Or(held.Broken));
+    }
+
+    /// <summary>Draws one unit at each given position: removes from
+    /// <paramref name="value"/> where supply exists, and records any unmet draw
+    /// as negative material tension in <paramref name="minus"/> (<c>T−</c>).
+    /// Only draws that exceed tension capacity are returned in
+    /// <see cref="TensionEntry.Blocked"/>.</summary>
+    public static TensionEntry Draw(Store store, Field value, Field minus, Plane positions)
+    {
+        var first = Remove(store, value, positions);
+        if (first.Blocked.None) return new TensionEntry(first.Taken, new Plane(positions.Length), first.Blocked, first.Broken);
+        var held = Add(store, minus, first.Blocked);
+        return new TensionEntry(first.Taken, held.Taken, held.Blocked, first.Broken.Or(held.Broken));
+    }
+
     private static Plane BrokenIn(Plane[] planes)
     {
         var broken = new Plane(planes[0].Length);
@@ -87,3 +151,10 @@ public static class Unary
 /// <see cref="Broken"/> ones held bits that are not a count. Blocked and broken
 /// positions keep their bits.</summary>
 public sealed record UnaryStep(Plane Taken, Plane Blocked, Plane Broken);
+
+/// <summary>What one tension-preserving entry or draw did:
+/// <see cref="Absorbed"/> positions changed value directly; <see cref="Held"/>
+/// positions retained overflow or unmet draw in their tension field;
+/// <see cref="Blocked"/> positions exceeded tension capacity as well;
+/// <see cref="Broken"/> positions held bits that are not a count.</summary>
+public sealed record TensionEntry(Plane Absorbed, Plane Held, Plane Blocked, Plane Broken);

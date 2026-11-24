@@ -718,7 +718,12 @@ public sealed class Wiring
                 if (!bindings[r].IsOpen || !bindings[j].IsOpen || bindings[r].Planes.Count != bindings[j].Planes.Count) continue;
                 foreach (var row in rows.Indexes())
                 {
-                    if (bindings[r].Surface.Bit(Reference(row, r), bindings[r].Plane(0)) != bindings[j].Surface.Bit(Reference(row, j), bindings[j].Plane(0))) continue;
+                    var indexR = Reference(row, r);
+                    var indexJ = Reference(row, j);
+                    var equal = true;
+                    for (var p = 0; p < bindings[r].Planes.Count && equal; p++)
+                        equal = bindings[r].Surface.Bit(indexR, bindings[r].Plane(p)) == bindings[j].Surface.Bit(indexJ, bindings[j].Plane(p));
+                    if (!equal) continue;
                     same ??= new Plane?[bindings.Length, bindings.Length];
                     (same[r, j] ??= new Plane(Count))[row] = true;
                 }

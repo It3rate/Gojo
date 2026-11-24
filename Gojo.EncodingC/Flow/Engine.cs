@@ -206,7 +206,8 @@ public sealed class Engine
             if (list.Count < 2 || list.All(x => x.Rules && !x.Value)) continue;
             foreach (var (w, row, _, _) in list) contested[w][row] = true;
         }
-        var stepped = once.Select((w, i) => (w, step: w.Commit(plans[i], contested[i]))).ToDictionary(x => x.w, x => x.step, ReferenceEqualityComparer.Instance);
+        var stepped = new Dictionary<Wiring, WiringStep>(ReferenceEqualityComparer.Instance);
+        for (var i = 0; i < once.Length; i++) stepped[once[i]] = once[i].Commit(plans[i], contested[i]);
         Tick++;
         return new EngineStep(Tick, [.. wirings.Select(w => stepped[w])], [once.Length == 0 ? [] : Enumerable.Range(0, wirings.Count).ToArray()]);
     }
