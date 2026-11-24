@@ -21,7 +21,15 @@ namespace Gojo.EncodingC;
 /// reads nothing it could not bind: a store and a workspace over it, two
 /// fields of one store, or a store and what it reads through a port. When
 /// either side is a workspace, the gap is a supposition, and a relation
-/// reading it narrows only what is supposed.</para></summary>
+/// reading it narrows only what is supposed.</para>
+/// <para><b>A placeholder for a numeric read.</b> What this view computes is
+/// worked out in host code on every read, not held in planes or a law table,
+/// so the structure cannot inspect or change how it is computed. Pre-numeric
+/// Gojo has no magnitude to compare, so each thermometer bit is rebuilt from
+/// other counts. With numeric magnitudes each bit is one threshold read,
+/// "magnitude at least threshold", with the threshold stored as data. Laws
+/// bind only this view's planes, so the inside can be replaced without
+/// changing them. See docs/GojoTension-2026-11.md, §11.</para></summary>
 public sealed class Difference : Surface
 {
     private readonly (Surface Surface, Field Count)[] have;

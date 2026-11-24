@@ -15,7 +15,15 @@ namespace Gojo.EncodingC;
 /// flipped gates. An open value is not tension by itself; it becomes tension
 /// where something reads this view as a demand.
 /// <para>Never stored, never written. When the supports are a supposition, the
-/// view is too.</para></summary>
+/// view is too.</para>
+/// <para><b>A placeholder for a numeric read.</b> What this view computes is
+/// worked out in host code on every read, not held in planes or a law table,
+/// so the structure cannot inspect or change how it is computed. Pre-numeric
+/// Gojo has no magnitude to compare, so each thermometer bit is rebuilt from
+/// other counts. With numeric magnitudes each bit is one threshold read,
+/// "magnitude at least threshold", with the threshold stored as data. Laws
+/// bind only this view's planes, so the inside can be replaced without
+/// changing them. See docs/GojoTension-2026-11.md, §11.</para></summary>
 public sealed class Openness : Surface
 {
     private readonly Surface surface;

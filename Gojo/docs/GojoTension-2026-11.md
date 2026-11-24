@@ -504,6 +504,33 @@ fixture had the case:
 - **Where demand comes from.** Questions, goals and laws that need a code are
   clear. Whether attention alone is a demand is open.
 
+## 11. Host-computed views, and the step toward numbers
+
+`Difference` and `Openness` are live views whose meaning is computed in host
+code on every read: whether a sum of counts is at least m, and how many
+support bits are set. The rest of the tension work is structure: planes, law
+tables and wirings. These two are not. Nothing in a plane or a table says
+what a deficit is, and no law can change how one is computed.
+
+This came from two axioms pulling apart. "Prefer calculated to stored" led
+to live views; "meaning lives in Gojo structure" says the calculation itself
+must be structure. The views kept the first at the cost of the second.
+
+Both are thresholds. The gap asks whether want − have exceeds k, and openness
+whether the count of possible values exceeds k + 1 or is 0. The host code is
+complicated only because pre-numeric Gojo has no magnitude: each thermometer
+bit is rebuilt from other counts. The direction of the gap is already
+structural in pre-numeric form, as a side of a landmark (`Sides`); what is
+missing is how far.
+
+They are kept as placeholders. Everything that uses them binds only their
+planes (the deficit's lowest bit, the excess bit), so their inside can be
+replaced without changing any wiring. The intended replacement is the first
+numeric step: magnitudes held in planes, thresholds stored as data a law can
+read and move, and one generic comparison, "magnitude at least threshold",
+used everywhere. Accumulation and thresholds are likely the first two pieces;
+how to introduce them gradually is still to be explored.
+
 ## Sources
 
 Recalled from reading, except where checked for this note (marked *):
