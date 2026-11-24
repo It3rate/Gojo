@@ -13,6 +13,7 @@ public static class Settling
     private static readonly Dictionary<Shape, RelationLaw> Sames = [];
     private static readonly Dictionary<int, TransitionLaw> Forgets = [];
     private static readonly Dictionary<Shape, TransitionLaw> Enacts = [];
+    private static readonly Dictionary<int, TransitionLaw> Justifies = [];
 
     /// <summary>Two roles hold the same value. Between a sample and an open
     /// role this is observation: the open role is narrowed to what the sample
@@ -34,6 +35,37 @@ public static class Settling
     /// <summary>Has ever been: a presence that accumulates along a chain of
     /// moments. Roles: before, now, after; after is before or now.</summary>
     public static RelationLaw Ever { get; } = RelationLaw.FromPredicate([Shape.Bit, Shape.Bit, Shape.Bit], t => t[2] == (t[0] | t[1]));
+
+    /// <summary>Holds a possibility while its reasons hold. Roles: the reasons,
+    /// one bit each (read), then one support plane of a value as a plain bit
+    /// (written). The bit becomes 1 when every reason is 1 and 0 otherwise.
+    /// <para><b>Justified, not accumulated.</b> Narrowing only rules out, which is
+    /// right for what was learned about the past: which supplier delivered a
+    /// batch stays known. A possibility about now, such as "supplier A can be
+    /// ordered from", holds for a reason that can stop holding, and narrowing
+    /// would keep it ruled out after its reason returns. Reopening it every
+    /// step and narrowing it again would write the same bits both ways each
+    /// step: taken together they contend, and in order they never go quiet.
+    /// So a justified bit has one writer, this law, computing it from its
+    /// reasons each step. It reopens when its reasons return, writes only when
+    /// it changes, and never contends with itself. This is the
+    /// truth-maintenance idea (Doyle, 1979): a belief is held while its
+    /// justification is.</para>
+    /// <para>Declare it before what it gates, so a gate never reads a
+    /// possibility one step stale. A reason that must be absent is read
+    /// through a flipped view; all reasons for one bit belong to its one law.</para></summary>
+    public static TransitionLaw Justify(int reasons)
+    {
+        if (reasons < 1) throw new ArgumentOutOfRangeException(nameof(reasons), "A justification has at least one reason.");
+        lock (Justifies)
+        {
+            if (Justifies.TryGetValue(reasons, out var cached)) return cached;
+            return Justifies[reasons] = TransitionLaw.FromFunction(
+                [.. Enumerable.Repeat(Shape.Bit, reasons + 1)],
+                state => [.. state[..reasons], state[..reasons].All(bit => bit == 1) ? 1 : 0],
+                new Accounting(true, [.. Enumerable.Range(0, reasons).Select(r => (Invariant)new Unchanged(r))]));
+        }
+    }
 
     /// <summary>Opens a value again: sets every value possible. One role, the
     /// planes of a value with <paramref name="values"/> values read as plain

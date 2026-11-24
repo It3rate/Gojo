@@ -211,9 +211,24 @@ It belongs with the tension work, not as a separate case.
   and drawing on one value then take turns and both settle.
 
 A turn bit that toggles every step never goes quiet: it is a driven
-controller (consolidation class C4) and needs its own stop. Re-deciding an
-open choice every step needs a reopening that does not contend with the
-narrowing; that is not built.
+controller (consolidation class C4) and needs its own stop.
+
+**Re-deciding a choice: justified possibility** (`Settling.Justify`, branch
+`claude_tension`). Narrowing only rules out, which is right for what was
+learned about the past, and wrong for a possibility about now that holds for
+a reason that can stop holding. Reopening every step and narrowing again
+writes the same bits both ways each step: taken together they contend, in
+order they never go quiet. A justified support bit instead has one writer, a
+law that sets it from its reasons each step: 1 while every reason holds,
+0 otherwise. It reopens when its reasons return, writes only on change, and
+never contends with itself (truth maintenance; Doyle, 1979). It must be
+declared before what it gates, or the gate reads it a step stale. So
+possibility comes in two kinds:
+
+- **Accumulated:** narrowed by relations, never reopened. What was learned
+  about the past.
+- **Justified:** computed from current reasons by one law. What is possible
+  now.
 
 ## 4. Down to the bit
 
@@ -438,7 +453,7 @@ two wholesalers as structures of their own behind ports, and the books.
 | --- | --- | --- |
 | 1. Shelf, dock, backorders | Deliveries enter as pressure (the dock), orders as debt (backorders); the shop pays orders from the shelf, then shelves from the dock | Material tension works as a shop: a full shelf leaves items at the dock, an empty one leaves orders owed, and an order with no room in the books is refused, not lost |
 | 2. Reordering through a port | A gap between shelf plus dock and target plus backorders gates a case-to-items conversion through a wholesaler's port | Counting only the shelf over-orders while items wait at the dock: it empties the wholesaler and leaves two extra at the dock. A dry wholesaler leaves backorders and a short gap visible in the quiet state |
-| 3. Two wholesalers | Ordering is an open choice; each route waits on "short" and "still possible"; A's status, read through a port, rules A out | Taken together, both routes are contested while the choice is open. The choice never reopens when A opens again, so the shop settles with backorders while A has stock |
+| 3. Two wholesalers | Ordering is an open choice; each route waits on "short" and "still possible"; A's status, read through a port, rules A out | Taken together, both routes are contested while the choice is open. Narrowed, the choice never reopens when A opens again, and the shop settles with backorders while A has stock; justified (`Settling.Justify`), A is ordered from again |
 | 4. The books | Which wholesaler each batch came from is an open value narrowed by delivery notes; invoices are paid only once that is settled | One note: paid to B. Two notes that disagree: held as a contradiction. No note: held as open. Each is a result, and the question's cone is only the notes about that batch |
 | 5. A trial | "Buy only from B" on a copy of the shop and both wholesalers, saved and loaded together | A fork is refused, since the shop takes through ports. The copy runs the trial and leaves the shop unchanged, bit for bit |
 
@@ -468,11 +483,14 @@ fixture had the case:
 
 **Findings left open:**
 
-- **A choice that never reopens.** Narrowing only rules out, so a choice made
-  for a reason that no longer holds stays made (iteration 3), and a
-  contradiction stays a contradiction even if a note is corrected. Revising
-  needs reopening that does not contend with narrowing. This is the most
-  fundamental gap the shop found.
+- **A choice that never reopens. Fixed for choices about now:** a justified
+  possibility reopens with its reason, and iteration 3 now runs both ways as a
+  contrast: narrowed, the shop ends two owed while A has stock; justified, A
+  delivers again and nothing is owed. **Still open for accumulated
+  knowledge:** a contradiction among delivery notes stays one even if a note
+  is corrected. Revising what was learned needs its support recomputed from
+  all the notes about it, a justification over a varying number of reasons,
+  which one law per bit does not yet express.
 - **Trials while taking.** A structure that takes through a port cannot fork,
   so a trial is a copy, which costs a full copy and sees copies of the
   wholesalers, not the live ones.

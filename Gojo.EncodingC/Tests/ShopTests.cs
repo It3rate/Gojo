@@ -49,7 +49,8 @@ public sealed class ShopTests
     /// <summary>The shop, with its shelf, dock and backorders, a target, and an
     /// order route per supplier. With <paramref name="countDock"/> false the
     /// gap counts only the shelf, as a naive reorder rule would.</summary>
-    private static Shop Open(int target, int shelf = 0, Supplier[]? suppliers = null, bool countDock = true)
+    private static Shop Open(int target, int shelf = 0, Supplier[]? suppliers = null, bool countDock = true,
+        Func<Store, Supports?, IEnumerable<Wiring>>? first = null)
     {
         suppliers ??= [];
         var store = new Store(ShelfRoom, 1);
@@ -65,7 +66,9 @@ public sealed class ShopTests
         var orders = suppliers.Select((s, i) => Tension.Route(
             Flows.Convert(1, PerCase, Cases, Room), s.Stock.On(s.Out), stock.Plus.On(store), Here,
             choice is null ? [short_] : [short_, choice.Possible(i)])).ToArray();
-        var engine = new Engine().Add(stock.Draw(Here)).Add(stock.Absorb(Here));
+        var engine = new Engine();
+        foreach (var wiring in first?.Invoke(store, choice) ?? []) engine.Add(wiring);
+        engine.Add(stock.Draw(Here)).Add(stock.Absorb(Here));
         foreach (var order in orders) engine.Add(order);
         return new Shop(engine, store, stock, gap, choice, orders);
     }
@@ -156,39 +159,53 @@ public sealed class ShopTests
     /// <summary>Iteration 3, two wholesalers. Both have stock, so ordering is an
     /// open choice, and taken together the two order routes are contested: the
     /// contest is the open choice. A is closed today, which the shop reads
-    /// through A's status port, and a law rules A out, so from then on only B
-    /// delivers.
-    /// <para>The finding: when A opens again the choice does not reopen, since
-    /// narrowing only rules out. B runs dry, and the shop settles with
-    /// backorders while A has stock and is open. Re-deciding a choice each step
-    /// is not built.</para></summary>
+    /// through A's status port, and a law makes A impossible, so from then on
+    /// only B delivers. Later A opens again, and the shop sells eight more.
+    /// <para><b>Narrowed,</b> A stays ruled out: narrowing only rules out. B runs
+    /// dry and the shop settles with two items owed while A has stock and is
+    /// open. <b>Justified,</b> "A is possible" is held only while A is open, by
+    /// one law that writes it from that reason each step. It reopens with A,
+    /// both wholesalers deliver, and nothing is owed.</para></summary>
     [Fact]
-    public void AClosedWholesalerIsRuledOutButTheChoiceNeverReopens()
+    public void AClosedWholesalerIsOrderedFromAgainOnlyWhenItsPossibilityIsJustified()
     {
-        var (a, b) = (Wholesaler(cases: 3, open: false), Wholesaler(cases: 3));
-        var shop = Open(target: 3, suppliers: [a, b]);
-        var ruleOut = new Wiring(RelationLaw.FromPredicate([Shape.Bit, Shape.Binary(2)], t => t[0] == 1 || t[1] != A),
-            new Binding(a.Status, 0), shop.Choice!.Variable);
-        ruleOut.Add(0, 0);
-        shop.Engine.Add(ruleOut);
+        (Shop Shop, Supplier A, Supplier B) Run(bool justified)
+        {
+            var (a, b) = (Wholesaler(cases: 3, open: false), Wholesaler(cases: 3));
+            var shop = Open(target: 3, suppliers: [a, b], first: (store, choice) =>
+            {
+                var rule = justified
+                    ? new Wiring(Settling.Justify(1), new Binding(a.Status, 0), choice!.Possible(A))
+                    : new Wiring(RelationLaw.FromPredicate([Shape.Bit, Shape.Binary(2)], t => t[0] == 1 || t[1] != A), new Binding(a.Status, 0), choice!.Variable);
+                rule.Add(0, 0);
+                return [rule];
+            });
 
-        var first = shop.Engine.StepTogether();
-        Assert.All(shop.Orders, order => Assert.True(first.Steps[shop.Engine.Wirings.ToList().IndexOf(order)].Contested![0]));
-        Assert.Equal(1UL << B, shop.Choice.Values(0));
+            var first = shop.Engine.StepTogether();
+            Assert.All(shop.Orders, order => Assert.True(first.Steps[shop.Engine.Wirings.ToList().IndexOf(order)].Contested![0]));
+            Assert.Equal(1UL << B, shop.Choice!.Values(0));
+            Settle(shop);
+            Assert.Equal((4, 0, 0), Floor(shop));
+            Assert.Equal((3, 1), (a.Stock.Read(a.Warehouse, 0), b.Stock.Read(b.Warehouse, 0)));
 
-        Settle(shop);
-        Assert.Equal((4, 0, 0), Floor(shop));
-        Assert.Equal((3, 1), (a.Stock.Read(a.Warehouse, 0), b.Stock.Read(b.Warehouse, 0)));
+            a.Warehouse.Write(Cases, 0, true);
+            for (var round = 0; round < 2; round++)
+            {
+                Sell(shop, 4);
+                Settle(shop);
+            }
+            return (shop, a, b);
+        }
 
-        a.Warehouse.Write(Cases, 0, true);
-        Sell(shop, 4);
-        Settle(shop);
-        Sell(shop, 4);
-        Settle(shop);
+        var narrowed = Run(justified: false);
+        Assert.Equal((0, 0, 2), Floor(narrowed.Shop));
+        Assert.Equal((3, 0), (narrowed.A.Stock.Read(narrowed.A.Warehouse, 0), narrowed.B.Stock.Read(narrowed.B.Warehouse, 0)));
+        Assert.Equal(1UL << B, narrowed.Shop.Choice!.Values(0));
 
-        Assert.Equal((0, 0, 2), Floor(shop));
-        Assert.Equal((3, 0), (a.Stock.Read(a.Warehouse, 0), b.Stock.Read(b.Warehouse, 0)));
-        Assert.Equal(1UL << B, shop.Choice.Values(0));
+        var justified = Run(justified: true);
+        Assert.Equal((4, 0, 0), Floor(justified.Shop));
+        Assert.Equal((0, 0), (justified.A.Stock.Read(justified.A.Warehouse, 0), justified.B.Stock.Read(justified.B.Warehouse, 0)));
+        Assert.Equal(0b11UL, justified.Shop.Choice!.Values(0));
     }
 
     /// <summary>Iteration 4, the books. Three batches, and which wholesaler each
