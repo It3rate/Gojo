@@ -64,30 +64,35 @@ public sealed class Tension
     public UnaryStep Demand(Plane positions) => Unary.Add(Store, Minus, positions);
 
     /// <summary>Moves pressure into the value, one unit a step, while there is room.</summary>
-    public Wiring Absorb(Plane positions, Binding? gate = null) => Moves(Plus.On(Store), Value.On(Store), positions, gate);
+    public Wiring Absorb(Plane positions, params Binding[] gates) => Route(Plus.On(Store), Value.On(Store), positions, gates);
 
     /// <summary>Pays debt from the value, one unit a step, while there is value:
     /// a move from debt into the value's room.</summary>
-    public Wiring Draw(Plane positions, Binding? gate = null) => Moves(Minus.On(Store), Value.Room(Store), positions, gate);
+    public Wiring Draw(Plane positions, params Binding[] gates) => Route(Minus.On(Store), Value.Room(Store), positions, gates);
 
     /// <summary>Cancels a unit of pressure against a unit of debt, one a step: a
     /// move from pressure into the room of debt. Wire it only where the two are
     /// the same quantity.</summary>
-    public Wiring Cancel(Plane positions, Binding? gate = null) => Moves(Plus.On(Store), Minus.Room(Store), positions, gate);
+    public Wiring Cancel(Plane positions, params Binding[] gates) => Route(Plus.On(Store), Minus.Room(Store), positions, gates);
 
-    /// <summary>The one-unit move at each position, or, with a
-    /// <paramref name="gate"/>, the move that runs only while the gate's bit
-    /// at that position is 1: a route choice (see <see cref="Supports.Possible"/>).</summary>
-    internal static Wiring Moves(Binding from, Binding to, Plane positions, Binding? gate = null)
+    /// <summary>The one-unit move from one count to another at each position,
+    /// waiting on any <paramref name="gates"/>: a route.</summary>
+    public static Wiring Route(Binding from, Binding to, Plane positions, params Binding[] gates) =>
+        Route(Flows.Move(from.Planes.Count, to.Planes.Count), from, to, positions, gates);
+
+    /// <summary>A two-role move law, such as a conversion that takes one case
+    /// and gives several items, from one count to another at each position. It
+    /// runs only while every gate bit at that position is 1 (see
+    /// <see cref="Flows.When"/>): a route choice, a gap, or both together.</summary>
+    public static Wiring Route(TransitionLaw move, Binding from, Binding to, Plane positions, params Binding[] gates)
     {
+        ArgumentNullException.ThrowIfNull(move);
         ArgumentNullException.ThrowIfNull(positions);
-        var (source, target) = (from.Planes.Count, to.Planes.Count);
-        var wiring = gate is null
-            ? new Wiring(Flows.Move(source, target), from, to)
-            : new Wiring(Flows.GatedMove(source, target), from, gate, to);
-        foreach (var position in positions.Indexes())
-            if (gate is null) wiring.Add(position, position);
-            else wiring.Add(position, position, position);
+        ArgumentNullException.ThrowIfNull(gates);
+        var wiring = gates.Length == 0
+            ? new Wiring(move, from, to)
+            : new Wiring(Flows.When(move, gates.Length), [from, to, .. gates]);
+        foreach (var position in positions.Indexes()) wiring.Add([.. Enumerable.Repeat(position, 2 + gates.Length)]);
         return wiring;
     }
 }

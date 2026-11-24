@@ -24,27 +24,33 @@ namespace Gojo.EncodingC;
 /// reading it narrows only what is supposed.</para></summary>
 public sealed class Difference : Surface
 {
-    private readonly Surface have;
-    private readonly Surface want;
-    private readonly Field haveCount;
-    private readonly Field wantCount;
+    private readonly (Surface Surface, Field Count)[] have;
+    private readonly (Surface Surface, Field Count)[] want;
     private readonly int capacity;
 
     public Difference(Surface have, Field haveCount, Surface want, Field wantCount)
+        : this([(have, haveCount)], [(want, wantCount)])
+    {
+    }
+
+    /// <summary>The gap between two sums of unary counts at each position: what
+    /// is held across several places against what is wanted across several.
+    /// A shop's stock on the shelf and at the dock, against its target and the
+    /// orders still owed, is one comparison, not four.</summary>
+    public Difference(IReadOnlyList<(Surface Surface, Field Count)> have, IReadOnlyList<(Surface Surface, Field Count)> want)
     {
         ArgumentNullException.ThrowIfNull(have);
-        ArgumentNullException.ThrowIfNull(haveCount);
         ArgumentNullException.ThrowIfNull(want);
-        ArgumentNullException.ThrowIfNull(wantCount);
-        if (!haveCount.Shape.IsUnary || !wantCount.Shape.IsUnary) throw new ArgumentException("A two-faced gap compares unary counts.");
-        if (have.Home is { } a && want.Home is { } b && !ReferenceEquals(a, b))
-            throw new ArgumentException("Have and want belong to one local structure: two fields of one store, a store and a workspace over it, or a store and a port.");
-        if (have.Count != want.Count) throw new ArgumentException("Have and want are read at the same positions.");
-        this.have = have;
-        this.want = want;
-        this.haveCount = haveCount;
-        this.wantCount = wantCount;
-        capacity = haveCount.Planes.Count > wantCount.Planes.Count ? haveCount.Planes.Count : wantCount.Planes.Count;
+        var terms = have.Concat(want).ToArray();
+        if (have.Count == 0 || want.Count == 0) throw new ArgumentException("Compare at least one count with at least one.");
+        if (terms.Any(t => t.Surface is null || t.Count is null || !t.Count.Shape.IsUnary)) throw new ArgumentException("A two-faced gap compares unary counts.");
+        if (terms.Select(t => t.Surface.Home).OfType<Store>().Distinct().Skip(1).Any())
+            throw new ArgumentException("Have and want belong to one local structure: fields of one store, a store and a workspace over it, or a store and a port.");
+        if (terms.Any(t => t.Surface.Count != terms[0].Surface.Count)) throw new ArgumentException("Have and want are read at the same positions.");
+        this.have = [.. have];
+        this.want = [.. want];
+        int Total(IEnumerable<(Surface, Field Count)> side) => side.Sum(t => t.Count.Planes.Count);
+        capacity = Total(have) > Total(want) ? Total(have) : Total(want);
         Deficit = new Field(Shape.Unary(capacity), [.. Enumerable.Range(0, capacity)]);
         Excess = new Field(Shape.Unary(capacity), [.. Enumerable.Range(capacity, capacity)]);
     }
@@ -56,31 +62,46 @@ public sealed class Difference : Surface
     /// <summary>How far have is above want, as a unary count on the next planes.</summary>
     public Field Excess { get; }
 
-    public override int Count => have.Count;
+    public override int Count => have[0].Surface.Count;
 
     public override int PlaneCount => 2 * capacity;
 
-    public override bool IsLive(int index) => have.IsLive(index) && want.IsLive(index);
+    public override bool IsLive(int index) => have.Concat(want).All(t => t.Surface.IsLive(index));
 
+    /// <summary>Bit k of the deficit: want exceeds have by more than k, which
+    /// holds when, for some m, want is at least m and have is not at least
+    /// m − k. Whether a sum of unary counts is at least m is itself read from
+    /// their bits: the first count is at least i and the rest at least m − i,
+    /// for some i. With one count each side this is the shifted AND.</summary>
     public override bool Read(int plane, int index)
     {
         if ((uint)plane >= (uint)PlaneCount) throw new ArgumentOutOfRangeException(nameof(plane));
-        var (low, high, lowCount, highCount, k) = plane < capacity
-            ? (have, want, haveCount, wantCount, plane)
-            : (want, have, wantCount, haveCount, plane - capacity);
-        for (var j = 0; j + k < highCount.Planes.Count; j++)
-            if (!Bit(low, lowCount, j, index) && high.Read(highCount.Planes[j + k], index)) return true;
+        var (low, high, k) = plane < capacity ? (have, want, plane) : (want, have, plane - capacity);
+        var top = high.Sum(t => t.Count.Planes.Count);
+        for (var m = 1; m <= top; m++)
+            if (AtLeast(high, 0, m, index) && !AtLeast(low, 0, m - k, index)) return true;
         return false;
     }
 
-    private static bool Bit(Surface surface, Field count, int k, int index) => k < count.Planes.Count && surface.Read(count.Planes[k], index);
+    private static bool AtLeast((Surface Surface, Field Count)[] terms, int from, int total, int index)
+    {
+        if (total <= 0) return true;
+        if (from == terms.Length) return false;
+        var (surface, count) = terms[from];
+        for (var i = 0; i <= count.Planes.Count; i++)
+        {
+            if (i > 0 && !surface.Read(count.Planes[i - 1], index)) return false;
+            if (AtLeast(terms, from + 1, total - i, index)) return true;
+        }
+        return false;
+    }
 
     internal override bool ThroughPort => false;
 
-    internal override Store? Home => have.Home ?? want.Home;
+    internal override Store? Home => have.Concat(want).Select(t => t.Surface.Home).OfType<Store>().FirstOrDefault();
 
     internal override Surface Underlying =>
-        have.Underlying is Workspace ? have.Underlying : want.Underlying is Workspace ? want.Underlying : this;
+        have.Concat(want).Select(t => t.Surface.Underlying).OfType<Workspace>().FirstOrDefault() ?? (Surface)this;
 
     internal override bool ReadOnly => true;
 
@@ -93,8 +114,7 @@ public sealed class Difference : Surface
 
     internal override void ReadKeys(int index, List<(Surface, int)> keys)
     {
-        have.ReadKeys(index, keys);
-        want.ReadKeys(index, keys);
+        foreach (var (surface, _) in have.Concat(want)) surface.ReadKeys(index, keys);
     }
 
     internal override (Surface, int) WriteKey(int index) => (this, index);

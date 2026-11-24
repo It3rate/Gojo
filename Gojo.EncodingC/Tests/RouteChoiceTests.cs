@@ -26,7 +26,7 @@ public sealed class RouteChoiceTests
         source.Write(store, 0, 2);
         var choice = Supports.On(store, new Field(Shape.Binary(2), store.AddPlane()));
         var here = Plane.Of(1, 0);
-        Wiring[] routes = [.. new[] { A, B }.Select(r => Tension.Moves(source.On(store), targets[r].On(store), here, choice.Possible(r)))];
+        Wiring[] routes = [.. new[] { A, B }.Select(r => Tension.Route(source.On(store), targets[r].On(store), here, choice.Possible(r)))];
         var engine = new Engine();
         foreach (var route in routes) engine.Add(route);
         return new Fork(engine, store, source, targets, choice, routes);

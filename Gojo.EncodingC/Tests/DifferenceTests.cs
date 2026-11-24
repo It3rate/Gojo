@@ -66,8 +66,8 @@ public sealed class DifferenceTests
         var gap = new Difference(store, have, store, want);
         var here = Plane.Of(1, 0);
         var engine = new Engine()
-            .Add(Tension.Moves(supply.On(store), have.On(store), here, new Binding(gap, gap.Deficit.Planes[0])))
-            .Add(Tension.Moves(have.On(store), drain.On(store), here, new Binding(gap, gap.Excess.Planes[0])));
+            .Add(Tension.Route(supply.On(store), have.On(store), here, new Binding(gap, gap.Deficit.Planes[0])))
+            .Add(Tension.Route(have.On(store), drain.On(store), here, new Binding(gap, gap.Excess.Planes[0])));
 
         Assert.NotNull(engine.Settle(8));
         Assert.Equal((1, 3, 0), (supply.Read(store, 0), have.Read(store, 0), drain.Read(store, 0)));

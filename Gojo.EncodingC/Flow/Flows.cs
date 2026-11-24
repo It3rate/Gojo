@@ -49,6 +49,31 @@ public static class Flows
         }
     }
 
+    /// <summary>The same law, waiting on <paramref name="gates"/> gate bits
+    /// appended after its own roles: it acts only while every gate is 1, and
+    /// holds otherwise. Gates are read, never written, and the law's own
+    /// promises are kept, so a conserving move stays a conserving move.
+    /// <para>Conditions compose this way: a reorder that runs only while the
+    /// shop is short <em>and</em> this supplier is still possible is a move
+    /// with two gates. A gated move with one gate was enough while every
+    /// fixture had one condition.</para></summary>
+    public static TransitionLaw When(TransitionLaw law, int gates = 1)
+    {
+        ArgumentNullException.ThrowIfNull(law);
+        if (gates < 1) throw new ArgumentOutOfRangeException(nameof(gates), "Wait on at least one gate.");
+        if (!law.IsFunctional) throw new ArgumentException("A gated law runs on concrete state, so the law must admit one next state for each state.", nameof(law));
+        var own = law.Roles.Count;
+        var roles = law.Roles.Concat(Enumerable.Repeat(Shape.Bit, gates)).ToArray();
+        var invariants = law.Accounting.Invariants.Concat(Enumerable.Range(own, gates).Select(r => (Invariant)new Unchanged(r))).ToArray();
+        return TransitionLaw.FromFunction(roles, state =>
+        {
+            var inner = state[..own];
+            if (state[own..].Any(gate => gate == 0)) return state;
+            var afters = law.Afters(law.TupleIndex(inner));
+            return afters.Count == 0 ? null : [.. law.Tuple(afters[0]), .. state[own..]];
+        }, new Accounting(true, invariants));
+    }
+
     /// <summary>A move that happens only while a gate bit is set. Roles: source,
     /// gate, target. Branches are built from these: the gates decide which
     /// target a unit goes to.</summary>
