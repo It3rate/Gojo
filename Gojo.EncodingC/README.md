@@ -313,6 +313,41 @@ Different receivers may take the same flow in their own terms. In
 `TwoReceiversCanTakeTheSameFlowInTheirOwnTerms`, an "eye" reads the light by
 reference while a "body" takes it as units of heat.
 
+## Bounded tension
+
+[`MaterialTension`](Flow/MaterialTension.cs) lays out three unary fields at
+each site for held value, admitted pressure, and outstanding draw. Its builders
+return ordinary wirings. Add rows to choose the sites, then add those wirings
+to the local engine in the intended order. The store, row bindings, and
+finite law tables carry the behavior through transport.
+
+- `AcceptPressure` and `AcceptDemand` take one unit from a connected source
+  into its account. When the account is full, it takes nothing and the unit
+  stays at the source. Admitted pressure can wait locally until value has room.
+- `Absorb` moves pressure into value. `Draw` settles a local signed withdrawal
+  by moving demand into the room in value. Room reads the unary planes
+  complemented and in reverse order, giving capacity minus value.
+- `Cancel` is an explicit route between pressure and draw in the same basis.
+  The accounts can coexist, including when their signed difference is zero.
+  Each local settlement preserves `value + pressure − demand`.
+- `Deliver` pays an outstanding draw by moving one held unit into an outlet.
+  A full outlet holds both the value and the demand. The law preserves value
+  plus outlet stock and demand plus outlet stock, so a connected receiver
+  can take the delivered unit through an ordinary port.
+
+An optional gate on absorb, draw, or cancel can choose which route is
+available. Ordered stepping follows declared wiring order. A simultaneous
+step records a contest when two enabled routes would change the same count.
+Each wiring uses the ordinary finite law table size limit.
+
+[`TensionGap.Between`](Laws/TensionGap.cs) is a separate read of have and want
+in the same unary basis. It relates those inputs to nonnegative deficit and
+excess. An open input can leave multiple answers, and each admitted tuple has
+at most one positive face. Reopen the selected result supports when the inputs
+change and the comparison should run again. Connect a response route when the
+goal should drive settlement. A material request enters through an explicit
+transfer into the draw account.
+
 ## Schedule
 
 - **Within a wiring.** Rows that write a position another row touches run in a
@@ -840,8 +875,8 @@ smaller laws wired together (see the glossary,
 - **Workspaces in a machine.** A workspace is not saved and the engine does not
   manage one. A workspace views one store or workspace. A wiring's rows cannot
   be supposed about through a workspace.
-- **The full tension model:** positive and negative tension, an absorbed
-  magnitude, an absorb law, and accounted loans.
+- **Further tension work:** accounted loans, route choice from sustained
+  tension, and structural changes that lower residuals.
 - **Replay from checkpoints, energy tiers and missing-route witnesses.**
 - **Decorrelation records and semiring reads.**
 - **Composing calibrations, and discovering them** (the canonical prompt's
@@ -858,7 +893,7 @@ smaller laws wired together (see the glossary,
 | R2 house workspaces | Workspaces: live reference with copy on write, layered and by-use selection, stale, split and introduced commits, sibling comparison. The house seam example is not ported |
 | R3 scoped supports | Per-position supports in the planes, narrowed by relation wirings the engine runs, through laws read as relations, on stores, workspaces and through ports (U0). A joint is a pair value with two relations. U1–U3 are dropped |
 | R4 semiring reads and zero contracts | Exact and detection ODV contracts. Semiring reads are dropped |
-| R5 tension and energy | Units enter through `Unary` and move through laws. Energy tiers are dropped |
+| R5 tension and energy | Bounded pressure and draw accounts settle through connected laws. Goal comparisons expose deficit and excess. Energy tiers are dropped |
 | R6 tick contract | `Engine` with waves in declared order, running transitions and relations. Shuffled-order tests are not done |
 | R7 witnesses by replay | Not built |
 | R8 learned law tables | Implemented with counts in a store, without eligibility traces |
@@ -892,6 +927,7 @@ limits and tests.
 | `OrientationMoveTests` | Reverse, face flip and reorient each undoing themselves, commuting and composing into one another for all eight words; reorient keeping the site and the others mirroring it; a reoriented view reading and writing the store turned around without copying; a law on the view matching the store reoriented in place; a view keeping its store's boundary and saved as a view |
 | `TwoFaceTests` | Traffic both ways as two faces of one road, each flowing forward on its own orientation: two units passing mid-road at once; a face-aware strip whose gross is two and whose net, one count read as a side of the other, is at zero; a single-lane bridge used one way at a time by an explicit active-orientation bit, never both lanes on it, nothing lost |
 | `GoalTests` | A goal as selection, condition and target: an outcome goal selecting only the end and leaving every route open; a route goal selecting every moment and settling the trip; a goal met or not read from its violations, the helicopter meeting the outcome and not the route; a waypoint selecting one moment in the middle |
+| `MaterialTensionTests`, `TensionDeliveryTests`, `TensionGapTests` | Backpressure with the offer retained at its sender, later absorption and retry, opposed accounts and explicit cancellation, stock delivered through an outlet, and one basis relating have and want to deficit and excess |
 | `SelectionTests` | A five-position window of a thousand-position structure costing only the window, the rows leaving it reported as beyond; reach bringing in by use what the window's edge rows touch, and stopping; an ignored area staying out though touched; a route plan bringing in the bridge's status it never selected, finding the route impossible while the world is untouched; an attention plane connecting selection to execution in a running structure, moved by one bit and saved with the machine |
 | `ForkTests` | A fork reading its parent live and copying only what it writes, turning when the parent's direction changes; a rewired fork taking another route while the parent keeps its own; sibling forks holding different versions; a fork attending to a window of a long road, holding only the window and what running brings in, and stopping at the edge of its attention; a commit writing back, and refused when the parent moved; a fork unable to bind its parent's stores or take through a port; a fork reading everything live seeing a moving parent's unit beside its own, and its staleness telling it so; by default a fork holding its material fixed, keeping only its own unit while the parent moves, still turning with live information, and refusing to commit over a parent that moved; material reached through a flipped view found, held and not following the parent |
 | `ClosureTests` | A seed snapping up to its whole row, the row seeded directly being the same unit, and a lone position kept as a referent; closure growing a row per unit of reach, keeping a port's lane as a head and not growing through it, and leaving out a plane no selected row reads; opening a port selecting the owner's position and plane and growing in the owner's structure; a settled garage sealing the question's cone until opened, which rereads a conflicting deed; following Bob out to the structures that read him, through ports and a socket, and back to what they share, Bob and Main Street, closed when computed again, and widening to everything any use reaches as more users may lack a position, rows staying whole; gathering by reach in each use and trimming by how many uses reached a place, keeping the bakery two rows out that two days reach and dropping the river only one does; "whose car is this?" selecting only the garage, the deed and the rows joining them, answered when pursued while an unrelated deed never runs, open with too little reach or without the deed, and contradicted by two deeds that disagree |
