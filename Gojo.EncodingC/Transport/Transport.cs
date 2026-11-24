@@ -197,6 +197,12 @@ public static class Transport
                     case Flipped { Source: Store viewed }:
                         Reach(viewed);
                         break;
+                    case Difference gap when gap.Have.Concat(gap.Want).All(t => t.Surface is Store):
+                        foreach (var (store, _) in gap.Have.Concat(gap.Want)) Reach((Store)store);
+                        break;
+                    case Openness { Source: Store read }:
+                        Reach(read);
+                        break;
                     default:
                         throw new InvalidOperationException("A workspace, or the gap between a workspace and its source, is a working view and not part of a machine. Commit or drop it before saving.");
                 }
@@ -465,6 +471,8 @@ public static class Transport
             // 0: a store's own positions. 1: one of its ports. 2: whether its positions are in use.
             // 3: a socket, by its place; its shape follows the first time.
             // 4: a store read through a view with some planes flipped.
+            // 5: the two-faced gap between sums of counts of stores, as its counts.
+            // 6: the openness of a store's supports, as its support planes.
             switch (binding.Surface)
             {
                 case var surface when sockets.TryGetValue(surface, out var socket):
@@ -494,6 +502,25 @@ public static class Transport
                     bits.Number(1);
                     bits.Number(stores[port.Owner]);
                     bits.Number(IndexOf(port.Owner.Ports, port));
+                    break;
+                case Difference gap:
+                    bits.Number(5);
+                    foreach (var side in new[] { gap.Have, gap.Want })
+                    {
+                        bits.Number(side.Count);
+                        foreach (var (store, count) in side)
+                        {
+                            bits.Number(stores[(Store)store]);
+                            bits.Number(count.Planes.Count);
+                            foreach (var plane in count.Planes) bits.Number(plane);
+                        }
+                    }
+                    break;
+                case Openness open:
+                    bits.Number(6);
+                    bits.Number(stores[(Store)open.Source]);
+                    bits.Number(open.Planes.Count);
+                    foreach (var plane in open.Planes) bits.Number(plane);
                     break;
                 case Life life:
                     bits.Number(2);
@@ -535,7 +562,7 @@ public static class Transport
         for (var r = 0; r < bindings.Length; r++)
         {
             var open = law is RelationLaw && bits.Bit();
-            var kind = bits.Count(4);
+            var kind = bits.Count(6);
             Surface surface;
             if (kind == 3)
             {
@@ -549,6 +576,29 @@ public static class Transport
                     sockets.Add(Socket.Shaped(lanes, shape, constants));
                 }
                 surface = sockets[socket];
+            }
+            else if (kind == 5)
+            {
+                var sides = new (Surface, Field)[2][];
+                for (var side = 0; side < 2; side++)
+                {
+                    sides[side] = new (Surface, Field)[bits.Count(MaxCount)];
+                    for (var t = 0; t < sides[side].Length; t++)
+                    {
+                        var store = stores[bits.Count(stores.Length - 1)];
+                        var count = new int[bits.Count(store.PlaneCount)];
+                        for (var k = 0; k < count.Length; k++) count[k] = bits.Count(store.PlaneCount - 1);
+                        sides[side][t] = (store, new Field(Shape.Unary(count.Length), count));
+                    }
+                }
+                surface = new Difference(sides[0], sides[1]);
+            }
+            else if (kind == 6)
+            {
+                var read = stores[bits.Count(stores.Length - 1)];
+                var supports = new int[bits.Count(read.PlaneCount)];
+                for (var k = 0; k < supports.Length; k++) supports[k] = bits.Count(read.PlaneCount - 1);
+                surface = new Openness(read, supports);
             }
             else if (kind == 4)
             {

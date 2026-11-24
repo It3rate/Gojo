@@ -130,6 +130,7 @@ The stock laws:
 | Supposition *(pattern)* | Something taken as true to see what follows, kept apart from what is | Bits written in a workspace, or a separate store (a probe) |
 | Gap | Where a workspace and its source disagree: how a prediction missed, or what is left before a goal is reached | Not stored. A gap bit is set where the workspace holds a bit that differs from the source as it is now. A per-bit disagreement: for a unary count, a set of units rather than a count, and with no direction. A two-faced error (deficit and excess counts) is a later direction |
 | Difference | The two-faced gap between two unary counts: how far have is below want (deficit) and above it (excess) | Not stored. Each face is a unary count, a shifted AND of the two counts; never both nonzero |
+| Openness | How far a value's supports are from settled: alternatives left to rule out, and whether none is left | Not stored. A unary count of values possible less one, and one bit for contradiction |
 | Plan *(pattern)* | What is possible at several moments ahead | A store of open values. In the tests, three positions per moment and five planes: three hold whether counts 0, 1, 2 are possible and two whether gate 0, 1 are |
 | Moment *(pattern)* | One time step in a plan | A group of the plan's positions |
 | Goal, aim *(pattern)* | A wanted value, treated as already settled at a later moment. Narrowing then works back to what has to happen now | Ordinary bits, observed into the plan's last moment |

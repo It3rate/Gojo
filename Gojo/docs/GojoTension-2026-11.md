@@ -429,7 +429,64 @@ The radial and linear work is a separate thread, but step 1 should keep the
 face of each tension explicit, so the orientation hypothesis in §4 can be
 tested there.
 
-## 9. Questions for the axioms
+## 9. First field test: the corner shop
+
+Built on branch `claude_tension` as `ShopTests`: a shop selling one product,
+two wholesalers as structures of their own behind ports, and the books.
+
+| Iteration | What runs | What it showed |
+| --- | --- | --- |
+| 1. Shelf, dock, backorders | Deliveries enter as pressure (the dock), orders as debt (backorders); the shop pays orders from the shelf, then shelves from the dock | Material tension works as a shop: a full shelf leaves items at the dock, an empty one leaves orders owed, and an order with no room in the books is refused, not lost |
+| 2. Reordering through a port | A gap between shelf plus dock and target plus backorders gates a case-to-items conversion through a wholesaler's port | Counting only the shelf over-orders while items wait at the dock: it empties the wholesaler and leaves two extra at the dock. A dry wholesaler leaves backorders and a short gap visible in the quiet state |
+| 3. Two wholesalers | Ordering is an open choice; each route waits on "short" and "still possible"; A's status, read through a port, rules A out | Taken together, both routes are contested while the choice is open. The choice never reopens when A opens again, so the shop settles with backorders while A has stock |
+| 4. The books | Which wholesaler each batch came from is an open value narrowed by delivery notes; invoices are paid only once that is settled | One note: paid to B. Two notes that disagree: held as a contradiction. No note: held as open. Each is a result, and the question's cone is only the notes about that batch |
+| 5. A trial | "Buy only from B" on a copy of the shop and both wholesalers, saved and loaded together | A fork is refused, since the shop takes through ports. The copy runs the trial and leaves the shop unchanged, bit for bit |
+
+**Extensions made for it**, each needed by the shop and not earlier because no
+fixture had the case:
+
+- **Gates that compose** (`Flows.When`, used by `Tension.Route`). An order
+  waits on "the shop is short" and "this wholesaler is still possible". Every
+  earlier gated move had one condition.
+- **The gap over sums of counts** (`Difference` with several counts a side).
+  Stock sits in two places, shelf and dock, and the want is a target plus what
+  is owed. The first gap compared one count with one.
+- **Information tension as a view** (`Openness`, step 3 of §8). A payment
+  waits until a batch's supplier is settled. Questions were only read by the
+  host before (`Question.Remaining`); nothing let a law wait on one. Built as
+  a live view, like the gap, instead of the planned relation: the deficit is
+  values left less one, as a unary count, and the excess is one bit,
+  contradiction. "Settled" is both read through flipped views.
+- **Saving the views** (binding kinds 5 and 6 in `Transport`). A machine whose
+  valves read a gap or an openness could not be saved, so it could not be
+  copied for a trial. Views are saved as their definitions.
+- **Forking the views.** A fork rebuilt only flipped views over its
+  workspaces, so any structure with a gap or openness could not fork. They
+  are now rebuilt the same way.
+
+**Findings left open:**
+
+- **A choice that never reopens.** Narrowing only rules out, so a choice made
+  for a reason that no longer holds stays made (iteration 3), and a
+  contradiction stays a contradiction even if a note is corrected. Revising
+  needs reopening that does not contend with narrowing. This is the most
+  fundamental gap the shop found.
+- **Trials while taking.** A structure that takes through a port cannot fork,
+  so a trial is a copy, which costs a full copy and sees copies of the
+  wholesalers, not the live ones.
+- **One dock, two uses.** Shelving from the dock and receiving into it write
+  the same count, so taken together they contend every step. The shop runs in
+  declared order; taken together it would need turn-taking at the dock.
+- **Provenance is lost on the shelf.** Units in a count are interchangeable,
+  so which wholesaler an item came from is known only from records. Writing a
+  record when a case arrives needs allocation by laws, or a trail observer.
+- **Priority is declared order.** Serving backorders before shelving, and
+  shelving before ordering, is the order the wirings were added in, not a
+  ranked tension tuple (§5).
+- **Whole cases overshoot.** Ordering in cases of two ends one over target;
+  the gap shows it as an excess of one, and nothing needs to release it.
+
+## 10. Questions for the axioms
 
 - **Whether "tension" should name all three kinds.** The canonical prompt uses
   tension for transferred change (carrier tension) and says uncertainty alone

@@ -109,15 +109,24 @@ public sealed class Fork
 
     private static Binding Rebind(Binding binding, Dictionary<Store, Workspace> views)
     {
-        Surface surface = binding.Surface switch
-        {
-            Store store => views[store],
-            Flipped { Source: Store store } view => new Flipped(views[store], [.. view.Planes]),
-            Port or Socket => binding.Surface,
-            _ => throw new InvalidOperationException("A fork supposes about a structure's own stores, views of them, and what it reads through ports; whether positions are in use, workspaces and gaps cannot be forked yet."),
-        };
+        var surface = Rebind(binding.Surface, views);
         return binding.IsOpen ? Binding.Open(surface, [.. binding.Planes]) : new Binding(surface, [.. binding.Planes]);
     }
+
+    /// <summary>The same surface seen from the fork: a store becomes its
+    /// workspace, and a view, such as a flipped view, a two-faced gap or an
+    /// openness, is rebuilt over what its source becomes.</summary>
+    private static Surface Rebind(Surface surface, Dictionary<Store, Workspace> views) => surface switch
+    {
+        Store store => views[store],
+        Flipped view => new Flipped(Rebind(view.Source, views), [.. view.Planes]),
+        Difference gap => new Difference(
+            [.. gap.Have.Select(t => (Rebind(t.Surface, views), t.Count))],
+            [.. gap.Want.Select(t => (Rebind(t.Surface, views), t.Count))]),
+        Openness open => new Openness(Rebind(open.Source, views), open.Planes),
+        Port or Socket => surface,
+        _ => throw new InvalidOperationException("A fork supposes about a structure's own stores, views of them, and what it reads through ports; whether positions are in use, workspaces and workspace gaps cannot be forked yet."),
+    };
 
     /// <summary>A copy of a wiring's rows: the same planes, positions, liveness
     /// and bits, owned by the fork.</summary>

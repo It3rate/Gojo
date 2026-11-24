@@ -55,6 +55,11 @@ public sealed class Difference : Surface
         Excess = new Field(Shape.Unary(capacity), [.. Enumerable.Range(capacity, capacity)]);
     }
 
+    /// <summary>The counts held, and the counts wanted, as summed.</summary>
+    internal IReadOnlyList<(Surface Surface, Field Count)> Have => have;
+
+    internal IReadOnlyList<(Surface Surface, Field Count)> Want => want;
+
     /// <summary>How far have is below want, as a unary count on planes 0 to
     /// capacity − 1.</summary>
     public Field Deficit { get; }
