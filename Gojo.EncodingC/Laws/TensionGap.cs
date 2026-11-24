@@ -14,10 +14,26 @@ public static class TensionGap
         var count = Shape.Unary(capacity);
         return RelationLaw.FromPredicate([count, count, count, count], tuple =>
         {
-            var difference = tuple[1] - tuple[0];
-            return difference >= 0
-                ? tuple[2] == difference && tuple[3] == 0
-                : tuple[2] == 0 && tuple[3] == -difference;
+            var (deficit, excess) = Difference(tuple[0], tuple[1]);
+            return tuple[2] == deficit && tuple[3] == excess;
         });
     }
+
+    /// <summary>Tracks the same goal difference as <see cref="Between"/> over
+    /// concrete samples. Reads have and want, then updates the deficit and
+    /// excess fields. The samples stay unchanged, and a result already equal
+    /// to their difference comes to rest without reopening supports. All roles
+    /// are unary counts and the transition table is bounded by <see cref="Law.MaxBits"/>.</summary>
+    public static TransitionLaw Track(int capacity)
+    {
+        var count = Shape.Unary(capacity);
+        return TransitionLaw.FromFunction([count, count, count, count], state =>
+        {
+            var (deficit, excess) = Difference(state[0], state[1]);
+            return [state[0], state[1], deficit, excess];
+        }, new Accounting(true, new Unchanged(0), new Unchanged(1)));
+    }
+
+    private static (int Deficit, int Excess) Difference(int have, int want) =>
+        want >= have ? (want - have, 0) : (0, have - want);
 }

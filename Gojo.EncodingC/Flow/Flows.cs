@@ -27,6 +27,17 @@ public static class Flows
     /// source, target.</summary>
     public static TransitionLaw Move(int sourceCapacity, int targetCapacity) => Convert(1, 1, sourceCapacity, targetCapacity);
 
+    /// <summary>Moves one unit from source to target and clears one outstanding
+    /// unit only when the target has room. Roles: source, outstanding, target.
+    /// Preserves source plus target and outstanding plus target.</summary>
+    public static TransitionLaw Fulfill(int sourceCapacity, int demandCapacity, int targetCapacity) =>
+        TransitionLaw.FromFunction(
+            [Shape.Unary(sourceCapacity), Shape.Unary(demandCapacity), Shape.Unary(targetCapacity)],
+            state => state[0] > 0 && state[1] > 0 && state[2] < targetCapacity
+                ? [state[0] - 1, state[1] - 1, state[2] + 1]
+                : state,
+            new Accounting(true, new PreservedSum([0, 2]), new PreservedSum([1, 2])));
+
     /// <summary>Takes <paramref name="take"/> units from the source and gives
     /// <paramref name="give"/> to the target, or nothing when the source has too
     /// few or the target too little room. The accounting preserves

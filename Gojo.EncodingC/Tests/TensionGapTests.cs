@@ -7,6 +7,30 @@ public sealed class TensionGapTests
     private const int Capacity = 3;
     private static readonly Field Count = new(Shape.Unary(Capacity), 0, 1, 2);
 
+    [Fact]
+    public void ATrackedGapComesToRestAndClearsItsOldFaceWhenTheInputChanges()
+    {
+        var samples = new Store(Capacity, 2);
+        Count.Write(samples, 0, 1);
+        Count.Write(samples, 1, 2);
+        var sample = new Binding(samples, [.. Count.Planes]);
+        var results = new Store(Capacity, 2);
+        var result = new Binding(results, [.. Count.Planes]);
+        var track = new Wiring(TensionGap.Track(Capacity), sample, sample, result, result);
+        track.Add(0, 1, 0, 1);
+        var engine = new Engine().Add(track);
+
+        Assert.Equal(2, engine.Settle(limit: 2));
+        Assert.Equal((1, 0), (Count.Read(results, 0), Count.Read(results, 1)));
+        Assert.Equal((1, 2), (Count.Read(samples, 0), Count.Read(samples, 1)));
+
+        Count.Write(samples, 0, 3);
+
+        Assert.Equal(2, engine.Settle(limit: 2));
+        Assert.Equal((0, 1), (Count.Read(results, 0), Count.Read(results, 1)));
+        Assert.Equal((3, 2), (Count.Read(samples, 0), Count.Read(samples, 1)));
+    }
+
     [Theory]
     [InlineData(1, 3, 2, 0)]
     [InlineData(3, 1, 0, 2)]

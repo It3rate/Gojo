@@ -49,16 +49,8 @@ public sealed class MaterialTension
     /// <summary>Fulfils one draw by transferring one unit of value to an
     /// outlet with room. Roles are value, demand and outlet. Stock plus
     /// delivered stock, and demand plus delivered stock, are preserved.</summary>
-    public Wiring Deliver(Binding outlet, int outletCapacity)
-    {
-        var law = TransitionLaw.FromFunction(
-            [Value.Shape, Demand.Shape, Shape.Unary(outletCapacity)],
-            state => state[0] > 0 && state[1] > 0 && state[2] < outletCapacity
-                ? [state[0] - 1, state[1] - 1, state[2] + 1]
-                : state,
-            new Accounting(true, new PreservedSum([0, 2]), new PreservedSum([1, 2])));
-        return new Wiring(law, Bind(Value), Bind(Demand), outlet);
-    }
+    public Wiring Deliver(Binding outlet, int outletCapacity) =>
+        new(Flows.Fulfill(Capacity(Value), Capacity(Demand), outletCapacity), Bind(Value), Bind(Demand), outlet);
 
     private Wiring Move(Field from, Field to, Binding target, Binding? gate) => gate is null
         ? new Wiring(Flows.Move(Capacity(from), Capacity(to)), Bind(from), target)
