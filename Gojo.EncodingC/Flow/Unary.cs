@@ -88,13 +88,8 @@ public static class Unary
     /// room removes one from the field, conserving their difference.</summary>
     public static Binding Room(Surface surface, Field field)
     {
-        ArgumentNullException.ThrowIfNull(surface);
         ArgumentNullException.ThrowIfNull(field);
-        if (!field.Shape.IsUnary) throw new ArgumentException("A unary field is needed.", nameof(field));
-        var planes = field.Planes.ToArray();
-        var reversed = new int[planes.Length];
-        for (var i = 0; i < planes.Length; i++) reversed[i] = planes[planes.Length - 1 - i];
-        return new Binding(new Flipped(surface, planes), reversed);
+        return field.Room(surface);
     }
 
     /// <summary>Offers one unit at each given position: absorbs into

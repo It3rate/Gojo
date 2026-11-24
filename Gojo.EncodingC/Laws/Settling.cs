@@ -13,6 +13,7 @@ public static class Settling
     private static readonly Dictionary<Shape, RelationLaw> Sames = [];
     private static readonly Dictionary<int, TransitionLaw> Forgets = [];
     private static readonly Dictionary<Shape, TransitionLaw> Enacts = [];
+    private static readonly Dictionary<int, TransitionLaw> Justifies = [];
 
     /// <summary>Two roles hold the same value. Between a sample and an open
     /// role this is observation: the open role is narrowed to what the sample
@@ -34,6 +35,26 @@ public static class Settling
     /// <summary>Has ever been: a presence that accumulates along a chain of
     /// moments. Roles: before, now, after; after is before or now.</summary>
     public static RelationLaw Ever { get; } = RelationLaw.FromPredicate([Shape.Bit, Shape.Bit, Shape.Bit], t => t[2] == (t[0] | t[1]));
+
+    /// <summary>Holds a possibility bit while all <paramref name="reasons"/>
+    /// hold (truth maintenance, Doyle 1979): writes 1 when every reason bit is
+    /// 1 and 0 otherwise. Unlike monotonic narrowing, a justified choice
+    /// reopens automatically when its reasons return, writes only when changed
+    /// so <see cref="Engine.Settle"/> goes quiet, and has one writer so it
+    /// never self-contends under <see cref="Engine.StepTogether"/>. Roles:
+    /// reason bits (read), then the support plane as a plain bit (written).</summary>
+    public static TransitionLaw Justify(int reasons)
+    {
+        if (reasons < 1) throw new ArgumentOutOfRangeException(nameof(reasons), "A justification needs at least one reason.");
+        lock (Justifies)
+        {
+            if (Justifies.TryGetValue(reasons, out var cached)) return cached;
+            return Justifies[reasons] = TransitionLaw.FromFunction(
+                [.. Enumerable.Repeat(Shape.Bit, reasons + 1)],
+                state => [.. state[..reasons], state[..reasons].All(bit => bit == 1) ? 1 : 0],
+                new Accounting(true, [.. Enumerable.Range(0, reasons).Select(r => (Invariant)new Unchanged(r))]));
+        }
+    }
 
     /// <summary>Opens a value again: sets every value possible. One role, the
     /// planes of a value with <paramref name="values"/> values read as plain

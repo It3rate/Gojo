@@ -35,6 +35,19 @@ public sealed class Field
         return pattern;
     }
 
+    /// <summary>The field's bits as a role's binding: one value, a code.</summary>
+    public Binding On(Surface surface) => new(surface, planes);
+
+    /// <summary>The room left in a unary field, capacity minus its count, as a
+    /// zero-copy flipped view with reversed planes. Room is anti-fill from the
+    /// capacity landmark, distinct from reorientation under a shared origin.</summary>
+    public Binding Room(Surface surface)
+    {
+        ArgumentNullException.ThrowIfNull(surface);
+        if (!Shape.IsUnary) throw new ArgumentException("A unary field is needed.", nameof(surface));
+        return new(new Flipped(surface, planes), [.. planes.Reverse()]);
+    }
+
     /// <summary>The value at a position, or null when the bits are not a code
     /// of the shape.</summary>
     public int? Read(Surface surface, int position) => Shape.Decode(Pattern(surface, position));

@@ -48,14 +48,14 @@ public sealed class TensionAdaptationTests
         // Trial recruiting row 1 inside a Fork and check strict admissibility before changing parent.
         var fork = probeEngine.Fork();
         var forkSite = new TensionSite(fork.Of(store), value, plus, null);
-        var beforeFork = Tension.Measure(fork.Engine, sites: [forkSite]);
+        var beforeFork = TensionDiagnostics.Measure(fork.Engine, sites: [forkSite]);
         fork.Of(routes).Rows.Recruit(1);
         fork.Engine.Settle(8);
-        var afterFork = Tension.Measure(fork.Engine, sites: [forkSite]);
+        var afterFork = TensionDiagnostics.Measure(fork.Engine, sites: [forkSite]);
         Assert.Equal(2, beforeFork.MaterialPlus);
         Assert.Equal(0, afterFork.MaterialPlus);          // fork absorbed T+ cleanly
         Assert.Equal(2, plus.Read(store, 0));             // parent untouched
-        Assert.True(Tension.AdmissibleStrict(beforeFork, afterFork).Admitted);
+        Assert.True(TensionDiagnostics.AdmissibleStrict(beforeFork, afterFork).Admitted);
 
         // Now wire the self-running slow clock: streak watches T+ bit 0 (plane 2), RecruitAt(2, 2) wakes row 1.
         var countPersist = new Wiring(TensionLaws.Streak(2, countWhenSet: true), new Binding(store, 2), new Binding(store, 4, 5));
@@ -111,11 +111,11 @@ public sealed class TensionAdaptationTests
         // Verify retiring row 1 in a Fork is strictly admissible on the same ActiveBits scale.
         var fork = engine.Fork();
         var forkIdle = new StreakWatch(fork.Of(idleStore), idleField, 3);
-        var beforeFork = Tension.Measure(fork.Engine, idle: [forkIdle]);
+        var beforeFork = TensionDiagnostics.Measure(fork.Engine, idle: [forkIdle]);
         fork.Of(move).Retire(1);
-        var afterFork = Tension.Measure(fork.Engine, idle: [forkIdle]);
+        var afterFork = TensionDiagnostics.Measure(fork.Engine, idle: [forkIdle]);
         Assert.True(afterFork.DescriptionBits < beforeFork.DescriptionBits);
-        Assert.True(Tension.AdmissibleStrict(beforeFork, afterFork).Admitted);
+        Assert.True(TensionDiagnostics.AdmissibleStrict(beforeFork, afterFork).Admitted);
 
         // And self-running RetireAt retires row 1 directly via Rows.Life.
         var prune = new Wiring(TensionLaws.RetireAt(3, 3), new Binding(idleStore, 0, 1, 2), new Binding(move.Rows.Life, 0));
@@ -241,7 +241,7 @@ public sealed class TensionAdaptationTests
         // Compare combined saved bits when separate vs fused (shared Same law saved once instead of twice).
         var separateBits = Transport.Measure(engineA).Bits + Transport.Measure(engineB).Bits;
         engineA.Fuse(engineB);
-        var fusedProfile = Tension.Measure(engineA);
+        var fusedProfile = TensionDiagnostics.Measure(engineA);
 
         Assert.True(fusedProfile.DescriptionBits < separateBits);
         Assert.True(fusedProfile.IsQuiet);

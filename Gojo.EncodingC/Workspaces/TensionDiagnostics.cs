@@ -1,257 +1,13 @@
 namespace Gojo.EncodingC;
 
-/// <summary>Host builders and diagnostic reads for tension across material,
-/// information, contention and structural tiers. Everything the machine acts
-/// on lives in ordinary store planes and small tables (<see cref="Flows"/>,
-/// <see cref="TensionLaws"/>); this class only wires those tables and reads
-/// the resulting planes.</summary>
-public static class Tension
+/// <summary>Host-side inspection and admissibility reads over a local
+/// structure's tension planes and evidence. Nothing inside a running machine
+/// calls these methods: they sit strictly outside the encoding, alongside
+/// <see cref="Workspace"/> and <see cref="Closure"/>, to measure tiers, detect
+/// duplicate rows or co-moving positions, and evaluate strict vs. Ashby
+/// viability-threshold admissibility on structural trials.</summary>
+public static class TensionDiagnostics
 {
-    // ---- Material tension wirings (all Flows.Move + zero-copy Room views) ----
-
-    /// <summary>Absorbs positive material tension (<c>T+</c>) into
-    /// <paramref name="value"/> using <see cref="Flows.Move"/>. Conserves
-    /// <c>value + T+</c>. Stops when <paramref name="value"/> is at capacity.</summary>
-    public static Wiring Absorb(Surface site, Field plus, Field value)
-    {
-        CheckUnary(plus, nameof(plus));
-        CheckUnary(value, nameof(value));
-        return new Wiring(
-            Flows.Move(plus.Shape.Bits, value.Shape.Bits),
-            new Binding(site, [.. plus.Planes]),
-            new Binding(site, [.. value.Planes]));
-    }
-
-    /// <summary>Pays negative material tension (<c>T−</c>) from
-    /// <paramref name="value"/> by moving units from <c>T−</c> into
-    /// <see cref="Unary.Room"/> of <paramref name="value"/>. Uses the same
-    /// <see cref="Flows.Move"/> law and conserves <c>value − T−</c>. Stops when
-    /// <paramref name="value"/> reaches zero, leaving unpaid draw in <c>T−</c>.</summary>
-    public static Wiring Draw(Surface site, Field minus, Field value)
-    {
-        CheckUnary(minus, nameof(minus));
-        CheckUnary(value, nameof(value));
-        return new Wiring(
-            Flows.Move(minus.Shape.Bits, value.Shape.Bits),
-            new Binding(site, [.. minus.Planes]),
-            Unary.Room(site, value));
-    }
-
-    /// <summary>Explicitly cancels matching units of <c>T+</c> and <c>T−</c>
-    /// by moving <c>T+</c> into <see cref="Unary.Room"/> of <c>T−</c>, lowering
-    /// both by one and conserving <c>T+ − T−</c>. Wired only where the
-    /// structure declares both faces are the same quantity; nothing nets
-    /// automatically.</summary>
-    public static Wiring Cancel(Surface site, Field plus, Field minus)
-    {
-        CheckUnary(plus, nameof(plus));
-        CheckUnary(minus, nameof(minus));
-        return new Wiring(
-            Flows.Move(plus.Shape.Bits, minus.Shape.Bits),
-            new Binding(site, [.. plus.Planes]),
-            Unary.Room(site, minus));
-    }
-
-    // ---- Information & mismatch observer wirings (ordinary tables in Engine) ----
-
-    /// <summary>Wires a single-writer combinational fold tree that summarizes
-    /// <paramref name="supports"/> of any width (up to 64 values) into
-    /// <c>(seen1, seen2)</c> and writes demanded information tension into
-    /// <c>(deficit, excess)</c> on <paramref name="statusStore"/>. Because each
-    /// plane has a single writer and nothing is cleared and re-set per step,
-    /// steady states stay quiet in <see cref="Engine.Settle"/> (even when
-    /// tension remains nonzero) and never self-contest under
-    /// <see cref="Engine.StepTogether"/>.</summary>
-    public static IReadOnlyList<Wiring> ObserveSupports(
-        Engine engine,
-        Supports supports,
-        Surface demandSurface,
-        int demandPlane,
-        Store statusStore,
-        int seen1,
-        int seen2,
-        int deficit,
-        int excess,
-        params int[] positions)
-    {
-        ArgumentNullException.ThrowIfNull(engine);
-        ArgumentNullException.ThrowIfNull(supports);
-        ArgumentNullException.ThrowIfNull(demandSurface);
-        ArgumentNullException.ThrowIfNull(statusStore);
-        var targets = positions.Length > 0 ? positions : Enumerable.Range(0, supports.Surface.Count).ToArray();
-        var planes = supports.Planes;
-        var added = new List<Wiring>();
-
-        if (planes.Count == 1)
-        {
-            var leaf = new Wiring(TensionLaws.SupportLeaf, new Binding(supports.Surface, planes[0]), new Binding(statusStore, seen1), new Binding(statusStore, seen2));
-            foreach (var p in targets) leaf.Add(p, p, p);
-            engine.Add(leaf);
-            added.Add(leaf);
-        }
-        else if (planes.Count == 2)
-        {
-            var pair = new Wiring(TensionLaws.SupportPair, new Binding(supports.Surface, planes[0]), new Binding(supports.Surface, planes[1]), new Binding(statusStore, seen1), new Binding(statusStore, seen2));
-            foreach (var p in targets) pair.Add(p, p, p, p);
-            engine.Add(pair);
-            added.Add(pair);
-        }
-        else
-        {
-            var level = new List<(int S1, int S2)>();
-            for (var i = 0; i < planes.Count; i += 2)
-            {
-                var o1 = statusStore.AddPlane();
-                var o2 = statusStore.AddPlane();
-                Wiring w;
-                if (i + 1 < planes.Count)
-                {
-                    w = new Wiring(TensionLaws.SupportPair, new Binding(supports.Surface, planes[i]), new Binding(supports.Surface, planes[i + 1]), new Binding(statusStore, o1), new Binding(statusStore, o2));
-                    foreach (var p in targets) w.Add(p, p, p, p);
-                }
-                else
-                {
-                    w = new Wiring(TensionLaws.SupportLeaf, new Binding(supports.Surface, planes[i]), new Binding(statusStore, o1), new Binding(statusStore, o2));
-                    foreach (var p in targets) w.Add(p, p, p);
-                }
-                engine.Add(w);
-                added.Add(w);
-                level.Add((o1, o2));
-            }
-            while (level.Count > 1)
-            {
-                var next = new List<(int S1, int S2)>();
-                for (var i = 0; i < level.Count; i += 2)
-                {
-                    if (i + 1 >= level.Count)
-                    {
-                        next.Add(level[i]);
-                        continue;
-                    }
-                    var isRoot = level.Count == 2;
-                    var o1 = isRoot ? seen1 : statusStore.AddPlane();
-                    var o2 = isRoot ? seen2 : statusStore.AddPlane();
-                    var merge = new Wiring(
-                        TensionLaws.SupportCombine,
-                        new Binding(statusStore, level[i].S1),
-                        new Binding(statusStore, level[i].S2),
-                        new Binding(statusStore, level[i + 1].S1),
-                        new Binding(statusStore, level[i + 1].S2),
-                        new Binding(statusStore, o1),
-                        new Binding(statusStore, o2));
-                    foreach (var p in targets) merge.Add(p, p, p, p, p, p);
-                    engine.Add(merge);
-                    added.Add(merge);
-                    next.Add((o1, o2));
-                }
-                level = next;
-            }
-        }
-
-        var status = new Wiring(
-            TensionLaws.DemandedStatus,
-            new Binding(demandSurface, demandPlane),
-            new Binding(statusStore, seen1),
-            new Binding(statusStore, seen2),
-            new Binding(statusStore, deficit),
-            new Binding(statusStore, excess));
-        foreach (var p in targets) status.Add(p, p, p, p, p);
-        engine.Add(status);
-        added.Add(status);
-        return added;
-    }
-
-    /// <summary>Wires a single-writer combinational fold tree comparing two
-    /// unary fields (<paramref name="have"/> and <paramref name="want"/>) of
-    /// any capacity up to 63 into <c>(needMore, haveExtra)</c> on
-    /// <paramref name="outStore"/>. Stays quiet in <see cref="Engine.Settle"/>
-    /// even when a mismatch persists, and never self-contests under
-    /// <see cref="Engine.StepTogether"/>.</summary>
-    public static IReadOnlyList<Wiring> ObserveMismatch(
-        Engine engine,
-        Surface haveSurface,
-        Field have,
-        Surface wantSurface,
-        Field want,
-        Store outStore,
-        int needMore,
-        int haveExtra,
-        params int[] positions)
-    {
-        ArgumentNullException.ThrowIfNull(engine);
-        ArgumentNullException.ThrowIfNull(haveSurface);
-        ArgumentNullException.ThrowIfNull(wantSurface);
-        ArgumentNullException.ThrowIfNull(outStore);
-        CheckUnary(have, nameof(have));
-        CheckUnary(want, nameof(want));
-        if (have.Shape.Bits != want.Shape.Bits)
-            throw new ArgumentException("Both unary fields must have the same capacity.", nameof(want));
-        var targets = positions.Length > 0 ? positions : Enumerable.Range(0, haveSurface.Count).ToArray();
-        var added = new List<Wiring>();
-
-        if (have.Planes.Count == 1)
-        {
-            var leaf = new Wiring(
-                TensionLaws.MismatchPair,
-                new Binding(haveSurface, have.Planes[0]),
-                new Binding(wantSurface, want.Planes[0]),
-                new Binding(outStore, needMore),
-                new Binding(outStore, haveExtra));
-            foreach (var p in targets) leaf.Add(p, p, p, p);
-            engine.Add(leaf);
-            added.Add(leaf);
-            return added;
-        }
-
-        var level = new List<(int Need, int Extra)>();
-        for (var k = 0; k < have.Planes.Count; k++)
-        {
-            var n = outStore.AddPlane();
-            var e = outStore.AddPlane();
-            var leaf = new Wiring(
-                TensionLaws.MismatchPair,
-                new Binding(haveSurface, have.Planes[k]),
-                new Binding(wantSurface, want.Planes[k]),
-                new Binding(outStore, n),
-                new Binding(outStore, e));
-            foreach (var p in targets) leaf.Add(p, p, p, p);
-            engine.Add(leaf);
-            added.Add(leaf);
-            level.Add((n, e));
-        }
-        while (level.Count > 1)
-        {
-            var next = new List<(int Need, int Extra)>();
-            for (var i = 0; i < level.Count; i += 2)
-            {
-                if (i + 1 >= level.Count)
-                {
-                    next.Add(level[i]);
-                    continue;
-                }
-                var isRoot = level.Count == 2;
-                var n = isRoot ? needMore : outStore.AddPlane();
-                var e = isRoot ? haveExtra : outStore.AddPlane();
-                var merge = new Wiring(
-                    TensionLaws.MismatchCombine,
-                    new Binding(outStore, level[i].Need),
-                    new Binding(outStore, level[i].Extra),
-                    new Binding(outStore, level[i + 1].Need),
-                    new Binding(outStore, level[i + 1].Extra),
-                    new Binding(outStore, n),
-                    new Binding(outStore, e));
-                foreach (var p in targets) merge.Add(p, p, p, p, p, p);
-                engine.Add(merge);
-                added.Add(merge);
-                next.Add((n, e));
-            }
-            level = next;
-        }
-        return added;
-    }
-
-    // ---- Structural reads over existing planes and evidence ----
-
     /// <summary>Pairs of live rows within the same wiring that bind identical
     /// underlying positions across every role: structural redundancy.</summary>
     public static IReadOnlyList<DuplicateRow> Duplicates(Engine engine)
@@ -315,8 +71,6 @@ public static class Tension
             }
         return joined;
     }
-
-    // ---- Uniform tension profile and admissibility ----
 
     /// <summary>Reads all tension tiers of <paramref name="engine"/> from its
     /// planes and evidence without storing hidden state outside the encoding.</summary>
@@ -484,8 +238,26 @@ public static class Tension
             var lowered = StrictlyBetterWithin(before, after);
             return new Admissibility(lowered || allowNeutral, lowered, 0);
         }
-        // Covered by an explicit tension loan.
         return new Admissibility(loanUsed > 0, false, loanUsed);
+    }
+
+    /// <summary>Live active bits of <paramref name="engine"/>: live positions
+    /// times nonconstant planes across its owned stores plus distinct law bits.
+    /// Used by <see cref="Measure"/> on forks (where <see cref="Transport.Measure"/>
+    /// cannot serialize workspace bindings) so trials compare on one scale.</summary>
+    public static long ActiveBits(Engine engine)
+    {
+        ArgumentNullException.ThrowIfNull(engine);
+        long bits = 0;
+        foreach (var store in engine.Stores)
+        {
+            var nonConstant = 0;
+            for (var p = 0; p < store.PlaneCount; p++)
+                if (!store.IsConstantPlane(p)) nonConstant++;
+            bits += (long)store.Live.Count * nonConstant;
+        }
+        foreach (var law in engine.Wirings.Select(w => w.Law).Distinct()) bits += law.BitCount;
+        return bits;
     }
 
     private static bool StrictlyBetterWithin(TensionProfile before, TensionProfile after) =>
@@ -582,25 +354,6 @@ public static class Tension
         engine.Parent is null &&
         engine.Wirings.All(w => w.Bindings.All(b => b.Surface.Underlying is not Workspace and not Gap));
 
-    /// <summary>Live active bits of <paramref name="engine"/>: live positions
-    /// times nonconstant planes across its owned stores plus distinct law bits.
-    /// Used by <see cref="Measure"/> on forks (where <see cref="Transport.Measure"/>
-    /// cannot serialize workspace bindings) so trials compare on one scale.</summary>
-    public static long ActiveBits(Engine engine)
-    {
-        ArgumentNullException.ThrowIfNull(engine);
-        long bits = 0;
-        foreach (var store in engine.Stores)
-        {
-            var nonConstant = 0;
-            for (var p = 0; p < store.PlaneCount; p++)
-                if (!store.IsConstantPlane(p)) nonConstant++;
-            bits += (long)store.Live.Count * nonConstant;
-        }
-        foreach (var law in engine.Wirings.Select(w => w.Law).Distinct()) bits += law.BitCount;
-        return bits;
-    }
-
     private static (Surface Home, int Index) Identity(Surface surface, int index)
     {
         var resolved = surface.Underlying;
@@ -619,37 +372,30 @@ public static class Tension
             if (!ReferenceEquals(a[i].Home, b[i].Home) || a[i].Index != b[i].Index) return false;
         return true;
     }
-
-    private static void CheckUnary(Field field, string paramName)
-    {
-        ArgumentNullException.ThrowIfNull(field, paramName);
-        if (!field.Shape.IsUnary) throw new ArgumentException("A unary field is needed.", paramName);
-    }
 }
 
-/// <summary>Descriptor for a surface (store or fork workspace) holding material
-/// value and/or tension fields (<c>T+</c>, <c>T−</c>), used only by host
-/// diagnostic reads.</summary>
+/// <summary>Host descriptor for a surface (store or fork workspace) holding
+/// material value and/or tension fields (<c>T+</c>, <c>T−</c>).</summary>
 public sealed record TensionSite(Surface Surface, Field? Value = null, Field? Plus = null, Field? Minus = null);
 
-/// <summary>Descriptor pairing an open value's supports with the demand plane
-/// that requires them to settle.</summary>
+/// <summary>Host descriptor pairing an open value's supports with the demand
+/// plane that requires them to settle.</summary>
 public sealed record TensionDemand(Supports Supports, Plane Demand);
 
-/// <summary>Descriptor for a two-faced goal mismatch (unary deficit and excess
-/// fields) on a surface.</summary>
+/// <summary>Host descriptor for a two-faced goal mismatch (unary deficit and
+/// excess fields) on a surface.</summary>
 public sealed record TensionGoal(Surface Surface, Field? Deficit = null, Field? Excess = null);
 
-/// <summary>Descriptor for a slow-clock unary streak counter (persistent
+/// <summary>Host descriptor for a slow-clock unary streak counter (persistent
 /// tension or idle row count) and the threshold at which it fires.</summary>
 public sealed record StreakWatch(Surface Surface, Field Streak, int Threshold);
 
 /// <summary>Two live rows of one wiring binding identical underlying positions.</summary>
 public sealed record DuplicateRow(Wiring Wiring, int FirstRow, int DuplicateRowIndex);
 
-/// <summary>A snapshot of tension across every tier of a local structure.
-/// <see cref="MaterialPlus"/> and <see cref="MaterialMinus"/> are kept apart
-/// and never netted.</summary>
+/// <summary>A host-read snapshot of tension across every tier of a local
+/// structure. <see cref="MaterialPlus"/> and <see cref="MaterialMinus"/> are
+/// kept apart and never netted.</summary>
 public sealed record TensionProfile(
     int Hard,
     int Obligation,

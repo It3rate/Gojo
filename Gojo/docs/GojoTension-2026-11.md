@@ -379,75 +379,90 @@ scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
 ## 8. First steps in EncodingC (implemented on branch `tension_neon`)
 
 On branch `tension_neon`, the six steps below plus slow-clock structural
-adaptation fixtures are **implemented** as exploratory EncodingC mechanisms
-in [`Unary.cs`](../../Gojo.EncodingC/Flow/Unary.cs),
-[`TensionLaws.cs`](../../Gojo.EncodingC/Laws/TensionLaws.cs), and
-[`Tension.cs`](../../Gojo.EncodingC/Workspaces/Tension.cs), covered by
-`TensionMaterialTests`, `TensionGapTests`, `TensionInformationTests`,
-`TensionContentionTests`, `TensionProfileTests`, and `TensionAdaptationTests`.
+adaptation and the Corner Shop (#1) field test are **implemented** as
+exploratory EncodingC mechanisms, cleanly split between **pure structural
+builders** in [`Flow/Tension.cs`](../../Gojo.EncodingC/Flow/Tension.cs),
+[`Flows.cs`](../../Gojo.EncodingC/Flow/Flows.cs),
+[`Settling.cs`](../../Gojo.EncodingC/Laws/Settling.cs), and
+[`TensionLaws.cs`](../../Gojo.EncodingC/Laws/TensionLaws.cs) (100% bit tables
+and store planes, zero host logic at runtime, zero `Transport` wire-format
+changes) and **host-side diagnostics** in
+[`TensionDiagnostics.cs`](../../Gojo.EncodingC/Workspaces/TensionDiagnostics.cs),
+covered by `TensionMaterialTests`, `TensionGapTests`,
+`TensionInformationTests`, `TensionContentionTests`, `TensionProfileTests`,
+`TensionAdaptationTests`, and `TensionCornerShopTests`.
 
-1. **Material tension** (`TensionMaterialTests`):
-   - `T+` and `T−` are ordinary unary fields at a site; `Unary.Offer` spills
-     blocked overflow into `T+` and `Unary.Draw` records unmet draws in `T−`,
-     reporting broken counts without repairing them.
-   - `Unary.Room` exposes a bounded unary count's anti-fill (`capacity − value`)
-     as a zero-copy `Flipped` view with reversed planes, kept distinct from
-     reorientation.
-   - `Tension.Absorb`, `Tension.Draw`, and `Tension.Cancel` all collapse to
-     `Flows.Move` + `Unary.Room`, conserving `value + T+`, `value − T−`, and
-     `T+ − T−` with no automatic netting. All three save/load through
-     `Transport` and isolate inside `Fork`.
-2. **The two-faced gap** (`TensionGapTests`):
-   - `TensionLaws.Gap(capacity)` is an exact 4-role `RelationLaw` over
-     `(have, want, deficit, excess)` for small widths, narrowing open supports
-     in both directions.
-   - `TensionLaws.MismatchFold` + `Tension.ObserveMismatch` fold arbitrary
-     unary widths (up to 63) bit by bit into two direction presence bits
-     `(needMore, haveExtra)`—directly steering valves without hitting
-     `Law.MaxBits` and exposing broken unary counts as `(1, 1)`.
-3. **Information tension as a law** (`TensionInformationTests`):
-   - Rather than an exponential `2^k` truth table over support planes (which
-     hits `Law.MaxBits` above 8 values), `TensionLaws.SupportFold` folds any
-     support width (up to 64 values) bit by bit into two presence planes
-     `(seen1, seen2)`: `(0, 0)` contradiction, `(1, 0)` settled, `(1, 1)` open.
-   - `TensionLaws.DemandedStatus` masks by a demand plane (`deficit = demand & seen2`,
-     `excess = demand & ~seen1`), so openness without demand raises zero
-     tension and a coarse demanded read settles quietly while fine values stay
-     open.
-4. **The tension tuple and admissibility** (`TensionProfileTests`):
-   - `Tension.Measure` reads all tiers (`Hard`, `Obligation`, `MaterialPlus`,
-     `MaterialMinus`, `Goal`, `Contention`, `StructuralDeficit`,
-     `StructuralExcess`, `DescriptionBits`) from existing planes, supports, and
-     evidence without netting `T+` and `T−`.
-   - `Tension.AdmissibleStrict` implements strict Optimality Theory ranking;
-     `Tension.AdmissibleViable` implements Ashby viability thresholds (`Hard == 0`
-     always strictly dominant; bounded tiers allow lossy crystallization that
-     cuts redundancy/description length within tolerance) with explicit,
-     accounted `loanBudget` / `LoanUsed`.
+1. **Material tension & dual-conserving fulfillment** (`TensionMaterialTests`,
+   `TensionCornerShopTests`):
+   - `T+` and `T−` are ordinary unary fields at a site; `Tension.Receive` /
+     `Tension.Demand` enter strictly into `T+` / `T−` first (Axiom 5), and
+     `Unary.Offer` / `Unary.Draw` spill blocked overflow or unmet draw into
+     `T+` / `T−` while reporting broken counts without repairing them.
+   - `Field.Room` / `Unary.Room` exposes a bounded unary count's anti-fill
+     (`capacity − value`) as a zero-copy `Flipped` view with reversed planes,
+     kept distinct from reorientation.
+   - `Tension.Absorb`, `Tension.Draw`, and `Tension.Cancel` collapse to
+     `Flows.Move` + `Field.Room`; `Flows.Fulfill` (both 1:1 and calibrated
+     `take`/`clear`/`give`) transfers stock while clearing an outstanding
+     commitment (`T−` backorder or open `OnOrder`) in one atomic transition
+     under dual conservation; `Flows.GatedConvert` and `Flows.When` compose
+     gated routes. All round-trip through `Transport` and `Transport.SaveLocals`.
+2. **Two-faced gap, accumulation & data-driven thresholds** (`TensionGapTests`,
+   `TensionCornerShopTests`):
+   - `TensionLaws.Gap(capacity)` is an exact 4-role `RelationLaw` narrowing
+     open supports in both directions; `TensionLaws.TrackGap(capacity)` updates
+     concrete small-width gaps cleanly in place.
+   - Single-writer combinational trees (`MismatchPair`, `MismatchCombine`)
+     behind `Tension.ObserveMismatch` and `Tension.ObserveThreshold` scale up
+     to capacity 63 without hitting `Law.MaxBits`, stay quiet in `Settle()`
+     even when stuck, never self-contest in `StepTogether()`, and read
+     thresholds stored as ordinary data planes (stepping stone toward numeric
+     support). `Tension.Accumulate` (`TensionLaws.Sum`) emulates unary
+     accumulation (`shelf + dock` vs. `target + backorder`) purely in planes.
+3. **Information tension & truth-maintained choices** (`TensionInformationTests`,
+   `TensionCornerShopTests`):
+   - Single-writer combinational fold trees (`SupportLeaf`, `SupportPair`,
+     `SupportCombine`) + `DemandedStatus` fold any support width (up to 64
+     values) into `(seen1, seen2)` and mask by a demand plane—with zero
+     host-computed `Surface` views and zero `Transport` changes.
+   - `Settling.Justify(reasons)` (Doyle truth maintenance) holds a possibility
+     bit while its reasons hold, automatically reopening when a closed supplier
+     returns while staying quiet in `Settle()` and safe in `StepTogether()`.
+4. **Tension profiles, admissibility & in-machine ranking**
+   (`TensionProfileTests`, `TensionCornerShopTests`):
+   - `TensionDiagnostics.Measure` reads all tiers (`Hard`, `Obligation`,
+     `MaterialPlus`, `MaterialMinus`, `Goal`, `Contention`,
+     `StructuralDeficit`, `StructuralExcess`, `DescriptionBits`) from existing
+     planes, supports, and evidence without netting `T+` and `T−`.
+   - `TensionDiagnostics.AdmissibleStrict` implements strict Optimality Theory
+     ranking; `TensionDiagnostics.AdmissibleViable` implements Ashby viability
+     thresholds (`Hard == 0` always strictly dominant) with explicit
+     `loanBudget` / `LoanUsed`.
+   - `TensionLaws.RankCombine` demonstrates combinational lexicographic tier
+     ranking directly inside bit tables without host code.
 5. **Structural reads and slow-clock adaptation** (`TensionProfileTests`,
-   `TensionAdaptationTests`):
-   - `Tension.Duplicates` detects duplicate live rows by resolved underlying
-     identity; `Tension.Snapshot` / `Tension.Joined` detect co-moving positions
-     across a snapshot window.
-   - `TensionLaws.Streak`, `RecruitAt`, and `RetireAt` count persistent tension
-     and idle streaks on a slow clock and recruit/retire rows through
-     `Rows.Life`, with `Fork` + `Closure.Of` localizing and validating trials
-     before committing (plus `Fork.Rebind` extended to rebind wiring `Rows` and
-     `Rows.Life` inside forks).
-   - `TensionLaws.YieldByFirmness` resolves contradictions inside a `Closure`
-     cone by unary firmness (retiring weaker assumptions while keeping hard
-     observations and leaving equal-firmness ties visible).
+   `TensionAdaptationTests`, `TensionCornerShopTests`):
+   - `TensionDiagnostics.Duplicates` and `Snapshot` / `Joined` detect duplicate
+     rows and co-moving positions.
+   - `TensionLaws.Streak`, `RecruitAt`, and `RetireAt` (plus data-driven
+     `ObserveThreshold`) recruit spare routes on persistent tension and retire
+     saturated idle rows via `Rows.Life`, with `Fork` (including opt-in
+     `isolatePorts: true` for non-committing supplier trials) and `Closure.Of`
+     / `Question.Pursue` localizing trials.
+   - `TensionLaws.YieldByFirmness` resolves contradictions inside a cone by
+     unary firmness while preserving equal-firmness ties.
    - `Closure.Common` exposes candidate split boundaries and `Engine.Fuse`
      combines coupled structures with measured wire-bit reduction.
 6. **Contention resolution** (`TensionContentionTests`):
    - `TensionLaws.TurnStep` reads `Evidence.Contested` under `StepTogether` to
-     break open ties and alternate turns cleanly with full conservation, saving
-     and restoring via `Transport`.
-   - `TensionLaws.YieldTurn` resolves the starvation face by yielding a turn
-     bit when the holder is idle (`Changed = 0`) and a waiting consumer holds
-     unmet `T−`.
+     break open ties and alternate turns cleanly with full conservation.
+   - `TensionLaws.YieldTurn` resolves starvation by yielding a turn bit when
+     the holder is idle (`Changed = 0`) against a waiting consumer's `T−`.
 
 **Still open (documented direction / not built):**
+- Replacing emulated unary accumulation (`TensionLaws.Sum`) and unary
+  thresholds with native numeric planes once numeric support lands in
+  EncodingC (keeping the same plane-level interfaces).
 - Automatic host-free restructuring policy (deciding *which* split, merge, or
   probe to trial without host orchestration, and splitting one `Engine` into
   two automatically).

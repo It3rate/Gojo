@@ -3,13 +3,27 @@ using Xunit;
 namespace Gojo.EncodingC.Tests;
 
 /// <summary>Real-world scenario #1 — Corner shop: stock, deliveries and
-/// backorders. Exercises material tension (<c>T+</c> dock pressure, <c>T−</c>
-/// backorders), calibrated gated case-to-single conversion across supplier
-/// ports, in-flight reorder suppression, open supplier choice narrowed by
-/// facts, demanded information tension settling quietly even when stuck,
-/// isolated-port <see cref="Fork"/> supplier trials, batch provenance
-/// <see cref="Closure"/> with firmness-based conflict resolution, duplicate
-/// reorder-rule detection, and ranked admissibility.</summary>
+/// backorders. Exercises the full bit-level tension system across multi-owner
+/// local structures:
+/// <list type="bullet">
+/// <item>Strict Axiom 5 material entry (<see cref="Tension.Receive"/> /
+/// <see cref="Tension.Demand"/>), <see cref="Field.Room"/>, and calibrated
+/// <see cref="Flows.GatedConvert"/> / <see cref="Flows.Fulfill"/>;</item>
+/// <item>Emulated unary accumulation (<see cref="Tension.Accumulate"/>:
+/// <c>shelf + dock</c> vs. <c>target + backorder</c>) compared via single-writer
+/// combinational <see cref="Tension.ObserveMismatch"/> trees;</item>
+/// <item>Truth-maintained supplier choice (<see cref="Settling.Justify"/>) vs.
+/// monotonic narrowing when a closed supplier reopens;</item>
+/// <item>Three-owner customer pickup backpressure, supplier disconnect/reconnect
+/// with open <c>OnOrder</c> commitments, and per-step byte-for-byte
+/// <see cref="Transport.SaveLocals"/> equivalence;</item>
+/// <item>Data-driven unary thresholds (<see cref="Tension.ObserveThreshold"/>)
+/// and in-machine lexicographic ranking (<see cref="TensionLaws.RankCombine"/>)
+/// as stepping stones toward numeric support;</item>
+/// <item>Isolated-port <see cref="Fork"/> trials, <see cref="Question.Pursue"/>
+/// batch provenance with <see cref="TensionLaws.YieldByFirmness"/>, duplicate
+/// rule retirement, and multi-product limited-dock isolation.</item>
+/// </list></summary>
 public sealed class TensionCornerShopTests
 {
     private const int Cap = 4;
@@ -30,6 +44,7 @@ public sealed class TensionCornerShopTests
         public required Socket SocketA { get; init; }
         public required Socket SocketB { get; init; }
 
+        public required Tension Stock { get; init; }
         public required Field Cases { get; init; }
         public required Field Shelf { get; init; }
         public required Field Dock { get; init; }
@@ -41,12 +56,12 @@ public sealed class TensionCornerShopTests
         public required Wiring DeliverA { get; init; }
         public required Wiring DeliverB { get; init; }
 
-        // ShopStore plane indices
-        public const int NeedMorePlane = 16;
-        public const int HaveExtraPlane = 17;
-        public const int NeedAndClearPlane = 18;
-        public const int OrderAPlane = 19;
-        public const int OrderBPlane = 20;
+        // ShopStore fixed control planes (after unary fields & accumulated sums)
+        public required int NeedMorePlane { get; init; }
+        public required int HaveExtraPlane { get; init; }
+        public required int NeedAndClearPlane { get; init; }
+        public required int OrderAPlane { get; init; }
+        public required int OrderBPlane { get; init; }
 
         // RouteStore plane indices (plane 0 = route code, 1..2 = RouteSupports)
         public const int AvailAPlane = 3;
@@ -68,10 +83,11 @@ public sealed class TensionCornerShopTests
             Backorder.Read(ShopStore, product)!.Value;
     }
 
-    /// <summary>Builds the three-structure corner shop world: Supplier A,
-    /// Supplier B (each exposing case stock through a port), and the Shop
-    /// connected through sockets, with cases unpacked 1:2 into dock singles
-    /// only when shelf is below target and dock is clear.</summary>
+    /// <summary>Builds the three-structure corner shop: Supplier A and
+    /// Supplier B behind ports, and the Shop with unary accumulation
+    /// (<c>shelf + dock</c> vs. <c>target + backorder</c>), combinational
+    /// mismatch/support observers, optional <see cref="Settling.Justify"/>
+    /// supplier truth maintenance, and 1:2 case-to-single gated delivery.</summary>
     private static ShopWorld BuildShop(
         int casesA,
         int casesB,
@@ -80,7 +96,8 @@ public sealed class TensionCornerShopTests
         int initialShelf = 0,
         int targetLevel = 4,
         int shelfCapacity = Cap,
-        int products = 1)
+        int products = 1,
+        bool justifyRoute = false)
     {
         var cases = new Field(Shape.Unary(Cap), 0, 1, 2, 3);
 
@@ -102,14 +119,23 @@ public sealed class TensionCornerShopTests
         var socketB = Socket.For(portB);
         socketB.Plug(portB);
 
-        // ShopStore: 0..3 shelf (or subset up to shelfCapacity), 4..7 dock (T+), 8..11 backorder (T-), 12..15 target, 16..20 gates.
-        var shopStore = new Store(21, products);
-        var shelfPlanes = Enumerable.Range(0, shelfCapacity).ToArray();
-        var targetPlanes = Enumerable.Range(12, shelfCapacity).ToArray();
-        var shelf = new Field(Shape.Unary(shelfCapacity), shelfPlanes);
-        var dock = new Field(Shape.Unary(Cap), 4, 5, 6, 7);
-        var backorder = new Field(Shape.Unary(Cap), 8, 9, 10, 11);
-        var target = new Field(Shape.Unary(shelfCapacity), targetPlanes);
+        // ShopStore: shelf, dock (T+), backorder (T-), target, accumulated (shelf+dock) and (target+backorder), plus gate planes.
+        var shopStore = new Store(0, products);
+        Field AddUnary(int cap) => new(Shape.Unary(cap), [.. Enumerable.Range(0, cap).Select(_ => shopStore.AddPlane())]);
+
+        var shelf = AddUnary(shelfCapacity);
+        var stock = new Tension(shopStore, shelf, Cap);
+        var dock = stock.Plus;
+        var backorder = stock.Minus;
+        var target = AddUnary(shelfCapacity);
+        var effectiveStock = AddUnary(shelfCapacity + Cap);
+        var effectiveWant = AddUnary(shelfCapacity + Cap);
+        var needMorePlane = shopStore.AddPlane();
+        var haveExtraPlane = shopStore.AddPlane();
+        var needAndClearPlane = shopStore.AddPlane();
+        var orderAPlane = shopStore.AddPlane();
+        var orderBPlane = shopStore.AddPlane();
+
         for (var p = 0; p < products; p++)
         {
             shelf.Write(shopStore, p, initialShelf);
@@ -128,36 +154,53 @@ public sealed class TensionCornerShopTests
 
         var shop = new Engine().Hold(shopStore, routeStore);
 
-        // 1. Narrow open supplier choice from availability facts: choice=0 requires availA=1, choice=1 requires availB=1.
-        var availLaw = RelationLaw.FromPredicate(
-            [Shape.Bit, Shape.Bit, Shape.Bit],
-            t => (t[2] == 0 && t[0] == 1) || (t[2] == 1 && t[1] == 1));
-        var narrowRoute = new Wiring(
-            availLaw,
-            new Binding(routeStore, ShopWorld.AvailAPlane),
-            new Binding(routeStore, ShopWorld.AvailBPlane),
-            routeSupports.Variable);
-        for (var p = 0; p < products; p++) narrowRoute.Add(p, p, p);
-        shop.Add(narrowRoute);
+        // 1. Update supplier choice: either truth-maintained Justify (reopens when supplier returns) or monotonic RelationLaw narrowing.
+        if (justifyRoute)
+        {
+            var justA = new Wiring(Settling.Justify(1), new Binding(routeStore, ShopWorld.AvailAPlane), routeSupports.Possible(0));
+            var justB = new Wiring(Settling.Justify(1), new Binding(routeStore, ShopWorld.AvailBPlane), routeSupports.Possible(1));
+            for (var p = 0; p < products; p++)
+            {
+                justA.Add(p, p);
+                justB.Add(p, p);
+            }
+            shop.Add(justA).Add(justB);
+        }
+        else
+        {
+            var availLaw = RelationLaw.FromPredicate(
+                [Shape.Bit, Shape.Bit, Shape.Bit],
+                t => (t[2] == 0 && t[0] == 1) || (t[2] == 1 && t[1] == 1));
+            var narrowRoute = new Wiring(
+                availLaw,
+                new Binding(routeStore, ShopWorld.AvailAPlane),
+                new Binding(routeStore, ShopWorld.AvailBPlane),
+                routeSupports.Variable);
+            for (var p = 0; p < products; p++) narrowRoute.Add(p, p, p);
+            shop.Add(narrowRoute);
+        }
 
-        // 2. Compare shelf vs target -> NeedMore, HaveExtra (single-writer combinational tree).
-        Tension.ObserveMismatch(shop, shopStore, shelf, shopStore, target, shopStore, ShopWorld.NeedMorePlane, ShopWorld.HaveExtraPlane);
+        // 2. Accumulate effectiveStock = shelf + dock and effectiveWant = target + backorder in planes, then compare.
+        Tension.Accumulate(shop, shopStore, shelf, shopStore, dock, shopStore, effectiveStock);
+        Tension.Accumulate(shop, shopStore, target, shopStore, backorder, shopStore, effectiveWant);
+        Tension.ObserveMismatch(shop, shopStore, effectiveStock, shopStore, effectiveWant, shopStore, needMorePlane, haveExtraPlane);
 
-        // 3. In-flight suppression: only open a reorder when NeedMore=1 AND dock is empty (~dock[plane 0]).
+        // 3. In-flight suppression: only open a reorder when effectiveStock < effectiveWant AND dock is clear (~dock[0]).
+        var dockPlane0 = dock.Planes[0];
         var inFlightGate = new Wiring(
             TensionLaws.And,
-            new Binding(shopStore, ShopWorld.NeedMorePlane),
-            new Binding(new Flipped(shopStore, 4), 4),
-            new Binding(shopStore, ShopWorld.NeedAndClearPlane));
+            new Binding(shopStore, needMorePlane),
+            new Binding(new Flipped(shopStore, dockPlane0), dockPlane0),
+            new Binding(shopStore, needAndClearPlane));
         for (var p = 0; p < products; p++) inFlightGate.Add(p, p, p);
         shop.Add(inFlightGate);
 
-        // 4. Observe supplier choice under demand = NeedAndClear -> Seen1, Seen2, Deficit, Excess.
+        // 4. Observe supplier choice under demand = needAndClear -> Seen1, Seen2, Deficit, Excess.
         Tension.ObserveSupports(
             shop,
             routeSupports,
             shopStore,
-            ShopWorld.NeedAndClearPlane,
+            needAndClearPlane,
             routeStore,
             ShopWorld.Seen1Plane,
             ShopWorld.Seen2Plane,
@@ -166,16 +209,8 @@ public sealed class TensionCornerShopTests
 
         // 5. Uniquely settled route presence: ChosenA = possibleA & ~Seen2, ChosenB = possibleB & ~Seen2.
         var notTwo = new Flipped(routeStore, ShopWorld.Seen2Plane);
-        var selectA = new Wiring(
-            TensionLaws.And,
-            new Binding(routeStore, routeSupports.Planes[0]),
-            new Binding(notTwo, ShopWorld.Seen2Plane),
-            new Binding(routeStore, ShopWorld.ChosenAPlane));
-        var selectB = new Wiring(
-            TensionLaws.And,
-            new Binding(routeStore, routeSupports.Planes[1]),
-            new Binding(notTwo, ShopWorld.Seen2Plane),
-            new Binding(routeStore, ShopWorld.ChosenBPlane));
+        var selectA = new Wiring(TensionLaws.And, routeSupports.Possible(0), new Binding(notTwo, ShopWorld.Seen2Plane), new Binding(routeStore, ShopWorld.ChosenAPlane));
+        var selectB = new Wiring(TensionLaws.And, routeSupports.Possible(1), new Binding(notTwo, ShopWorld.Seen2Plane), new Binding(routeStore, ShopWorld.ChosenBPlane));
         for (var p = 0; p < products; p++)
         {
             selectA.Add(p, p, p);
@@ -183,17 +218,9 @@ public sealed class TensionCornerShopTests
         }
         shop.Add(selectA).Add(selectB);
 
-        // 6. Supplier order gates: OrderA = NeedAndClear & ChosenA, OrderB = NeedAndClear & ChosenB.
-        var gateA = new Wiring(
-            TensionLaws.And,
-            new Binding(shopStore, ShopWorld.NeedAndClearPlane),
-            new Binding(routeStore, ShopWorld.ChosenAPlane),
-            new Binding(shopStore, ShopWorld.OrderAPlane));
-        var gateB = new Wiring(
-            TensionLaws.And,
-            new Binding(shopStore, ShopWorld.NeedAndClearPlane),
-            new Binding(routeStore, ShopWorld.ChosenBPlane),
-            new Binding(shopStore, ShopWorld.OrderBPlane));
+        // 6. Supplier order gates: OrderA = needAndClear & ChosenA, OrderB = needAndClear & ChosenB.
+        var gateA = new Wiring(TensionLaws.And, new Binding(shopStore, needAndClearPlane), new Binding(routeStore, ShopWorld.ChosenAPlane), new Binding(shopStore, orderAPlane));
+        var gateB = new Wiring(TensionLaws.And, new Binding(shopStore, needAndClearPlane), new Binding(routeStore, ShopWorld.ChosenBPlane), new Binding(shopStore, orderBPlane));
         for (var p = 0; p < products; p++)
         {
             gateA.Add(p, p, p);
@@ -203,16 +230,8 @@ public sealed class TensionCornerShopTests
 
         // 7. Calibrated gated delivery across supplier ports: 1 case -> 2 singles onto dock (T+).
         var caseToSingles = Flows.GatedConvert(take: 1, give: 2, sourceCapacity: Cap, targetCapacity: Cap);
-        var deliverA = new Wiring(
-            caseToSingles,
-            new Binding(socketA, 0, 1, 2, 3),
-            new Binding(shopStore, ShopWorld.OrderAPlane),
-            new Binding(shopStore, [.. dock.Planes]));
-        var deliverB = new Wiring(
-            caseToSingles,
-            new Binding(socketB, 0, 1, 2, 3),
-            new Binding(shopStore, ShopWorld.OrderBPlane),
-            new Binding(shopStore, [.. dock.Planes]));
+        var deliverA = new Wiring(caseToSingles, new Binding(socketA, 0, 1, 2, 3), new Binding(shopStore, orderAPlane), dock.On(shopStore));
+        var deliverB = new Wiring(caseToSingles, new Binding(socketB, 0, 1, 2, 3), new Binding(shopStore, orderBPlane), dock.On(shopStore));
         for (var p = 0; p < products; p++)
         {
             deliverA.Add(p, p, p);
@@ -221,14 +240,8 @@ public sealed class TensionCornerShopTests
         shop.Add(deliverA).Add(deliverB);
 
         // 8. Absorb dock singles (T+) onto shelf and pay customer backorders (T-) from shelf.
-        var absorb = Tension.Absorb(shopStore, dock, shelf);
-        var payBackorder = Tension.Draw(shopStore, backorder, shelf);
-        for (var p = 0; p < products; p++)
-        {
-            absorb.Add(p, p);
-            payBackorder.Add(p, p);
-        }
-        shop.Add(absorb).Add(payBackorder);
+        var all = Plane.Ones(products);
+        shop.Add(stock.Absorb(all)).Add(stock.Draw(all));
 
         return new ShopWorld
         {
@@ -243,6 +256,7 @@ public sealed class TensionCornerShopTests
             RouteStore = routeStore,
             SocketA = socketA,
             SocketB = socketB,
+            Stock = stock,
             Cases = cases,
             Shelf = shelf,
             Dock = dock,
@@ -252,35 +266,38 @@ public sealed class TensionCornerShopTests
             InFlightGate = inFlightGate,
             DeliverA = deliverA,
             DeliverB = deliverB,
+            NeedMorePlane = needMorePlane,
+            HaveExtraPlane = haveExtraPlane,
+            NeedAndClearPlane = needAndClearPlane,
+            OrderAPlane = orderAPlane,
+            OrderBPlane = orderBPlane,
         };
     }
 
-    /// <summary>Full material + conversion + reorder loop across three local
-    /// structures: Supplier A is out, narrowing selects Supplier B, cases unpack
-    /// 1:2 onto the dock only when the dock is clear, backorders are paid, the
-    /// shelf hits target with zero over-ordering on extra steps, odd-target
-    /// case remainders stay visible in dock <c>T+</c> while settling quietly,
-    /// and the entire three-structure world saves and loads via
+    /// <summary>Full material + accumulated comparison + calibrated 1:2 case
+    /// delivery loop across three local structures: customer orders enter
+    /// strictly as <c>T−</c> (<see cref="Tension.Demand"/>), <c>shelf + dock</c>
+    /// is compared in planes against <c>target + backorder</c>, cases deliver
+    /// with zero reorder spam and exact conservation at every step, extra steps
+    /// draw nothing further, odd-target remainders stay visible in dock <c>T+</c>
+    /// while settling quietly, and the three-structure world round-trips through
     /// <see cref="Transport.SaveLocals"/>.</summary>
     [Fact]
     public void CasesDeliverToDockAbsorbToShelfPayBackordersWithoutReorderSpam()
     {
         var world = BuildShop(casesA: 3, casesB: 4, availA: false, availB: true, initialShelf: 0, targetLevel: 4);
 
-        // Customer places 2 orders against an empty shelf -> 2 backorders in T-.
-        var draw1 = Unary.Draw(world.ShopStore, world.Shelf, world.Backorder, Plane.Ones(1));
-        var draw2 = Unary.Draw(world.ShopStore, world.Shelf, world.Backorder, Plane.Ones(1));
-        Assert.True(draw1.Held[0] && draw2.Held[0]);
+        // Strict Axiom 5 entry: customer orders enter as T- debt directly via Stock.Demand.
+        Assert.True(world.Stock.Demand(Plane.Ones(1)).Taken[0]);
+        Assert.True(world.Stock.Demand(Plane.Ones(1)).Taken[0]);
         Assert.Equal((0, 2), (world.Shelf.Read(world.ShopStore, 0), world.Backorder.Read(world.ShopStore, 0)));
 
-        // Save the whole 3-structure world before running so we can verify Transport round-trip.
         var saved = Transport.SaveLocals([world.SupplierA, world.SupplierB, world.Shop]);
         var restored = Transport.LoadLocals(saved);
 
         var conserved = world.NetUnits(); // 2*3 + 2*4 + 0 + 0 - 2 = 12
         Assert.Equal(12, conserved);
 
-        // Step one by one until quiet, checking exact conservation at every single step.
         int? settledStep = null;
         for (var s = 1; s <= 24; s++)
         {
@@ -294,18 +311,17 @@ public sealed class TensionCornerShopTests
         }
         Assert.NotNull(settledStep);
 
-        // Supplier B delivered exactly 3 cases (6 singles = 2 backorders + 4 shelf); Supplier A untouched; 1 case remains at B.
         Assert.Equal(3, world.Cases.Read(world.SupAStore, 0));
-        Assert.Equal(1, world.Cases.Read(world.SupBStore, 0));
+        Assert.Equal(1, world.Cases.Read(world.SupBStore, 0)); // exactly 3 cases (6 singles = 2 backorders + 4 shelf)
         Assert.Equal((4, 0, 0), (world.Shelf.Read(world.ShopStore, 0), world.Dock.Read(world.ShopStore, 0), world.Backorder.Read(world.ShopStore, 0)));
-        Assert.False(world.ShopStore.Read(ShopWorld.NeedMorePlane, 0));
+        Assert.False(world.ShopStore.Read(world.NeedMorePlane, 0));
 
-        // Extra steps with spare stock still at Supplier B must draw nothing further!
+        // Extra steps with stock still available at Supplier B must draw nothing further.
         world.Shop.Run(6);
         Assert.Equal(1, world.Cases.Read(world.SupBStore, 0));
         Assert.Equal((4, 0, 0), (world.Shelf.Read(world.ShopStore, 0), world.Dock.Read(world.ShopStore, 0), world.Backorder.Read(world.ShopStore, 0)));
 
-        // Restored three-structure world settles identically from bits alone.
+        // Restored three-structure world settles identically from raw bits alone.
         Assert.NotNull(restored[2].Engine.Settle(24));
         var restoredShopStore = restored[2].Stores.Single(s => s.PlaneCount == world.ShopStore.PlaneCount);
         var restoredSupBStore = restored[1].Stores[0];
@@ -313,48 +329,305 @@ public sealed class TensionCornerShopTests
         Assert.Equal((4, 0, 0), (world.Shelf.Read(restoredShopStore, 0), world.Dock.Read(restoredShopStore, 0), world.Backorder.Read(restoredShopStore, 0)));
 
         // Odd target (3) with shelf capacity 3 and 1:2 cases: 2 cases (4 singles) fill shelf to 3
-        // and leave the 1 leftover single visible in dock T+ while still settling quietly!
+        // and leave 1 leftover single visible in dock T+ while settling quietly.
         var oddWorld = BuildShop(casesA: 0, casesB: 3, availA: false, availB: true, initialShelf: 0, targetLevel: 3, shelfCapacity: 3);
         Assert.NotNull(oddWorld.Shop.Settle(24));
-        Assert.Equal(1, oddWorld.Cases.Read(oddWorld.SupBStore, 0)); // 2 cases taken -> 1 left
+        Assert.Equal(1, oddWorld.Cases.Read(oddWorld.SupBStore, 0));
         Assert.Equal((3, 1, 0), (oddWorld.Shelf.Read(oddWorld.ShopStore, 0), oddWorld.Dock.Read(oddWorld.ShopStore, 0), oddWorld.Backorder.Read(oddWorld.ShopStore, 0)));
     }
 
+    /// <summary>Contrast between monotonic narrowing and truth-maintained
+    /// justification (<see cref="Settling.Justify"/>) when a closed supplier
+    /// reopens mid-run: under monotonic narrowing, Supplier A stays ruled out
+    /// even after reopening and the shop finishes with unpaid backorders while
+    /// A holds stock; under <see cref="Settling.Justify"/>, Supplier A reopens
+    /// automatically, delivers to fill the backorders, and settles quietly.</summary>
+    [Fact]
+    public void JustifiedSupplierChoiceReopensWhenClosedSupplierRestocks()
+    {
+        (int Shelf, int Backorder, int CasesA, int CasesB) Run(bool justify)
+        {
+            // Start: A closed (3 cases), B open (2 cases). Target = 4.
+            var world = BuildShop(casesA: 3, casesB: 2, availA: false, availB: true, initialShelf: 0, targetLevel: 4, justifyRoute: justify);
+            Assert.NotNull(world.Shop.Settle(24));
+            Assert.Equal((4, 0, 3, 0), (world.Shelf.Read(world.ShopStore, 0)!.Value, world.Backorder.Read(world.ShopStore, 0)!.Value, world.Cases.Read(world.SupAStore, 0)!.Value, world.Cases.Read(world.SupBStore, 0)!.Value));
+
+            // Now Supplier B closes (empty) and Supplier A reopens; 4 new customer orders arrive!
+            world.RouteStore.Write(ShopWorld.AvailAPlane, 0, true);
+            world.RouteStore.Write(ShopWorld.AvailBPlane, 0, false);
+            for (var i = 0; i < 4; i++) world.Stock.Demand(Plane.Ones(1));
+            Assert.NotNull(world.Shop.Settle(24));
+
+            return (
+                world.Shelf.Read(world.ShopStore, 0)!.Value,
+                world.Backorder.Read(world.ShopStore, 0)!.Value,
+                world.Cases.Read(world.SupAStore, 0)!.Value,
+                world.Cases.Read(world.SupBStore, 0)!.Value);
+        }
+
+        // Monotonic narrowing: A stayed ruled out, so B closing leaves contradiction; 4 orders drain shelf to 0, never restocked while A holds 3 cases!
+        var narrowed = Run(justify: false);
+        Assert.Equal((0, 0, 3, 0), narrowed);
+
+        // Justified truth maintenance: A reopened automatically and delivered 2 cases to restore shelf to target (4), with 1 case left at A!
+        var justified = Run(justify: true);
+        Assert.Equal((4, 0, 1, 0), justified);
+    }
+
+    /// <summary>Three-owner world (Supplier, Shop, Customer) exercising
+    /// dual-conserving <see cref="Flows.Fulfill(int, int, int)"/> at both
+    /// boundaries: customer pickup backpressure holds backorders even with
+    /// stock on the shelf, supplier receipt atomically clears an open
+    /// <c>OnOrder</c> commitment across disconnect/reconnect and target drops,
+    /// and every step matches byte-for-byte after
+    /// <see cref="Transport.SaveLocals"/> / <see cref="Transport.LoadLocals"/>.</summary>
+    [Fact]
+    public void ThreeOwnerCustomerPickupBackpressureAndSupplierDisconnectSurviveRestore()
+    {
+        const int ShelfCap = 2;
+        const int DockCap = 1;
+        const int SupCap = 3;
+        const int ReqCap = 2;
+        const int PickupCap = 1;
+        const int InvCap = ShelfCap + DockCap;
+
+        Field UnaryField(int cap) => new(Shape.Unary(cap), [.. Enumerable.Range(0, cap)]);
+
+        // Supplier owner
+        var supField = UnaryField(SupCap);
+        var supStore = new Store(SupCap, 1);
+        supField.Write(supStore, 0, SupCap);
+        var supplier = new Engine().Hold(supStore);
+        var supPort = supStore.Publish([0], [.. supField.Planes]);
+        var supSocket = Socket.For(supPort);
+        supSocket.Plug(supPort);
+
+        // Shop stores (ShelfCap=2, DockCap=1, BackorderCap=ReqCap=2)
+        var shopSite = new Store(ShelfCap + DockCap + ReqCap, 1);
+        var shelfField = new Field(Shape.Unary(ShelfCap), 0, 1);
+        var dockField = new Field(Shape.Unary(DockCap), 2);
+        var backorderField = new Field(Shape.Unary(ReqCap), 3, 4);
+        var shopTension = new Tension(shopSite, shelfField, dockField, backorderField);
+        shopTension.Receive(Plane.Ones(1)); // 1 unit already waiting on full dock!
+
+        var pickupStore = new Store(PickupCap, 1);
+        var pickupBit = Field.Bit(0);
+        var pickupPort = pickupStore.Publish([0], [0]);
+        var pickupSocket = Socket.For(pickupPort);
+        pickupSocket.Plug(pickupPort);
+
+        var controls = new Store(1, 2); // pos 0 = unloading gate, pos 1 = OnOrder (cap 1)
+        var invField = UnaryField(InvCap);
+        var comparison = new Store(InvCap, 4); // pos 0 = have (shelf+dock), pos 1 = want (target), pos 2 = deficit, pos 3 = excess
+        invField.Write(comparison, 1, ShelfCap); // target = 2
+
+        // Customer owner (posts requests through a port, collects from pickup bay when permitted)
+        var reqField = UnaryField(ReqCap);
+        var requestsStore = new Store(ReqCap, 1);
+        reqField.Write(requestsStore, 0, 1); // 1 customer request waiting
+        var reqPort = requestsStore.Publish([0], [.. reqField.Planes]);
+        var reqSocket = Socket.For(reqPort);
+        reqSocket.Plug(reqPort);
+
+        var collectedField = UnaryField(SupCap + DockCap);
+        var collectedStore = new Store(collectedField.Shape.Bits, 1);
+        var collectGate = new Store(1, 1); // starts 0 (customer not collecting yet)
+        var collectWiring = new Wiring(Flows.GatedMove(PickupCap, collectedField.Shape.Bits), new Binding(pickupSocket, 0), new Binding(collectGate, 0), collectedField.On(collectedStore));
+        collectWiring.Add(0, 0, 0);
+        var customer = new Engine().Hold(requestsStore).Add(collectWiring);
+
+        // Shop wirings: accept request -> unload (gated) -> deliver to pickup (Fulfill!) -> receive from supplier (Fulfill!) -> sum & TrackGap -> book OnOrder
+        var acceptReq = new Wiring(Flows.Move(ReqCap, ReqCap), new Binding(reqSocket, [.. reqField.Planes]), backorderField.On(shopSite));
+        acceptReq.Add(0, 0);
+        var unload = shopTension.Absorb(Plane.Ones(1), new Binding(controls, 0));
+        var deliverToPickup = shopTension.Deliver(pickupBit.On(pickupStore), PickupCap, Plane.Ones(1));
+        var receiveFromSup = new Wiring(Flows.Fulfill(SupCap, 1, DockCap), new Binding(supSocket, [.. supField.Planes]), new Binding(controls, 0), dockField.On(shopSite));
+        receiveFromSup.Add(0, 1, 0);
+        var sumInv = new Wiring(TensionLaws.Sum(ShelfCap, DockCap), shelfField.On(shopSite), dockField.On(shopSite), invField.On(comparison));
+        sumInv.Add(0, 0, 0);
+        var trackGap = new Wiring(TensionLaws.TrackGap(InvCap), invField.On(comparison), invField.On(comparison), invField.On(comparison), invField.On(comparison));
+        trackGap.Add(0, 1, 2, 3);
+        var bookOrderLaw = TransitionLaw.FromFunction([invField.Shape, Shape.Bit], s => [s[0], s[0] > 0 ? 1 : s[1]], new Accounting(true, new Unchanged(0), new NeverDecreases(1)));
+        var bookOrder = new Wiring(bookOrderLaw, invField.On(comparison), new Binding(controls, 0));
+        bookOrder.Add(2, 1);
+
+        var shop = new Engine().Add(acceptReq).Add(unload).Add(deliverToPickup).Add(receiveFromSup).Add(sumInv).Add(trackGap).Add(bookOrder);
+
+        bool StepAll(Engine s, Engine sh, Engine c) =>
+            c.Step().Steps.Concat(s.Step().Steps).Concat(sh.Step().Steps).All(w => w.Quiet);
+
+        // Step 1 & 2 with unloading closed: request accepted into backorder, OnOrder booked, settles quiet on full dock!
+        Assert.False(StepAll(supplier, shop, customer));
+        Assert.True(StepAll(supplier, shop, customer));
+        Assert.Equal((3, 1, 0, 1, 0, 1), (
+            supField.Read(supStore, 0),
+            dockField.Read(shopSite, 0),
+            shelfField.Read(shopSite, 0),
+            backorderField.Read(shopSite, 0),
+            pickupBit.Read(pickupStore, 0),
+            controls.Read(0, 1) ? 1 : 0));
+
+        // Save and restore all three owners, then verify byte-for-byte identical evolution at every step!
+        var saved = Transport.SaveLocals(supplier, shop, customer);
+        var restored = Transport.LoadLocals(saved);
+        Assert.Equal(saved, Transport.SaveLocals(restored[0].Engine, restored[1].Engine, restored[2].Engine));
+
+        // Enable unloading on both original and restored; step until pickup holds the item and shelf reaches 2!
+        controls.Write(0, 0, true);
+        var rControls = restored[1].Stores.Single(s => s.Count == 2 && s.PlaneCount == 1);
+        rControls.Write(0, 0, true);
+
+        for (var i = 0; i < 4; i++)
+        {
+            var q1 = StepAll(supplier, shop, customer);
+            var q2 = StepAll(restored[0].Engine, restored[1].Engine, restored[2].Engine);
+            Assert.Equal(q1, q2);
+            Assert.Equal(Transport.SaveLocals(supplier, shop, customer), Transport.SaveLocals(restored[0].Engine, restored[1].Engine, restored[2].Engine));
+        }
+
+        // Pickup holds 1 unit (not collected yet), shelf=2, dock=0, backorder=0, supplier=1!
+        Assert.Equal((1, 0, 2, 0, 1, 0), (
+            supField.Read(supStore, 0),
+            dockField.Read(shopSite, 0),
+            shelfField.Read(shopSite, 0),
+            backorderField.Read(shopSite, 0),
+            pickupBit.Read(pickupStore, 0),
+            collectedField.Read(collectedStore, 0)));
+
+        // Post a 2nd customer request while pickup bay is STILL full: backorder stays held even though shelf has 2!
+        Assert.True(Unary.Add(requestsStore, reqField, Plane.Ones(1)).Taken[0]);
+        StepAll(supplier, shop, customer);
+        StepAll(supplier, shop, customer);
+        Assert.Equal((2, 1, 1), (shelfField.Read(shopSite, 0), backorderField.Read(shopSite, 0), pickupBit.Read(pickupStore, 0)));
+
+        // Disconnect supplier while a reorder is open, then reconnect: OnOrder stays visibly 1 and delivers once reconnected!
+        collectGate.Write(0, 0, true);
+        supSocket.Unplug();
+        for (var i = 0; i < 6; i++) StepAll(supplier, shop, customer);
+        Assert.Equal((1, 0, 1, 0, 2), (supField.Read(supStore, 0), dockField.Read(shopSite, 0), shelfField.Read(shopSite, 0), backorderField.Read(shopSite, 0), collectedField.Read(collectedStore, 0)));
+        Assert.True(controls.Read(0, 1)); // OnOrder survived supplier disconnect!
+
+        // Lower target to 0, then reconnect supplier: the already-booked OnOrder still fulfills atomically and clears!
+        invField.Write(comparison, 1, 0);
+        supSocket.Plug(supPort);
+        for (var i = 0; i < 4; i++) StepAll(supplier, shop, customer);
+        Assert.False(controls.Read(0, 1));
+        Assert.Equal((0, 0, 2, 2), (supField.Read(supStore, 0), dockField.Read(shopSite, 0), shelfField.Read(shopSite, 0), collectedField.Read(collectedStore, 0)));
+    }
+
+    /// <summary>Stepping toward numeric support inside bit tables:
+    /// (1) <see cref="Tension.ObserveThreshold"/> reads a data-driven unary
+    /// threshold stored in planes—lowering the threshold data in the store
+    /// wakes a spare route without changing any law table;
+    /// (2) <see cref="TensionLaws.RankCombine"/> performs lexicographic tier
+    /// comparison (<c>MaterialMinus</c> over <c>Goal</c>) purely inside bit
+    /// tables without calling <see cref="TensionDiagnostics"/>.</summary>
+    [Fact]
+    public void DataDrivenThresholdAndInMachineRankingRunEntirelyInBitTables()
+    {
+        // Part 1: Data-driven threshold in planes (cap 4).
+        var store = new Store(12, 2); // 0..3 streak, 4..7 threshold (data!), 8 below, 9 above, 10 persistentSignal
+        var streak = new Field(Shape.Unary(4), 0, 1, 2, 3);
+        var threshold = new Field(Shape.Unary(4), 4, 5, 6, 7);
+        threshold.Write(store, 0, 3); // initial threshold = 3
+        store.Write(10, 0, true);     // persistent tension signal = 1
+
+        var dummy = new Store(1, 2);
+        var spareRoute = new Wiring(Flows.Move(1, 1), new Binding(dummy, 0), new Binding(dummy, 0));
+        spareRoute.AddSpare(0, 1);
+
+        var engine = new Engine().Hold(store, dummy);
+        var track = new Wiring(TensionLaws.Streak(4, countWhenSet: true), new Binding(store, 10), streak.On(store));
+        track.Add(0, 0);
+        engine.Add(track);
+        Tension.ObserveThreshold(engine, store, streak, store, threshold, store, belowPlane: 8, abovePlane: 9, positions: 0);
+
+        // Recruit spare route whenever streak >= threshold (~belowPlane), using a 1-bit recruit law (RecruitAt(1, 1)).
+        var recruit = new Wiring(TensionLaws.RecruitAt(1, 1), new Binding(new Flipped(store, 8), 8), new Binding(spareRoute.Rows.Life, 0));
+        recruit.Add(0, 0);
+        engine.Add(recruit).Add(spareRoute);
+
+        // Run 2 steps: streak reaches 2 < threshold (3) -> spare route stays dormant!
+        engine.Run(2);
+        Assert.Equal(2, streak.Read(store, 0));
+        Assert.True(store.Read(8, 0));   // below = 1
+        Assert.False(spareRoute.Live[0]);
+
+        // Lower threshold DATA in the store from 3 to 2 (no law table change!) and verify Transport round-trip too!
+        threshold.Write(store, 0, 2);
+        var (restored, copies) = Transport.Load(Transport.Save(engine, store, spareRoute.Rows));
+        engine.Step();
+        restored.Step();
+        Assert.False(store.Read(8, 0)); // streak >= threshold now!
+        Assert.True(spareRoute.Live[0]);
+        Assert.True(copies[1].IsLive(0));
+
+        // Part 2: In-machine lexicographic ranking (MaterialMinus outranks Goal) using ObserveMismatch + RankCombine.
+        var rankStore = new Store(18, 1);
+        var matBefore = new Field(Shape.Unary(3), 0, 1, 2);
+        var matAfter = new Field(Shape.Unary(3), 3, 4, 5);
+        var goalBefore = new Field(Shape.Unary(3), 6, 7, 8);
+        var goalAfter = new Field(Shape.Unary(3), 9, 10, 11);
+        // Planes 12,13: (matDropped, matRose); 14,15: (goalDropped, goalRose); 16,17: (overallDropped, overallRose).
+        matBefore.Write(rankStore, 0, 1);
+        matAfter.Write(rankStore, 0, 0);  // MaterialMinus dropped 1 -> 0!
+        goalBefore.Write(rankStore, 0, 0);
+        goalAfter.Write(rankStore, 0, 1); // Goal rose 0 -> 1!
+
+        var rankEngine = new Engine();
+        // Compare after (have) vs before (want): needMore = (after < before = dropped!), haveExtra = (after > before = rose!).
+        Tension.ObserveMismatch(rankEngine, rankStore, matAfter, rankStore, matBefore, rankStore, 12, 13);
+        Tension.ObserveMismatch(rankEngine, rankStore, goalAfter, rankStore, goalBefore, rankStore, 14, 15);
+        var combine = new Wiring(
+            TensionLaws.RankCombine,
+            new Binding(rankStore, 12), new Binding(rankStore, 13),
+            new Binding(rankStore, 14), new Binding(rankStore, 15),
+            new Binding(rankStore, 16), new Binding(rankStore, 17));
+        combine.Add(0, 0, 0, 0, 0, 0);
+        rankEngine.Add(combine);
+
+        Assert.NotNull(rankEngine.Settle(8));
+        Assert.Equal((true, false), (rankStore.Read(16, 0), rankStore.Read(17, 0))); // Material drop dominates Goal rise!
+
+        // When Material ties (1 -> 1) and Goal rises (0 -> 1), overall is (dropped=false, rose=true) -> refused!
+        matAfter.Write(rankStore, 0, 1);
+        Assert.NotNull(rankEngine.Settle(8));
+        Assert.Equal((false, true), (rankStore.Read(16, 0), rankStore.Read(17, 0)));
+    }
+
     /// <summary>When both suppliers are available, the open supplier choice
-    /// raises demanded information deficit (<c>RouteDeficit = 1</c>) while the
-    /// shelf is short, delivers from neither supplier, and still settles
-    /// quietly in <see cref="Engine.Settle"/> (both in order and under
-    /// <see cref="Engine.StepTogether"/>). When the shelf is already at target,
-    /// the exact same openness raises zero tension. When both suppliers are out,
-    /// contradiction (<c>RouteExcess = 1</c>) lights under demand and also
-    /// settles quietly.</summary>
+    /// raises demanded information deficit (<c>RouteDeficit = 1</c>) while
+    /// effective stock is short, delivers from neither supplier, and settles
+    /// quietly in both <see cref="Engine.Settle"/> and
+    /// <see cref="Engine.StepTogether"/>. When at target, openness raises zero
+    /// tension; when both suppliers are out, contradiction (<c>RouteExcess = 1</c>)
+    /// lights under demand and settles quietly.</summary>
     [Fact]
     public void OpenSupplierChoiceRaisesDemandedTensionAndStaysQuietWhenStuck()
     {
         var world = BuildShop(casesA: 2, casesB: 2, availA: true, availB: true, initialShelf: 1, targetLevel: 4);
 
-        // Both suppliers available -> choice stays open {A, B}; shelf is short -> demanded deficit = 1, nothing delivered, settles quietly!
         Assert.NotNull(world.Shop.Settle(16));
         Assert.Equal(0b11UL, world.RouteSupports.Values(0));
-        Assert.True(world.ShopStore.Read(ShopWorld.NeedMorePlane, 0));
+        Assert.True(world.ShopStore.Read(world.NeedMorePlane, 0));
         Assert.True(world.RouteStore.Read(ShopWorld.DeficitPlane, 0));
         Assert.False(world.RouteStore.Read(ShopWorld.ExcessPlane, 0));
         Assert.Equal((2, 2, 1), (world.Cases.Read(world.SupAStore, 0), world.Cases.Read(world.SupBStore, 0), world.Shelf.Read(world.ShopStore, 0)));
 
-        // Single-writer combinational fold trees also settle quietly under StepTogether with zero self-contention!
+        // Single-writer combinational fold trees also settle quietly under StepTogether with zero self-contention.
         var togetherWorld = BuildShop(casesA: 2, casesB: 2, availA: true, availB: true, initialShelf: 1, targetLevel: 4);
         Assert.NotNull(togetherWorld.Shop.Settle(16, together: true));
-        Assert.True(togetherWorld.ShopStore.Read(ShopWorld.NeedMorePlane, 0));
+        Assert.True(togetherWorld.ShopStore.Read(togetherWorld.NeedMorePlane, 0));
         Assert.True(togetherWorld.RouteStore.Read(ShopWorld.DeficitPlane, 0));
 
-        // Bring shelf to target: openness without demand produces ZERO tension!
+        // At target: openness without demand produces zero tension.
         world.Shelf.Write(world.ShopStore, 0, 4);
         Assert.NotNull(world.Shop.Settle(16));
         Assert.Equal(0b11UL, world.RouteSupports.Values(0));
         Assert.False(world.RouteStore.Read(ShopWorld.DeficitPlane, 0));
         Assert.False(world.RouteStore.Read(ShopWorld.ExcessPlane, 0));
 
-        // Now shelf is short AND both suppliers are out -> contradiction under demand (Excess = 1), settles quietly!
+        // Short AND both suppliers out -> contradiction under demand (Excess = 1), settles quietly.
         world.Shelf.Write(world.ShopStore, 0, 1);
         world.RouteStore.Write(ShopWorld.AvailAPlane, 0, false);
         world.RouteStore.Write(ShopWorld.AvailBPlane, 0, false);
@@ -363,132 +636,109 @@ public sealed class TensionCornerShopTests
         Assert.False(world.RouteStore.Read(ShopWorld.DeficitPlane, 0));
         Assert.True(world.RouteStore.Read(ShopWorld.ExcessPlane, 0));
 
-        var profile = Tension.Measure(
+        var profile = TensionDiagnostics.Measure(
             world.Shop,
             sites: [new TensionSite(world.ShopStore, world.Shelf, world.Dock, world.Backorder)],
-            demands: [new TensionDemand(world.RouteSupports, world.ShopStore.Read(ShopWorld.NeedAndClearPlane))]);
+            demands: [new TensionDemand(world.RouteSupports, world.ShopStore.Read(world.NeedAndClearPlane))]);
         Assert.True(profile.Obligation >= 1);
     }
 
-    /// <summary>Trialing "switch supplier" in a <see cref="Fork"/> over a shop
-    /// that takes through foreign supplier sockets: default <c>Fork()</c>
-    /// refuses taking through a port; <c>Fork(isolatePorts: true)</c> snapshots
-    /// only the exposed supplier ports so switching from empty Supplier A to
-    /// stocked Supplier B runs to completion, proves strict admissibility via
-    /// <see cref="Tension.Measure"/>, leaves live shop and live suppliers
-    /// completely untouched, and refuses <see cref="Fork.Commit"/> so
-    /// hypothetical units can never be created out of thin air.</summary>
+    /// <summary>Trialing "switch supplier" in an isolated-port
+    /// <see cref="Fork"/> over a shop taking through foreign sockets: default
+    /// <c>Fork()</c> still throws, <c>Fork(isolatePorts: true)</c> proves
+    /// strict admissibility without touching live shop or suppliers, and
+    /// refuses <see cref="Fork.Commit"/> to protect conservation.</summary>
     [Fact]
     public void ForkTrialsSwitchingSupplierWithoutTouchingLiveShopOrSuppliers()
     {
-        // Supplier A is empty (0 cases) though currently selected; Supplier B has 3 cases.
         var world = BuildShop(casesA: 0, casesB: 3, availA: true, availB: false, initialShelf: 0, targetLevel: 2);
-        Unary.Draw(world.ShopStore, world.Shelf, world.Backorder, Plane.Ones(1));
-        Unary.Draw(world.ShopStore, world.Shelf, world.Backorder, Plane.Ones(1));
+        world.Stock.Demand(Plane.Ones(1));
+        world.Stock.Demand(Plane.Ones(1));
 
-        // Live shop settles stuck on empty Supplier A: backorder=2, shelf=0.
         Assert.NotNull(world.Shop.Settle(16));
         Assert.Equal((0, 2), (world.Shelf.Read(world.ShopStore, 0), world.Backorder.Read(world.ShopStore, 0)));
 
-        // Safety contract: plain Fork() refuses taking through a live foreign port/socket.
         Assert.Throws<ArgumentException>(() => world.Shop.Fork());
 
-        // Isolated-port Fork trial: snapshot supplier ports, flip availability to Supplier B, reopen route, and settle!
         var trial = world.Shop.Fork(isolatePorts: true);
         Assert.True(trial.PortsIsolated);
         var trialSite = new TensionSite(trial.Of(world.ShopStore), world.Shelf, world.Dock, world.Backorder);
-        var beforeTrial = Tension.Measure(trial.Engine, sites: [trialSite]);
+        var beforeTrial = TensionDiagnostics.Measure(trial.Engine, sites: [trialSite]);
 
         var trialRoute = trial.Of(world.RouteStore);
         trialRoute.Write(ShopWorld.AvailAPlane, 0, false);
         trialRoute.Write(ShopWorld.AvailBPlane, 0, true);
-        // Reopen route supports in the fork workspace (planes 1 and 2 back to 1).
         trialRoute.Write(world.RouteSupports.Planes[0], 0, true);
         trialRoute.Write(world.RouteSupports.Planes[1], 0, true);
 
         Assert.NotNull(trial.Engine.Settle(24));
-        var afterTrial = Tension.Measure(trial.Engine, sites: [trialSite]);
+        var afterTrial = TensionDiagnostics.Measure(trial.Engine, sites: [trialSite]);
 
         Assert.Equal(2, beforeTrial.MaterialMinus);
         Assert.Equal(0, afterTrial.MaterialMinus);
         Assert.Equal(2, world.Shelf.Read(trial.Of(world.ShopStore), 0));
-        Assert.Equal(1, world.Cases.Read(trial.PortView(world.SocketB), 0)); // 2 hypothetical cases drawn from snapshot
-        Assert.True(Tension.AdmissibleStrict(beforeTrial, afterTrial).Admitted);
+        Assert.Equal(1, world.Cases.Read(trial.PortView(world.SocketB), 0));
+        Assert.True(TensionDiagnostics.AdmissibleStrict(beforeTrial, afterTrial).Admitted);
 
-        // Live shop AND live Supplier B are completely untouched!
         Assert.Equal(3, world.Cases.Read(world.SupBStore, 0));
         Assert.Equal((0, 2), (world.Shelf.Read(world.ShopStore, 0), world.Backorder.Read(world.ShopStore, 0)));
-
-        // Conservation guard: isolated-port trial cannot commit hypothetical units into live shop.
         Assert.False(trial.Commit());
-        Assert.Equal((0, 2), (world.Shelf.Read(world.ShopStore, 0), world.Backorder.Read(world.ShopStore, 0)));
     }
 
     /// <summary>Provenance question ("which supplier delivered this batch?")
-    /// scoped by <see cref="Closure.Of"/>, with two conflicting delivery notes
-    /// (tentative clerk slip firmness 1 vs signed invoice firmness 3) resolved
-    /// by <see cref="TensionLaws.YieldByFirmness"/>—and an equal-firmness tie
-    /// preserved as a visible contradiction.</summary>
+    /// pursued via <see cref="Question.Pursue"/> with conflicting delivery
+    /// notes resolved by <see cref="TensionLaws.YieldByFirmness"/>—and an
+    /// equal-firmness tie preserved as a visible contradiction.</summary>
     [Fact]
     public void BatchProvenanceQuestionUsesClosureAndResolvesConflictingDeliveryNotesByFirmness()
     {
-        // Two batches: pos 0 = batch under question, pos 1 = unrelated batch.
         var batches = new Store(1, 2);
-        var provenance = Supports.On(batches, Field.Bit(0)); // 0 = Supplier A, 1 = Supplier B
+        var provenance = Supports.On(batches, Field.Bit(0));
 
-        // Delivery notes: pos 0 = clerk slip (Supplier A = 0), pos 1 = signed invoice (Supplier B = 1), pos 2 = unrelated batch 1 note.
         var notes = new Store(1, 3);
-        notes.Write(0, 0, false);
-        notes.Write(0, 1, true);
-        notes.Write(0, 2, false);
+        notes.Write(0, 0, false); // clerk slip: Supplier A
+        notes.Write(0, 1, true);  // signed invoice: Supplier B
+        notes.Write(0, 2, false); // unrelated batch 1 note
 
         var firmness = new Store(3, 2);
         var firmField = new Field(Shape.Unary(3), 0, 1, 2);
-        firmField.Write(firmness, 0, 1); // clerk slip: firmness 1
-        firmField.Write(firmness, 1, 3); // signed invoice: firmness 3
+        firmField.Write(firmness, 0, 1);
+        firmField.Write(firmness, 1, 3);
 
         var clerkClaim = new Wiring(Settling.Same(Shape.Bit), new Binding(notes, 0), provenance.Variable);
         clerkClaim.Add(0, 0);
         var invoiceClaim = new Wiring(Settling.Same(Shape.Bit), new Binding(notes, 0), provenance.Variable);
         invoiceClaim.Add(1, 0);
-
-        // Unrelated wiring on batch 1 with its own note to verify Closure.Of stays local to batch 0.
         var otherNote = new Wiring(Settling.Same(Shape.Bit), new Binding(notes, 0), provenance.Variable);
         otherNote.Add(2, 1);
 
-        var status = new Store(5, 2); // 0 demand, 1 seen1, 2 seen2, 3 deficit, 4 excess
-        status.Write(0, 0, true);     // demand sits only on batch 0
+        var status = new Store(5, 2);
+        status.Write(0, 0, true);
 
         var engine = new Engine().Add(clerkClaim).Add(invoiceClaim).Add(otherNote);
         Tension.ObserveSupports(engine, provenance, status, 0, status, 1, 2, 3, 4, positions: 0);
 
-        // Question("which supplier delivered batch 0?"): Cone(reach: 1) covers both notes and DemandedStatus on batch 0, excluding batch 1.
         var question = new Question(provenance, 0);
         var cone = question.Cone(engine, reach: 1);
         Assert.True(cone.Rows(clerkClaim)[0] && cone.Rows(invoiceClaim)[0]);
         Assert.False(cone.Of(batches)[1]);
 
-        // Pursuing the question attends only to batch 0's cone and settles to contradiction (Remaining == 0, excess == 1),
-        // leaving unrelated batch 1 completely untouched (still open 0b11)!
         Assert.Equal(0, question.Pursue(engine, reach: 1));
         Assert.True(status.Read(4, 0));
         Assert.Equal(0b11UL, provenance.Values(1));
 
-        // Wire firmness resolution onto both delivery-note rows' Life surfaces.
         var yieldClerk = new Wiring(TensionLaws.YieldByFirmness(3),
-            new Binding(status, 4), new Binding(firmness, 0, 1, 2), new Binding(firmness, 0, 1, 2), new Binding(clerkClaim.Rows.Life, 0));
+            new Binding(status, 4), firmField.On(firmness), firmField.On(firmness), new Binding(clerkClaim.Rows.Life, 0));
         yieldClerk.Add(0, 0, 1, 0);
         var yieldInvoice = new Wiring(TensionLaws.YieldByFirmness(3),
-            new Binding(status, 4), new Binding(firmness, 0, 1, 2), new Binding(firmness, 0, 1, 2), new Binding(invoiceClaim.Rows.Life, 0));
+            new Binding(status, 4), firmField.On(firmness), firmField.On(firmness), new Binding(invoiceClaim.Rows.Life, 0));
         yieldInvoice.Add(0, 1, 0, 0);
         engine.Add(yieldClerk).Add(yieldInvoice);
 
         Assert.NotNull(engine.Settle(8));
-        Assert.True(clerkClaim.Rows.IsRetired(0)); // weaker clerk slip yielded
-        Assert.True(invoiceClaim.Live[0]);         // signed invoice survived
+        Assert.True(clerkClaim.Rows.IsRetired(0));
+        Assert.True(invoiceClaim.Live[0]);
 
-        // Reopen batch 0 and pursue again: provenance resolves uniquely to Supplier B (1) with zero tension,
-        // and unrelated batch 1 is still untouched!
         provenance.Forget(0);
         Assert.Equal(1, question.Pursue(engine, reach: 1));
         Assert.Equal(1, question.Answer);
@@ -496,7 +746,7 @@ public sealed class TensionCornerShopTests
         Assert.False(status.Read(4, 0));
         Assert.Equal(0b11UL, provenance.Values(1));
 
-        // Negative test: two equally firm conflicting notes (2 vs 2) stay visibly contradicted.
+        // Equal-firmness tie (2 vs 2) stays visibly contradicted.
         var tiedBatches = new Store(1, 1);
         var tiedProv = Supports.On(tiedBatches, Field.Bit(0));
         var tiedNotes = new Store(1, 2);
@@ -513,9 +763,9 @@ public sealed class TensionCornerShopTests
         tiedStatus.Write(0, 0, true);
         var tiedEngine = new Engine().Add(c1).Add(c2);
         Tension.ObserveSupports(tiedEngine, tiedProv, tiedStatus, 0, tiedStatus, 1, 2, 3, 4);
-        var y1 = new Wiring(TensionLaws.YieldByFirmness(3), new Binding(tiedStatus, 4), new Binding(tiedFirm, 0, 1, 2), new Binding(tiedFirm, 0, 1, 2), new Binding(c1.Rows.Life, 0));
+        var y1 = new Wiring(TensionLaws.YieldByFirmness(3), new Binding(tiedStatus, 4), firmField.On(tiedFirm), firmField.On(tiedFirm), new Binding(c1.Rows.Life, 0));
         y1.Add(0, 0, 1, 0);
-        var y2 = new Wiring(TensionLaws.YieldByFirmness(3), new Binding(tiedStatus, 4), new Binding(tiedFirm, 0, 1, 2), new Binding(tiedFirm, 0, 1, 2), new Binding(c2.Rows.Life, 0));
+        var y2 = new Wiring(TensionLaws.YieldByFirmness(3), new Binding(tiedStatus, 4), firmField.On(tiedFirm), firmField.On(tiedFirm), new Binding(c2.Rows.Life, 0));
         y2.Add(0, 1, 0, 0);
         tiedEngine.Add(y1).Add(y2);
         Assert.NotNull(tiedEngine.Settle(8));
@@ -524,16 +774,11 @@ public sealed class TensionCornerShopTests
         Assert.True(tiedStatus.Read(4, 0));
     }
 
-    /// <summary>Ranked admissibility and structural excess on the corner shop:
-    /// paying a customer backorder (<c>MaterialMinus</c>) strictly outranks
-    /// keeping the shelf at target (<c>Goal</c>); dock <c>T+</c> and backorder
-    /// <c>T−</c> are never netted in <see cref="Tension.Measure"/>; and a
-    /// duplicate reorder rule is flagged by <see cref="Tension.Duplicates"/>
-    /// and strictly admissible to retire in a <see cref="Fork"/>.</summary>
+    /// <summary>Host-side <see cref="TensionDiagnostics"/> ranking,
+    /// non-netting check, and duplicate reorder-rule detection/retirement.</summary>
     [Fact]
     public void BackorderOutranksShelfTargetAndDuplicateReorderRulesAreDetectedAndRetired()
     {
-        // Standalone shelf/backorder/goal comparison: shelf=3, target=3, backorder=1 arrives.
         var store = new Store(12, 1);
         var shelf = new Field(Shape.Unary(3), 0, 1, 2);
         var target = new Field(Shape.Unary(3), 3, 4, 5);
@@ -542,40 +787,38 @@ public sealed class TensionCornerShopTests
         shelf.Write(store, 0, 3);
         target.Write(store, 0, 3);
         backorder.Write(store, 0, 1);
-        deficit.Write(store, 0, 0); // shelf == target before paying backorder
+        deficit.Write(store, 0, 0);
 
         var engine = new Engine().Hold(store);
-        var beforePay = Tension.Measure(
+        var beforePay = TensionDiagnostics.Measure(
             engine,
             sites: [new TensionSite(store, shelf, null, backorder)],
             goals: [new TensionGoal(store, deficit, null)]);
 
-        // Pay the backorder from shelf: shelf drops 3->2 (goal deficit rises 0->1), backorder drops 1->0.
         var pay = Tension.Draw(store, backorder, shelf);
         pay.Add(0, 0);
         pay.Apply();
-        deficit.Write(store, 0, 1); // shelf is now 1 short of target
+        deficit.Write(store, 0, 1);
 
-        var afterPay = Tension.Measure(
+        var afterPay = TensionDiagnostics.Measure(
             engine,
             sites: [new TensionSite(store, shelf, null, backorder)],
             goals: [new TensionGoal(store, deficit, null)]);
 
         Assert.Equal((1, 0), (beforePay.MaterialMinus, beforePay.Goal));
         Assert.Equal((0, 1), (afterPay.MaterialMinus, afterPay.Goal));
-        Assert.True(Tension.AdmissibleStrict(beforePay, afterPay).Admitted);
+        Assert.True(TensionDiagnostics.AdmissibleStrict(beforePay, afterPay).Admitted);
 
-        // Non-netting + duplicate reorder rule detection and retirement in the full shop.
         var world = BuildShop(casesA: 2, casesB: 2, availA: false, availB: true, initialShelf: 2, targetLevel: 4);
         world.Dock.Write(world.ShopStore, 0, 2);
         world.Backorder.Write(world.ShopStore, 0, 1);
-        world.InFlightGate.Add(0, 0, 0); // duplicate reorder-gate row!
+        world.InFlightGate.Add(0, 0, 0); // duplicate reorder-gate row
 
-        var dups = Tension.Duplicates(world.Shop);
+        var dups = TensionDiagnostics.Duplicates(world.Shop);
         var dup = Assert.Single(dups);
         Assert.Equal((0, 1), (dup.FirstRow, dup.DuplicateRowIndex));
 
-        var shopProfile = Tension.Measure(
+        var shopProfile = TensionDiagnostics.Measure(
             world.Shop,
             sites: [new TensionSite(world.ShopStore, world.Shelf, world.Dock, world.Backorder)]);
         Assert.Equal(2, shopProfile.MaterialPlus);
@@ -583,54 +826,46 @@ public sealed class TensionCornerShopTests
         Assert.Equal(3, shopProfile.MaterialTotal); // never netted
         Assert.Equal(1, shopProfile.StructuralExcess);
 
-        // Retiring the duplicate row inside an isolated fork strictly lowers StructuralExcess and DescriptionBits.
         var fork = world.Shop.Fork(isolatePorts: true);
         var forkSite = new TensionSite(fork.Of(world.ShopStore), world.Shelf, world.Dock, world.Backorder);
-        var beforeRetire = Tension.Measure(fork.Engine, sites: [forkSite]);
+        var beforeRetire = TensionDiagnostics.Measure(fork.Engine, sites: [forkSite]);
         fork.Of(world.InFlightGate).Retire(1);
-        var afterRetire = Tension.Measure(fork.Engine, sites: [forkSite]);
+        var afterRetire = TensionDiagnostics.Measure(fork.Engine, sites: [forkSite]);
 
         Assert.Equal(1, beforeRetire.StructuralExcess);
         Assert.Equal(0, afterRetire.StructuralExcess);
         Assert.True(afterRetire.DescriptionBits < beforeRetire.DescriptionBits);
-        Assert.True(Tension.AdmissibleStrict(beforeRetire, afterRetire).Admitted);
+        Assert.True(TensionDiagnostics.AdmissibleStrict(beforeRetire, afterRetire).Admitted);
     }
 
     /// <summary>Two products share one corner-shop store and supplier ports:
-    /// product 0 is short with a backorder and constrained to Supplier B, while
-    /// product 1 is already at target with an open supplier choice. Product 0
-    /// restocks cleanly (holding cases at the supplier while dock room is full)
-    /// while product 1 draws nothing and raises zero tension.</summary>
+    /// product 0 holds cases at the supplier while dock room is full and then
+    /// restocks cleanly; product 1 stays at target with an open supplier choice
+    /// and zero tension.</summary>
     [Fact]
     public void MultiProductShopIsolatesProductsAndRespectsLimitedDockRoom()
     {
         var world = BuildShop(casesA: 2, casesB: 3, availA: true, availB: true, initialShelf: 0, targetLevel: 4, products: 2);
 
-        // Product 0: Supplier A out, shelf=0, dock already holds 3 singles (only 1 room left < case size 2), 1 backorder.
         world.RouteStore.Write(ShopWorld.AvailAPlane, 0, false);
         world.Dock.Write(world.ShopStore, 0, 3);
         world.Backorder.Write(world.ShopStore, 0, 1);
-
-        // Product 1: already at target (shelf=4), both suppliers available (route open {A, B}).
         world.Shelf.Write(world.ShopStore, 1, 4);
 
         var net0 = world.NetUnits(0);
         var net1 = world.NetUnits(1);
 
-        // Step 1: dock on product 0 has 3 singles (room 1 < case size 2) AND dock non-empty suppresses reorder -> Supplier B keeps all 3 cases!
         world.Shop.Step();
         Assert.Equal(3, world.Cases.Read(world.SupBStore, 0));
         Assert.Equal(net0, world.NetUnits(0));
         Assert.Equal(net1, world.NetUnits(1));
 
-        // Settle completely: product 0 drains its 3 dock singles + orders 1 case (2 singles) -> 1 backorder paid + shelf=4!
         Assert.NotNull(world.Shop.Settle(24));
         Assert.Equal(net0, world.NetUnits(0));
         Assert.Equal(net1, world.NetUnits(1));
         Assert.Equal((4, 0, 0), (world.Shelf.Read(world.ShopStore, 0), world.Dock.Read(world.ShopStore, 0), world.Backorder.Read(world.ShopStore, 0)));
-        Assert.Equal(2, world.Cases.Read(world.SupBStore, 0)); // exactly 1 case delivered for product 0
+        Assert.Equal(2, world.Cases.Read(world.SupBStore, 0));
 
-        // Product 1 stayed untouched with open route and zero demanded tension.
         Assert.Equal((4, 0, 0), (world.Shelf.Read(world.ShopStore, 1), world.Dock.Read(world.ShopStore, 1), world.Backorder.Read(world.ShopStore, 1)));
         Assert.Equal(3, world.Cases.Read(world.SupBStore, 1));
         Assert.Equal(0b11UL, world.RouteSupports.Values(1));

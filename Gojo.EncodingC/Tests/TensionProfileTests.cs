@@ -35,7 +35,7 @@ public sealed class TensionProfileTests
         var engine = new Engine().Hold(site, info).Add(move);
         engine.StepTogether();
 
-        var profile = Tension.Measure(
+        var profile = TensionDiagnostics.Measure(
             engine,
             sites: [new TensionSite(site, value, plus, minus)],
             demands: [new TensionDemand(sup, Plane.Ones(2))]);
@@ -54,8 +54,8 @@ public sealed class TensionProfileTests
     /// <summary>Concrete comparison of strict Optimality Theory ranking vs
     /// Ashby viability thresholds: lossy crystallization that trims structural
     /// redundancy and description bits while raising coarse openness by 1
-    /// inside its viability bound is refused by <see cref="Tension.AdmissibleStrict"/>
-    /// and admitted by <see cref="Tension.AdmissibleViable"/>. Breaking
+    /// inside its viability bound is refused by <see cref="TensionDiagnostics.AdmissibleStrict"/>
+    /// and admitted by <see cref="TensionDiagnostics.AdmissibleViable"/>. Breaking
     /// <c>Hard</c> is refused by both.</summary>
     [Fact]
     public void ViabilityThresholdsAdmitLossyCrystallizationThatStrictRankingRefuses()
@@ -66,15 +66,15 @@ public sealed class TensionProfileTests
 
         var bounds = new TensionBounds(Goal: 1);
 
-        Assert.False(Tension.AdmissibleStrict(verbose, crystallized).Admitted);
-        var viable = Tension.AdmissibleViable(verbose, crystallized, bounds);
+        Assert.False(TensionDiagnostics.AdmissibleStrict(verbose, crystallized).Admitted);
+        var viable = TensionDiagnostics.AdmissibleViable(verbose, crystallized, bounds);
         Assert.True(viable.Admitted);
         Assert.True(viable.StrictlyLowered);
         Assert.Equal(0, viable.LoanUsed);
 
         // Hard accounting faults are never admissible under either rule.
-        Assert.False(Tension.AdmissibleStrict(verbose, broken).Admitted);
-        Assert.False(Tension.AdmissibleViable(verbose, broken, bounds, loanBudget: 10).Admitted);
+        Assert.False(TensionDiagnostics.AdmissibleStrict(verbose, broken).Admitted);
+        Assert.False(TensionDiagnostics.AdmissibleViable(verbose, broken, bounds, loanBudget: 10).Admitted);
     }
 
     /// <summary>A temporary rise above a viability bound is refused with no
@@ -87,8 +87,8 @@ public sealed class TensionProfileTests
         var after = new TensionProfile(0, 0, MaterialPlus: 2, MaterialMinus: 0, 0, 0, 0, 0, 100);
         var bounds = new TensionBounds(MaterialPlus: 1);
 
-        Assert.False(Tension.AdmissibleViable(before, after, bounds, loanBudget: 0).Admitted);
-        var loaned = Tension.AdmissibleViable(before, after, bounds, loanBudget: 1);
+        Assert.False(TensionDiagnostics.AdmissibleViable(before, after, bounds, loanBudget: 0).Admitted);
+        var loaned = TensionDiagnostics.AdmissibleViable(before, after, bounds, loanBudget: 1);
         Assert.True(loaned.Admitted);
         Assert.Equal(1, loaned.LoanUsed);
         Assert.False(loaned.StrictlyLowered);
@@ -109,7 +109,7 @@ public sealed class TensionProfileTests
         same.Add(0, 1); // duplicate of row 0
 
         var engine = new Engine().Add(toggle).Add(same);
-        var dups = Tension.Duplicates(engine);
+        var dups = TensionDiagnostics.Duplicates(engine);
         var dup = Assert.Single(dups);
         Assert.Equal((0, 1), (dup.FirstRow, dup.DuplicateRowIndex));
 
@@ -117,13 +117,13 @@ public sealed class TensionProfileTests
         var history = new List<Plane[]>();
         for (var i = 0; i < 4; i++)
         {
-            history.Add(Tension.Snapshot(store));
+            history.Add(TensionDiagnostics.Snapshot(store));
             engine.Step();
         }
-        var joined = Tension.Joined(store, history);
+        var joined = TensionDiagnostics.Joined(store, history);
         Assert.Equal([(0, 1)], joined);
 
-        var profile = Tension.Measure(engine, histories: [(store, history)]);
+        var profile = TensionDiagnostics.Measure(engine, histories: [(store, history)]);
         Assert.Equal(2, profile.StructuralExcess); // 1 duplicate row + 1 joined pair
     }
 }

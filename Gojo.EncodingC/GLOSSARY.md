@@ -84,14 +84,17 @@ The stock laws:
 | --- | --- | --- |
 | `Passage` | source, gate, target: one bit each | The unit hands over when the source is set, the gate is set and the target is clear. 64 bits, `01 02 04 00 10 20 48 80`; 24 saved |
 | `Move`, `Convert` | source count, target count | Take some units and give some, or do nothing. `Move` is one for one |
-| `GatedMove`, `GatedConvert` | source count, gate bit, target count | Move or convert (`take` for `give`) while the gate is set, preserving `give·source + take·target` |
+| `Fulfill` | source, outstanding, target | Atomically move/convert from source to target while clearing an outstanding commitment (backorder or open order), preserving both `give·source + take·target` and `give·outstanding + clear·target` |
+| `When`, `GatedMove`, `GatedConvert` | inner roles + gate bit(s) | Run a move/conversion only while all gate bits are 1, preserving all accounting invariants |
 | `Toggle` | one bit | Flip every step: an oscillator |
 | `Same` (relation) | two roles of one shape | They hold the same value. Between a sample and an open value, this is observing |
 | `Forget` | an open value's planes, as plain bits | Clear them: the value is open again |
 | `Enact` | an open value's planes, then a field | Write the one value left into the field. Otherwise leave the field alone |
+| `Justify` | reason bits, support bit | Truth-maintenance single-writer law: holds a possibility bit at 1 iff all its reasons are 1, reopening automatically when reasons return while staying quiet in `Settle` |
 | `And`, `Or` | two bits, output bit | Bitwise gate combinators; compose with `Flipped` for in-flight suppression and uniquely settled route selection |
 | `SupportLeaf`, `SupportPair`, `SupportCombine`, `DemandedStatus` | support planes / demand | Single-writer combinational fold tree summarizing any support width into `(seen1, seen2)` and masking by demand into `(deficit, excess)` so steady nonzero states stay quiet in `Settle` and never self-contest in `StepTogether` |
-| `MismatchPair`, `MismatchCombine`, `Gap` | have, want, direction bits or `(deficit, excess)` | Single-writer combinational unary comparison `(needMore, haveExtra)` for wide counts, and an exact 4-role two-faced gap relation for small counts |
+| `MismatchPair`, `MismatchCombine`, `Gap`, `TrackGap` | have, want, direction bits or `(deficit, excess)` | Single-writer combinational unary comparison `(needMore, haveExtra)` (also powering data-driven `ObserveThreshold`), exact 4-role `Gap` relation for open supports, and small-width concrete `TrackGap` transition |
+| `Sum`, `RankCombine` | unary counts / tier comparison bits | Emulated unary accumulation (`a + b -> sum`) in planes and in-machine combinational lexicographic tier merging as stepping stones toward numeric support |
 | `ToggleWhen`, `YieldTurn`, `TurnStep` | trigger/contested/active and gate bits | Break a contested tie, alternate turns without double-firing under `StepTogether`, and yield a turn when idle against unmet `T−` |
 | `Streak`, `RecruitAt`, `RetireAt`, `YieldByFirmness` | signal/counter/firmness and `Life` | Slow-clock unary streak counters, recruiting/retiring rows via `Rows.Life`, and AGM-style firmness conflict resolution |
 
@@ -117,11 +120,11 @@ The stock laws:
 | Declared order | The order in which wirings were added and rows listed. It decides who goes first when two want the same thing | The order in the saved machine |
 | Wave *(host)* | Wirings, or rows, that touch nothing another one writes. They could run at the same moment | Worked out each step. Not stored |
 | Machine | An engine and every store it reaches: what is saved. So far a machine is one local structure | One run of bits |
-| Inflow *(host)* | Units arriving from outside. They enter as units, never as a value written directly | `Unary.Add` shifts one bit into a count; `Unary.Offer` / `Unary.Draw` spill overflow or unmet draw into `T+` / `T−` |
-| Room *(view)* | Capacity minus a unary count: anti-fill from the capacity landmark, distinct from reorientation | `Unary.Room`: a zero-copy `Flipped` view with its planes bound in reverse order |
-| Material tension (`T+`, `T−`) *(pattern)* | Pressure (blocked incoming units) and draw (unmet outgoing demand), kept apart and never netted automatically | Two unary fields at a site. `Tension.Absorb`, `Draw` and `Cancel` are all `Flows.Move` into the value or a room view |
-| Demanded information tension *(pattern)* | Openness (`deficit`) or contradiction (`excess`) on supports only where a demand bit is 1 | `(seen1, seen2)` folded by `SupportFold` and masked by demand via `DemandedStatus` |
-| Tension profile, admissibility *(host)* | Uniform read of all tension tiers (`Hard`, `Obligation`, `MaterialPlus`/`Minus`, `Goal`, `Contention`, `StructuralDeficit`/`Excess`, `DescriptionBits`) and strict vs Ashby viability checks with explicit loans | Read from existing planes and evidence by `Tension.Measure`; never stored as hidden state |
+| Inflow *(host)* | Units arriving from outside. They enter as units, never as a value written directly | `Tension.Receive` / `Demand` enter `T+` / `T−` first (Axiom 5); `Unary.Offer` / `Draw` spill overflow/unmet draw into `T+` / `T−` |
+| Room *(view)* | Capacity minus a unary count: anti-fill from the capacity landmark, distinct from reorientation | `Field.Room` / `Unary.Room`: a zero-copy `Flipped` view with its planes bound in reverse order |
+| Material tension (`T+`, `T−`) *(pattern)* | Pressure (blocked incoming units) and draw (unmet outgoing demand), kept apart and never netted automatically | Two unary fields at a site. `Tension.Absorb`, `Draw`, `Cancel` and `Deliver` use `Flows.Move` / `Flows.Fulfill` + `Field.Room` |
+| Demanded information tension *(pattern)* | Openness (`deficit`) or contradiction (`excess`) on supports only where a demand bit is 1 | `(seen1, seen2)` folded by a single-writer `SupportPair`/`SupportCombine` tree and masked by demand via `DemandedStatus` |
+| Tension profile, admissibility *(host)* | Uniform read of all tension tiers (`Hard`, `Obligation`, `MaterialPlus`/`Minus`, `Goal`, `Contention`, `StructuralDeficit`/`Excess`, `DescriptionBits`) and strict vs Ashby viability checks with explicit loans | Read from existing planes and evidence by `TensionDiagnostics.Measure`; never stored as hidden state |
 
 ## What is not settled
 

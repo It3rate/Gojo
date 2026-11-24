@@ -10,6 +10,8 @@ namespace Gojo.EncodingC;
 public static class TensionLaws
 {
     private static readonly Dictionary<int, RelationLaw> Gaps = [];
+    private static readonly Dictionary<int, TransitionLaw> TrackGaps = [];
+    private static readonly Dictionary<(int, int), TransitionLaw> Sums = [];
     private static readonly Dictionary<(int, bool), TransitionLaw> Streaks = [];
     private static readonly Dictionary<(int, int), TransitionLaw> Recruits = [];
     private static readonly Dictionary<(int, int), TransitionLaw> Retires = [];
@@ -127,7 +129,7 @@ public static class TensionLaws
         if (capacity < 1) throw new ArgumentOutOfRangeException(nameof(capacity));
         var size = (long)(capacity + 1);
         if (size * size * size * size > Law.MaxBits)
-            throw new ArgumentOutOfRangeException(nameof(capacity), "Two-faced gap table exceeds MaxBits; use MismatchFold for wider counts.");
+            throw new ArgumentOutOfRangeException(nameof(capacity), "Two-faced gap table exceeds MaxBits; use ObserveMismatch for wider counts.");
         lock (Gaps)
         {
             if (Gaps.TryGetValue(capacity, out var cached)) return cached;
@@ -137,6 +139,65 @@ public static class TensionLaws
                 t => t[2] == (t[1] > t[0] ? t[1] - t[0] : 0) && t[3] == (t[0] > t[1] ? t[0] - t[1] : 0));
         }
     }
+
+    /// <summary>Concrete-sample two-faced gap transition over small unary counts
+    /// <c>(have, want, deficit, excess)</c>: updates <c>deficit</c> and
+    /// <c>excess</c> in place and settles quietly once matched. Bounded by
+    /// <see cref="Law.MaxBits"/> (capacity up to 5); use
+    /// <see cref="Tension.ObserveMismatch"/> for wider counts.</summary>
+    public static TransitionLaw TrackGap(int capacity)
+    {
+        if (capacity < 1) throw new ArgumentOutOfRangeException(nameof(capacity));
+        var states = (long)(capacity + 1);
+        var tuples = states * states * states * states;
+        if (tuples * tuples > Law.MaxBits)
+            throw new ArgumentOutOfRangeException(nameof(capacity), "Concrete two-faced gap transition exceeds MaxBits; use ObserveMismatch for wider counts.");
+        lock (TrackGaps)
+        {
+            if (TrackGaps.TryGetValue(capacity, out var cached)) return cached;
+            var unary = Shape.Unary(capacity);
+            return TrackGaps[capacity] = TransitionLaw.FromFunction(
+                [unary, unary, unary, unary],
+                s => [s[0], s[1], s[1] > s[0] ? s[1] - s[0] : 0, s[0] > s[1] ? s[0] - s[1] : 0],
+                new Accounting(true, new Unchanged(0), new Unchanged(1)));
+        }
+    }
+
+    /// <summary>Emulated unary accumulation in planes: writes
+    /// <c>sum = a + b</c> from two bounded unary counts into a unary field of
+    /// capacity <c>capA + capB</c>, leaving both operands unchanged. Single-writer
+    /// and quiet in <see cref="Engine.Settle"/>; serves as the pre-numeric rung
+    /// until native numeric accumulation replaces the table.</summary>
+    public static TransitionLaw Sum(int capA, int capB)
+    {
+        if (capA < 1) throw new ArgumentOutOfRangeException(nameof(capA));
+        if (capB < 1) throw new ArgumentOutOfRangeException(nameof(capB));
+        var states = (long)(capA + 1) * (capB + 1) * (capA + capB + 1);
+        if (states * states > Law.MaxBits)
+            throw new ArgumentOutOfRangeException(nameof(capA), "Unary sum table exceeds MaxBits.");
+        lock (Sums)
+        {
+            var key = (capA, capB);
+            if (Sums.TryGetValue(key, out var cached)) return cached;
+            return Sums[key] = TransitionLaw.FromFunction(
+                [Shape.Unary(capA), Shape.Unary(capB), Shape.Unary(capA + capB)],
+                s => [s[0], s[1], s[0] + s[1]],
+                new Accounting(true, new Unchanged(0), new Unchanged(1)));
+        }
+    }
+
+    /// <summary>In-machine lexicographic merge of two tier comparisons
+    /// <c>(highDropped, highRose)</c> and <c>(lowDropped, lowRose)</c> (each
+    /// produced by comparing <c>after</c> vs. <c>before</c> with
+    /// <see cref="Tension.ObserveMismatch"/>). If the higher tier changed, its
+    /// decision dominates; otherwise the lower tier decides. Roles:
+    /// highDropped, highRose, lowDropped, lowRose, outDropped, outRose.</summary>
+    public static TransitionLaw RankCombine { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit],
+        s => (s[0] | s[1]) != 0
+            ? [s[0], s[1], s[2], s[3], s[0], s[1]]
+            : [s[0], s[1], s[2], s[3], s[2], s[3]],
+        new Accounting(true, new Unchanged(0), new Unchanged(1), new Unchanged(2), new Unchanged(3)));
 
     /// <summary>Flips a state bit whenever a trigger bit is set, such as
     /// flipping a turn-taking gate on a contest or after a move. Roles:
