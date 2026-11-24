@@ -359,7 +359,7 @@ public sealed class SelfRunningTests
 
         Assert.True(plan.Moments.Read(3, 1));
         Assert.Equal((0, 1), (Count.Read(world.Plant, 0), Count.Read(world.Plant, 2)));
-        Assert.Equal(225, Transport.Measure(engine).Bytes);
+        Assert.Equal(226, Transport.Measure(engine).Bytes);
     }
 
     /// <summary>A unit at a fork may go left or right and the law does not say

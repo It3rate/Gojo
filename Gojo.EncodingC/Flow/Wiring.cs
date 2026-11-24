@@ -205,9 +205,11 @@ public sealed class Wiring
     /// <summary>The evidence planes, or null when the wiring is not recording.</summary>
     public Evidence? Recorded => evidence;
 
-    /// <summary>From now on, leaves what each run did in six planes of
+    /// <summary>From now on, leaves what each run did in seven planes of
     /// <see cref="Rows"/>, one bit per row: changed, unread, unadmitted,
-    /// ambiguous, skipped, aliased. Returns the planes.</summary>
+    /// ambiguous, skipped, aliased, contested. A contested row is one a step
+    /// taken together held back because another row would write the same
+    /// bit: an open choice of taker that nothing settled. Returns the planes.</summary>
     public Evidence Record()
     {
         if (evidence is not null) return evidence;
@@ -473,6 +475,7 @@ public sealed class Wiring
             Rows.Write(evidence.Ambiguous, step.Ambiguous, mask);
             Rows.Write(evidence.Skipped, step.Skipped, mask);
             Rows.Write(evidence.Aliased, step.Aliased, mask);
+            Rows.Write(evidence.Contested, step.Contested ?? new Plane(Count), mask);
         }
     }
 
@@ -742,11 +745,11 @@ public sealed class Wiring
 
 /// <summary>The planes of a wiring's rows where each run leaves what it did,
 /// one bit per row. They are plane numbers, in a fixed order.</summary>
-public sealed record Evidence(int Changed, int Unread, int Unadmitted, int Ambiguous, int Skipped, int Aliased)
+public sealed record Evidence(int Changed, int Unread, int Unadmitted, int Ambiguous, int Skipped, int Aliased, int Contested)
 {
-    internal const int Kinds = 6;
+    internal const int Kinds = 7;
 
-    internal static Evidence From(int first) => new(first, first + 1, first + 2, first + 3, first + 4, first + 5);
+    internal static Evidence From(int first) => new(first, first + 1, first + 2, first + 3, first + 4, first + 5, first + 6);
 }
 
 /// <summary>What one application of a wiring did, row by row.

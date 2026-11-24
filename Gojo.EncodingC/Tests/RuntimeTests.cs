@@ -68,7 +68,10 @@ public sealed class RuntimeTests
     /// <summary>At a fork two rows would take the same unit. Taken in order,
     /// the first declared wins. Taken together, both would clear the same
     /// source bit, so both are contested: the unit stays where it is, the step
-    /// says why, and nothing is chosen by order.</summary>
+    /// says why, and nothing is chosen by order.
+    /// <para>The contest is left where laws can read it: a seventh evidence
+    /// plane on the rows, set for both rows, and cleared by a step in order,
+    /// where declared order chose.</para></summary>
     [Fact]
     public void TwoRowsRacingForOneUnitAreBothContested()
     {
@@ -78,11 +81,17 @@ public sealed class RuntimeTests
         Assert.Equal([2], Units(inOrderPath));
 
         var (engine, path) = Road(fork, 1);
+        var moves = engine.Wirings[0];
+        var evidence = moves.Record();
         var step = engine.StepTogether();
 
         Assert.Equal([1], Units(path));
         Assert.Equal(Plane.Of(2, 0, 1), step.Steps[0].Contested);
         Assert.True(step.Steps[0].Changed.None);
+        Assert.Equal(Plane.Of(2, 0, 1), moves.Rows.Read(evidence.Contested));
+
+        engine.Step();
+        Assert.True(moves.Rows.Read(evidence.Contested).None);
     }
 
     /// <summary>Narrowing taken together reaches what narrowing in order does,

@@ -98,13 +98,14 @@ The stock laws:
 | Binding | Where one role reads and writes. Plain: the planes hold a code. Open: one plane per value, set where the value is still possible | A surface, plane numbers and, for a relation, one bit for open or plain |
 | Row | One use of a law: one position per role | A position in the wiring's own store. Each role's reference is a binary value in that store's planes |
 | Rows | A wiring's rows, as a store. What is connected to what is therefore state: a law can rewire a row, bring a spare one into use or retire one | An ordinary store |
-| Evidence | What each row did in the last step, kept once a wiring is asked to record | Six planes of the rows, in the order below |
+| Evidence | What each row did in the last step, kept once a wiring is asked to record | Seven planes of the rows, in the order below |
 | Changed | The row's bits changed | Evidence plane 0 |
 | Unread | The row's bits were not codes | Evidence plane 1 |
 | Unadmitted | The law admits nothing for the row's state. For a relation, this is a contradiction | Evidence plane 2 |
 | Ambiguous | Several possibilities and nothing to choose: several next states, or a role still open | Evidence plane 3 |
 | Skipped | The row touches a position that is not in use, or holds a reference to nowhere. It did not run | Evidence plane 4 |
 | Aliased | Two roles met at one bit that one of them writes. The row did not run | Evidence plane 5 |
+| Contested | A step taken together held the row back, because another row would write the same bit: a choice of taker that nothing settled. Never set by a step in order, where declared order chooses | Evidence plane 6 |
 | Engine | Steps the wirings in their declared order | The order of the wirings. A separate list only when one runs more than once in a step |
 | Step, tick | One pass through every wiring. The mechanism as a whole is expected to lower its energy from step to step, but a step need not, and a machine may never get there | Not saved |
 | The two step rules | A transition row takes the next state its table gives. A relation row rules out, for its open roles, every value no admitted tuple supports | Both are lookups in the law's table, across all rows at once |
