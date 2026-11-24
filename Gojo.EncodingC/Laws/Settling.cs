@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace Gojo.EncodingC;
 
 /// <summary>A few small laws for what is known, as <see cref="Flows"/> has for
@@ -13,6 +15,7 @@ public static class Settling
     private static readonly Dictionary<Shape, RelationLaw> Sames = [];
     private static readonly Dictionary<int, TransitionLaw> Forgets = [];
     private static readonly Dictionary<Shape, TransitionLaw> Enacts = [];
+    private static readonly Dictionary<int, TransitionLaw> Justifications = [];
 
     /// <summary>Two roles hold the same value. Between a sample and an open
     /// role this is observation: the open role is narrowed to what the sample
@@ -34,6 +37,33 @@ public static class Settling
     /// <summary>Has ever been: a presence that accumulates along a chain of
     /// moments. Roles: before, now, after; after is before or now.</summary>
     public static RelationLaw Ever { get; } = RelationLaw.FromPredicate([Shape.Bit, Shape.Bit, Shape.Bit], t => t[2] == (t[0] | t[1]));
+
+    /// <summary>Holds a possibility while all its reasons hold. The reason bits
+    /// are read-only and the last role is the output bit. A single writer
+    /// updates that bit when a reason changes, so the possibility can reopen
+    /// and the wiring stays quiet while the result holds. Declare this wiring
+    /// before a consumer that needs its result in the same ordered step.</summary>
+    public static TransitionLaw Justify(int reasons)
+    {
+        // One bit per role in both the before and the after tuples.
+        var maxReasons = BitOperations.Log2((uint)Law.MaxBits) / 2 - 1;
+        ArgumentOutOfRangeException.ThrowIfLessThan(reasons, 1);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(reasons, maxReasons);
+        lock (Justifications)
+        {
+            if (Justifications.TryGetValue(reasons, out var cached)) return cached;
+            return Justifications[reasons] = TransitionLaw.FromFunction(
+                [.. Enumerable.Repeat(Shape.Bit, reasons + 1)],
+                state =>
+                {
+                    var justified = 1;
+                    for (var r = 0; r < reasons; r++) justified &= state[r];
+                    state[reasons] = justified;
+                    return state;
+                },
+                new Accounting(true, [.. Enumerable.Range(0, reasons).Select(r => (Invariant)new Unchanged(r))]));
+        }
+    }
 
     /// <summary>Opens a value again: sets every value possible. One role, the
     /// planes of a value with <paramref name="values"/> values read as plain

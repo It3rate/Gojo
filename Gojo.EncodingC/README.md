@@ -350,19 +350,32 @@ transfer into the draw account.
 
 ### Corner shop experiment
 
-The [corner shop](Experiments/CornerShop.cs) starts with one product, a
-two-unit shelf, a one-unit receiving dock, and a one-unit pickup area. A
-supplier owns the stock it offers. A customer owns the requests it posts and
-the stock it collects. The shop holds accepted backorders, the dock, the
-shelf, and one outstanding supplier order at a time.
+The [corner shop](Experiments/CornerShop.cs) has one product, two case
+suppliers, and a customer. The shop has room for two singles each at the dock
+and on the shelf, and one at pickup. Suppliers own their offered cases and
+publish their willingness to supply. The customer owns the requests it posts
+and the singles it collects. The one outstanding booking lives in the shop
+and names its supplier by the position it occupies.
 
-In each step the customer can collect a purchase. The shop then admits a
-customer request, unloads the dock if permitted, fills a backorder if there
-is room at pickup, and tries to receive against its outstanding order. The
-reorder rule compares **shelf plus dock** with the target after receipt. A
-unit at the dock already covers part of the target, and an outstanding
-order stays visible until a unit arrives. A shortfall can book another unit
-when the order slot is free. Changing the target affects future orders.
+Each step lets the customer collect, then lets the shop admit a request,
+unload if permitted, and serve a backorder. The shop tries to receive from
+its booked supplier while that supplier is willing. A receipt takes a case, places two singles
+on the dock, clears the booking, and increments the recorded supplier's tally
+in one transition. Insufficient room holds the stock with the supplier. The
+receipt tally counts cases from each supplier. A full tally holds further
+receipts until there is room to record them.
+
+The wired comparison uses **shelf plus dock** for have and **shelf target
+plus unpaid backorders** for want. Both sums are exact bounded unary counts.
+Eligibility uses each supplier's willingness and case stock after any receipt.
+If a shortage remains and the booking slot is free, the shop asks for a supplier.
+One eligible supplier gets the booking. Two keep the choice open,
+and zero exposes a contradiction under demand. The same possibilities carry
+no information tension when a new booking is unnecessary. Changing the
+target affects future bookings. To replace an unavailable supplier's booking,
+the operator can enable rebooking. That permission stays active until cleared.
+Removing the stock connection alone leaves its booking in place while the
+supplier status port continues to read.
 
 Run the [fixtures](Tests/CornerShopTests.cs) to see the counts at each step.
 
@@ -370,33 +383,38 @@ Run the [fixtures](Tests/CornerShopTests.cs) to see the counts at each step.
 dotnet test Gojo.EncodingC/Gojo.EncodingC.csproj --filter FullyQualifiedName~CornerShop --logger 'console;verbosity=detailed'
 ```
 
-The first trace reaches quiet with a full dock, one customer backorder, and
-one supplier order still outstanding. Opening unloading lets the customer
-receive one unit and the shelf reach two. An extra supplier unit remains.
-The same steps give byte-for-byte matching results after save and restore.
-Other traces lower the target to zero and reconnect a supplier while an
-order is open, then post new requests after the system has settled. A full
-pickup holds a backorder even with stock on the shelf. An empty supplier
-leaves a reorder outstanding even after all customers have collected.
+The main trace books A and reaches quiet with a backorder and room for only
+one single at the dock. A becomes unavailable. The original booking stays
+until rebooking is authorized, after which B takes the booking. Opening
+unloading lets the receipt record exactly one B case, the customer collect
+one purchase, and the shelf reach two. Each step after restore gives the same
+serialized machine. A second trace exhausts A and brings B online. A whole
+case covers a one-single shortage and leaves the extra single visible at the
+dock.
 
-Two additions were needed to close this loop.
+The laws added for the two-supplier loop are ordinary saved tables.
 
-- **`Flows.Fulfill`** makes the accounted move behind `MaterialTension.Deliver`
-  available to other wirings. The shop binds it to supplier stock, the open
-  order, and the dock. It clears the order in the same transition that moves
-  the unit, so a full dock or absent supplier leaves the order open. Earlier
-  tests received pre-offered stock and fulfilled customer draws independently.
-  They had no supplier receipt that also had to acknowledge an order.
-- **`TensionGap.Track`** updates both gap faces from concrete counts. Earlier
-  tests used `Between` to narrow open supports and reopened them when the
-  caller supplied a new sample. Reopening and narrowing every step would
-  keep the shop changing even at the target. `Track` updates the faces when
-  needed and can reach quiet. Open inputs still use `Between`.
+- **`Flows.FulfillBatch`** extends the acknowledgement used by `Flows.Fulfill`
+  to a weighted case receipt. It preserves source stock plus received units
+  in a common basis, and balances each received case against both a source
+  case and a booking. The single-unit shop had no conversion or receipt tally.
+- **`Flows.When` and `Settling.Justify`** reuse Claude's gated transitions and
+  reversible current facts. The receipt waits on current eligibility as well
+  as the booking. The eligibility bit reopens when both published reasons
+  hold. The earlier shop had one supplier, so a persistent booking and a
+  stock connection were sufficient.
+- **`InformationTension.SupportPair` and `DemandedStatus`** use Neon's small
+  observation laws for the two supplier positions. The first publishes
+  whether there are any possibilities and whether there are two. The second
+  combines that evidence with the demand for an answer. The earlier shop
+  had no rival supplier possibilities to read.
 
-The order policy and the interventions are authored. Multiple outstanding
-orders would add a matching problem, especially when switching suppliers
-with stock already promised. Batch provenance and contradictory delivery
-notes give separate follow-up tests for the information side.
+The fixture uses the existing `TensionGap.Track` on concrete local sums.
+The host sets operator inputs and the four-owner step order. The tables and
+wiring perform the sums, choice, booking, cancellation, and transfers. The
+receipt tally records arrivals by supplier. Following a particular batch
+through mixed shelf stock would require preserving that identity at later
+transfers.
 
 ## Schedule
 
@@ -978,7 +996,8 @@ limits and tests.
 | `TwoFaceTests` | Traffic both ways as two faces of one road, each flowing forward on its own orientation: two units passing mid-road at once; a face-aware strip whose gross is two and whose net, one count read as a side of the other, is at zero; a single-lane bridge used one way at a time by an explicit active-orientation bit, never both lanes on it, nothing lost |
 | `GoalTests` | A goal as selection, condition and target: an outcome goal selecting only the end and leaving every route open; a route goal selecting every moment and settling the trip; a goal met or not read from its violations, the helicopter meeting the outcome and not the route; a waypoint selecting one moment in the middle |
 | `MaterialTensionTests`, `TensionDeliveryTests`, `TensionGapTests` | Backpressure with the offer retained at its sender, later absorption and retry, opposed accounts and explicit cancellation, stock delivered through an outlet, and one basis relating have and want to deficit and excess |
-| `CornerShopTests` | Goal-driven reorder with a blocked dock, an outstanding order through supplier disconnect and restore, and further sales with an exhausted supplier |
+| `BatchFlowTests`, `InformationTensionTests` | Weighted case receipt, closed or full routes, multiple gates, reversible current supports, and open or contradictory answers under demand |
+| `CornerShopTests` | Two supplier bookings, explicit rebooking, a blocked whole case, recorded receipts and replay, supplier choice under demand, disconnected stock, and extra stock left after an odd shortfall |
 | `SelectionTests` | A five-position window of a thousand-position structure costing only the window, the rows leaving it reported as beyond; reach bringing in by use what the window's edge rows touch, and stopping; an ignored area staying out though touched; a route plan bringing in the bridge's status it never selected, finding the route impossible while the world is untouched; an attention plane connecting selection to execution in a running structure, moved by one bit and saved with the machine |
 | `ForkTests` | A fork reading its parent live and copying only what it writes, turning when the parent's direction changes; a rewired fork taking another route while the parent keeps its own; sibling forks holding different versions; a fork attending to a window of a long road, holding only the window and what running brings in, and stopping at the edge of its attention; a commit writing back, and refused when the parent moved; a fork unable to bind its parent's stores or take through a port; a fork reading everything live seeing a moving parent's unit beside its own, and its staleness telling it so; by default a fork holding its material fixed, keeping only its own unit while the parent moves, still turning with live information, and refusing to commit over a parent that moved; material reached through a flipped view found, held and not following the parent |
 | `ClosureTests` | A seed snapping up to its whole row, the row seeded directly being the same unit, and a lone position kept as a referent; closure growing a row per unit of reach, keeping a port's lane as a head and not growing through it, and leaving out a plane no selected row reads; opening a port selecting the owner's position and plane and growing in the owner's structure; a settled garage sealing the question's cone until opened, which rereads a conflicting deed; following Bob out to the structures that read him, through ports and a socket, and back to what they share, Bob and Main Street, closed when computed again, and widening to everything any use reaches as more users may lack a position, rows staying whole; gathering by reach in each use and trimming by how many uses reached a place, keeping the bakery two rows out that two days reach and dropping the river only one does; "whose car is this?" selecting only the garage, the deed and the rows joining them, answered when pursued while an unrelated deed never runs, open with too little reach or without the deed, and contradicted by two deeds that disagree |

@@ -38,6 +38,23 @@ public static class Flows
                 : state,
             new Accounting(true, new PreservedSum([0, 2]), new PreservedSum([1, 2])));
 
+    /// <summary>Fulfils one pending case and records its receipt when the
+    /// target has room for all its units and the tally has room for one case.
+    /// Roles: source cases, pending cases, target units, received cases.</summary>
+    public static TransitionLaw FulfillBatch(int sourceCapacity, int demandCapacity, int targetCapacity, int unitsPerBatch, int receiptCapacity)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(unitsPerBatch);
+        return TransitionLaw.FromFunction(
+            [Shape.Unary(sourceCapacity), Shape.Unary(demandCapacity), Shape.Unary(targetCapacity), Shape.Unary(receiptCapacity)],
+            state => state[0] > 0 && state[1] > 0 && state[2] <= targetCapacity - unitsPerBatch && state[3] < receiptCapacity
+                ? [state[0] - 1, state[1] - 1, state[2] + unitsPerBatch, state[3] + 1]
+                : state,
+            new Accounting(true,
+                new PreservedSum([0, 2], [unitsPerBatch, 1]),
+                new PreservedSum([1, 3]),
+                new PreservedSum([0, 3])));
+    }
+
     /// <summary>Takes <paramref name="take"/> units from the source and gives
     /// <paramref name="give"/> to the target, or nothing when the source has too
     /// few or the target too little room. The accounting preserves
@@ -58,6 +75,33 @@ public static class Flows
             Converts[key] = law;
             return law;
         }
+    }
+
+    /// <summary>Appends read-only gate bits to a functional law. The law runs
+    /// while every gate is set and otherwise holds, keeping its accounting.</summary>
+    public static TransitionLaw When(TransitionLaw law, int gates = 1)
+    {
+        ArgumentNullException.ThrowIfNull(law);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(gates);
+        var bitLimit = Law.MaxBits;
+        for (var gate = 0; gate < gates; gate++)
+        {
+            // One gate doubles the state count and quadruples the table.
+            bitLimit /= 4;
+            if (law.BitCount > bitLimit) throw new ArgumentOutOfRangeException(nameof(gates), "The gated law table would exceed the size limit.");
+        }
+        if (!law.IsFunctional) throw new ArgumentException("A gated law needs exactly one next state for each state.", nameof(law));
+
+        var own = law.Roles.Count;
+        var roles = law.Roles.Concat(Enumerable.Repeat(Shape.Bit, gates)).ToArray();
+        var invariants = law.Accounting.Invariants.Concat(Enumerable.Range(own, gates).Select(role => new Unchanged(role))).ToArray();
+        return TransitionLaw.FromFunction(roles, state =>
+        {
+            var gateBits = state.AsSpan(own);
+            if (gateBits.Contains(0)) return state;
+            var after = law.Afters(law.TupleIndex(state.AsSpan(0, own)))[0];
+            return [.. law.Tuple(after), .. gateBits];
+        }, new Accounting(true, invariants));
     }
 
     /// <summary>A move that happens only while a gate bit is set. Roles: source,
