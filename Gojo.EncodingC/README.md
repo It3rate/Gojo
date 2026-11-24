@@ -416,6 +416,66 @@ receipt tally records arrivals by supplier. Following a particular batch
 through mixed shelf stock would require preserving that identity at later
 transfers.
 
+### Short dialogue experiment
+
+The [short dialogue](Experiments/ShortDialogue.cs) holds one question about
+two possible cars. The fixture supplies the utterances and builds the
+relations that give the two cars owners and parking places. One local engine
+owns the evidence and another owns the exchange. They connect through two
+read-only ports for answer supports and viable clarifications. The driver
+posts manual inputs and steps the evidence owner before the exchange owner.
+The same wiring, ports, attention, and outstanding obligation survive
+save and restore.
+
+| Question or condition | What settles |
+| --- | --- |
+| Whose car is this? | Two possible owners leave the question open. A direct clarification identifies a car, which settles its owner. |
+| Which car is this? | The same kind of clarification settles the referent itself. |
+| Where is it parked? | A shared parking area leaves both exact places possible. A reply that identifies the car by its description settles the exact place. A direct scope that excludes this route leaves the question open. |
+| Whose car is this when both cars have the same owner? | One owner remains possible while both cars remain possible. No clarification is needed. |
+| What if a second answer conflicts? | The local scope grounds the supported answer. The extended scope sees the same two utterances, includes the witness route, and reports a contradiction that blocks grounding. |
+
+The question selects a `Question.Cone` rooted in its open answer. The cone
+fixes which rows may narrow the answer and which clarification routes are
+available. Each answer and referent has two support planes. Two surviving
+answers under demand are an information deficit. Zero surviving answers
+are an information excess when independent claims disagree. The machine
+retains both utterances in that case. A singleton can be offered and still
+await acknowledgement.
+
+Asking opens a one-unit debt. An offer puts a unit of pressure on the
+exchange. Acknowledgement of that offered value while it is still the
+current singleton uses gated `Flows.Fulfill` to clear both units and record
+one grounding receipt. A premature, mismatched, or stale acknowledgement
+is consumed without a receipt. The driven turn waits for an acknowledgement
+or a clarification reply from the asker, or for a usable answer or a repair
+from the respondent. A waiting turn can go quiet.
+
+| Strategy used | Alternative considered and reason for leaving it out |
+| --- | --- |
+| The cone selects evidence before inference. Relation laws narrow answer support. | A global fact lookup would let unrelated claims change the answer. A numeric difference between answer codes would give arbitrary identities a distance. |
+| The builder orders the two routes by evidence row count. The live repair law retains only in-scope probes whose every feasible reply settles the requested role. The exchange takes the first eligible route. | Picking the shortest prompt could select a clue that leaves the question open. Always identifying the car would do unnecessary work when both cars have the same owner. General probe generation would require a larger search mechanism. |
+| Debt, offer pressure, and receipt are explicit, and a wired turn goes quiet at a wait. | Closing as soon as a singleton appears would erase the distinction between an available answer and a grounded one. Alternating turns on every tick would keep a waiting exchange active. |
+
+All added behavior lives in the experiment's ordinary relations, transition
+tables, and bindings. This fixture covers a single question with two
+authored alternatives and two authored probes. It accumulates evidence in
+one episode. Retraction after contradiction would need fresh supports over
+the amended evidence. Multiple open questions would need separately scoped
+obligations. A larger repair catalog could use ranked effort and a tie policy.
+
+The six measured traces packed to 559 bytes each, including both owners,
+their laws and ports, and the current state. The common-owner exchange
+needed seven rounds, a clarified exchange nine, and the witness conflict
+ten. Warm Release medians for construction plus the full script were
+1.9–2.6 ms on .NET 10/Linux x64 pinned to one CPU. The measurements exclude
+serialization and trace output. A round steps both owners and includes the
+quiet check at each stage.
+
+```sh
+dotnet test Gojo.EncodingC/Gojo.EncodingC.csproj --filter FullyQualifiedName~Dialogue --logger 'console;verbosity=detailed'
+```
+
 ## Schedule
 
 - **Within a wiring.** Rows that write a position another row touches run in a
@@ -998,6 +1058,7 @@ limits and tests.
 | `MaterialTensionTests`, `TensionDeliveryTests`, `TensionGapTests` | Backpressure with the offer retained at its sender, later absorption and retry, opposed accounts and explicit cancellation, stock delivered through an outlet, and one basis relating have and want to deficit and excess |
 | `BatchFlowTests`, `InformationTensionTests` | Weighted case receipt, closed or full routes, multiple gates, reversible current supports, and open or contradictory answers under demand |
 | `CornerShopTests` | Two supplier bookings, explicit rebooking, a blocked whole case, recorded receipts and replay, supplier choice under demand, disconnected stock, and extra stock left after an odd shortfall |
+| `ShortDialogueTests`, `DialogueProtocolTests` | Scope-dependent answer and clarification, aboutness versus referent resolution, outstanding debt and offer pressure, stale or premature acknowledgements, contradiction, driven turns, and save and resume |
 | `SelectionTests` | A five-position window of a thousand-position structure costing only the window, the rows leaving it reported as beyond; reach bringing in by use what the window's edge rows touch, and stopping; an ignored area staying out though touched; a route plan bringing in the bridge's status it never selected, finding the route impossible while the world is untouched; an attention plane connecting selection to execution in a running structure, moved by one bit and saved with the machine |
 | `ForkTests` | A fork reading its parent live and copying only what it writes, turning when the parent's direction changes; a rewired fork taking another route while the parent keeps its own; sibling forks holding different versions; a fork attending to a window of a long road, holding only the window and what running brings in, and stopping at the edge of its attention; a commit writing back, and refused when the parent moved; a fork unable to bind its parent's stores or take through a port; a fork reading everything live seeing a moving parent's unit beside its own, and its staleness telling it so; by default a fork holding its material fixed, keeping only its own unit while the parent moves, still turning with live information, and refusing to commit over a parent that moved; material reached through a flipped view found, held and not following the parent |
 | `ClosureTests` | A seed snapping up to its whole row, the row seeded directly being the same unit, and a lone position kept as a referent; closure growing a row per unit of reach, keeping a port's lane as a head and not growing through it, and leaving out a plane no selected row reads; opening a port selecting the owner's position and plane and growing in the owner's structure; a settled garage sealing the question's cone until opened, which rereads a conflicting deed; following Bob out to the structures that read him, through ports and a socket, and back to what they share, Bob and Main Street, closed when computed again, and widening to everything any use reaches as more users may lack a position, rows staying whole; gathering by reach in each use and trimming by how many uses reached a place, keeping the bakery two rows out that two days reach and dropping the river only one does; "whose car is this?" selecting only the garage, the deed and the rows joining them, answered when pursued while an unrelated deed never runs, open with too little reach or without the deed, and contradicted by two deeds that disagree |
