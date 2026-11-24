@@ -114,16 +114,11 @@ public sealed class Fork
     }
 
     /// <summary>The same surface seen from the fork: a store becomes its
-    /// workspace, and a view, such as a flipped view, a two-faced gap or an
-    /// openness, is rebuilt over what its source becomes.</summary>
+    /// workspace, and a flipped view is rebuilt over what its source becomes.</summary>
     private static Surface Rebind(Surface surface, Dictionary<Store, Workspace> views) => surface switch
     {
         Store store => views[store],
         Flipped view => new Flipped(Rebind(view.Source, views), [.. view.Planes]),
-        Difference gap => new Difference(
-            [.. gap.Have.Select(t => (Rebind(t.Surface, views), t.Count))],
-            [.. gap.Want.Select(t => (Rebind(t.Surface, views), t.Count))]),
-        Openness open => new Openness(Rebind(open.Source, views), open.Planes),
         Port or Socket => surface,
         _ => throw new InvalidOperationException("A fork supposes about a structure's own stores, views of them, and what it reads through ports; whether positions are in use, workspaces and workspace gaps cannot be forked yet."),
     };

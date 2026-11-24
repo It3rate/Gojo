@@ -80,12 +80,15 @@ public sealed class RouteChoiceTests
         Assert.Equal(1UL << B, fork.Choice.Values(0));
     }
 
-    /// <summary>Turn-taking: a turn bit that toggles every step gates absorbing
-    /// directly and drawing through its flipped view, so exactly one of them
-    /// may run in any step. Taken together they no longer contend; they take
-    /// turns, and two units of pressure and two of debt both settle.</summary>
+    /// <summary>Turn-taking that settles. Whose turn it is, absorbing (0) or
+    /// drawing (1), is a bit written by a law reading which side has work: with
+    /// work on both sides the turn alternates, with work on one side it goes
+    /// there, with none it holds. Absorbing waits on the flipped turn and drawing
+    /// on the turn, so exactly one may run in any step. Taken together they never
+    /// contend, two units of pressure and two of debt both settle, and then the
+    /// structure is quiet; a turn bit that toggled every step never would be.</summary>
     [Fact]
-    public void ATurnBitLetsAbsorbingAndDrawingTakeTurns()
+    public void ATurnThatFollowsTheWorkLetsAbsorbingAndDrawingSettle()
     {
         var store = new Store(3, 1);
         var value = new Field(Shape.Unary(3), 0, 1, 2);
@@ -93,12 +96,10 @@ public sealed class RouteChoiceTests
         var site = new Tension(store, value, 3);
         var turn = store.AddPlane();
         var here = Plane.Of(1, 0);
-        var toggle = new Wiring(Flows.Toggle, new Binding(store, turn));
-        toggle.Add(0);
         var engine = new Engine()
-            .Add(site.Absorb(here, new Binding(store, turn)))
-            .Add(site.Draw(here, new Binding(new Flipped(store, turn), turn)))
-            .Add(toggle);
+            .Add(Tension.Wire(Flows.Turn, [new Binding(store, site.Plus.Planes[0]), new Binding(store, site.Minus.Planes[0]), new Binding(store, turn)], here))
+            .Add(site.Absorb(here, new Binding(new Flipped(store, turn), turn)))
+            .Add(site.Draw(here, new Binding(store, turn)));
         for (var i = 0; i < 2; i++)
         {
             site.Receive(here);
@@ -113,6 +114,7 @@ public sealed class RouteChoiceTests
             seen.Add((value.Read(store, 0), site.Plus.Read(store, 0), site.Minus.Read(store, 0)));
         }
 
-        Assert.Equal([(0, 2, 1), (1, 1, 1), (0, 1, 0), (1, 0, 0)], seen);
+        Assert.Equal([(2, 1, 2), (1, 1, 1), (2, 0, 1), (1, 0, 0)], seen);
+        Assert.NotNull(engine.Settle(4, together: true));
     }
 }

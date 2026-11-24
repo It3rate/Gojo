@@ -23,11 +23,9 @@ namespace Gojo.EncodingC;
 /// (<c>FlowIsSteeredTowardAGoalByTheGapItLeaves</c> does).</para>
 /// <para><b>With direction.</b> An error that drives laws directly has two
 /// faces: a deficit (too low) and an excess (too high), each a unary count,
-/// never both present. That is <see cref="Difference"/>, also a live view: a
-/// shifted AND of the two counts turns the set of units between them into a
-/// count, so a response reads one operand. A relation over (have, want,
-/// deficit, excess) would still be needed where have or want is open rather
-/// than a count.</para></summary>
+/// never both present, each written by a counting law (<see cref="Counts.Shortfall"/>,
+/// once each way round), so a response reads one operand and the meaning of
+/// the gap is held in a table rather than computed by a view.</para></summary>
 public sealed class Gap : Surface
 {
     private readonly Workspace workspace;

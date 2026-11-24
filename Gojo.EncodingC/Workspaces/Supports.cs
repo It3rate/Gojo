@@ -97,10 +97,6 @@ public sealed class Supports
         return new(Surface, planes[value]);
     }
 
-    /// <summary>The information tension of these supports, read live: how many
-    /// alternatives are left to rule out, and whether none is left.</summary>
-    public Openness Openness => new(Surface, planes);
-
     /// <summary>The field's bits as a role's binding: a sample, one value.</summary>
     public Binding Sample => new(Surface, [.. Field.Planes]);
 

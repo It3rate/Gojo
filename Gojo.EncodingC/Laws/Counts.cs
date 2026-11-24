@@ -22,7 +22,7 @@ public static class Counts
     private static readonly Dictionary<(int, int), TransitionLaw> Shortfalls = [];
     private static readonly Dictionary<int, TransitionLaw> Tallies = [];
     private static readonly Dictionary<(int, int), TransitionLaw> Thresholds = [];
-    private static readonly Dictionary<int, TransitionLaw> Streaks = [];
+    private static readonly Dictionary<(int, bool), TransitionLaw> Streaks = [];
 
     /// <summary>Accumulation: a + weight · b, as a count of capacity
     /// a + weight · b. Roles: a, b (read), total (written). A weight states a
@@ -82,17 +82,24 @@ public static class Counts
         }
     }
 
+    /// <summary>Accumulation: one more each step a signal bit is 1, up to
+    /// capacity, and otherwise held. A shop placing an order each step it is
+    /// short of its reorder point is this. Roles: signal (read), count (written).</summary>
+    public static TransitionLaw Accumulate(int capacity) => Counting(capacity, reset: false);
+
     /// <summary>Accumulation that resets: one more each step a signal bit is 1,
     /// up to capacity, and back to 0 the first step it is 0. Read through a
     /// threshold, it is "this has held for a while", the slow clock's trigger.
     /// Roles: signal (read), streak (written).</summary>
-    public static TransitionLaw Streak(int capacity)
+    public static TransitionLaw Streak(int capacity) => Counting(capacity, reset: true);
+
+    private static TransitionLaw Counting(int capacity, bool reset)
     {
         lock (Streaks)
         {
-            if (Streaks.TryGetValue(capacity, out var cached)) return cached;
-            return Streaks[capacity] = TransitionLaw.FromFunction([Shape.Bit, Shape.Unary(capacity)],
-                s => [s[0], s[0] == 1 ? (s[1] < capacity ? s[1] + 1 : capacity) : 0],
+            if (Streaks.TryGetValue((capacity, reset), out var cached)) return cached;
+            return Streaks[(capacity, reset)] = TransitionLaw.FromFunction([Shape.Bit, Shape.Unary(capacity)],
+                s => [s[0], s[0] == 1 ? (s[1] < capacity ? s[1] + 1 : capacity) : reset ? 0 : s[1]],
                 new Accounting(true, new Unchanged(0)));
         }
     }
