@@ -476,4 +476,23 @@ public sealed class WorkspaceTests
         Assert.False(same.Writes(1));
         Assert.Equal(0b11UL, known.Values(0));
     }
+
+    /// <summary>A gap is a read of a workspace, so it is a supposition too: a
+    /// relation reading where a supposition differs from the store does not
+    /// narrow the store's supports.</summary>
+    [Fact]
+    public void ASuppositionReadThroughItsGapNeverNarrowsWhatIsKnown()
+    {
+        var store = new Store(1, 1);
+        var known = Supports.On(store, Field.Bit(0));
+        var supposed = new Workspace(store);
+        supposed.Write(0, 0, true);
+        var same = new Wiring(Settling.Same(Shape.Bit), new Binding(supposed.Gap, 0), known.Variable);
+        same.Add(0, 0);
+
+        same.Apply();
+
+        Assert.False(same.Writes(1));
+        Assert.Equal(0b11UL, known.Values(0));
+    }
 }
