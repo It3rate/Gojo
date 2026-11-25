@@ -142,8 +142,8 @@ What this changes:
 - **The counting laws are the junction-table approach at rung 1,** written as
   functional transitions that write a new result. They read one way only.
   Backward reads (subtraction, division, the open zero) still exist only as
-  small relations, such as EncodingC's add relation. Whether counting laws get
-  relation twins is a decision for you (§5).
+  small relations, such as EncodingC's add relation. Whether they also read
+  backward is a decision for you; §5 gives my lean.
 - **The tension note supplies the numerics contract all three notes asked
   for.** Counting laws now; magnitudes in planes later, behind the same roles.
   Compiled stand-ins slot into the same place.
@@ -211,7 +211,14 @@ What this changes:
 1. **First fixture:** the 3 × 4 comparison, then the oscillator family?
 2. **Counting laws:** give them relation twins for backward reads (division,
    subtraction, open values), or keep them as one-way transitions and add
-   relations only where a question needs one?
+   relations only where a question needs one? My lean is neither as stated.
+   `Sum`, `Shortfall`, `Tally` and `AtLeast` are built by one helper that reads
+   inputs and writes one result, and `Rank` has the same shape: each is a
+   relation read forward. Derive them from that relation, so backward reads
+   come from the same table and nothing is kept twice. Read backward, `Sum`
+   subtracts, and with `a` at 0 it answers the scribes' division question:
+   what times the weight gives the total? `Accumulate` and `Streak` read their
+   own last value, so they stay processes.
 3. **Step order:** adopt turn-gated alternation inside an engine as the
    standard way to state update order? Separately, should the host's choice
    of step kind, and the order between engines, be saved?

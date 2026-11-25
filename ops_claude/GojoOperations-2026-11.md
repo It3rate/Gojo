@@ -983,7 +983,14 @@ Each gap is listed with the smallest clarification that would resolve it.
 14. **Counting laws read one way.** `Counts` laws are functional transitions.
     Backward reads (subtraction, division, the open zero) need relations.
     *Decide* whether each counting law gets a relation twin, or whether
-    relations are added only where a question needs one.
+    relations are added only where a question needs one. *Lean:* neither as
+    stated. `Sum`, `Shortfall`, `Tally` and `AtLeast` are built by one helper
+    that reads inputs and writes one result, and `Rank` has the same shape:
+    each is a relation read forward. Derive them from that relation, so
+    backward reads come from the same table and nothing is kept twice. Read
+    backward, `Sum` subtracts, and with `a` at 0 it answers the scribes'
+    division question: what times the weight gives the total? `Accumulate`
+    and `Streak` read their own last value, so they stay processes.
 15. **Narrowing and justification apply to different facts.** Narrowing suits
     facts that stay true; `Settling.Justify` suits possibilities about now. The
     prompt could say which reads use which.
@@ -1024,7 +1031,8 @@ All are at rung 0 in EncodingC unless noted.
 7. Is a narrow bridge test between an EncodingC ladder and the kernel's
    projection worth adding now *(ops_neon)*?
 8. Which fixture first? The proposal is X1, then X8 to X10, then X5 to X7.
-9. Should counting laws get relation twins for backward reads (§13, item 14)?
+9. Should each static counting law be derived from one relation, so backward
+   reads come from the same table (§13, item 14)?
 10. Should turn-gated alternation be the standard way to state update order
     inside an engine (§9.2)?
 
