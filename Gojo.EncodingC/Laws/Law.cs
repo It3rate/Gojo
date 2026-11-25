@@ -19,8 +19,7 @@ public abstract class Law
     {
         ArgumentNullException.ThrowIfNull(roles);
         if (roles.Count == 0) throw new ArgumentException("A law has at least one role.", nameof(roles));
-        if (bitCount is < 1 or > MaxBits) throw new ArgumentOutOfRangeException(nameof(bitCount), "Table too large to check exhaustively.");
-        var byteCount = (int)((bitCount + 7) / 8);
+        var byteCount = TableByteCount(bitCount);
         if (bytes.Length != byteCount) throw new ArgumentException($"Expected {byteCount} bytes: one bit per tuple.", nameof(bytes));
         if (bitCount % 8 != 0 && (bytes[^1] >> (int)(bitCount % 8)) != 0)
             throw new ArgumentException("Padding above the last tuple must be zero.", nameof(bytes));
@@ -95,13 +94,19 @@ public abstract class Law
 
     private protected static byte[] PackBits(long bitCount, IEnumerable<long> set)
     {
-        var bytes = new byte[(bitCount + 7) / 8];
+        var bytes = new byte[TableByteCount(bitCount)];
         foreach (var bit in set)
         {
             if (bit < 0 || bit >= bitCount) throw new ArgumentOutOfRangeException(nameof(set));
             bytes[bit / 8] |= (byte)(1 << (int)(bit % 8));
         }
         return bytes;
+    }
+
+    private protected static int TableByteCount(long bitCount)
+    {
+        if (bitCount is < 1 or > MaxBits) throw new ArgumentOutOfRangeException(nameof(bitCount), "Table too large to check exhaustively.");
+        return (int)((bitCount + 7) / 8);
     }
 
     private protected static int Product(IReadOnlyList<Shape> roles) => roles.Aggregate(1, (p, r) => checked(p * r.Size));

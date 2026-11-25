@@ -87,6 +87,16 @@ public sealed class Supports
     /// be. A relation wired to it narrows it.</summary>
     public Binding Variable => Binding.Open(Surface, planes);
 
+    /// <summary>Whether one value is still possible, as a one-bit role's
+    /// binding. Read as a gate, it lets a route run only while its option is
+    /// possible: an open choice leaves several gates open, so their routes
+    /// contest, and narrowing the choice settles which one runs.</summary>
+    public Binding Possible(int value)
+    {
+        if ((uint)value >= (uint)planes.Length) throw new ArgumentOutOfRangeException(nameof(value));
+        return new(Surface, planes[value]);
+    }
+
     /// <summary>The field's bits as a role's binding: a sample, one value.</summary>
     public Binding Sample => new(Surface, [.. Field.Planes]);
 

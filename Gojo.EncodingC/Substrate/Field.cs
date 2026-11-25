@@ -35,6 +35,21 @@ public sealed class Field
         return pattern;
     }
 
+    /// <summary>The field's bits as a role's binding: one value, a code.</summary>
+    public Binding On(Surface surface) => new(surface, planes);
+
+    /// <summary>The room left in a unary field, capacity minus its count, as a
+    /// role's binding. Inverting a unary count and reading it from its top bit
+    /// gives exactly that, so this is a flipped view with the planes in reverse
+    /// order: nothing is copied, and a law that fills the room empties the
+    /// count. Room is the count's anti-fill, read from its capacity; it is not
+    /// the count reoriented, which keeps the amount.</summary>
+    public Binding Room(Surface surface)
+    {
+        if (!Shape.IsUnary) throw new InvalidOperationException("Room is read from a unary count's capacity.");
+        return new(new Flipped(surface, planes), [.. planes.Reverse()]);
+    }
+
     /// <summary>The value at a position, or null when the bits are not a code
     /// of the shape.</summary>
     public int? Read(Surface surface, int position) => Shape.Decode(Pattern(surface, position));
