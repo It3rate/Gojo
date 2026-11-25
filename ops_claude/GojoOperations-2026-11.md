@@ -1,11 +1,14 @@
 # Operations in Gojo: what they are, where they live, how they run
 
-Status: **exploratory discussion**, rewritten 25 November 2026. Nothing here is
-built. This version replaces the first draft (git `7d520953`). It folds in the
+Status: **exploratory discussion**, rewritten 25 November 2026. Nothing proposed
+here is built. This version replaces the first draft (git `7d520953`). It folds in the
 first round of answers and the two notes written in parallel on the same
 question: [`ops_sol`](https://github.com/It3rate/Gojo/blob/ops_sol/Gojo/docs/GojoOperationsDiscussion.md)
 and [`ops_neon`](https://github.com/It3rate/Gojo/blob/ops_neon/Gojo/docs/GojoOperations-2026-11.md).
-Ideas taken from them are marked *(ops_sol)* or *(ops_neon)*.
+Ideas taken from them are marked *(ops_sol)* or *(ops_neon)*. Updated after
+master's tension merge (`9b805964`): pieces now built there are cited as
+implemented. A [review of all three notes](GojoOperationsReview-2026-11.md)
+says where they land.
 
 Statuses follow the canonical prompt (§1): *implemented*, *documented
 direction*, *exploratory* and *superseded*. Everything proposed here is
@@ -49,7 +52,8 @@ exploratory. Numeric claims are checked by the script in
    read off afterwards, with its loss (§1).
 3. **What is combined decides how.** Amounts merge. A rate scales an amount,
    and rates compose. Positions differ, translate and average. Presences
-   co-occur. Intensive quantities such as temperatures never add (§2).
+   co-occur. Intensive levels such as temperatures never add, though their
+   changes in one basis do (§2).
 4. **There are four places for an operation.**
    - A *view* reinterprets planes and copies nothing.
    - A *connection* carries an operation with one live input: a calibration.
@@ -90,6 +94,15 @@ exploratory. Numeric claims are checked by the script in
     guarded lane by lane (§11).
 14. **Recommendation:** frames for meaning, flows for running, relations for
     reading backward, and tables as the crystallized form (§12).
+15. **Master's tension system already implements much of this:**
+    - joining, tearing out and cancelling;
+    - delivering against an order;
+    - heaping with a rate, and comparing;
+    - thresholds held as data, and coasting at rate 1;
+    - gates and turns.
+
+    Its counting laws are the numeric stand-in until rungs arrive behind the
+    same roles (§1.1, §3, §8).
 
 ### Decided in discussion
 
@@ -137,6 +150,22 @@ certain of any of these") and take precedence over the proposals below.
 - **Checked:** the Babylonian vocabulary, against the first chapter of
   Høyrup's *Algebra in Cuneiform* (2017).
 
+### Updated after the tension merge
+
+- **Master's primitives are cited as implemented:** `Tension`, `Counts`,
+  `Flows.When`, `Flows.Turn`, `Flows.Fulfill`, `Settling.Justify`,
+  `Settling.ValueGap` and `Field.Room`.
+- **Step order can be structure today,** through a joint transition or a turn
+  bit (§9.2).
+- **Views re-read bits and never compute** (§3). Facts about now are
+  justified, not narrowed (§1.2).
+- **Corrections from the final review:**
+  - intensive changes add;
+  - serialized arrivals have no corners;
+  - `Convert` lowers by whole packets;
+  - guards widen to groups where lanes interact;
+  - `FiniteLawPlan` now lives in `Gojo.Encoding/Core/Native`.
+
 ## 1. Operations are not four things
 
 ### 1.1 What the scribes kept apart
@@ -148,11 +177,11 @@ quotations below are from the first chapter of *Algebra in Cuneiform* (2017).
 
 | Term | What it does | Gojo counterpart |
 | --- | --- | --- |
-| **Heap** (*kamārum*) | "to heap a and b". It can add abstract numbers, even "an area and … a length". The result has a name, "the heap", or "the things heaped" when the parts stay distinct | a relation, or a transition that writes only a new result |
-| **Join** (*waṣābum*) | "to join j to S". It is concrete and "conserves the identity of S": "S invariably remains in place, whereas, if necessary, j is moved around". The sum has no name, because "the operation creates nothing new" | an in-place process: a move into `S` |
-| **Tear out** (*nasāḫum*) | "from B to tear out a", the inverse of joining. It presupposes that `a` is part of `B`; what is left is "the remainder" | an in-place draw |
-| **Compare** | "A over B, d goes beyond", for magnitudes where "the smaller is not part of the larger". The excess is "the going-beyond" | a two-faced gap; `Sides.Compare` |
-| **Steps of** (*a.rá*) | the multiplication tables, abstract number by abstract number. "Going" `n` times gives `n·s`, or `A + n·s` when joined | a small table at one rung; repetition |
+| **Heap** (*kamārum*) | "to heap a and b". It can add abstract numbers, even "an area and … a length". The result has a name, "the heap", or "the things heaped" when the parts stay distinct | a relation, or a transition writing only a new result: `Counts.Sum`, with an optional rate (implemented) |
+| **Join** (*waṣābum*) | "to join j to S". It is concrete and "conserves the identity of S": "S invariably remains in place, whereas, if necessary, j is moved around". The sum has no name, because "the operation creates nothing new" | an in-place process: received as pressure, then absorbed into `S` (`Tension.Receive`, `Absorb`, implemented) |
+| **Tear out** (*nasāḫum*) | "from B to tear out a", the inverse of joining. It presupposes that `a` is part of `B`; what is left is "the remainder" | an in-place draw: a demand held as debt and paid from `S` (`Tension.Demand`, `Draw`, implemented) |
+| **Compare** | "A over B, d goes beyond", for magnitudes where "the smaller is not part of the larger". The excess is "the going-beyond" | a two-faced gap: `Counts.Shortfall` each way round (implemented); `Settling.ValueGap` for open values; `Sides.Compare` |
+| **Steps of** (*a.rá*) | the multiplication tables, abstract number by abstract number. "Going" `n` times gives `n·s`, or `A + n·s` when joined | a small table at one rung; repetition, such as `Counts.Accumulate` |
 | **Raise** (*našûm*) | first used for volumes, raising a base of standard thickness 1 to a real height, then for "all determinations of a concrete magnitude by multiplication". The area of an existing rectangle is found by raising | a rate on a connection; the read of an existing construction |
 | **Make hold** (*šutakūlum*) | "to construct a rectangle contained by the sides p and q", which "is no real multiplication". The texts give the area right after: "make 5 and 5 hold: 25" | pairing: new orthogonal structure (Axiom 11), then a read |
 | **Repeat** (*eṣēpum*) | a "physical" doubling or `n`-doubling, with `n` at most 9, such as doubling a right triangle into a rectangle | replication of a structure |
@@ -195,7 +224,15 @@ Earlier iterations point the same way:
 **Give a result an output role first** *(ops_sol)*. The output can be left
 open, read through a view, materialized independently, or bound to a receiver.
 A new carrier for every calculation would make live operations expensive and
-blur observation with state.
+blur observation with state. On master, a computed result is written by a law,
+and only when it changes. The host-computed gap views of an earlier tension
+version were replaced by counting laws (tension note, §11).
+
+**Facts about now are justified, not narrowed.** Narrowing only rules out,
+which suits facts that stay true. A possibility about now, such as "the product
+exceeds the threshold", can stop holding and come back. `Settling.Justify`
+(implemented) holds it while its reasons hold, so it reopens when they return.
+This is truth maintenance (Doyle, 1979).
 
 ## 2. What is combined decides how
 
@@ -216,7 +253,8 @@ Across kinds:
   extent gives a position.
 - **Intensive plus intensive is not defined.** Two cups at 50 and 30 degrees
   do not make 80. Combine the extensives they are ratios of, then read the
-  ratio again: a weighted average.
+  ratio again: a weighted average. Changes in one basis do add: warming by 5
+  and then by 3 is warming by 8 *(ops_sol)*. Only levels do not.
 
 **Relative and absolute.** The Drive article's "position to position for
 addition, from zero for multiplication" is Stevens's distinction between
@@ -245,9 +283,9 @@ separates the same situations:
 
 | Place | What belongs there | In EncodingC | Physical criterion |
 | --- | --- | --- | --- |
-| **View** | a reinterpretation of existing planes, copying nothing | `Flipped`: NOT, room, `Odv.Reoriented` | another reading of the same participation *(ops_neon)* |
+| **View** | a re-reading of existing planes, copying nothing and computing nothing | `Flipped`: NOT, `Field.Room`, `Odv.Reoriented` | another reading of the same participation *(ops_neon)*. Anything that calculates is a law (tension note, §11) |
 | **Connection** | one live input: a rate, a shift, a coarse read | `Move`, `Convert(take, give)` | a bond-graph transformer; a scalar gain in a signal-flow graph |
-| **Junction** | two or more live inputs and no state of its own | a row of a law over three or more roles: AND, a sum, a times table, the passage law (source, gate, target) | a *modulated* transformer; a bond-graph 0- or 1-junction |
+| **Junction** | two or more live inputs and no state of its own | a row of a law over three or more roles: AND, `Counts.Sum`, a times table, the passage law (source, gate, target), any law gated by `Flows.When` | a *modulated* transformer; a bond-graph 0- or 1-junction |
 | **Local structure** | state, carries, several sites, a schedule | ladders, multipliers, oscillators, spatial Boolean settlement | a mechanism with its own ports that settles on its own |
 
 - **Bond graphs** (Paynter, 1961) are the crispest physical criterion *(ops_neon)*.
@@ -298,7 +336,9 @@ into `3B` cannot conserve `B` alone. There are four legitimate readings:
    turns one coarse unit into three fine ones, and the place-value sum is
    preserved.
 2. **Supply:** the extra units are drawn from a reservoir. A shortfall stays as
-   draw tension.
+   debt: `Tension.Demand` holds it, and `Draw` pays it when there is value
+   (implemented). Change from outside enters as pressure or debt and is never
+   written into the value (Axiom 5).
 3. **An informational update:** a coordinate, reference or supposition is
    rewritten inside the structure. No material is claimed, and nothing is
    written through a foreign port *(ops_neon)*.
@@ -361,6 +401,9 @@ depend on the path, but the split does (Appendix A, check 5). With `a = 3` and
   `B`.
 - **On the diagonal** (both together three times, then `B`), 3 cells are swept
   by `A`, 6 by `B`, and 3 are corners.
+- **Serialized** (each paired arrival split, `A` before `B`, then the last `B`),
+  3 are swept by `A`, 9 by `B`, and none are corners *(ops_sol)*. Corners appear
+  only when arrivals coincide.
 
 Some consequences:
 - **Growing together builds squares by gnomons, 1, 3, 5.** BM 13901, problem 1,
@@ -373,9 +416,11 @@ Some consequences:
   which is Leibniz's rule. Counting both full sweeps would double the area;
   the triangle split is one valid way to account for it *(ops_sol)*.
 - **The question chooses whether the record is kept** (decided). It can be
-  recorded while running (a wiring that records), replayed later over the
-  selected cone (the consolidation note's witness lane), or never read if no
-  demand selects it.
+  kept as three route tallies (swept by `A`, swept by `B`, corners), as
+  `Flows.Fulfill` counts receipts by route without a record per unit
+  (implemented). It can also be recorded while running (a wiring that
+  records), replayed later over the selected cone (the consolidation note's
+  witness lane), or never read if no demand selects it.
 - **Crystallization can drop the record on purpose.** The product becomes a
   carrier of its own, a new direction whose ticks no longer say which side
   swept which. The kernel's `TryCrystallizeFill` already "records magnitude and
@@ -390,8 +435,9 @@ values:
 - a product of 0..15 and 0..15 is `16·16·226 = 57,856` bits.
 
 Its 226 outputs also exceed EncodingC's limit of 64 values in one primitive
-read (`OnePrimitiveReadTellsApartAtMost64Values`). So a wide product must be
-factored:
+read (`OnePrimitiveReadTellsApartAtMost64Values`). Tables beyond `Law.MaxBits`
+are refused before they are built, and each gate added by `Flows.When`
+quadruples a table (implemented). So a wide product must be factored:
 - **Lattice:** every digit meets every digit in a cell, and the cell's place is
   `i + j`. Diagonals of equal place are summed with carries. Long
   multiplication multiplies digits while it adds rung indices. The Treviso
@@ -447,6 +493,9 @@ are composed from small ones, or learned from observed processes.
   admissible. Driving flow through one needs a transition, a receiver and a
   rule for what is blocked. A shared gate can be read many times, while one
   conserved unit goes to one route. The passage law multiplies a flow by a
+  bit. `Flows.When` (implemented) makes any law wait on several gate bits: an
+  AND of conditions on a flow. Because each gate quadruples the table, many
+  conditions are combined by a small law first, and the flow waits on its one
   bit.
 - **Polarity is a chosen read.** In Shannon's 1938 relay paper, 1 meant an
   *open* circuit (hindrance), so series was a sum and parallel a product. The
@@ -496,6 +545,16 @@ through a checked correspondence, with the stale check.
   table wall *(ops_neon)*.
 - Multiplication is itself the relation between rungs. Core4 said so: "the
   same mechanism as resolution".
+
+**The counting laws are the stand-in** (implemented on master). `Counts`
+writes sums (with an optional rate), shortfalls, tallies, thresholds and
+accumulations as small tables. The tension note calls them "the emulation of
+the first numeric step" (§11 there), and states the contract this note's lift
+needs: "With magnitudes in planes, each becomes arithmetic on a magnitude, the
+tables stop growing with capacity, and every wiring that reads them stays as it
+is." Rungs, and compiled stand-ins (§11), arrive behind the same roles.
+`Counts.Rank` already makes the comparison a ladder needs: the higher tier
+decides whenever it changed.
 
 **The lift rule:**
 - **Carry.** A carry is `Convert(k, 1)` from a fine count to a coarse one. Its
@@ -594,6 +653,14 @@ velocity `ε·v`, that is the same step with `k = ε²` and `ε = 2^-s`.
     and spirals out to 1187 in 400 steps (check 1).
   - This is symplectic versus explicit Euler, and Minsky's circle algorithm
     (HAKMEM 149) in integers.
+- **The order can be structure today,** in two ways.
+  - One joint transition computes both from the before-state *(ops_sol)*.
+  - Kick and drift each wait on a turn bit, one on the bit and the other on its
+    flipped view, so exactly one runs per engine step (`Flows.Turn`,
+    implemented). Under a step taken together, this reproduces the in-order
+    orbit step for step, at two engine steps per oscillator step (check 9).
+
+  Either way, the order is saved with the machine.
 - **The shadow energy** `H = ½(v² + kx² − kxv)` is conserved exactly *(ops_neon)*
   (check 2). The angle per step is `2·asin(√k/2)`, so `k` calibrates the
   period.
@@ -683,8 +750,8 @@ form a ladder of stiffness.
   - The coupling of §9.4 is fitted, then locked.
   - The sign `m` is perturbable in a workspace that explores which concept
     fits, and locked in a crystallized oscillator.
-  - The tension-synthesis branch's `Counts.AtLeast` keeps its threshold as a
-    count "so a law, a learner or a host can move it".
+  - `Counts.AtLeast` (implemented on master) keeps its threshold as a count "so
+    a law, a learner or a host can move it".
 - **Graded stiffness is open.** The prompt (§5.1) names "resistance to change"
   and leaves its law open. A graded read could count how many structures read
   a value, or how much tension a change would raise in them.
@@ -694,8 +761,9 @@ form a ladder of stiffness.
 **Where this stands.** The prompt allows a compiled form "if it can be traced
 back to the Gojo surface" (§8.1). It also says such forms are "subordinate to"
 the structure (§9.1), and that "an optimization must not shape the concept"
-(§9.6). `FiniteLawPlan` in the QualitativeExecution experiment is the existing
-pattern (implemented):
+(§9.6). `FiniteLawPlan` is the existing pattern (implemented). It was first
+written in the QualitativeExecution experiment and is now promoted to
+`Gojo.Encoding/Core/Native`:
 - any graph edit invalidates it (`IsCurrent`), and a stale plan returns
   unresolved evidence;
 - a compute-only read allocates no witness;
@@ -727,13 +795,16 @@ Saving always writes the canonical structure, never a compiled artifact.
    carry out, never a silent wrap (§8.1).
 4. **Residue, open values and contradictions survive.** Division keeps its
    remainder, and a zero divisor gives an open result, not an exception.
-5. **Recognition is by content, not by name.** `SameTable` compares tables bit
-   for bit (implemented), small tables can be verified exhaustively at compile
-   time, and a sealed subgraph is matched by structure *(ops_neon)*.
+5. **Recognition is by content, not by name.** `SameTable` compares kind, role
+   shapes and table bits (implemented). Small tables can be verified
+   exhaustively at compile time, and a sealed subgraph is matched by structure
+   *(ops_neon)*. A matching table still needs the right bindings and accounted
+   effects *(ops_sol)*.
 6. **Guards work lane by lane.** Only lanes that are
    `Live & Attended & SettledValidCodes & ~Aliased & ~Contested` take the fast
-   path; the rest run canonically and write their evidence *(ops_neon)*. Any
-   edit invalidates the plan.
+   path; the rest run canonically and write their evidence *(ops_neon)*. The
+   guard widens to a group where lanes share capacity or a contested writer
+   *(ops_sol)*. Any edit invalidates the plan.
 7. **Witnesses are produced on demand.** A question that asks for provenance
    replays the canonical path over its cone. That provenance is chosen by the
    question is what keeps the fast path fast.
@@ -745,7 +816,7 @@ Saving always writes the canonical structure, never a compiled artifact.
 | A small law (Boolean, passage, ODV addition) | bitwise words; `pshufb`/`vqtbl1q`; FPGA LUT (the passage law is one LUT6) | exact |
 | Unary add, remove, compare | shifts, masks, `popcnt` | exact |
 | A radix ladder: add or multiply | widening `ADD`/`MUL`, carry out to `T+` | exact |
-| `Convert(take, give)` | multiply and shift, or `DivRem`, keeping the remainder | exact |
+| `Convert(take, give)` | one whole packet per firing: a compare and two adds. A bulk read takes `min(⌊s/take⌋, ⌊room/give⌋)` packets, never `⌊s·give/take⌋` *(ops_sol, check 10)* | exact |
 | A selected-lane broadcast | masked vector operations | exact |
 | A product of structures | outer product; GPU tensor units | exact in integers |
 | The oscillator | integer kick and drift, vectorized; or a CORDIC core | exact |
@@ -778,7 +849,8 @@ dispatch-in-disguise test (§5.3).
 
 **Strengths.**
 - It is built on machinery that already works: `RelationLaw`, narrowing,
-  `LearnedTable`, carries.
+  `LearnedTable`, carries, and on master the counting laws, which are this
+  approach at rung 1, written one way.
 - It is exact.
 - It reads backward: division, the open zero, contradiction.
 - It is a lookup on any substrate.
@@ -808,7 +880,8 @@ remaining tension.
 - Intermediate states are meaningful numbers: partial products and remaining
   tension.
 - Roles are explicit.
-- It fits tension, and gives sine for free.
+- It fits tension, which master now implements as `Tension`, with debt for
+  any shortfall. It gives sine for free.
 
 **Weaknesses.**
 - It takes time: `n` steps, or `log n` with rungs.
@@ -874,15 +947,18 @@ A suggested order for work, at rung 0 in EncodingC:
 Each gap is listed with the smallest clarification that would resolve it.
 
 1. **The step kind carries meaning but is not saved.** It decides whether an
-   orbit closes (§9.2) and what a compiled loop means. *Clarify:* step order,
-   and `Step` versus `Settle` for in-place processes, are structure saved with
-   the machine.
+   orbit closes (§9.2) and what a compiled loop means. Within one engine it can
+   already be structure, through a joint transition or `Flows.Turn` (§9.2).
+   Between engines it cannot. *Clarify:* update order is structure saved with
+   the machine, and `Step` versus `Settle` is part of an in-place process's
+   contract.
 2. **Where product material comes from is unstated** (prompt §4.4, Axiom 5).
    *Clarify:* "A product is a read unless a refinement or supply route is
    wired. A product that is demanded and not supplied is draw tension."
 3. **Intensive and extensive are not distinguished.** Axiom 10's compatible
-   addition is stated in units, but intensive quantities of one unit still do
-   not add. *Clarify:* addition is defined on amounts and extents.
+   addition is stated in units, but intensive levels of one unit still do not
+   add. *Clarify:* addition is defined on amounts, extents and changes.
+   Intensive levels combine through the extensives they are ratios of.
 4. **The prompt's §9.7 "product is presence of both" holds at the bit rung
    only.** On unary planes AND is the minimum (§6). *Clarify* its scope.
 5. **Generator J is deferred, and the oscillator gives it a first use.**
@@ -904,6 +980,13 @@ Each gap is listed with the smallest clarification that would resolve it.
     (§8).
 13. **An article and the prompt meet on denominators.** A denominator is
     resolution only while connected to its sampling (§8; prompt §5.2).
+14. **Counting laws read one way.** `Counts` laws are functional transitions.
+    Backward reads (subtraction, division, the open zero) need relations.
+    *Decide* whether each counting law gets a relation twin, or whether
+    relations are added only where a question needs one.
+15. **Narrowing and justification apply to different facts.** Narrowing suits
+    facts that stay true; `Settling.Justify` suits possibilities about now. The
+    prompt could say which reads use which.
 
 ## 14. Experiments that would decide
 
@@ -911,7 +994,7 @@ All are at rung 0 in EncodingC unless noted.
 
 | Id | Build | Expected | Decides |
 | --- | --- | --- | --- |
-| X1 | One set of participants, three readings *(ops_sol)*: a product counted from distinct ordered pairs and a same-unit repeat, both 12 from 3 and 4; an AND on a common partition; a gain on a scoped target read now, written back once, and recurring | equal counts with different roles and witnesses; the AND follows the shared sites; the three uses differ | whether structure explains the differences before the helper's name is read |
+| X1 | The 3 × 4 comparison *(ops_sol)*: a relation over `a, b ∈ 0..4`, `c ∈ 0..16`; pair schedules kept as route tallies; packets at 3 a tick from a supply of 12 into a capacity of 10, with `Tension` debt | the relation has 425 bits and 25 tuples, gives `(3, 4)` and `(4, 3)` for 12, leaves `b` open at `a = c = 0`, and contradicts `a = 2, c = 5`; the splits are `(0, 12, 0)`, `(3, 6, 3)` and `(3, 9, 0)`; deliveries run 0, 3, 6, 9, 9 with 3 left (checks 11 and 12) | whether structure explains relation, pairing and process before the helper's name is read |
 | X2 | A times relation over `(a, b, c)` | divides; `b` open when `a = c = 0`; contradiction when `a = 0` and `c ≠ 0` | A's backward reads |
 | X3 | A two-rung lattice from one small table, against one wide relation | equal products; bits and the 64-value limit counted | factoring (§5.3) |
 | X4 | Lattice, doubling and quarter squares measured side by side | bits, steps, backward reads | which factoring to prefer *(ops_neon)* |
@@ -919,7 +1002,7 @@ All are at rung 0 in EncodingC unless noted.
 | X6 | Arrival pairing: recording off, recording on, replayed | the split appears only when asked; recorded equals replayed | provenance chosen by the question |
 | X7 | "Double `B`" as a relation, under `Settle`, and per `Step` | zero; capacity; 5, 10, 20, 40 | settling versus time (§4) |
 | X8 | The rung-0 phase law: J driven by Sides events | eight states; two quarters negate; four return | §9.1; un-deferring J |
-| X9 | Kick and drift with both step kinds | in order closes, with constant shadow energy; together spirals | step order as structure |
+| X9 | Kick and drift with both step kinds, and alternated by `Flows.Turn` | in order closes with constant shadow energy; together spirals; turn-gated together equals in order (check 9) | step order as structure |
 | X10 | The family of §9.3: first and second order, `m = +1, 0, −1` | relaxation, hold, growth; oscillation, coasting, runaway | one mechanism |
 | X11 | Scaling a structure by its unit `TickRef` (kernel), and the plate in GojoCAD | every read scales; ratios hold; the hole becomes an ellipse under one-axis stretch | C's frame edit; §7 |
 | X12 | A change of unit as a carry run downward | 3 coarse become 12 fine, place-value sum preserved | conserving multiplication |
@@ -941,6 +1024,12 @@ All are at rung 0 in EncodingC unless noted.
 7. Is a narrow bridge test between an EncodingC ladder and the kernel's
    projection worth adding now *(ops_neon)*?
 8. Which fixture first? The proposal is X1, then X8 to X10, then X5 to X7.
+9. Should counting laws get relation twins for backward reads (§13, item 14)?
+10. Should turn-gated alternation be the standard way to state update order
+    inside an engine (§9.2)?
+
+The [review](GojoOperationsReview-2026-11.md) gathers these with the decisions
+that follow from comparing the three notes.
 
 ## Appendix A: numeric checks
 
@@ -1042,9 +1131,56 @@ print("8. 3-4-5 turn:", [(str(a), str(b)) for a, b in pts], "keeps x^2+u^2 =", p
 print("   8 steps of 0;07,30 =", 8 * (F(7, 60) + F(30, 3600)), "| 8 steps of 7,30 =", 8 * (7*60 + 30), "= 1,00,00")
 s = F(1, 2)
 print("   BM 13901 #1: side 30' gives s^2 + s =", s*s + s, "= 45'; completing the corner gives", (s + F(1, 2))**2)
+
+# 9. Update order as structure. Every row reads the state before the step (a
+#    step taken together); kick waits on turn 0, drift on turn 1, so one runs
+#    per engine step, and Flows.Turn flips the bit while both have work.
+def turn_gated(x, v, s, engine_steps):
+    turn, path = 0, [(x, v)]
+    for _ in range(engine_steps):
+        nx, nv = x, v
+        if turn == 0: nv = v - coarse(x, s)
+        else:         nx = x + coarse(v, s)
+        x, v, turn = nx, nv, 1 - turn
+        if turn == 0: path.append((x, v))
+    return path
+def joint(x, v, s, steps):                       # one row, both from the before-state
+    path = [(x, v)]
+    for _ in range(steps):
+        nv = v - coarse(x, s); x, v = x + coarse(nv, s), nv; path.append((x, v))
+    return path
+t, o, j = turn_gated(64, 0, 3, 2 * back), second_order(64, 0, 3, back), joint(64, 0, 3, back)
+print("9. turn-gated together == in order == joint transition:", t == o == j, "| closes:", t[-1] == (64, 0))
+
+# 10. Convert(take=3, give=2) moves one whole packet per firing (from ops_sol).
+def convert_run(source, target, room, take=3, give=2):
+    while source >= take and target + give <= room:
+        source -= take; target += give
+    return source, target
+print("10. Convert 3->2 from 8: room 3 ->", convert_run(8, 0, 3), "| room 99 ->", convert_run(8, 0, 99),
+      "| bulk 8*2//3 =", 8 * 2 // 3)
+
+# 11. The 3 x 4 relation (from ops_sol): a, b in 0..4, c in 0..16, c = ab.
+rel = [(a, b, a * b) for a in range(5) for b in range(5)]
+print("11. bits", 5 * 5 * 17, "| admitted", len(rel), "| c=12:", [(a, b) for a, b, c in rel if c == 12],
+      "| a=0,c=0 leaves b", sorted({b for a, b, c in rel if a == 0 and c == 0}),
+      "| a=2,c=5 leaves", sorted({b for a, b, c in rel if a == 2 and c == 5}),
+      "| one sample:", sorted({a * a for a in range(5)}))
+
+# 12. Packets into a capped receiver (from ops_sol): 3 a tick, supply 12, capacity 10.
+supply, recv, trace = 12, 0, [0]
+for _ in range(4):
+    if supply >= 3 and recv + 3 <= 10: supply -= 3; recv += 3
+    trace.append(recv)
+print("12. receiver", trace, "| left at supply", supply, "| still", supply + recv,
+      "| serialized split:", pairing([(1, 0), (0, 1)] * 3 + [(0, 1)]))
+
+# 13. Corner share in the fine limit: 3N and 4N arriving together where they can.
+N = 1000
+print("13. corner share at x1000:", pairing([(1, 1)] * (3 * N) + [(0, 1)] * N)["corners"] / (12 * N * N))
 ```
 
-Output, 25 November 2026:
+Output, 25 November 2026 (checks 9 to 13 added after the tension merge):
 
 ```text
 1. in order: back at start after 54 steps, max |x| 64
@@ -1064,6 +1200,11 @@ Output, 25 November 2026:
 8. 3-4-5 turn: [('3', '-4'), ('-7/5', '-24/5')] keeps x^2+u^2 = 25
    8 steps of 0;07,30 = 1 | 8 steps of 7,30 = 3600 = 1,00,00
    BM 13901 #1: side 30' gives s^2 + s = 3/4 = 45'; completing the corner gives 1
+9. turn-gated together == in order == joint transition: True | closes: True
+10. Convert 3->2 from 8: room 3 -> (5, 2) | room 99 -> (2, 4) | bulk 8*2//3 = 5
+11. bits 425 | admitted 25 | c=12: [(3, 4), (4, 3)] | a=0,c=0 leaves b [0, 1, 2, 3, 4] | a=2,c=5 leaves [] | one sample: [0, 1, 4, 9, 16]
+12. receiver [0, 3, 6, 9, 9] | left at supply 3 | still 12 | serialized split: {'product': 12, 'swept_by_A': 3, 'swept_by_B': 9, 'corners': 0}
+13. corner share at x1000: 0.00025
 ```
 
 ## Appendix B: evidence
@@ -1111,7 +1252,9 @@ Output, 25 November 2026:
 - [Canonical prompt](../Gojo/docs/GojoSystemPrompt.md); [orientation, definition and use](../Gojo/docs/GojoOrientationDefinitionAndUse-2026-11.md) (§5, the generator); [tension note](../Gojo/docs/GojoTension-2026-11.md); [consolidation note](../Gojo/docs/GojoEncodingConsolidation-2026-11.md) (§5.8, §5.12, §7, K7); [finite-read fixture](../Gojo/docs/GojoFiniteReadFixture.md); [complex interpretations](../Gojo/docs/GojoComplexInterpretations-2026-09.md)
 - [EncodingC README](../Gojo.EncodingC/README.md) and [glossary](../Gojo.EncodingC/GLOSSARY.md); `Gojo.EncodingC/Tests/LawTests.cs` (`SameTable`, the 64-value limit, Boolean bytes, the add relation); `SelfRunningTests.cs` (the carry ladder); `Laws/Accounting.cs` (`Unchanged`)
 - `Gojo/Core/Relation.Operations.cs` (the output-grade rule; `TryCrystallizeFill`); [Equations README](../Gojo/Equations/README.md); [Operation Shape Catalog](../Gojo/axioms/Gojo%20Operation%20Shape%20Catalog.md); [Core4 Kernel Axioms](../Gojo/axioms/Core4%20Kernel%20Axioms.md); [Core4 Carrier Read And Resolution Axioms](../Gojo/axioms/Core4%20Carrier%20Read%20And%20Resolution%20Axioms.md); [Core4 Boundary Overflow Axioms](../Gojo/axioms/Core4%20Boundary%20Overflow%20Axioms.md)
-- `experiments/QualitativeExecution/FiniteLawPlan.cs` and `FiniteLawBatchPlan.cs`; `Gojo.EncodingC/Laws/Counts.cs` on the `tension_synthesis` branch
+- `Gojo.Encoding/Core/Native/FiniteLawPlan.cs`, first written as `experiments/QualitativeExecution/FiniteLawPlan.cs` with `FiniteLawBatchPlan.cs`
+- Master's tension merge (`9b805964`): `Gojo.EncodingC/Flow/Tension.cs`; `Laws/Counts.cs`; `Flow/Flows.cs` (`When`, `Turn`, `Fulfill`); `Laws/Settling.cs` (`Justify`, `Latch`, `SameWhen`, `ValueGap`); `Substrate/Field.cs` (`Room`); `Laws/Law.cs` (`MaxBits`, `SameTable`); tests `TensionTests`, `CountsTests` and `RouteChoiceTests`; the [tension note](../Gojo/docs/GojoTension-2026-11.md), §8 and §11
+- [The review of all three notes](GojoOperationsReview-2026-11.md)
 - Drive folder articles: Pin, Accumulate, and Merge; Multiplying AI Segments; Boolean Arithmetic with Segments; Sequential Math, Parallel Math; Numbers (Complexity Spaces); Mathematics Without Infinity; Segment Math and Symmetry; The Mathematical Interpretation of Symmetric Numbers; Thinking in Directed Segments; Emergent Properties; Axioms (Core 2)
 
 **Checked for this note**
@@ -1132,4 +1275,5 @@ ops_neon.
 
 **Recalled from reading:** Brahmagupta; Fischbein, Deri, Nello and Marino
 (1985); Confrey (1994); Bresenham (1965); Minsky's circle algorithm in context;
-Hölzle, Chambers and Ungar (1992) on deoptimization.
+Hölzle, Chambers and Ungar (1992) on deoptimization; Doyle (1979) on truth
+maintenance, as cited in `Settling.Justify`.
