@@ -1,7 +1,11 @@
 # Tension: what is unaccounted, and what lowers it
 
-Status: **proposal**, 23 November 2026. Nothing here is built in EncodingC
-yet except where marked. It gathers what the canonical prompt (Axioms 5 to 7,
+Status: **proposal, partly built**, 25 November 2026. Sections 1 to 7 and 10
+are the account of tension. Sections 8, 11 and 13 say what is built in
+EncodingC. The field tests in sections 9 and 12 are experiments, kept on
+branch `tension_synthesis` and not part of the EncodingC core. The axiom
+questions in section 10 stay open: nothing here amends the canonical prompt.
+It gathers what the canonical prompt (Axioms 5 to 7,
 §2.7, §5.2, §5.4), the consolidation note (§5.9, §5.10) and the EncodingC
 pieces already say. It then proposes one account of tension down to the bit,
 as the motivator for the structural actions that come next: splitting,
@@ -199,6 +203,35 @@ Jefferson, 1974).
 So the missing piece is explicit route choice: the taker as an open value.
 It belongs with the tension work, not as a separate case.
 
+**Built** (`Supports.Possible`, gated moves in `Tension`, `RouteChoiceTests`). A route is a move gated by one bit:
+- **Gates from an open choice:** a choice with one support plane per route
+  gates each route by "still possible". While several remain possible, their
+  rows are contested, so the contested rows are exactly the open options.
+  Narrowing the choice, by the host or by a law reading a fact, settles it,
+  and taken together only the chosen route runs.
+- **Gates from a settled code:** a turn bit gates one move directly and the
+  other through its flipped view, so exactly one may run in a step. Absorbing
+  and drawing on one value then take turns and both settle.
+
+A turn bit that toggles every step never goes quiet: it is a driven
+controller (consolidation class C4) and needs its own stop.
+
+**Re-deciding a choice: justified possibility** (`Settling.Justify`). Narrowing only rules out, which is right for what was
+learned about the past, and wrong for a possibility about now that holds for
+a reason that can stop holding. Reopening every step and narrowing again
+writes the same bits both ways each step: taken together they contend, in
+order they never go quiet. A justified support bit instead has one writer, a
+law that sets it from its reasons each step: 1 while every reason holds,
+0 otherwise. It reopens when its reasons return, writes only on change, and
+never contends with itself (truth maintenance; Doyle, 1979). It must be
+declared before what it gates, or the gate reads it a step stale. So
+possibility comes in two kinds:
+
+- **Accumulated:** narrowed by relations, never reopened. What was learned
+  about the past.
+- **Justified:** computed from current reasons by one law. What is possible
+  now.
+
 ## 4. Down to the bit
 
 Everything below follows §9.7: 1 is presence, here the presence of something
@@ -223,10 +256,10 @@ support planes and the demand that selects them:
 - the open planes AND the demand plane is the deficit;
 - the empty planes AND the demand plane is the excess.
 
-These reads are already available (`Supports.Open`, `Supports.Empty`,
-`Question.Remaining`). What is missing is a law that writes them where other
-laws can read them: a small relation from a value's support planes to a
-two-bit code (settled, open, empty) per position.
+Built as a law: a tally of the support planes (`Counts.Tally`) writes how
+many values remain as a count, whose thermometer bits are the reads. Bit 0 is
+"any possible", bit 1 "more than one"; settled is bit 0 without bit 1, and
+contradicted is no bit 0.
 
 **Laws: residuals in the evidence planes.** Each run already leaves one bit per
 row and kind:
@@ -374,36 +407,93 @@ The user's three motivators for structural action, as tension:
 Splitting has a numeric cue from the closure work: where `Closure.Common`'s
 scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
 
-## 8. Proposed first steps in EncodingC
+## 8. What is built in EncodingC
 
-1. **Material tension.**
-   - Make `T+` and `T−` unary fields at a site.
-   - Make blocked entry write `T+`.
-   - Absorb, draw and cancel as `Flows.Move` into the value or a room view
-     (§4), not as new laws.
-   - Tests:
-     - units arriving at a full site wait as `T+` and are absorbed when room
-       frees;
-     - a draw with no supply stays as `T−`;
-     - the two are never netted unless a law connects them;
-     - the conservation promise holds.
-2. **The two-faced gap,** as planned in `Gap.cs`: a relation over (have, want,
-   deficit, excess), read in a goal's workspace.
-3. **Information tension as a law:** support planes to a settled/open/empty
-   code per demanded position, so laws can read where questions are unanswered
-   or contradicted.
-4. **The tension tuple:** a read over all tiers of a structure, and an
-   admissibility check on a step.
-5. **Structural reads** from evidence (idle, duplicate, joined, persistent,
-   contested) and description length, as the inputs for splitting and merging.
-6. **Explicit route choice:** the taker as an open value, so a contest is
-   narrowing and a turn-taking gate is an ordinary law.
+1. **Material tension** (`Tension`, `Field.Room`). Change from outside enters
+   as `T+` or `T−`, never into the value. Absorbing, paying and cancelling are
+   each the one-unit move, into the value or into a count's room.
+   **Delivering** (`Flows.Fulfill`, `Tension.Deliver`) pays a debt by sending
+   the unit on to an outlet and closing the order in the same move, so a
+   delivered unit is somewhere, not gone.
+2. **Counting as laws** (`Counts`), emulating the arithmetic numeric support
+   will provide:
+   - `Sum`: accumulation, with an optional rate;
+   - `Shortfall`: one face of a gap; the other face is the same law swapped;
+   - `Tally`: bits set, used over a value's supports for information tension;
+   - `AtLeast`: a threshold read, with the threshold held as data;
+   - `Accumulate` and `Streak`: accumulation, held or reset.
 
-The radial and linear work is a separate thread, but step 1 should keep the
-face of each tension explicit, so the orientation hypothesis in §4 can be
-tested there.
+   Each writes one result from read inputs, only when it changes, so its
+   meaning is a saved table and a structure settles quietly around it. They
+   replace the earlier host-computed views (§11).
+3. **Information tension** is a tally of a value's supports: thermometer bit 0
+   is "any possible", bit 1 "more than one". Settled is bit 0 without bit 1;
+   contradicted is no bit 0. A law waits on "settled" through the bit and the
+   flipped view of the other.
+4. **Route choice** (§3.5): moves gated by any number of bits (`Flows.When`,
+   `Tension.Route`, `Tension.Wire`); open choices whose contest is the choice;
+   justified possibilities (`Settling.Justify`) that reopen with their
+   reasons; and a turn (`Flows.Turn`) that alternates only while both sides
+   have work, so taking turns settles.
+5. **The slow clock** from small laws: a streak of a signal, read against a
+   patience held as data, triggers a latch (`Settling.Latch`) that recruits or
+   retires a row. Ashby's step change, made by structure.
+6. **Revision of what was learned:** of two contradicting premises, the less
+   firm is retired by a law (firmness compared by `Shortfall`, the trigger by
+   `Justify`, the retirement by `Latch`), and a gated `Forget` reopens the
+   value so the remaining premises narrow it again. No host call reopens it.
 
-## 9. Questions for the axioms
+**Built since:** ranking tiers as a law (`Counts.Rank`, §13), so strict
+domination between two tiers is structure.
+
+**Not built yet:**
+- wiring a whole structure's tiers into one tension tuple, and checking each
+  step's admissibility against it (§5);
+- structural reads (idle, duplicate, joined rows) as laws;
+- the exact numeric gap between open values. `Settling.ValueGap` says whether
+  two open values can agree, and `Counts.Shortfall` measures how far apart two
+  concrete counts are; how far apart two open values are is deferred to
+  numeric support.
+
+## 9. Field test: the corner shop
+
+`ShopTests` runs a shop as four local structures joined only by ports: a
+customer, the shop, and two wholesalers. The host builds them, steps them and
+posts what arrives from outside; everything else is laws. Items and requests
+are conserved across all four.
+
+| Iteration | What runs | What it shows |
+| --- | --- | --- |
+| 1. Material | The customer's requests arrive through a port as backorders; the shop hands items over at a pickup counter, from which the customer collects through the shop's port | Five of six requests are filled from shelf and dock; the sixth stays owed, with a case booked against it that nobody can fill |
+| 2. Reordering | On hand (shelf, dock, two per case on order) and wanted (target, backorders) are sums; their shortfall against a reorder point places orders; a wholesaler's delivery fills an order | The shop stops at four, in whole cases; selling three books one more |
+| 2b. A cut line | The line to the wholesaler is a socket, unplugged and restored | Counting orders on the books, two cases are booked and delivered on restore. Not counting them, three are booked, leaving two extra at the dock and a case still owed |
+| 3. Two wholesalers | A is closed; a law reading A's status makes A impossible | Narrowed, A never reopens and the shop ends owing two while A has stock. Justified, A reopens and everything is delivered |
+| 4. The slow clock | B is wired but not in use; backorders that last three steps recruit it | A single request served at once does not recruit B; backorders that persist do, and everything owed is delivered |
+| 5. The books | Batches' suppliers are open values narrowed by delivery notes; invoices are paid when the batch is settled | One note: paid. Conflicting notes of unequal firmness: the weaker is retired, the batch reopened and paid. Equal firmness: stays contradicted. No note: stays open |
+| 6. A trial | "Buy only from B" in a fork with isolated ports | A plain fork is refused while the shop takes through its lines. With ports isolated, the fork takes from snapshots of them, runs the trial and never commits; everything live is unchanged |
+
+**Taken from the other branches.** Three branches built tension in parallel.
+This one took, from `sol_tension`, the conserving delivery move, the customer
+as a structure whose requests enter through a port, orders on the books closed
+by the delivery that answers them, and gaps held in law tables rather than
+host code; and from `tension_neon`, firmness resolving contradictions, the
+slow clock as streaks and thresholds driving recruitment, and turn-taking
+that goes quiet. Each was rebuilt from the small primitives above rather than
+as a special-purpose law.
+
+**Findings left open:**
+
+- **One dock, two uses.** Receiving into the dock and shelving from it write
+  the same count. The shop runs in declared order; taken together it would
+  need a turn at the dock (`Flows.Turn` now exists for that).
+- **Provenance is lost on the shelf.** Units in a count are interchangeable;
+  writing a record when a case arrives needs allocation by laws.
+- **Priority is declared order.** Serving, shelving and ordering run in the
+  order they were added, not by a ranked tension tuple (§5).
+- **Table size.** Counting laws enumerate their counts, so capacities stay
+  small (a shelf of four). This is what numeric support removes.
+
+## 10. Questions for the axioms
 
 - **Whether "tension" should name all three kinds.** The canonical prompt uses
   tension for transferred change (carrier tension) and says uncertainty alone
@@ -418,6 +508,178 @@ tested there.
   supplies a reason for weights.
 - **Where demand comes from.** Questions, goals and laws that need a code are
   clear. Whether attention alone is a demand is open.
+
+## 11. Host-computed views, replaced by counting laws
+
+An earlier version read the gap and information tension through live views,
+`Difference` and `Openness`, whose meaning was computed in host code on every
+read. Nothing in a plane or a table said what a deficit was, and no law could
+change how one was computed. This came from two axioms pulling apart: "prefer
+calculated to stored" led to live views, while "meaning lives in Gojo
+structure" says the calculation itself must be structure.
+
+Both were thresholds over counts, and both are now counting laws (§8, item
+2): a sum and a shortfall for the gap, a tally and its thermometer bits for
+information tension. The laws keep "calculated": a law writes its result from
+current inputs each step and only when it changes, so nothing is stored that
+is not derived. What changes is that the calculation is a table the structure
+holds. The views, and the save and fork code they needed, are removed.
+
+The counting laws are the emulation of the first numeric step. Their roles
+are the arithmetic numeric support will provide: accumulation (`Sum`,
+`Accumulate`, `Streak`) and threshold reads with thresholds held as data
+(`AtLeast`, and the thermometer bits of a count, a bank of fixed thresholds).
+With magnitudes in planes, each becomes arithmetic on a magnitude, the tables
+stop growing with capacity, and every wiring that reads them stays as it is.
+
+## 12. Field test: a short dialogue
+
+`DialogueTests` (an experiment on branch `tension_synthesis`) builds the mechanics of a short
+exchange: asking, answering, asking which one, declining and grounding. What a
+car or an owner is does not matter; only the structure of the exchange does.
+
+**The construct.** Each speaker is a local structure; they meet only through
+ports. An utterance has two parts: a **token**, an obligation moved and
+conserved like any material, and **content**, a value the listener reads
+through the speaker's port to narrow an open value of its own. A question's
+token has one ledger: asked, owed (debt at the answerer), answered or declined
+(the answerer's outbox), heard (pressure at the asker), grounded.
+
+| Scenario | What runs | What it shows |
+| --- | --- | --- |
+| Whose car is this? (clear) | Ask, answer, acknowledge | The token passes through every stage, conserved; the answer is pressure until acknowledged |
+| Whose car? "This" is one of two cars, both John's | The answer settles despite the open referent | Ambiguity is tracked (two cars still possible) but not repaired: it does not reach the answer |
+| Whose car? Two cars, different owners | The answerer asks which one; the asker answers with the car it means | An inserted question, its own debt, resolves the referent; both questions are grounded |
+| Is this car red? Same two cars, both red | Answered yes at once | Same data, different question: no repair. Scope, not data, decides |
+| Whose car? The answerer does not know | Nothing to ask would settle it, so it declines | The obligation is discharged; the question stays open, its deficit visible |
+| Two answerers disagree | Both answers heard, neither acknowledged | The asker's value is contradicted; both answers stay as pressure |
+
+Saved, an exchange with a clarification is about 460 bytes, with under 0.5 KB
+of law tables in memory, and settles in four rounds (about 2.6 ms).
+
+**Strategies chosen, and why:**
+
+- **Obligations as material tension.** A question is a unit of debt that only
+  an answer or a decline can discharge, so "unanswered" is visible and
+  conserved, not a flag.
+- **Content read through ports, not sent as material.** Words are information:
+  any number of listeners may read them, and reading narrows only the
+  reader's own value. Narrowing waits until the words have arrived
+  (`Settling.SameWhen`), so nothing is narrowed by what was never said.
+- **Each utterance is its own position.** The one-taker rule applies to a
+  position, and two listeners taking different fields of one position were
+  refused. Rather than loosen the rule, each outgoing utterance became a slot
+  of its own: an utterance is a thing, so it has its own identity.
+- **Demand comes from the question.** The answerer repairs only while the
+  answer, the value the question demands, is open. An open referent is
+  information tension only if it reaches the answer, which the relation from
+  car to answer decides by narrowing. Whether to resolve an ambiguity is
+  computed from the question's scope, not from what happens to be uncertain.
+- **Repair ranked by exclusive gates.** Answer if settled; else ask which one
+  while an input to the answer is open; else decline. Each gate is a
+  justified bit, and they exclude each other, so the cheaper repair is always
+  the one taken, without a ranking table.
+- **Turns from obligations, not a controller.** Whoever owes something acts.
+  An obligation selects the next speaker, as in conversation (Sacks, Schegloff
+  and Jefferson, 1974), so no turn bit runs, and the exchange settles.
+- **Grounding waits on settledness.** The asker acknowledges an answer only
+  when its value is settled, so a contradicted answer is never grounded.
+
+**Strategies rejected, and why:**
+
+- **A turn-taking controller** (`Flows.Turn`). Not needed: obligations already
+  order the exchange, and a controller would add state with no work to do.
+- **Closure to choose the clarifying question.** Closure is host planning.
+  With one input to the answer, the clarification is wired in advance; choosing
+  among several open inputs is the open case below.
+- **A gap relation over open values.** Not needed here: "is the answer
+  settled" is a tally of its supports, which works on open values directly.
+- **Messages as one field of the speaker's position.** Refused by the
+  one-taker rule, correctly: see slots above.
+- **Narrowing from the speaker's words without waiting.** It would narrow by
+  whatever the speaker's planes held before speaking.
+
+**Open:**
+
+- **Choosing among several clarifications.** With more than one open input
+  ("which car?" and "when?"), the narrowest question is the one whose answer
+  settles the most. That is a ranking over candidate questions, the first
+  place ranking is needed as structure here.
+- **Contradiction between equally firm answers.** Answers of different
+  firmness are resolved: the weaker is retired and never grounded. Equally firm
+  answers stay contradicted, which is a result, but nothing yet asks a third
+  party.
+- **One question at a time.** A speaker's ledger holds one question; several
+  open questions at once need slots allocated as they are asked.
+
+## 13. The synthesis of three branches
+
+Three branches built tension in parallel: `claude_tension`, `sol_tension` and
+`tension_neon`. `tension_synthesis` combines them, taking `claude_tension`'s
+primitive layer as the base, since the other two had converged onto it, and
+porting each other piece with its tests onto those primitives.
+
+**Base, from `claude_tension`:** `Counts` (sum, shortfall, tally, threshold,
+accumulate, streak); `Flows.When`, `Flows.Fulfill`, `Flows.Turn`;
+`Settling.Justify`, `Settling.Latch`, `Settling.SameWhen`; `Field.On`,
+`Field.Room`, `Supports.Possible`; the `Tension` site with `Route` and
+`Wire`; the shop and dialogue fixtures.
+
+**From `tension_neon`:**
+- `Settling.ValueGap`, the gap between open values.
+- `Counts.Rank` (neon's `RankCombine`), ranking tiers as a law.
+- Forks whose workspaces are one supposition, so a move between two stores
+  runs in a fork.
+- Forks that rebind other wirings' rows to their own copies, so a structure
+  that recruits or retires rows can fork.
+- Forks with isolated ports, taking from snapshots and never committing; the
+  shop's trial now runs this way instead of on a full copy.
+- Size guards on `When` and `Justify`.
+- In the dialogue: "which car" and polar questions, and contradicting answers
+  resolved by firmness, here built from `Shortfall`, `Justify`, `Latch` and a
+  gated `Forget`.
+
+**From `sol_tension`:**
+- The check of a law's table size before it is allocated (also on neon).
+- The receipt tally, folded into `Flows.Fulfill` as an optional fourth role
+  rather than a separate law.
+- Protocol cases in the dialogue: grounding only once the answer has arrived
+  and only if it agrees.
+- Its testing discipline: conservation asserted every round, and a saved
+  machine replaying the same rounds to the same bits.
+
+**Left out, and why:**
+- `tension_neon`'s `TensionDiagnostics`: reads computed in host code. Useful
+  for inspection in tests, not part of the encoding.
+- `tension_neon`'s `Unary.Offer` and `Unary.Draw`: they put arriving units
+  straight into the value, against Axiom 5, change entering as tension.
+- `tension_neon`'s change to aliasing in `Wiring`: it changes when two roles
+  count as sharing a bit, and needs its own review and test first.
+- Duplicates of the base: neon's `TrackGap`, `Sum`, `Streak`, `RecruitAt`,
+  `RetireAt` and `YieldByFirmness`, and sol's `TensionGap`, `MaterialTension`
+  and `InformationTension`; each is covered by `Counts`, `Justify` and
+  `Latch`.
+- `sol_tension`'s `Experiments` classes in the main assembly: their question
+  kinds and scopes are C# enums, meaning carried in code tags, and fixtures
+  belong in tests.
+
+**Fixed in review, before the merge:**
+- A fork's workspaces are committed and reverted only together, through the
+  fork; committing or reverting one alone could leave a moved unit in both
+  places.
+- Two open values are one value read twice only when every plane matches;
+  sharing a first plane could rule out a valid disagreement in `ValueGap`.
+- An isolated fork snapshots a port reached through a view, such as a room.
+- A workspace's gate sees through views of it, so a fork runs a draw through
+  a room; it was silently skipped.
+- `Tension` validates its value before adding planes, and `Counts.Tally`
+  accepts one to seven bits, since eight exceeds the table limit.
+
+**Still to do:** the exact numeric gap between open values (§8); `tension_neon`'s small-law trees (`SupportFold`,
+`MismatchFold`) as the way to replace the shop's one large counting table
+before numeric support; and holding a law that is a plain function as a list
+of next states in memory, as saving already does, which would cut that table
+about a hundredfold without changing behaviour.
 
 ## Sources
 

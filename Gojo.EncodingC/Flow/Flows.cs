@@ -6,6 +6,7 @@ public static class Flows
 {
     private static readonly Dictionary<(int, int, int, int), TransitionLaw> Converts = [];
     private static readonly Dictionary<(int, int), TransitionLaw> GatedMoves = [];
+    private static readonly Dictionary<(int, int, int, int, int, int), TransitionLaw> Fulfills = [];
 
     /// <summary>The smallest move: source S, gate C, target T, one bit each;
     /// state <c>S + 2C + 4T</c>. A whole unit hands off when S is set, the gate
@@ -47,6 +48,86 @@ public static class Flows
             Converts[key] = law;
             return law;
         }
+    }
+
+    /// <summary>Fills an outstanding order: takes <paramref name="take"/> units
+    /// from a source, clears one unit of order, and gives
+    /// <paramref name="give"/> to a target, all at once, or nothing when the
+    /// source is short, nothing is on order or the target has no room. Roles:
+    /// source, order, target. Both the material and the order are accounted:
+    /// give · source + take · target and give · order + target are preserved,
+    /// so a unit never arrives without the order it answers, and an order is
+    /// only closed by what arrives.
+    /// <para>A delivery to a customer is this law from the shelf, against a
+    /// backorder, into a pickup counter; a supplier's delivery is it from the
+    /// supplier's stock, against an order on the books, into the dock. A draw
+    /// that only empties the value leaves the unit nowhere; this one keeps it.</para>
+    /// <para>With a <paramref name="tallyCapacity"/>, a fourth role counts the
+    /// fills that came this way, one each, and a full tally holds further fills
+    /// until it has room. Wired once per source, the tallies say where what
+    /// arrived came from, without a record per arrival (from sol_tension's
+    /// receipt tally).</para></summary>
+    public static TransitionLaw Fulfill(int sourceCapacity, int orderCapacity, int targetCapacity, int take = 1, int give = 1, int tallyCapacity = 0)
+    {
+        if (take < 1 || give < 1) throw new ArgumentOutOfRangeException(nameof(take), "Take and give at least one unit.");
+        ArgumentOutOfRangeException.ThrowIfNegative(tallyCapacity);
+        lock (Fulfills)
+        {
+            var key = (sourceCapacity, orderCapacity, targetCapacity, take, give, tallyCapacity);
+            if (Fulfills.TryGetValue(key, out var cached)) return cached;
+            var tallied = tallyCapacity > 0;
+            Shape[] roles = tallied
+                ? [Shape.Unary(sourceCapacity), Shape.Unary(orderCapacity), Shape.Unary(targetCapacity), Shape.Unary(tallyCapacity)]
+                : [Shape.Unary(sourceCapacity), Shape.Unary(orderCapacity), Shape.Unary(targetCapacity)];
+            Invariant[] sums = [new PreservedSum([0, 2], [give, take]), new PreservedSum([1, 2], [give, 1])];
+            if (tallied) sums = [.. sums, new PreservedSum([1, 3]), new PreservedSum([0, 3], [1, take])];
+            return Fulfills[key] = TransitionLaw.FromFunction(roles,
+                s => s[0] >= take && s[1] >= 1 && s[2] + give <= targetCapacity && (!tallied || s[3] < tallyCapacity)
+                    ? (tallied ? [s[0] - take, s[1] - 1, s[2] + give, s[3] + 1] : [s[0] - take, s[1] - 1, s[2] + give])
+                    : s,
+                new Accounting(true, sums));
+        }
+    }
+
+    /// <summary>Whose turn it is between two routes that would contend for one
+    /// count: 0 for the first, 1 for the second. Roles: first has work, second
+    /// has work (read), turn (written). With work on both sides the turn
+    /// alternates; with work on one side it goes there; with none it holds, so
+    /// a structure taking turns still settles. A route waits on the turn bit
+    /// itself or on its flipped view.</summary>
+    public static TransitionLaw Turn { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit],
+        s => [s[0], s[1], s[0] == 1 && s[1] == 1 ? 1 - s[2] : s[0] == 1 ? 0 : s[1] == 1 ? 1 : s[2]],
+        new Accounting(true, new Unchanged(0), new Unchanged(1)));
+
+    /// <summary>The same law, waiting on <paramref name="gates"/> gate bits
+    /// appended after its own roles: it acts only while every gate is 1, and
+    /// holds otherwise. Gates are read, never written, and the law's own
+    /// promises are kept, so a conserving move stays a conserving move.
+    /// <para>Conditions compose this way: a reorder that runs only while the
+    /// shop is short <em>and</em> this supplier is still possible is a move
+    /// with two gates. A gated move with one gate was enough while every
+    /// fixture had one condition.</para></summary>
+    public static TransitionLaw When(TransitionLaw law, int gates = 1)
+    {
+        ArgumentNullException.ThrowIfNull(law);
+        if (gates < 1) throw new ArgumentOutOfRangeException(nameof(gates), "Wait on at least one gate.");
+        if (!law.IsFunctional) throw new ArgumentException("A gated law runs on concrete state, so the law must admit one next state for each state.", nameof(law));
+        // Each gate doubles the states and so quadruples the table.
+        var limit = (long)Law.MaxBits;
+        for (var i = 0; i < gates; i++)
+            if (law.BitCount > (limit /= 4))
+                throw new ArgumentOutOfRangeException(nameof(gates), "The gated table would exceed Law.MaxBits; gate on one bit that a small law combines instead.");
+        var own = law.Roles.Count;
+        var roles = law.Roles.Concat(Enumerable.Repeat(Shape.Bit, gates)).ToArray();
+        var invariants = law.Accounting.Invariants.Concat(Enumerable.Range(own, gates).Select(r => (Invariant)new Unchanged(r))).ToArray();
+        return TransitionLaw.FromFunction(roles, state =>
+        {
+            var inner = state[..own];
+            if (state[own..].Any(gate => gate == 0)) return state;
+            var afters = law.Afters(law.TupleIndex(inner));
+            return afters.Count == 0 ? null : [.. law.Tuple(afters[0]), .. state[own..]];
+        }, new Accounting(true, invariants));
     }
 
     /// <summary>A move that happens only while a gate bit is set. Roles: source,

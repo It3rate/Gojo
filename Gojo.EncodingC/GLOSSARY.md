@@ -129,6 +129,9 @@ The stock laws:
 | Enact, act *(pattern)* | Write a settled value into ordinary bits: what was worked out becomes what is | `Enact` wired from an open value to a field |
 | Supposition *(pattern)* | Something taken as true to see what follows, kept apart from what is | Bits written in a workspace, or a separate store (a probe) |
 | Gap | Where a workspace and its source disagree: how a prediction missed, or what is left before a goal is reached | Not stored. A gap bit is set where the workspace holds a bit that differs from the source as it is now. A per-bit disagreement: for a unary count, a set of units rather than a count, and with no direction. A two-faced error (deficit and excess counts) is a later direction |
+| Counting law | Arithmetic written as a small table: a sum, a shortfall, a tally, a threshold, an accumulation | `Counts`. Each reads counts and writes one count or bit, only when it changes; the emulation of numeric support |
+| Rank | Which of two tiers of tension decides whether a step lowered or raised tension | `Counts.Rank`: the higher tier's dropped and rose bits when it changed, otherwise the lower's |
+| Value gap | Whether two open values disagree | `Settling.ValueGap`: a relation narrowing both values and the disagreement every way |
 | Plan *(pattern)* | What is possible at several moments ahead | A store of open values. In the tests, three positions per moment and five planes: three hold whether counts 0, 1, 2 are possible and two whether gate 0, 1 are |
 | Moment *(pattern)* | One time step in a plan | A group of the plan's positions |
 | Goal, aim *(pattern)* | A wanted value, treated as already settled at a later moment. Narrowing then works back to what has to happen now | Ordinary bits, observed into the plan's last moment |
@@ -191,8 +194,9 @@ the same job is done by ordinary structure, such as a plan or a probe.
 
 ## Kernel words that are not parts here
 
-- **Tension** is not built. Units entering from outside and moving through laws
-  stand in for it.
+- **Tension** is built for material only (`Tension`): pressure and debt as two
+  unary counts beside a value. Information and structural tension are reads
+  proposed in the tension note.
 - **Residue** has no type. What a move could not take stays where it was, and
   what a coarse read drops is bounded by the relation that did the read.
 - **Carrier, location, relation, unit shape** belong to the kernel. This

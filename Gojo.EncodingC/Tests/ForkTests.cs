@@ -254,4 +254,102 @@ public sealed class ForkTests
         Assert.Contains((site, 0), fork.Held);
         Assert.Equal(2, value.Read(fork.Of(site), 0));
     }
+
+    /// <summary>A move between two stores of one structure runs in a fork: the
+    /// fork's workspaces are one supposition, so one law may write both. The
+    /// parent's stores are untouched.</summary>
+    [Fact]
+    public void AForkRunsAMoveBetweenTwoOfItsParentsStores()
+    {
+        var (from, count) = Make.Counts(1, 3);
+        var (to, _) = Make.Counts(1, 3);
+        count.Write(from, 0, 2);
+        var parent = new Engine().Add(Make.Wire(Flows.Move(3, 3), from, to));
+
+        var fork = parent.Fork();
+        fork.Engine.Settle(8);
+
+        Assert.Equal((0, 2), (count.Read(fork.Of(from), 0), count.Read(fork.Of(to), 0)));
+        Assert.Equal((2, 0), (count.Read(from, 0), count.Read(to, 0)));
+    }
+
+    /// <summary>A structure that changes itself forks with its self-changes: a
+    /// latch that recruits a spare row writes whether that row is in use, and
+    /// in the fork it writes the fork's own copy of the row. The fork recruits
+    /// and runs the row; the parent's stays spare.</summary>
+    [Fact]
+    public void AForkOfASelfRecruitingStructureRecruitsItsOwnRow()
+    {
+        var store = new Store(5, 1);
+        var (from, to) = (new Field(Shape.Unary(2), 1, 2), new Field(Shape.Unary(2), 3, 4));
+        store.Write(0, 0, true);
+        from.Write(store, 0, 2);
+        var spare = new Wiring(Flows.Move(2, 2), from.On(store), to.On(store));
+        spare.AddSpare(0, 0);
+        var recruit = new Wiring(Settling.Latch(true), new Binding(store, 0), new Binding(spare.Rows.Life, 0));
+        recruit.Add(0, 0);
+        var parent = new Engine().Add(recruit).Add(spare);
+
+        var fork = parent.Fork();
+        fork.Engine.Settle(8);
+
+        Assert.True(fork.Of(spare).Live[0]);
+        Assert.Equal(2, to.Read(fork.Of(store), 0));
+        Assert.False(spare.Live[0]);
+        Assert.Equal(2, from.Read(store, 0));
+    }
+
+    /// <summary>A fork's workspaces are one supposition, so they are committed
+    /// or reverted together or not at all. A move between two stores runs in a
+    /// fork; committing only its destination, or reverting only its source and
+    /// then committing, would leave the unit in both places. Both are refused:
+    /// the fork commits or reverts as one, and then nothing is duplicated.</summary>
+    [Fact]
+    public void AForksWorkspacesCommitAndRevertOnlyTogether()
+    {
+        var (from, count) = Make.Counts(1, 3);
+        var (to, _) = Make.Counts(1, 3);
+        count.Write(from, 0, 1);
+        var parent = new Engine().Add(Make.Wire(Flows.Move(3, 3), from, to));
+        var fork = parent.Fork();
+        fork.Engine.Settle(8);
+
+        Assert.Throws<InvalidOperationException>(() => fork.Of(to).Commit());
+        Assert.Throws<InvalidOperationException>(() => fork.Of(from).Revert());
+        Assert.Equal((1, 0), (count.Read(from, 0), count.Read(to, 0)));
+
+        Assert.True(fork.Commit());
+        Assert.Equal((0, 1), (count.Read(from, 0), count.Read(to, 0)));
+
+        var again = parent.Fork();
+        again.Engine.Settle(8);
+        again.Revert();
+        Assert.Equal((0, 1), (count.Read(again.Of(from), 0), count.Read(again.Of(to), 0)));
+    }
+
+    /// <summary>With ports isolated, a fork that drew through a port's room view
+    /// still takes from a snapshot: the view is unwrapped to the port it shows.
+    /// The live structure behind the port is untouched, and nothing in the fork
+    /// can be committed piecemeal to make up for it.</summary>
+    [Fact]
+    public void AnIsolatedForkSnapshotsAPortReachedThroughAView()
+    {
+        var (owner, count) = Make.Counts(1, 3);
+        count.Write(owner, 0, 1);
+        new Engine().Hold(owner);
+        var port = owner.Publish([0], [0, 1, 2]);
+        var (debt, owed) = Make.Counts(1, 3);
+        owed.Write(debt, 0, 1);
+        var pay = new Wiring(Flows.Move(3, 3), owed.On(debt), count.Room(port));
+        pay.Add(0, 0);
+        var payer = new Engine().Add(pay);
+
+        var fork = payer.Fork(isolatePorts: true);
+        fork.Engine.Settle(8);
+
+        Assert.Equal(0, count.Read(fork.Of(port), 0));
+        Assert.Equal(1, count.Read(owner, 0));
+        Assert.False(fork.Commit());
+        Assert.Throws<InvalidOperationException>(() => fork.Of(debt).Commit());
+    }
 }
