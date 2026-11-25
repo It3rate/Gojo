@@ -1,0 +1,274 @@
+using Xunit;
+
+namespace Gojo.EncodingC.Tests;
+
+/// <summary>Counting as laws: sum, shortfall, tally, a threshold held as data,
+/// and a streak, each a small table emulating the arithmetic numeric support
+/// will provide. Their meaning is in the tables, so it is saved, inspected and
+/// replaced like any other structure.</summary>
+public sealed class CountsTests
+{
+    private static int[] After(TransitionLaw law, params int[] before) => law.Tuple(Assert.Single(law.Afters(law.TupleIndex(before))));
+
+    /// <summary>For every pair of counts, a sum is their total, the shortfall
+    /// is how far have is below want, and the same law with the two swapped is
+    /// the excess. The two faces are never both nonzero. Inputs never change.</summary>
+    [Fact]
+    public void SumsAndBothFacesOfAGapAreExact()
+    {
+        var sum = Counts.Sum(3, 2, weight: 2);
+        var shortfall = Counts.Shortfall(3, 4);
+        var excess = Counts.Shortfall(4, 3);
+        for (var a = 0; a <= 3; a++)
+            for (var b = 0; b <= 2; b++)
+                Assert.Equal([a, b, a + 2 * b], After(sum, a, b, 0));
+        for (var have = 0; have <= 3; have++)
+            for (var want = 0; want <= 4; want++)
+            {
+                var (s, e) = (After(shortfall, have, want, 0)[2], After(excess, want, have, 0)[2]);
+                Assert.Equal((want > have ? want - have : 0, have > want ? have - want : 0), (s, e));
+                Assert.True(s == 0 || e == 0);
+            }
+    }
+
+    /// <summary>Two valves, each reading one face of the gap: a shortfall opens
+    /// the way in and an excess the way out. The faces are written by laws
+    /// declared first, so each step the valves read them fresh. Have settles at
+    /// want, from below and then from above, and the structure goes quiet.</summary>
+    [Fact]
+    public void EachFaceOfTheGapOpensOneValve()
+    {
+        var store = new Store(0, 1);
+        Field Count(int capacity) => new(Shape.Unary(capacity), [.. Enumerable.Range(0, capacity).Select(_ => store.AddPlane())]);
+        var (supply, have, drain, want) = (Count(3), Count(3), Count(3), Count(3));
+        var (shortBy, overBy) = (Count(3), Count(3));
+        supply.Write(store, 0, 3);
+        have.Write(store, 0, 1);
+        want.Write(store, 0, 3);
+        var here = Plane.Of(1, 0);
+        var engine = new Engine()
+            .Add(Tension.Wire(Counts.Shortfall(3, 3), [have.On(store), want.On(store), shortBy.On(store)], here))
+            .Add(Tension.Wire(Counts.Shortfall(3, 3), [want.On(store), have.On(store), overBy.On(store)], here))
+            .Add(Tension.Route(supply.On(store), have.On(store), here, new Binding(store, shortBy.Planes[0])))
+            .Add(Tension.Route(have.On(store), drain.On(store), here, new Binding(store, overBy.Planes[0])));
+
+        Assert.NotNull(engine.Settle(16));
+        Assert.Equal((1, 3, 0), (supply.Read(store, 0), have.Read(store, 0), drain.Read(store, 0)));
+
+        want.Write(store, 0, 1);
+        Assert.NotNull(engine.Settle(16));
+        Assert.Equal((1, 1, 2), (supply.Read(store, 0), have.Read(store, 0), drain.Read(store, 0)));
+    }
+
+    /// <summary>A threshold is data. Whether a count of two is "enough" depends
+    /// on the threshold stored beside it, and moving the threshold is writing a
+    /// count, not changing a law.</summary>
+    [Fact]
+    public void AThresholdIsACountInThePlanes()
+    {
+        var store = new Store(0, 1);
+        var count = new Field(Shape.Unary(3), store.AddPlane(), store.AddPlane(), store.AddPlane());
+        var threshold = new Field(Shape.Unary(3), store.AddPlane(), store.AddPlane(), store.AddPlane());
+        var reached = store.AddPlane();
+        count.Write(store, 0, 2);
+        var engine = new Engine().Add(Tension.Wire(Counts.AtLeast(3, 3), [count.On(store), threshold.On(store), new Binding(store, reached)], Plane.Of(1, 0)));
+
+        var seen = new List<bool>();
+        foreach (var t in new[] { 1, 2, 3, 0 })
+        {
+            threshold.Write(store, 0, t);
+            engine.Settle(4);
+            seen.Add(store.Read(reached, 0));
+        }
+
+        Assert.Equal([true, true, false, true], seen);
+    }
+
+    /// <summary>How settled a value is, as a tally of its support planes: two
+    /// possible, one, or none. Bit 0 of the tally is "any possible" and bit 1
+    /// "more than one", so settled is bit 0 without bit 1 and contradicted is
+    /// no bit 0.</summary>
+    [Fact]
+    public void ATallyOfSupportsSaysOpenSettledOrContradicted()
+    {
+        var store = new Store(0, 3);
+        var value = Supports.On(store, new Field(Shape.Binary(2), store.AddPlane()));
+        var possible = new Field(Shape.Unary(2), store.AddPlane(), store.AddPlane());
+        value.Restrict(1, 0b10);
+        value.Restrict(2, 0b00);
+        var engine = new Engine().Add(Tension.Wire(Counts.Tally(2), [.. value.Planes.Select(p => new Binding(store, p)), possible.On(store)], Plane.Ones(3)));
+
+        engine.Settle(4);
+
+        Assert.Equal([2, 1, 0], Enumerable.Range(0, 3).Select(i => possible.Read(store, i)));
+    }
+
+    /// <summary>The slow clock, from three small laws: a streak counts the
+    /// steps a signal holds, a threshold read says when it has held long
+    /// enough, and a latch recruits a spare row then. A short blip does not
+    /// recruit it; a signal that persists for three steps does, and the row,
+    /// once recruited, runs.</summary>
+    [Fact]
+    public void APersistentSignalRecruitsASpareRowABlipDoesNot()
+    {
+        var store = new Store(0, 1);
+        var signal = store.AddPlane();
+        var streak = new Field(Shape.Unary(3), store.AddPlane(), store.AddPlane(), store.AddPlane());
+        var patience = new Field(Shape.Unary(3), store.AddPlane(), store.AddPlane(), store.AddPlane());
+        var due = store.AddPlane();
+        var (from, to) = (new Field(Shape.Unary(2), store.AddPlane(), store.AddPlane()), new Field(Shape.Unary(2), store.AddPlane(), store.AddPlane()));
+        patience.Write(store, 0, 3);
+        from.Write(store, 0, 2);
+        var spare = new Wiring(Flows.Move(2, 2), from.On(store), to.On(store));
+        spare.AddSpare(0, 0);
+        var here = Plane.Of(1, 0);
+        var recruit = new Wiring(Settling.Latch(true), new Binding(store, due), new Binding(spare.Rows.Life, 0));
+        recruit.Add(0, 0);
+        var engine = new Engine()
+            .Add(Tension.Wire(Counts.Streak(3), [new Binding(store, signal), streak.On(store)], here))
+            .Add(Tension.Wire(Counts.AtLeast(3, 3), [streak.On(store), patience.On(store), new Binding(store, due)], here))
+            .Add(recruit)
+            .Add(spare);
+
+        store.Write(signal, 0, true);
+        engine.Run(2);
+        store.Write(signal, 0, false);
+        engine.Run(2);
+        Assert.False(spare.Live[0]);
+
+        store.Write(signal, 0, true);
+        engine.Run(5);
+        Assert.True(spare.Live[0]);
+        Assert.Equal((0, 2), (from.Read(store, 0), to.Read(store, 0)));
+    }
+
+    /// <summary>Filling an order keeps both accounts: a unit leaves the
+    /// source, arrives at the target and closes one unit of order in the same
+    /// move. With nothing on order nothing moves, and a full target holds both
+    /// the unit and the order. With a tally, each fill is also counted, and a
+    /// full tally holds the next one.</summary>
+    [Fact]
+    public void FillingAnOrderMovesAUnitAndClosesTheOrderTogether()
+    {
+        var fill = Flows.Fulfill(3, 2, 2, take: 1, give: 2);
+
+        Assert.Equal([2, 0, 2], After(fill, 3, 1, 0));
+        Assert.Equal([3, 0, 0], After(fill, 3, 0, 0));
+        Assert.Equal([3, 1, 1], After(fill, 3, 1, 1));
+
+        var tallied = Flows.Fulfill(3, 2, 2, take: 1, give: 2, tallyCapacity: 1);
+        Assert.Equal([2, 0, 2, 1], After(tallied, 3, 1, 0, 0));
+        Assert.Equal([3, 1, 0, 1], After(tallied, 3, 1, 0, 1));
+    }
+
+    /// <summary>A table too large to check exhaustively is refused before it is
+    /// built, whether asked for directly, by gating a law on too many bits, or
+    /// by justifying on too many reasons. The refusal names the limit rather
+    /// than failing while allocating.</summary>
+    [Fact]
+    public void OversizedTablesAreRefusedBeforeTheyAreBuilt()
+    {
+        var wide = Shape.Unary(40);
+        Assert.Throws<ArgumentOutOfRangeException>(() => RelationLaw.FromPredicate([wide, wide, wide, wide, wide], _ => true));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Flows.When(Counts.Sum(6, 6), gates: 3));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Settling.Justify(11));
+        Assert.Equal(8, Counts.Tally(7).Roles.Count);
+        Assert.Throws<ArgumentOutOfRangeException>(() => Counts.Tally(8));
+        Assert.Equal(2, Flows.When(Flows.Move(2, 2), gates: 2).Roles.Count - 2);
+    }
+
+    /// <summary>Ranking tiers of tension as structure. Material debt and a goal
+    /// shortfall are each compared before and after a step by two shortfalls,
+    /// one each way round, giving dropped and rose. When debt fell, the step
+    /// lowered tension overall, though the goal rose. When debt held and the
+    /// goal rose, the step raised it: the goal decides only when debt did not
+    /// change.</summary>
+    [Fact]
+    public void AHigherTierDecidesAndALowerOneOnlyBreaksTies()
+    {
+        var store = new Store(0, 1);
+        Field Count() => new(Shape.Unary(3), store.AddPlane(), store.AddPlane(), store.AddPlane());
+        var (debtBefore, debtAfter, goalBefore, goalAfter) = (Count(), Count(), Count(), Count());
+        var (debtDown, debtUp, goalDown, goalUp) = (Count(), Count(), Count(), Count());
+        var (dropped, rose) = (store.AddPlane(), store.AddPlane());
+        var here = Plane.Of(1, 0);
+        Binding Bit(int plane) => new(store, plane);
+        var engine = new Engine()
+            .Add(Tension.Wire(Counts.Shortfall(3, 3), [debtAfter.On(store), debtBefore.On(store), debtDown.On(store)], here))
+            .Add(Tension.Wire(Counts.Shortfall(3, 3), [debtBefore.On(store), debtAfter.On(store), debtUp.On(store)], here))
+            .Add(Tension.Wire(Counts.Shortfall(3, 3), [goalAfter.On(store), goalBefore.On(store), goalDown.On(store)], here))
+            .Add(Tension.Wire(Counts.Shortfall(3, 3), [goalBefore.On(store), goalAfter.On(store), goalUp.On(store)], here))
+            .Add(Tension.Wire(Counts.Rank, [Bit(debtDown.Planes[0]), Bit(debtUp.Planes[0]), Bit(goalDown.Planes[0]), Bit(goalUp.Planes[0]), Bit(dropped), Bit(rose)], here));
+        (bool, bool) Judge(int debt0, int debt1, int goal0, int goal1)
+        {
+            debtBefore.Write(store, 0, debt0); debtAfter.Write(store, 0, debt1);
+            goalBefore.Write(store, 0, goal0); goalAfter.Write(store, 0, goal1);
+            Assert.NotNull(engine.Settle(8));
+            return (store.Read(dropped, 0), store.Read(rose, 0));
+        }
+
+        Assert.Equal((true, false), Judge(debt0: 2, debt1: 1, goal0: 0, goal1: 2));
+        Assert.Equal((false, true), Judge(debt0: 1, debt1: 1, goal0: 0, goal1: 1));
+        Assert.Equal((false, false), Judge(debt0: 1, debt1: 1, goal0: 1, goal1: 1));
+    }
+
+    /// <summary>The gap between two open values. Disjoint, it settles to
+    /// "disagree" while both stay open; overlapping, it stays open. Held to
+    /// "agree", both narrow to what they share. Held to "disagree" against a
+    /// settled value, that value is ruled out of the other.</summary>
+    [Fact]
+    public void TheGapBetweenOpenValuesNarrowsEveryWay()
+    {
+        (Supports, Supports, Supports, Wiring) Pair(ulong left, ulong right)
+        {
+            var store = new Store(0, 1);
+            var shape = Shape.Binary(4);
+            Supports Open(Shape s) => Supports.On(store, new Field(s, [.. Enumerable.Range(0, s.Bits).Select(_ => store.AddPlane())]));
+            var (l, r, gap) = (Open(shape), Open(shape), Open(Shape.Bit));
+            l.Restrict(0, left);
+            r.Restrict(0, right);
+            var wiring = new Wiring(Settling.ValueGap(shape), l.Variable, r.Variable, gap.Variable);
+            wiring.Add(0, 0, 0);
+            return (l, r, gap, wiring);
+        }
+        void Settle(Wiring w) { for (var i = 0; i < 4; i++) w.Apply(); }
+
+        var (l1, r1, g1, w1) = Pair(0b0011, 0b1100);
+        Settle(w1);
+        Assert.Equal((0b0011UL, 0b1100UL, 0b10UL), (l1.Values(0), r1.Values(0), g1.Values(0)));
+
+        var (_, _, g2, w2) = Pair(0b0011, 0b0110);
+        Settle(w2);
+        Assert.Equal(0b11UL, g2.Values(0));
+
+        var (l3, r3, g3, w3) = Pair(0b0111, 0b1110);
+        g3.Restrict(0, 0b01);
+        Settle(w3);
+        Assert.Equal((0b0110UL, 0b0110UL), (l3.Values(0), r3.Values(0)));
+
+        var (l4, _, g4, w4) = Pair(0b0111, 0b0010);
+        g4.Restrict(0, 0b10);
+        Settle(w4);
+        Assert.Equal(0b0101UL, l4.Values(0));
+    }
+
+    /// <summary>Two open values are one value read twice only when every plane
+    /// of them is the same bit, not just the first. Two values sharing only
+    /// their first support plane that disagree, one 1 and one 2, settle the gap
+    /// to "disagree" (the regression, found in review).</summary>
+    [Fact]
+    public void TwoOpenValuesSharingOnlyAFirstPlaneAreNotOneValue()
+    {
+        var store = new Store(6, 1);
+        var gap = Supports.On(store, Field.Bit(5));
+        var (left, right) = (Binding.Open(store, 0, 1, 2), Binding.Open(store, 0, 3, 4));
+        store.Write(1, 0, true);
+        store.Write(4, 0, true);
+        var wiring = new Wiring(Settling.ValueGap(Shape.Binary(3)), left, right, gap.Variable);
+        wiring.Add(0, 0, 0);
+
+        wiring.Apply();
+
+        Assert.Equal(0b10UL, gap.Values(0));
+    }
+}
