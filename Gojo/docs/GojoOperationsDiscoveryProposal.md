@@ -2,7 +2,32 @@
 
 Design proposal · 26 November 2026
 
-This proposal reviews Sol `37bf0a57`, Neon `6f655fc2`, and Claude `6a7d3f17` against master `9b805964`. It follows the [measured branch comparison](GojoOperationsBranchComparison.md). The experiments are proposed for the next implementation round.
+This proposal reviews Sol `37bf0a57`, Neon `6f655fc2`, and Claude `6a7d3f17` against master `9b805964`. It follows the [measured branch comparison](GojoOperationsBranchComparison.md). The implementation checkpoint below records the first numeric and discovery fixtures. The proposal retains the reasoning and later experiments.
+
+## First bounded numeric implementation
+
+EncodingC now has a selected radix-4 read over two digits. An ordered relation accounts for `amount = 4 × coarse + fine` in fine units, from 0 through 15. Binding either digit as an open role keeps its possible values available. Binding an exact amount can settle both digits. The role shapes say how the values are held. The weighted relation supplies the four-to-one interpretation.
+
+| Available publication | Possible amount | Is there at least 10? |
+| --- | --- | --- |
+| Two complete groups only | 8, 9, 10, or 11 | Both answers remain possible. The unconnected fine socket reports a skipped observation. |
+| Two groups and a fine digit of 1 | 9 | No |
+| Two groups and a fine digit of 3 | 11 | Yes |
+| Two groups and an explicitly published fine digit of 0 | 8 | No |
+
+The coarse publication also suffices to establish at least 8 and rule out at least 12. Connecting the optional fine port narrows the receiver's assessment of the same sample. The owner keeps its digits, and both publications are read by reference. Here narrowing is monotone within that assessment. A new source state needs a fresh observation scope or an explicit reopening before narrowing again. The tests also bind a qualitative motion publication to the existing `Sides.Toward` relation by itself. The numeric tier is an additional read and the two-bit side word keeps its own meaning. [Read and qualitative fixtures](../../Gojo.EncodingC/Tests/OperationNumericReadTests.cs)
+
+Material entry uses an independent admission wiring. Pressure enters through the supplier's one-taker outlet, and each admitted fine unit either increments the fine digit or carries from `(coarse,3)` to `(coarse+1,0)`. The existing weighted accounting checks `pressure + 4 × coarse + fine` across every transition. At `(3,3)`, the sixteenth offer waits as supplier pressure and a further offer to that full inlet is reported blocked. Reading the full rung does not consume the pending unit. Saving the connected supplier and receiver with a carry pending, then loading and stepping, gives the same result and saved state as uninterrupted execution. [Rung laws](../../Gojo.EncodingC/Operations/RadixFour.cs) · [Material and transport fixtures](../../Gojo.EncodingC/Tests/OperationNumericMaterialTests.cs)
+
+A small discovery fixture tries supplied sum and product relations against the same published observations. Both fit the seed. An unpublished sample leaves both open at that case, and an explicitly published zero distinguishes them. A fresh held-out binding agrees with product. The full check over the 16 ordered inputs requires every comparison to settle in agreement. One withheld answer leaves qualification open, and a published answer exposes a one-entry alteration. The recorded evidence is about exact **forward** results. The fixture supplies the candidate family and probe, which gives a baseline for later proposal search and symbolic regression. [Discovery fixture](../../Gojo.EncodingC/Tests/OperationNumericDiscoveryTests.cs)
+
+Neon's latest peer-review revision uses a four-unit staging value before its `4:1` carry. We chose an atomic admission row so the stabilized fine digit stays within 0–3 and capacity 15 still has a clear meaning when the next unit arrives. The same revision adds per-wiring quiet tracking and guards against insufficient bounded-multiply overflow capacity. Those changes address the two issues discussed at the earlier Neon pin. The compiler and general ladder remain companion experiments for this checkpoint. [Neon carry fixture](https://github.com/It3rate/Gojo/blob/97123b1f/Gojo.EncodingC/Tests/RungArithmeticTests.cs#L21) · [Neon peer-review changes](https://github.com/It3rate/Gojo/blob/97123b1f/Gojo/docs/GojoOperations-2026-11.md#L921)
+
+All 248 EncodingC tests passed at this checkpoint, including 11 numeric and discovery cases. The focused Neon rung and compiled-plan suites passed 13 cases at `97123b1f`.
+
+```powershell
+dotnet test Gojo.EncodingC/Gojo.EncodingC.csproj --filter 'FullyQualifiedName~OperationNumeric'
+```
 
 ## Decision
 
@@ -107,7 +132,7 @@ The first added rung should answer a concrete request. A coarse port reports two
 
 Signed quantities, fractions and wider ladders can follow concrete counterexamples that require them. Keep structural dual direction independent of signed coordinates and test reference reversal separately from either. Later an oscillator should compare two samples at the same position with opposite velocities, and check a changed time step or a displaced center under the chosen integration order. A sine read might then be an excellent finite-horizon prediction. It needs its own error envelope and cannot establish which internal dynamics supplied it.
 
-## Next implementation round
+## Original implementation proposal
 
 Build one small **discovery and conformance fixture** before generalizing the binder, changing the save format, or adding a backend. Use an authored supplier through a narrow observation port, a candidate workspace and an independent comparison. The proposal library and probing budget are supplied by the fixture. The source's recipe is available to the verifier when appropriate. The candidate selector sees only authorized read evidence. This tests learning a local interpretation before we ask the system to invent its own vocabulary.
 
@@ -126,4 +151,4 @@ Long term, predictions, counterexamples and use can justify new shared templates
 
 ## Verification of the starting point
 
-For this review, EncodingC passed at each pin (237 Sol, 241 Neon, 250 Claude). The shared encoding core passed 353 tests. The branch comparison retains the targeted Neon packet and generic settling probes. The discovery, mixed configuration trial and hardware work above are proposals.
+For this review, EncodingC passed at each pin (237 Sol, 241 Neon, 250 Claude). The shared encoding core passed 353 tests. The branch comparison retains the targeted Neon packet and generic settling probes. The mixed configuration trial, autonomous candidate search and hardware work remain proposal items.

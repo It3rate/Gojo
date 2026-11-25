@@ -353,6 +353,17 @@ rate, it wires one:
 Where a calibration lives (in the sender, in the receiver, or standing alone)
 is left to whatever evolves the structures.
 
+## A bounded numeric rung
+
+A selected numeric read can use two radix-4 digit roles to observe 0–15 fine
+units. An unbound fine role leaves four possible amounts at each observed
+coarse digit. Material admission is a different wiring: a weighted transition
+spends one pending fine unit and carries when the fine digit fills. With both
+digits full, an accepted arrival stays as source pressure. A qualitative
+side or occupancy read can still run on its own published roles.
+
+[Numeric rung and discovery fixtures](../Gojo/docs/GojoOperationsDiscoveryProposal.md#first-bounded-numeric-implementation)
+
 ## Changing structure
 
 - **Flow.** A structure's own laws write its own bits. Gates are bits, so a
