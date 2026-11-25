@@ -97,9 +97,11 @@ public static class Flows
     /// this route's share of a product. Beside the other side's sweep, the two
     /// receipts and the corners where units arrive in the same step make the
     /// whole product, Δ(ab) = bΔa + aΔb + ΔaΔb: the receipts say how it grew,
-    /// and wiring a plain move instead forgets it. An empty source, a full
-    /// target or a receipt without room holds the move. Roles: source, target,
-    /// other (read), receipt.</summary>
+    /// and wiring a plain move instead forgets it. The receipt only observes:
+    /// an empty source or a full target holds the move, but the receipt never
+    /// does. A receipt without room for the strip fills to its capacity and
+    /// stays there, so a full receipt says the record may be short (from
+    /// ops_sol's review). Roles: source, target, other (read), receipt.</summary>
     public static TransitionLaw Sweep(int sourceCapacity, int targetCapacity, int otherCapacity, int receiptCapacity)
     {
         lock (Sweeps)
@@ -108,7 +110,9 @@ public static class Flows
             if (Sweeps.TryGetValue(key, out var cached)) return cached;
             return Sweeps[key] = TransitionLaw.FromFunction(
                 [Shape.Unary(sourceCapacity), Shape.Unary(targetCapacity), Shape.Unary(otherCapacity), Shape.Unary(receiptCapacity)],
-                s => s[0] >= 1 && s[1] < targetCapacity && s[3] + s[2] <= receiptCapacity ? [s[0] - 1, s[1] + 1, s[2], s[3] + s[2]] : s,
+                s => s[0] >= 1 && s[1] < targetCapacity
+                    ? [s[0] - 1, s[1] + 1, s[2], s[3] + s[2] > receiptCapacity ? receiptCapacity : s[3] + s[2]]
+                    : s,
                 new Accounting(true, new PreservedSum([0, 1]), new Unchanged(2), new NeverDecreases(3)));
         }
     }

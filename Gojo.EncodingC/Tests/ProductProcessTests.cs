@@ -78,6 +78,23 @@ public sealed class ProductProcessTests
         Assert.All(plain, r => Assert.Equal((3, 4, 12, 0, 0), r));
     }
 
+    /// <summary>A receipt observes and never holds material (ops_sol's probe):
+    /// with one unit of pressure, an empty target and the other side at 2, the
+    /// unit moves whether the receipt has room or not. A receipt without room
+    /// fills to its capacity and stays there; the move is the same as a plain
+    /// move's.</summary>
+    [Fact]
+    public void ARecordNeverHoldsTheMove()
+    {
+        var sweep = Flows.Sweep(3, 3, 4, 3);
+        int[] After(int receipt) => sweep.Tuple(Assert.Single(sweep.Afters(sweep.TupleIndex([1, 0, 2, receipt]))));
+        Assert.Equal([0, 1, 2, 2], After(0));
+        Assert.Equal([0, 1, 2, 3], After(2));
+        Assert.Equal([0, 1, 2, 3], After(3));
+        var move = Flows.Move(3, 3);
+        Assert.Equal(move.Tuple(Assert.Single(move.Afters(move.TupleIndex([1, 0])))), After(3)[..2]);
+    }
+
     /// <summary>The same schedule run again gives the same receipts: a
     /// recorded split and a replayed one agree.</summary>
     [Fact]
