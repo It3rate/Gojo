@@ -1,7 +1,7 @@
 # Operations in Gojo: what they are, where they live, how they run
 
-Status: **exploratory discussion**, rewritten 25 November 2026. Nothing proposed
-here is built. This version replaces the first draft (git `7d520953`). It folds in the
+Status: **exploratory discussion**, rewritten 25 November 2026. Parts are now
+built on this branch, with tests; §16 lists them and what building changed. This version replaces the first draft (git `7d520953`). It folds in the
 first round of answers and the two notes written in parallel on the same
 question: [`ops_sol`](https://github.com/It3rate/Gojo/blob/ops_sol/Gojo/docs/GojoOperationsDiscussion.md)
 and [`ops_neon`](https://github.com/It3rate/Gojo/blob/ops_neon/Gojo/docs/GojoOperations-2026-11.md).
@@ -33,6 +33,7 @@ exploratory. Numeric claims are checked by the script in
 13. [Conflicts and gaps in the axioms](#13-conflicts-and-gaps-in-the-axioms)
 14. [Experiments that would decide](#14-experiments-that-would-decide)
 15. [Open questions](#15-open-questions)
+16. [What is built, and what building changed](#16-what-is-built-and-what-building-changed)
 - [Appendix A: numeric checks](#appendix-a-numeric-checks)
 - [Appendix B: evidence](#appendix-b-evidence)
 - [Appendix C: sources](#appendix-c-sources)
@@ -313,9 +314,9 @@ with no names or tags: [`OperationPrimitiveTests`](../Gojo.EncodingC/Tests/Opera
 - *Accumulate is heap bound in place,* folded at capacity, and `AtLeast` is
   compare folded to a bit.
 
-So master holds compare, threshold and accumulate as separate tables, although
-each is calculable from heap's. That is the case for deriving them from one
-relation (§13, item 14).
+Master holds compare, threshold and accumulate as separate tables, although
+each is calculable from heap's. On this branch, sum, tally, shortfall and
+accumulate are now bindings of a balance, with the same bits as before (§16).
 
 ## 2. What is combined decides how
 
@@ -1073,7 +1074,8 @@ Each gap is listed with the smallest clarification that would resolve it.
     backward reads come from the same table and nothing is kept twice. Read
     backward, `Sum` subtracts, and with `a` at 0 it answers the scribes'
     division question: what times the weight gives the total? `Accumulate`
-    and `Streak` read their own last value, so they stay processes.
+    and `Streak` read their own last value, so they stay processes. *Built on
+    this branch* (§16), except at-least, which is a fold to a bit.
 15. **Narrowing and justification apply to different facts.** Narrowing suits
     facts that stay true; `Settling.Justify` suits possibilities about now. The
     prompt could say which reads use which.
@@ -1126,6 +1128,70 @@ All are at rung 0 in EncodingC unless noted.
 
 The [review](GojoOperationsReview-2026-11.md) gathers these with the decisions
 that follow from comparing the three notes.
+
+## 16. What is built, and what building changed
+
+Built on `claude/youthful-newton-wh29co` in `Gojo.EncodingC` (implemented):
+
+| Piece | Code | Tests | Plan |
+| --- | --- | --- | --- |
+| A relation run by binding its roles | `Operations.Balance`, `Operations.Product`, `Operations.Bind` | `OperationTests` | §1.3, X2 |
+| Counting laws as bindings of a balance, same bits | `Counts.Sum`, `Tally`, `Shortfall`, `Accumulate` | `OperationTests` | §13, item 14 |
+| Coordinates calculated from laws | none needed | `OperationPrimitiveTests` | §1.3 |
+| The 3 × 4 relation | `Operations.Product(4, 4)` | `OperationTests` | X1 |
+| Pairing, with receipts on request | `Flows.Sweep` | `ProductProcessTests` | X1, X6 |
+| Packets against booked orders | `Flows.Fulfill` (master) | `ProductProcessTests` | X1 |
+| The oscillator family, step order as structure, J at rung 0 | kick and drift as bindings of a balance | `OscillatorTests` | X8, X9, X10 |
+
+**What building changed:**
+1. **A run that finds nothing holds.** The first version admitted no
+   after-state where no completion fits. `Flows.When` refuses such laws, and
+   master's moves already hold when blocked. So a binding holds there and
+   leaves the relation unmet, where structure can read it: 5 over 2 stays
+   `(2, 0, 5)`, which the product does not admit. Open completions still give
+   several after-states for a structure to choose: 0 over 0 gives five.
+2. **Folds became residue roles.** A role a binding leaves free is residue,
+   kept as small as the relation allows and then dropped. Shortfall is the gap
+   with the excess free; accumulate is heap written over its own count with
+   the overflow free. No clamp is hidden in a step function: the fold is a
+   role the binding visibly leaves free.
+3. **A gap with both faces written stays open,** since any amount can sit on
+   both pans. One face settles with the other free, and the other face is the
+   same binding turned round. Holding both faces settled needs a cancel, as
+   `Tension.Cancel` does.
+4. **Schedules are arrivals, not gates.** Gating a four-role sweep doubles its
+   states, and with receipts of 12 the table passes `Law.MaxBits`. The pairing
+   fixture receives units as pressure on the schedule's ticks instead, which
+   is also Axiom 5: input enters through tension. The path is the arrival
+   history.
+5. **Corners are calculated, not counted.** A law counting corners would read
+   both arrivals and a tally, past the table limit. The corners are the
+   product's residue after both receipts, read back through a balance:
+   0, 3 and 0 for the three schedules.
+6. **Motion needs no signs.** Position is a count on a track and the landmark
+   a count on the same track; velocity is a count against a rest count. The
+   kick and the drift are balances written over the count they change, and
+   the side of the landmark is a read (`Sides.Compare`). The landmark is a
+   count, so moving it moves the orbit's centre: a perturbable position on the
+   stiffness ladder (§10).
+7. **J needs no new primitive.** It is the face flip from one face and the
+   reorientation from the other. The test drives it from the existing moves;
+   making it a kernel move remains the orientation note's decision.
+8. **The rate and `m` are weights.** The kick is a balance with weights
+   `(1, m, −m, −1)`. First order is `(2 − m, −2, −m)` over `x`, `x'` and a
+   rounding residue bit. `m = 0` drops the relation: hold and coasting are the
+   absence of a pull, not a zero weight. At `k = 1` the runaway row is
+   Fibonacci until the walls hold it.
+9. **The turn bit is a toggle.** `Flows.Turn` follows work, and an oscillator
+   always has work on both sides, so `Flows.Toggle` drives the bit.
+10. **Fate is per role.** `Flows.Sweep` moves a unit, paid for, and keeps a
+    receipt nothing pays for: the first law with both.
+11. **The table wall is the working limit.** A sweep with a receipt of 12 uses
+    a quarter to two fifths of `Law.MaxBits`; gated, it is over. The fixtures
+    stay at the 3 × 4 scale. Larger products are what the numeric lift is for
+    (§8).
+
+Not built: X3 to X5, X7 and X11 to X15, compiled plans and rungs.
 
 ## Appendix A: numeric checks
 

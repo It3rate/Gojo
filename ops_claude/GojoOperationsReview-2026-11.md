@@ -245,6 +245,10 @@ What this changes:
 
 ## 6. First steps
 
+Steps 1 and 2 are built on this branch, with tests; see [ops_claude §16](GojoOperations-2026-11.md#16-what-is-built-and-what-building-changed).
+The counting-law lean of decision 2 is built too: sum, tally, shortfall and
+accumulate are bindings of a balance, with the same bits.
+
 1. **Fixture A, the 3 × 4 comparison** (EncodingC tests, from ops_sol):
    - *Relation.* `a, b ∈ 0..4`, `c ∈ 0..16`: 425 bits and 25 admitted tuples.
      It must divide, give `(3, 4)` and `(4, 3)` for `c = 12`, leave `b` open
