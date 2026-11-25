@@ -12,6 +12,11 @@ namespace Gojo.EncodingC;
 /// streak are accumulation, at-least is a threshold read with the threshold
 /// held as data, tally counts bits, and shortfall is one face of a gap. Tables
 /// grow with capacity, which bounds the counts they can read today.</para>
+/// <para><b>Where the tables come from.</b> Sum, tally, shortfall and
+/// accumulate are bindings of a balance (<see cref="Operations"/>): one
+/// relation read forward into a new count, or written over the count it read,
+/// with what does not fit left as residue. At-least, streak and rank are still
+/// written as step functions.</para>
 /// <para><b>How they run.</b> Each writes its result only when it changes, so a
 /// structure settles quietly around them, and each result has one writer, so
 /// they never contend. Their inputs are read and unchanged. Declare them before
@@ -34,8 +39,8 @@ public static class Counts
         {
             var key = (capacityA, capacityB, weight);
             if (Sums.TryGetValue(key, out var cached)) return cached;
-            return Sums[key] = Reading([Shape.Unary(capacityA), Shape.Unary(capacityB)], Shape.Unary(capacityA + weight * capacityB),
-                s => s[0] + weight * s[1]);
+            Shape[] roles = [Shape.Unary(capacityA), Shape.Unary(capacityB), Shape.Unary(capacityA + weight * capacityB)];
+            return Sums[key] = Operations.Bind(Operations.Balance(roles, 1, weight, -1), roles, [0, 1, -1], [-1, -1, 2]);
         }
     }
 
@@ -48,8 +53,10 @@ public static class Counts
         {
             var key = (haveCapacity, wantCapacity);
             if (Shortfalls.TryGetValue(key, out var cached)) return cached;
-            return Shortfalls[key] = Reading([Shape.Unary(haveCapacity), Shape.Unary(wantCapacity)], Shape.Unary(wantCapacity),
-                s => s[1] > s[0] ? s[1] - s[0] : 0);
+            // have + short = want + over, the excess left free as residue.
+            Shape have = Shape.Unary(haveCapacity), want = Shape.Unary(wantCapacity);
+            return Shortfalls[key] = Operations.Bind(Operations.Balance([have, want, want, have], 1, -1, 1, -1),
+                [have, want, want], [0, 1, -1, -1], [-1, -1, 2, -1]);
         }
     }
 
@@ -64,7 +71,9 @@ public static class Counts
         lock (Tallies)
         {
             if (Tallies.TryGetValue(bits, out var cached)) return cached;
-            return Tallies[bits] = Reading([.. Enumerable.Repeat(Shape.Bit, bits)], Shape.Unary(bits), s => s.Sum());
+            Shape[] roles = [.. Enumerable.Repeat(Shape.Bit, bits), Shape.Unary(bits)];
+            return Tallies[bits] = Operations.Bind(Operations.Balance(roles, [.. Enumerable.Repeat(1, bits), -1]), roles,
+                [.. Enumerable.Range(0, bits), -1], [.. Enumerable.Repeat(-1, bits), bits]);
         }
     }
 
@@ -98,9 +107,14 @@ public static class Counts
         lock (Streaks)
         {
             if (Streaks.TryGetValue((capacity, reset), out var cached)) return cached;
-            return Streaks[(capacity, reset)] = TransitionLaw.FromFunction([Shape.Bit, Shape.Unary(capacity)],
-                s => [s[0], s[0] == 1 ? (s[1] < capacity ? s[1] + 1 : capacity) : reset ? 0 : s[1]],
-                new Accounting(true, new Unchanged(0)));
+            var count = Shape.Unary(capacity);
+            return Streaks[(capacity, reset)] = reset
+                ? TransitionLaw.FromFunction([Shape.Bit, count],
+                    s => [s[0], s[0] == 1 ? (s[1] < capacity ? s[1] + 1 : capacity) : 0],
+                    new Accounting(true, new Unchanged(0)))
+                // Heap written over the count it read: count + signal = count' + overflow, the overflow free as residue.
+                : Operations.Bind(Operations.Balance([count, Shape.Bit, count, Shape.Bit], 1, 1, -1, -1),
+                    [Shape.Bit, count], [1, 0, -1, -1], [-1, -1, 1, -1]);
         }
     }
 
