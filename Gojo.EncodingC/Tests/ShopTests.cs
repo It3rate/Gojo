@@ -34,7 +34,7 @@ public sealed class ShopTests
 
     private sealed record Wholesaler(Engine Engine, Store Warehouse, Field Cases, Port Out, Port Status);
 
-    private sealed record Shop(Engine Engine, Store Store, Tension Stock, Field Target, Field OnOrder, Field Pickup, Supports? Choice, Wiring[] Fills, Socket[] Lines);
+    private sealed record Shop(Engine Engine, Store Store, Tension Stock, Field Target, Field OnOrder, Field Pickup, Supports? Choice, Wiring[] Fills, Socket[] Lines, Field[] Receipts);
 
     private sealed record World(Customer Customer, Wholesaler[] Wholesalers, Shop Shop)
     {
@@ -123,13 +123,14 @@ public sealed class ShopTests
         engine.Add(Tension.Wire(Counts.AtLeast(Shelf + Owed, Point), [shortBy.On(store), point.On(store), Bit(orderNow)], Here));
 
         var lines = wholesalers.Select(w => { var line = Socket.For(w.Out); line.Plug(w.Out); return line; }).ToArray();
+        var receipts = wholesalers.Select(_ => Count(Cases)).ToArray();
         var fills = wholesalers.Select((w, i) =>
         {
-            var roles = new[] { w.Cases.On(lines[i]), onOrder.On(store), stock.Plus.On(store) };
-            var law = Flows.Fulfill(Cases, OnOrder, Dock, take: 1, give: PerCase);
+            var roles = new[] { w.Cases.On(lines[i]), onOrder.On(store), stock.Plus.On(store), receipts[i].On(store) };
+            var law = Flows.Fulfill(Cases, OnOrder, Dock, take: 1, give: PerCase, tallyCapacity: Cases);
             if (!spare.Contains(i)) return Tension.Wire(law, roles, Here, choice is null ? [] : [choice.Possible(i)]);
             var fill = new Wiring(law, roles);
-            fill.AddSpare(0, 0, 0);
+            fill.AddSpare(0, 0, 0, 0);
             return fill;
         }).ToArray();
         if (spare.Length > 0)
@@ -153,7 +154,7 @@ public sealed class ShopTests
 
         var counterPort = store.Publish([0], [.. counter.Planes]);
         customer.Engine.Add(Tension.Route(new Field(Shape.Unary(Pickup), [.. Enumerable.Range(0, Pickup)]).On(counterPort), basket.On(customerStore), Here));
-        return new World(customer, wholesalers, new Shop(engine, store, stock, wanted, onOrder, counter, choice, fills, lines));
+        return new World(customer, wholesalers, new Shop(engine, store, stock, wanted, onOrder, counter, choice, fills, lines, receipts));
     }
 
     /// <summary>Iteration 1, material only. The shop has two on the shelf and
@@ -222,7 +223,8 @@ public sealed class ShopTests
     /// <para><b>Narrowed,</b> A stays ruled out: B runs dry and the shop ends with
     /// two owed and three cases on order while A has three. <b>Justified,</b> "A
     /// is possible" is held only while A is open, by one law writing it from that
-    /// reason each step; it reopens with A, and everything is delivered.</para></summary>
+    /// reason each step; it reopens with A, and everything is delivered. Each
+    /// line's receipt tally says which wholesaler the cases came from.</para></summary>
     [Fact]
     public void AClosedWholesalerIsOrderedFromAgainOnlyWhenItsPossibilityIsJustified()
     {
@@ -249,6 +251,7 @@ public sealed class ShopTests
 
             Assert.Equal(justified ? (4, 0, 0, 0, 8) : (0, 0, 2, 3, 6), world.Floor);
             Assert.Equal(justified ? [0, 0] : [3, 0], world.Warehouses);
+            Assert.Equal(justified ? [3, 3] : [0, 3], world.Shop.Receipts.Select(r => r.Read(world.Shop.Store, 0)!.Value));
         }
     }
 

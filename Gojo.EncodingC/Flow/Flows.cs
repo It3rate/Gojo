@@ -6,7 +6,7 @@ public static class Flows
 {
     private static readonly Dictionary<(int, int, int, int), TransitionLaw> Converts = [];
     private static readonly Dictionary<(int, int), TransitionLaw> GatedMoves = [];
-    private static readonly Dictionary<(int, int, int, int, int), TransitionLaw> Fulfills = [];
+    private static readonly Dictionary<(int, int, int, int, int, int), TransitionLaw> Fulfills = [];
 
     /// <summary>The smallest move: source S, gate C, target T, one bit each;
     /// state <c>S + 2C + 4T</c>. A whole unit hands off when S is set, the gate
@@ -61,18 +61,31 @@ public static class Flows
     /// <para>A delivery to a customer is this law from the shelf, against a
     /// backorder, into a pickup counter; a supplier's delivery is it from the
     /// supplier's stock, against an order on the books, into the dock. A draw
-    /// that only empties the value leaves the unit nowhere; this one keeps it.</para></summary>
-    public static TransitionLaw Fulfill(int sourceCapacity, int orderCapacity, int targetCapacity, int take = 1, int give = 1)
+    /// that only empties the value leaves the unit nowhere; this one keeps it.</para>
+    /// <para>With a <paramref name="tallyCapacity"/>, a fourth role counts the
+    /// fills that came this way, one each, and a full tally holds further fills
+    /// until it has room. Wired once per source, the tallies say where what
+    /// arrived came from, without a record per arrival (from sol_tension's
+    /// receipt tally).</para></summary>
+    public static TransitionLaw Fulfill(int sourceCapacity, int orderCapacity, int targetCapacity, int take = 1, int give = 1, int tallyCapacity = 0)
     {
         if (take < 1 || give < 1) throw new ArgumentOutOfRangeException(nameof(take), "Take and give at least one unit.");
+        ArgumentOutOfRangeException.ThrowIfNegative(tallyCapacity);
         lock (Fulfills)
         {
-            var key = (sourceCapacity, orderCapacity, targetCapacity, take, give);
+            var key = (sourceCapacity, orderCapacity, targetCapacity, take, give, tallyCapacity);
             if (Fulfills.TryGetValue(key, out var cached)) return cached;
-            return Fulfills[key] = TransitionLaw.FromFunction(
-                [Shape.Unary(sourceCapacity), Shape.Unary(orderCapacity), Shape.Unary(targetCapacity)],
-                s => s[0] >= take && s[1] >= 1 && s[2] + give <= targetCapacity ? [s[0] - take, s[1] - 1, s[2] + give] : s,
-                new Accounting(true, new PreservedSum([0, 2], [give, take]), new PreservedSum([1, 2], [give, 1])));
+            var tallied = tallyCapacity > 0;
+            Shape[] roles = tallied
+                ? [Shape.Unary(sourceCapacity), Shape.Unary(orderCapacity), Shape.Unary(targetCapacity), Shape.Unary(tallyCapacity)]
+                : [Shape.Unary(sourceCapacity), Shape.Unary(orderCapacity), Shape.Unary(targetCapacity)];
+            Invariant[] sums = [new PreservedSum([0, 2], [give, take]), new PreservedSum([1, 2], [give, 1])];
+            if (tallied) sums = [.. sums, new PreservedSum([1, 3]), new PreservedSum([0, 3], [1, take])];
+            return Fulfills[key] = TransitionLaw.FromFunction(roles,
+                s => s[0] >= take && s[1] >= 1 && s[2] + give <= targetCapacity && (!tallied || s[3] < tallyCapacity)
+                    ? (tallied ? [s[0] - take, s[1] - 1, s[2] + give, s[3] + 1] : [s[0] - take, s[1] - 1, s[2] + give])
+                    : s,
+                new Accounting(true, sums));
         }
     }
 

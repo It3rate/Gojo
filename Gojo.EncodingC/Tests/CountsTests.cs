@@ -145,7 +145,8 @@ public sealed class CountsTests
     /// <summary>Filling an order keeps both accounts: a unit leaves the
     /// source, arrives at the target and closes one unit of order in the same
     /// move. With nothing on order nothing moves, and a full target holds both
-    /// the unit and the order.</summary>
+    /// the unit and the order. With a tally, each fill is also counted, and a
+    /// full tally holds the next one.</summary>
     [Fact]
     public void FillingAnOrderMovesAUnitAndClosesTheOrderTogether()
     {
@@ -154,6 +155,10 @@ public sealed class CountsTests
         Assert.Equal([2, 0, 2], After(fill, 3, 1, 0));
         Assert.Equal([3, 0, 0], After(fill, 3, 0, 0));
         Assert.Equal([3, 1, 1], After(fill, 3, 1, 1));
+
+        var tallied = Flows.Fulfill(3, 2, 2, take: 1, give: 2, tallyCapacity: 1);
+        Assert.Equal([2, 0, 2, 1], After(tallied, 3, 1, 0, 0));
+        Assert.Equal([3, 1, 0, 1], After(tallied, 3, 1, 0, 1));
     }
 
     /// <summary>A table too large to check exhaustively is refused before it is
