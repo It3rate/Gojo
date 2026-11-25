@@ -75,9 +75,10 @@ public sealed class OperationTests
     }
 
     /// <summary>Run instead of narrowed, the product read backward is a
-    /// division that a structure has to finish: one answer for 12 over 3, every
-    /// b for 0 over 0, so the law alone cannot run there, and none for 5 over 2.
-    /// Bound to one count for both inputs, the product squares it.</summary>
+    /// division that a structure has to finish: one answer for 12 over 3, and
+    /// every b for 0 over 0, so the law alone cannot run there. For 5 over 2
+    /// nothing fits: the step holds and the relation stays unmet. Bound to one
+    /// count for both inputs, the product squares it.</summary>
     [Fact]
     public void RunBackwardTheProductDividesOrLeavesTheChoiceOpen()
     {
@@ -86,7 +87,8 @@ public sealed class OperationTests
         Assert.False(divide.Accounting.Functional);
         Assert.Equal([3, 4, 12], Next(divide, 3, 0, 12));
         Assert.Equal(5, divide.Afters(divide.TupleIndex([0, 2, 0])).Count);
-        Assert.Empty(divide.Afters(divide.TupleIndex([2, 0, 5])));
+        Assert.Equal([2, 0, 5], Next(divide, 2, 0, 5));
+        Assert.False(times.Admits(2, 0, 5));
 
         Shape side = Shape.Unary(4), area = Shape.Unary(16);
         var square = Operations.Bind(times, [side, area], reads: [0, 0, -1], writes: [-1, -1, 1]);

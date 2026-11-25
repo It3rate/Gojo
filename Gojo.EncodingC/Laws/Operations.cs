@@ -13,7 +13,8 @@ namespace Gojo.EncodingC;
 /// what is short against want and what is over, is shortfall with the excess
 /// as residue, and excess with the roles swapped. The product, read forward,
 /// pairs two counts into a new one; narrowed, it divides, and with both
-/// inputs bound to one sample it squares.</para>
+/// inputs bound to one sample it squares. A run that finds no completion
+/// holds, leaving the relation unmet where the structure can see it.</para>
 /// <para>Two relations are the mechanisms. A balance is along: amounts on two
 /// pans, a weight's sign saying which pan and its size the rate, so units
 /// trade one for one at weight 1. A product is across: each unit of the
@@ -41,9 +42,12 @@ public static class Operations
     /// role r reads law role <paramref name="reads"/>[r] before the step, or
     /// writes law role <paramref name="writes"/>[r] after it; −1 for neither
     /// leaves it free. Every admitted completion with the least free total is
-    /// an after-state: one where the relation settles the written roles, several
-    /// where it leaves them open, none where nothing fits. Law roles no relation
-    /// role writes are unchanged. Binding a role's read and write to the same law
+    /// an after-state: one where the relation settles the written roles, and
+    /// several where it leaves them open, for a structure to choose. Where
+    /// nothing fits, the step holds, as a move holds when its target has no
+    /// room: the written roles keep their values and the relation is left
+    /// unmet, visible to anything that reads it. Law roles no relation role
+    /// writes are unchanged. Binding a role's read and write to the same law
     /// role writes a result over the count it was read from.</summary>
     public static TransitionLaw Bind(RelationLaw relation, IReadOnlyList<Shape> roles, int[] reads, int[] writes)
     {
@@ -73,7 +77,12 @@ public static class Operations
         for (var before = 0; before < probe.StateCount; before++)
         {
             var state = probe.Tuple(before);
-            if (!byReads.TryGetValue(Key(r => state[reads[r]]), out var fits)) continue;
+            if (!byReads.TryGetValue(Key(r => state[reads[r]]), out var fits))
+            {
+                pairs.Add((before, before));
+                afterCounts[before]++;
+                continue;
+            }
             var least = fits.Min(t => Free(t));
             foreach (var after in fits.Where(t => Free(t) == least).Select(t =>
                      {
