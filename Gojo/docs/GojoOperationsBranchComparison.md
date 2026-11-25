@@ -4,6 +4,8 @@
 
 The three checkpoints share master `9b805964`. This review pins Sol at `29df5335`, Claude at `c04869c1` on `claude/youthful-newton-wh29co`, and Neon at `6f655fc2`. The comparison asks whether an implementation gives the expected answer on a selected read, what it costs to produce and retain that answer, and what its remaining structure makes possible on the next request.
 
+The design follow-up reviews the later Claude comparison and proposes a small test for turning settled observations into reusable equations. [From settlement to reusable equations](GojoOperationsDiscoveryProposal.md)
+
 ## What I would carry forward
 
 | Branch | Strength | Cost or limit | What to carry forward |

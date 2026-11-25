@@ -2,6 +2,8 @@
 
 Design review and operations comparison · 25 November 2026 · Master baseline `9b805964`
 
+The follow-up proposal develops the next experiment for learning and compressing local operation reads from settlement, with criteria for adding numeric rungs. [From settlement to reusable equations](GojoOperationsDiscoveryProposal.md)
+
 ## Position
 
 An operation lives in the **connected structure that makes its roles and law readable**. A connection can simply carry a reference or a conserved packet. Put the operation where its inputs, dependencies, and authority to change state can be inspected. A Boolean relation and a gated passage already fit three roles in one row. A separate local structure becomes useful when the operation needs its own state, settlement or reusable boundary.
