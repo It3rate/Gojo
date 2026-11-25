@@ -1,6 +1,6 @@
 # Where operations live in Gojo
 
-Final design review · 25 November 2026 · Master baseline `9b805964`
+Design review and first EncodingC implementation · 25 November 2026 · Master baseline `9b805964`
 
 ## Position
 
@@ -18,7 +18,7 @@ Pinning means making the participants, their roles, and any shared site or calib
 
 I would settle this operational grammar using small exact quantities alongside qualitative laws. The new tension system already runs bounded count and comparison laws, so a first operation can expose a computed result, demand, and accountable response without waiting for a general numeral system. Order, occupancy and landmarks carry useful laws before measurement. A claim about length scale, distinct pair count, packet rate or capacity adds a numeric or calibrated witness. Comparing these witnesses tells us what a future rung needs to preserve.
 
-All three operations notes now favor exposing output roles, separating read from enactment, and letting native compilation serve the structural contract. Their remaining differences concern where to start, how much operation history to retain, and how strongly frames, dynamics or radices should determine the implementation. The review below uses the latest revision of each note and the executable tension changes on master. The worked examples separate existing law behavior from proposed operation wiring.
+All three operations notes favor exposing output roles, separating read from enactment, and letting native compilation serve the structural contract. The first implemented EncodingC slice follows the bounded comparison below. Its three circuits use a shared arithmetic example with independently bound roles. The relation, the pair construction, and the delivery each expose their own result and evidence. [Implemented comparison](#the-first-encodingc-implementation) · [Claude’s final review](https://github.com/It3rate/Gojo/blob/dda7b531/ops_claude/GojoOperationsReview-2026-11.md) · [Neon’s common comparison](https://github.com/It3rate/Gojo/blob/f0267a36/Gojo/docs/GojoOperations-2026-11.md#L367)
 
 ## What the repository has already tried
 
@@ -184,6 +184,24 @@ Two alternate policies bring out the distinction. A process that books unit obli
 
 For the first comparison, observe the exact law's 12 alongside the packet trace and its retained order. Then ask an additional local question about the shortfall, per-route receipt or contested choice. Add the evidence required by that question and account for its cost. A fold may return 9 delivered under the selected observation. A checked enactment enters and settles change only through its authorized routes.
 
+### The first EncodingC implementation
+
+| Circuit | Implemented and exercised |
+| --- | --- |
+| **Bounded relation** | The 425-bit admitted-tuple law narrows actual support planes through an authored wiring. It reads 12 from the supplied factors and 4 from the supplied factor 3 and result 12. When only 12 is supplied, separate recorded candidate rows preserve the two ordered factorizations alongside the two marginal supports. The tests also cover open zero, contradictions inside the declared domain, and two operand roles bound to the same sample. The original value field stays readable independently of its support. [Relation tests](../../Gojo.EncodingC/Tests/OperationProductRelationTests.cs) |
+| **Pair construction and fold** | Each pair position reads two particular occurrence sites. A conjunction writes its current occupancy. Small tally and sum rows fold the scope to a count. A build that asks for history also binds before-bits and three formation evidence bits per pair. These capture left arrival, right arrival or same-step arrival before the source snapshots advance. The three schedules above all fold to 12 and retain different formation evidence. The product follows removals. Each optional record keeps the most recent formation, including after removal, and is refreshed if the pair forms again. The saved machine retains those bits and bindings and can continue under the same declared order. [Formation law](../../Gojo.EncodingC/Operations/PairFormation.cs) · [Pair construction tests](../../Gojo.EncodingC/Tests/OperationPairingTests.cs) |
+| **Accounted delivery** | External supply enters through pressure and is absorbed by its owner. The dock separately books packet orders and accepts from a supply port only on a gated opportunity. The same packet law yields the two traces above. For capacity 10, a wired shortfall read publishes three, the port still exposes three supplier units, the order ledger holds one packet, and the dock has one unit of room. Keeping the opportunity open through further settlement changes neither stock nor orders. [Delivery tests](../../Gojo.EncodingC/Tests/OperationDeliveryTests.cs) |
+
+The host builds the circuits, publishes the example inputs and chooses when to step. The connected rows settle support, classify arrivals, maintain the count fold and account for deliveries. The pair fixture authors a small grid of candidate sites in advance. Its stored formation is one local observation per pair. The transport test checks continuation of that observation after load under the same stepping contract. Exact replay of all input events would need an event source and its schedule.
+
+The relation's product and the delivery's requested total are separate bindings in this comparison. Connecting the former to a receiver that books the latter would require a rule for authorized issuance and acknowledgement. That is the next demand-routing question exposed by the fixture.
+
+Run the working slice with:
+
+```powershell
+dotnet test Gojo.EncodingC/Gojo.EncodingC.csproj --filter "FullyQualifiedName~Operation"
+```
+
 ## Perturbation and time are part of the binding
 
 A gain used during exploration can be an exposed position that a permitted law or workspace can vary. The same gain can become harder to perturb once the structure learns or adopts it as a stable promise. Practical options already differ in where change is allowed. A selected workspace can vary a position it owns locally. A port can expose a reference while the owner controls changes. A constant plane is stable under workspace edits. A rate fixed in a transition table takes a replacement law to change. Those are useful structural distinctions. `Counts.AtLeast` illustrates one current case. Its threshold is a bound count that a permitted law can change. A general measure of how strongly an entire network resists change remains open. A parameter can also remain live in an accelerated implementation if its validity conditions are checked. [Claude on perturbable and locked rates](https://github.com/It3rate/Gojo/blob/e0f06b05/ops_claude/GojoOperations-2026-11.md#L663) · [EncodingC workspaces and constants](../../Gojo.EncodingC/README.md#workspaces)
@@ -271,6 +289,6 @@ Bitwise lane acceleration is a plausible first backend comparison when independe
 
 I would use **a locally wired relation as the first reference**, **a scoped construction when a result needs geometric or structural correspondence**, and **an accounted transition when the point of the operation is to act**. One row can be enough for a small law. Independent state, capacity, settlement or reuse through a port justify a larger local structure. Connection arity is a hint, while the roles and their law determine the meaning.
 
-Start with the bounded `3 × 4` relation, its ordered-pair construction, and the packet-order comparison on master. The decisive observation is whether the connected structure can say **what is possible, what moved, and what remains owed or unabsorbed** at the declared scope and time. A Boolean read makes a good gate for a route if its scope and occupancy basis are visible. A scoped plate application then tests whether the same grammar can distinguish a view from a checked writeback. Compare a factorized multiplier when the small domain outgrows its table. Keep phase dynamics, system-wide ranking and compiled backends as separate follow-on claims with their own observables.
+The bounded `3 × 4` comparison now says **what is possible, what moved, and what remains owed** through runnable local circuits. A scoped plate application can test whether the same grammar distinguishes a view from a checked writeback. Compare a factorized multiplier when the small domain outgrows its table. Keep phase dynamics, system-wide ranking and compiled backends as separate follow-on claims with their own observables.
 
 The remaining design decisions concern who may book and acknowledge a demand, which output promises exact path replay, and which question justifies a finer rung or a second execution backend.
