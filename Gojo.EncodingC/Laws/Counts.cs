@@ -56,7 +56,7 @@ public static class Counts
             // have + short = want + over, the excess left free as residue.
             Shape have = Shape.Unary(haveCapacity), want = Shape.Unary(wantCapacity);
             return Shortfalls[key] = Operations.Bind(Operations.Balance([have, want, want, have], 1, -1, 1, -1),
-                [have, want, want], [0, 1, -1, -1], [-1, -1, 2, -1]);
+                [have, want, want], [0, 1, -1, -1], [-1, -1, 2, -1], cost: [0, 0, 0, 1]);
         }
     }
 
@@ -114,7 +114,7 @@ public static class Counts
                     new Accounting(true, new Unchanged(0)))
                 // Heap written over the count it read: count + signal = count' + overflow, the overflow free as residue.
                 : Operations.Bind(Operations.Balance([count, Shape.Bit, count, Shape.Bit], 1, 1, -1, -1),
-                    [Shape.Bit, count], [1, 0, -1, -1], [-1, -1, 1, -1]);
+                    [Shape.Bit, count], [1, 0, -1, -1], [-1, -1, 1, -1], cost: [0, 0, 0, 1]);
         }
     }
 

@@ -111,7 +111,9 @@ public sealed class OperationTests
         var gap = Operations.Balance([three, three, three, three], 1, -1, 1, -1);
         var faces = Operations.Bind(gap, [three, three, three, three], reads: [0, 1, -1, -1], writes: [-1, -1, 2, 3]);
         Assert.False(faces.Accounting.Functional);
-        var settled = Operations.Bind(gap, [three, three, three], reads: [0, 1, -1, -1], writes: [-1, -1, 2, -1]);
+        var settled = Operations.Bind(gap, [three, three, three], reads: [0, 1, -1, -1], writes: [-1, -1, 2, -1], cost: [0, 0, 0, 1]);
+        var open = Operations.Bind(gap, [three, three, three], reads: [0, 1, -1, -1], writes: [-1, -1, 2, -1]);
+        Assert.False(open.Accounting.Functional);
         Assert.True(settled.Accounting.Functional);
         Assert.Equal([1, 3, 2], Next(settled, 1, 3, 0));
         Assert.Equal([3, 1, 0], Next(settled, 3, 1, 0));

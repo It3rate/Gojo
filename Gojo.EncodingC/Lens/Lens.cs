@@ -58,6 +58,30 @@ public sealed class Lens
         return text.ToString();
     }
 
+    /// <summary>"a + 2b − c = 0" — an equation, its roles named a, b, c … in
+    /// order unless the polynomial's roles are named here.</summary>
+    public string Describe(Polynomial equation)
+    {
+        ArgumentNullException.ThrowIfNull(equation);
+        var text = new System.Text.StringBuilder();
+        var first = true;
+        foreach (var (weight, exponents) in equation.Terms)
+        {
+            var magnitude = weight < 0 ? -weight : weight;
+            text.Append(first ? (weight < 0 ? "−" : "") : weight < 0 ? " − " : " + ");
+            var monomial = new System.Text.StringBuilder();
+            for (var r = 0; r < exponents.Count; r++)
+            {
+                if (exponents[r] == 0) continue;
+                monomial.Append(parts.TryGetValue((equation, r), out var name) ? name : ((char)('a' + r)).ToString());
+                if (exponents[r] > 1) monomial.Append('^').Append(exponents[r]);
+            }
+            text.Append(monomial.Length == 0 ? magnitude.ToString() : magnitude == 1 ? monomial.ToString() : $"{magnitude}{monomial}");
+            first = false;
+        }
+        return text.Append(" = 0").ToString();
+    }
+
     /// <summary>"[source=1, gate=open, target=0]" — a law tuple with role and value names.</summary>
     public string Describe(Law law, int tuple)
     {

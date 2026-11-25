@@ -51,7 +51,7 @@ public sealed class BitRungTests
     public void OneBalanceIsTheHalfAdderAndTheBooleansAreItsReads()
     {
         var add = Operations.Bind(HalfAdder, [Bit, Bit, Bit, Bit], [0, 1, -1, -1], [-1, -1, 2, 3]);
-        var or = Operations.Bind(Operations.Balance([Bit, Bit, Bit, Bit], 1, 1, -1, -1), [Bit, Bit, Bit], [0, 1, -1, -1], [-1, -1, 2, -1]);
+        var or = Operations.Bind(Operations.Balance([Bit, Bit, Bit, Bit], 1, 1, -1, -1), [Bit, Bit, Bit], [0, 1, -1, -1], [-1, -1, 2, -1], cost: [0, 0, 0, 1]);
         for (var a = 0; a <= 1; a++)
             for (var b = 0; b <= 1; b++)
             {
