@@ -193,6 +193,36 @@ public sealed class ShopTests
         Assert.Equal([0], world.Warehouses);
     }
 
+    /// <summary>Every round conserves items and requests across all four
+    /// structures, and a machine saved part way through, restored and stepped
+    /// the same rounds, reaches the same bits as the live one (sol_tension's
+    /// discipline).</summary>
+    [Fact]
+    public void EveryRoundConservesAndASavedShopReplaysTheSameRounds()
+    {
+        var world = Open(target: 3, wholesalers: [Supplier(cases: 2), Supplier(cases: 2)]);
+        world.Request(5);
+        var totals = world.Totals;
+        void Round(Engine[] engines) { foreach (var engine in engines) engine.Step(); }
+
+        for (var round = 0; round < 3; round++)
+        {
+            Round(world.Engines);
+            Assert.Equal(totals, world.Totals);
+        }
+        var copy = Transport.LoadLocals(Transport.SaveLocals(world.Engines)).Select(local => local.Engine).ToArray();
+        for (var round = 0; round < 20; round++)
+        {
+            Round(world.Engines);
+            Round(copy);
+            Assert.Equal(totals, world.Totals);
+        }
+
+        Assert.Equal(Transport.SaveLocals(world.Engines), Transport.SaveLocals(copy));
+        Assert.Equal((3, 0, 0, 0, 5), world.Floor);
+        Assert.Equal([0, 0], world.Warehouses);
+    }
+
     /// <summary>With the line to the wholesaler cut, orders stay on the books.
     /// Counting them, the shop books two cases, enough, and waits; restored,
     /// the line delivers them and the shop is at four. A rule that does not
