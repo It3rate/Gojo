@@ -67,8 +67,9 @@ public sealed record NeverDecreases(int Role) : Invariant
 }
 
 /// <summary>An admitted pair that breaks a promise. <see cref="Invariant"/> is
-/// the index of the broken invariant, or −1 when a functional law admits other
-/// than exactly one after-state for <see cref="Before"/>.</summary>
+/// the index of the broken invariant, −1 when a functional law admits other
+/// than exactly one after-state for <see cref="Before"/>, or −2 when a
+/// reversible law maps more than one before-state to <see cref="After"/>.</summary>
 public readonly record struct Violation(int Before, int After, int Invariant);
 
 /// <summary>The promises of a transition law. A law whose table breaks them is
@@ -76,15 +77,26 @@ public readonly record struct Violation(int Before, int After, int Invariant);
 public sealed class Accounting
 {
     public Accounting(bool functional, params Invariant[] invariants)
+        : this(functional, reversible: false, invariants)
+    {
+    }
+
+    public Accounting(bool functional, bool reversible, params Invariant[] invariants)
     {
         ArgumentNullException.ThrowIfNull(invariants);
         Functional = functional;
+        Reversible = reversible;
         Invariants = Array.AsReadOnly(invariants.ToArray());
     }
 
     /// <summary>Every before-state admits exactly one after-state, so the law
     /// can run on concrete state.</summary>
     public bool Functional { get; }
+
+    /// <summary>Every after-state is reached from at most one before-state, so
+    /// no admitted transition loses information (an exact bijection when
+    /// <see cref="Functional"/> also holds, such as a shear or generator).</summary>
+    public bool Reversible { get; }
 
     public IReadOnlyList<Invariant> Invariants { get; }
 
@@ -98,6 +110,7 @@ public sealed class Accounting
     internal IReadOnlyList<Violation> Check(Law law, int states, Func<int, int, bool> admits)
     {
         var violations = new List<Violation>();
+        var beforeCount = Reversible ? new int[states] : null;
         for (var before = 0; before < states; before++)
         {
             var afterCount = 0;
@@ -106,12 +119,16 @@ public sealed class Accounting
             {
                 if (!admits(before, after)) continue;
                 afterCount++;
+                if (beforeCount is not null) beforeCount[after]++;
                 var a = law.Tuple(after);
                 for (var i = 0; i < Invariants.Count; i++)
                     if (!Invariants[i].Holds(b, a)) violations.Add(new Violation(before, after, i));
             }
             if (Functional && afterCount != 1) violations.Add(new Violation(before, -1, -1));
         }
+        if (beforeCount is not null)
+            for (var after = 0; after < states; after++)
+                if (beforeCount[after] > 1) violations.Add(new Violation(-1, after, -2));
         return violations;
     }
 }

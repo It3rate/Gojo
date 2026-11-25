@@ -63,6 +63,52 @@ public sealed class TransitionLaw : Law
 
     public bool IsFunctional => Enumerable.Range(0, StateCount).All(b => AftersOf(b).Length == 1);
 
+    /// <summary>Whether every after-state is reached from at most one
+    /// before-state (injective; exact bijection when <see cref="IsFunctional"/>
+    /// also holds).</summary>
+    public bool IsReversible
+    {
+        get
+        {
+            var seen = new bool[StateCount];
+            for (var before = 0; before < StateCount; before++)
+                foreach (var after in AftersOf(before))
+                {
+                    if (seen[after]) return false;
+                    seen[after] = true;
+                }
+            return true;
+        }
+    }
+
+    /// <summary>The reverse transition law obtained by swapping before and
+    /// after states. For a functional reversible law (a bijection such as a
+    /// shear or generator), the inverse is also functional and reversible.</summary>
+    public TransitionLaw Inverse()
+    {
+        var pairs = new List<(int Before, int After)>();
+        var inDegree = new int[StateCount];
+        var deterministic = true;
+        for (var before = 0; before < StateCount; before++)
+        {
+            var nexts = AftersOf(before);
+            if (nexts.Length > 1) deterministic = false;
+            foreach (var after in nexts)
+            {
+                pairs.Add((after, before));
+                inDegree[after]++;
+            }
+        }
+        var functional = inDegree.All(c => c == 1);
+        var invariants = Accounting.Invariants.Select<Invariant, Invariant>(inv => inv switch
+        {
+            NeverIncreases ni => new NeverDecreases(ni.Role),
+            NeverDecreases nd => new NeverIncreases(nd.Role),
+            _ => inv,
+        }).ToArray();
+        return FromPairs(Roles, pairs, new Accounting(functional, deterministic, invariants));
+    }
+
     /// <summary>Whether some admitted transition changes the role. A role no
     /// transition changes is only read.</summary>
     public bool Writes(int role)

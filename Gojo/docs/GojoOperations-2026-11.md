@@ -1,13 +1,13 @@
 # Operations: from physical relations to compiled hardware
 
-Status: **proposal** (final synthesis revision, 24 November 2026, on branch
-`ops_neon` synced to `master` `9b805964`). Nothing beyond existing
-`Gojo.EncodingC` (including the tension layer landed on `master`) and
-`Gojo/Core` primitives is built yet except where explicitly marked
-**implemented**. This revision incorporates both the new `EncodingC` tension
-system on `master` and the parallel second-round revisions of `ops_sol`
-(`9fa5a67b`) and `ops_claude` (`e0f06b05`). It follows the epistemic discipline
-of [GojoSystemPrompt.md](GojoSystemPrompt.md) (§1) and builds on
+Status: **exploratory, implemented on branch `ops_neon`** (25 November 2026,
+synced to `master` `9b805964`). Phases 0–5 of §8 are now built and verified in
+[`Gojo.EncodingC`](../../Gojo.EncodingC/README.md) (240/240 tests passing,
+zero strings, zero floats/doubles, zero `System.Math` references in the
+encoding assembly); §8.1 records what building the code changed or sharpened.
+This document incorporates both the `master` `EncodingC` tension layer and the
+parallel reviews on `ops_sol` (`7ea82356`) and `ops_claude` (`dda7b531`). It
+follows [GojoSystemPrompt.md](GojoSystemPrompt.md) (§1) and builds on
 [GojoStructureClosure-2026-11.md](GojoStructureClosure-2026-11.md),
 [GojoTension-2026-11.md](GojoTension-2026-11.md),
 [GojoOrientationDefinitionAndUse-2026-11.md](GojoOrientationDefinitionAndUse-2026-11.md),
@@ -847,6 +847,65 @@ Opt-in `CompiledPlan` strictly outside canonical `Transport`, guarded by
 4. **Differential parity & honest benchmarks:** Randomized bit-for-bit parity
    for Regime 1, declared-bound parity for Regime 2, reporting saved bytes,
    lanes/sec, and deopt fallback rates.
+
+### 8.1 Implemented on `ops_neon`: empirical findings and approach adjustments
+
+Building Phases 0–5 in `Gojo.EncodingC` (`Accounting.cs`, `TransitionLaw.cs`,
+`Engine.cs`, `Transport.cs`, [`Booleans.cs`](../../Gojo.EncodingC/Laws/Booleans.cs),
+[`Rungs.cs`](../../Gojo.EncodingC/Laws/Rungs.cs),
+[`Multiplication.cs`](../../Gojo.EncodingC/Laws/Multiplication.cs),
+[`Dynamics.cs`](../../Gojo.EncodingC/Laws/Dynamics.cs),
+[`CompiledPlan.cs`](../../Gojo.EncodingC/Compilation/CompiledPlan.cs), and
+seven test suites: [`OperationsPhase0Tests.cs`](../../Gojo.EncodingC/Tests/OperationsPhase0Tests.cs),
+[`BooleanOpsTests.cs`](../../Gojo.EncodingC/Tests/BooleanOpsTests.cs),
+[`RungArithmeticTests.cs`](../../Gojo.EncodingC/Tests/RungArithmeticTests.cs),
+[`MultiplicationTests.cs`](../../Gojo.EncodingC/Tests/MultiplicationTests.cs),
+[`StructureScalingTests.cs`](../../Gojo.EncodingC/Tests/StructureScalingTests.cs),
+[`DynamicsTests.cs`](../../Gojo.EncodingC/Tests/DynamicsTests.cs), and
+[`CompiledPlanTests.cs`](../../Gojo.EncodingC/Tests/CompiledPlanTests.cs))
+surfaced six concrete lessons that tightened the design:
+
+1. **The table wall showed up immediately on 4-role `Fulfill`:** In `X1`,
+   wiring `Flows.Fulfill(12, 4, 10, take: 3, give: 3, tallyCapacity: 4)` yields
+   `3,575² = 12.78M` table bits, immediately rejected by `Law.MaxBits`
+   (`4.19M`). Splitting the receipt counter into a separate small
+   `Counts.Accumulate(4)` reading `delivery.Recorded.Changed` kept every law
+   well under the ceiling and preserved exact conservation.
+2. **Factoring shootout measurements (`0..15 × 0..15 → 0..225`):**
+   - Flat 3-role table: `57,856` bits (`7,232` bytes), breaks the 64-value
+     support read cap (`226 > 64`).
+   - Two-rung radix-4 lattice (`DigitMultiply(4)` + `DigitAdd(4)`): **`512`
+     bits (`64` bytes)** of shared laws (**113× smaller**), 4 values/role, runs
+     forward and backward division (`13 × ? = 143 → 11`).
+   - 4-bit Egyptian doubling (`Booleans.And` + `Booleans.FullAdder`): **`40`
+     bits (`5` bytes)** of shared laws (**1,446× smaller**), zero
+     multiplication tables, runs forward and backward division with more wiring
+     rows.
+   - Quarter squares (`0..4 × 0..4`): runs forward, backward division, and open
+     factoring (`? × ? = 12 → {3, 4}`), at the cost of `(a + b)` headroom.
+3. **Arrival-pairing provenance decomposes cleanly by wave order (`X6`):**
+   Instead of one oversized 7-role table, splitting
+   $\Delta(ab) = b\,\Delta a + a\,\Delta b + \Delta a\,\Delta b$ into three
+   small before-state accumulators (`SweepAccumulate`, `CornerAccumulate`)
+   followed by `Counts.Accumulate` in declared wave order stays tiny and lets
+   provenance turn on or off purely by toggling `Wiring.Attend()` bits.
+4. **Zero-`System.Math` IL purity shaped Regime 2 cleanly:**
+   `SubstrateTests.TheEncodingCallsNoMathLibrary` forbids `System.Math` and
+   floating-point types inside `Gojo.EncodingC.dll`. Accordingly, Regime 1
+   compilation uses pure integer/SIMD (`System.Numerics.Vector<ulong>`) while
+   Regime 2 takes a caller-supplied approximate integer oracle validated
+   against an integer-only `FiniteReadContract(MaxAbs, Shift, ToleranceTicks)`.
+5. **Group contention guards must key on bit identity, not `(Store, Position)`:**
+   Two distinct fields (`src` and `dst`) at the same `(Store, Position)` live
+   on disjoint planes and never contend. Keying `CompiledPlan`'s aliasing and
+   group contention guards on `Surface.Bit(pos, plane)` matches
+   `Engine.StepTogether()` and `Wiring.SameReference()` exactly.
+6. **Exact wire-format cost of saved `Reversible` and `Together`:** Saving 1
+   bit per `TransitionLaw` (`Accounting.Reversible`, checked for injectivity
+   with `TransitionLaw.Inverse()`) and 1 bit per `Engine` (`Engine.Together`)
+   keeps the `Flows.Passage` benchmark at **exactly 22 bytes** (`57 + 81 + 38 =
+   176` bits) and adds 1 byte to the learned-table (`40 → 41`), 2-step planner
+   (`116 → 117`), and probe (`226 → 227`) saved machines.
 
 ---
 

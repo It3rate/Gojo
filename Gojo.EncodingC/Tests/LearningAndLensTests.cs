@@ -34,7 +34,7 @@ public sealed class LearningAndLensTests
         var restored = new LearnedTable(Flows.Passage.Roles, copies[0]);
 
         Assert.True(restored.Crystallize(Flows.Passage.Accounting).Law!.SameTable(Flows.Passage));
-        Assert.Equal(40, Transport.Measure(new Engine(), table.Counts).Bytes);
+        Assert.Equal(41, Transport.Measure(new Engine(), table.Counts).Bytes);
     }
 
     [Fact]

@@ -44,6 +44,19 @@ public sealed class Engine
     /// <summary>Steps run so far.</summary>
     public long Tick { get; private set; }
 
+    /// <summary>Whether this engine's declared step kind is simultaneous
+    /// (<see cref="StepTogether"/>) rather than declared order (<see cref="Step"/>).
+    /// Saved with the machine in <see cref="Transport"/> and copied onto forks,
+    /// because for coupled shears the step kind changes whether orbits close.</summary>
+    public bool Together { get; set; }
+
+    /// <summary>Sets <see cref="Together"/> and returns this engine.</summary>
+    public Engine WithTogether(bool together = true)
+    {
+        Together = together;
+        return this;
+    }
+
     /// <summary>The structure this one is a fork of, or null. A fork is the
     /// same local intelligence supposing: it reads its parent's stores through
     /// workspaces and never binds them directly.</summary>
@@ -61,7 +74,7 @@ public sealed class Engine
     public Fork Fork(bool holdMaterial = true, IReadOnlyDictionary<Store, Plane>? select = null, bool isolatePorts = false) =>
         EncodingC.Fork.Of(this, holdMaterial, select, isolatePorts);
 
-    internal static Engine ForkOf(Engine parent) => new() { Parent = parent };
+    internal static Engine ForkOf(Engine parent) => new() { Parent = parent, Together = parent.Together };
 
     /// <summary>Takes stores into this local structure, such as one that only
     /// exposes ports, which no wiring here binds directly.</summary>
@@ -103,6 +116,7 @@ public sealed class Engine
     {
         ArgumentNullException.ThrowIfNull(other);
         if (ReferenceEquals(other, this)) throw new ArgumentException("A structure does not fuse with itself.", nameof(other));
+        if (other.Together != Together) throw new ArgumentException("Two structures with different saved step kinds cannot fuse without choosing one.", nameof(other));
         foreach (var store in other.stores) store.Local = this;
         stores.AddRange(other.stores);
         wirings.AddRange(other.wirings);
@@ -156,6 +170,10 @@ public sealed class Engine
         return waves.Select(wave => wave.ToArray()).ToArray();
     }
 
+    /// <summary>Runs one step according to this engine's saved step kind
+    /// (<see cref="Together"/>).</summary>
+    public EngineStep Advance() => Together ? StepTogether() : Step();
+
     public EngineStep Step()
     {
         var waves = Waves();
@@ -164,14 +182,18 @@ public sealed class Engine
         return new EngineStep(Tick, steps, waves);
     }
 
-    public IReadOnlyList<EngineStep> Run(int steps) => Enumerable.Range(0, steps).Select(_ => Step()).ToArray();
+    public IReadOnlyList<EngineStep> Run(int steps) => Enumerable.Range(0, steps).Select(_ => Advance()).ToArray();
+
+    /// <summary>Steps until a step changes nothing using this engine's saved
+    /// step kind (<see cref="Together"/>).</summary>
+    public int? Settle(int limit) => Settle(limit, Together);
 
     /// <summary>Steps until a step changes nothing, taken together or in order,
     /// and returns how many steps that took, the quiet one included; null if
     /// it is still changing after <paramref name="limit"/> steps. Quiet is read
     /// from what the rows did, not decided outside them: no state changed, and
     /// no evidence a law could read, so a contest a law reacts to is not quiet.</summary>
-    public int? Settle(int limit, bool together = false)
+    public int? Settle(int limit, bool together)
     {
         for (var i = 1; i <= limit; i++)
             if ((together ? StepTogether() : Step()).Steps.All(step => step.Quiet)) return i;

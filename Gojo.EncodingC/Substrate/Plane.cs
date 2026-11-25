@@ -128,6 +128,10 @@ public sealed class Plane : IEquatable<Plane>
 
     internal ulong Word(int w) => words[w];
 
+    internal ulong[] RawWords => words;
+
+    internal void TrimTail() => Trim();
+
     internal void OrWord(int w, ulong bits)
     {
         words[w] |= bits;

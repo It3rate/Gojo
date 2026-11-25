@@ -71,8 +71,9 @@ Entries are marked in three ways:
 | Relation law | The combinations that can hold together. It never changes state. It rules out what cannot be | One bit per tuple, set when admitted. AND over (a, b, out) is the byte `87` |
 | Transition law | Which whole state may follow which. It changes state | Bit `before + N·after` for N states. Saved as a list of next states, N·⌈log₂ N⌉ bits, when every state has exactly one |
 | Admitted | A combination or a transition the law allows | A set bit in the table |
-| Functional | Every state has exactly one next state, so the law runs on bits with nothing left to choose | A property of the table |
-| Accounting, promise | What a transition law promises about every admitted pair: a sum is preserved, a role is unchanged, a role never rises or never falls. Checked over the whole table when the law is made. A table that breaks a promise is refused | A short list: the kind (two bits), the roles, and the weights of a sum |
+| Functional | Every state has exactly one next state, so the law runs on bits with nothing left to choose | A property of the table, saved as one bit in accounting |
+| Reversible | Every after-state is reached from at most one before-state (injective; exact bijection when also functional, such as a shear or generator `J`). `Inverse()` swaps before and after | Checked over the whole table when made; saved as one bit in accounting |
+| Accounting, promise | What a transition law promises about every admitted pair: functional, reversible, a sum is preserved, a role is unchanged, a role never rises or never falls. Checked over the whole table when the law is made. A table that breaks a promise is refused | Two bits (functional, reversible) plus a short list: the kind (two bits), the roles, and the weights of a sum |
 | Preserved sum, conservation | Σ weight·value is the same before and after. With every weight positive, nothing is made or lost, only moved | Roles and weights in the accounting |
 | A law read as a relation | A transition table read as a relation between a before and an after. It can then be followed in either direction without being run | No new bits. Saved as "a reading of law n" |
 | Choice role | One more role that picks among several next states, for a law that does not say which | An extra role, as large as the most options |
@@ -106,11 +107,12 @@ The stock laws:
 | Skipped | The row touches a position that is not in use, or holds a reference to nowhere. It did not run | Evidence plane 4 |
 | Aliased | Two roles met at one bit that one of them writes. The row did not run | Evidence plane 5 |
 | Contested | A step taken together held the row back, because another row would write the same bit: a choice of taker that nothing settled. Never set by a step in order, where declared order chooses | Evidence plane 6 |
-| Engine | Steps the wirings in their declared order | The order of the wirings. A separate list only when one runs more than once in a step |
-| Step, tick | One pass through every wiring. The mechanism as a whole is expected to lower its energy from step to step, but a step need not, and a machine may never get there | Not saved |
+| Engine | Steps the wirings in their declared order, or together when `Together` is set | The order of the wirings, plus one bit for `Together` |
+| Step, tick | One pass through every wiring (`Advance()` uses the engine's saved `Together` step kind). The mechanism as a whole is expected to lower its energy from step to step, but a step need not, and a machine may never get there | Not saved |
 | The two step rules | A transition row takes the next state its table gives. A relation row rules out, for its open roles, every value no admitted tuple supports | Both are lookups in the law's table, across all rows at once |
-| Declared order | The order in which wirings were added and rows listed. It decides who goes first when two want the same thing | The order in the saved machine |
+| Declared order | The order in which wirings were added and rows listed. It decides who goes first when two want the same thing, and whether coupled shears close | The order in the saved machine |
 | Wave *(host)* | Wirings, or rows, that touch nothing another one writes. They could run at the same moment | Worked out each step. Not stored |
+| CompiledPlan *(host)* | Derived, epoch-guarded (`IsCurrent`) SIMD / ALU lowering recognized from table bits, accounting and topology, falling back to canonical stepping on stale, open, malformed or contested lanes | Never stored in a saved machine |
 | Machine | An engine and every store it reaches: what is saved. So far a machine is one local structure | One run of bits |
 | Inflow *(host)* | Units arriving from outside. They enter as units, never as a value written directly | `Unary.Add` shifts one bit into a count |
 
