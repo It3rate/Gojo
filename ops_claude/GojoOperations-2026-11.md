@@ -1244,6 +1244,17 @@ Built on `claude/youthful-newton-wh29co` in `Gojo.EncodingC` (implemented):
     another law, with another table, books at another rate. Three of the six
     positions of §10 are now tested.
 
+19. **A record observes; it never holds material** (from ops_sol's review).
+    The first sweep held a unit at its source when the receipt had no room,
+    so recording changed the process. Now the move admits on material alone,
+    and a receipt without room fills to capacity and stays there, so a full
+    receipt says the record may be short.
+
+The three branches are compared in
+[GojoOperationsComparison-2026-11.md](GojoOperationsComparison-2026-11.md), and
+where this note goes next is in
+[GojoOperationsProposal-2026-11.md](GojoOperationsProposal-2026-11.md).
+
 Not built: X4, X11, X12 and X15, compiled plans and rungs beyond the bit
 adder. The experiments for comparing branches are in
 [GojoOperationsExperiments-2026-11.md](GojoOperationsExperiments-2026-11.md).

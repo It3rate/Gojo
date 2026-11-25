@@ -167,8 +167,9 @@ What the numbers say:
 - Tables take 3 to 10 times longer to build.
 - There are no multi-rung numerics, compiled plans, or scaling of a
   structure.
-- The sweep couples recording to admission, as Sol found: a full receipt
-  blocks the move. Recording should only observe.
+- The sweep coupled recording to admission, as Sol found: a full receipt
+  blocked the move. *Fixed after this comparison* (`928ef76f`): the receipt
+  only observes, and a receipt without room fills to capacity.
 - Provenance is aggregate. "Which pair formed how" needs Sol's per-pair
   record.
 - Only relations that `Balance` or `Product` express are covered. Reset,
@@ -202,7 +203,8 @@ My view on combining them:
   - joint against marginal reads;
   - scoped commits.
 
-  Take its correction of the sweep too: separate the receipt from admission.
+  Its correction of the sweep is already taken: the receipt no longer
+  holds the move.
 
 ## 6. Same output, different potentials
 

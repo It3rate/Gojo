@@ -75,6 +75,11 @@ does not. The column on the right says what the experiment is meant to break.
 | B11 | **False reads.** A coarse read (`⌊x/2⌋`) whose dropped bit must stay visible as residue. A clamped sum that must not be classed as across. A held step that must not read as met. | Residue present; corners only at the bend; blocked bit set. | Negative tests: structure that looks right but hides a loss. |
 | B12 | **Boolean over a scope.** "All" and "any" over a selection of lanes, as a tally then a threshold, against a gate. | All is the tally equal to the scope's size; any is a tally of at least one. The gate acts on a flow and the read does not. | Sol's distinction between a Boolean read over a scope and a gate as an action. |
 | B13 | **A two-rung coast.** Coast with the rate in two rungs (ones and fours) so packets move a rung at a time. | 3 × 3 delivered in fewer steps than unit delivery, with carries visible. | Whether rungs remove the slow settling of A9 (§16, item 13). |
+| B14 | **Swap two arrivals' identities** without changing counts *(ops_sol)*. Query a named pair, remove one participant, form the pair again, save and continue. | The final count and aggregate split are unchanged; a per-pair record shows the latest formation; the saved machine continues the same way. | Whether aggregate receipts are enough, or occurrence identity must be kept. |
+| B15 | **One held delivery, four causes** *(ops_sol)*: a closed opportunity, an empty supplier, a full dock, an unbooked order. | Each hold is explained by a different port or ledger, and each names the event that would make the row eligible again. | Whether "why it held" is readable in structure, not only "that it held". |
+| B16 | **Joint queries with false local alternatives** *(ops_sol)*: product 5 over `0..3`, products 1 and 9 over `0..4`, and both factor roles bound to one sample. | The dense relation contradicts 5 and narrows 1 and 9 exactly; factored networks stay quiet with open marginals unless a joint check is added. | Whether a compressed or factored form keeps the exact inverse, or declares the loss. |
+| B17 | **A one-step budget for a multi-packet conversion** *(ops_sol)*, in declared order, taken together and through any compiled path, then saved and continued. | The same accepted stock, debt and tick count in every form. | Clock parity between canonical and compiled execution. |
+| B18 | **Overlapping scoped changes** *(ops_sol)*, with one calibration moved before commit. | The scope refuses the stale patch and names the captured premise; a whole application commits once. | Whether captured premises and grouped commits survive compression. |
 
 ## Part C: what to report
 
@@ -98,6 +103,8 @@ For each experiment, a branch should report:
 ## Suggested order
 
 Run B11, B10 and B1 first: they test the claims everything else rests on.
+B16 and B17 should run against any compressed or compiled form before it is
+trusted.
 Then run B7 and B13, because crystallization and rungs decide how operations
 scale past the table wall. B2 and B3 test whether relations and frames hold
 up under more structure, and B4 to B6 test the material and provenance
