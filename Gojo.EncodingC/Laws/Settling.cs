@@ -56,7 +56,7 @@ public static class Settling
     /// through a flipped view; all reasons for one bit belong to its one law.</para></summary>
     public static TransitionLaw Justify(int reasons)
     {
-        if (reasons < 1) throw new ArgumentOutOfRangeException(nameof(reasons), "A justification has at least one reason.");
+        if (reasons is < 1 or > 10) throw new ArgumentOutOfRangeException(nameof(reasons), "A justification has one to ten reasons, so its table stays within Law.MaxBits.");
         lock (Justifies)
         {
             if (Justifies.TryGetValue(reasons, out var cached)) return cached;

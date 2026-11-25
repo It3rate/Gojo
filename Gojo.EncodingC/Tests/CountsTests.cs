@@ -155,4 +155,18 @@ public sealed class CountsTests
         Assert.Equal([3, 0, 0], After(fill, 3, 0, 0));
         Assert.Equal([3, 1, 1], After(fill, 3, 1, 1));
     }
+
+    /// <summary>A table too large to check exhaustively is refused before it is
+    /// built, whether asked for directly, by gating a law on too many bits, or
+    /// by justifying on too many reasons. The refusal names the limit rather
+    /// than failing while allocating.</summary>
+    [Fact]
+    public void OversizedTablesAreRefusedBeforeTheyAreBuilt()
+    {
+        var wide = Shape.Unary(40);
+        Assert.Throws<ArgumentOutOfRangeException>(() => RelationLaw.FromPredicate([wide, wide, wide, wide, wide], _ => true));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Flows.When(Counts.Sum(6, 6), gates: 3));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Settling.Justify(11));
+        Assert.Equal(2, Flows.When(Flows.Move(2, 2), gates: 2).Roles.Count - 2);
+    }
 }

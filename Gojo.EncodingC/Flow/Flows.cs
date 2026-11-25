@@ -100,6 +100,11 @@ public static class Flows
         ArgumentNullException.ThrowIfNull(law);
         if (gates < 1) throw new ArgumentOutOfRangeException(nameof(gates), "Wait on at least one gate.");
         if (!law.IsFunctional) throw new ArgumentException("A gated law runs on concrete state, so the law must admit one next state for each state.", nameof(law));
+        // Each gate doubles the states and so quadruples the table.
+        var limit = (long)Law.MaxBits;
+        for (var i = 0; i < gates; i++)
+            if (law.BitCount > (limit /= 4))
+                throw new ArgumentOutOfRangeException(nameof(gates), "The gated table would exceed Law.MaxBits; gate on one bit that a small law combines instead.");
         var own = law.Roles.Count;
         var roles = law.Roles.Concat(Enumerable.Repeat(Shape.Bit, gates)).ToArray();
         var invariants = law.Accounting.Invariants.Concat(Enumerable.Range(own, gates).Select(r => (Invariant)new Unchanged(r))).ToArray();
