@@ -7,9 +7,8 @@ public sealed class OperationProductRelationTests
     private const int FactorCapacity = 4;
     private const int ProductCapacity = 16;
 
-    private static readonly RelationLaw Multiplication = RelationLaw.FromPredicate(
-        [Shape.Unary(FactorCapacity), Shape.Unary(FactorCapacity), Shape.Unary(ProductCapacity)],
-        tuple => tuple[2] == tuple[0] * tuple[1]);
+    private static readonly RelationLaw Multiplication = BoundedProduct.CreateRelation(
+        Shape.Unary(FactorCapacity), Shape.Unary(FactorCapacity), Shape.Unary(ProductCapacity));
 
     [Fact]
     public void BoundedMultiplicationHasOneAdmittedProductPerOrderedPair()

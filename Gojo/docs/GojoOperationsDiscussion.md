@@ -1,6 +1,6 @@
 # Where operations live in Gojo
 
-Design review and first EncodingC implementation · 25 November 2026 · Master baseline `9b805964`
+Design review and operations comparison · 25 November 2026 · Master baseline `9b805964`
 
 ## Position
 
@@ -18,7 +18,7 @@ Pinning means making the participants, their roles, and any shared site or calib
 
 I would settle this operational grammar using small exact quantities alongside qualitative laws. The new tension system already runs bounded count and comparison laws, so a first operation can expose a computed result, demand, and accountable response without waiting for a general numeral system. Order, occupancy and landmarks carry useful laws before measurement. A claim about length scale, distinct pair count, packet rate or capacity adds a numeric or calibrated witness. Comparing these witnesses tells us what a future rung needs to preserve.
 
-All three operations notes favor exposing output roles, separating read from enactment, and letting native compilation serve the structural contract. The first implemented EncodingC slice follows the bounded comparison below. Its three circuits use a shared arithmetic example with independently bound roles. The relation, the pair construction, and the delivery each expose their own result and evidence. [Implemented comparison](#the-first-encodingc-implementation) · [Claude’s final review](https://github.com/It3rate/Gojo/blob/dda7b531/ops_claude/GojoOperationsReview-2026-11.md) · [Neon’s common comparison](https://github.com/It3rate/Gojo/blob/f0267a36/Gojo/docs/GojoOperations-2026-11.md#L367)
+All three operations notes favor exposing output roles, separating read from enactment, and letting native compilation serve the structural contract. Our bounded comparison now has runnable examples of a relation, a pair construction, a delivery, and applications that connect their results to other roles. The comparison checkpoint records which contracts the fixtures establish and where the branches give different answers. [Implemented comparison](#the-first-encodingc-implementation) · [Comparison checkpoint](#operations-comparison-checkpoint) · [Claude’s review](https://github.com/It3rate/Gojo/blob/dda7b531/ops_claude/GojoOperationsReview-2026-11.md) · [Neon’s common comparison](https://github.com/It3rate/Gojo/blob/f0267a36/Gojo/docs/GojoOperations-2026-11.md#L367)
 
 ## What the repository has already tried
 
@@ -194,13 +194,39 @@ For the first comparison, observe the exact law's 12 alongside the packet trace 
 
 The host builds the circuits, publishes the example inputs and chooses when to step. The connected rows settle support, classify arrivals, maintain the count fold and account for deliveries. The pair fixture authors a small grid of candidate sites in advance. Its stored formation is one local observation per pair. The transport test checks continuation of that observation after load under the same stepping contract. Exact replay of all input events would need an event source and its schedule.
 
-The relation's product and the delivery's requested total are separate bindings in this comparison. Connecting the former to a receiver that books the latter would require a rule for authorized issuance and acknowledgement. That is the next demand-routing question exposed by the fixture.
+The first three circuits bind the arithmetic result and material demand independently. The comparison checkpoint below adds an explicit qualification and booking route for a fixed offer.
 
 Run the working slice with:
 
 ```powershell
 dotnet test Gojo.EncodingC/Gojo.EncodingC.csproj --filter "FullyQualifiedName~Operation"
 ```
+
+## Operations comparison checkpoint
+
+The comparison uses small declared domains so every witness can be inspected. The host authors the circuits, provides input observations or authorization, and advances time. The rows perform the support, application and material decisions.
+
+| Experiment on this branch | Observed result | Limit to carry into the comparison |
+| --- | --- | --- |
+| **Book from a qualified read.** A receiver compares product support with its fixed 12-unit offer. It needs established agreement, explicit authorization and one available request ticket. | An open result that includes 12 cannot book. A settled product of 9 disagrees. An authorized match consumes its ticket, books four packet orders and latches acknowledgement from the actual booking write. With capacity 10, 9 units arrive and one packet stays owed. With capacity 12, the entire order clears. A held authorization or another low/high cycle never spends the same ticket again. Both the material sum and the ticket/order/delivery sum account at every delivery step. | Qualification, booking and receipt are distinct events. The fixture has one ticket and one fixed offer. Multiple requests need their own identity and acknowledgement protocol. [Request circuit](../../Gojo.EncodingC/Tests/OperationRequestTests.cs) |
+| **Apply a gain around a bound datum.** Two forward spans share a joint. Around datum 1, gain 2 moves joint and tip from 2 and 3 to 3 and 5 in a workspace. A carried site already at 5 retains its separate identity. | Both lengths double in the candidate while source coordinates stay available. The grouped write refuses a commit of just one endpoint. The full commit applies once. A separately prepared and committed application moves the same two sites to 5 and 9. Changing the captured gain invalidates the original patch. An excluded endpoint blocks the whole group, and an unrepresentable result leaves both coordinates at their before-state with unadmitted evidence. | The selected basis is a bounded one-axis coordinate system. The workspace explicitly fixes the datum and gain and checks the whole held basis at commit. Richer geometry and external read dependencies need their own correspondence and commit contract. [Scoped application](../../Gojo.EncodingC/Tests/OperationScopeTests.cs) |
+| **Factor a two-digit product.** Compare a dense relation over factors `0..3` and result `0..9` with four partial-product rows and two half-adders. | All 16 forward cases agree. For 16 specimens, the dense law has 160 logical table bits in 20 payload bytes, 26 value/support planes and 16 rows. The factored graph uses 24 logical law bits in 3 payload bytes, 36 value/support planes and 96 rows. Ordered execution propagates a product in one pass. With every row sampling a common before-state, `3 × 3` takes three steps in the factored graph. | Backward behavior differs. Product 6 narrows both factors to `{2,3}`, and supplying one factor settles the other. With product 5, the dense relation produces empty support while the factored graph goes quiet with open support, even with the operands sharing a sample. These are table and row costs, without an inference about wall-clock speed or total serialized size. [Factored comparison](../../Gojo.EncodingC/Tests/OperationFactoringTests.cs) · [Shared direct product law](../../Gojo.EncodingC/Operations/BoundedProduct.cs) |
+
+### Companion observations at the pinned revisions
+
+- **History and absorption.** This branch records the latest formation at a pair site and can omit the record when the reader needs only the count. Claude’s sweep combines a material move with an aggregate receipt. In an isolated run of `Flows.Sweep(3,3,4,3)`, with one pressure unit, an empty target and an opposite count of two, a receipt at 1 filled to 3 and let the unit move. A receipt at 2 or 3 held the unit at the source. Ordinary absorption moved that unit with the receipt full. This is a difference in the admission contract. Neon’s sweep and corner fixtures expose aggregate counts. A reader asking how a named pair formed needs the occurrence relation or another way to recover it. [Claude sweep](https://github.com/It3rate/Gojo/blob/0dda684c/Gojo.EncodingC/Flow/Flows.cs#L96) · [Neon multiplication laws](https://github.com/It3rate/Gojo/blob/f6586cb5/Gojo.EncodingC/Laws/Multiplication.cs)
+- **Backward support.** In an isolated run of Neon’s quarter-square circuit over factors `0..4`, requesting product 1 left each factor supported at `{0,1,2}`, and product 9 left `{2,3,4}`. The direct relation narrowed to `{1}` and `{3}` respectively. Product 12 gave `{3,4}` in both. This is the same class of tradeoff as our digit network’s quiet result for product 5. A shared exact inverse contract requires an additional joint check. [Neon quarter-square construction](https://github.com/It3rate/Gojo/blob/f6586cb5/Gojo.EncodingC/Laws/Multiplication.cs)
+- **Step and settlement parity.** In an isolated run of Neon’s packet-conversion fast path with `Convert(3,2)`, eight units at the source and a capacity-10 dock, canonical `Settle(1)` left `(source, dock) = (5,2)` at tick 1. Compiled `RunSettle(1)` left `(2,4)` at tick 0. With a larger limit both reached `(2,4)`. The final count agrees under a quiet-result query. The one-step budget and observable clock differ. [Neon compiled settling](https://github.com/It3rate/Gojo/blob/f6586cb5/Gojo.EncodingC/Compilation/CompiledPlan.cs)
+
+### Probes to run across the branches
+
+| Probe | What to compare |
+| --- | --- |
+| **Interchange the identities of two arrivals without changing their counts.** Query a named pair, remove one participant, and form that pair again. | Final count, aggregate split, latest pair formation and any promised event replay. Round-trip the chosen state and continue under the same stated order. |
+| **Cause the same held delivery four ways.** Close the opportunity, exhaust the supplier, fill the dock, or leave the order unbooked. | Which port or ledger explains the hold, where material remains, and which event can make the same row eligible again. Include full receipt storage when the recorder participates in the transition. |
+| **Use a joint query with known false local alternatives.** Ask for impossible product 5 over `0..3`, then ask for 1 and 9 over `0..4`. Bind the same sample in both factor roles as a second case. | Keep exact infeasibility, viable joint alternatives and quiet marginal support separate. Projection to marginal planes is itself part of the selected read. |
+| **Apply a limit of one step to each implementation of a multi-packet conversion.** Also exercise an ordered and a taken-together update. | Compare accepted stock, debt, tick count and the first point at which another row can observe the result. For a saved stepping mode or local clock, include a load and continuation in the check. |
+| **Prepare overlapping scoped changes, then move one calibration or shared site before commit.** | Which premise was captured, what the scope refused, and whether the accepted patch still carries the original site correspondence. Compare read-only publication, partial commit and whole application. |
 
 ## Perturbation and time are part of the binding
 
@@ -289,6 +315,6 @@ Bitwise lane acceleration is a plausible first backend comparison when independe
 
 I would use **a locally wired relation as the first reference**, **a scoped construction when a result needs geometric or structural correspondence**, and **an accounted transition when the point of the operation is to act**. One row can be enough for a small law. Independent state, capacity, settlement or reuse through a port justify a larger local structure. Connection arity is a hint, while the roles and their law determine the meaning.
 
-The bounded `3 × 4` comparison now says **what is possible, what moved, and what remains owed** through runnable local circuits. A scoped plate application can test whether the same grammar distinguishes a view from a checked writeback. Compare a factorized multiplier when the small domain outgrows its table. Keep phase dynamics, system-wide ranking and compiled backends as separate follow-on claims with their own observables.
+The bounded comparison now covers **what is possible, what moved, and what remains owed**. It also exercises a qualified one-shot request, a scoped one-axis application and a factored multiplier. This is a place to compare the branches on matched contracts. Richer geometry, phase dynamics, system-wide ranking and compiled backends each need a separate comparison at their promised boundary.
 
 The remaining design decisions concern who may book and acknowledge a demand, which output promises exact path replay, and which question justifies a finer rung or a second execution backend.
