@@ -197,7 +197,10 @@ public sealed class OperationPrimitiveTests
         var accumulate = Counts.Accumulate(Capacity);
         for (var signal = 0; signal <= 1; signal++)
             for (var count = 0; count <= Capacity; count++)
-                Assert.Equal(Math.Min(Next(heap, count, signal, 0)[2], Capacity), Next(accumulate, signal, count)[1]);
+                {
+                    var total = Next(heap, count, signal, 0)[2];
+                    Assert.Equal(total > Capacity ? Capacity : total, Next(accumulate, signal, count)[1]);
+                }
 
         var shortfall = Counts.Shortfall(Capacity, Capacity);
         var atLeast = Counts.AtLeast(Capacity, Capacity);
