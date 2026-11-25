@@ -1,13 +1,17 @@
 # Operations: from physical relations to compiled hardware
 
-Status: **exploratory, implemented on branch `ops_neon`** (25 November 2026,
-synced to `master` `9b805964`). Phases 0–5 of §8 are now built and verified in
-[`Gojo.EncodingC`](../../Gojo.EncodingC/README.md) (240/240 tests passing,
-zero strings, zero floats/doubles, zero `System.Math` references in the
-encoding assembly); §8.1 records what building the code changed or sharpened.
-This document incorporates both the `master` `EncodingC` tension layer and the
-parallel reviews on `ops_sol` (`7ea82356`) and `ops_claude` (`dda7b531`). It
-follows [GojoSystemPrompt.md](GojoSystemPrompt.md) (§1) and builds on
+Status: **exploratory, post-comparison revision on branch `ops_neon`** (25
+November 2026, synced to `master` `9b805964`). Phases 0–5 of §8 are built and
+verified in [`Gojo.EncodingC`](../../Gojo.EncodingC/README.md) (243/243 tests
+passing, zero strings, zero floats/doubles, zero `System.Math` references in
+the encoding assembly). This revision incorporates peer benchmarks and critiques
+from `ops_sol` (`37bf0a57`, `GojoOperationsBranchComparison.md`) and
+`ops_claude` (`2d9b6bb6`, `GojoOperationsComparison-2026-11.md` and
+`ConfigurationPotentialTests.cs`), fixes the verified `ops_neon` bugs they
+caught (§8.1–§8.2), and adds the deep analysis and next-round proposal for
+**Gojo-friendly symbolic regression / structural compression** (§9) and
+**pre-numeric vs. multi-rung numbers** (§10). It follows
+[GojoSystemPrompt.md](GojoSystemPrompt.md) (§1) and builds on
 [GojoStructureClosure-2026-11.md](GojoStructureClosure-2026-11.md),
 [GojoTension-2026-11.md](GojoTension-2026-11.md),
 [GojoOrientationDefinitionAndUse-2026-11.md](GojoOrientationDefinitionAndUse-2026-11.md),
@@ -907,34 +911,266 @@ surfaced six concrete lessons that tightened the design:
    176` bits) and adds 1 byte to the learned-table (`40 → 41`), 2-step planner
    (`116 → 117`), and probe (`226 → 227`) saved machines.
 
+### 8.2 Peer review adjustments (`ops_sol` `37bf0a57`, `ops_claude` `2d9b6bb6`)
+
+Cross-branch benchmarking against `ops_sol` (`37bf0a57`,
+`GojoOperationsBranchComparison.md`) and `ops_claude` (`2d9b6bb6`,
+`GojoOperationsComparison-2026-11.md` and `ConfigurationPotentialTests.cs`)
+caught concrete bugs and architectural trade-offs in `ops_neon`.
+
+#### Fixed immediately on `ops_neon`
+1. **Per-wiring quiet parity in `CompiledPlan.RunSettle` (`ops_sol` catch):**
+   Sol probed two ordered `Flows.Toggle` wirings on the same bit: canonical
+   `Engine.Settle(4)` spends all 4 ticks because neither wiring is quiet, while
+   our old `StoresEqual(before)` loop stopped at tick 1. `CompiledPlan` now
+   tracks exact per-wiring quietness inside `RunStepCore(out bool quiet)`,
+   pinned by
+   `CompiledPlanTests.RunSettleMatchesCanonicalOnTwoOrderedTogglesThatRestoreInitialBits`.
+2. **Lossless overflow guard on `BoundedMultiply` (`ops_sol` catch):**
+   When `maxValue + maxOverflow < maxA * maxB`, the old 4-role law silently
+   double-clipped excess. Both [`Multiplication.BoundedMultiply`](../../Gojo.EncodingC/Laws/Multiplication.cs)
+   and `CompiledPlan.TryRecognizeBoundedMultiply` now require
+   `maxValue + maxOverflow ≥ maxA · maxB` so excess can never disappear
+   silently.
+3. **Real native throughput at 65,536 lanes (`ops_claude` catch):**
+   Claude's 65,536-lane benchmark showed our first `CompiledPlan` running at
+   0.8–1.0× canonical because `StepGuarded()` re-allocated aliasing
+   `Dictionary`/`HashSet` structures per step, `WiringSnapshot.Matches()`
+   cloned reference planes via `Store.Read()`, and `Field.Read/Write` decoded
+   bit-by-bit. Hoisting static topology checks to `Compile()`, adding zero-copy
+   `internal` plane-word access on `Store`, validating unary/binary codes with
+   64-lane bitwise masks, and compiling to L1-resident AVX2 XOR-flip SIMD and
+   pure AVX2 unary plane shifts (for `Convert(take, give)`, zero integer
+   decode/encode!) produced these verified active-work Release results (full
+   output reset + bit-for-bit parity check across all lanes):
+
+   | Active workload (Release, AVX2 256-bit = 256 lanes/vec) | Canonical `Engine` | Upgraded `CompiledPlan` | Speedup | Allocation drop |
+   | --- | ---: | ---: | ---: | ---: |
+   | `Shortfall(3,3)` × 65,536 lanes (1 step, SIMD) | 766.03 ms (367 MB) | **0.354 ms** (1 KB) | **2,162×** | ~367,000× |
+   | `BoundedMultiply → T+` × 65,536 lanes (1 step) | 1,079.50 ms (544 MB) | **3.192 ms** (1 KB) | **338×** | ~544,000× |
+   | `Convert(3,2)` × 65,536 lanes (1 step, AVX2 shift) | 1,612.94 ms (1.47 GB) | **0.573 ms** (1 KB) | **2,815×** | ~1,470,000× |
+   | Sol 15-packet `Settle(32)` × 64 lanes | 252.66 ms (322 MB) | **0.149 ms** (3 KB) | **1,696×** | ~107,000× |
+
+#### Accepted for the next-round merged architecture
+1. **Unify handwritten laws under `Operations.Balance` / `Operations.Bind(..., blocked)` (`ops_claude`, sharpened by `ops_sol`):**
+   Re-derive `Counts`, bit adders, rung digits, carries, and shears from
+   `Balance` + `Bind`, keeping Claude's `blocked` bit (so "quiet because met"
+   stays structurally distinct from "quiet because blocked"), while making the
+   free-role completion policy explicit rather than hardcoded least-sum (Sol's
+   critique).
+2. **Unsigned dynamics with live `Landmark` and `Rest` counts (`ops_claude`):**
+   Hardcoding `maxAbs` inside `Dynamics.SignedShear` prevents perturbing the
+   orbit center AND made `admitOutOfRange: false` non-functional, forcing dense
+   $N^2$ wire serialization (**97,679 B** vs. Claude's **1,856 B** where
+   functional hold + live landmark lets `kick.SameTable(drift) == true`, 52×
+   smaller!). Replace hardcoded offsets with live landmark/rest counts plus a
+   `blocked` bit.
+3. **Decouple receipt recording from move admission (`ops_sol` catch on `ops_claude`):**
+   A full receipt counter must never block material transfer; keep provenance
+   observational (as in `ops_sol`'s `OperationPairingTests` and `ops_neon`'s
+   `Wiring.Attend()` replay).
+4. **Version `Transport` before adding wire bits (`ops_claude` catch):**
+   Machines saved on `master` must remain readable; either derive `Reversible`
+   from table bits on load or introduce an explicit wire-format flag/version
+   header before persisting `Engine.Together`.
+5. **Keep `J` derived from `Odv` (`ops_claude` catch):**
+   Do not force `GeneratorJ` into kernel primitives until the orientation note
+   decides; deriving it from `FaceFlip` / `Reorient` suffices.
+6. **Keep Sol's negative & boundary evidence contracts (`ops_sol`):**
+   Carry forward `OperationScopeTests` (`Workspace.Fix` + split-commit
+   refusal + stale-gain refusal), `OperationRequestTests` (qualified ticket
+   booking), `OperationPairingTests` (per-pair spatial store), and
+   `OperationFactoringTests` (local-support silence on impossible `a·b = 5`
+   and quarter-square's loose backward support at `0..4`, plus factoring
+   quarter-square's 5-role join so it doesn't bloat to 112k bits).
+
 ---
 
-## 9. Open decisions for next discussion
+## 9. Symbolic-regression-friendly compression, native equations, and equifinal configurations
 
-1. **First implementation checkpoint:** Start with `X1` + `X7` (Phase 0 `3 × 4`
-   comparison + saved step kind), then `X8–X10` (oscillator & `J`), then
-   `X2–X6` (factored multiply & provenance)?
-2. **Cross-engine schedule encoding (gap 1):** Should coupled peer-engine step
-   order live inside a parent composite `Engine` (`Fuse` / saved wave
-   schedule), or as a standalone saved schedule referencing peer engines?
-3. **Partial vs. atomic reservoir scaling:** When a supply reservoir runs dry
-   mid-scaling, commit partial packets + `T−` draw (matching `Flows.Fulfill`
-   per packet), or hold the whole multi-packet scaling atomically?
-4. **Provenance on demand (record vs. replay):** Default to recording off +
-   on-demand replay over the selected cone (zero steady-state plane cost), with
-   live split planes opt-in?
-5. **Kernel bridge scope:** Keep Phases 0–5 inside `Gojo.EncodingC` while
-   adding one narrow conformance test verifying a crystallized `EncodingC`
-   ladder matches [`ResolutionLadderTests.cs`](../../Tests/Gojo.Tests/Core/ResolutionLadderTests.cs)?
+### 9.1 Is symbolic-regression compression plausible inside Gojo?
+
+**Yes — and structurally *more* tractable than classical floating-point
+symbolic regression**, provided initial storage stops forcing dense $N^2$
+enumeration before hypotheses can form.
+
+Classical symbolic regression (searching expression trees over raw float
+`(x, y)` pairs) struggles because scalar samples discard conservation,
+directionality, monotonicity, symmetry, and causal steps. Gojo's encoding
+already supplies **exact algebraic hints as structural metadata**:
+
+| Hint already in `EncodingC` | What it tells a structural regressor immediately | Native / algebraic target |
+| --- | --- | --- |
+| `Accounting.PreservedSum(w)` | Exact linear conservation law $\sum w_i x_i = \text{const}$ | Packet `Convert(take, give)`, carry/borrow, flow transfer |
+| `Accounting.Unchanged(r)` | Separates inputs / parameters / frames from mutated state | Pure functions vs. in-place recurrences |
+| `NeverIncreases` / `NeverDecreases` | Monotone accumulator / countdown clock / latch | Counters, clocks, monotone folds |
+| `Accounting.Reversible` | Bijection / area-preserving map | Shears, rotations (`J`), Fredkin swaps, invertible gauges |
+| `Fate`, `Trades`, `Corners` ($\Delta_a \Delta_b f$, `ops_claude`) | `Corners == 0` → linear (`Balance`); boundary-only corners → fold/clamp/gap; constant `Corners == k` → bilinear (`k·a·b`); periodic → modular/XOR | Exact classification without searching arbitrary syntax trees |
+| Dual directions (`RelationLaw` / `AsRelation`) | Preserves backward fibers, open supports, and `blocked` / residue roles | Compresses the *relation + binding*, not a lossy one-way float lambda |
+
+### 9.2 Why multiple configurations make symbolic regression *stronger*
+
+When the same input-output table `(3, 4) → 12` arises from different settling
+histories or wirings, **the trace disambiguates the configuration** — and
+therefore which downstream potentials must survive compression:
+
+- **Repeated addition / coasting trace** (`Δ_t y = a`, `Δ_t^2 y = 0` over ticks
+  `t = 1..b`, draining supply or accumulating debt `T−`): regression over time
+  sees constant step-rate → compresses to **rate × time** with a live
+  perturbable `rate` count (naturally supporting mid-flight rate changes and
+  short-supply debt).
+- **Simultaneous spatial scaling trace** (`x'_i − d = k·(x_i − d)` across sites
+  in one step): regression across positions sees constant ratio around datum
+  `d` → compresses to **affine stretch / frame recalibration** (1-tick scaling,
+  naturally preserving shared joints and exposing circle→ellipse mismatch).
+- **Pair-grid / bit-lattice trace** (co-presence `a_i & b_j` + radix carries):
+  compresses to **place-value lattice / Egyptian doubling** (scales across
+  rungs, keeps individual pairs or power-of-2 taps addressable).
+- **Coupled alternating updates with constant shadow energy** ($v^2 + k x^2 - k x v = \text{const}$):
+  compresses to **symplectic kick-drift oscillator** (changing one coupling
+  weight `k` shifts smoothly between triangle `k=3`, square `k=2`, hexagon
+  `k=1`, and circle as `k → 0`, as `ops_claude`'s `ConfigurationPotentialTests`
+  demonstrates).
+
+Equifinal miniature structures — biology's **degeneracy** (same external `Port`
+read, distinct internal perturbation neighbourhoods, as verified by Claude's
+3-square Lines/Path/Circle fixture and Sol's common-seed square & CAD seam
+probes) — give a compressing machine **multiple candidate algebraic bases**.
+Compression should therefore target a **candidate configuration** (a small
+parameterized `Balance`/rung/shear subgraph plus its compiled kernel), not
+erase internal structure into an opaque black box.
+
+### 9.3 What is currently friendly vs. hostile to symbolic regression in `EncodingC`
+
+- **Already friendly:**
+  1. `LearnedTable.Counts` lives in a `Store` and separates **Admitted**,
+     **Unsupported**, and **Unknown** — a regressor fits only `Admitted`,
+     respects `Unsupported`, and treats `Unknown` as open predictions to test.
+  2. `Shape` (`Unary` thermometer vs. `Binary` radix) gives explicit numeric
+     order without strings or floats.
+  3. `Accounting` invariants and `Wiring.Recorded` traces expose conservation
+     and step activity directly in planes.
+  4. Verified **338×–2,815×** compiled speedups (§8.2) prove the hardware
+     payoff once a law or subgraph is recognized.
+- **Currently hostile (must change in the next round):**
+  1. **Exhaustive $N^2$ wall in [`LearnedTable`](../../Gojo.EncodingC/Learning/LearnedTable.cs):**
+     `LearnedTable` pre-allocates `StateCount² + StateCount + 1` positions and
+     refuses `Crystallize()` until `Unknown == 0`. Symbolic regression's entire
+     job is to hypothesize a compact equation from **sparse** witnesses
+     (`Unknown > 0`), predict unseen states, and surface discrepancies as
+     tension.
+  2. **Dense-table ceiling (`Law.MaxBits = 4.19M`):** Even a 4-bit adder
+     transition or a `5 × 5` gated sweep blows past dense storage. Compressed
+     hypotheses need a **parametric/factored representation** (a small
+     `Balance`/rung/oscillator template whose small local projection checks
+     against `WitnessStore` and whose compiled kernel executes at native width).
+  3. **Hardcoded recognizers in `CompiledPlan`:** Today `CompiledPlan` uses
+     four hand-written exhaustive table matchers (`PacketConvert`,
+     `BoundedMultiply`, `DigitAddStep`, `SignedShear`). Generalizing this into
+     a **discrete structural analyzer** (inferring `Fate`, `PreservedSum`
+     nullspace, first/second finite differences `Δ` / `Corners`, and residue /
+     blocked faces from sparse witnesses or tables) unifies learning,
+     compression, and compilation.
+  4. **Hardcoded constants in laws (e.g. `maxAbs`):** Keeping landmarks,
+     radices, and rates as explicit roles/counts makes translation and scaling
+     symmetries immediately visible to finite-difference regression.
 
 ---
 
-## 10. Sources
+## 10. Pre-numeric vs. numbers right now: honesty vs. ceiling
+
+### Where staying pre-numeric kept us honest
+- Prevented sneaking floats, `System.Math`, or silent modular wraparound into
+  the kernel (`SubstrateTests` held the line across all three branches).
+- Forced genuine structural discoveries: motion needs no signs (counts against
+  a live `Landmark` and `Rest`), join/tear-out/cancel are one move on different
+  faces, booleans are half-adder reads under polarity, and `quiet ≠ met`
+  (`blocked` bit).
+- Kept Rung 0 aligned with the biological/analog substrate rule
+  ([GojoSystemPrompt.md](GojoSystemPrompt.md) §9.6).
+
+### Where staying strictly single-rung pre-numeric is now genuinely limiting us
+All three branches hit the exact same ceiling empirically:
+1. **The `3 × 4` table wall:** `Flows.Sweep(3,3,4,12)` (1.08M bits), gated
+   `Flows.Fulfill` (12.78M bits), and rate-reading coasting delivery all
+   overflow or crowd `Law.MaxBits` at single-digit toy sizes.
+2. **The 64-value `Supports` cap:** Single-rung open uncertainty stops at 63;
+   you cannot represent an open range over `0..255` without partitioning into
+   rungs.
+3. **Unary step latency:** Delivering `r · d` unit-by-unit takes `O(r · d)`
+   ticks (Claude §16 item 13); multi-rung packets cut this to `O(log_B(r·d))`.
+4. **Symbolic regression and geometry need dynamic range:** On a `0..3` grid,
+   linear, quadratic, exponential, and periodic hypotheses collide on too few
+   points; multi-polygon circles (`3, 4, 5, 6, 8, 12`-gons) and multi-step
+   curves need wider, refinable coordinates.
+
+### Verdict
+**Do not replace pre-numeric — layer minimal multi-rung numbers directly on top
+of it in the next round.** Keep Rung 0 purely pre-numeric (`Odv`, `Sides`,
+`Paths`, unary `Tension`, `Flows`), and treat a **number** strictly as an
+ordered ladder of small-radix `Field` rungs (`B ∈ {2, 4, 8, 10, 16}`, each rung
+≤ 16 values — always tiny tables and always inside the 64-value `Supports` cap)
+linked by conserving weighted `Balance` carries, with signedness expressed via
+a live `Landmark` ladder (or ODV orientation plane) rather than hardcoded C#
+offsets. This preserves 100% of pre-numeric honesty while immediately lifting
+us past `3 × 4` into ranges where symbolic regression, equifinal geometry, and
+compiled native ALU lowering all operate for real.
+
+---
+
+## 11. Next-round proposal (merged architecture before coding)
+
+For the upcoming coding round, combine the strongest proven pieces from all
+three branches into one lean, regression-friendly, rung-capable stack:
+
+1. **Workstream 1 — Unified algebraic core (`ops_claude` + `ops_sol` + `ops_neon`):**
+   - Adopt `Operations.Balance`, `Operations.Product`, and `Operations.Bind`
+     with optional `blocked` bit and explicit free-role policy (no silent
+     hardcoded least-sum heuristic).
+   - Re-derive `Counts`, bit adders, rung carries, and unsigned landmark
+     shears from `Balance` + `Bind` (getting Claude's 52× wire reduction on
+     oscillators while keeping `Landmark` perturbable).
+   - Keep `Accounting.Reversible` + `TransitionLaw.Inverse()` (derived on load
+     or under an explicit versioned `Transport` header so `master` payloads
+     remain loadable), and keep `J` derived from `Odv`.
+   - Separate provenance recording from move admission everywhere (Sol's catch).
+2. **Workstream 2 — Minimal multi-rung numeric layer on `Balance`:**
+   - Rebuild [`Rungs`](../../Gojo.EncodingC/Laws/Rungs.cs) / `Ladder` /
+     `OpenGap` cleanly on `Balance` + conserving `Convert(B, 1)` carries, with
+     per-rung `Supports[]` (coarse-first narrowing + `Fork` splitting for
+     coupled constraints like Sol's `a·b = 5` and Claude's `B2` `x+y=5, xy=6`).
+   - Add two-rung coasting (`B13`) so packet delivery scales past unit-by-unit
+     settling.
+3. **Workstream 3 — Sparse `WitnessStore` + Gojo discrete symbolic regressor:**
+   - Add a sparse witness store alongside `LearnedTable` (stores observed
+     `(before, after)` + optional trace deltas without pre-allocating $N^2$).
+   - Build a first-pass **structural compressor** that reads `Accounting`,
+     `Fate`, `Trades`, first/second finite differences (`Δ`, `Corners`), and
+     temporal vs. spatial trace signatures to hypothesize a `Balance`,
+     `Product`, `Convert(take, give)`, `KickDrift`, or `AffineScale` from
+     *partial* observations (`Unknown > 0`), validate predictions against new
+     witnesses, and emit tension/residuals where a hypothesis disagrees.
+4. **Workstream 4 — Equifinal configurations & evidence conformance suite:**
+   - Merge Sol's evidence contracts (`OperationScopeTests`,
+     `OperationRequestTests`, `OperationPairingTests`, `OperationFactoringTests`),
+     Claude's `ConfigurationPotentialTests` (Lines / Path / Circle squares) and
+     `B1/B2/B7/B8/B10/B11`, plus Sol's common-seed 3-square continuation matrix
+     (testing perturbation cost & post-capture boundary independence).
+5. **Workstream 5 — Generalized `CompiledPlan` lowering:**
+   - Drive [`CompiledPlan`](../../Gojo.EncodingC/Compilation/CompiledPlan.cs)
+     directly from the Workstream 3 structural analyzer (replacing bespoke
+     matchers), extend widening ALU lowering to multi-rung `Balance` adders
+     and multipliers, and benchmark both single-rung 65K-lane SIMD and
+     multi-rung arithmetic parity.
+
+---
+
+## 12. Sources
 
 Checked during preparation of this note (marked `*`) and recalled from reading:
 
-- *Repository sources (`master` `9b805964` + `ops_sol` `9fa5a67b` + `ops_claude`
-  `e0f06b05`): [GojoSystemPrompt.md](GojoSystemPrompt.md),
+- *Repository sources (`master` `9b805964` + `ops_sol` `37bf0a57` + `ops_claude`
+  `2d9b6bb6`): [GojoSystemPrompt.md](GojoSystemPrompt.md),
   [GojoTension-2026-11.md](GojoTension-2026-11.md),
   [GojoOrientationDefinitionAndUse-2026-11.md](GojoOrientationDefinitionAndUse-2026-11.md),
   [GojoStructureClosure-2026-11.md](GojoStructureClosure-2026-11.md),

@@ -216,14 +216,18 @@ public static class Multiplication
     /// <summary>Functional bounded multiplication with explicit <c>T+</c>
     /// overflow role: reads <c>a</c> and <c>b</c> unchanged, writes
     /// <c>value = min(a·b, maxValue)</c> and
-    /// <c>overflow = min(max(0, a·b − maxValue), maxOverflow)</c>. Excess never
-    /// silently wraps; it lands in the overflow role.</summary>
+    /// <c>overflow = max(0, a·b − maxValue)</c>. Requires
+    /// <c>maxValue + maxOverflow ≥ maxA · maxB</c> so excess never silently
+    /// wraps or double-clips.</summary>
     public static TransitionLaw BoundedMultiply(int maxA, int maxB, int maxValue, int maxOverflow, bool unary = false)
     {
         if (maxA < 1) throw new ArgumentOutOfRangeException(nameof(maxA));
         if (maxB < 1) throw new ArgumentOutOfRangeException(nameof(maxB));
         if (maxValue < 1) throw new ArgumentOutOfRangeException(nameof(maxValue));
         if (maxOverflow < 1) throw new ArgumentOutOfRangeException(nameof(maxOverflow));
+        if ((long)maxValue + maxOverflow < (long)maxA * maxB)
+            throw new ArgumentOutOfRangeException(nameof(maxOverflow),
+                "maxValue + maxOverflow must cover maxA * maxB so overflow never silently double-clips.");
         lock (BoundedMults)
         {
             var key = (maxA, maxB, maxValue, maxOverflow, unary);
@@ -235,8 +239,7 @@ public static class Multiplication
                 {
                     var prod = (ulong)s[0] * (ulong)s[1];
                     var val = prod <= (ulong)maxValue ? (int)prod : maxValue;
-                    var rem = prod > (ulong)maxValue ? prod - (ulong)maxValue : 0UL;
-                    var ovf = rem <= (ulong)maxOverflow ? (int)rem : maxOverflow;
+                    var ovf = prod > (ulong)maxValue ? (int)(prod - (ulong)maxValue) : 0;
                     return [s[0], s[1], val, ovf];
                 },
                 new Accounting(true, new Unchanged(0), new Unchanged(1)));

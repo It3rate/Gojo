@@ -160,6 +160,10 @@ public sealed class Store : Surface
         return planes[plane]!.Clone();
     }
 
+    internal Plane? RawPlane(int plane) => planes[plane];
+
+    internal Plane RawLive => live;
+
     /// <summary>Sets one bit. This is for building a store and for supplying
     /// observations; change that arrives from outside as material enters
     /// through <see cref="Unary.Add"/> as units.</summary>

@@ -371,4 +371,91 @@ public sealed class CompiledPlanTests
         Assert.False(tooNoisy.Accepted);
         Assert.Equal(2, tooNoisy.MaxErrorTicks);
     }
+
+    /// <summary>ops_sol's two-ordered-toggles probe: two Toggle wirings on one
+    /// bit restore the starting bit within one step, yet neither wiring was
+    /// quiet. CompiledPlan.RunSettle(4) must spend the full 4-tick budget just
+    /// like canonical Engine.Settle(4), never stopping at tick 1 merely because
+    /// the final store bits matched the initial store bits.</summary>
+    [Fact]
+    public void RunSettleMatchesCanonicalOnTwoOrderedTogglesThatRestoreInitialBits()
+    {
+        static (Engine Engine, Store Store) Build()
+        {
+            var store = new Store(1, 1);
+            var b = new Binding(store, 0);
+            var engine = new Engine()
+                .Add(Tension.Wire(Flows.Toggle, [b], Here))
+                .Add(Tension.Wire(Flows.Toggle, [b], Here));
+            return (engine, store);
+        }
+
+        var canon = Build();
+        var fast = Build();
+        var plan = CompiledPlan.Compile(fast.Engine);
+
+        Assert.Null(canon.Engine.Settle(4));
+        plan.RunSettle(4);
+
+        Assert.Equal(4, canon.Engine.Tick);
+        Assert.Equal(canon.Engine.Tick, fast.Engine.Tick);
+        Assert.Equal(canon.Store.Read(0), fast.Store.Read(0));
+    }
+
+    /// <summary>ops_sol's lossless overflow guard + multi-vector AVX2 PacketConvert
+    /// single-step and limit-1 settle parity across 512 lanes.</summary>
+    [Fact]
+    public void BoundedMultiplyRefusesSilentDoubleClippingAndAvx2PacketConvertMatchesCanonicalAcross512Lanes()
+    {
+        // 5 + 3 = 8 < 3 * 3 = 9 -> refused so excess cannot silently double-clip!
+        Assert.Throws<ArgumentOutOfRangeException>(() => Multiplication.BoundedMultiply(3, 3, maxValue: 5, maxOverflow: 3));
+        var clipped = TransitionLaw.FromFunction(
+            [Shape.Binary(4), Shape.Binary(4), Shape.Binary(6), Shape.Binary(4)],
+            s =>
+            {
+                var p = s[0] * s[1];
+                var v = p <= 5 ? p : 5;
+                var o = p > 5 ? (p - 5 <= 3 ? p - 5 : 3) : 0;
+                return [s[0], s[1], v, o];
+            },
+            new Accounting(true, new Unchanged(0), new Unchanged(1)));
+        Assert.False(CompiledPlan.TryRecognizeBoundedMultiply(clipped, out _, out _));
+
+        // 512 lanes (2 full AVX2 256-lane vectors) of PacketConvert(3, 2): single step + limit=1 settle!
+        const int Lanes = 512;
+        static (Engine Engine, Store Store) BuildConvert()
+        {
+            var st = new Store(0, Lanes);
+            var src = new Field(Shape.Unary(8), [.. Enumerable.Range(0, 8).Select(_ => st.AddPlane())]);
+            var dst = new Field(Shape.Unary(10), [.. Enumerable.Range(0, 10).Select(_ => st.AddPlane())]);
+            for (var i = 0; i < Lanes; i++)
+            {
+                src.Write(st, i, i % 9);
+                dst.Write(st, i, (i * 3) % 11);
+            }
+            var engine = new Engine().Add(Tension.Route(Flows.Convert(3, 2, 8, 10), src.On(st), dst.On(st), Plane.Ones(Lanes)));
+            return (engine, st);
+        }
+
+        var c1 = BuildConvert();
+        var f1 = BuildConvert();
+        var plan = CompiledPlan.Compile(f1.Engine);
+        Assert.True(plan.RecognizedPacketConvert);
+
+        var stepRep = plan.RunStep();
+        c1.Engine.Step();
+        Assert.True(stepRep.UsedFastPath);
+        Assert.Equal(Lanes, stepRep.FastLanes);
+        Assert.Equal(c1.Engine.Tick, f1.Engine.Tick);
+        for (var p = 0; p < c1.Store.PlaneCount; p++)
+            Assert.Equal(c1.Store.Read(p), f1.Store.Read(p));
+
+        // Limit=1 settle must advance exactly 1 tick and 1 packet, matching canonical Engine.Settle(1).
+        var settleRep = plan.RunSettle(1);
+        c1.Engine.Settle(1);
+        Assert.True(settleRep.UsedFastPath);
+        Assert.Equal(c1.Engine.Tick, f1.Engine.Tick);
+        for (var p = 0; p < c1.Store.PlaneCount; p++)
+            Assert.Equal(c1.Store.Read(p), f1.Store.Read(p));
+    }
 }
