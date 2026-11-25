@@ -45,7 +45,10 @@ exploratory. Numeric claims are checked by the script in
    comparing, and they had four kinds of "multiplication". Division was a
    question rather than an operation, and the natural half of a thing was
    broken off rather than computed. The distinctions Gojo needs were kept by
-   the oldest algebra we can read (§1).
+   the oldest algebra we can read (§1). Under the names lie two mechanisms,
+   used up or kept and along or across, and bindings free to every law: where
+   the result goes, polarity, which role is read back, and folds. A test
+   calculates them from master's laws (§1.3).
 2. **Every operation has three reads.** The *relation* is what holds; it is
    symmetric and reads in every direction. The *process* is what happens; it
    is directional per step and accountable for material. The *fold* is what is
@@ -233,6 +236,86 @@ which suits facts that stay true. A possibility about now, such as "the product
 exceeds the threshold", can stop holding and come back. `Settling.Justify`
 (implemented) holds it while its reasons hold, so it reopens when they return.
 This is truth maintenance (Doyle, 1979).
+
+### 1.3 Under the names: mechanisms and bindings
+
+The scribes' pairs are one axis applied in each family: act on something that
+exists, or make something new.
+
+| Family | On an existing thing | Makes a new thing |
+| --- | --- | --- |
+| Add | join | heap |
+| Subtract | tear out | compare |
+| Multiply | raise | make hold |
+
+The boolean functions show how to look for the primitives under such names.
+There are 16 functions of two inputs. With polarity as a free read they fall
+into four classes: constants (2), a wire (4), overlap (8: AND, OR, NAND, NOR and
+the four implications) and difference (2: XOR, XNOR). The 256 functions of
+three inputs fall into 14. Listing every cell gives names; the acts are fewer.
+A search for primitives has to find what costs nothing, as well as the axes.
+
+Sorted that way, the candidate axes fall into two groups.
+
+**Bindings are free to every law.** They multiply names, not mechanisms.
+- *Where the result goes:* a fresh carrier or an operand's own. A workspace
+  gives a candidate, and committing makes it in place (§4). For material the
+  axis nearly vanishes, since a new pile is an empty one. Master still writes
+  the in-place read as its own law (`Accumulate` beside `Sum`).
+- *Polarity:* a count or its room. `Absorb`, `Draw` and `Cancel` are one
+  `Flows.Move`, bound to the `On` or the `Room` face.
+- *Which role is read back:* subtraction is heap read backward, and division
+  and roots are questions (§1.1).
+- *Fold:* a threshold, clamp or wrap read off a result, the third read (§1.2).
+
+**Mechanisms differ in the law itself,** and master already holds both
+coordinates.
+- *Used up or kept.* A move's written roles are paid for by other roles
+  (`PreservedSum`). A read writes only its result, and nothing pays for it.
+  Abstract numbers copy for free, so the scribes could couple this axis to
+  where the result goes: their concrete acts were in place, their abstract
+  acts new. Master couples them the same way, tension routes into existing
+  stores and counting laws into new results. The other two cells appear in the
+  texts only as special cases: "steps of … joined" keeps its input and acts in
+  place, and break splits a part off into a new thing.
+- *Along or across.* Along trades units one for one, with no corner. Across
+  trades at a rate, or has a corner: a unit present only when both inputs are.
+
+| | Along | Across |
+| --- | --- | --- |
+| **Move** (used up) | join, tear out, cancel, deliver; split off; pour into an empty pile | convert (`Convert(take, give)`); a reaction A + B → C |
+| **Read** (kept) | heap, compare, accumulate, tally | make hold, raise; coast, grow, decay |
+
+Exchange, such as a swap or the quarter-turn J, is two moves taken together: a
+question of step order (§9.2). At bits, the two non-trivial boolean classes are
+the two reads. Overlap is the product's corner, and difference is the sum
+along, wrapped.
+
+**A test calculates these coordinates from master's laws** (implemented),
+with no names or tags: [`OperationPrimitiveTests`](../Gojo.EncodingC/Tests/OperationPrimitiveTests.cs).
+- *Used up or kept* is per role, from the table (`Writes`) and the checked
+  accounting (`Conserves`). `Move`, `Convert` and `Fulfill` pay for every
+  written role; even the receipt tally is paid, each receipt closing one unit
+  of order. `Sum`, `Shortfall`, `AtLeast`, `Tally`, `Accumulate` and `Rank`
+  pay for none.
+- *Join, tear out and cancel* are one law instance. Only the face of the
+  target binding differs, and value plus pressure minus debt is unchanged by
+  each.
+- *The rate is read from the table:* `Move` trades one for one, and
+  `Convert(3, 2)` three for two.
+- *Corners:* `Sum` has none, at any weight. A product has a corner of 1 at
+  every cell and is the sum of its corners. At bits, AND's corner is 1 and
+  XOR's is −2, nothing once wrapped.
+- *Compare is heap's own table read backward.* Through `Sum`'s `AsRelation`,
+  binding one part and the total gives the other part; where none fits,
+  `Shortfall` folds to zero. Its only corners are −1 on the diagonal, where the
+  fold bends. The excess is the same law bound the other way round.
+- *Accumulate is heap bound in place,* folded at capacity, and `AtLeast` is
+  compare folded to a bit.
+
+So master holds compare, threshold and accumulate as separate tables, although
+each is calculable from heap's. That is the case for deriving them from one
+relation (§13, item 14).
 
 ## 2. What is combined decides how
 
@@ -994,6 +1077,11 @@ Each gap is listed with the smallest clarification that would resolve it.
 15. **Narrowing and justification apply to different facts.** Narrowing suits
     facts that stay true; `Settling.Justify` suits possibilities about now. The
     prompt could say which reads use which.
+16. **Bindings are not operations.** Where a result goes, which face of a
+    count a role fills, which role is read back, and folds are free to every
+    law (§1.3). *Proposal:* say that mechanisms differ only by accounting and
+    kind, and that a new name for a binding of an existing law is not a new
+    operation.
 
 ## 14. Experiments that would decide
 

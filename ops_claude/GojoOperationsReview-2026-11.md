@@ -219,6 +219,9 @@ What this changes:
    subtracts, and with `a` at 0 it answers the scribes' division question:
    what times the weight gives the total? `Accumulate` and `Streak` read their
    own last value, so they stay processes.
+   `OperationPrimitiveTests` shows the reads are already calculable from
+   heap's table: compare by reading it backward, threshold by folding,
+   accumulate by binding the total in place.
 3. **Step order:** adopt turn-gated alternation inside an engine as the
    standard way to state update order? Separately, should the host's choice
    of step kind, and the order between engines, be saved?
@@ -231,6 +234,8 @@ What this changes:
    - stiffness by position;
    - the compiled-form contract;
    - taking J off the deferred list.
+   - bindings are not operations: where a result goes, polarity, which role
+     is read back, and folds are free to every law (ops_claude §1.3).
 5. **Radix:** per structure, with radix 4 as the exploration default?
 6. **Provenance:** route tallies as the default record when asked, with replay
    as the fallback?
