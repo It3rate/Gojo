@@ -624,10 +624,12 @@ public sealed class Wiring
     }
 
     /// <summary>The indexes of a row's roles that are bound to <paramref name="surface"/>.</summary>
+    /// <summary>The positions a row reaches on a surface, directly or through a
+    /// view of it, such as a count's room over a workspace.</summary>
     internal IEnumerable<int> IndexesOn(int row, Surface surface, bool writtenOnly = false)
     {
         for (var r = 0; r < bindings.Length; r++)
-            if (ReferenceEquals(bindings[r].Surface, surface) && (!writtenOnly || writes[r]))
+            if ((ReferenceEquals(bindings[r].Surface, surface) || ReferenceEquals(bindings[r].Surface.Underlying, surface)) && (!writtenOnly || writes[r]))
                 yield return Reference(row, r);
     }
 
@@ -708,7 +710,9 @@ public sealed class Wiring
     }
 
     /// <summary>For each pair of open roles, the rows where both reach the same
-    /// bits: one value read twice, which must agree with itself.</summary>
+    /// bits, every plane of them: one value read twice, which must agree with
+    /// itself. Two values sharing only some planes are two values (the
+    /// full-plane check from tension_neon).</summary>
     private Plane?[,]? SameReference(Plane rows)
     {
         Plane?[,]? same = null;
@@ -718,7 +722,8 @@ public sealed class Wiring
                 if (!bindings[r].IsOpen || !bindings[j].IsOpen || bindings[r].Planes.Count != bindings[j].Planes.Count) continue;
                 foreach (var row in rows.Indexes())
                 {
-                    if (bindings[r].Surface.Bit(Reference(row, r), bindings[r].Plane(0)) != bindings[j].Surface.Bit(Reference(row, j), bindings[j].Plane(0))) continue;
+                    var (at, other) = (Reference(row, r), Reference(row, j));
+                    if (Enumerable.Range(0, bindings[r].Planes.Count).Any(p => bindings[r].Surface.Bit(at, bindings[r].Plane(p)) != bindings[j].Surface.Bit(other, bindings[j].Plane(p)))) continue;
                     same ??= new Plane?[bindings.Length, bindings.Length];
                     (same[r, j] ??= new Plane(Count))[row] = true;
                 }

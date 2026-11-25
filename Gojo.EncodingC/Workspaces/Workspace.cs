@@ -395,6 +395,22 @@ public sealed class Workspace : Surface
     /// stays, empty, as a candidate.</summary>
     public Plane Revert(Plane? positions = null)
     {
+        AloneOrRefuse();
+        return RevertWithGroup(positions);
+    }
+
+    /// <summary>A workspace made with others as one supposition, such as a
+    /// fork's, is committed and reverted only with them: one side of a move
+    /// between two of them committed or reverted alone would leave the unit in
+    /// both places, or in neither.</summary>
+    private void AloneOrRefuse()
+    {
+        if (!ReferenceEquals(Group, this))
+            throw new InvalidOperationException("This workspace is one supposition with others, such as a fork's. Commit or revert them together, through the fork.");
+    }
+
+    internal Plane RevertWithGroup(Plane? positions = null)
+    {
         var set = Groups(Restrict(positions));
         foreach (var i in set.Indexes()) Release(i);
         return set;
@@ -407,6 +423,12 @@ public sealed class Workspace : Surface
     /// Introduced positions are adopted as new source positions. Committed into
     /// a parent workspace, changes made together stay together there.</summary>
     public WorkspaceCommit Commit(Plane? positions = null)
+    {
+        AloneOrRefuse();
+        return CommitWithGroup(positions);
+    }
+
+    internal WorkspaceCommit CommitWithGroup(Plane? positions = null)
     {
         var set = Restrict(positions);
         var split = Groups(set).AndNot(set);

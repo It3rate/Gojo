@@ -91,8 +91,8 @@ public sealed class Fork
         if (isolatePorts)
             foreach (var wiring in distinct)
                 for (var r = 0; r < wiring.Bindings.Count; r++)
-                    if (wiring.Writes(r) && wiring.Bindings[r].Surface is Port or Socket && !ports.ContainsKey(wiring.Bindings[r].Surface))
-                        ports[wiring.Bindings[r].Surface] = new Workspace(Snapshot(wiring.Bindings[r].Surface), group).SelectAll();
+                    if (wiring.Writes(r) && wiring.Bindings[r].Surface.Underlying is (Port or Socket) and var port && !ports.ContainsKey(port))
+                        ports[port] = new Workspace(Snapshot(port), group).SelectAll();
         var place = new Place(views, ports, rows);
         var engine = Engine.ForkOf(parent);
         var copies = new Dictionary<Wiring, Wiring>(ReferenceEqualityComparer.Instance);
@@ -125,13 +125,23 @@ public sealed class Fork
             .Distinct();
 
     /// <summary>Writes the fork's state back into the parent, all or nothing.
-    /// A fork that took from snapshots of ports never commits.</summary>
+    /// Its workspaces are one supposition: a move between two stores is in two
+    /// of them, so they are committed together, every position of every
+    /// workspace, after checking that none is stale, and never one by one. A
+    /// fork that took from snapshots of ports never commits.</summary>
     public bool Commit()
     {
         if (PortsIsolated) return false;
         if (views.Values.Any(view => view.Stale().Any)) return false;
-        var results = views.Values.Select(view => view.Commit()).ToArray();
+        var results = views.Values.Select(view => view.CommitWithGroup()).ToArray();
         return results.All(result => result.Committed);
+    }
+
+    /// <summary>Forgets everything the fork wrote, in all its workspaces at
+    /// once, so it reads its parent live again.</summary>
+    public void Revert()
+    {
+        foreach (var view in views.Values.Concat(ports.Values)) view.RevertWithGroup();
     }
 
     /// <summary>Where the fork's copies of the parent's surfaces are: its

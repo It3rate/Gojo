@@ -159,4 +159,20 @@ public sealed class TensionTests
         engine.Settle(8);
         Assert.Equal(Read(site), (site.Value.Read(stores[0], 0), site.Plus.Read(stores[0], 0), site.Minus.Read(stores[0], 0)));
     }
+
+    /// <summary>A fork runs a draw through the value's room: the room is a view
+    /// of the fork's workspace, and the workspace's selection reaches through
+    /// it, so the row runs in the fork (a regression: it was skipped).</summary>
+    [Fact]
+    public void AForkPaysADebtThroughTheValuesRoom()
+    {
+        var site = Site(value: 2);
+        Demand(site, 1);
+        var fork = new Engine().Add(site.Draw(Here)).Fork();
+
+        Assert.NotNull(fork.Engine.Settle(8));
+
+        Assert.Equal((1, 0, 0), (site.Value.Read(fork.Of(site.Store), 0), site.Plus.Read(fork.Of(site.Store), 0), site.Minus.Read(fork.Of(site.Store), 0)));
+        Assert.Equal((2, 0, 1), Read(site));
+    }
 }

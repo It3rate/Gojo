@@ -249,4 +249,24 @@ public sealed class CountsTests
         Settle(w4);
         Assert.Equal(0b0101UL, l4.Values(0));
     }
+
+    /// <summary>Two open values are one value read twice only when every plane
+    /// of them is the same bit, not just the first. Two values sharing only
+    /// their first support plane that disagree, one 1 and one 2, settle the gap
+    /// to "disagree" (the regression, found in review).</summary>
+    [Fact]
+    public void TwoOpenValuesSharingOnlyAFirstPlaneAreNotOneValue()
+    {
+        var store = new Store(6, 1);
+        var gap = Supports.On(store, Field.Bit(5));
+        var (left, right) = (Binding.Open(store, 0, 1, 2), Binding.Open(store, 0, 3, 4));
+        store.Write(1, 0, true);
+        store.Write(4, 0, true);
+        var wiring = new Wiring(Settling.ValueGap(Shape.Binary(3)), left, right, gap.Variable);
+        wiring.Add(0, 0, 0);
+
+        wiring.Apply();
+
+        Assert.Equal(0b10UL, gap.Values(0));
+    }
 }
