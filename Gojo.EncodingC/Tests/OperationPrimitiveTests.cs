@@ -77,6 +77,9 @@ public sealed class OperationPrimitiveTests
         Assert.Equal([0, 0, 0, 1], Fate(Counts.Tally(3)));
         Assert.Equal([0, 1], Fate(Counts.Accumulate(Capacity)));
         Assert.Equal([0, 0, 0, 0, 1, 1], Fate(Counts.Rank));
+
+        // A sweep is both: it moves a unit, paid for, and keeps a receipt nothing pays for.
+        Assert.Equal([3, 3, 0, 1], Fate(Flows.Sweep(3, 3, 4, 12)));
     }
 
     /// <summary>Join, tear out and cancel are one law, the one-unit move. They
