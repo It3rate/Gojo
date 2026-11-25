@@ -27,7 +27,7 @@ public sealed class RelationLaw : Law
     {
         ArgumentNullException.ThrowIfNull(admits);
         var count = Product(roles);
-        var probe = new RelationLaw(roles, new byte[(count + 7) / 8]);
+        var probe = new RelationLaw(roles, new byte[TableByteCount(count)]);
         var set = Enumerable.Range(0, count).Where(index => admits(probe.Tuple(index))).Select(i => (long)i);
         return new RelationLaw(roles, PackBits(count, set));
     }

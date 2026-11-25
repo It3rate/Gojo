@@ -21,16 +21,11 @@ namespace Gojo.EncodingC;
 /// It serves well as a detector of a miss, bit by bit; a law that must respond
 /// to how far off and which way still has to read both sides
 /// (<c>FlowIsSteeredTowardAGoalByTheGapItLeaves</c> does).</para>
-/// <para><b>A direction to take later.</b> An error that can drive laws
-/// directly would have two faces, as two-way traffic does: a deficit (too
-/// low) and an excess (too high), each a unary count, never merged into one
-/// signed value and never both present. A response law would then read one
-/// operand: a deficit opens the way in, an excess the way out. The likely
-/// form is a relation over (have, want, deficit, excess) built once, which can
-/// leave both open while the inputs are; cheaper live views (want and not
-/// have, have and not want) would carry the direction but, like this gap, a
-/// set of units rather than a count. Other per-bit reads at this level may
-/// need the same treatment when they come to drive responses.</para></summary>
+/// <para><b>With direction.</b> An error that drives laws directly has two
+/// faces: a deficit (too low) and an excess (too high), each a unary count,
+/// never both present, each written by a counting law (<see cref="Counts.Shortfall"/>,
+/// once each way round), so a response reads one operand and the meaning of
+/// the gap is held in a table rather than computed by a view.</para></summary>
 public sealed class Gap : Surface
 {
     private readonly Workspace workspace;
