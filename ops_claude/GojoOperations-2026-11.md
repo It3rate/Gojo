@@ -1,6 +1,10 @@
 # Operations in Gojo: where adding, multiplying and boolean reads live
 
 Status: **exploratory discussion**, 25 November 2026. Nothing here is built.
+Updated the same day with the first round of answers: see
+[Decided in discussion](#decided-in-discussion), and the new sections on
+[perturbable and locked rates](#76-perturbable-and-locked-rates) and
+[compiling crystallized operations](#77-compiling-crystallized-operations-to-native-units).
 
 This note gathers what the repository already holds about operations: the
 canonical prompt, the kernel, EncodingC, the Core 2 and Core4 notes, and the
@@ -22,7 +26,9 @@ exploratory. Small numeric claims are checked by the script in
 4. [How people and machines have related magnitudes](#4-how-people-and-machines-have-related-magnitudes)
 5. [Distinctions the survey forces](#5-distinctions-the-survey-forces)
 6. [The questions, answered](#6-the-questions-answered)
-7. [Three approaches](#7-three-approaches)
+7. [Three approaches](#7-three-approaches), with
+   [perturbable and locked rates](#76-perturbable-and-locked-rates) and
+   [compiling crystallized operations](#77-compiling-crystallized-operations-to-native-units)
 8. [Conflicts and gaps in the axioms](#8-conflicts-and-gaps-in-the-axioms)
 9. [Experiments that would decide](#9-experiments-that-would-decide)
 10. [Questions back](#10-questions-back)
@@ -99,6 +105,28 @@ exploratory. Small numeric claims are checked by the script in
     (the machine); C, frames and rungs (the geometer). Recommendation: C for
     what multiplication *means*, B for how it *runs*, and A as the crystallized
     form learning produces, built first at rung 0 in EncodingC.
+
+### Decided in discussion
+
+The first round of answers, 25 November 2026. They are the user's current
+direction, held loosely ("not certain of any of these"), and they take
+precedence over the proposals elsewhere in this note.
+
+- **Relation, process and fold are three distinct reads.** Agreed (§6.3).
+- **Path provenance is an option, chosen by the question.** Whether a product
+  keeps the record of which operand swept which depends on what is being asked,
+  not on how the product was made. Sometimes the record matters. Sometimes it
+  should be hidden, by crystallizing the product into a new direction that
+  ignores its provenance (§5.6).
+- **Coupling rates are perturbable unless known to be constant.** A rate known
+  to be constant should be physically hard to perturb, by where it sits: not in
+  a workspace, in a locked table, or by position (§7.6).
+- **Crystallized operations must stay compilable to native units.** An
+  operation can always be done structurally. Once it is crystallized, a CPU,
+  GPU or FPGA instruction, or a math library, may stand in where that is
+  relevant and faster. This must not drive the design, but all else being
+  equal, the design should not make it impossible (§7.7).
+- **Next:** a comparison with other engines.
 
 ## 1. What was asked
 
@@ -819,6 +847,30 @@ pairs with every unit of `B` already present, and the reverse.
   swept by B, corner) would make it inspectable at the cost of the grid. A
   count of each kind would keep the split without the grid.
 
+**Decided: the question chooses.** Provenance is an option, not something the
+process always produces. Three existing mechanisms can supply it on demand:
+
+- **Recording while running.** An EncodingC wiring keeps evidence planes only
+  once it is asked to record. A product law could do the same with its three
+  counts: swept by A, swept by B, and corners.
+- **Rematerializing later.** The consolidation note's witness lane keeps no
+  per-read witness in compute lanes. When a witness is asked for, it replays
+  the native path over the selected cone
+  ([consolidation note](../Gojo/docs/GojoEncodingConsolidation-2026-11.md)
+  §5.12). That is cheaper when the question is rare.
+- **A demand that selects it.** A question's cone or a goal's selection decides
+  whether the split is read at all, as with every other open value (the
+  closure rules; the tension note's "openness is free until demanded").
+
+Crystallization can drop the record on purpose. The product then becomes a
+carrier of its own: a new direction whose ticks no longer say which side swept
+which. The kernel already does this for a fill: `TryCrystallizeFill` makes a
+carrier that "records magnitude and face, not construction endpoints". The
+prompt allows a structure "crystallized into a standalone structure that
+forgets its construction" (§7.3), on one condition from §6: a lossy
+transformation exposes its retained promise and its loss, and "cannot also
+claim exact reconstruction of forgotten detail."
+
 ### 5.7 The order of a step can carry meaning
 
 - **The integer oscillator** `x += coarse(v)`, `v −= coarse(x)`, stepped in
@@ -1203,12 +1255,153 @@ A suggested order:
 1. **At rung 0 in EncodingC, build B's primitives with C's coupling:** a
    carry ladder as the rung, a coupled pair as the process, with step order
    saved as structure.
-2. **Record path provenance** for products as evidence planes or counts.
+2. **Offer path provenance** for products, recorded or replayed when a
+   question asks for it (§5.6).
 3. **Crystallize tables (A) from observed processes** with `LearnedTable`, and
    check that they read backward as relations.
 
 The alternative, starting from A, is faster to build but would postpone every
 question the request is about: direction, physics, sine and material.
+
+None of the three closes the door on native compilation (§7.7). A's tables and
+C's projections compile almost directly. B's processes compile once they are
+crystallized, with fixed rates and a declared step order.
+
+### 7.6 Perturbable and locked rates
+
+**Decided direction:** a coupling rate is perturbable unless it is known to be
+constant, and a constant should be physically hard to perturb. In EncodingC,
+how hard is already a matter of where a value sits. Every mechanism below
+exists (implemented); what is new is reading them as one ladder of stiffness.
+
+| Where the value sits | What can change it | What a change costs | Physical picture |
+| --- | --- | --- | --- |
+| A count in a store, read by reference | any law of its local structure, and any workspace that selects it | one step of a law | a valve setting; a coupling being learned |
+| A store position outside every workspace's selection, or in an ignore layer | the structure's own laws, but no supposition, since use never brings it in | the owning structure must act | an instrument in use, not on the bench |
+| Behind another local structure's port | only the owner's laws; readers only read, and a take must be a move through the port's single taker | the owner, or a move its accounting allows | a standard held by someone else |
+| A position no wired law writes, with an `Unchanged` promise on the laws that read it | nothing, short of rewiring | a structural edit, checked when laws are made | a measured constant |
+| A constant plane of a store | nothing in place; workspaces read it by reference and cannot change it | moving the positions to another store | the orientation of a whole frame |
+| Inside a law's table | nothing: tables are fixed when made | a new law, that is, a new crystallization | a gear cut in metal; a carry's place value |
+
+- **Moving a value down the ladder is crystallization.** A coupling learned as
+  a count in a store becomes a constant when it is written into a law's table,
+  as `Convert(3, 1)` fixes a place value. Axiom 12 already says a crystallized
+  promise does not silently change.
+- **Moving it up is thawing.** A fork rewires the row to a law that reads the
+  rate from a store of its own, where it can be tried, while the parent keeps
+  its locked law. (Committing a fork's rewiring is listed as not built.)
+- **Examples from this note.**
+  - A ladder's base is a structural constant: changing it reinterprets every
+    value, so it belongs in the carry law.
+  - Āryabhaṭa's coupling is a calibration: perturbable while it is fitted,
+    locked once it is.
+  - The sign `m` is perturbable in a workspace that explores which concept fits
+    (oscillation, coasting or growth), and locked in a crystallized oscillator.
+- **Graded stiffness is still open.** The canonical prompt (§5.1) names
+  history of utility and wider support as influences on "resistance to change"
+  and leaves the law open. A natural graded read is how many structures read a
+  value, or how much tension a change would raise in them. The positional
+  locks above are the extremes of that scale.
+- **It also helps compilation.** Values low on the ladder are compile-time
+  constants and values in stores are run-time inputs. A value perturbed only in
+  a workspace can be specialized in the source and interpreted in the
+  workspace (§7.7).
+
+### 7.7 Compiling crystallized operations to native units
+
+**Decided direction:** an operation can always run structurally. Once it is
+crystallized, a native unit (a CPU multiply, a GPU tensor core, an FPGA lookup
+table, a math library) may stand in for it where that is relevant and faster.
+This must not drive the design, but the design should not make it impossible.
+
+**The prompt already allows it** (documented direction):
+- "A compiled or optimized form may exist as a derived backend if it can be
+  traced back to the Gojo surface" (§8.1).
+- Compiled forms are performance projections that "must be reconstructible
+  from, and subordinate to, the canonical Gojo structure" (§9.1).
+- "Substrates differ and may be optimized; an optimization must not shape the
+  concept" (§9.6).
+
+**The repository already has the pattern** (implemented in an experiment).
+`FiniteLawPlan` and `FiniteLawBatchPlan` in `experiments/QualitativeExecution`
+capture a native finite law as a derived mask backend:
+
+- any edit to the captured graph invalidates the plan (`IsCurrent`) until it is
+  explicitly recaptured, and a stale plan returns unresolved evidence rather
+  than an answer;
+- a compute-only read allocates no witness, while a witness-producing read goes
+  through the native reader;
+- open, foreign or oversized law surfaces are not compiled, and a refused batch
+  leaves its output buffer unchanged.
+
+The consolidation note measured about 196× on a recurrent circuit from finite
+tables, compact state and omitted per-read witnesses. It maps planes to machine
+words and vector registers; small laws to sums of products, `pshufb` and LUT6;
+and tropical reads to integer min and add (its §7). It also proposes place
+value, its rung R2, as a crystallization of unary counts "when the required
+queries and updates make it worthwhile" (its §5.8).
+
+**A contract for native stand-ins (proposal).** Each condition comes from a
+rule already in the prompt.
+
+1. **Only crystallized structure is replaced.** Its law is a locked table and
+   its rates are constants (§7.6). Perturbable parts stay interpreted, or are
+   guarded.
+2. **Exact on the declared domain, or a declared finite contract.** A native op
+   must give the same read bit for bit over the declared range and resolution.
+   Otherwise the replacement is a different, declared finite read with visible
+   loss, as in the finite-read fixture. Minsky's integer ellipse is not `sin`,
+   so a math library's sine cannot replace it; a CORDIC unit running the same
+   iteration can.
+3. **Range and overflow stay visible.** "Exact intermediate arithmetic must not
+   silently wrap or saturate" (§8.1). Use a widening or checked operation, or
+   prove from the declared range that the native width cannot overflow. Bounded
+   numbers make that proof easy, because a ladder's capacity bounds every value
+   it can hold. An overflow that does happen becomes blocked units or `T+`, as
+   it would structurally.
+4. **Residue, open values and contradictions survive.** Division keeps its
+   remainder. A zero divisor gives an open result, not an exception or a NaN.
+   A backward read that is not a function stays a table or falls back.
+5. **Recognition by content, not by name.** A compiler knows that a
+   crystallized law is "the product over 0 to 15" by comparing its table with
+   the product table (EncodingC already compares tables by content), and that a
+   binary ladder with carries is an integer by its structure. No tag or string
+   is needed, so §9.6's "no name stored" holds.
+6. **A guard and a fallback.** Any edit to captured structure invalidates the
+   native form, and reads fall back to the structural path with stale
+   evidence, as `FiniteLawPlan` does. This is deoptimization, as in JIT
+   compilers: speculate, guard, fall back.
+7. **Witnesses on demand.** Compute lanes keep none. A question that asks for
+   provenance replays the structural path over its cone (§5.6), so the
+   decision that the question chooses provenance is also what keeps the fast
+   path fast.
+8. **Parity tests are the guarantee.** Native and structural reads agree on the
+   declared domain, including the overflow, residue and open cases.
+
+**How each approach compiles.**
+
+| Approach | Crystallized form | Native stand-in |
+| --- | --- | --- |
+| A, junction tables | a fixed relation or transition table | a lookup (LUT6, `pshufb`), or a recognized instruction (`AND`, `ADD`, `MUL`); a backward read compiles to `SUB`, or to `DIV` with remainder, where it is a function |
+| B, coupled flows | a process with fixed rates and a declared step order | a loop of native integer operations, vectorized across many instances; a coasting multiplier recognized as `MUL` or multiply-accumulate; a fixed-iteration CORDIC as a CORDIC core |
+| C, frames and rungs | an affine projection with a fixed ratio | fixed-point multiply-add; shifts for power-of-two rungs; division with remainder |
+| Structure × structure | all pairs of parts | an outer product, the operation GPU tensor units are built for |
+
+**What keeps the door open, all else being equal.**
+
+- Keep a canonical binary ladder (place value with base `2^k`) reachable from
+  unary counts by crystallization, so integers can map to machine words.
+- Keep couplings as rung offsets where possible, since powers of two compile to
+  shifts, and as explicit rates otherwise, which compile to multiplies.
+- Keep arithmetic laws small and separate from bookkeeping such as evidence
+  planes and provenance, so the arithmetic core stays recognizable.
+- Keep provenance optional (decided) and stiffness positional (§7.6).
+- Declare the step order (§5.7; the consolidation note's "declare the
+  schedule"), so a compiled loop has a defined meaning.
+
+**What it does not allow:** a native form that hides residue or tension; a
+floating-point function standing in for an exact read (floats stay in
+adapters, §9.6); compiling perturbable structure without a guard.
 
 ## 8. Conflicts and gaps in the axioms
 
@@ -1219,7 +1412,8 @@ resolve it.
    leaves the choice between stepping in order and stepping together to
    whoever runs the machine. For coupled accumulators this decides whether an
    orbit closes or spirals (§5.7). *Clarify:* the order between coupled rows
-   (or the step kind) is structure, saved with the machine.
+   (or the step kind) is structure, saved with the machine. A compiled loop
+   needs the same declaration (§7.7).
 2. **The prompt does not say where product material comes from.** Its §4.4
    accounts incoming participation as accepted, blocked and remainder, and
    Axiom 5 sends external change in as tension, but a multiplication of
@@ -1254,6 +1448,17 @@ resolve it.
    shears conserve information without conserving any sum (§5.3). If
    reversibility is to be a promise a law can carry, it needs a word in the
    prompt.
+10. **Stiffness has no structural account.** The prompt separates mutable
+    physical state from immutable promises (§9.2, Axiom 12) and leaves graded
+    "resistance to change" open (§5.1). The decided direction, perturbable
+    unless constant and hard to perturb by position, already has mechanisms in
+    EncodingC (§7.6). *Clarify:* how hard a value is to change is a read of
+    where it sits; a graded version, if wanted, is a read of support.
+11. **The rule for compiled forms could be more precise.** §8.1 and §9.1 allow
+    compiled forms traced back to the structure. *Clarify:* a native stand-in
+    replaces only crystallized structure, is exact on its declared domain or is
+    a declared finite read, keeps overflow, residue and open results visible,
+    is recognized by content, and is guarded by invalidation (§7.7).
 
 ## 9. Experiments that would decide
 
@@ -1274,22 +1479,35 @@ cheaply. All are at rung 0 in EncodingC unless noted.
 | E10 | Clamp, wrap and carry at the bit rung; routing of the four quadrants | OR, XOR and AND; 16 functions as selections with residue kept | boolean as arithmetic |
 | E11 | Quotition and partition | counting steps to empty equals the carry route; a round-robin split conserves | the two divisions |
 | E12 | A coarse-first settle: the remainder as a signed-digit ladder, a sign read per rung | converges toward the exact projection, one rung at a time | B with C's rungs |
+| E13 | A crystallized times table compiled to a native multiply, behind a guard | parity on the declared domain; overflow becomes blocked units; an edit invalidates the native form and reads fall back | the compile contract (§7.7) |
+| E14 | One coupling rate placed at each level of the stiffness ladder | a law changes the store count; a workspace cannot change the constant plane; a reader cannot write through a port; the rate in a table needs a new law | stiffness by position (§7.6) |
+| E15 | The same product with recording off, recording on, and replayed | the split appears only when asked; the recorded and replayed splits agree | provenance chosen by the question (§5.6) |
 
 ## 10. Questions back
 
-1. **Is an operation primarily the relation, the process, or the fold?** This
-   note argues Gojo needs all three as distinct reads. Is that right?
-2. **Should a product keep its path provenance (L or diagonal) by default,** or
-   only when asked?
-3. **Is it acceptable to make step order meaning-bearing,** saved with the
-   machine?
-4. **Should intensive versus extensive become an axiom-level distinction?**
-5. **Where should a coupling rate live:** as a constant in a `Convert` law,
-   fixed when the law is made, or as a count in a store, read by reference so
-   it can be perturbed and learned? The preferences point to the second.
-6. **Which first fixture?** The proposal is E5, E6 and E7 together (the
+Answered in the first round (see [Decided in discussion](#decided-in-discussion)):
+
+1. **Is an operation the relation, the process or the fold?** All three, as
+   distinct reads.
+2. **Should a product keep its path provenance by default?** It is an option,
+   chosen by the question, and crystallization may hide it.
+3. **Where should a coupling rate live?** In a store, perturbable, unless it is
+   known to be constant. Then it sits low on the stiffness ladder (§7.6).
+
+Still open:
+
+4. **Is it acceptable to make step order meaning-bearing,** saved with the
+   machine? Both the oscillator (§5.7) and compilation (§7.7) want it.
+5. **Should intensive versus extensive become an axiom-level distinction?**
+6. **Provenance on demand: record or replay?** Recording costs planes while
+   running; replaying costs a rerun over a cone when asked. Either keeps the
+   fast path free of witnesses.
+7. **Is stiffness positional only, or also graded by support?**
+8. **Which first fixture?** The proposal is E5, E6 and E7 together (the
    oscillator family at rung 0), then E3 and E4 (multiplication as a process
-   with provenance).
+   with provenance), then E13 once something is crystallized.
+
+Next step: a comparison with other engines.
 
 ## Appendix A: numeric checks
 
@@ -1391,6 +1609,7 @@ unary 5,2: AND 0b11 = min 0b11 | OR 0b11111 = max 0b11111 | XOR 0b11100 = sites 
 - [Operation Shape Catalog](../Gojo/axioms/Gojo%20Operation%20Shape%20Catalog.md)
 - [Core4 Kernel Axioms](../Gojo/axioms/Core4%20Kernel%20Axioms.md), [Core4 Carrier Read And Resolution Axioms](../Gojo/axioms/Core4%20Carrier%20Read%20And%20Resolution%20Axioms.md), [Core4 Boundary Overflow Axioms](../Gojo/axioms/Core4%20Boundary%20Overflow%20Axioms.md), [Legacy Core4 idea inventory](../Gojo/docs/LegacyCore4IdeaInventory.md)
 - [Complex interpretations](../Gojo/docs/GojoComplexInterpretations-2026-09.md); [primitive numbers and control](../experiments/PRIMITIVE-NUMBER-ANALYSIS.md); [race order experiment](../experiments/PrimitiveMeasure/RaceOrder.md)
+- [Consolidation note](../Gojo/docs/GojoEncodingConsolidation-2026-11.md): §5.8 rungs, §5.12 witness lane, §7 hardware mapping, C5 and C6; `experiments/QualitativeExecution/FiniteLawPlan.cs` and `FiniteLawBatchPlan.cs`; `TryCrystallizeFill` in `Gojo/Core/Relation.Operations.cs`; `Gojo.EncodingC/Laws/Accounting.cs` (`Unchanged`)
 
 **Drive folder articles** (the author's): Pin, Accumulate, and Merge;
 Multiplying AI Segments; Boolean Arithmetic with Segments; Sequential Math,
@@ -1426,4 +1645,5 @@ Numbers; Thinking in Directed Segments; Emergent Properties; Axioms (Core 2).
 
 Recalled from reading and not checked for this note: Brahmagupta's rules for
 fortunes and debts; Fischbein, Deri, Nello and Marino (1985); Girard (1987);
-Bresenham (1965); Kelvin's tide predictor; Feynman's half-step method.
+Bresenham (1965); Kelvin's tide predictor; Feynman's half-step method;
+Hölzle, Chambers and Ungar (1992) on dynamic deoptimization in Self.
