@@ -1145,6 +1145,9 @@ Built on `claude/youthful-newton-wh29co` in `Gojo.EncodingC` (implemented):
 | The oscillator family, step order as structure, J at rung 0 | kick and drift as bindings of a balance | `OscillatorTests` | X8, X9, X10 |
 | A coasting multiplier with a material account | a booking (heap written over debt) gated by a clock, and `Tension.Deliver` | `CoastingMultiplierTests` | X5 |
 | Settling versus time: "double `B`" four ways | `Operations.Bind` over one balance | `SettlingVersusTimeTests` | X7 |
+| Quiet because met or because blocked, told apart in structure | `Operations.Bind(…, blocked)` | `SettlingVersusTimeTests` | §16, item 14 |
+| Booleans, the 16 functions, a ripple adder and a lattice product from one balance | the half and full adder as balances; `Operations.Product(1, 1)` | `BitRungTests` | X3, X13 |
+| One rate at three stiffnesses | a count, constant planes, a table weight | `StiffnessTests` | X14 |
 
 **What building changed:**
 1. **A run that finds nothing holds.** The first version admitted no
@@ -1215,9 +1218,35 @@ Built on `claude/youthful-newton-wh29co` in `Gojo.EncodingC` (implemented):
     one step with the balance met. `Settle` cannot tell the two kinds of quiet
     apart, so a structure that needs "done" must read the relation: narrow it
     against the settled state, or hold the fact with `Settling.Justify`. A
-    small "met" read beside a held binding would make this local.
+    small "met" read beside a held binding would make this local, and now
+    does: `Bind` takes an optional blocked bit, 1 where the step held and 0
+    where it wrote a completion. "Double `B`" settles blocked at 40 and met
+    only at 0.
+15. **Booleans are reads of the half adder.** One balance,
+    `a + b = 2·carry + sum`, gives AND as its carry and XOR as its sum; the
+    clamped sum with the overflow free is OR. Bound to bits or their flipped
+    views, AND, XOR and a wire make all 16 two-input functions, so polarity is
+    a binding (§1.3), now shown with the engine rather than by enumeration.
+16. **Carry propagation is step order.** Three full adders over 64 lanes add
+    every pair of 3-bit numbers. Declared from the low bit up, one step
+    settles; taken together, a carry moves one bit a step. The delay a
+    hardware adder has is the step kind made visible.
+17. **Wide operations must factor, and the wall says where.** The wide adder's
+    and wide product's relations fit a table at 4 bits, but their transitions
+    are refused. A lattice of bit products and half adders gives every 2-bit
+    product from tables of 8 and 16 states, reused at every width. This is the
+    case for rungs: place value is a weight of 2 on a carry.
+18. **Stiffness by position is already in the substrate.** A rate in a count
+    moves with any write, and a workspace can suppose another value. A rate on
+    constant planes refuses an ordinary write and a workspace's supposition
+    alike, and moves only when the store changes the constant, for every
+    position at once. A rate as a weight in a table has no plane: only
+    another law, with another table, books at another rate. Three of the six
+    positions of §10 are now tested.
 
-Not built: X3, X4 and X11 to X15, compiled plans and rungs.
+Not built: X4, X11, X12 and X15, compiled plans and rungs beyond the bit
+adder. The experiments for comparing branches are in
+[GojoOperationsExperiments-2026-11.md](GojoOperationsExperiments-2026-11.md).
 
 ## Appendix A: numeric checks
 
