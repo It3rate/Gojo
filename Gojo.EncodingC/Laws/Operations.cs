@@ -48,8 +48,13 @@ public static class Operations
     /// room: the written roles keep their values and the relation is left
     /// unmet, visible to anything that reads it. Law roles no relation role
     /// writes are unchanged. Binding a role's read and write to the same law
-    /// role writes a result over the count it was read from.</summary>
-    public static TransitionLaw Bind(RelationLaw relation, IReadOnlyList<Shape> roles, int[] reads, int[] writes)
+    /// role writes a result over the count it was read from.
+    /// <para>A <paramref name="blocked"/> law role, a bit, says which kind of
+    /// step it was: 1 where nothing fit and the step held, 0 where a completion
+    /// was written. A structure settles quietly either way; this bit tells
+    /// quiet because met from quiet because blocked, where structure can read
+    /// it.</para></summary>
+    public static TransitionLaw Bind(RelationLaw relation, IReadOnlyList<Shape> roles, int[] reads, int[] writes, int blocked = -1)
     {
         ArgumentNullException.ThrowIfNull(relation);
         ArgumentNullException.ThrowIfNull(roles);
@@ -64,8 +69,9 @@ public static class Operations
             if (bound >= roles.Count) throw new ArgumentOutOfRangeException(nameof(roles), $"Relation role {r} names law role {bound}.");
             if (bound >= 0 && roles[bound] != relation.Roles[r]) throw new ArgumentException($"Relation role {r} and law role {bound} differ in shape.", nameof(roles));
         }
-        var written = writes.Where(w => w >= 0).ToArray();
+        int[] written = [.. writes.Where(w => w >= 0), .. blocked >= 0 ? [blocked] : Array.Empty<int>()];
         if (written.Distinct().Count() != written.Length) throw new ArgumentException("Each law role has one writer.", nameof(writes));
+        if (blocked >= roles.Count || (blocked >= 0 && roles[blocked] != Shape.Bit)) throw new ArgumentException("Blocked is a bit role of the law.", nameof(blocked));
 
         // The admitted tuples, grouped by the values their read roles see.
         var readRoles = Enumerable.Range(0, count).Where(r => reads[r] >= 0).ToArray();
@@ -79,7 +85,9 @@ public static class Operations
             var state = probe.Tuple(before);
             if (!byReads.TryGetValue(Key(r => state[reads[r]]), out var fits))
             {
-                pairs.Add((before, before));
+                var held = (int[])state.Clone();
+                if (blocked >= 0) held[blocked] = 1;
+                pairs.Add((before, probe.TupleIndex(held)));
                 afterCounts[before]++;
                 continue;
             }
@@ -88,6 +96,7 @@ public static class Operations
                      {
                          var next = (int[])state.Clone();
                          for (var r = 0; r < count; r++) if (writes[r] >= 0) next[writes[r]] = t[r];
+                         if (blocked >= 0) next[blocked] = 0;
                          return probe.TupleIndex(next);
                      }).Distinct())
             {

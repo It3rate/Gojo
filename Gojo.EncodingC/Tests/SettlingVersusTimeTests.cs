@@ -64,21 +64,24 @@ public sealed class SettlingVersusTimeTests
     }
 
     /// <summary>Under Settle the same law runs until nothing changes. From 5
-    /// that is 40, after three changes, where 80 has no room: the structure is
-    /// quiet and the balance on one position is unmet. Only from 0 is quiet
-    /// also met.</summary>
+    /// that is 40, where 80 has no room: the structure is quiet and the balance
+    /// on one position is unmet. Only from 0 is quiet also met. A blocked bit
+    /// written by the binding tells the two apart in the structure itself: 1
+    /// where the last step held, 0 where it wrote a completion.</summary>
     [Fact]
     public void UnderSettleItGoesQuietOnlyWhereItIsBlocked()
     {
-        var inPlace = Operations.Bind(Doubled, [Count], [0, -1], [-1, 0]);
-        foreach (var (start, end) in new[] { (5, 40), (3, 24), (0, 0) })
+        var inPlace = Operations.Bind(Doubled, [Count, Shape.Bit], [0, -1], [-1, 0], blocked: 1);
+        foreach (var (start, end, held) in new[] { (5, 40, 1), (3, 24, 1), (0, 0, 0) })
         {
             var (store, b, _) = Site(start);
-            var engine = new Engine().Add(Tension.Wire(inPlace, [b.On(store)], Here));
+            var bit = store.AddPlane();
+            var engine = new Engine().Add(Tension.Wire(inPlace, [b.On(store), new Binding(store, bit)], Here));
             Assert.NotNull(engine.Settle(10));
             var settled = b.Read(store, 0)!.Value;
             Assert.Equal(end, settled);
             Assert.Equal(settled == 0, Doubled.Admits(settled, settled));
+            Assert.Equal(held == 1, store.Read(bit, 0));
         }
     }
 
