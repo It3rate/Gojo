@@ -211,6 +211,38 @@ public static class Multiplication
         }
     }
 
+    private static readonly Dictionary<(int, int, int, int, bool), TransitionLaw> BoundedMults = [];
+
+    /// <summary>Functional bounded multiplication with explicit <c>T+</c>
+    /// overflow role: reads <c>a</c> and <c>b</c> unchanged, writes
+    /// <c>value = min(a·b, maxValue)</c> and
+    /// <c>overflow = min(max(0, a·b − maxValue), maxOverflow)</c>. Excess never
+    /// silently wraps; it lands in the overflow role.</summary>
+    public static TransitionLaw BoundedMultiply(int maxA, int maxB, int maxValue, int maxOverflow, bool unary = false)
+    {
+        if (maxA < 1) throw new ArgumentOutOfRangeException(nameof(maxA));
+        if (maxB < 1) throw new ArgumentOutOfRangeException(nameof(maxB));
+        if (maxValue < 1) throw new ArgumentOutOfRangeException(nameof(maxValue));
+        if (maxOverflow < 1) throw new ArgumentOutOfRangeException(nameof(maxOverflow));
+        lock (BoundedMults)
+        {
+            var key = (maxA, maxB, maxValue, maxOverflow, unary);
+            if (BoundedMults.TryGetValue(key, out var cached)) return cached;
+            Shape Make(int max) => unary ? Shape.Unary(max) : Shape.Binary(max + 1);
+            return BoundedMults[key] = TransitionLaw.FromFunction(
+                [Make(maxA), Make(maxB), Make(maxValue), Make(maxOverflow)],
+                s =>
+                {
+                    var prod = (ulong)s[0] * (ulong)s[1];
+                    var val = prod <= (ulong)maxValue ? (int)prod : maxValue;
+                    var rem = prod > (ulong)maxValue ? prod - (ulong)maxValue : 0UL;
+                    var ovf = rem <= (ulong)maxOverflow ? (int)rem : maxOverflow;
+                    return [s[0], s[1], val, ovf];
+                },
+                new Accounting(true, new Unchanged(0), new Unchanged(1)));
+        }
+    }
+
     /// <summary>Simultaneous co-arrival corner accumulator: when both da and db
     /// are 1, increments <c>corners</c> by 1 (the Δa·Δb gnomon corner).
     /// Roles: da (Unchanged), db (Unchanged), corners (written).</summary>

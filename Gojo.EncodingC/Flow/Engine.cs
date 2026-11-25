@@ -44,6 +44,8 @@ public sealed class Engine
     /// <summary>Steps run so far.</summary>
     public long Tick { get; private set; }
 
+    internal void AdvanceTick(long count = 1) => Tick += count;
+
     /// <summary>Whether this engine's declared step kind is simultaneous
     /// (<see cref="StepTogether"/>) rather than declared order (<see cref="Step"/>).
     /// Saved with the machine in <see cref="Transport"/> and copied onto forks,

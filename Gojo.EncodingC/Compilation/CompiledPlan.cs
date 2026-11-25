@@ -176,6 +176,10 @@ public sealed class CompiledPlan
     /// strictly from its table bits and PreservedSum accounting.</summary>
     public bool RecognizedPacketConvert => compiled.Any(c => c.Kind == KernelKind.PacketConvert);
 
+    /// <summary>True iff a functional bounded multiplier with explicit T+
+    /// overflow was recognized strictly from its table bits.</summary>
+    public bool RecognizedBoundedMultiply => compiled.Any(c => c.Kind == KernelKind.BoundedMultiply);
+
     /// <summary>True iff a sealed multi-rung radix-B ripple adder was recognized
     /// strictly from verified DigitAddStep tables and carry wiring.</summary>
     public bool RecognizedRadixAdder => ladderAdder is not null;
@@ -249,8 +253,42 @@ public sealed class CompiledPlan
     }
 
     /// <summary>Mechanically verifies whether <paramref name="law"/> is a
+    /// functional bounded multiplier <c>(a [Unchanged], b [Unchanged], value,
+    /// overflow/T+)</c> strictly from every cell of its table bits.</summary>
+    public static bool TryRecognizeBoundedMultiply(TransitionLaw law, out int prodCap, out int overflowCap)
+    {
+        prodCap = overflowCap = 0;
+        if (law.Roles.Count != 4 || !law.IsFunctional) return false;
+        if (law.Writes(0) || law.Writes(1)) return false;
+        var aSize = law.Roles[0].Size;
+        var bSize = law.Roles[1].Size;
+        var vSize = law.Roles[2].Size;
+        var oSize = law.Roles[3].Size;
+        if (aSize < 2 || bSize < 2 || vSize < 2 || oSize < 2) return false;
+        var candProdCap = vSize - 1;
+        var candOvfCap = oSize - 1;
+        for (var a = 0; a < aSize; a++)
+            for (var b = 0; b < bSize; b++)
+            {
+                var prod = (ulong)a * (ulong)b;
+                var expVal = prod <= (ulong)candProdCap ? (int)prod : candProdCap;
+                var rem = prod > (ulong)candProdCap ? prod - (ulong)candProdCap : 0UL;
+                var expOvf = rem <= (ulong)candOvfCap ? (int)rem : candOvfCap;
+                for (var ov = 0; ov < vSize; ov++)
+                    for (var oo = 0; oo < oSize; oo++)
+                    {
+                        var after = law.Tuple(law.Afters(law.TupleIndex([a, b, ov, oo]))[0]);
+                        if (after[0] != a || after[1] != b || after[2] != expVal || after[3] != expOvf) return false;
+                    }
+            }
+        prodCap = candProdCap;
+        overflowCap = candOvfCap;
+        return true;
+    }
+
+    /// <summary>Mechanically verifies whether <paramref name="law"/> is a
     /// justified functional radix-B ripple adder (a, b, cin [Unchanged] ->
-    /// sum, cout) strictly from its table bits.</summary>
+    /// sum, cout) strictly from every cell of its table bits.</summary>
     public static bool TryRecognizeDigitAddStep(TransitionLaw law, out int radix)
     {
         radix = 0;
@@ -267,9 +305,13 @@ public sealed class CompiledPlan
                     var total = x + y + c;
                     var expSum = total % b;
                     var expCout = total / b;
-                    // Check for every prior (sum, cout) that the law overwrites purely from (x, y, c)
-                    var after = law.Tuple(law.Afters(law.TupleIndex([x, y, c, 0, 0]))[0]);
-                    if (after[0] != x || after[1] != y || after[2] != c || after[3] != expSum || after[4] != expCout) return false;
+                    // Exhaustively check every prior (sum, cout) cell so the table is 100% verified.
+                    for (var os = 0; os < b; os++)
+                        for (var oc = 0; oc <= 1; oc++)
+                        {
+                            var after = law.Tuple(law.Afters(law.TupleIndex([x, y, c, os, oc]))[0]);
+                            if (after[0] != x || after[1] != y || after[2] != c || after[3] != expSum || after[4] != expCout) return false;
+                        }
                 }
         radix = b;
         return true;
@@ -350,14 +392,22 @@ public sealed class CompiledPlan
         if (oscillator is { } osc && osc.CanRunFast())
         {
             var (fast, deopt) = osc.StepFast(engine);
-            if (deopt == 0) return new CompiledStepReport(UsedFastPath: true, Stale: false, FastLanes: fast, DeoptLanes: 0);
+            if (deopt == 0)
+            {
+                engine.AdvanceTick();
+                return new CompiledStepReport(UsedFastPath: true, Stale: false, FastLanes: fast, DeoptLanes: 0);
+            }
         }
 
         // Regime 1 widening ALU fast path for recognized multi-rung radix-B ripple adder!
         if (ladderAdder is { } adder && adder.CanRunFast())
         {
             var (fast, deopt) = adder.StepFast(engine);
-            if (deopt == 0) return new CompiledStepReport(UsedFastPath: true, Stale: false, FastLanes: fast, DeoptLanes: 0);
+            if (deopt == 0)
+            {
+                engine.AdvanceTick();
+                return new CompiledStepReport(UsedFastPath: true, Stale: false, FastLanes: fast, DeoptLanes: 0);
+            }
         }
 
         var fastTotal = 0;
@@ -377,6 +427,7 @@ public sealed class CompiledPlan
             deoptTotal += deopt;
             if (fast > 0) anyFast = true;
         }
+        engine.AdvanceTick();
         return new CompiledStepReport(UsedFastPath: anyFast, Stale: false, FastLanes: fastTotal, DeoptLanes: deoptTotal);
     }
 
@@ -392,10 +443,17 @@ public sealed class CompiledPlan
             return new CompiledStepReport(UsedFastPath: false, Stale: true, FastLanes: 0, DeoptLanes: TotalLiveRows());
         }
 
+        if (limit <= 0)
+            return new CompiledStepReport(UsedFastPath: false, Stale: false, FastLanes: 0, DeoptLanes: 0);
+
         if (!engine.Together && compiled.Length == 1 && compiled[0].Kind == KernelKind.PacketConvert && compiled[0].CanAccelerate)
         {
-            var (fast, deopt) = compiled[0].SettlePacketConvertExact();
-            if (deopt == 0) return new CompiledStepReport(UsedFastPath: true, Stale: false, FastLanes: fast, DeoptLanes: 0);
+            var (fast, deopt, ticks) = compiled[0].SettlePacketConvertExact(limit);
+            if (deopt == 0)
+            {
+                engine.AdvanceTick(ticks);
+                return new CompiledStepReport(UsedFastPath: true, Stale: false, FastLanes: fast, DeoptLanes: 0);
+            }
         }
 
         var totalFast = 0;
@@ -464,22 +522,26 @@ public sealed class CompiledPlan
         return true;
     }
 
-    private enum KernelKind { Canonical, SimdBitSliced, PacketConvert }
+    private enum KernelKind { Canonical, SimdBitSliced, PacketConvert, BoundedMultiply }
 
     private sealed class CompiledWiring
     {
-        public CompiledWiring(Wiring wiring, KernelKind kind, int take, int give)
+        public CompiledWiring(Wiring wiring, KernelKind kind, int param0, int param1)
         {
             Wiring = wiring;
             Kind = kind;
-            Take = take;
-            Give = give;
+            Param0 = param0;
+            Param1 = param1;
         }
 
         public Wiring Wiring { get; }
         public KernelKind Kind { get; }
-        public int Take { get; }
-        public int Give { get; }
+        public int Param0 { get; }
+        public int Param1 { get; }
+        public int Take => Param0;
+        public int Give => Param1;
+        public int ProdCap => Param0;
+        public int OverflowCap => Param1;
 
         /// <summary>Accelerate only unrecorded functional TransitionLaws on
         /// direct Stores (never open Relations or foreign Ports).</summary>
@@ -495,9 +557,9 @@ public sealed class CompiledPlan
             var runnable = Wiring.Runnable();
             if (runnable.None) return (0, 0);
 
-            // Group contention guard: if any two runnable rows write the same (Store, Position)
+            // Group contention guard: if any two runnable rows write the same bit
             // OR any runnable row aliases two roles onto the same bit, deopt the entire wiring
-            // (or contested lanes) to canonical Wiring.Apply()!
+            // to canonical Wiring.Apply()!
             var writtenBits = new Dictionary<(Surface, int, int), int>();
             var contestedRows = new Plane(Wiring.Count);
             var aliasedRows = new Plane(Wiring.Count);
@@ -585,6 +647,37 @@ public sealed class CompiledPlan
                 return (fastCount, 0);
             }
 
+            if (Kind == KernelKind.BoundedMultiply)
+            {
+                var aBind = Wiring.Bindings[0];
+                var bBind = Wiring.Bindings[1];
+                var vBind = Wiring.Bindings[2];
+                var oBind = Wiring.Bindings[3];
+                var aStore = (Store)aBind.Surface;
+                var bStore = (Store)bBind.Surface;
+                var vStore = (Store)vBind.Surface;
+                var oStore = (Store)oBind.Surface;
+                var aField = new Field(law.Roles[0], [.. aBind.Planes]);
+                var bField = new Field(law.Roles[1], [.. bBind.Planes]);
+                var vField = new Field(law.Roles[2], [.. vBind.Planes]);
+                var oField = new Field(law.Roles[3], [.. oBind.Planes]);
+                var cap = (ulong)ProdCap;
+                var ovfCap = (ulong)OverflowCap;
+                foreach (var row in runnable.Indexes())
+                {
+                    var a = (ulong)aField.Read(aStore, Wiring.Reference(row, 0))!.Value;
+                    var b = (ulong)bField.Read(bStore, Wiring.Reference(row, 1))!.Value;
+                    // Native widening integer MUL (never silently wraps): excess lands directly in T+ overflow!
+                    var prod = a * b;
+                    var val = prod <= cap ? (int)prod : ProdCap;
+                    var rem = prod > cap ? prod - cap : 0UL;
+                    var ovf = rem <= ovfCap ? (int)rem : OverflowCap;
+                    vField.Write(vStore, Wiring.Reference(row, 2), val);
+                    oField.Write(oStore, Wiring.Reference(row, 3), ovf);
+                }
+                return (fastCount, 0);
+            }
+
             // General SIMD bit-sliced fast path across aligned identity-mapped lanes, or packed lane buffers!
             var codes = new Plane[law.Roles.Count][];
             var identity = IsIdentityMapped(Wiring, runnable, out var sharedLen);
@@ -647,11 +740,11 @@ public sealed class CompiledPlan
             return (fastCount, 0);
         }
 
-        public (int Fast, int Deopt) SettlePacketConvertExact()
+        public (int Fast, int Deopt, int Ticks) SettlePacketConvertExact(int limit)
         {
             var law = (TransitionLaw)Wiring.Law;
             var runnable = Wiring.Runnable();
-            if (runnable.None) return (0, 0);
+            if (runnable.None) return (0, 0, limit > 0 ? 1 : 0);
 
             var srcBind = Wiring.Bindings[0];
             var dstBind = Wiring.Bindings[1];
@@ -666,15 +759,16 @@ public sealed class CompiledPlan
             {
                 var sp = Wiring.Reference(row, 0);
                 var dp = Wiring.Reference(row, 1);
-                if (!srcStore.IsLive(sp) || !dstStore.IsLive(dp)) return (0, runnable.Count);
+                if (!srcStore.IsLive(sp) || !dstStore.IsLive(dp)) return (0, runnable.Count, 0);
                 for (var k = 0; k < srcBind.Planes.Count; k++)
-                    if (!seenBits.Add(srcBind.Surface.Bit(sp, srcBind.Plane(k)))) return (0, runnable.Count);
+                    if (!seenBits.Add(srcBind.Surface.Bit(sp, srcBind.Plane(k)))) return (0, runnable.Count, 0);
                 for (var k = 0; k < dstBind.Planes.Count; k++)
-                    if (!seenBits.Add(dstBind.Surface.Bit(dp, dstBind.Plane(k)))) return (0, runnable.Count);
-                if (srcField.Read(srcStore, sp) is null || dstField.Read(dstStore, dp) is null) return (0, runnable.Count);
+                    if (!seenBits.Add(dstBind.Surface.Bit(dp, dstBind.Plane(k)))) return (0, runnable.Count, 0);
+                if (srcField.Read(srcStore, sp) is null || dstField.Read(dstStore, dp) is null) return (0, runnable.Count, 0);
             }
 
             var dstCap = law.Roles[1].Size - 1;
+            var maxPackets = 0;
             foreach (var row in runnable.Indexes())
             {
                 var sp = Wiring.Reference(row, 0);
@@ -682,17 +776,20 @@ public sealed class CompiledPlan
                 var s = srcField.Read(srcStore, sp)!.Value;
                 var d = dstField.Read(dstStore, dp)!.Value;
                 var room = dstCap - d;
-                // Packet-exact: p = min(s / take, room / give) — NEVER bulk (s * give) / take!
+                // Packet-exact: p = min(s / take, room / give, limit) — NEVER bulk (s * give) / take!
                 var bySrc = s / Take;
                 var byRoom = room / Give;
                 var packets = bySrc < byRoom ? bySrc : byRoom;
+                if (packets > limit) packets = limit;
+                if (packets > maxPackets) maxPackets = packets;
                 if (packets > 0)
                 {
                     srcField.Write(srcStore, sp, s - packets * Take);
                     dstField.Write(dstStore, dp, d + packets * Give);
                 }
             }
-            return (runnable.Count, 0);
+            var ticks = maxPackets < limit ? maxPackets + 1 : limit;
+            return (runnable.Count, 0, ticks);
         }
 
         private static bool IsIdentityMapped(Wiring wiring, Plane runnable, out int sharedLength)
@@ -714,6 +811,8 @@ public sealed class CompiledPlan
         {
             if (TryRecognizePacketConvert(t, out var take, out var give))
                 return new CompiledWiring(w, KernelKind.PacketConvert, take, give);
+            if (TryRecognizeBoundedMultiply(t, out var prodCap, out var ovfCap))
+                return new CompiledWiring(w, KernelKind.BoundedMultiply, prodCap, ovfCap);
             return new CompiledWiring(w, KernelKind.SimdBitSliced, 0, 0);
         }
         return new CompiledWiring(w, KernelKind.Canonical, 0, 0);
@@ -795,6 +894,7 @@ public sealed class CompiledPlan
             || !ReferenceEquals(w1.Bindings[0].Surface, st) || !ReferenceEquals(w1.Bindings[1].Surface, st)) return null;
         if (!w0.Bindings[0].Planes.SequenceEqual(w1.Bindings[1].Planes)
             || !w0.Bindings[1].Planes.SequenceEqual(w1.Bindings[0].Planes)) return null;
+        if (w0.Bindings[0].Planes.Intersect(w0.Bindings[1].Planes).Any()) return null;
         var shape = t0.Roles[0];
         var fx = new Field(shape, [.. w0.Bindings[0].Planes]);
         var fv = new Field(shape, [.. w0.Bindings[1].Planes]);
@@ -840,7 +940,8 @@ public sealed class CompiledPlan
                 {
                     for (var r = 0; r < 5; r++)
                         if (wirings[i].Reference(row, r) != pos) return (0, runnable.Count);
-                    if (a[i].Read(store, pos) is null || b[i].Read(store, pos) is null) return (0, runnable.Count);
+                    if (a[i].Read(store, pos) is null || b[i].Read(store, pos) is null || sum[i].Read(store, pos) is null)
+                        return (0, runnable.Count);
                 }
             }
 
@@ -857,7 +958,6 @@ public sealed class CompiledPlan
                 ulong cin = store.Read(cinPlane, pos) ? 1UL : 0UL;
                 // Native widening integer ADD (never wraps!): exact quotient -> cout, digits -> sum rungs & intermediate carries!
                 var total = va + vb + cin;
-                var rem = total;
                 ulong carry = cin;
                 for (var i = 0; i < k; i++)
                 {
@@ -906,7 +1006,34 @@ public sealed class CompiledPlan
             b[i] = new Field(t.Roles[1], [.. w.Bindings[1].Planes]);
             sum[i] = new Field(t.Roles[3], [.. w.Bindings[3].Planes]);
         }
-        return new RecognizedLadderAdder(wirings, store!, radix, a, b, sum, wirings[0].Bindings[2].Plane(0), wirings[k - 1].Bindings[4].Plane(0), carries);
+
+        // Guard against ulong overflow in va + vb + cin.
+        ulong modulus = 1;
+        for (var i = 0; i < k; i++)
+        {
+            if (modulus > (ulong.MaxValue / 2) / (ulong)radix) return null;
+            modulus *= (ulong)radix;
+        }
+
+        // Guard bit-disjointness: all written planes (sum rungs, carries, cout) must be pairwise distinct
+        // and disjoint from all read input planes (a, b, cin) so sequential writes never alias inputs.
+        var cinPlane = wirings[0].Bindings[2].Plane(0);
+        var coutPlane = wirings[k - 1].Bindings[4].Plane(0);
+        var readPlanes = new HashSet<int> { cinPlane };
+        for (var i = 0; i < k; i++)
+        {
+            foreach (var p in a[i].Planes) readPlanes.Add(p);
+            foreach (var p in b[i].Planes) readPlanes.Add(p);
+        }
+        var writtenPlanes = new HashSet<int>();
+        for (var i = 0; i < k; i++)
+            foreach (var p in sum[i].Planes)
+                if (!writtenPlanes.Add(p) || readPlanes.Contains(p)) return null;
+        foreach (var p in carries)
+            if (!writtenPlanes.Add(p) || readPlanes.Contains(p)) return null;
+        if (!writtenPlanes.Add(coutPlane) || readPlanes.Contains(coutPlane)) return null;
+
+        return new RecognizedLadderAdder(wirings, store!, radix, a, b, sum, cinPlane, coutPlane, carries);
     }
 
     private sealed class WiringSnapshot

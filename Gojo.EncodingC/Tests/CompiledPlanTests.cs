@@ -60,6 +60,7 @@ public sealed class CompiledPlanTests
         Assert.False(reportClean.Stale);
         Assert.Equal(Lanes, reportClean.FastLanes);
         Assert.Equal(0, reportClean.DeoptLanes);
+        Assert.Equal(canonClean.Engine.Tick, fastClean.Engine.Tick);
         for (var p = 0; p < canonClean.Store.PlaneCount; p++)
             Assert.Equal(canonClean.Store.Read(p), fastClean.Store.Read(p));
 
@@ -71,6 +72,7 @@ public sealed class CompiledPlanTests
         canonDirty.Engine.Step();
 
         Assert.False(reportDirty.UsedFastPath); // malformed lane triggered deopt guard!
+        Assert.Equal(canonDirty.Engine.Tick, fastDirty.Engine.Tick);
         for (var p = 0; p < canonDirty.Store.PlaneCount; p++)
             Assert.Equal(canonDirty.Store.Read(p), fastDirty.Store.Read(p));
     }
@@ -107,6 +109,7 @@ public sealed class CompiledPlanTests
 
         Assert.True(rep.UsedFastPath);
         Assert.Equal(2, rep.FastLanes);
+        Assert.Equal(restoredCanon.Tick, restoredFast.Tick);
         // Verify exact packet accounting: (2, 4) on lane 0 (NOT 5!) and (5, 9) on lane 1.
         Assert.Equal((2, 4), (src.Read(fastStores[0], 0), dst.Read(fastStores[0], 0)));
         Assert.Equal((5, 9), (src.Read(fastStores[0], 1), dst.Read(fastStores[0], 1)));
@@ -131,6 +134,7 @@ public sealed class CompiledPlanTests
         var gRep = gPlan.RunStep();
         gCanon.Step();
         Assert.False(gRep.UsedFastPath); // group contention guard deopted cleanly!
+        Assert.Equal(gCanon.Tick, gFast.Tick);
         for (var p = 0; p < gCanonStores[0].PlaneCount; p++)
             Assert.Equal(gCanonStores[0].Read(p), gFastStores[0].Read(p));
     }
@@ -178,6 +182,7 @@ public sealed class CompiledPlanTests
 
         Assert.True(rep.UsedFastPath);
         Assert.Equal(Lanes, rep.FastLanes);
+        Assert.Equal(canon.Engine.Tick, fast.Engine.Tick);
         for (var x = 0; x < 16; x++)
             for (var y = 0; y < 16; y++)
             {
@@ -188,6 +193,70 @@ public sealed class CompiledPlanTests
             }
         for (var p = 0; p < canon.Store.PlaneCount; p++)
             Assert.Equal(canon.Store.Read(p), fast.Store.Read(p));
+    }
+
+    /// <summary>Crystallized bounded multiply law recognized strictly from
+    /// Transport-restored table bits lowers to widening integer MUL with exact
+    /// overflow routed into T+ (never silent wraparound), preserves Tick
+    /// parity, and invalidates immediately on structural edit.</summary>
+    [Fact]
+    public void RecognizedBoundedMultiplyLowersToWideningMulWithOverflowToTPlusAndInvalidatesOnEdit()
+    {
+        const int MaxA = 3;
+        const int MaxB = 3;
+        const int MaxVal = 5;
+        const int MaxOvf = 4; // 5 + 4 = 9 = 3 * 3: exact overflow accounting!
+        const int Lanes = (MaxA + 1) * (MaxB + 1);
+
+        var store = new Store(0, Lanes);
+        var law = Multiplication.BoundedMultiply(MaxA, MaxB, MaxVal, MaxOvf);
+        var fa = new Field(law.Roles[0], [.. Enumerable.Range(0, law.Roles[0].Bits).Select(_ => store.AddPlane())]);
+        var fb = new Field(law.Roles[1], [.. Enumerable.Range(0, law.Roles[1].Bits).Select(_ => store.AddPlane())]);
+        var fv = new Field(law.Roles[2], [.. Enumerable.Range(0, law.Roles[2].Bits).Select(_ => store.AddPlane())]);
+        var fo = new Field(law.Roles[3], [.. Enumerable.Range(0, law.Roles[3].Bits).Select(_ => store.AddPlane())]);
+        for (var a = 0; a <= MaxA; a++)
+            for (var b = 0; b <= MaxB; b++)
+            {
+                var lane = a * (MaxB + 1) + b;
+                fa.Write(store, lane, a);
+                fb.Write(store, lane, b);
+            }
+
+        var w = Tension.Wire(law, [fa.On(store), fb.On(store), fv.On(store), fo.On(store)], Plane.Ones(Lanes));
+        var bytes = Transport.Save(new Engine().Add(w), store);
+        var (canon, canonStores) = Transport.Load(bytes);
+        var (fast, fastStores) = Transport.Load(bytes);
+
+        var plan = CompiledPlan.Compile(fast);
+        Assert.True(plan.RecognizedBoundedMultiply);
+        Assert.NotSame(law, fast.Wirings[0].Law);
+
+        var rep = plan.RunStep();
+        canon.Step();
+
+        Assert.True(rep.UsedFastPath);
+        Assert.Equal(Lanes, rep.FastLanes);
+        Assert.Equal(0, rep.DeoptLanes);
+        Assert.Equal(canon.Tick, fast.Tick);
+
+        for (var a = 0; a <= MaxA; a++)
+            for (var b = 0; b <= MaxB; b++)
+            {
+                var lane = a * (MaxB + 1) + b;
+                var val = fv.Read(fastStores[0], lane)!.Value;
+                var ovf = fo.Read(fastStores[0], lane)!.Value;
+                Assert.Equal(a * b, val + ovf); // exact conservation into value + T+, zero silent wrap!
+                Assert.True(val <= MaxVal);
+            }
+        for (var p = 0; p < canonStores[0].PlaneCount; p++)
+            Assert.Equal(canonStores[0].Read(p), fastStores[0].Read(p));
+
+        // Structural edit invalidates immediately and falls back safely.
+        fast.Wirings[0].Retire(0);
+        Assert.False(plan.IsCurrent);
+        var staleRep = plan.RunStep();
+        Assert.True(staleRep.Stale);
+        Assert.False(staleRep.UsedFastPath);
     }
 
     /// <summary>IsCurrent invalidation: any structural edit (adding a wiring,
@@ -276,6 +345,7 @@ public sealed class CompiledPlanTests
             var rep = plan.RunStep();
             canon.Engine.Step();
             Assert.True(rep.UsedFastPath);
+            Assert.Equal(canon.Engine.Tick, fast.Engine.Tick);
             var cx = Dynamics.DecodeSigned(canon.X.Read(canon.Store, 0)!.Value, MaxAbs);
             var cv = Dynamics.DecodeSigned(canon.V.Read(canon.Store, 0)!.Value, MaxAbs);
             var fx = Dynamics.DecodeSigned(fast.X.Read(fast.Store, 0)!.Value, MaxAbs);
