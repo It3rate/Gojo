@@ -434,8 +434,9 @@ in EncodingC:
 - **As a relation** over one position read twice, `B = 2B` admits only
   `B = 0`. It narrows to zero, or contradicts if zero is ruled out.
 - **As a transition run by `Settle`,** which steps until nothing changes, it
-  never goes quiet while `B` is nonzero. It doubles until the table admits
-  nothing more: "times two" becomes "as large as capacity allows".
+  is never met while `B` is nonzero. It doubles until the count has no room,
+  then holds, and goes quiet there: "times two" becomes "as large as capacity
+  allows", and quiet is not met (built, §16).
 - **As a transition run once per `Step`,** it doubles once per tick:
   5, 10, 20, 40.
 
@@ -1142,6 +1143,8 @@ Built on `claude/youthful-newton-wh29co` in `Gojo.EncodingC` (implemented):
 | Pairing, with receipts on request | `Flows.Sweep` | `ProductProcessTests` | X1, X6 |
 | Packets against booked orders | `Flows.Fulfill` (master) | `ProductProcessTests` | X1 |
 | The oscillator family, step order as structure, J at rung 0 | kick and drift as bindings of a balance | `OscillatorTests` | X8, X9, X10 |
+| A coasting multiplier with a material account | a booking (heap written over debt) gated by a clock, and `Tension.Deliver` | `CoastingMultiplierTests` | X5 |
+| Settling versus time: "double `B`" four ways | `Operations.Bind` over one balance | `SettlingVersusTimeTests` | X7 |
 
 **What building changed:**
 1. **A run that finds nothing holds.** The first version admitted no
@@ -1191,7 +1194,30 @@ Built on `claude/youthful-newton-wh29co` in `Gojo.EncodingC` (implemented):
     stay at the 3 × 4 scale. Larger products are what the numeric lift is for
     (§8).
 
-Not built: X3 to X5, X7 and X11 to X15, compiled plans and rungs.
+12. **Coasting forms a product as an obligation.** A clock of ticks counts
+    down into an elapsed count, conserving time. While it has a tick left, a
+    booking writes the rate over the supply's debt: heap bound in place, so
+    rate × time is held as debt, not as material. A delivery pays the debt a
+    unit a step from stock into the target. At every step the target plus the
+    debt is the rate times the ticks elapsed, so the intermediate state reads
+    as the product so far: delivered plus owed. A short supply leaves the rest
+    as debt, evidence of what could not be delivered rather than a smaller
+    product. The rate is a count the booking reads, so moving it moves the
+    product.
+13. **Forming a product is fast; settling its material is slow.** The clock
+    books `r·d` in `d` steps, and unit delivery takes `r·d` steps. A delivery
+    that read the rate would move a tick's worth at once, but its table passes
+    `Law.MaxBits` even at 3 × 3. Moving whole packets is what rungs are for
+    (§8). The fixture is 3 a tick for 3 ticks, from a stock of 10 or 7.
+14. **Quiet is not met.** Run by `Settle`, "double `B`" written over `B` goes
+    quiet at 40 from 5, where 80 has no room, with the balance on one position
+    unmet; only 0 is both quiet and met. Written into a new count, it settles in
+    one step with the balance met. `Settle` cannot tell the two kinds of quiet
+    apart, so a structure that needs "done" must read the relation: narrow it
+    against the settled state, or hold the fact with `Settling.Justify`. A
+    small "met" read beside a held binding would make this local.
+
+Not built: X3, X4 and X11 to X15, compiled plans and rungs.
 
 ## Appendix A: numeric checks
 
