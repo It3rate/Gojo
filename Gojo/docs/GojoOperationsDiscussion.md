@@ -204,6 +204,8 @@ dotnet test Gojo.EncodingC/Gojo.EncodingC.csproj --filter "FullyQualifiedName~Op
 
 ## Operations comparison checkpoint
 
+The follow-up review compares the three branch heads on saved size, matched execution and reusable construction. It also checks the later packet limit and tick fix in Neon. [Operations branch comparison](GojoOperationsBranchComparison.md)
+
 The comparison uses small declared domains so every witness can be inspected. The host authors the circuits, provides input observations or authorization, and advances time. The rows perform the support, application and material decisions.
 
 | Experiment on this branch | Observed result | Limit to carry into the comparison |
