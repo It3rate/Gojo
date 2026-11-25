@@ -49,7 +49,7 @@ public sealed class DialogueTests
     /// <summary>The one who asks: it knows which car it means, wants to know the
     /// answer, and keeps one ledger per answerer.</summary>
     private sealed record Asker(Engine Engine, Planes P, Field Referent, Port ReferentOut, Supports Value, Field Tally,
-        int[] AskSlots, Field Slot, Port[] AskOut, Field[] Heard, Field[] DontKnow, Field Grounded, Field[] OwesClarify, Port[] ClarifyOutPort);
+        int[] AskSlots, Field Slot, Port[] AskOut, Field[] Heard, Field[] DontKnow, Field Grounded, Field[] OwesClarify, Port[] ClarifyOutPort, Wiring[] Readings);
 
     /// <summary>One who answers: what "this" may be from where it stands, the
     /// answer, what it knows (a relation from car to answer), and its ledger.</summary>
@@ -94,7 +94,7 @@ public sealed class DialogueTests
     /// it sends is a position of its own, a slot holding one token, which one
     /// listener takes through a port: an utterance is a thing, so it has its
     /// own identity, and two listeners never take from one position.</para></summary>
-    private static Dialogue Ask(int meant, int answers, int[] visible, params int?[][] knowledge)
+    private static Dialogue Ask(int meant, int answers, int[] visible, int?[][] knowledge, ulong believed = ulong.MaxValue, int[]? firmness = null)
     {
         var answer = Shape.Binary(answers);
         var n = knowledge.Length;
@@ -103,6 +103,7 @@ public sealed class DialogueTests
         var referent = a.Code(Car);
         referent.Write(asker, 0, meant);
         var value = Supports.On(asker, a.Code(answer));
+        value.Restrict(0, believed);
         var tally = a.Count(answers);
         var (grounded, slot) = (a.Count(n), a.Count(1));
         var owesClarify = knowledge.Select(_ => a.Count(1)).ToArray();
@@ -150,24 +151,42 @@ public sealed class DialogueTests
                 bSlot, store.Publish([Clarify], [.. bSlot.Planes]), heardClarify, clarifyGrounded);
         }).ToArray();
 
+        var readings = new Wiring[n];
         for (var i = 0; i < n; i++)
         {
             var b = answerers[i];
+            readings[i] = Wire(Settling.SameWhen(answer), a.On(heard[i].Planes[0]), new Field(answer, [.. Enumerable.Range(0, answer.Bits)]).On(b.SaidOut), value.Variable);
             askerEngine
                 .Add(Tension.Route(one.On(b.OutboxPort), heard[i].On(asker), Here))
                 .Add(Tension.Route(one.On(b.DeclinedPort), dontKnow[i].On(asker), Here))
-                .Add(Wire(Settling.SameWhen(answer), a.On(heard[i].Planes[0]), new Field(answer, [.. Enumerable.Range(0, answer.Bits)]).On(b.SaidOut), value.Variable))
+                .Add(readings[i])
                 .Add(Tension.Route(one.On(b.ClarifyOutPort), owesClarify[i].On(asker), Here))
                 .Add(Link(Flows.Move(1, 1), [(owesClarify[i].On(asker), 0), (slot.On(asker), ClarifySlot(i))]));
         }
         askerEngine
             .Add(Tension.Wire(Counts.Tally(answers), [.. value.Planes.Select(p => a.On(p)), tally.On(asker)], Here));
-        foreach (var h in heard)
-            askerEngine.Add(Tension.Route(h.On(asker), grounded.On(asker), Here, a.On(tally.Planes[0]), a.Not(tally.Planes[1])));
+        if (firmness is not null)
+        {
+            // Of two answers that contradict, the less firm one's reading is
+            // retired, and the value reopens so the firmer one narrows it.
+            var firm = firmness.Select(f => { var c = a.Count(3); c.Write(asker, 0, f); return c; }).ToArray();
+            for (var i = 0; i < n; i++)
+            {
+                var (outranked, yields) = (a.Count(3), a.Bit());
+                askerEngine
+                    .Add(Tension.Wire(Counts.Shortfall(3, 3), [firm[i].On(asker), firm[1 - i].On(asker), outranked.On(asker)], Here))
+                    .Add(Tension.Wire(Settling.Justify(2), [a.Not(tally.Planes[0]), a.On(outranked.Planes[0]), a.On(yields)], Here))
+                    .Add(Wire(Settling.Latch(false), a.On(yields), new Binding(readings[i].Rows.Life, 0)))
+                    .Add(Wire(Flows.When(Settling.Forget(answers)), new Binding(asker, [.. value.Planes]), a.On(yields)));
+            }
+        }
+        for (var i = 0; i < n; i++)
+            askerEngine.Add(Link(Flows.When(Flows.Move(1, n), 3), [(heard[i].On(asker), 0), (grounded.On(asker), 0),
+                (a.On(tally.Planes[0]), 0), (a.Not(tally.Planes[1]), 0), (new Binding(readings[i].Rows.Life, 0), 0)]));
         foreach (var d in dontKnow) askerEngine.Add(Tension.Route(d.On(asker), grounded.On(asker), Here));
 
         return new Dialogue(new Asker(askerEngine, a, referent, referentOut, value, tally, [.. Enumerable.Range(0, n).Select(AskSlot)], slot, askOut,
-            heard, dontKnow, grounded, owesClarify, clarifyOutPort), answerers);
+            heard, dontKnow, grounded, owesClarify, clarifyOutPort, readings), answerers);
     }
 
     private static Wiring Wire(Law law, params Binding[] roles)
@@ -193,7 +212,7 @@ public sealed class DialogueTests
     [Fact]
     public void AQuestionIsADebtAndItsAnswerIsPressureUntilAcknowledged()
     {
-        var d = Ask(meant: 0, answers: 3, visible: [0], [John, Mary, Ann]);
+        var d = Ask(meant: 0, answers: 3, visible: [0], [[John, Mary, Ann]]);
         var (a, b) = (d.Asker, d.Answerers[0]);
         (int, int, int, int, int) Ledger() =>
             (d.Read(a.P, a.Slot, a.AskSlots[0]), d.Read(b.P, b.Owed), d.Read(b.P, b.Slot, Answerer.Outbox), d.Read(a.P, a.Heard[0]), d.Read(a.P, a.Grounded));
@@ -217,7 +236,7 @@ public sealed class DialogueTests
     [Fact]
     public void AmbiguityThatDoesNotReachTheAnswerIsKeptButNotRepaired()
     {
-        var d = Ask(meant: 2, answers: 3, visible: [0, 2], [John, Mary, John]);
+        var d = Ask(meant: 2, answers: 3, visible: [0, 2], [[John, Mary, John]]);
         var b = d.Answerers[0];
         d.Settle();
 
@@ -236,14 +255,14 @@ public sealed class DialogueTests
     [Fact]
     public void TheSameAmbiguityIsRepairedForOneQuestionAndNotForAnother()
     {
-        var whose = Ask(meant: 1, answers: 3, visible: [0, 1], [John, Mary, null]);
+        var whose = Ask(meant: 1, answers: 3, visible: [0, 1], [[John, Mary, null]]);
         whose.Settle();
         var (a, b) = (whose.Asker, whose.Answerers[0]);
         Assert.Equal(Mary, new Question(a.Value, 0).Answer);
         Assert.Equal((1, 1), (whose.Read(b.P, b.ClarifyGrounded), whose.Read(a.P, a.Grounded)));
         Assert.Equal(1, whose.Read(b.P, b.ReferentTally));
 
-        var red = Ask(meant: 1, answers: 2, visible: [0, 1], [Yes, Yes, null]);
+        var red = Ask(meant: 1, answers: 2, visible: [0, 1], [[Yes, Yes, null]]);
         red.Settle();
         var (ra, rb) = (red.Asker, red.Answerers[0]);
         Assert.Equal(Yes, new Question(ra.Value, 0).Answer);
@@ -259,7 +278,7 @@ public sealed class DialogueTests
     [Fact]
     public void AnAnswererWhoCannotKnowDeclinesAndTheQuestionStaysOpen()
     {
-        var d = Ask(meant: 2, answers: 3, visible: [2], [John, Mary, null]);
+        var d = Ask(meant: 2, answers: 3, visible: [2], [[John, Mary, null]]);
         d.Settle();
         var (a, b) = (d.Asker, d.Answerers[0]);
 
@@ -275,7 +294,7 @@ public sealed class DialogueTests
     [Fact]
     public void ConflictingAnswersLeaveAContradictionAndNeitherIsGrounded()
     {
-        var d = Ask(meant: 0, answers: 3, visible: [0], [John, null, null], [Mary, null, null]);
+        var d = Ask(meant: 0, answers: 3, visible: [0], [[John, null, null], [Mary, null, null]]);
         d.Settle();
         var a = d.Asker;
 
@@ -290,7 +309,7 @@ public sealed class DialogueTests
     [Fact]
     public void TheDialogueIsSmallAndSavesWithItsLedger()
     {
-        var d = Ask(meant: 1, answers: 3, visible: [0, 1], [John, Mary, null]);
+        var d = Ask(meant: 1, answers: 3, visible: [0, 1], [[John, Mary, null]]);
         var saved = Transport.SaveLocals(d.Engines);
         var rounds = d.Settle();
 
@@ -300,5 +319,68 @@ public sealed class DialogueTests
         for (var round = 0; round < rounds; round++)
             foreach (var (engine, _) in copies) engine.Step();
         Assert.Equal(Transport.SaveLocals(d.Engines), Transport.SaveLocals([.. copies.Select(c => c.Engine)]));
+    }
+
+    /// <summary>Grounding needs the answer itself, and an answer that agrees
+    /// (sol_tension's protocol cases). The asker already believes it is John's
+    /// car and asks to be sure: its value is settled before anything is said,
+    /// yet nothing is grounded until the answer arrives. An answer of Mary
+    /// against that belief contradicts it and is not grounded; it stays as
+    /// pressure.</summary>
+    [Fact]
+    public void AnAnswerIsGroundedOnlyOnceItArrivesAndOnlyIfItAgrees()
+    {
+        var sure = Ask(meant: 0, answers: 3, visible: [0], [[John, null, null]], believed: 1UL << John);
+        var a = sure.Asker;
+        foreach (var engine in sure.Engines) engine.Step();
+        Assert.Equal((1, 0, 0), (a.Tally.Read(a.P.Store, 0), sure.Read(a.P, a.Heard[0]), sure.Read(a.P, a.Grounded)));
+        sure.Settle();
+        Assert.Equal(1, sure.Read(a.P, a.Grounded));
+
+        var against = Ask(meant: 0, answers: 3, visible: [0], [[Mary, null, null]], believed: 1UL << John);
+        against.Settle();
+        Assert.Equal((0, 1, 0), (against.Read(against.Asker.P, against.Asker.Tally), against.Read(against.Asker.P, against.Asker.Heard[0]),
+            against.Read(against.Asker.P, against.Asker.Grounded)));
+    }
+
+    /// <summary>More questions over the same two cars (tension_neon's set). "Which
+    /// car is this?" asks for the referent itself, so its ambiguity always
+    /// reaches the answer: the answerer asks which one, and the answer is car 1.
+    /// "Is this Ann's car?" is no for both cars, so it is answered no at once and
+    /// the referent stays ambiguous.</summary>
+    [Fact]
+    public void WhichCarNeedsTheReferentAndIsItAnnsDoesNot()
+    {
+        var which = Ask(meant: 1, answers: 3, visible: [0, 1], [[0, 1, 2]]);
+        which.Settle();
+        Assert.Equal(1, new Question(which.Asker.Value, 0).Answer);
+        Assert.Equal(1, which.Read(which.Answerers[0].P, which.Answerers[0].ClarifyGrounded));
+
+        var anns = Ask(meant: 1, answers: 2, visible: [0, 1], [[No, No, Yes]]);
+        anns.Settle();
+        Assert.Equal(No, new Question(anns.Asker.Value, 0).Answer);
+        Assert.Equal((0, 2), (anns.Read(anns.Answerers[0].P, anns.Answerers[0].ClarifyGrounded), anns.Read(anns.Answerers[0].P, anns.Answerers[0].ReferentTally)));
+    }
+
+    /// <summary>Two answers that contradict, resolved by firmness (tension_neon's
+    /// case, built here from shortfall, justification, a latch and a gated
+    /// forget). The firmer answerer says John, the less firm Mary. The less firm
+    /// answer's reading is retired by a law, the asker's value reopens, and the
+    /// firmer answer alone settles it: John, grounded. The rejected answer is
+    /// never grounded; it stays as pressure. With equal firmness nothing is
+    /// retired and the contradiction stays.</summary>
+    [Fact]
+    public void AFirmerAnswerOutweighsAWeakerOneAndOnlyItIsGrounded()
+    {
+        var d = Ask(meant: 0, answers: 3, visible: [0], [[John, null, null], [Mary, null, null]], firmness: [3, 1]);
+        d.Settle();
+        var a = d.Asker;
+        Assert.Equal(John, new Question(a.Value, 0).Answer);
+        Assert.Equal((0, 1, 1), (d.Read(a.P, a.Heard[0]), d.Read(a.P, a.Heard[1]), d.Read(a.P, a.Grounded)));
+        Assert.Equal((true, false), (a.Readings[0].Live[0], a.Readings[1].Live[0]));
+
+        var tied = Ask(meant: 0, answers: 3, visible: [0], [[John, null, null], [Mary, null, null]], firmness: [2, 2]);
+        tied.Settle();
+        Assert.Equal((0, 0), (new Question(tied.Asker.Value, 0).Remaining, tied.Read(tied.Asker.P, tied.Asker.Grounded)));
     }
 }
