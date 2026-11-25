@@ -405,7 +405,7 @@ The user's three motivators for structural action, as tension:
 Splitting has a numeric cue from the closure work: where `Closure.Common`'s
 scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
 
-## 8. What is built, on branch `claude_tension`
+## 8. What is built, on branch `tension_synthesis`
 
 1. **Material tension** (`Tension`, `Field.Room`). Change from outside enters
    as `T+` or `T−`, never into the value. Absorbing, paying and cancelling are
@@ -602,6 +602,63 @@ of law tables in memory, and settles in four rounds (about 2.6 ms).
   retire the weaker answer; the dialogue leaves it visible instead.
 - **One question at a time.** A speaker's ledger holds one question; several
   open questions at once need slots allocated as they are asked.
+
+## 13. The synthesis of three branches
+
+Three branches built tension in parallel: `claude_tension`, `sol_tension` and
+`tension_neon`. `tension_synthesis` combines them, taking `claude_tension`'s
+primitive layer as the base, since the other two had converged onto it, and
+porting each other piece with its tests onto those primitives.
+
+**Base, from `claude_tension`:** `Counts` (sum, shortfall, tally, threshold,
+accumulate, streak); `Flows.When`, `Flows.Fulfill`, `Flows.Turn`;
+`Settling.Justify`, `Settling.Latch`, `Settling.SameWhen`; `Field.On`,
+`Field.Room`, `Supports.Possible`; the `Tension` site with `Route` and
+`Wire`; the shop and dialogue fixtures.
+
+**From `tension_neon`:**
+- `Settling.ValueGap`, the gap between open values.
+- `Counts.Rank` (neon's `RankCombine`), ranking tiers as a law.
+- Forks whose workspaces are one supposition, so a move between two stores
+  runs in a fork.
+- Forks that rebind other wirings' rows to their own copies, so a structure
+  that recruits or retires rows can fork.
+- Forks with isolated ports, taking from snapshots and never committing; the
+  shop's trial now runs this way instead of on a full copy.
+- Size guards on `When` and `Justify`.
+- In the dialogue: "which car" and polar questions, and contradicting answers
+  resolved by firmness, here built from `Shortfall`, `Justify`, `Latch` and a
+  gated `Forget`.
+
+**From `sol_tension`:**
+- The check of a law's table size before it is allocated (also on neon).
+- The receipt tally, folded into `Flows.Fulfill` as an optional fourth role
+  rather than a separate law.
+- Protocol cases in the dialogue: grounding only once the answer has arrived
+  and only if it agrees.
+- Its testing discipline: conservation asserted every round, and a saved
+  machine replaying the same rounds to the same bits.
+
+**Left out, and why:**
+- `tension_neon`'s `TensionDiagnostics`: reads computed in host code. Useful
+  for inspection in tests, not part of the encoding.
+- `tension_neon`'s `Unary.Offer` and `Unary.Draw`: they put arriving units
+  straight into the value, against Axiom 5, change entering as tension.
+- `tension_neon`'s change to aliasing in `Wiring`: it changes when two roles
+  count as sharing a bit, and needs its own review and test first.
+- Duplicates of the base: neon's `TrackGap`, `Sum`, `Streak`, `RecruitAt`,
+  `RetireAt` and `YieldByFirmness`, and sol's `TensionGap`, `MaterialTension`
+  and `InformationTension`; each is covered by `Counts`, `Justify` and
+  `Latch`.
+- `sol_tension`'s `Experiments` classes in the main assembly: their question
+  kinds and scopes are C# enums, meaning carried in code tags, and fixtures
+  belong in tests.
+
+**Still to do:** `tension_neon`'s small-law trees (`SupportFold`,
+`MismatchFold`) as the way to replace the shop's one large counting table
+before numeric support; and holding a law that is a plain function as a list
+of next states in memory, as saving already does, which would cut that table
+about a hundredfold without changing behaviour.
 
 ## Sources
 
