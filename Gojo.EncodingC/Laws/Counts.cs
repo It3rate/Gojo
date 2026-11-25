@@ -104,6 +104,19 @@ public static class Counts
         }
     }
 
+    /// <summary>Ranking, as a law (from tension_neon). Each tier of tension is
+    /// compared before and after a step as two bits, dropped and rose, such as
+    /// the two faces of a shortfall taken each way round. Of two tiers, the
+    /// higher decides when it changed at all, and otherwise the lower does: no
+    /// change in a lower tier outweighs any change in a higher one (strict
+    /// domination). Roles: higher dropped, higher rose, lower dropped, lower
+    /// rose (read), then dropped and rose overall (written). Chained, it ranks
+    /// any number of tiers; a step is admissible when overall it did not rise.</summary>
+    public static TransitionLaw Rank { get; } = TransitionLaw.FromFunction(
+        [Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit, Shape.Bit],
+        s => (s[0] | s[1]) != 0 ? [s[0], s[1], s[2], s[3], s[0], s[1]] : [s[0], s[1], s[2], s[3], s[2], s[3]],
+        new Accounting(true, new Unchanged(0), new Unchanged(1), new Unchanged(2), new Unchanged(3)));
+
     /// <summary>A law that reads its inputs and writes one result computed from
     /// them, leaving the inputs unchanged.</summary>
     private static TransitionLaw Reading(Shape[] inputs, Shape result, Func<int[], int> read) =>

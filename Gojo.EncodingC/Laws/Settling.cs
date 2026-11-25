@@ -67,6 +67,26 @@ public static class Settling
         }
     }
 
+    /// <summary>The gap between two open values, as a relation: roles left,
+    /// right and disagrees, where disagrees is 1 exactly when left and right
+    /// differ. Bound to open supports it narrows every way. Disjoint open
+    /// values settle disagrees to 1 without settling either; overlapping ones
+    /// leave it open. Holding disagrees to 0 narrows both to what they share,
+    /// and holding it to 1 against a settled right rules that value out of
+    /// left. This is the gap for values that are not counts, such as which car
+    /// a word refers to (from tension_neon).</summary>
+    public static RelationLaw ValueGap(Shape shape)
+    {
+        if ((long)shape.Size * shape.Size * 2 > Law.MaxBits) throw new ArgumentOutOfRangeException(nameof(shape), "The gap table would exceed Law.MaxBits.");
+        lock (ValueGaps)
+        {
+            if (ValueGaps.TryGetValue(shape, out var cached)) return cached;
+            return ValueGaps[shape] = RelationLaw.FromPredicate([shape, shape, Shape.Bit], t => t[2] == (t[0] != t[1] ? 1 : 0));
+        }
+    }
+
+    private static readonly Dictionary<Shape, RelationLaw> ValueGaps = [];
+
     /// <summary>Two values are the same once something has been heard. Roles:
     /// heard (a bit, read), a sample (read), the value (narrowed while heard is
     /// 1, left alone while it is 0). A listener reading a speaker's words

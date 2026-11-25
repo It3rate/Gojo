@@ -169,4 +169,79 @@ public sealed class CountsTests
         Assert.Throws<ArgumentOutOfRangeException>(() => Settling.Justify(11));
         Assert.Equal(2, Flows.When(Flows.Move(2, 2), gates: 2).Roles.Count - 2);
     }
+
+    /// <summary>Ranking tiers of tension as structure. Material debt and a goal
+    /// shortfall are each compared before and after a step by two shortfalls,
+    /// one each way round, giving dropped and rose. When debt fell, the step
+    /// lowered tension overall, though the goal rose. When debt held and the
+    /// goal rose, the step raised it: the goal decides only when debt did not
+    /// change.</summary>
+    [Fact]
+    public void AHigherTierDecidesAndALowerOneOnlyBreaksTies()
+    {
+        var store = new Store(0, 1);
+        Field Count() => new(Shape.Unary(3), store.AddPlane(), store.AddPlane(), store.AddPlane());
+        var (debtBefore, debtAfter, goalBefore, goalAfter) = (Count(), Count(), Count(), Count());
+        var (debtDown, debtUp, goalDown, goalUp) = (Count(), Count(), Count(), Count());
+        var (dropped, rose) = (store.AddPlane(), store.AddPlane());
+        var here = Plane.Of(1, 0);
+        Binding Bit(int plane) => new(store, plane);
+        var engine = new Engine()
+            .Add(Tension.Wire(Counts.Shortfall(3, 3), [debtAfter.On(store), debtBefore.On(store), debtDown.On(store)], here))
+            .Add(Tension.Wire(Counts.Shortfall(3, 3), [debtBefore.On(store), debtAfter.On(store), debtUp.On(store)], here))
+            .Add(Tension.Wire(Counts.Shortfall(3, 3), [goalAfter.On(store), goalBefore.On(store), goalDown.On(store)], here))
+            .Add(Tension.Wire(Counts.Shortfall(3, 3), [goalBefore.On(store), goalAfter.On(store), goalUp.On(store)], here))
+            .Add(Tension.Wire(Counts.Rank, [Bit(debtDown.Planes[0]), Bit(debtUp.Planes[0]), Bit(goalDown.Planes[0]), Bit(goalUp.Planes[0]), Bit(dropped), Bit(rose)], here));
+        (bool, bool) Judge(int debt0, int debt1, int goal0, int goal1)
+        {
+            debtBefore.Write(store, 0, debt0); debtAfter.Write(store, 0, debt1);
+            goalBefore.Write(store, 0, goal0); goalAfter.Write(store, 0, goal1);
+            Assert.NotNull(engine.Settle(8));
+            return (store.Read(dropped, 0), store.Read(rose, 0));
+        }
+
+        Assert.Equal((true, false), Judge(debt0: 2, debt1: 1, goal0: 0, goal1: 2));
+        Assert.Equal((false, true), Judge(debt0: 1, debt1: 1, goal0: 0, goal1: 1));
+        Assert.Equal((false, false), Judge(debt0: 1, debt1: 1, goal0: 1, goal1: 1));
+    }
+
+    /// <summary>The gap between two open values. Disjoint, it settles to
+    /// "disagree" while both stay open; overlapping, it stays open. Held to
+    /// "agree", both narrow to what they share. Held to "disagree" against a
+    /// settled value, that value is ruled out of the other.</summary>
+    [Fact]
+    public void TheGapBetweenOpenValuesNarrowsEveryWay()
+    {
+        (Supports, Supports, Supports, Wiring) Pair(ulong left, ulong right)
+        {
+            var store = new Store(0, 1);
+            var shape = Shape.Binary(4);
+            Supports Open(Shape s) => Supports.On(store, new Field(s, [.. Enumerable.Range(0, s.Bits).Select(_ => store.AddPlane())]));
+            var (l, r, gap) = (Open(shape), Open(shape), Open(Shape.Bit));
+            l.Restrict(0, left);
+            r.Restrict(0, right);
+            var wiring = new Wiring(Settling.ValueGap(shape), l.Variable, r.Variable, gap.Variable);
+            wiring.Add(0, 0, 0);
+            return (l, r, gap, wiring);
+        }
+        void Settle(Wiring w) { for (var i = 0; i < 4; i++) w.Apply(); }
+
+        var (l1, r1, g1, w1) = Pair(0b0011, 0b1100);
+        Settle(w1);
+        Assert.Equal((0b0011UL, 0b1100UL, 0b10UL), (l1.Values(0), r1.Values(0), g1.Values(0)));
+
+        var (_, _, g2, w2) = Pair(0b0011, 0b0110);
+        Settle(w2);
+        Assert.Equal(0b11UL, g2.Values(0));
+
+        var (l3, r3, g3, w3) = Pair(0b0111, 0b1110);
+        g3.Restrict(0, 0b01);
+        Settle(w3);
+        Assert.Equal((0b0110UL, 0b0110UL), (l3.Values(0), r3.Values(0)));
+
+        var (l4, _, g4, w4) = Pair(0b0111, 0b0010);
+        g4.Restrict(0, 0b10);
+        Settle(w4);
+        Assert.Equal(0b0101UL, l4.Values(0));
+    }
 }
