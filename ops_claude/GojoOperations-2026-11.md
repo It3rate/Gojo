@@ -1,1649 +1,1135 @@
-# Operations in Gojo: where adding, multiplying and boolean reads live
+# Operations in Gojo: what they are, where they live, how they run
 
-Status: **exploratory discussion**, 25 November 2026. Nothing here is built.
-Updated the same day with the first round of answers: see
-[Decided in discussion](#decided-in-discussion), and the new sections on
-[perturbable and locked rates](#76-perturbable-and-locked-rates) and
-[compiling crystallized operations](#77-compiling-crystallized-operations-to-native-units).
-
-This note gathers what the repository already holds about operations: the
-canonical prompt, the kernel, EncodingC, the Core 2 and Core4 notes, and the
-articles in the Drive folder. It adds a survey of how other cultures and
-machines have related magnitudes, then answers the questions that were asked
-and offers three approaches to discuss before any planning or code.
+Status: **exploratory discussion**, rewritten 25 November 2026. Nothing here is
+built. This version replaces the first draft (git `7d520953`). It folds in the
+first round of answers and the two notes written in parallel on the same
+question: [`ops_sol`](https://github.com/It3rate/Gojo/blob/ops_sol/Gojo/docs/GojoOperationsDiscussion.md)
+and [`ops_neon`](https://github.com/It3rate/Gojo/blob/ops_neon/Gojo/docs/GojoOperations-2026-11.md).
+Ideas taken from them are marked *(ops_sol)* or *(ops_neon)*.
 
 Statuses follow the canonical prompt (§1): *implemented*, *documented
-direction*, *exploratory* and *superseded*. Everything this note proposes is
-exploratory. Small numeric claims are checked by the script in
+direction*, *exploratory* and *superseded*. Everything proposed here is
+exploratory. Numeric claims are checked by the script in
 [Appendix A](#appendix-a-numeric-checks).
 
 ## Contents
 
-0. [The short version](#0-the-short-version)
-1. [What was asked](#1-what-was-asked)
-2. [What Gojo already holds about operations](#2-what-gojo-already-holds-about-operations)
-3. [Pushback: operations and numerics are one design](#3-pushback-operations-and-numerics-are-one-design)
-4. [How people and machines have related magnitudes](#4-how-people-and-machines-have-related-magnitudes)
-5. [Distinctions the survey forces](#5-distinctions-the-survey-forces)
-6. [The questions, answered](#6-the-questions-answered)
-7. [Three approaches](#7-three-approaches), with
-   [perturbable and locked rates](#76-perturbable-and-locked-rates) and
-   [compiling crystallized operations](#77-compiling-crystallized-operations-to-native-units)
-8. [Conflicts and gaps in the axioms](#8-conflicts-and-gaps-in-the-axioms)
-9. [Experiments that would decide](#9-experiments-that-would-decide)
-10. [Questions back](#10-questions-back)
+0. [Summary](#0-summary)
+1. [Operations are not four things](#1-operations-are-not-four-things)
+2. [What is combined decides how](#2-what-is-combined-decides-how)
+3. [Where operations live](#3-where-operations-live)
+4. [Direction: change B, make a new result, or both](#4-direction-change-b-make-a-new-result-or-both)
+5. [Multiplication](#5-multiplication)
+6. [Boolean reads](#6-boolean-reads)
+7. [A larger structure as the target](#7-a-larger-structure-as-the-target)
+8. [Rungs: numerics as the lift](#8-rungs-numerics-as-the-lift)
+9. [Oscillation, growth and other stacked operations](#9-oscillation-growth-and-other-stacked-operations)
+10. [How hard a value is to change](#10-how-hard-a-value-is-to-change)
+11. [Compiling crystallized operations](#11-compiling-crystallized-operations)
+12. [Three approaches, and how they combine](#12-three-approaches-and-how-they-combine)
+13. [Conflicts and gaps in the axioms](#13-conflicts-and-gaps-in-the-axioms)
+14. [Experiments that would decide](#14-experiments-that-would-decide)
+15. [Open questions](#15-open-questions)
 - [Appendix A: numeric checks](#appendix-a-numeric-checks)
-- [Appendix B: sources](#appendix-b-sources)
+- [Appendix B: evidence](#appendix-b-evidence)
+- [Appendix C: sources](#appendix-c-sources)
 
-## 0. The short version
+## 0. Summary
 
-1. **Pushback on the order.** The *shape* of an operation can be fixed before
-   numerics: which roles are read, which are written, what is conserved, what
-   may cross a port and how the result folds. Multiplication cannot be
-   finished first, because multiplication is the relation between rungs: a
-   count read in another count's unit. Core4 already wrote this down
-   ("Multiplication, Division, And Addition As Tick Attachments ... the same
-   mechanism as resolution"). Proposal: define every operation at rung 0
-   (presence, unary count, ODV word), with one lift rule between rungs. The
-   lift is the carry, a conserving rate whose weights are place values, and
-   the read of a coarser rung. Numerics then *is* the lift, not a later layer.
-2. **The first cut is what is being combined**, not "boolean, add,
-   multiply". Amounts merge. A rate scales an amount. Rates compose. Positions
-   differ, translate and average. Presences co-occur. Intensive quantities
-   (temperatures, densities, prices) never add.
-3. **Constants live on connections; variables meet at junctions.** An
-   operation with one live input (scale or shift by a constant) is a
-   calibration on a relation: Axiom 8's projection, EncodingC's `Convert`. An
-   operation with two live inputs is a junction, a law over three or more roles
-   inside one local structure. Fix one input of a junction and it becomes a
-   connection.
-4. **Conservation decides what can cross a port.** Sums with positive weights
-   (moves, branches, merges, constant-rate conversions, carries) can be taken
-   through a port. A product of two live counts has no preserved sum, so it
-   crosses only as a read. Any material it has comes from one of three places:
-   a refinement (the same stuff counted in a finer unit), a supply drained at a
-   rate, or new structure such as an area.
-5. **Direction is three reads, not a flag.** The *relation* is symmetric and
-   reads in every direction, so division and the open zero fall out of it. The
-   *process* is directional per step: a rate is read, an amount moves, and a
-   later arrival sweeps along what is already there. The *fold* is the
-   collapse that is read. Which roles a law writes already shows direction in
-   EncodingC.
-6. **The path is part of the product.** The total `a·b` does not depend on the
-   path. Its split into "A swept along B" and "B swept along A" records the
-   order of arrivals: `Δ(ab) = aΔb + bΔa + ΔaΔb`. The two-triangle picture in
-   the Drive articles is the fine limit. At unit resolution the corners are
-   real (they are the Pythagorean gnomons); in a fine read they vanish, as in
-   dual numbers.
-7. **Boolean operations are the bit rung of the same arithmetic.** AND is
-   co-presence, which is both the product and the carry of a one-bit sum. OR is
-   a clamped one-bit sum and XOR a wrapped one: Axiom 7's two boundaries. NOT
-   is room within a scope. The 16 functions are routings of the four
-   co-presence quadrants; kept with the unselected quadrants as residue, they
-   conserve. On unary counts, AND of the planes is the minimum and OR the
-   maximum, not the product.
-8. **Scaling a whole structure is a frame edit.** Retarget its unit landmark
-   (one `TickRef`) and every read follows while internal ratios stay put;
-   translation retargets the origin. Structure × structure is a sweep, every
-   part with every part. A structure can also be the multiplier: its count
-   gates repetition, as in a frieze.
-9. **Sine and cosine belong to one family.** Two accumulators each feed a
-   coarsened copy of the other into themselves, with a feedback sign `m`.
-   `m = +1` restores (sine and cosine), `m = 0` coasts (rate × time is
-   multiplication) and `m = −1` reinforces (exponential and logarithm). CORDIC
-   has used exactly this parameter since 1971. At rung 0, the oscillator's
-   phase is a two-bit Gray cycle of `Sides` events, turned back and crossed:
-   Axiom 10's quarter-turn action, built from two alternating flips.
-10. **Update order carries meaning.** Stepped in declared order, the integer
-    oscillator closes its orbit exactly (Minsky); stepped together, it spirals
-    out. EncodingC does not save the step kind with a machine. For oscillators
-    it has to be structure.
-11. **Solving by lowering tension is ancient.** Egyptian false position,
-    Chinese excess and deficit, Babylonian iterated roots and the steelyard all
-    settle rather than solve.
-12. **Three approaches:** A, junction tables (the scribe); B, coupled flows
-    (the machine); C, frames and rungs (the geometer). Recommendation: C for
-    what multiplication *means*, B for how it *runs*, and A as the crystallized
-    form learning produces, built first at rung 0 in EncodingC.
+1. **Operations are not four things.** Old Babylonian scribes used different
+   words for joining onto something that keeps its identity and for heaping
+   two things into a named result. They also distinguished tearing out from
+   comparing, and they had four kinds of "multiplication". Division was a
+   question rather than an operation, and the natural half of a thing was
+   broken off rather than computed. The distinctions Gojo needs were kept by
+   the oldest algebra we can read (§1).
+2. **Every operation has three reads.** The *relation* is what holds; it is
+   symmetric and reads in every direction. The *process* is what happens; it
+   is directional per step and accountable for material. The *fold* is what is
+   read off afterwards, with its loss (§1).
+3. **What is combined decides how.** Amounts merge. A rate scales an amount,
+   and rates compose. Positions differ, translate and average. Presences
+   co-occur. Intensive quantities such as temperatures never add (§2).
+4. **There are four places for an operation.**
+   - A *view* reinterprets planes and copies nothing.
+   - A *connection* carries an operation with one live input: a calibration.
+   - A *junction* carries two or more live inputs.
+   - A *local structure* has state, carries or scope.
+
+   Bond graphs draw the same line: a fixed transformer is a connection, and a
+   modulated one is a junction (§3).
+5. **Only conserving sums cross a port as takes.** A product of two live
+   counts crosses as a read. Any material it has comes from a refinement, a
+   supply or a new structure (§3, §4).
+6. **Direction is visible in which roles a law writes.** An in-place process
+   run in a workspace is a new result whose gap is the delta; committing makes
+   it in place. Settling one event and advancing time are different acts:
+   doubling `B` in place under a settle runs to capacity, and `B = 2B` as a
+   relation narrows `B` to zero (§4).
+7. **Multiplication has at least seven constructions,** and the order in
+   which the operands arrived can be kept or forgotten. Which of the two
+   happens is chosen by the question being asked, not by the operation (§5).
+8. **Boolean reads are the bit rung of the same arithmetic.** AND is
+   co-presence and also the carry of a one-bit sum. OR is a clamped sum and
+   XOR a wrapped one. On unary planes, though, AND is the minimum, not the
+   product (§6).
+9. **A larger structure as the target is a focus with an exposed promise.**
+   Scaling it can be a frame edit, a broadcast over selected lanes, a
+   replication, a product with another structure, or a use of the structure
+   as the multiplier (§7).
+10. **Numerics is the lift between rungs.** It is a carry whose weights are
+    place values and a coarse read that leaves residue. Radix is a semantic
+    choice, not a packing one (§8).
+11. **Oscillation, coasting and growth are one family,** varying by order and
+    by the sign of feedback. At rung 0 the oscillator is the orientation
+    note's generator J driven by time. The order of a step decides whether its
+    orbit closes (§9).
+12. **How hard a value is to change follows from where it sits** (§10).
+13. **Crystallized operations compile to native units** under a contract:
+    exact or declared, with overflow visible, recognized by content and
+    guarded lane by lane (§11).
+14. **Recommendation:** frames for meaning, flows for running, relations for
+    reading backward, and tables as the crystallized form (§12).
 
 ### Decided in discussion
 
-The first round of answers, 25 November 2026. They are the user's current
-direction, held loosely ("not certain of any of these"), and they take
-precedence over the proposals elsewhere in this note.
+The first round of answers, 25 November 2026. They are held loosely ("not
+certain of any of these") and take precedence over the proposals below.
 
-- **Relation, process and fold are three distinct reads.** Agreed (§6.3).
-- **Path provenance is an option, chosen by the question.** Whether a product
-  keeps the record of which operand swept which depends on what is being asked,
-  not on how the product was made. Sometimes the record matters. Sometimes it
-  should be hidden, by crystallizing the product into a new direction that
-  ignores its provenance (§5.6).
-- **Coupling rates are perturbable unless known to be constant.** A rate known
-  to be constant should be physically hard to perturb, by where it sits: not in
-  a workspace, in a locked table, or by position (§7.6).
+- **Relation, process and fold are three distinct reads.**
+- **Path provenance is an option, chosen by the question.** Sometimes the
+  record of which operand swept which matters. Sometimes it should be hidden
+  by crystallizing the product into a new direction that ignores its
+  provenance.
+- **Coupling rates are perturbable unless known to be constant.** A constant
+  should be physically hard to perturb: kept out of the workspace, put in a
+  locked table, or fixed by position.
 - **Crystallized operations must stay compilable to native units.** An
-  operation can always be done structurally. Once it is crystallized, a CPU,
-  GPU or FPGA instruction, or a math library, may stand in where that is
-  relevant and faster. This must not drive the design, but all else being
-  equal, the design should not make it impossible (§7.7).
-- **Next:** a comparison with other engines.
+  operation can always be done structurally. Once it is crystallized, CPU, GPU
+  or FPGA instructions and math libraries may stand in where relevant. This
+  must not drive the design, but the design must not make it impossible.
 
-## 1. What was asked
+### What changed in this rewrite
 
-- Operations should be settled before numerics, which are mostly partitions
-  on carriers and rungs of carriers. Push back if that order is wrong.
-- Boolean, additive and multiplicative operations come first; sine, cosine and
-  other stacked operations later. All should be physically intuitive. Sine and
-  cosine, for example, as something accelerating toward a landmark, passing
-  it, and being pulled back from the other side.
-- Do these operations live on connections, or are they structure of their own?
-- What would it mean for a larger structure to be the target of a
-  multiplication?
-- Should `A * B` modify `B`, always create a new result, or both, with the
-  direction encoded?
-- Look at Core4 and the earlier iterations, the Drive articles, and outside
-  sources, including old ways of multiplying, Renaissance, Greek and especially
-  Babylonian mathematics. Suggest two or three approaches.
+- **Adopted from ops_sol:**
+  - Høyrup's vocabulary of operations;
+  - Descartes's `ab/u` and the BM 13901 strip;
+  - the `B = 2B` trap and the plate example;
+  - Shannon's polarity and three conformance cases;
+  - the "dispatch in disguise" test for tables;
+  - giving a result an output role first;
+  - the three-readings experiment.
+- **Adopted from ops_neon:**
+  - the grade wall and the table wall;
+  - bond graphs and signal-flow graphs;
+  - views as a place;
+  - the workspace/fork unification and the selected-lane broadcast;
+  - the shadow energy, the first-order sibling and the backward read;
+  - two compilation regimes, per-lane guards and canonical-only saving.
+- **Corrected:**
+  - The quarter-turn generator is the orientation note's J, now cited and
+    reconciled with the oscillator (§9.1).
+  - Babylonian quarter-square multiplication is speculative, not attested.
+  - Radix is semantic, not a packing default.
+  - Tables are small, composed or learned, never wide and filled from a
+    predicate.
+  - The narrative history is cut to an evidence table (Appendix B).
+- **Checked:** the Babylonian vocabulary, against the first chapter of
+  Høyrup's *Algebra in Cuneiform* (2017).
 
-"Here" is read as EncodingC, the current pre-numeric substrate, with the
-kernel as the numeric reference. Where the two differ, both are described.
+## 1. Operations are not four things
 
-## 2. What Gojo already holds about operations
+### 1.1 What the scribes kept apart
 
-### 2.1 The canonical prompt (documented direction; parts implemented in the kernel)
+Jens Høyrup's conformal translations render each Akkadian or Sumerian term the
+same way every time it appears. Read that way, Old Babylonian calculation uses
+distinct operations where modern notation writes `+`, `−`, `×` and `÷`. The
+quotations below are from the first chapter of *Algebra in Cuneiform* (2017).
 
-- **Axiom 7, local accounting.** `P(C,k) -> P(C,0)` wraps (modulo) and
-  `P(C,k) -> P(C,k)` clamps. Crossed excess becomes tension that a route may
-  absorb: `P(C0,k) -> P(C1,0)` groups source tension by `k` and routes it
-  `k:1`. That route is a carry, and a carry is division by `k` with a
-  remainder. `P(C0,k) -> P(C1,m)` is a ratio projection.
-- **Axiom 8, projection.** `S(C0,a,b) -> S(C1,c,d)` reads `x` as
-  `c + (x−a)(d−c)/(b−a)`, with source residue. With `a = c = 0` and `b = 1`
-  this is multiplication by `d`, and it is a read, not a mutation.
-- **Axiom 10, unit algebra.** `u^2 = u -> u`. Compatible addition may
-  collapse; incompatible addition stays as several participations. Products
-  preserve repeated and orthogonal operands, and opposed-flow terms stay
-  visible until a fold. Complex arithmetic is a selected interpretation with
-  the cycle `PF -> PI -> NF -> NI -> PF`. Dimensional commutativity belongs to
-  a local read, and authored order is kept. Quotients keep `n = q·d + r`.
-- **Axiom 11.** A segment pushed orthogonal is a sheet or rectangle
-  possibility: the product of measures.
-- **§6.** Powers are repeated product participation, not a `Power` tag.
-  Recurrence is output fed back into a later input.
-- **§8.1.** Equations are relation-shaped reads, never a canonical symbolic
-  tree.
-- **§8.2.** Boolean-style operations are low-resolution reads over occupied
-  participation through an explicit scope. A bare boundary is not an operand,
-  and a shared coordinate is not an intersection.
-- **§9.6.** No real numbers and no math library: counting, comparing and
-  looking up a table are enough. Primitives are coarse, and finer resolution
-  comes from ladders of coarse rungs.
-- **§9.7.** One is presence. "A product is presence of both. `1 · 1 = 1` and
-  `x · 0 = 0`."
-
-### 2.2 The kernel (implemented)
-
-- **The output's shape chooses the operation.** In `Relation.Operations.cs`, an
-  operation port `(portA -> portB) -> output` projects each operand through its
-  own exposed port. A point output then sums and a frame output multiplies.
-  Factors with several components expand into a product lattice instead of
-  folding early.
-- **Equations** (`Gojo/Equations`): affine frames; weighted sums and products
-  by the same rule; sequences, fanout, polynomials and powers
-  (`EquationPower`, `EquationPolynomial`); resolution search.
-- **Structures:** `RepeatSurface` (controller, transition, feedback,
-  timeline); `OperationClaim` and `OperationFollow` (a mismatch, and a response
-  route); `ComplexFrame` with contour and powers; `UnitQuotient`,
-  `QuantityQuotient`, `ResolutionLadder`, `BoundedQuantity.Operations` and
-  `UnitShape.Subdivision`.
-- **The Operation Shape Catalog** (`Gojo/axioms/Gojo Operation Shape
-  Catalog.md`) lists the affordances. `P(C0,1) -> P(C1,0)` is a one-for-one
-  accumulator and `P(C0,k) -> P(C1,0)` a base or counter carry. There are ratio
-  projections, and `(S0 -> S1.P1)^2` is square-like repeated basis scaling.
-  Product terms with opposed faces stay as four contributions (`AC`, `AD`,
-  `BC`, `BD`) until a fold.
-
-### 2.3 EncodingC (implemented; the project is exploratory)
-
-- **An operation is a table.** A relation law admits tuples; a transition law
-  maps a whole state to its successor. AND, OR and XOR as relations over
-  `(a, b, out)` are the bytes `87`, `E1` and `69`. Adding two unary counts of
-  0 to 3 into a sum of 0 to 6 is one relation of 112 bits with 16 admitted
-  tuples, and the same table subtracts
-  (`AddingTwoCountsIsOneRelationThatAlsoSubtracts`).
-- **Direction is visible in the table.** A role the law never changes is read;
-  a role it changes is written. Writing through a port is allowed only when a
-  preserved sum with positive weights covers the role, that is, as a move.
-- **Rates are laws.** `Flows.Convert(take, give, …)` preserves
-  `give·source + take·target`, and `Move` is the 1:1 case. A carry is
-  `Convert(3, 1, …)` from a fine count to a coarse one, and the weights of its
-  preserved sum are the place values (`WhatDoesNotFitIsCarriedUpARung`).
-- **A gate multiplies a flow by a bit.** The passage law reduces to
-  `S' = S & (~C | T)` and `T' = T | (S & C)`.
-- **Where, and which way.** ODV words hold V, D and O. The three orientation
-  moves, Reverse, FaceFlip and Reorient, each undo themselves, and each is the
-  composition of the other two. `Sides` says where something is against a
-  landmark, with events such as toward, away, crossed and turned back.
-- **Two kinds of step.** A step either runs in declared order or is taken
-  together (`StepTogether`), with every row reading the state before the step.
-  The README notes that the kind of step is chosen by whoever steps the machine
-  and is not saved with it.
-- **Tension (a proposal).** `T+` and `T−` as unary fields, with absorb, draw
-  and cancel as one existing law, `Flows.Move`, into a value or its room view
-  ([tension note](../Gojo/docs/GojoTension-2026-11.md)).
-
-### 2.4 Core 2 and Core4 (superseded design memory)
-
-These are historical, but they already tried most of the ideas below, and
-their conclusions are worth keeping in view.
-
-- **Core4, append and smear.** Unpartitioned with unpartitioned appends
-  magnitude, which reads as addition. Partitioned with partitioned smears the
-  partner over the host's partitions, which reads as multiplication. The
-  operation came from the operands' structure, not from a tag.
-- **Core4, preserve before collapse.** When two composite branches meet, four
-  contributions are kept: aligned `AA` and `BB`, orthogonal `AB` and `BA`. The
-  note calls this "more primitive than a complex-number or directed-segment
-  formula."
-- **Core4, operations are carrier layers.** There is one transform per layer.
-  Multiplication, division, addition, resolution, approximation, inversion,
-  filtering, wrapping, clamping and oscillation differ only by the value in the
-  transform slot, the tension the layer exposes, and the routes attached to
-  it. Under "Multiplication, Division, And Addition As Tick Attachments", zero
-  attachment is additive, positive is expansive grouping, negative is
-  contractive partitioning, and repeated positive is power-like: "the same
-  mechanism as resolution."
-- **Core4, oscillation from routed boundaries.** A velocity carrier is
-  incremented or decremented by which side of the position is active, and
-  "distance or later-layer magnitude affects how strongly velocity changes".
-  This is the sine example from the request.
-- **Core4, boolean filters** as pass and block routes over support, with `not`
-  only inside an explicit scope.
-- **The Core 2 axioms** (the "Axioms" document in the Drive folder):
-  - F10: in `x * t`, `x` is state and `t` is transform data, so
-    multiplication is asymmetric. F11: `S_a ∘ S_b = S_(ab)`.
-  - P5: `A * B @ P` is a pinning event with a recessive host `A`, a dominant
-    applied `B` and a host-relative position `P`.
-  - P22 to P24: opposed resolution on one carrier yields a directed segment,
-    same-direction resolution yields reinforcement, and orthogonal resolution
-    yields a corner or an area.
-  - R1 to R21: a repetition has a carrier, an index and a continuation law.
-    Inverse continuation, such as roots and logarithms, is generally not unique
-    and keeps a candidate set.
-  - M4: signed digits are allowed on a resolution ladder.
-  - Part IX: boolean results on directed segments need a frame; complement is
-    relative to the frame; truth is evaluated on constant partitions; results
-    are co-present families of pieces.
-
-### 2.5 The Drive articles (the author's own model)
-
-- **Pin, Accumulate, and Merge.** An operation has stages. *Pinning* selects
-  operands and joins them minimally into one frame. *Merging* combines them.
-  *Folding* collapses the result back to the original dimensions. Addition
-  merges each portion with a mapped portion (1:1). Multiplication maps each
-  portion with the whole other operand (1:ALL); done portion by portion it
-  reads as repeated addition, and done continuously as stretching. Three
-  glasses, three cases and three gallons of wine have distinct measurement
-  physics. "Joining versus merging is a very key idea in mathematics." Two
-  directed segments multiplied give four quadrants with two diagonals: one
-  reads comparison (dot-like), the other combined strength (cross-like). And
-  "2·3 = 7 tells us where the tension is."
-- **Multiplying AI Segments.** The squeegee: dragging it down the window
-  merges the width into the height. A partial state is a segment from what is
-  done to the goal. Multiplication is "the full merging of two values, A into
-  B, and B into A". One-dimensional multiplication always loses the operands.
-  The natural shape is two triangles: `4 × 3 = ½·3·4 + ½·4·3`.
-- **Boolean Arithmetic with Segments.** Two segments and a zero give five
-  points of interest and four areas: none, both, A only and B only. The 16
-  boolean functions select any combination of them. Comparison and addition go
-  position to position (relative); ratios and multiplication go from zero
-  (absolute). False is not nothing. A nonlinear number line is an ordinary line
-  with an operation applied. Two measures can merge by yes or no, one for one,
-  scaled, or repeated.
-- **Sequential Math, Parallel Math.** "Down 1, across 1" is an L in sequence
-  and a diagonal in parallel, and "there is nothing in math that distinguishes
-  an 'L' from a '\\'". `3×3×3` in sequence runs three speeds one after another;
-  `3^3` in parallel runs them at once, each rung tracking the one before.
-- **Complexity Spaces** (the "Numbers" document). Two-element operations are
-  grouping, appending, scaling and boolean. In scaling, the second value acts
-  "more as a director than 'contributor of stuff'". Boolean operations are
-  one-shot. Stretching to twice the size in slow motion has "a 'larger'
-  pressure at each moment until the equation is resolved. The 'times two' is
-  slowly used up as it approaches equilibrium." Multiplying values of the same
-  type happens over time; values of different types give an area.
-- **Mathematics Without Infinity.** Every number has a unit, a range, ticks
-  and a repetition limit. A product of two below-resolution terms is pruned, as
-  `ε² = 0` is in dual numbers.
-- **Segment Math and Symmetry** and **The Mathematical Interpretation of
-  Symmetric Numbers.** Four units (identity, negate value, negate line, and
-  both) are the four symmetry actions. The 16 four-bit patterns filter to seven
-  frieze patterns. A three-dot pattern is a contradiction that forces a
-  translation: a new dimension. The unit is a landmark that positive values
-  move toward.
-
-### 2.6 What these say together
-
-Across five iterations the same moves keep returning:
-
-- **The operation comes from shape, not a tag:** Core4's append and smear, and
-  the kernel's output grade.
-- **Product terms stay unfolded until a read folds them:** Core4's
-  `AA/AB/BA/BB`, the catalog's `AC/AD/BC/BD`, and the articles' four quadrants.
-- **Multiplication and resolution are one mechanism:** Core4's tick
-  attachments and Core 2's ladders.
-- **Oscillation is routed response at a landmark:** Core4 §20 and the request.
-- **Boolean reads are routing over partitions in a scope:** Core4's filters,
-  Core 2 Part IX, and §8.2.
-
-What has never been settled is the dynamics: where product material comes
-from, which operand is read and which is moved, and how the path of an
-operation is kept.
-
-## 3. Pushback: operations and numerics are one design
-
-This is partly agreed and partly not.
-
-**Agreed:** the *shape* of an operation can be fixed now, before numerics:
-which roles are read and which written, what is conserved, what may cross a
-port, how the result folds, and where tension goes. These are rung-0
-questions, and presence bits, unary counts and ODV words can answer them.
-
-**Not agreed:** multiplication cannot be finished first, because
-multiplication is the relation between rungs. `3 × 4` is "three ticks of a
-carrier whose tick is four." The partitions and rungs named in the request are
-where it lives:
-
-- Core4 reached the same conclusion and wrote it down: "Multiplication,
-  Division, And Addition As Tick Attachments ... This is the same mechanism as
-  resolution."
-- The carry that lets addition work at any resolution is itself a
-  multiplication by a constant. EncodingC's carry is `Convert(3, 1)`, and its
-  weights are place values.
-- Descartes needed a unit segment before the product of two lines could be a
-  line (§4.6). Without the unit it is a rectangle (Euclid; Axiom 11).
-- Davydov's curriculum teaches multiplication through measuring with an
-  intermediate unit (§4.7).
-
-**Proposal.** Define every operation at rung 0 and give it one lift rule.
-Rung 0 is presence, a unary count and an ODV word. The lift is the carry
-between rungs (a conserving `Convert` whose weights are place values) and the
-read of a coarser rung (division by the base, with the finer rung as residue).
-Numerics is then not a later layer; it is the lift. This keeps the prompt's §9.6 ("finer
-resolution is built from ladders of coarse rungs"), and it lets operations be
-tested at rung 0 now.
-
-**A second pushback: the first cut is what is being combined**, not boolean,
-add and multiply (§5.1). The request's own "relative for addition, absolute
-for multiplication" is exactly Stevens's interval and ratio scales. "Three
-glasses, three cases, three gallons" is Vergnaud's distinction between a count,
-a rate and a measure. Settle the kinds of participant first, and the
-operations follow from them.
-
-## 4. How people and machines have related magnitudes
-
-Each subsection says what was done, then what it teaches Gojo.
-
-### 4.1 Egypt: doubling, and guessing then scaling
-
-*What was done.*
-- **Multiplying by doubling and adding.** For `41 × 59`, double 59 to get
-  118, 236, 472, 944 and 1888. Since `41 = 32 + 8 + 1`, add
-  `1888 + 472 + 59 = 2419`.
-- **False position** for the linear "aha" problems (Rhind 24 to 29). Problem
-  24 asks for a heap that, with a seventh of itself, makes 19. Guess 7: seven
-  and its seventh make 8. Scale the guess by 19/8 to get 16⅝.
-
-*What it teaches Gojo.*
-- **Doubling gives the operands different roles.** The multiplicand is
-  material copied up a ladder of doublings, a ladder of rungs with factor 2.
-  The multiplier is a pattern of gates that selects which rungs to add.
-  Multiplication is gated accumulation over a binary ladder, and division runs
-  the same ladder the other way.
-- **False position is solving by lowering tension.** Choose a convenient
-  guess, read its error against the goal, and correct in proportion. This is
-  the prompt's §5.4 "set the prediction to the goal and let the flow, with its error,
-  change … until the difference is small", three and a half thousand years
-  early.
-
-### 4.2 Mesopotamia: relative magnitude, tables, and moving area
-
-*What was done.*
-- **Floating place value.** Sexagesimal digits carried no marker for the
-  absolute power of sixty; context supplied the scale. A number was a ratio to
-  an unstated unit until something calibrated it.
-- **Division as multiplication by a reciprocal,** read from standard tables.
-  The standard table lists regular numbers, those with no prime factor other
-  than 2, 3 and 5, whose reciprocals terminate in base sixty. Irregular
-  divisors gave approximations. There were multiplication tables as well.
-- **Cut-and-paste geometry** (Høyrup's reading of the Old Babylonian texts).
-  Quadratic problems were solved by imagining rectangles and squares being
-  cut, moved and completed. Each step is visibly correct, "naive" in Høyrup's
-  sense, and the basic tools were cut-and-paste, quadratic completion and
-  change of scale.
-- **Roots to remarkable precision.** YBC 7289 gives √2 as 1;24,51,10, about
-  1.41421296. How it was found is not known. An iterative procedure appears on
-  another tablet, and the averaging method later named after Heron is a
-  plausible route. Tables of squares existed; the common claim that they were
-  used for quarter-square multiplication is speculative.
-
-*What it teaches Gojo.*
-- **Relative first, calibrated later.** A floating number is an uncalibrated
-  connection (§4.6 of the prompt): it claims a ratio and no scale.
-- **A table read backward is division.** A reciprocal table is a crystallized
-  relation, used in whichever direction is needed, and EncodingC's relations
-  already work this way. Regularity is a property of the rung base: what base
-  sixty represents exactly, and what leaves residue.
-- **Algebra as conserving rearrangement.** Cut-and-paste moves area without
-  creating or destroying it, and "completing the square" adds the missing
-  corner, the same `ΔaΔb` term as in §5.6. Solving by moving material inside a
-  fixed total is settlement, not symbolic manipulation.
-
-### 4.3 Greece: number, magnitude and ratio
-
-*What was done.*
-- **Multiplication is defined asymmetrically.** Euclid VII, definition 15: "A
-  number is said to multiply a number when the latter is added as many times as
-  there are units in the former." That the order does not matter is a theorem
-  (VII.16), not part of the definition.
-- **Ratio without division.** Euclid V, definition 5, attributed to Eudoxus:
-  magnitudes are in the same ratio when, for any equimultiples taken, the
-  multiples of the first and third alike exceed, are alike equal to, or alike
-  fall short of the multiples of the second and fourth. Equality of ratio is
-  defined by repetition and comparison alone.
-- **Products of magnitudes raise dimension.** The product of two lines is a
-  rectangle (the geometric algebra of Book II), and nothing brings it back to a
-  line. Ratios compose through a shared middle term: equiangular
-  parallelograms are in the ratio compounded of the ratios of their sides
-  (VI.23), and `A:B` compounded with `B:C` is `A:C`.
-- **The gnomon** (II, definition 2) is the L-shaped region that grows a figure
-  into a similar, larger one. Adding the odd numbers 1, 3, 5, … builds the
-  squares.
-- **The lever.** Archimedes (*On the Equilibrium of Planes* I.6–7):
-  magnitudes balance at distances reciprocally proportional to their weights.
-  A steelyard reads a weight by sliding its counterpoise until the beam is
-  level, finding a proportion by settling.
-
-*What it teaches Gojo.*
-- **Eudoxus is Gojo-native.** Ratio defined by counting repetitions and
-  comparing them, with no division and no number, is exactly the primitive set
-  of the prompt's §9.6 and of EncodingC: unary counts and mask tests.
-- **Asymmetric roles are old and legitimate.** The definition is directional;
-  the symmetry of the total is something proved.
-- **Without a unit, a product is new structure.** Two extents make an area,
-  not a longer extent.
-- **Composition through a shared middle is relation composition,** the
-  kernel's `A -> B -> C`.
-- **Equilibrium computes.** The lever finds a ratio by lowering a torque to
-  zero.
-
-### 4.4 China: two colours of rod, and excess and deficit
-
-*What was done.*
-- **Signed rods.** On the counting board, red rods were positive and black
-  ones negative; other conventions are also reported. The eighth chapter of the
-  *Nine Chapters*, *fangcheng*, solves systems by column operations on the
-  board, with sign rules in the text: in the subtraction step, "subtract
-  same-signed numbers, add different-signed numbers".
-- **Excess and deficit** (*ying buzu*, chapter 7), the method later called
-  double false position. In problem 1, people buy an item together: if each
-  pays 8 there are 3 left over, and if each pays 7 they are 4 short. The rule
-  combines the two trials crosswise: people `= (3 + 4)/(8 − 7) = 7`, price
-  `= (8·4 + 7·3)/(8 − 7) = 53`.
-
-*What it teaches Gojo.*
-- **Two faces kept apart.** Red and black rods on one board are the tension
-  note's `T+` and `T−`: never netted by default, and combined only by a stated
-  rule.
-- **The answer is a weighted crossing of an overshoot and an undershoot.**
-  Excess and deficit settles by two-faced tension: one trial overshoots,
-  another undershoots, and the true value lies where the residues cancel. That
-  is interpolation between residues, the same shape as Axiom 8's projection
-  with residue.
-- **A board is a store, and a procedure is a law on it.** The board does not
-  know what the rods mean.
-
-### 4.5 India: place value, debts, and sine by second differences
-
-*What was done.*
-- **Signed quantities and zero.** Brahmagupta (628) gave rules for fortunes,
-  debts and zero.
-- **Sine by second differences.** Āryabhaṭa (499) tabulated 24 sine
-  differences at intervals of 3°45′, with radius 3438, starting from 225. The
-  rule in Gaṇitapāda 12, as Nīlakaṇṭha and modern commentators read it, makes
-  each second difference proportional to minus the sine already reached: each
-  difference is the one before it, diminished by the sine so far divided by
-  225.
-- **Lattice multiplication.** A close relative, *kapāṭa-sandhi*, appears in a
-  commentary on the twelfth-century *Līlāvatī*. The method travelled through
-  the Arabic world (*shabakh*) to Italy (*gelosia*: the Treviso arithmetic of
-  1478, Pacioli in 1494), and Napier's bones (1617) rest on the same
-  principle.
-
-*What it teaches Gojo.*
-- **This is the request's sine.** A quantity whose change of change is
-  proportional to minus itself is something pulled toward a landmark in
-  proportion to its distance. Āryabhaṭa computed sines with addition and one
-  coupling rate.
-- **The coupling is a calibration.** Run literally, a coupling of 1/225 is
-  slightly too strong, and the table peaks at 3375 instead of 3438. With the
-  exact discrete coupling, `2 − 2cos 3°45′ ≈ 1/233.5`, it peaks at 3440
-  (Appendix A). The rate between the two accumulators is the numeric question,
-  and it is a question about rungs.
-- **A lattice is the product of two ladders.** Every digit of one number meets
-  every digit of the other in a cell, an orthogonal grid: the product of
-  measures. Each cell's place is the sum of its row's place and its column's,
-  and the diagonals of equal place are summed with carries. Long
-  multiplication multiplies digits while it adds rung indices.
-
-### 4.6 Early modern Europe: multiplication as motion, angle and projection
-
-*What was done.*
-- **Prosthaphaeresis.** Before logarithms, astronomers multiplied with
-  `cos a · cos b = ½[cos(a − b) + cos(a + b)]`: look up two angles, add and
-  subtract them, and look up the results. The identity is credited to Ibn Yunus
-  and to Werner (about 1510). Wittich brought the method to Tycho Brahe's
-  observatory around 1580, Ursus published it in 1588, and Bürgi proved and
-  used the identities.
-- **Napier's kinematic logarithm (1614).** Two points move along two lines.
-  One moves at constant speed. The other starts at the same speed and slows in
-  proportion to the distance it still has to go. The distance covered by the
-  first is the logarithm of the distance remaining for the second.
-- **Bürgi's progress tables (1620)** pair an arithmetic progression with a
-  geometric one. The slide rule (Oughtred, 1620s) multiplies by adding lengths
-  on two logarithmic scales.
-- **Descartes's unit (1637):** "Let AB be taken as unity, and let it be
-  required to multiply BD by BC. I have only to join the points A and C, and
-  draw DE parallel to CA; then BE is the product of BD and BC."
-- **Leibniz's product rule (1675):** `d(xy) = x dy + y dx`.
-
-*What it teaches Gojo.*
-- **Multiplication is addition one rung up:** on angles in prosthaphaeresis,
-  on logarithmic scales in Napier and the slide rule. The Drive article says
-  the same thing: a nonlinear number line is an ordinary line with an operation
-  applied.
-- **Napier's picture is the "times two" that is used up as it approaches
-  equilibrium.** A gap closing in proportion to itself spends a ratio, and the
-  constant-speed point counts how much ratio has been spent. The time a
-  proportional relaxation takes is a logarithm.
-- **Descartes's product is a Gojo projection:** a frame calibrated by a unit
-  and read at another point (Axiom 8). The product needs the unit, and the unit
-  is a choice.
-- **Leibniz's rule is the squeegee.** Each term is one operand swept along the
-  other (§5.6).
-
-### 4.7 What children have to learn
-
-Research on how children come to multiply separates situations that the single
-symbol `×` merges.
-
-- **Vergnaud's multiplicative conceptual field** (1983, 1988) distinguishes an
-  *isomorphism of measures*, a direct proportion between two measure spaces
-  (bags to apples at four apples per bag), from a *product of measures* (area,
-  combinations) and from multiple proportion. Multiplication, division, ratio,
-  proportion and linear functions belong to one field.
-- **Davydov and Elkonin** introduce number, and later multiplication, through
-  measurement with an intermediate unit. Count the large units, count the
-  small units in one large unit, and the product counts small units.
-  Multiplication is a change of unit.
-- **Confrey's splitting conjecture** (1994) treats splitting, making several
-  equal versions of an original at once, as a primitive independent of
-  counting. Steffe's counting schemes are the contrasting view.
-- **Fischbein and colleagues** (1985) found repeated addition to be the
-  intuitive model children fall back on, along with its misconception that
-  multiplying always makes things bigger.
-- **Stevens's scales of measurement** (1946). Interval scales admit
-  differences; ratio scales, with a fixed zero, admit ratios and only
-  similarity transformations.
-
-*What it teaches Gojo.* `×` covers at least three structures that should be
-kept apart:
-- a **rate applied to an amount**, which is directional: the rate is read and
-  the amount flows;
-- a **product of measures**, which is new orthogonal structure;
-- a **change of unit, or a split**, which is a move between rungs.
-
-Stevens's scales are the request's "relative versus absolute": addition needs
-only differences, while multiplication needs a zero.
-
-### 4.8 Machines that compute by moving
-
-- **Gears and differentials.** A gear pair is a ratio, and a train composes
-  ratios: the compound ratio in metal. A differential adds or subtracts
-  rotations. (`Gojo.GearShapeLadder` already exists in this repository.)
-- **The ball-and-disk integrator** (James Thomson, 1876; used by Kelvin and in
-  Bush's differential analyzer, 1931). A disk turns with the independent
-  variable, and a ball's distance from the centre is the integrand. The output
-  turns at a rate proportional to that distance: at the centre it does not
-  turn, and past the centre it reverses. Multiplication here is a *setting* (a
-  position) modulating a *flow* (a rotation), accumulated. Two integrators
-  feeding each other solve `x'' = −x`, which gives sine and cosine.
-- **The digital differential analyzer.** Northrop engineers (1949–50)
-  replaced the wheel-and-disk integrators with accumulators whose overflow
-  pulses are the output rate: the carry is the signal. Two such integrators in a
-  loop draw circular arcs. Bresenham's line algorithm (1965) uses the same
-  error accumulator.
-- **CORDIC.** Volder (1959) rotated vectors with shifts and adds. Walther
-  (1971) unified the elementary functions with one parameter, `m`:
-
-  ```text
-  x' = x − m·σ·y·2^−i      m = 1 circular, 0 linear, −1 hyperbolic
-  y' = y + σ·x·2^−i
-  z' = z − σ·e_i            e_i = atan 2^−i, 2^−i, atanh 2^−i
-  ```
-
-  Rotation mode drives `z` to zero by its sign; vectoring mode drives `y` to
-  zero. The linear mode multiplies (`y + x·z`) and divides (`z + y/x`). The
-  circular mode gives sine, cosine and arctangent, and the hyperbolic mode
-  exponentials, logarithms and square roots. At each rung `i`, the only
-  decision is a sign.
-- **Minsky's circle algorithm** (HAKMEM item 149, 1972):
-  `x ← x − ε·y`, then `y ← y + ε·x` using the *new* `x`. The orbits are closed
-  ellipses, stable for |ε| < 2, and each half step is exactly invertible in
-  integers, so integer orbits cycle. Updating both from the old values spirals
-  outward.
-- **Kelvin's tide predictor** (1870s) summed sinusoids with pulleys and a wire:
-  addition of oscillations as a physical sum of lengths.
-
-### 4.9 Computing with physical encodings
-
-- **Stochastic computing** (Gaines and Poppelbaum in the 1960s; surveyed by
-  Alaghi, Qian and Hayes, 2018). A value is the fraction of ones in a stream.
-  AND of two independent streams multiplies them, and a multiplexer gives
-  scaled addition. Precision costs stream length.
-- **Race logic** (Madhavan, Sherwood and Strukov, 2014). A value is an arrival
-  time. The first arrival (OR) is the minimum, the last (AND) is the maximum,
-  and a delay adds a constant. The operators are MIN, MAX, ADD-CONSTANT and
-  INHIBIT. Later work frames this as tropical algebra, in which
-  "multiplication" is the addition of delays.
-- **Signed digits and online arithmetic.** Avizienis (1961): with digits from
-  {−1, 0, 1}, a carry travels only to the neighbouring digit, so addition time
-  does not grow with length. Ercegovac's online arithmetic works from the most
-  significant digit first, with a fixed delay. ODV words are signed digits with
-  an undetectable value.
-- **Conservative logic** (Fredkin and Toffoli, 1982). Gates are invertible and
-  conserve the number of ones; the Fredkin gate, a controlled swap, is
-  universal. In the billiard-ball model, logic is balls deflecting one another,
-  so AND is two balls meeting.
-- **Chemical reaction networks.** Counts that react without regard to rate
-  compute exactly the semilinear functions (Chen, Doty and Soloveichik,
-  2012/2014, extending Angluin, Aspnes and Eisenstat): sums, constant
-  multiples, minimums, maximums and comparisons, piece by piece. The product of
-  two input counts is not among them. Computing it needs sequencing.
-- **Interaction nets and linear logic.** In Lafont's interaction nets (1990),
-  computation is local rewriting where two agents meet at their principal
-  ports. They build on Girard's linear logic (1987), in which a resource is
-  used exactly once unless structure explicitly copies or discards it.
-- **Laws of Form** (Spencer-Brown, 1969). The law of calling, "the value of a
-  call made again is the value of the call" (condensation), and the law of
-  crossing, "the value of a crossing made again is not the value of the
-  crossing" (cancellation).
-
-### 4.10 The lessons in one table
-
-| Source | Mechanism | Lesson for Gojo |
+| Term | What it does | Gojo counterpart |
 | --- | --- | --- |
-| Egyptian doubling | Gated sum over a ladder of doublings | The multiplier gates; the multiplicand is material |
-| False position (Egypt, Babylon) | Guess, read the error, scale | Solve by lowering tension against a goal |
-| Babylonian floating place value | Ratio with the scale left to context | Relative magnitude is an uncalibrated read |
-| Reciprocal tables | Division as multiplication, read from a table | A relation read backward; regularity belongs to the base |
-| Cut-and-paste | Rearranging area at a fixed total | Algebra as conserving settlement; completion adds the corner |
-| Eudoxus | Ratio by equimultiples and comparison | Counting and comparing suffice for proportion |
-| Euclid VII def 15 | Defined asymmetrically, proved symmetric | Roles are real even when the total commutes |
-| Compound ratio | `A:B` with `B:C` gives `A:C` | Multiplication of ratios is relation composition |
-| Gnomon | Odd numbers build squares | The incremental product: row, column and corner |
-| Lever, steelyard | Balance at reciprocal distances | Equilibrium as computation |
-| Red and black rods | Two signed faces on one board | Keep `T+` and `T−` apart |
-| Excess and deficit | Interpolate an overshoot and an undershoot | Two-faced residues settle the answer |
-| Āryabhaṭa | Second difference proportional to minus the sine | Sine as coupled accumulation; the coupling is a calibration |
-| Lattice, Napier's bones | Grid of digit products, diagonals by place | Product of ladders; rung indices add |
-| Prosthaphaeresis, Napier, slide rule | Multiply by adding angles or logarithms | Multiplication is addition one rung up |
-| Descartes | Product through a unit and parallels | Multiplication is projection through a calibrated frame |
-| Leibniz | `d(xy) = x dy + y dx` | Each operand sweeps along the other |
-| Vergnaud, Davydov, Confrey | Rate on amount, product of measures, change of unit, splitting | `×` names several structures |
-| Ball-and-disk, DDA | A position modulates a flow, accumulated | Multiplication as setting × flow over time |
-| CORDIC | One iteration with `m ∈ {1, 0, −1}` | One mechanism for sine, multiplication and exponential |
-| Minsky | Update with the new value | Step order decides whether the orbit closes |
-| Stochastic and race logic | AND is a product, or a maximum | The encoding decides what an act means |
-| Signed digits, online arithmetic | Local carries, most significant digit first | Coarse-first arithmetic over ODV-like digits |
-| Conservative logic | Invertible gates that conserve ones | Logic as conserving routing |
-| Chemical reaction networks | Rate-independent reactions compute semilinear functions | Products of two counts need sequencing |
-| Laws of Form | Calling and crossing | Clamp and wrap are the two primitive boundaries |
+| **Heap** (*kamārum*) | "to heap a and b". It can add abstract numbers, even "an area and … a length". The result has a name, "the heap", or "the things heaped" when the parts stay distinct | a relation, or a transition that writes only a new result |
+| **Join** (*waṣābum*) | "to join j to S". It is concrete and "conserves the identity of S": "S invariably remains in place, whereas, if necessary, j is moved around". The sum has no name, because "the operation creates nothing new" | an in-place process: a move into `S` |
+| **Tear out** (*nasāḫum*) | "from B to tear out a", the inverse of joining. It presupposes that `a` is part of `B`; what is left is "the remainder" | an in-place draw |
+| **Compare** | "A over B, d goes beyond", for magnitudes where "the smaller is not part of the larger". The excess is "the going-beyond" | a two-faced gap; `Sides.Compare` |
+| **Steps of** (*a.rá*) | the multiplication tables, abstract number by abstract number. "Going" `n` times gives `n·s`, or `A + n·s` when joined | a small table at one rung; repetition |
+| **Raise** (*našûm*) | first used for volumes, raising a base of standard thickness 1 to a real height, then for "all determinations of a concrete magnitude by multiplication". The area of an existing rectangle is found by raising | a rate on a connection; the read of an existing construction |
+| **Make hold** (*šutakūlum*) | "to construct a rectangle contained by the sides p and q", which "is no real multiplication". The texts give the area right after: "make 5 and 5 hold: 25" | pairing: new orthogonal structure (Axiom 11), then a read |
+| **Repeat** (*eṣēpum*) | a "physical" doubling or `n`-doubling, with `n` at most 9, such as doubling a right triangle into a rectangle | replication of a structure |
+| **Division** | "no separate operation … only a problem type": "what should I raise to d in order to get P?" Look up igi `d`, then raise. igi `n` is "detached": one of `n` equal parts | a relation read backward; a reciprocal table; splitting |
+| **Break** (*ḫepûm*) | to bisect into the "natural" half (*bāmtum*, "moiety"), such as the radius of a diameter. Other halves are found by raising to 30′ | a structural midpoint, as against a calibrated ratio |
+| **Confrontation** (*mitḫartum*) | a square seen as a configuration, its value "identified with the length of the side". "By Q, s is equal" gives the root. There were tables of squares and of "equals" | a raised grade read back at its side |
 
-## 5. Distinctions the survey forces
+Four contrasts carry straight into Gojo:
 
-### 5.1 What is being combined
+- **Join versus heap is process versus relation.** One changes something in
+  place; the other produces a named result and leaves the parts readable.
+- **Make hold versus raise is construction versus read.** One builds new
+  structure; the other measures a structure that already exists.
+- **Steps of versus raise is a table versus a rate.** One combines abstract
+  numbers; the other applies a coefficient to a concrete magnitude.
+- **Break versus raise to 30′ is a landmark versus a calibration.**
 
-| Kind | Example | Combines with its own kind by | In Gojo today |
-| --- | --- | --- | --- |
-| Presence | a bit, an event, an occupied site | co-presence (AND), clamped union (OR), parity (XOR) | planes; prompt §9.7 |
-| Amount (extensive) | units, charge, apples | merging: a conserving move | unary counts, `Move` |
-| Position | a site against a landmark | difference gives an extent; an extent translates it; weights average it | locations, `Sides`, ODV |
-| Rate (intensive) | price, speed, gear ratio, valve opening | composition (rates multiply) | ratio projection, `Convert` |
-| Frame | an origin and a unit; a rung | composition through a shared middle frame | projection, unit shape, `ResolutionOf` |
+### 1.2 Three reads of every operation
+
+| Read | What it is | In EncodingC |
+| --- | --- | --- |
+| **Relation** | what holds among the roles. Symmetric; read in any direction; never moves anything | a relation law narrowing open supports |
+| **Process** | what happens, step by step. Directional; it says which role is read and which written, what is conserved, and when | a transition law, with accounting promises |
+| **Fold** | what is read off, at which resolution, with which loss | the role that is read, a coarse relation, a crystallized carrier |
+
+Earlier iterations point the same way:
+
+- Euclid VII, definition 15, defines multiplication asymmetrically: the
+  latter number "is added as many times as there are units in the former".
+  That the order does not matter is a theorem (VII.16), not part of the
+  definition.
+- Core 2 (axiom F10) reads `x * t` as a state and a transform, and its
+  pinning event `A * B @ P` has a recessive host and a dominant applied
+  operand.
+- The older Numerics library paired `Calculate`, `CalculateInverse` and
+  `CalculateInPlace` *(ops_neon)*.
+- The current kernel separates projection, a read, from live output and
+  settlement, which are mutation.
+
+**Give a result an output role first** *(ops_sol)*. The output can be left
+open, read through a view, materialized independently, or bound to a receiver.
+A new carrier for every calculation would make live operations expensive and
+blur observation with state.
+
+## 2. What is combined decides how
+
+| Kind | Example | Combines with its own kind by |
+| --- | --- | --- |
+| Presence | a bit, an event, an occupied site | co-presence (AND), clamped union (OR), parity (XOR) |
+| Amount (extensive) | units, charge, apples | merging: a conserving move |
+| Position | a site against a landmark | difference gives an extent; an extent translates it; weights average it |
+| Rate (intensive) | price, speed, gear ratio, valve opening | composition: rates multiply |
+| Frame | an origin and a unit; a rung | composition through a shared middle frame |
 
 Across kinds:
-
 - **A rate on an amount gives an amount** on the rate's target carrier. The
-  rate is read and the amount moves: price × quantity, speed × time, a gear on
-  a shaft.
-- **An amount with an amount on another carrier gives pairs:** an area, a set
-  of combinations, a new orthogonal structure (Axiom 11).
-- **A position plus an extent gives a position;** a position minus a position
-  gives an extent. `Sides` already reads these as "a step moves the side" and
-  "the sides agree".
-- **Intensive plus intensive is not defined.** Two cups of water at 50 and 30
-  degrees do not make 80. Combine the extensives the intensives are ratios of
-  (heat and mass), then read the ratio again: a weighted average. This is the
-  blend in the Drive article's red and blue water.
+  rate is read and the amount moves.
+- **Two amounts on different carriers give pairs:** an area or a set of
+  combinations.
+- **A position minus a position gives an extent,** and a position plus an
+  extent gives a position.
+- **Intensive plus intensive is not defined.** Two cups at 50 and 30 degrees
+  do not make 80. Combine the extensives they are ratios of, then read the
+  ratio again: a weighted average.
 
-### 5.2 Constants live on connections; variables meet at junctions
+**Relative and absolute.** The Drive article's "position to position for
+addition, from zero for multiplication" is Stevens's distinction between
+interval and ratio scales. Differences need no zero; ratios do.
 
-- **One live input.** Scaling or shifting by a constant is a calibration, and
-  it sits on a relation between two frames. In the kernel this is
-  `S(C0,0,k) -> S(C1,0,m)`, which multiplies by `m/k`, or a general
-  `S(C0,a,b) -> S(C1,c,d)`, which carries a scale and a shift. In EncodingC it
-  is `Convert(take, give)` between two counts.
-- **Two live inputs.** `a·b` with both live needs three participants. That is a
-  junction: a law over at least three roles inside one local structure. In
-  EncodingC it is a row of a relation or transition over `(a, b, c)`; in the
-  kernel it is an operation port, `(portA -> portB) -> output`.
-- **Partial application.** A junction with one role fixed to a constant is a
-  connection: the slide rule with its slide clamped, a gear of fixed ratio. A
-  connection whose ratio is read live from another carrier is a junction: a
-  variable gear, a valve set by another structure.
+**The grade wall** *(ops_neon)*. Viète's law of homogeneity (1591) let only
+like grades add, and made multiplication climb grades. Descartes broke it by
+choosing a unit segment and constructing the fourth proportional, `1 : a ::
+b : x`. A same-grade product therefore hides a fourth participant, the unit.
+His product is `BE = BD·BC/AB`, and `ab` and `ab/u` remain different evidence
+even when `u = 1` *(ops_sol)*. The Babylonian "projection" (*waṣītum*,
+something that "sticks out") does the reverse in BM 13901, problem 1. A side
+given a width of 1 becomes area that can be joined to a square *(ops_sol)*.
 
-The canonical prompt (§4.6) already treats calibration this way: allowed and
-never required, absorbed into a sender or receiver, or standing alone as a
-small structure.
+**What children have to learn.** Research on how children come to multiply
+separates the same situations:
+- Vergnaud separates the *isomorphism of measures* (a rate between two measure
+  spaces) from the *product of measures* (area, combinations).
+- Davydov and Elkonin teach multiplication as measuring with an intermediate
+  unit, which is a change of unit.
+- Confrey treats splitting, making several equal versions of an original at
+  once, as a primitive independent of counting. The Babylonian igi "detaches"
+  one of `n` equal parts in the same way.
 
-### 5.3 Conservation: which operations can be moves
+## 3. Where operations live
 
-- **What can be taken through a port:** preserved sums with positive weights.
-  That covers moves, branches, merges, constant-rate conversions (`Convert`)
-  and carries. All are additive in a calibrated measure.
-- **What cannot:** a product of two live counts. No preserved sum relates `a`,
-  `b` and `a·b`, so a law that computes `c = a·b` from two counts is not a move.
-  The result on chemical reaction networks corroborates this: rate-independent
-  reactions can stably add, scale by constants, take minimums and compare, but
-  they cannot stably compute the product of two inputs.
-- **Each multiplicative situation still has an accountable realization:**
-  1. *Refinement:* the same material counted in a finer unit. Three bags of
-     four become twelve apples by running a carry downward. This is Axiom 9's
-     material refinement, and it conserves.
-  2. *Supplied flow:* a rate is read, and a supply drains into a target for a
-     duration. This conserves overall, and any shortfall is draw tension on the
-     target.
-  3. *Pairing:* new orthogonal structure, an area or a set of combinations.
-     It is a frame, not material.
+| Place | What belongs there | In EncodingC | Physical criterion |
+| --- | --- | --- | --- |
+| **View** | a reinterpretation of existing planes, copying nothing | `Flipped`: NOT, room, `Odv.Reoriented` | another reading of the same participation *(ops_neon)* |
+| **Connection** | one live input: a rate, a shift, a coarse read | `Move`, `Convert(take, give)` | a bond-graph transformer; a scalar gain in a signal-flow graph |
+| **Junction** | two or more live inputs and no state of its own | a row of a law over three or more roles: AND, a sum, a times table, the passage law (source, gate, target) | a *modulated* transformer; a bond-graph 0- or 1-junction |
+| **Local structure** | state, carries, several sites, a schedule | ladders, multipliers, oscillators, spatial Boolean settlement | a mechanism with its own ports that settles on its own |
 
-  The only thing not allowed is creating units from nothing.
-- **A second invariant: reversibility.** A shear, `y += f(x)` with `x` only
-  read, is exactly invertible even though it conserves no sum. Minsky's integer
-  oscillator cycles because each half step is a shear. Conservative logic holds
-  both invariants at once. Gojo has a word for the first invariant
-  (accounting), but not yet for the second.
+- **Bond graphs** (Paynter, 1961) are the crispest physical criterion *(ops_neon)*.
+  - A transformer has a fixed modulus, `e₁ = m·e₂` and `f₂ = m·f₁`. It is a
+    two-port connection that conserves power, which is exactly `Convert`.
+  - A modulated transformer reads its modulus from a third, information port:
+    variable multiplication.
+  - A 0-junction shares one effort and sums the flows; a 1-junction shares one
+    flow and sums the efforts. Junctions are where variables meet.
+  - Which side sets effort and which sets flow (causality) is assigned after
+    the relation is written. That is the process read of an acausal relation.
+- **Signal-flow graphs** build every linear relation from copying, discarding,
+  adding, zero and scalar gains, with their mirror images (Bonchi, Sobociński
+  and Zanasi) *(ops_neon)*. Copying is a read fanned out, adding is a merge,
+  and a gain is a connection. A product of two signals lies outside that
+  linear core: it is where junctions begin.
+- **Ports carry only reads and conserving takes** (implemented in EncodingC). A
+  take must sit in a preserved sum with positive weights, which covers moves,
+  branches, merges, constant-rate conversions and carries. A product of two
+  live counts has no preserved sum, so it crosses as a read and happens inside
+  the receiver. Chemical reaction networks corroborate this: rate-independent
+  reactions stably compute sums, constant multiples, minimums and comparisons,
+  but not the product of two inputs.
+- **Partial application.** A junction with one input fixed is a connection,
+  like a gear of fixed ratio. A connection whose rate is read live from
+  elsewhere is a junction, like a valve set by another structure.
+- **The kernel's rule** (implemented) that a point output sums and a frame
+  output multiplies is a *fold* rule. It says whether the result stays in its
+  grade. It does not say which operand is the rate, or where material comes
+  from.
+- **Naming.** The kernel says "operation port" and EncodingC "row of a
+  wiring". *Junction* would serve both.
 
-### 5.4 Rungs: multiplication is addition one rung up
+## 4. Direction: change B, make a new result, or both
 
-- **A ladder** is counts `c0, c1, …` with carry laws `Convert(k, 1)` between
-  neighbours. The weights of the preserved sum are the place values
-  (`WhatDoesNotFitIsCarriedUpARung`).
-- **Reading a coarser rung divides by the base,** with the finer rung as
-  residue. **Moving a whole number up a rung multiplies by the base.** If rungs
-  are addressed by reference, that move is a retarget, not a copy.
-- **The rung index is a logarithm.** A lattice cell's rung is the sum of its
-  row's rung and its column's, so place-value multiplication adds rung
-  indices while it multiplies digits: the slide rule inside long
-  multiplication.
-- **Babylonian relative place value** left the rung offset to context, which
-  is an uncalibrated read.
-- **The kernel already has the pieces** (implemented): `ResolutionOf` and
-  `SubdivisionOf` for coarser and finer ticks, ratio projections, and carry
-  routes. Multiplying or dividing by a constant is moving between rungs.
+**The law shows it** (implemented). A relation narrows and writes nothing. A
+transition that writes `B` changes `B` in place. It may read `A` under an
+`Unchanged` promise (control) or drain `A` under a preserved sum (material). A
+transition that writes only `C` makes a new result.
 
-### 5.5 One bitwise act, several meanings
+**A workspace turns one into the other** *(ops_neon)*. An in-place process run
+in a workspace writes only the workspace. Its gap is the delta: a new result.
+Committing writes the change back, refused if the source moved: in place.
 
-| Act | On single bits | On unary (thermometer) planes | On stochastic streams | On arrival times |
-| --- | --- | --- | --- | --- |
-| AND | both present; the product; the carry of the sum | minimum | product | maximum (last to arrive) |
-| OR | either present; the clamped sum | maximum | `p + q − pq` | minimum (first to arrive) |
-| XOR | parity; the wrapped sum | the sites between the two values | — | — |
-| delay | — | — | — | add a constant |
-| multiplexer | — | — | scaled sum | — |
+**Material scaled in place must come from somewhere.** A law that turns `B`
+into `3B` cannot conserve `B` alone. There are four legitimate readings:
+1. **Refinement:** the same stuff counted in a finer unit. `Convert(1, 3)`
+   turns one coarse unit into three fine ones, and the place-value sum is
+   preserved.
+2. **Supply:** the extra units are drawn from a reservoir. A shortfall stays as
+   draw tension.
+3. **An informational update:** a coordinate, reference or supposition is
+   rewritten inside the structure. No material is claimed, and nothing is
+   written through a foreign port *(ops_neon)*.
+4. **New structure:** pairing builds an area, which is not more of the same
+   material.
 
-Two consequences for EncodingC, whose counts are thermometer codes (bit `j`
-means "more than `j`"):
+**Settling is not advancing time** *(ops_sol)*. Write "double `B`" three ways
+in EncodingC:
+- **As a relation** over one position read twice, `B = 2B` admits only
+  `B = 0`. It narrows to zero, or contradicts if zero is ruled out.
+- **As a transition run by `Settle`,** which steps until nothing changes, it
+  never goes quiet while `B` is nonzero. It doubles until the table admits
+  nothing more: "times two" becomes "as large as capacity allows".
+- **As a transition run once per `Step`,** it doubles once per tick:
+  5, 10, 20, 40.
 
-- **AND of two counts' planes is their minimum, and OR their maximum**
-  (Appendix A). The product of two counts is not a planewise act. It needs
-  pairing or a process.
-- **XOR of two counts' planes is the span of sites between them,** whose
-  population is their distance. Read as a count it is broken (`0110` is not a
-  prefix); read as a set of sites it is a segment between two landmarks. The
-  same bits mean different things to different readers.
+Feedback needs a captured before-state, an independent baseline, or wired
+recurrence, and the time boundary must be explicit. A request for 10 into a
+capacity of 8 leaves a shortfall, which is evidence of what was not accepted.
 
-Canonical prompt §9.7 ("a product is presence of both") is therefore right at
-the bit rung and wrong at the count rung. §8 below flags this.
+**The roles stay asymmetric even when the total commutes.** Partitive division
+recovers the size of a share from the number of shares. Quotative division
+recovers the number of shares from their size. Babylonian division was a
+question about which value to raise, answered through a table of detached
+parts.
 
-### 5.6 The path is part of the product
-
-When `a` and `b` grow one unit at a time, the product grows by
-`Δ(ab) = aΔb + bΔa + ΔaΔb`: a row, a column and a corner. Each new unit of `A`
-pairs with every unit of `B` already present, and the reverse.
-
-- **The total does not depend on the path; the split does.** With
-  `a = 3, b = 4` (Appendix A):
-  - *L path* (all of `A`, then all of `B`): 12 cells, all swept by `B`.
-  - *Diagonal* (both together three times, then `B` alone): 3 cells swept by
-    `A`, 6 by `B`, and 3 corners.
-- **Growing together builds squares by gnomons:** 1, 3, 5. This is the
-  Pythagorean construction.
-- **In a fine read the corners vanish** (`ΔaΔb` is second order), and the two
-  sweeps become the two triangles of the squeegee article,
-  `½·3·4 + ½·4·3`. That is Leibniz's rule, and the dual-number pruning of the
-  "Mathematics Without Infinity" article.
-- **"Nothing in math distinguishes an L from a \\"** is exactly this
-  provenance, and Gojo can keep it. Three planes per product cell (swept by A,
-  swept by B, corner) would make it inspectable at the cost of the grid. A
-  count of each kind would keep the split without the grid.
-
-**Decided: the question chooses.** Provenance is an option, not something the
-process always produces. Three existing mechanisms can supply it on demand:
-
-- **Recording while running.** An EncodingC wiring keeps evidence planes only
-  once it is asked to record. A product law could do the same with its three
-  counts: swept by A, swept by B, and corners.
-- **Rematerializing later.** The consolidation note's witness lane keeps no
-  per-read witness in compute lanes. When a witness is asked for, it replays
-  the native path over the selected cone
-  ([consolidation note](../Gojo/docs/GojoEncodingConsolidation-2026-11.md)
-  §5.12). That is cheaper when the question is rare.
-- **A demand that selects it.** A question's cone or a goal's selection decides
-  whether the split is read at all, as with every other open value (the
-  closure rules; the tension note's "openness is free until demanded").
-
-Crystallization can drop the record on purpose. The product then becomes a
-carrier of its own: a new direction whose ticks no longer say which side swept
-which. The kernel already does this for a fill: `TryCrystallizeFill` makes a
-carrier that "records magnitude and face, not construction endpoints". The
-prompt allows a structure "crystallized into a standalone structure that
-forgets its construction" (§7.3), on one condition from §6: a lossy
-transformation exposes its retained promise and its loss, and "cannot also
-claim exact reconstruction of forgotten detail."
-
-### 5.7 The order of a step can carry meaning
-
-- **The integer oscillator** `x += coarse(v)`, `v −= coarse(x)`, stepped in
-  declared order (velocity reads the new position), returns exactly to its
-  starting point after 54 steps, with its amplitude never above the starting
-  64. Stepped together, with both reading the old state, it spirals out to 1187
-  in 400 steps (Appendix A).
-- **This is the difference between the symplectic (leapfrog) and the explicit
-  Euler step** in numerical physics. In declared order, every half step is a
-  shear, and shears preserve area.
-- **Āryabhaṭa's coupling shows the same sensitivity,** to calibration rather
-  than order (§4.5).
-
-EncodingC's README says the step kind is chosen by whoever steps a machine
-and is not saved with it. For coupled accumulators that choice decides whether
-an emergent invariant holds, so it belongs in the structure (§8).
-
-### 5.8 Solving by lowering tension is old
-
-| Method | Tension | How it is lowered |
-| --- | --- | --- |
-| False position (Egypt, Babylon) | the error of a convenient guess | scale the guess by goal / error |
-| Excess and deficit (China) | an overshoot and an undershoot | cross-weight the two residues |
-| Iterated averaging (Babylon, Heron) | `x` and `N/x` disagree | replace `x` by their mean |
-| Steelyard (Rome, from Archimedes' law) | unbalanced torque | slide the counterpoise until level |
-| CORDIC, non-restoring division | remaining angle or remainder | apply the rung's step in the direction of its sign |
-| Napier's moving point | remaining distance | close it in proportion to itself |
-
-Each settles a visible residual with a local rule. None hands an equation to a
-solver.
-
-## 6. The questions, answered
-
-### 6.1 Are operations on connections or structure of their own?
-
-Both, depending on how many live inputs there are (§5.2), and never on the
-connection *between* local structures except as a read or a move.
-
-- **Between local structures (ports),** only reads and takes cross. A take
-  must conserve, so the arithmetic that crosses a port materially is addition
-  in a calibrated measure: moves, branches, merges, constant-rate conversions
-  and carries. Every other operation crosses as a read by reference and
-  happens inside the receiver. EncodingC already enforces this (§2.3).
-- **Inside a local structure,** a one-input operation is a calibration on a
-  relation (a connection), and a two-input operation is a junction: a small
-  structure of its own with input roles it reads and an output role it writes.
-- **The kernel's rule** that the output's shape chooses the operation (a point
-  output sums, a frame output multiplies) is a good *fold* rule. It says
-  whether the result stays in its grade or opens a new one. It does not yet say
-  which operand is the rate and which the amount, or where product material
-  comes from.
-
-Gojo has no single word for a junction yet: the kernel says "operation port"
-and EncodingC says "row of a wiring". One word would help (§8).
-
-### 6.2 What does it mean for a larger structure to be the target of a multiplication?
-
-There are five distinct meanings, and each should be visible in the structure.
-
-1. **Uniform scaling (similarity) edits the frame, not the elements.** If a
-   structure's measures are read through one shared frame, multiplying the
-   structure retargets the frame's unit landmark (one `TickRef`). Every
-   dependent read follows, internal ratios are unchanged, and nothing inside is
-   edited: this is the prompt's §4.1, a structural port retargeting a `TickRef`. Adding a
-   constant to the whole structure retargets its origin instead: translation.
-   Both edits are constant-time. **Distributivity follows:** `k(a + b) = ka + kb`
-   because the concatenated parts share the frame.
-2. **Material multiplication of a structure's counts** needs a supply (each
-   unit draws `k − 1` more), or a change of unit (crystallize a carrier whose
-   tick is `k` old ticks). With a change of unit, no material moves: the count
-   stays the same and the unit grows, as in Core4's tick attachment. Which one
-   is meant must show.
-3. **Structure × structure is a sweep:** every part of `A` with every part of
-   `B`. Two-part segments give four quadrants, two ladders give a lattice, and a
-   profile swept along a path is an extrusion. The grade rises by one.
-4. **A structure can be the multiplier.** Its count gates repetition of
-   another structure (Euclid VII definition 15). The repository's frieze and
-   ornament work is multiplication as repetition of a motif along a path.
-5. **Non-uniform scaling** is a field of rates over a structure, each part read
-   through its own local calibration: a map rather than a frame, or in the
-   Drive article's words, a nonlinear number line.
-
-### 6.3 Should `A·B` modify `B`, create a new result, or both?
-
-Keep three reads apart, and let the law show which one is meant.
-
-- **The relation (what holds).** `c = a·b` as a relation law over
-  `(a, b, c)` is symmetric and reads in every direction. Given `a` and `c` it
-  divides. Given `a = 0` and `c = 0`, `b` stays open, every value possible,
-  which is exactly Axiom 10's "A zero or open denominator cannot supply a
-  numeric answer. Preserve the participants and an open result." Given `a = 0`
-  and `c ≠ 0`, it is a
-  contradiction, all zeros. Nothing is modified; information narrows.
-- **The process (how it happens),** which is directional per step:
-  - *In place,* `B ← B·A`: a transition writing `B` while `A` is read. This is
-    a gain on `B`'s own flow, or compounding (`B += B·r`). Under Axiom 5 it is
-    tension introduced on `B` (the demanded growth) and absorbed from a supply.
-    That is the Drive article's "times two" being used up, or Napier's
-    proportional gap. Use it when `B` is a running amount and `A` a setting.
-  - *New result,* `C ← A·B`: a transition writing only `C`, with `A` and `B`
-    read. A meter reading rate × time.
-  - *Mutual:* the arrival-pairing process, where whichever operand gains a unit
-    sweeps it along the other. Each event is directional; the total is
-    symmetric; the split records the path (§5.6). This is the squeegee's
-    "A into B, and B into A".
-- **The fold (what is read):** a scalar, the four quadrants, or a new frame.
-
-The roles stay asymmetric even when the total commutes. Partitive division
-recovers the size of a group from the number of groups; quotative division
-recovers the number of groups from their size. Euclid defines multiplication
-asymmetrically, Core 2's F10 calls the factors state and transform, and Axiom
-10 makes commutativity a local read.
-
-**Recommendation.** Never a flag. In EncodingC the direction is already
-visible from which roles a law writes and which preserved sums it keeps. Make
-the default a new read (non-mutating, Axiom 8), use in-place change only as an
-explicit process on the target, and use the relation when an operation must be
+**Recommendation.** Never use a flag. By default an operation makes a new read
+(Axiom 8). Change something in place only as an explicit process on the
+target, with its time boundary. Use the relation when an operation must be
 read backward.
 
-### 6.4 Where do boolean operations fit?
+## 5. Multiplication
 
-- **At rung 0, they are arithmetic with boundary accounting.** AND is
-  co-presence: the product of two presences, and the carry of their one-bit
-  sum. OR is the clamped one-bit sum (Axiom 7's stop boundary); XOR is the
-  wrapped one (the modulo boundary). The half adder is the wrap plus the carry.
-- **NOT is room within a scope.** Complement needs a frame (Core 2 S2; the prompt's §8.2).
-  The tension note's room view, a count's planes inverted and read in reverse
-  order, is the rung-0 NOT within a capacity.
-- **Spencer-Brown's two laws are the two boundaries:** calling (condensation,
-  idempotent) is the clamp, and crossing (cancellation, an involution) is the
-  wrap.
-- **The 16 functions are routings.** Partition by co-presence into the four
-  quadrants (both, A only, B only, neither), then select which quadrants feed
-  the output. If the unselected quadrants remain as visible residue, the
-  operation conserves, as in conservative logic. This is the Drive articles'
-  "four areas, 16 combinations" and Core 2's "truth evaluated on constant
-  partitions".
-- **A gate is AND applied to a flow.** `GatedMove` and the passage law multiply
-  a flow by a bit, and a valve with `k` positions passing `j` multiplies it by
-  `j/k`.
-- **On counts, AND and OR are the minimum and maximum** (§5.5).
-- **Weighted booleans,** which the Drive article interpolates by probability,
-  are stochastic computing: AND of independent rates is their product.
+### 5.1 Seven constructions
 
-### 6.5 Sine and cosine, and other stacked operations
+| Construction | Term | What lives in structure | Material | Example |
+| --- | --- | --- | --- | --- |
+| Steps of | *a.rá* | a small relation at one rung, reused with carries | none: a read | 3 steps of 4 are 12 |
+| Raise | *našûm* | a connection with a rate; for a gain, also a reference | the target keeps its kind | `(3 m / 1 m) × 4 m = 12 m`; with reference 2 m, 6 m *(ops_sol)* |
+| Make hold | *šutakūlum* | an orthogonal product; its measure read later | new structure | 3 m and 4 m hold 12 m² |
+| Repeat | *eṣēpum* | `n` placed instances with identities | each copy needs supply, or is a read of one design | three placed copies of a plate |
+| Coast | "going" `n` times | a rate read, a supply drained, a clock | conserving; shortfall is draw | 5 a tick for 7 ticks is 35 |
+| Change of unit | — | a move between rungs | conserving: the same stuff counted finer | 3 bags of 4 become 12 apples |
+| Fourth proportional | — | a projection through a unit frame | none: a read | Descartes's `BD·BC/AB` |
 
-**At rung 0 the oscillator is a Sides sentence.** Take the sign of the
-position against the landmark and the sign of the velocity. As the oscillator
-runs, the pair visits four quadrants in Gray order, one bit flipping per
-quarter: turned back (the velocity flips), crossed (the side flips), turned
-back, crossed. Sides already has both events.
+These agree as counts and disagree about units, identity, material and which
+value controls *(ops_sol)*. On one shared partition, a product of predicates is
+AND per cell, and the overlap of counts `a` and `b` can be anything from 0 to
+the smaller of them. Pairing predicates from independent axes counts tuples
+instead, giving `a·b`.
+
+### 5.2 The path is part of the product
+
+When `a` and `b` grow a unit at a time, the product grows by
+`Δ(ab) = aΔb + bΔa + ΔaΔb`: a row, a column and a corner. Each new unit of one
+operand pairs with every unit of the other already there. The total does not
+depend on the path, but the split does (Appendix A, check 5). With `a = 3` and
+`b = 4`:
+- **On the L path** (all of `A`, then all of `B`), all 12 cells are swept by
+  `B`.
+- **On the diagonal** (both together three times, then `B`), 3 cells are swept
+  by `A`, 6 by `B`, and 3 are corners.
+
+Some consequences:
+- **Growing together builds squares by gnomons, 1, 3, 5.** BM 13901, problem 1,
+  completes a square by joining exactly this corner. The square's area and its
+  side are heaped to 45′; the side's unit-width strip is broken in half and
+  moved around the square; the missing corner, 15′, is joined to make 1; and
+  tearing out 30′ leaves the side, 30′ (check 8).
+- **In a fine read the corners vanish,** as `ε² = 0` does in dual numbers. The
+  two sweeps become the squeegee article's two triangles, `½·3·4 + ½·4·3`,
+  which is Leibniz's rule. Counting both full sweeps would double the area;
+  the triangle split is one valid way to account for it *(ops_sol)*.
+- **The question chooses whether the record is kept** (decided). It can be
+  recorded while running (a wiring that records), replayed later over the
+  selected cone (the consolidation note's witness lane), or never read if no
+  demand selects it.
+- **Crystallization can drop the record on purpose.** The product becomes a
+  carrier of its own, a new direction whose ticks no longer say which side
+  swept which. The kernel's `TryCrystallizeFill` already "records magnitude and
+  face, not construction endpoints". The prompt (§6) adds that such a loss must
+  be exposed: it "cannot also claim exact reconstruction of forgotten detail".
+
+### 5.3 Wide products must factor
+
+**The table wall** *(ops_neon)*. A table has one bit per combination of role
+values:
+- a product of 0..3 and 0..3 is `4·4·10 = 160` bits;
+- a product of 0..15 and 0..15 is `16·16·226 = 57,856` bits.
+
+Its 226 outputs also exceed EncodingC's limit of 64 values in one primitive
+read (`OnePrimitiveReadTellsApartAtMost64Values`). So a wide product must be
+factored:
+- **Lattice:** every digit meets every digit in a cell, and the cell's place is
+  `i + j`. Diagonals of equal place are summed with carries. Long
+  multiplication multiplies digits while it adds rung indices. The Treviso
+  arithmetic of 1478 lays out `934 × 314` in several such ways *(ops_sol)*.
+- **Doubling:** Egyptian multiplication doubles (rungs of factor 2), lets the
+  multiplier's bits select which doublings count, and adds. That is rungs plus
+  Boolean selection plus addition *(ops_neon)*. Rhind problem 79 computes
+  `2801 × 7` from the rows for 1, 2 and 4 *(ops_sol)*.
+- **Coasting:** clocked accumulation of a rate.
+- **Quarter squares:** `ab = ((a + b)² − (a − b)²)/4`, with one table of
+  squares. It is a real technique, tabled from the 1690s and used in analog
+  multipliers in the 1950s. Babylonian use is often claimed but speculative.
+  Tables of squares existed, and their use for multiplication is not attested.
+
+**The dispatch-in-disguise test** *(ops_sol)*. A small table filled once,
+compared by content and checked by its accounting is structure: a scribe's
+standard table. A wide table whose meaning lives only in the predicate that
+filled it is an operator dispatch in disguise. A table must therefore agree
+with the construction it stands for, such as counting distinct pairs. It must
+preserve repeated-sample identity and keep reverse ambiguity open. Wide ones
+are composed from small ones, or learned from observed processes.
+
+## 6. Boolean reads
+
+- **At the bit rung, Boolean reads are arithmetic with boundary accounting.**
+  - AND is co-presence: the product of two presences, and the carry of their
+    one-bit sum.
+  - OR is the clamped one-bit sum (Axiom 7's stop boundary).
+  - XOR is the wrapped one (the modulo boundary).
+  - A half adder is the wrap plus the carry (check 7).
+  - Spencer-Brown's law of calling (a call made again is the call) is the
+    clamp; his law of crossing (a crossing made again is not the crossing) is
+    the wrap.
+- **On unary planes, AND is the minimum.** EncodingC counts are thermometer
+  codes, with bit `j` meaning "more than `j`". On their planes, AND is the
+  minimum and OR the maximum. XOR is the span of sites between the two values,
+  whose population is their distance (check 7). Read as a count, that span is
+  broken; read as sites, it is a segment between two landmarks. The product of
+  two counts is not a planewise act.
+- **Partition first, then select.**
+  - Two occupants and a scope give four regions: both, A only, B only and
+    neither. The 16 functions are choices of which regions feed the output.
+  - Kept with the unselected regions as visible residue, the selection
+    conserves, as in Fredkin and Toffoli's conservative logic.
+  - With three or more inputs, name the selected evidence explicitly: "at
+    least two", "all", "odd parity" and "exactly one" differ *(ops_sol)*.
+- **NOT is room within a declared scope.** It is the `Flipped` room view, and
+  never a complement over an unbounded universe.
+- **Four zeros stay apart** *(ops_neon)*: an undetectable magnitude
+  (`V = 0`), an unselected site, an empty support (a contradiction), and an
+  absent presence.
+- **A gate is an action** *(ops_sol)*. A relation answers which cases are
+  admissible. Driving flow through one needs a transition, a receiver and a
+  rule for what is blocked. A shared gate can be read many times, while one
+  conserved unit goes to one route. The passage law multiplies a flow by a
+  bit.
+- **Polarity is a chosen read.** In Shannon's 1938 relay paper, 1 meant an
+  *open* circuit (hindrance), so series was a sum and parallel a product. The
+  conductance reading is the dual *(ops_sol)*. §9.7's "one is presence" is a
+  choice to record, as the prompt says.
+- **Weighted Boolean reads** are stochastic computing. A value is a fraction
+  of ones, and AND of independent streams multiplies.
+
+## 7. A larger structure as the target
+
+The target is a focus and an exposed promise, such as "the outline and hole of
+this plate, about this datum" *(ops_sol)*. Shared sites stay shared and
+independent equal sites stay distinct. Parts outside the focus are carried
+with their context.
+
+| Meaning | What changes | Cost |
+| --- | --- | --- |
+| **Frame edit** | retarget the frame's unit landmark (one `TickRef`) and every read follows; retargeting the origin translates | constant |
+| **Selected-lane broadcast** | a scaling law over the lanes an attention plane selects, bound only to measure planes. Where scaling meets a capacity that did not scale, the conflict shows as local `T+` *(ops_neon)* | per lane |
+| **Replication** | `n` instances with placements and identities | per instance |
+| **Product with a structure** | a sweep, every part with every part: an extrusion, a lattice, an outer product | per pair |
+| **The structure as multiplier** | its count gates the repetition of another structure (Euclid VII definition 15), as a frieze repeats a motif | per repeat |
+| **A field of rates** | each part read through its own calibration: a map, not a frame | per part |
+
+A frame edit makes distributivity fall out: `k(a + b) = ka + kb`, because the
+parts share the frame. A plate with a rectangular outline, a hole and a
+mounting datum gives concrete cases *(ops_sol)*:
+
+| Request | Consequence |
+| --- | --- |
+| Repeat three times | three instances with placements; the design is shared by reference |
+| Stretch threefold along one axis | the hole reads as an ellipse; a demanded circular passage stays a visible mismatch |
+| Dilate about the datum, `p' = o + 3(p − o)` | lengths ×3, areas ×9, mass ×9 at constant thickness, or ×27 if thickness scales too |
+| Product with a thickness | a volume; a through-hole needs a correspondence carried into the product |
+
+A negative uniform gain is a half-turn plus a stretch, while reversing one
+axis reflects. A zero gain collapses the selected extent and leaves the
+inverse open. A candidate change is held in a workspace and written back only
+through a checked correspondence, with the stale check.
+
+## 8. Rungs: numerics as the lift
+
+**On the order of work,** the three notes converge:
+- Fix the kinds and places of operations now, at rung 0, with a few tiny
+  numeric checks alongside *(ops_sol)*.
+- Variable multiplication waits for rungs, because of the grade wall and the
+  table wall *(ops_neon)*.
+- Multiplication is itself the relation between rungs. Core4 said so: "the
+  same mechanism as resolution".
+
+**The lift rule:**
+- **Carry.** A carry is `Convert(k, 1)` from a fine count to a coarse one. Its
+  preserved sum's weights are the place values (implemented,
+  `WhatDoesNotFitIsCarriedUpARung`).
+- **Coarse read.** Reading a coarser rung divides by the base and leaves the
+  finer rung as residue.
+- **Moving between rungs.** Moving a whole number up a rung multiplies by the
+  base, and running the carry downward is a conserving change of unit.
+- **Rung index.** The rung index is a logarithm; a lattice cell's place is the
+  sum of its row's and column's.
+
+**Rung codes** (consolidation note §5.8, a proposal):
+- R0, detectable: one bit.
+- R1, unary: thermometer counts.
+- R2, place value: a crystallization of R1 "when the required queries and
+  updates make it worthwhile".
+- R3, rational and affine: the kernel.
+
+The maps between rungs form a Galois connection, so a refinement never
+contradicts a valid coarse read.
+
+**Three conformance cases** *(ops_sol)*:
+- **Add, then read coarse; or read coarse, then add.** 17 + 28 read in whole
+  tens sees `1 + 2 = 3` tens, with residues 7 and 8. Recombining the residues
+  crosses another ten, giving 4 tens and 5.
+- **A product needs its factors' resolution.** `(10 + 7)(20 + 8)` at whole
+  tens is 200. With the refinements connected, the partial products
+  80, 140 and 56 make 476.
+- **Quantizing is observable.** In the finite-read fixture with capacity 0..15,
+  `(14 + 3) − 3` reads 12 after intermediate clipping, while `14 + (3 − 3)`
+  reads 14.
+
+**Radix is semantic.** Base 60 makes every regular number's reciprocal
+terminate (2, 3 and 5 divide it), which is why the igi table exists. Whether a
+quotient is exact, whether a reciprocal fits the radix, and whether a table has
+the row are three separate questions *(ops_sol)*. Power-of-two radices pack
+into machine words (§11), but that is a reason to crystallize into them, not a
+reason to think in them.
+
+**Floating digits.** Eight steps of `0;07,30` make `1`. Eight steps of `7,30`
+make `1,00,00` (check 8). The table supplies the digits, and the application
+supplies the scale *(ops_sol)*. That is an uncalibrated connection (§4.6 of the
+prompt).
+
+**Denominators and evidence.** The Numbers article reads 200/500 as more
+precise than 2/5 because it comes from 100 reviews. A denominator carries
+resolution only while it stays connected to the sampling that produced it; on
+its own, 2/4 is just 1/2 *(ops_sol)*. That agrees with the prompt (§5.2: "a
+nominal series is not measurement resolution").
+
+## 9. Oscillation, growth and other stacked operations
+
+### 9.1 At rung 0: the generator, driven by time
+
+Read position against the landmark and velocity against rest, each with
+`Sides`. As the oscillator runs, the pair passes through eight states (check
+4). The axis states are the two events, *turned back* (velocity at rest) and
+*crossed* (position at the landmark). The quadrant states between them are the
+movements.
 
 ```text
-(+, +)  -turned back->  (+, −)  -crossed->  (−, −)  -turned back->  (−, +)  -crossed->  (+, +)
+turned back   moving    crossed    moving    turned back   moving    crossed    moving
+ (+x, 0)  ->  (+, -)  -> (0, -v) -> (-, -) ->  (-x, 0)  ->  (-, +) -> (0, +v) -> (+, +) -> (+x, 0)
+ (F, +)                  (I, -)                (F, -)                 (I, +)
 ```
 
-Two quarters negate both signs, and four return. That is Axiom 10's generator
-action, read on quadrants rather than on unit directions. Neither flip alone is
-the generator, which agrees with the prompt ("the primitive face dual remains
-an involution; it is not multiplication by i"). The generator is a
-state-dependent law that alternates two flips over time. In EncodingC it is a
-transition law on two bits: `11 → 10 → 00 → 01 → 11`.
+The orientation note (§5) already defines the generator **J** as a
+state-dependent alternation of two involutions: a face flip from `F` and a
+reorientation from `I`. So `J² = Negate`, `J⁴` is the identity, and no
+involution alone produces it. That note leaves J deferred. Read with position
+on the forward face `F` and velocity on the opposed face `I`, the oscillator's
+event states run `(F, +) → (I, −) → (F, −) → (I, +)`. That is J's cycle in the
+conjugate direction, and it runs forward if velocity is read on the other
+orientation. Two quarters negate: `(+x, 0)` becomes `(−x, 0)`.
 
-**With magnitude, it is two accumulators.**
+The rung-0 oscillator is J driven by time, with the quadrants as the open
+states between its events. Without "at" resolved, it reads as four quadrants.
+The ops_neon note's six-state listing resolves only the crossings.
+
+### 9.2 With magnitude: kick, then drift
 
 ```text
-x : signed position against the landmark
-v : signed velocity
-each step, in declared order:
-  x += coarse(v)          coarse = read through k rungs
-  v -= m · coarse(x)      m = +1 restoring, 0 none, −1 reinforcing
+v <- v - k·x      the restoring pull
+x <- x + v        drift by the new velocity
 ```
 
+In integers, each read goes through a coarser rung, `v <- v - coarse(x)` and
+`x <- x + coarse(v)`, with `coarse` a shift by `s` rungs. For the rescaled
+velocity `ε·v`, that is the same step with `k = ε²` and `ε = 2^-s`.
+
+- **Order carries meaning.**
+  - In declared order the step has determinant 1, and the integer orbit closes
+    exactly: it returns after 54 steps and never exceeds its starting 64.
+  - Stepped together, both reading the old state, it has determinant `1 + k`
+    and spirals out to 1187 in 400 steps (check 1).
+  - This is symplectic versus explicit Euler, and Minsky's circle algorithm
+    (HAKMEM 149) in integers.
+- **The shadow energy** `H = ½(v² + kx² − kxv)` is conserved exactly *(ops_neon)*
+  (check 2). The angle per step is `2·asin(√k/2)`, so `k` calibrates the
+  period.
 - **The material account.** The velocity the mover gains comes from the
-  landmark, which takes the opposite momentum (Newton's third law). That is a
-  conserving move between the mover's velocity count and the landmark's, at a
-  rate read from the distance. The position integrates the velocity by a shear,
-  which conserves no sum but is exactly reversible.
-- **How fine the pull is read shapes the wave.** A pull read only as a side
-  (constant magnitude toward the landmark) gives parabolic arcs, a rounded
-  triangle wave. A pull proportional to the distance gives the sine. Refining
-  the read refines the waveform, coarse first.
-- **The sign `m` selects the geometry.** `m = +1` gives oscillation;
-  `m = 0` gives coasting, where the position grows by the rate each step (rate
-  × time, a multiplication); `m = −1` gives exponential growth. Appendix A
-  shows all three. `m` is a number, not an enum, and CORDIC uses exactly it.
-  It is also the fold of the inverse × inverse quadrant with its sign turned
-  over: the unit's square is `−m`. Complex numbers (`i² = −1`) are `m = +1`,
-  dual numbers (`ε² = 0`) are `m = 0`, and split-complex numbers (`j² = +1`)
-  are `m = −1`. The Drive article that keeps `ac + bd` unfolded until it is
-  "converted ... during folding" has already separated the quadrant from the
-  sign it folds with.
-- **The family interpolates.** One tick of coasting adds the rate; `n` ticks
-  multiply by `n`; turning `m` negative compounds; turning it positive
-  oscillates. The Drive article's hope of "interpolating between ... even
-  addition and multiplication" when they are modelled as continuous systems is
-  a walk through `(duration, m)`.
+  landmark, which takes the opposite momentum: a conserving move between two
+  counts at a rate read from the distance. Position integrates velocity by a
+  shear. A shear conserves no sum, but it is exactly reversible.
+- **The fineness of the pull's read shapes the wave.** A pull read only as a
+  side gives parabolic arcs; a pull proportional to the distance gives the
+  sine *(ops_sol)*.
 
-**Other stacked operations settle a remaining tension.** CORDIC's rotation and
-vectoring modes, non-restoring division and successive approximation read only
-the sign of what remains at each rung and apply that rung's step. Heron's
-averaging and false position read its size and correct in proportion. Division
-is running until the gap closes and
-counting the steps (quotition, the Axiom 7 carry) or splitting round-robin into
-`n` lanes (partition, a conserving branch). Roots and logarithms keep candidate
-sets (Core 2 R13 to R15; the prompt's fractional-power reads).
+### 9.3 One family: order and sign
 
-## 7. Three approaches
-
-Each approach realizes the Drive articles' pin, merge and fold differently.
-
-### 7.1 A, junction tables: the scribe
-
-**Idea.** Every operation is a small relation law over coarse roles: a
-one-digit times table, the ODV addition table, AND. It is used at every rung
-of a ladder, with carries between rungs, as in lattice multiplication. Reading
-in every direction comes free with the relation. A process, where one is
-needed, is the relation crystallized into a transition.
-
-```text
-times  = relation over (a: 0..3, b: 0..3, c: 0..9), admitted where c = a·b
-         4·4·10 = 160 bits, 16 admitted tuples
-forward:   a = 2, b = 3   ->  c = 6
-backward:  a = 2, c = 6   ->  b = 3            division
-           a = 0, c = 0   ->  b open {0..3}    the open zero
-           a = 0, c = 4   ->  contradiction
-ladder:    digits a1 a0, b1 b0
-           cells (a0,b0) at rung 0; (a0,b1), (a1,b0) at rung 1; (a1,b1) at rung 2
-           sum each rung's cells; carry up with Convert(base, 1)
-```
-
-**Pin, merge, fold.** Pinning wires a row and binds its roles; merging is
-narrowing; folding is choosing which role to read.
-
-**Strengths.**
-- It uses machinery that already works: `RelationLaw`, narrowing,
-  `LearnedTable`, carries.
-- It reads in every direction, giving division, subtraction, the open zero and
-  contradiction.
-- It is exact, and learnable: tables crystallize from counts.
-- It is a lookup table on any substrate (a LUT6 holds the passage law).
-- It is how the scribes worked.
-
-**Weaknesses.**
-- It is static: no time, no momentum, no sine without iterating over it.
-- Tables grow multiplicatively. A 4-bit by 4-bit product as one relation is
-  `16·16·226 = 57,856` bits, so ladders are mandatory.
-- The path (L or diagonal) is lost unless recorded.
-- A symmetric table hides the rate–amount asymmetry; direction comes only from
-  wiring.
-
-**Fit.** It follows the prompt's §8.1 and §9.6 closely. "Lowering tension" here means
-narrowing information tension, which is real settlement but not material
-dynamics.
-
-### 7.2 B, coupled flows: the machine
-
-**Idea.** Every operation is a process of accumulators coupled by rates. It
-settles a remaining tension and refines coarse first through rungs.
-
-| Operation | Process |
-| --- | --- |
-| Add | merge: a move |
-| Multiply | coast (a rate read, a supply drained into a target for a duration) or pair arrivals |
-| Divide | run until the gap closes and count the steps, or split round-robin into lanes |
-| Oscillate, exponentiate, take a logarithm | the `m` family |
-| Roots | Heron's averaging or false position |
-| Boolean | one-shot co-presence routing |
-
-```text
-rate   r : a count read by reference (a valve setting)   intensive, read
-supply S : a count                                        extensive, drained
-target T : a count                                        extensive, filled
-clock    : d ticks                                        the duration, a controller
-each tick: move r units S -> T     preserved S + T
-after d ticks: T gained r·d; S lost r·d; any shortfall is draw tension on T
-```
-
-**Pin, merge, fold.** Pinning couples rows in one local structure, or plugs a
-socket; merging is stepping; folding reads an accumulator at a chosen rung.
-
-**Strengths.**
-- It is physically intuitive: pouring, a valve over time, the squeegee, a
-  spring, compounding.
-- Intermediate states are meaningful numbers. A partial product or a
-  remaining tension is exactly the inspectable intermediate state the axioms
-  ask for.
-- The roles are explicit: rates are read, amounts move.
-- It is native to tension. The "times two" being used up is goal tension in a
-  logarithmic basis, and supply shortfall is `T−`.
-- Sine and cosine come free, and it reuses `Convert`, `Move`, `Sides` and
-  `StepTogether`.
-- Path provenance is natural.
-
-**Weaknesses.**
-- It takes time: `n` steps for `n` units, or `log n` with rungs, as in CORDIC.
-- Calibration of the coupling and the order of the step both carry meaning,
-  so both must be structure.
-- The reaction-network result says a product needs sequencing, so B needs an
-  explicit clock or order.
-- An inverse is another process, not the same table read backward.
-
-**Fit.** It is the closest to "dynamically lowers tension rather than solves
-equations", and it puts Core4's oscillation idea and the tension note on one
-mechanism.
-
-### 7.3 C, frames and rungs: the geometer
-
-**Idea.** Numbers are ladders of partitions, and an operation is an edit of a
-frame or a read through composed frames.
-
-| Operation | Frame act |
-| --- | --- |
-| Add | concatenate extents that share a site (a join) |
-| Translate | move the origin landmark |
-| Multiply | change of unit: compose projections through a shared middle frame |
-| Divide | project backward, with residue |
-| Power | repeated composition, a train of projections (the "parallel" `3^3`) |
-| Logarithm | count rungs |
-| Product of measures | an orthogonal frame, a sheet |
-
-```text
-unit frame           S(U,0,1)
-times b              S(U,0,1) -> S(C,0,b)        a reads as a·b (Axiom 8)
-compound ratio       S(U,0,1) -> S(C,0,b), then S(C,0,1) -> S(D,0,c)
-                     the middle frame C is shared; a reads as a·b·c
-scale a structure    retarget the TickRef at its frame's unit end
-translate it         retarget the TickRef at its origin
-live multiplier      bind the unit end to another carrier's value (a slide rule)
-logarithmic carrier  the rung index of a ladder; products add rung indices
-```
-
-**Pin, merge, fold.** Pinning shares a site or a frame; merging composes
-projections; folding crystallizes.
-
-**Strengths.**
-- The kernel already has projection with residue, `ResolutionOf` and
-  `SubdivisionOf`, ratio projections, carry routes and unit quotients.
-- Scaling a whole structure is one constant-time retarget.
-- Meaning lives in the frame, the strongest fit with Axiom 1.
-- It ties operations and numerics together, and similarity comes free.
-
-**Weaknesses.**
-- Projection is observation, so material multiplication needs an explicit
-  import or transfer route.
-- Dynamics such as sine are not native; they need the contour construction.
-- A product of two live values needs frames as values (a unit landmark bound
-  to a live carrier).
-- Exact readers with rational residue are already the canonical prompt's
-  hardest area.
-
-**Fit.** It is the most Gojo-native for meaning, and the least for motion.
-
-### 7.4 Side by side
-
-| | A: junction tables | B: coupled flows | C: frames and rungs |
+| | `m = +1`, restoring | `m = 0`, neutral | `m = −1`, reinforcing |
 | --- | --- | --- | --- |
-| What an operation is | a small relation, reused at every rung with carries | accumulators coupled by rates, settling a remainder | a frame edit, or a read through composed frames |
-| Physical picture | a times table; a reflex | a valve over time, a spring, a squeegee | a ruler, a gear train, a slide rule, a zoom |
-| Where it lives | a junction row in one local structure | a small local structure of counts and rate laws | relations between frames; tick references |
-| Direction | from wiring: a relation reads every way, a transition writes | built in: rates read, amounts move | the direction of projection; retargeting writes |
-| Material | none: information narrows | drained from a supply, or refined | none until an import or crystallization |
-| Inverse | the same table read backward | another process | the projection read backward, with residue |
-| Intermediate states | narrowing supports | partial products and remaining tension | partial frames and residue |
-| Path provenance | lost unless recorded | natural | not native |
-| Sine and cosine | a table, or iteration | native, `m = +1` | via the contour construction |
-| Exactness | exact | exact in integers; the coupling is calibrated | exact, with rational residue |
-| Cost | table size multiplies | time, or `log n` with rungs | constant-time retargets; reads cost a projection |
-| Footholds | `RelationLaw`, `LearnedTable`, carries | `Convert`, `Move`, `Sides`, `StepTogether`, tension note | kernel projection, unit shapes, `RepeatSurface` |
-| Main risk | static; hides rate and amount | step order and calibration carry meaning | dynamics and material bolted on |
+| **First order**, `x −= m·coarse(x)` | relaxation toward the landmark: equal ratios take equal times, which is Napier's logarithm. 1024, 614, 370, 225; halvings at steps 11, 22 and 34 | holds | compounding, the exponential: 1024, 1659, 2692, 4366 |
+| **Second order**, kick then drift | oscillation, sine and cosine: 64, 86, 38, −41 | coasting, rate × time, multiplication: 64, 128, 192, 256 | runaway, hyperbolic cosine and sine: 64, 174, 469, 1267 |
 
-### 7.5 How they fit together, and a recommendation
+The values are `x` at steps 0, 8, 16 and 24 (check 3).
 
-They are not exclusive. **C says what multiplication means**, a relation
-between frames or rungs. **B says how it runs**, physically and in time. **A is
-what a repeated B crystallizes into:** a learned law that answers at once. That
-last step matches the existing direction that "useful history may crystallize
-into an algorithm" (the prompt's §6) and EncodingC's learning of laws from outcomes.
+- **Napier (1614) is the first row's left cell.** One point moves at constant
+  speed. The other slows in proportion to the distance it has left, so the
+  first point's distance is the logarithm *(ops_neon)*. The Complexity Spaces
+  article's "times two … slowly used up as it approaches equilibrium" is the
+  same picture.
+- **CORDIC's `m` is the second row.** Its circular, linear and hyperbolic modes
+  give sine and cosine, products and quotients, and exponentials, logarithms
+  and roots.
+- **`m` is a number, not an enum.** The unit's square is `−m`. Complex numbers
+  (`i² = −1`) are `m = +1`, dual numbers (`ε² = 0`) are `m = 0`, and
+  split-complex numbers (`j² = +1`) are `m = −1`. The Drive article that keeps
+  `ac + bd` unfolded until folding has already separated the quadrant from
+  the sign it folds with.
+- **The family interpolates.** One tick of coasting adds; `n` ticks multiply;
+  a negative `m` compounds; a positive `m` oscillates.
 
-A suggested order:
+### 9.4 Calibration and reading backward
 
-1. **At rung 0 in EncodingC, build B's primitives with C's coupling:** a
-   carry ladder as the rung, a coupled pair as the process, with step order
-   saved as structure.
-2. **Offer path provenance** for products, recorded or replayed when a
-   question asks for it (§5.6).
-3. **Crystallize tables (A) from observed processes** with `LearnedTable`, and
-   check that they read backward as relations.
+- **The coupling is a calibration.** Āryabhaṭa (499) built his sine table by
+  making each second difference proportional to minus the sine reached so
+  far. Run literally, a coupling of 1/225 peaks at 3375 instead of 3438. The
+  exact discrete coupling, `2 − 2cos 3°45′ ≈ 1/233.5`, peaks at 3440 (check 6).
+  A coupling is perturbable while it is being fitted, and locked once it is
+  (§10).
+- **The oscillator can be read backward** *(ops_neon)*. Wire the step law as a
+  relation across a plan's moments, as the planner fixture does. The same
+  structure then infers phase or amplitude from partial observations.
+- **An exact contour turn** *(ops_sol)*: `(x, u) → ((3x + 4u)/5, (−4x + 3u)/5)`
+  keeps `x² + u²`. It takes `(5, 0)` to `(3, −4)` and then to `(−7/5, −24/5)`
+  (check 8). Whole ticks cannot hold the second step, so a refinement, an
+  approximation or a declared loss belongs in the transition's witness.
 
-The alternative, starting from A, is faster to build but would postpone every
-question the request is about: direction, physics, sine and material.
+### 9.5 Settling a remaining tension
 
-None of the three closes the door on native compilation (§7.7). A's tables and
-C's projections compile almost directly. B's processes compile once they are
-crystallized, with fixed rates and a declared step order.
+| Method | The tension | How it is lowered |
+| --- | --- | --- |
+| False position (Egypt, Babylon) | the error of a convenient guess | scale the guess by goal over result |
+| Excess and deficit (*Nine Chapters*, 7) | an overshoot and an undershoot | weight the two residues crosswise |
+| Iterated averaging (Heron) | `x` and `N/x` disagree | replace `x` with their mean |
+| Steelyard (Archimedes' law of the lever) | an unbalanced torque | slide the counterpoise until level |
+| CORDIC, non-restoring division, successive approximation | remaining angle, remainder, or residual | at each rung, step in the direction of the remainder's sign |
 
-### 7.6 Perturbable and locked rates
+Each settles a visible residual with a local rule. CORDIC and its relatives
+read only a sign at each rung: coarse primitives, refined by a ladder, as the
+prompt's §9.6 asks.
 
-**Decided direction:** a coupling rate is perturbable unless it is known to be
-constant, and a constant should be physically hard to perturb. In EncodingC,
-how hard is already a matter of where a value sits. Every mechanism below
-exists (implemented); what is new is reading them as one ladder of stiffness.
+## 10. How hard a value is to change
+
+Every mechanism below exists in EncodingC (implemented). Read together, they
+form a ladder of stiffness.
 
 | Where the value sits | What can change it | What a change costs | Physical picture |
 | --- | --- | --- | --- |
-| A count in a store, read by reference | any law of its local structure, and any workspace that selects it | one step of a law | a valve setting; a coupling being learned |
-| A store position outside every workspace's selection, or in an ignore layer | the structure's own laws, but no supposition, since use never brings it in | the owning structure must act | an instrument in use, not on the bench |
-| Behind another local structure's port | only the owner's laws; readers only read, and a take must be a move through the port's single taker | the owner, or a move its accounting allows | a standard held by someone else |
-| A position no wired law writes, with an `Unchanged` promise on the laws that read it | nothing, short of rewiring | a structural edit, checked when laws are made | a measured constant |
-| A constant plane of a store | nothing in place; workspaces read it by reference and cannot change it | moving the positions to another store | the orientation of a whole frame |
-| Inside a law's table | nothing: tables are fixed when made | a new law, that is, a new crystallization | a gear cut in metal; a carry's place value |
+| A count in a store, read by reference | any law of its structure, and any workspace that selects it | one step of a law | a valve setting; a coupling being learned |
+| Outside every workspace's selection, or in an ignore layer | the structure's own laws, but no supposition | the owner must act | an instrument in use |
+| Behind another structure's port | only the owner's laws; readers read, and a take must be a move through the single taker | the owner, or a move its accounting allows | a standard held elsewhere |
+| A position no law writes, with `Unchanged` promises where it is read | nothing, short of rewiring | a structural edit, checked when laws are made | a measured constant |
+| A constant plane | nothing in place; workspaces read it and cannot change it | moving positions to another store | a whole frame's orientation |
+| Inside a law's table | nothing: tables are fixed when made | a new law | a gear cut in metal; a place value |
 
-- **Moving a value down the ladder is crystallization.** A coupling learned as
-  a count in a store becomes a constant when it is written into a law's table,
-  as `Convert(3, 1)` fixes a place value. Axiom 12 already says a crystallized
-  promise does not silently change.
-- **Moving it up is thawing.** A fork rewires the row to a law that reads the
-  rate from a store of its own, where it can be tried, while the parent keeps
-  its locked law. (Committing a fork's rewiring is listed as not built.)
-- **Examples from this note.**
-  - A ladder's base is a structural constant: changing it reinterprets every
-    value, so it belongs in the carry law.
-  - Āryabhaṭa's coupling is a calibration: perturbable while it is fitted,
-    locked once it is.
-  - The sign `m` is perturbable in a workspace that explores which concept fits
-    (oscillation, coasting or growth), and locked in a crystallized oscillator.
-- **Graded stiffness is still open.** The canonical prompt (§5.1) names
-  history of utility and wider support as influences on "resistance to change"
-  and leaves the law open. A natural graded read is how many structures read a
-  value, or how much tension a change would raise in them. The positional
-  locks above are the extremes of that scale.
-- **It also helps compilation.** Values low on the ladder are compile-time
-  constants and values in stores are run-time inputs. A value perturbed only in
-  a workspace can be specialized in the source and interpreted in the
-  workspace (§7.7).
+- **Moving down the ladder is crystallization,** and moving up is thawing: a
+  fork rewires a row to a law that reads the rate from a store of its own.
+  Committing a fork's rewiring is not built yet.
+- **Examples:**
+  - A ladder's base is structural: changing it reinterprets every value, so it
+    belongs in the carry law.
+  - The coupling of §9.4 is fitted, then locked.
+  - The sign `m` is perturbable in a workspace that explores which concept
+    fits, and locked in a crystallized oscillator.
+  - The tension-synthesis branch's `Counts.AtLeast` keeps its threshold as a
+    count "so a law, a learner or a host can move it".
+- **Graded stiffness is open.** The prompt (§5.1) names "resistance to change"
+  and leaves its law open. A graded read could count how many structures read
+  a value, or how much tension a change would raise in them.
 
-### 7.7 Compiling crystallized operations to native units
+## 11. Compiling crystallized operations
 
-**Decided direction:** an operation can always run structurally. Once it is
-crystallized, a native unit (a CPU multiply, a GPU tensor core, an FPGA lookup
-table, a math library) may stand in for it where that is relevant and faster.
-This must not drive the design, but the design should not make it impossible.
+**Where this stands.** The prompt allows a compiled form "if it can be traced
+back to the Gojo surface" (§8.1). It also says such forms are "subordinate to"
+the structure (§9.1), and that "an optimization must not shape the concept"
+(§9.6). `FiniteLawPlan` in the QualitativeExecution experiment is the existing
+pattern (implemented):
+- any graph edit invalidates it (`IsCurrent`), and a stale plan returns
+  unresolved evidence;
+- a compute-only read allocates no witness;
+- open or oversized surfaces are refused;
+- the consolidation note measured about 196×, partly from dropping per-read
+  witnesses.
 
-**The prompt already allows it** (documented direction):
-- "A compiled or optimized form may exist as a derived backend if it can be
-  traced back to the Gojo surface" (§8.1).
-- Compiled forms are performance projections that "must be reconstructible
-  from, and subordinate to, the canonical Gojo structure" (§9.1).
-- "Substrates differ and may be optimized; an optimization must not shape the
-  concept" (§9.6).
+**The life of an operation** *(ops_neon)*. While fluid, it is canonical
+tables, open supports and learning counts, and it is the reference oracle.
+Once crystallized, it is sealed behind ports and runs a guarded native plan.
+Saving always writes the canonical structure, never a compiled artifact.
 
-**The repository already has the pattern** (implemented in an experiment).
-`FiniteLawPlan` and `FiniteLawBatchPlan` in `experiments/QualitativeExecution`
-capture a native finite law as a derived mask backend:
+**Two regimes** *(ops_neon)*:
+- **Bit-exact.** The native form gives the same bits at every exposed port,
+  including carries, remainders, overflow into `T+`, and evidence.
+- **Declared finite read.** A math-library sine stands in for an oscillator
+  only under a contract that states calibration, rounding and tolerance. The
+  tolerance can be expressed as integer ticks at a rung, and the read is marked
+  lossy. The integer orbit of §9.2 is not `sin`. A CORDIC unit running the same
+  iteration is bit-exact; `Math.Sin` is not.
 
-- any edit to the captured graph invalidates the plan (`IsCurrent`) until it is
-  explicitly recaptured, and a stale plan returns unresolved evidence rather
-  than an answer;
-- a compute-only read allocates no witness, while a witness-producing read goes
-  through the native reader;
-- open, foreign or oversized law surfaces are not compiled, and a refused batch
-  leaves its output buffer unchanged.
-
-The consolidation note measured about 196× on a recurrent circuit from finite
-tables, compact state and omitted per-read witnesses. It maps planes to machine
-words and vector registers; small laws to sums of products, `pshufb` and LUT6;
-and tropical reads to integer min and add (its §7). It also proposes place
-value, its rung R2, as a crystallization of unary counts "when the required
-queries and updates make it worthwhile" (its §5.8).
-
-**A contract for native stand-ins (proposal).** Each condition comes from a
-rule already in the prompt.
-
+**The contract:**
 1. **Only crystallized structure is replaced.** Its law is a locked table and
-   its rates are constants (§7.6). Perturbable parts stay interpreted, or are
-   guarded.
-2. **Exact on the declared domain, or a declared finite contract.** A native op
-   must give the same read bit for bit over the declared range and resolution.
-   Otherwise the replacement is a different, declared finite read with visible
-   loss, as in the finite-read fixture. Minsky's integer ellipse is not `sin`,
-   so a math library's sine cannot replace it; a CORDIC unit running the same
-   iteration can.
-3. **Range and overflow stay visible.** "Exact intermediate arithmetic must not
-   silently wrap or saturate" (§8.1). Use a widening or checked operation, or
-   prove from the declared range that the native width cannot overflow. Bounded
-   numbers make that proof easy, because a ladder's capacity bounds every value
-   it can hold. An overflow that does happen becomes blocked units or `T+`, as
-   it would structurally.
+   its rates are constants (§10).
+2. **Exact on the declared domain,** or a declared finite read.
+3. **Overflow stays visible.** Use widening or checked arithmetic, or prove from
+   the declared capacities that the native width cannot overflow; bounded
+   numbers make that proof easy. Overflow that does happen becomes `T+` or a
+   carry out, never a silent wrap (§8.1).
 4. **Residue, open values and contradictions survive.** Division keeps its
-   remainder. A zero divisor gives an open result, not an exception or a NaN.
-   A backward read that is not a function stays a table or falls back.
-5. **Recognition by content, not by name.** A compiler knows that a
-   crystallized law is "the product over 0 to 15" by comparing its table with
-   the product table (EncodingC already compares tables by content), and that a
-   binary ladder with carries is an integer by its structure. No tag or string
-   is needed, so §9.6's "no name stored" holds.
-6. **A guard and a fallback.** Any edit to captured structure invalidates the
-   native form, and reads fall back to the structural path with stale
-   evidence, as `FiniteLawPlan` does. This is deoptimization, as in JIT
-   compilers: speculate, guard, fall back.
-7. **Witnesses on demand.** Compute lanes keep none. A question that asks for
-   provenance replays the structural path over its cone (§5.6), so the
-   decision that the question chooses provenance is also what keeps the fast
-   path fast.
-8. **Parity tests are the guarantee.** Native and structural reads agree on the
-   declared domain, including the overflow, residue and open cases.
+   remainder, and a zero divisor gives an open result, not an exception.
+5. **Recognition is by content, not by name.** `SameTable` compares tables bit
+   for bit (implemented), small tables can be verified exhaustively at compile
+   time, and a sealed subgraph is matched by structure *(ops_neon)*.
+6. **Guards work lane by lane.** Only lanes that are
+   `Live & Attended & SettledValidCodes & ~Aliased & ~Contested` take the fast
+   path; the rest run canonically and write their evidence *(ops_neon)*. Any
+   edit invalidates the plan.
+7. **Witnesses are produced on demand.** A question that asks for provenance
+   replays the canonical path over its cone. That provenance is chosen by the
+   question is what keeps the fast path fast.
+8. **Parity tests are the guarantee,** covering the overflow, residue, open and
+   stale cases.
 
-**How each approach compiles.**
-
-| Approach | Crystallized form | Native stand-in |
+| Crystallized form | Native stand-in | Regime |
 | --- | --- | --- |
-| A, junction tables | a fixed relation or transition table | a lookup (LUT6, `pshufb`), or a recognized instruction (`AND`, `ADD`, `MUL`); a backward read compiles to `SUB`, or to `DIV` with remainder, where it is a function |
-| B, coupled flows | a process with fixed rates and a declared step order | a loop of native integer operations, vectorized across many instances; a coasting multiplier recognized as `MUL` or multiply-accumulate; a fixed-iteration CORDIC as a CORDIC core |
-| C, frames and rungs | an affine projection with a fixed ratio | fixed-point multiply-add; shifts for power-of-two rungs; division with remainder |
-| Structure × structure | all pairs of parts | an outer product, the operation GPU tensor units are built for |
+| A small law (Boolean, passage, ODV addition) | bitwise words; `pshufb`/`vqtbl1q`; FPGA LUT (the passage law is one LUT6) | exact |
+| Unary add, remove, compare | shifts, masks, `popcnt` | exact |
+| A radix ladder: add or multiply | widening `ADD`/`MUL`, carry out to `T+` | exact |
+| `Convert(take, give)` | multiply and shift, or `DivRem`, keeping the remainder | exact |
+| A selected-lane broadcast | masked vector operations | exact |
+| A product of structures | outer product; GPU tensor units | exact in integers |
+| The oscillator | integer kick and drift, vectorized; or a CORDIC core | exact |
+| The oscillator read as a waveform | a math-library sine | declared |
+| Narrowing supports | bitwise planes | exact |
 
-**What keeps the door open, all else being equal.**
+**What keeps the door open,** all else being equal:
+- Seal operation interiors behind ports.
+- Keep a binary ladder reachable by crystallization, choosing radix per
+  structure.
+- Keep couplings as rung offsets where possible, since powers of two become
+  shifts.
+- Keep arithmetic laws small and separate from bookkeeping.
+- Keep settled fast paths separate from open supports.
+- Keep planes contiguous.
+- Keep compiled plans derived and disposable.
+- Declare the step order (§9.2).
 
-- Keep a canonical binary ladder (place value with base `2^k`) reachable from
-  unary counts by crystallization, so integers can map to machine words.
-- Keep couplings as rung offsets where possible, since powers of two compile to
-  shifts, and as explicit rates otherwise, which compile to multiplies.
-- Keep arithmetic laws small and separate from bookkeeping such as evidence
-  planes and provenance, so the arithmetic core stays recognizable.
-- Keep provenance optional (decided) and stiffness positional (§7.6).
-- Declare the step order (§5.7; the consolidation note's "declare the
-  schedule"), so a compiled loop has a defined meaning.
+Material and information should stay apart where they are apart; gates belong
+to both.
 
-**What it does not allow:** a native form that hides residue or tension; a
-floating-point function standing in for an exact read (floats stay in
-adapters, §9.6); compiling perturbable structure without a guard.
+## 12. Three approaches, and how they combine
 
-## 8. Conflicts and gaps in the axioms
+### A. Junction tables: the scribe
 
-These are stated as requested, each with the smallest clarification that would
-resolve it.
+**Idea.** Small tables over coarse roles, used at every rung with carries, as
+in lattice multiplication. Relations give backward reads. Wide operations are
+composed from small tables or learned from processes, and must pass the
+dispatch-in-disguise test (§5.3).
 
-1. **The step kind carries meaning but is not saved.** The EncodingC README
-   leaves the choice between stepping in order and stepping together to
-   whoever runs the machine. For coupled accumulators this decides whether an
-   orbit closes or spirals (§5.7). *Clarify:* the order between coupled rows
-   (or the step kind) is structure, saved with the machine. A compiled loop
-   needs the same declaration (§7.7).
-2. **The prompt does not say where product material comes from.** Its §4.4
-   accounts incoming participation as accepted, blocked and remainder, and
-   Axiom 5 sends external change in as tension, but a multiplication of
-   material has no conserving form. *Clarify:* "A product is a read unless a
-   refinement or supply route is wired. A product that is demanded and not
-   supplied is draw tension."
-3. **Intensive and extensive are not distinguished.** Axiom 10 says
-   compatible addition may collapse, but compatibility is stated in units, and
-   intensive quantities with the same unit (temperatures, densities, rates)
-   still do not add. *Clarify:* addition is defined on amounts and extents;
-   intensive reads combine through the extensives they are ratios of.
-4. **The prompt's §9.7, "a product is presence of both", holds only at the bit rung.** On
-   unary planes, AND is the minimum (§5.5). *Clarify* the scope, so that nobody
-   wires a planewise AND across counts as a multiplier.
-5. **The generator and the flips should be named apart.** The symmetry
-   articles' four units and EncodingC's three orientation moves form a group
-   of flips, each its own inverse. Axiom 10's generator is a quarter turn whose
-   square negates. The prompt already says the face dual is not
-   multiplication by `i`. *Clarify:* a quarter turn can be built as a
-   state-dependent alternation of two flips over time (§6.5), so the generator
-   needs time order as well as the flips.
-6. **The kernel's output-grade rule is a fold rule.** "A point output sums, a
-   frame output multiplies" says whether the result stays in its grade. It
-   should not be read as the process, the rate–amount roles, or the supply.
-7. **There is no single word for a junction.** The kernel says "operation
-   port" and EncodingC "row of a wiring". One word would help the axioms say
-   §5.2.
-8. **The tension note needs no new kind for operations.** The "times two being
-   used up" is goal tension read in a logarithmic or rung basis, and supply
-   shortfall is material deficit. This agrees with the note.
-9. **Reversibility has no name yet.** Accounting covers conserved sums, but
-   shears conserve information without conserving any sum (§5.3). If
-   reversibility is to be a promise a law can carry, it needs a word in the
-   prompt.
-10. **Stiffness has no structural account.** The prompt separates mutable
-    physical state from immutable promises (§9.2, Axiom 12) and leaves graded
-    "resistance to change" open (§5.1). The decided direction, perturbable
-    unless constant and hard to perturb by position, already has mechanisms in
-    EncodingC (§7.6). *Clarify:* how hard a value is to change is a read of
-    where it sits; a graded version, if wanted, is a read of support.
-11. **The rule for compiled forms could be more precise.** §8.1 and §9.1 allow
-    compiled forms traced back to the structure. *Clarify:* a native stand-in
-    replaces only crystallized structure, is exact on its declared domain or is
-    a declared finite read, keeps overflow, residue and open results visible,
-    is recognized by content, and is guarded by invalidation (§7.7).
+**Strengths.**
+- It is built on machinery that already works: `RelationLaw`, narrowing,
+  `LearnedTable`, carries.
+- It is exact.
+- It reads backward: division, the open zero, contradiction.
+- It is a lookup on any substrate.
 
-## 9. Experiments that would decide
+**Weaknesses.**
+- It is static: no time and no momentum.
+- Table size multiplies with role sizes.
+- A symmetric table hides which operand is the rate.
+- Narrowing is sound but incomplete: coupled loops such as `x + y = 5`,
+  `x·y = 6` need suppositions *(ops_neon)*.
 
-These are not a plan; each would show which approach carries a claim most
-cheaply. All are at rung 0 in EncodingC unless noted.
+### B. Coupled flows: the machine
 
-| Id | Build | Expected structure | Decides |
+**Idea.** Accumulators coupled by rates, stepped in a declared order, settle a
+remaining tension.
+
+| Operation | As a flow |
+| --- | --- |
+| Add | merging |
+| Multiply | coasting, or pairing arrivals |
+| Divide | quotition (steps until the gap closes) or partition (a round-robin split) |
+| Oscillate, compound, take a logarithm | the family of §9.3 |
+| Boolean | one-shot routing |
+
+**Strengths.**
+- It is physical.
+- Intermediate states are meaningful numbers: partial products and remaining
+  tension.
+- Roles are explicit.
+- It fits tension, and gives sine for free.
+
+**Weaknesses.**
+- It takes time: `n` steps, or `log n` with rungs.
+- Step order and coupling calibration both carry meaning, so both must be
+  structure.
+- Its inverse is another process, not a reading of the same one.
+- Flow can confuse observing with spending, unless reads and takes stay
+  visible *(ops_sol)*.
+
+### C. Frames and rungs: the geometer
+
+**Idea.** Numbers are ladders of partitions, and operations are frame edits or
+reads through composed frames.
+- Adding concatenates extents at a shared site, and translating moves an
+  origin.
+- Multiplying changes unit: it composes projections through a shared middle
+  frame, Descartes's fourth proportional.
+- Dividing projects backward with residue.
+- A power repeats a composition, and a logarithm counts rungs.
+
+**Strengths.**
+- The kernel already has projection with residue, unit shapes,
+  `ResolutionOf` and `SubdivisionOf`.
+- Scaling a structure is a constant-time retarget.
+- Meaning lives in the frame.
+
+**Weaknesses.**
+- Projection is observation, so material needs an explicit route.
+- Motion needs the contour construction.
+- A product of two live values needs frames as values, like a slide rule.
+- A new graph per scalar read would waste live structure *(ops_sol)*.
+
+### Side by side
+
+| | A: junction tables | B: coupled flows | C: frames and rungs |
 | --- | --- | --- | --- |
-| E1 | A times relation over `(a, b, c)` | divides; leaves `b` open when `a = c = 0`; contradiction when `a = 0` and `c ≠ 0` | A's backward reads |
-| E2 | A two-rung lattice: four cells of one table, sums by rung, a carry | equals the product; table bits counted against one wide relation | A plus C at scale |
-| E3 | A coasting multiplier: a rate read by reference, a supply, a target, a clock | target `= r·d`; supply drained; shortfall left as `T−` | B's material account |
-| E4 | Arrival pairing with planes for swept by A, swept by B, and corners | equal totals with different provenance on the L and diagonal paths | B's path record; prompt §5.3 |
-| E5 | The two-bit Sides phase law | `11 → 10 → 00 → 01`; two steps negate; four return | rung-0 sine; Axiom 10's generator |
-| E6 | The Minsky pair with coarse reads, both step kinds | in order closes; together spirals | step order as structure (§8.1) |
-| E7 | The same machine for `m = +1, 0, −1` | oscillation, linear growth, exponential growth | the `m` family |
-| E8 | Scaling a structure by retargeting its unit `TickRef` (kernel) | every read scales; ratios unchanged; nothing else edited | C's frame edit |
-| E9 | A change of unit as a carry run downward | 3 coarse units become 12 fine ones; the place-value sum is preserved | conserving multiplication (§5.3) |
-| E10 | Clamp, wrap and carry at the bit rung; routing of the four quadrants | OR, XOR and AND; 16 functions as selections with residue kept | boolean as arithmetic |
-| E11 | Quotition and partition | counting steps to empty equals the carry route; a round-robin split conserves | the two divisions |
-| E12 | A coarse-first settle: the remainder as a signed-digit ladder, a sign read per rung | converges toward the exact projection, one rung at a time | B with C's rungs |
-| E13 | A crystallized times table compiled to a native multiply, behind a guard | parity on the declared domain; overflow becomes blocked units; an edit invalidates the native form and reads fall back | the compile contract (§7.7) |
-| E14 | One coupling rate placed at each level of the stiffness ladder | a law changes the store count; a workspace cannot change the constant plane; a reader cannot write through a port; the rate in a table needs a new law | stiffness by position (§7.6) |
-| E15 | The same product with recording off, recording on, and replayed | the split appears only when asked; the recorded and replayed splits agree | provenance chosen by the question (§5.6) |
+| What an operation is | a small relation per rung, with carries | coupled accumulators settling a remainder | a frame edit, or a read through composed frames |
+| Direction | from wiring | built in | the direction of projection |
+| Material | none | supplied, or refined | none until an import |
+| Inverse | the same table read backward | another process | the projection read backward |
+| Intermediate states | supports | partial products, remaining tension | partial frames, residue |
+| Path provenance | only if recorded | natural | not native |
+| Sine and cosine | iterating over A | native | via a contour |
+| Compiles to | LUTs and recognized instructions | vectorized integer loops, CORDIC | multiply-add, shifts, `DivRem` |
+| Main risk | dispatch in disguise | step order and calibration | dynamics bolted on |
 
-## 10. Questions back
+### How they combine
 
-Answered in the first round (see [Decided in discussion](#decided-in-discussion)):
+**C says what multiplication means:** a relation between frames or rungs.
+**B says how it runs.** **A gives the backward reads, and is what a repeated B
+crystallizes into:** "useful history may crystallize into an algorithm" (the
+prompt's §6). The four places of §3 decide where each piece sits. The
+relation, process and fold of §1 are the reads every piece offers.
 
-1. **Is an operation the relation, the process or the fold?** All three, as
-   distinct reads.
-2. **Should a product keep its path provenance by default?** It is an option,
-   chosen by the question, and crystallization may hide it.
-3. **Where should a coupling rate live?** In a store, perturbable, unless it is
-   known to be constant. Then it sits low on the stiffness ladder (§7.6).
+A suggested order for work, at rung 0 in EncodingC:
+1. The oscillator family with saved step order (§9).
+2. Multiplication as coasting and as pairing, with provenance on demand (§5).
+3. Tables crystallized from observed processes, checked as relations (§5.3).
+4. A guarded native plan for one crystallized ladder (§11).
 
-Still open:
+## 13. Conflicts and gaps in the axioms
 
-4. **Is it acceptable to make step order meaning-bearing,** saved with the
-   machine? Both the oscillator (§5.7) and compilation (§7.7) want it.
-5. **Should intensive versus extensive become an axiom-level distinction?**
-6. **Provenance on demand: record or replay?** Recording costs planes while
-   running; replaying costs a rerun over a cone when asked. Either keeps the
-   fast path free of witnesses.
-7. **Is stiffness positional only, or also graded by support?**
-8. **Which first fixture?** The proposal is E5, E6 and E7 together (the
-   oscillator family at rung 0), then E3 and E4 (multiplication as a process
-   with provenance), then E13 once something is crystallized.
+Each gap is listed with the smallest clarification that would resolve it.
 
-Next step: a comparison with other engines.
+1. **The step kind carries meaning but is not saved.** It decides whether an
+   orbit closes (§9.2) and what a compiled loop means. *Clarify:* step order,
+   and `Step` versus `Settle` for in-place processes, are structure saved with
+   the machine.
+2. **Where product material comes from is unstated** (prompt §4.4, Axiom 5).
+   *Clarify:* "A product is a read unless a refinement or supply route is
+   wired. A product that is demanded and not supplied is draw tension."
+3. **Intensive and extensive are not distinguished.** Axiom 10's compatible
+   addition is stated in units, but intensive quantities of one unit still do
+   not add. *Clarify:* addition is defined on amounts and extents.
+4. **The prompt's §9.7 "product is presence of both" holds at the bit rung
+   only.** On unary planes AND is the minimum (§6). *Clarify* its scope.
+5. **Generator J is deferred, and the oscillator gives it a first use.**
+   *Proposal:* take J off the deferred list in EncodingC, with the rung-0
+   oscillator (§9.1) as its fixture.
+6. **The kernel's output-grade rule is a fold rule,** not the process, the
+   roles or the supply (§3).
+7. **There is no single word for a junction** (§3).
+8. **The tension note needs no new kind.** The "times two used up" is goal
+   tension in a logarithmic basis, and shortfall is material deficit.
+9. **Reversibility has no name.** Shears conserve information without
+   conserving a sum (§9.2). If a law can promise reversibility, the prompt
+   needs a word for it.
+10. **Stiffness has no structural account** beyond mutable and immutable
+    (§10). *Clarify:* how hard a value is to change is a read of where it sits.
+11. **The rule for compiled forms could be sharper.** *Clarify:* the contract of
+    §11.
+12. **Radix is semantic.** No axiom should prefer a radix for packing reasons
+    (§8).
+13. **An article and the prompt meet on denominators.** A denominator is
+    resolution only while connected to its sampling (§8; prompt §5.2).
+
+## 14. Experiments that would decide
+
+All are at rung 0 in EncodingC unless noted.
+
+| Id | Build | Expected | Decides |
+| --- | --- | --- | --- |
+| X1 | One set of participants, three readings *(ops_sol)*: a product counted from distinct ordered pairs and a same-unit repeat, both 12 from 3 and 4; an AND on a common partition; a gain on a scoped target read now, written back once, and recurring | equal counts with different roles and witnesses; the AND follows the shared sites; the three uses differ | whether structure explains the differences before the helper's name is read |
+| X2 | A times relation over `(a, b, c)` | divides; `b` open when `a = c = 0`; contradiction when `a = 0` and `c ≠ 0` | A's backward reads |
+| X3 | A two-rung lattice from one small table, against one wide relation | equal products; bits and the 64-value limit counted | factoring (§5.3) |
+| X4 | Lattice, doubling and quarter squares measured side by side | bits, steps, backward reads | which factoring to prefer *(ops_neon)* |
+| X5 | A coasting multiplier: a rate read, a supply, a clock | target `r·d`, supply drained, shortfall as `T−` | B's material account |
+| X6 | Arrival pairing: recording off, recording on, replayed | the split appears only when asked; recorded equals replayed | provenance chosen by the question |
+| X7 | "Double `B`" as a relation, under `Settle`, and per `Step` | zero; capacity; 5, 10, 20, 40 | settling versus time (§4) |
+| X8 | The rung-0 phase law: J driven by Sides events | eight states; two quarters negate; four return | §9.1; un-deferring J |
+| X9 | Kick and drift with both step kinds | in order closes, with constant shadow energy; together spirals | step order as structure |
+| X10 | The family of §9.3: first and second order, `m = +1, 0, −1` | relaxation, hold, growth; oscillation, coasting, runaway | one mechanism |
+| X11 | Scaling a structure by its unit `TickRef` (kernel), and the plate in GojoCAD | every read scales; ratios hold; the hole becomes an ellipse under one-axis stretch | C's frame edit; §7 |
+| X12 | A change of unit as a carry run downward | 3 coarse become 12 fine, place-value sum preserved | conserving multiplication |
+| X13 | Clamp, wrap and carry at the bit rung; four-region routing with residue | OR, XOR, AND; 16 selections conserving | Boolean as arithmetic |
+| X14 | One rate at each level of the stiffness ladder | each refuses or allows a change as §10 says | stiffness by position |
+| X15 | A crystallized times table behind a lane-guarded native plan | parity, overflow to `T+`, fallback on edit or open lanes | the compile contract |
+
+## 15. Open questions
+
+1. Should step order, and `Step` versus `Settle`, be saved with the machine?
+2. Should intensive versus extensive become an axiom-level distinction?
+3. Should provenance on demand be recorded or replayed? Recording costs planes
+   while running; replay costs a rerun when asked.
+4. Is stiffness positional only, or also graded by support?
+5. Should a supply that runs short leave a partial scaled result plus `T−`, or
+   hold the whole step, as `Convert` does for one quantum *(ops_neon)*?
+6. Which radix should each structure use? Base 60 for exact reciprocals, or
+   a power of two once crystallized?
+7. Is a narrow bridge test between an EncodingC ladder and the kernel's
+   projection worth adding now *(ops_neon)*?
+8. Which fixture first? The proposal is X1, then X8 to X10, then X5 to X7.
 
 ## Appendix A: numeric checks
 
-The script below checks the small numeric claims in this note. Run it with
-`python3 -I checks.py`. Everything is integer arithmetic except the Āryabhaṭa
-table.
+The script checks every numeric claim in this note. Run it with
+`python3 -I checks.py`. Everything is integer or exact-rational arithmetic
+except the two Āryabhaṭa tables.
 
 ```python
 import math
+from fractions import Fraction as F
 
 def coarse(v, s):                      # read v through s coarser binary rungs
     return -((-v) >> s) if v < 0 else v >> s
 
-def run(x, v, s, steps, in_order, m=1):
-    """x += coarse(v); v -= m*coarse(x). In order: v reads the new x."""
+def second_order(x, v, s, steps, in_order=True, m=1):
+    """Kick, then drift: v -= m*coarse(x); x += coarse(v).
+    In order: x reads the new v. Together: both read the old state."""
     path = [(x, v)]
     for _ in range(steps):
         if in_order:
-            x = x + coarse(v, s); v = v - m * coarse(x, s)
+            v = v - m * coarse(x, s); x = x + coarse(v, s)
         else:
             x, v = x + coarse(v, s), v - m * coarse(x, s)
         path.append((x, v))
     return path
 
-# 1. Step order: declared order closes the orbit, a step taken together spirals.
-p = run(64, 0, 3, 400, in_order=True)
+# 1. Step order: declared order closes the orbit; a step taken together spirals.
+p = second_order(64, 0, 3, 400)
 back = next(i for i, q in enumerate(p[1:], 1) if q == p[0])
-print("in order: back at start after", back, "steps, max |x|", max(abs(q[0]) for q in p))
-p = run(64, 0, 3, 400, in_order=False)
-print("together: max |x| over 400 steps", max(abs(q[0]) for q in p))
+print("1. in order: back at start after", back, "steps, max |x|", max(abs(q[0]) for q in p))
+p = second_order(64, 0, 3, 400, in_order=False)
+print("   together: max |x| over 400 steps", max(abs(q[0]) for q in p))
 
-# 2. One machine, the sign m of its feedback.
+# 2. Exact shadow energy of kick-drift, H = (v^2 + k x^2 - k x v)/2 (from ops_neon).
+k = F(1, 8); x, v = F(5), F(0); H = lambda x, v: (v*v + k*x*x - k*x*v) / 2
+h0 = H(x, v); same = True
+for _ in range(1000):
+    v -= k * x; x += v; same = same and H(x, v) == h0
+print("2. shadow energy unchanged over 1000 exact steps:", same,
+      "| per-step angle 2*asin(sqrt(k)/2) =", round(2 * math.asin(math.sqrt(1/8) / 2), 4),
+      "vs acos(1-k/2) =", round(math.acos(1 - 1/16), 4))
+
+# 3. Order and sign: first order x -= m*coarse(x); second order as above.
+def first_order(x, s, steps, m):
+    out = [x]
+    for _ in range(steps):
+        x = x - m * coarse(x, s); out.append(x)
+    return out
 for m in (1, 0, -1):
-    p = run(64, 64, 3, 24, True, m)
-    print(f"m={m:+d}: x at steps 0, 8, 16, 24 =", [p[i][0] for i in (0, 8, 16, 24)])
-print("m=0 coasting at rate 5 for 7 steps: x =", run(0, 40, 3, 7, True, 0)[-1][0])
+    f1 = first_order(1024, 4, 24, m); f2 = second_order(64, 64, 3, 24, True, m)
+    print(f"3. m={m:+d}: first order x at 0,8,16,24 = {[f1[i] for i in (0, 8, 16, 24)]};"
+          f" second order x = {[f2[i][0] for i in (0, 8, 16, 24)]}")
+d = first_order(1024, 4, 40, 1)
+halves = [next(i for i, q in enumerate(d) if q <= t) for t in (512, 256, 128)]
+print("   first-order decay reaches 512, 256, 128 at steps", halves, "(equal ratios, near-equal times)")
 
-# 3. Product by pairing arrivals; the split records the path.
+# 4. Rung-0 phase: (sign x, sign v) with the axes between quadrants.
+def sign(n): return (n > 0) - (n < 0)
+p = second_order(64, 0, 3, back)
+seen = []
+for xv in p:
+    st = (sign(xv[0]), sign(xv[1]))
+    if not seen or seen[-1] != st: seen.append(st)
+print("4. phases visited in one period:", seen)
+
+# 5. Product by pairing arrivals; the split records the path.
 def pairing(arrivals):
-    a = b = a_last = b_last = corners = 0
+    a = b = by_a = by_b = corners = 0
     for da, db in arrivals:
-        if da and db: a_last += b; b_last += a; corners += 1
-        elif da:      a_last += b
-        elif db:      b_last += a
+        if da and db: by_a += b; by_b += a; corners += 1
+        elif da:      by_a += b
+        elif db:      by_b += a
         a += da; b += db
-    return dict(a=a, b=b, product=a_last + b_last + corners,
-                swept_by_A=a_last, swept_by_B=b_last, corners=corners)
-print("L path  :", pairing([(1, 0)] * 3 + [(0, 1)] * 4))
-print("diagonal:", pairing([(1, 1)] * 3 + [(0, 1)]))
+    return dict(product=by_a + by_b + corners, swept_by_A=by_a, swept_by_B=by_b, corners=corners)
+print("5. L path  :", pairing([(1, 0)] * 3 + [(0, 1)] * 4))
+print("   diagonal:", pairing([(1, 1)] * 3 + [(0, 1)]))
 
-# 4. Aryabhata: second difference = -(sine so far)/coupling, R = 3438.
+# 6. Aryabhata: second difference = -(sine so far)/coupling, radius 3438.
 for coupling in (225.0, 1 / (2 - 2 * math.cos(math.radians(3.75)))):
-    d, s, t = 225.0, 0.0, []
+    dd, s, t = 225.0, 0.0, []
     for _ in range(24):
-        s += d; t.append(round(s)); d -= s / coupling
-    print(f"coupling 1/{coupling:.1f}: first {t[:5]}, peak {max(t)}, true 3438")
+        s += dd; t.append(round(s)); dd -= s / coupling
+    print(f"6. coupling 1/{coupling:.1f}: first {t[:5]}, peak {max(t)}, true 3438")
 
-# 5. Bit rung: carry of a+b is a*b; OR is the clamped sum, XOR the wrapped sum.
-print("bits a b | carry AND | clamp OR | wrap XOR")
-for a in (0, 1):
-    for b in (0, 1):
-        print(f"     {a} {b} |   {(a+b)//2}    {a&b} |   {min(a+b,1)}    {a|b} |  {(a+b)%2}    {a^b}")
-
-# 6. Unary (thermometer) planes: AND is min, OR is max, XOR is the span between.
+# 7. Bit rung and unary planes.
+print("7. bits: carry(a+b)=a*b:", all((a + b) // 2 == a * b for a in (0, 1) for b in (0, 1)),
+      "| clamp(a+b)=a|b:", all(min(a + b, 1) == a | b for a in (0, 1) for b in (0, 1)),
+      "| wrap(a+b)=a^b:", all((a + b) % 2 == a ^ b for a in (0, 1) for b in (0, 1)))
 th = lambda n: (1 << n) - 1           # bit j set means "more than j"
-a, b = 5, 2
-print("unary 5,2: AND", bin(th(a) & th(b)), "= min", bin(th(min(a, b))),
-      "| OR", bin(th(a) | th(b)), "= max", bin(th(max(a, b))),
-      "| XOR", bin(th(a) ^ th(b)), "= sites 2..4, popcount", bin(th(a) ^ th(b)).count("1"))
+ok = all(th(a) & th(b) == th(min(a, b)) and th(a) | th(b) == th(max(a, b))
+         and bin(th(a) ^ th(b)).count("1") == abs(a - b) for a in range(9) for b in range(9))
+print("   unary planes 0..8: AND is min, OR is max, XOR spans |a-b| sites:", ok)
+
+# 8. Exact contour turn (from ops_sol) and two Babylonian readings.
+x, u = F(5), F(0); pts = []
+for _ in range(2):
+    x, u = (3*x + 4*u) / 5, (-4*x + 3*u) / 5; pts.append((x, u))
+print("8. 3-4-5 turn:", [(str(a), str(b)) for a, b in pts], "keeps x^2+u^2 =", pts[-1][0]**2 + pts[-1][1]**2)
+print("   8 steps of 0;07,30 =", 8 * (F(7, 60) + F(30, 3600)), "| 8 steps of 7,30 =", 8 * (7*60 + 30), "= 1,00,00")
+s = F(1, 2)
+print("   BM 13901 #1: side 30' gives s^2 + s =", s*s + s, "= 45'; completing the corner gives", (s + F(1, 2))**2)
 ```
 
 Output, 25 November 2026:
 
 ```text
-in order: back at start after 54 steps, max |x| 64
-together: max |x| over 400 steps 1187
-m=+1: x at steps 0, 8, 16, 24 = [64, 91, 43, -43]
-m=+0: x at steps 0, 8, 16, 24 = [64, 128, 192, 256]
-m=-1: x at steps 0, 8, 16, 24 = [64, 166, 440, 1191]
-m=0 coasting at rate 5 for 7 steps: x = 35
-L path  : {'a': 3, 'b': 4, 'product': 12, 'swept_by_A': 0, 'swept_by_B': 12, 'corners': 0}
-diagonal: {'a': 3, 'b': 4, 'product': 12, 'swept_by_A': 3, 'swept_by_B': 6, 'corners': 3}
-coupling 1/225.0: first [225, 449, 671, 890, 1105], peak 3375, true 3438
-coupling 1/233.5: first [225, 449, 671, 890, 1106], peak 3440, true 3438
-bits a b | carry AND | clamp OR | wrap XOR
-     0 0 |   0    0 |   0    0 |  0    0
-     0 1 |   0    0 |   1    1 |  1    1
-     1 0 |   0    0 |   1    1 |  1    1
-     1 1 |   1    1 |   1    1 |  0    0
-unary 5,2: AND 0b11 = min 0b11 | OR 0b11111 = max 0b11111 | XOR 0b11100 = sites 2..4, popcount 3
+1. in order: back at start after 54 steps, max |x| 64
+   together: max |x| over 400 steps 1187
+2. shadow energy unchanged over 1000 exact steps: True | per-step angle 2*asin(sqrt(k)/2) = 0.3554 vs acos(1-k/2) = 0.3554
+3. m=+1: first order x at 0,8,16,24 = [1024, 614, 370, 225]; second order x = [64, 86, 38, -41]
+3. m=+0: first order x at 0,8,16,24 = [1024, 1024, 1024, 1024]; second order x = [64, 128, 192, 256]
+3. m=-1: first order x at 0,8,16,24 = [1024, 1659, 2692, 4366]; second order x = [64, 174, 469, 1267]
+   first-order decay reaches 512, 256, 128 at steps [11, 22, 34] (equal ratios, near-equal times)
+4. phases visited in one period: [(1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0)]
+5. L path  : {'product': 12, 'swept_by_A': 0, 'swept_by_B': 12, 'corners': 0}
+   diagonal: {'product': 12, 'swept_by_A': 3, 'swept_by_B': 6, 'corners': 3}
+6. coupling 1/225.0: first [225, 449, 671, 890, 1105], peak 3375, true 3438
+6. coupling 1/233.5: first [225, 449, 671, 890, 1106], peak 3440, true 3438
+7. bits: carry(a+b)=a*b: True | clamp(a+b)=a|b: True | wrap(a+b)=a^b: True
+   unary planes 0..8: AND is min, OR is max, XOR spans |a-b| sites: True
+8. 3-4-5 turn: [('3', '-4'), ('-7/5', '-24/5')] keeps x^2+u^2 = 25
+   8 steps of 0;07,30 = 1 | 8 steps of 7,30 = 3600 = 1,00,00
+   BM 13901 #1: side 30' gives s^2 + s = 3/4 = 45'; completing the corner gives 1
 ```
 
-## Appendix B: sources
+## Appendix B: evidence
 
-**In this repository**
-- [Canonical prompt](../Gojo/docs/GojoSystemPrompt.md); [tension note](../Gojo/docs/GojoTension-2026-11.md)
-- [EncodingC README](../Gojo.EncodingC/README.md) and [glossary](../Gojo.EncodingC/GLOSSARY.md)
-- `Gojo/Core/Relation.Operations.cs`; [Equations README](../Gojo/Equations/README.md)
-- [Operation Shape Catalog](../Gojo/axioms/Gojo%20Operation%20Shape%20Catalog.md)
-- [Core4 Kernel Axioms](../Gojo/axioms/Core4%20Kernel%20Axioms.md), [Core4 Carrier Read And Resolution Axioms](../Gojo/axioms/Core4%20Carrier%20Read%20And%20Resolution%20Axioms.md), [Core4 Boundary Overflow Axioms](../Gojo/axioms/Core4%20Boundary%20Overflow%20Axioms.md), [Legacy Core4 idea inventory](../Gojo/docs/LegacyCore4IdeaInventory.md)
-- [Complex interpretations](../Gojo/docs/GojoComplexInterpretations-2026-09.md); [primitive numbers and control](../experiments/PRIMITIVE-NUMBER-ANALYSIS.md); [race order experiment](../experiments/PrimitiveMeasure/RaceOrder.md)
-- [Consolidation note](../Gojo/docs/GojoEncodingConsolidation-2026-11.md): §5.8 rungs, §5.12 witness lane, §7 hardware mapping, C5 and C6; `experiments/QualitativeExecution/FiniteLawPlan.cs` and `FiniteLawBatchPlan.cs`; `TryCrystallizeFill` in `Gojo/Core/Relation.Operations.cs`; `Gojo.EncodingC/Laws/Accounting.cs` (`Unchanged`)
+| Source | Mechanism | Lesson for Gojo |
+| --- | --- | --- |
+| Old Babylonian vocabulary (Høyrup) | join, heap, tear out, compare; steps of, raise, make hold, repeat; division as a question; break | operations are distinct acts with distinct roles (§1) |
+| Babylonian floating digits | digits with the scale left to the application | an uncalibrated connection (§8) |
+| igi tables | division by a reciprocal; regular numbers; "detaching" one of `n` parts | a relation read backward; splitting; radix as semantics |
+| BM 13901 #1 | a side given a unit width becomes area; the corner completes the square | lifting a grade by a unit; the corner of the product |
+| Egyptian doubling; Rhind 79 | doublings selected by bits and added | rungs plus Boolean selection plus addition |
+| False position (Rhind 24–29) | guess, read the error, scale | solving by lowering tension |
+| Euclid VII def 15 and VII.16 | multiplication defined by roles; symmetry proved | roles survive commutativity |
+| Eudoxus (Euclid V def 5) | equal ratios by equimultiples and comparison | counting and comparing suffice for proportion |
+| Euclid II and VI.23 | products of lines are rectangles; ratios compound through a middle term | grade-raising products; relation composition |
+| Gnomon (Euclid II def 2) | odd numbers build squares | the incremental product |
+| Application of areas (Euclid I.44, VI.28–29) | exact fit, falling short, exceeding *(ops_neon)* | two-faced tension in geometry |
+| Archimedes, lever and steelyard | balance at reciprocal distances | equilibrium as computation |
+| *Nine Chapters*: red and black rods; excess and deficit | two signed faces; two trials combined crosswise | keep `T+` and `T−` apart; interpolate residues |
+| Brahmagupta | rules for fortunes, debts and zero | signed participation |
+| Āryabhaṭa | second difference proportional to minus the sine | sine as coupled accumulation; the coupling is a calibration |
+| Lattice; Treviso 1478; Napier's bones | digit products by place, diagonals with carries | the product of two ladders; rung indices add |
+| Prosthaphaeresis; Napier 1614; slide rule | multiply by adding angles or logarithms | multiplication is addition one rung up |
+| Viète 1591; Descartes 1637 | homogeneity; the unit and the fourth proportional | the hidden unit; `ab` against `ab/u` |
+| Leibniz 1675 | `d(xy) = x dy + y dx` | each operand sweeps along the other |
+| Shannon 1938 | relay circuits with 1 as open | polarity is a chosen read |
+| Stevens 1946 | interval and ratio scales | differences need no zero; ratios do |
+| Vergnaud; Davydov; Confrey; Fischbein | rate on amount, product of measures, change of unit, splitting | `×` names several structures |
+| Bond graphs (Paynter 1961) | transformers, modulated transformers, junctions *(ops_neon)* | constants on connections, variables at junctions |
+| Signal-flow graphs (Bonchi, Sobociński, Zanasi) | copy, add, discard, zero, gain *(ops_neon)* | the linear core; products begin junctions |
+| Ball-and-disk integrator; DDA | a position modulates a flow, accumulated; overflow as output rate | multiplication as setting × flow over time |
+| CORDIC (Volder 1959; Walther 1971) | one iteration with `m ∈ {1, 0, −1}` | one mechanism for sine, product and exponential |
+| Minsky (HAKMEM 149) | update with the new value | step order decides whether the orbit closes |
+| Stochastic computing; race logic | AND is a product, or a maximum | the encoding decides what an act means |
+| Signed digits; online arithmetic | local carries; most significant digit first | coarse-first arithmetic on ODV-like digits |
+| Conservative logic (Fredkin, Toffoli) | invertible gates conserving ones | Boolean as conserving routing |
+| Chemical reaction networks | rate-independent reactions compute semilinear functions | a product of two counts needs sequencing |
+| Laws of Form | calling and crossing | clamp and wrap |
+| Propagators (Radul, Sussman) | cells of partial information *(ops_neon)* | the computer-science cousin of supports |
 
-**Drive folder articles** (the author's): Pin, Accumulate, and Merge;
-Multiplying AI Segments; Boolean Arithmetic with Segments; Sequential Math,
-Parallel Math; Numbers (Complexity Spaces); Mathematics Without Infinity;
-Segment Math and Symmetry; The Mathematical Interpretation of Symmetric
-Numbers; Thinking in Directed Segments; Emergent Properties; Axioms (Core 2).
+## Appendix C: sources
 
-**History**
-- Egypt: [MacTutor, Egyptian papyri](https://mathshistory.st-andrews.ac.uk/HistTopics/Egyptian_papyri/); [Egyptian algebra](https://en.wikipedia.org/wiki/Egyptian_algebra)
-- Mesopotamia: [Old Babylonian multiplication and reciprocal tables](https://www.math.stonybrook.edu/~tony/scgp/catalogue/bab-mult.html); [Joyce, sexagesimal reciprocals](https://cs.clarku.edu/~djoyce/ma105/reciprocals3600.html); [Late Babylonian tables of regular numbers](https://arxiv.org/pdf/1306.5989); [Høyrup, complex second-degree problems](https://mprl-series.mpg.de/textbooks/2/5/index.html); [Høyrup, Lengths, Widths, Surfaces](https://www.springer.com/9780387953038); [IM 67118](https://en.wikipedia.org/wiki/IM_67118); [YBC 7289](https://en.wikipedia.org/wiki/YBC_7289); [Casselman on YBC 7289](https://personal.math.ubc.ca/~cass/euclid/ybc/analysis.html); [McFarland, quarter tables](https://escholarship.org/uc/item/5n31064n)
-- Greece: [Euclid VII def 15](https://mathcs.clarku.edu/~djoyce/elements/bookVII/defVII15.html); [VII.16](https://www.claymath.org/library/historical/euclid/files/elem.7.16.html); [Euclid V def 5](https://mathcs.clarku.edu/~djoyce/elements/bookV/defV5.html); [Euclid VI.23](https://mathcs.clarku.edu/~djoyce/elements/bookVI/propVI23.html); [Euclid II definitions](https://mathcs.clarku.edu/~djoyce/elements/bookII/defII.html); [Archimedes, On the Equilibrium of Planes](https://en.wikipedia.org/wiki/On_the_Equilibrium_of_Planes); [MacTutor, Archimedes on statics](https://mathshistory.st-andrews.ac.uk/Extras/Archimedes_on_statics/)
-- China: [Nine Chapters](https://en.wikipedia.org/wiki/The_Nine_Chapters_on_the_Mathematical_Art); [MacTutor, Nine Chapters](https://mathshistory.st-andrews.ac.uk/HistTopics/Nine_chapters); [counting rods](https://en.wikipedia.org/wiki/Counting_rods)
-- India: [Āryabhaṭa's sine table](https://en.wikipedia.org/wiki/%C4%80ryabha%E1%B9%ADa%27s_sine_table); [Joyce, Āryabhaṭa's trigonometry](https://mathcs.clarku.edu/%7Edjoyce/ma105/aryatrig.pdf); [Singh, Āryabhaṭa and the first trigonometric table](https://arxiv.org/pdf/2309.13577); [lattice multiplication](https://en.wikipedia.org/wiki/Lattice_multiplication)
-- Early modern: [prosthaphaeresis](https://en.wikipedia.org/wiki/Prosthaphaeresis); [Tycho Brahe and mathematical techniques](https://www.sites.hps.cam.ac.uk/starry/tychomaths.html); [Napier's approach to logarithms](https://www.open.edu/openlearn/science-maths-technology/mathematics-statistics/john-napier/content-section-5); [MacTutor, Napier](https://mathshistory.st-andrews.ac.uk/Biographies/Napier.html); [La Géométrie (quotes)](https://en.wikiquote.org/wiki/La_G%C3%A9om%C3%A9trie); [Stanford Encyclopedia, Descartes' mathematics](https://plato.stanford.edu/archives/win2013/entries/descartes-mathematics/); [product rule, historical note](https://www.proofwiki.org/wiki/Product_Rule_for_Differentials/Historical_Note)
+**Parallel notes and repository**
+- [ops_sol: Where operations live in Gojo](https://github.com/It3rate/Gojo/blob/ops_sol/Gojo/docs/GojoOperationsDiscussion.md); [ops_neon: Operations, from physical relations to compiled hardware](https://github.com/It3rate/Gojo/blob/ops_neon/Gojo/docs/GojoOperations-2026-11.md)
+- [Canonical prompt](../Gojo/docs/GojoSystemPrompt.md); [orientation, definition and use](../Gojo/docs/GojoOrientationDefinitionAndUse-2026-11.md) (§5, the generator); [tension note](../Gojo/docs/GojoTension-2026-11.md); [consolidation note](../Gojo/docs/GojoEncodingConsolidation-2026-11.md) (§5.8, §5.12, §7, K7); [finite-read fixture](../Gojo/docs/GojoFiniteReadFixture.md); [complex interpretations](../Gojo/docs/GojoComplexInterpretations-2026-09.md)
+- [EncodingC README](../Gojo.EncodingC/README.md) and [glossary](../Gojo.EncodingC/GLOSSARY.md); `Gojo.EncodingC/Tests/LawTests.cs` (`SameTable`, the 64-value limit, Boolean bytes, the add relation); `SelfRunningTests.cs` (the carry ladder); `Laws/Accounting.cs` (`Unchanged`)
+- `Gojo/Core/Relation.Operations.cs` (the output-grade rule; `TryCrystallizeFill`); [Equations README](../Gojo/Equations/README.md); [Operation Shape Catalog](../Gojo/axioms/Gojo%20Operation%20Shape%20Catalog.md); [Core4 Kernel Axioms](../Gojo/axioms/Core4%20Kernel%20Axioms.md); [Core4 Carrier Read And Resolution Axioms](../Gojo/axioms/Core4%20Carrier%20Read%20And%20Resolution%20Axioms.md); [Core4 Boundary Overflow Axioms](../Gojo/axioms/Core4%20Boundary%20Overflow%20Axioms.md)
+- `experiments/QualitativeExecution/FiniteLawPlan.cs` and `FiniteLawBatchPlan.cs`; `Gojo.EncodingC/Laws/Counts.cs` on the `tension_synthesis` branch
+- Drive folder articles: Pin, Accumulate, and Merge; Multiplying AI Segments; Boolean Arithmetic with Segments; Sequential Math, Parallel Math; Numbers (Complexity Spaces); Mathematics Without Infinity; Segment Math and Symmetry; The Mathematical Interpretation of Symmetric Numbers; Thinking in Directed Segments; Emergent Properties; Axioms (Core 2)
 
-**Mathematics education and measurement**
-- [Vergnaud, theoretical frameworks (1988)](https://www.gerard-vergnaud.org/texts/gvergnaud_1988_theoretical-frameworks_icme-6-budapest.pdf); [Sharing a unit, measuring a length](https://arxiv.org/pdf/2610.14735)
-- [Measure Up, a Davydov-based curriculum](https://crdg.hawaii.edu/wp-content/uploads/measureup-2007-05b.pdf); [Wallis, multiplicative reasoning through measures](https://repository.uwtsd.ac.uk/id/eprint/3066/1/Wallis%2C%20Rachel%20%282024%29%20PhD%20Exploring%20the%20learning%20and%20teaching%20of%20multiplicative%20reasoning%20through%20measures.pdf)
-- Confrey's splitting conjecture: [summary](https://cavac.at/cavacopedia/Multiplication%20and%20repeated%20addition)
-- [Stevens, On the Theory of Scales of Measurement (1946)](https://static1.squarespace.com/static/61509123dbba3159acb3709f/t/615093390580ec0880021054/1461271683467/Stevens1946ScalesOfMeasurement.pdf)
+**Checked for this note**
+- [Høyrup, *Algebra in Cuneiform*, chapter 1](https://www.mprl-series.mpg.de/media/textbooks/2/2/textbooks2ch2.pdf) (the vocabulary of §1.1, quoted from the text); [Høyrup, complex second-degree problems](https://mprl-series.mpg.de/textbooks/2/5/index.html)
+- [Euclid VII def 15](https://mathcs.clarku.edu/~djoyce/elements/bookVII/defVII15.html); [VII.16](https://www.claymath.org/library/historical/euclid/files/elem.7.16.html); [Euclid V def 5](https://mathcs.clarku.edu/~djoyce/elements/bookV/defV5.html); [Euclid VI.23](https://mathcs.clarku.edu/~djoyce/elements/bookVI/propVI23.html); [Euclid II definitions](https://mathcs.clarku.edu/~djoyce/elements/bookII/defII.html); [Archimedes, On the Equilibrium of Planes](https://en.wikipedia.org/wiki/On_the_Equilibrium_of_Planes)
+- [MacTutor, Egyptian papyri](https://mathshistory.st-andrews.ac.uk/HistTopics/Egyptian_papyri/); [Old Babylonian multiplication and reciprocal tables](https://www.math.stonybrook.edu/~tony/scgp/catalogue/bab-mult.html); [YBC 7289](https://en.wikipedia.org/wiki/YBC_7289); [McFarland, quarter tables](https://escholarship.org/uc/item/5n31064n)
+- [Nine Chapters](https://en.wikipedia.org/wiki/The_Nine_Chapters_on_the_Mathematical_Art); [counting rods](https://en.wikipedia.org/wiki/Counting_rods); [Āryabhaṭa's sine table](https://en.wikipedia.org/wiki/%C4%80ryabha%E1%B9%ADa%27s_sine_table); [Singh, Āryabhaṭa and the first trigonometric table](https://arxiv.org/pdf/2309.13577); [lattice multiplication](https://en.wikipedia.org/wiki/Lattice_multiplication)
+- [prosthaphaeresis](https://en.wikipedia.org/wiki/Prosthaphaeresis); [Napier's approach to logarithms](https://www.open.edu/openlearn/science-maths-technology/mathematics-statistics/john-napier/content-section-5); [La Géométrie (quotes)](https://en.wikiquote.org/wiki/La_G%C3%A9om%C3%A9trie); [product rule, historical note](https://www.proofwiki.org/wiki/Product_Rule_for_Differentials/Historical_Note)
+- [Vergnaud, theoretical frameworks (1988)](https://www.gerard-vergnaud.org/texts/gvergnaud_1988_theoretical-frameworks_icme-6-budapest.pdf); [Measure Up (Davydov-based)](https://crdg.hawaii.edu/wp-content/uploads/measureup-2007-05b.pdf); [Stevens (1946)](https://static1.squarespace.com/static/61509123dbba3159acb3709f/t/615093390580ec0880021054/1461271683467/Stevens1946ScalesOfMeasurement.pdf)
+- [Ball-and-disk integrator](https://en.wikipedia.org/wiki/Ball-and-disk_integrator); [digital differential analyzer](https://en.wikipedia.org/wiki/Digital_differential_analyzer); [CORDIC](https://en.wikipedia.org/wiki/CORDIC); [CORDIC modes](https://eprints.soton.ac.uk/263504/1/iee_cordic.pdf); [HAKMEM 149](https://www.cl.cam.ac.uk/~am21/hakmemc.html)
+- [Stochastic computing survey](https://web.eecs.umich.edu/~jhayes/AA-WKQ-JPH_Promise-SC_IEEETCAD%2718.pdf); [race logic](https://sites.cs.ucsb.edu/~sherwood/pubs/IEEEMicro-16-race.pdf); [Avizienis (1961)](https://cr.yp.to/bib/1961/avizienis.bibtex); [Ercegovac, online arithmetic](https://web.cs.ucla.edu/~milos/DDECS2020Talk.pdf); [Fredkin and Toffoli, Conservative Logic](https://www.cs.princeton.edu/courses/archive/fall04/cos576/papers/fredkin_toffoli82.pdf); [Chen, Doty and Soloveichik](https://arxiv.org/abs/1204.4176v3); [Laws of Form](https://en.wikipedia.org/wiki/Laws_of_Form)
 
-**Machines and encodings**
-- [Ball-and-disk integrator](https://en.wikipedia.org/wiki/Ball-and-disk_integrator); [differential analyser](https://en.wikipedia.org/wiki/Differential_analyser); [digital differential analyzer](https://en.wikipedia.org/wiki/Digital_differential_analyzer)
-- [CORDIC](https://en.wikipedia.org/wiki/CORDIC); [Walther, A unified algorithm for elementary functions](https://www.scribd.com/document/352295602/A-Unified-Algorithm-for-Elementary-Functions); [Muller, CORDIC and elementary functions](https://perso.ens-lyon.fr/jean-michel.muller/00204786.pdf); [CORDIC modes (Southampton)](https://eprints.soton.ac.uk/263504/1/iee_cordic.pdf)
-- [HAKMEM, item 149](https://www.cl.cam.ac.uk/~am21/hakmemc.html); [Minskytron archaeology](https://www.masswerk.at/nowgobang/2023/minskytron)
-- [Alaghi, Qian and Hayes, The Promise and Challenge of Stochastic Computing](https://web.eecs.umich.edu/~jhayes/AA-WKQ-JPH_Promise-SC_IEEETCAD%2718.pdf)
-- [Race logic, IEEE Micro](https://sites.cs.ucsb.edu/~sherwood/pubs/IEEEMicro-16-race.pdf); [Temporal state machines and tropical algebra](https://arxiv.org/pdf/2009.14243.pdf)
-- [Avizienis, signed-digit representations (1961)](https://cr.yp.to/bib/1961/avizienis.bibtex); [Ercegovac, online arithmetic](https://web.cs.ucla.edu/~milos/DDECS2020Talk.pdf)
-- [Fredkin and Toffoli, Conservative Logic](https://www.cs.princeton.edu/courses/archive/fall04/cos576/papers/fredkin_toffoli82.pdf); [billiard-ball computer](https://en.wikipedia.org/wiki/Billiard-ball_computer)
-- [Chen, Doty and Soloveichik, deterministic function computation with chemical reaction networks](https://arxiv.org/abs/1204.4176v3); [Doty and Hajiaghayi, leaderless deterministic CRNs](https://arxiv.org/pdf/1304.4519)
-- [Interaction nets](https://en.wikipedia.org/wiki/Interaction_nets)
-- [Laws of Form](https://en.wikipedia.org/wiki/Laws_of_Form); [Kauffman, Laws of Form](https://homepages.math.uic.edu/~kauffman/Laws.pdf)
+**Through the parallel notes, not rechecked here:** CDLI P493017, Proust on
+Nippur, Rhind problem 79, the Treviso arithmetic and Shannon (1938) via
+ops_sol; Paynter (1961), Bonchi, Sobociński and Zanasi, Viète (1591),
+Bombelli, Grassmann, Radul and Sussman, and Hairer, Lubich and Wanner via
+ops_neon.
 
-Recalled from reading and not checked for this note: Brahmagupta's rules for
-fortunes and debts; Fischbein, Deri, Nello and Marino (1985); Girard (1987);
-Bresenham (1965); Kelvin's tide predictor; Feynman's half-step method;
-Hölzle, Chambers and Ungar (1992) on dynamic deoptimization in Self.
+**Recalled from reading:** Brahmagupta; Fischbein, Deri, Nello and Marino
+(1985); Confrey (1994); Bresenham (1965); Minsky's circle algorithm in context;
+Hölzle, Chambers and Ungar (1992) on deoptimization.
