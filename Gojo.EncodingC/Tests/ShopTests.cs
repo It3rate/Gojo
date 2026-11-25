@@ -353,30 +353,29 @@ public sealed class ShopTests
         Assert.Equal(saved, Transport.Save(Transport.Load(saved).Engine));
     }
 
-    /// <summary>Iteration 6, a trial: "buy only from B". A fork is refused, since
-    /// the shop takes through its wholesalers' lines and a fork would act on
-    /// them. So the customer, the shop and both wholesalers are saved together
-    /// and loaded as a copy, laws and all, and the trial runs there with A ruled
-    /// out. In the copy B gives both cases; in the shop, A, declared first, gives
-    /// its one. The trial leaves the shop and its wholesalers unchanged, bit for bit.</summary>
+    /// <summary>Iteration 6, a trial: "buy only from B". A fork as it is would
+    /// act on the wholesalers through the shop's lines, so it is refused. With
+    /// ports isolated, the fork takes from snapshots of what each line, and the
+    /// customer's requests, showed when it was made, and runs there with A
+    /// ruled out: B's snapshot gives both cases and the fork's shop is at four.
+    /// Nothing reaches the live structures, and the fork will not commit, since
+    /// what it took from a snapshot was never taken from the wholesaler.</summary>
     [Fact]
-    public void ATrialRunsOnACopyBecauseAShopThatTakesCannotFork()
+    public void ATrialRunsInAForkThatTakesFromSnapshotsOfItsLines()
     {
         var world = Open(target: 3, wholesalers: [Supplier(cases: 1), Supplier(cases: 3)]);
         Assert.Throws<ArgumentException>(() => world.Shop.Engine.Fork());
 
         var before = Transport.SaveLocals(world.Engines);
-        var copies = Transport.LoadLocals(before);
-        var trial = new World(
-            world.Customer with { Engine = copies[0].Engine, Store = copies[0].Stores[0] },
-            [.. world.Wholesalers.Select((w, i) => w with { Engine = copies[1 + i].Engine, Warehouse = copies[1 + i].Stores[0] })],
-            world.Shop with { Engine = copies[^1].Engine, Store = copies[^1].Stores.First(s => s.PlaneCount == world.Shop.Store.PlaneCount) });
-        new Supports(trial.Shop.Store, world.Shop.Choice!.Field, [.. world.Shop.Choice.Planes]).Restrict(0, 1UL << B);
-        trial.Settle();
+        var trial = world.Shop.Engine.Fork(isolatePorts: true);
+        var view = trial.Of(world.Shop.Store);
+        new Supports(view, world.Shop.Choice!.Field, [.. world.Shop.Choice.Planes]).Restrict(0, 1UL << B);
+        Assert.NotNull(trial.Engine.Settle(64));
 
+        Assert.Equal((4, 0, 0), (world.Shop.Stock.Value.Read(view, 0), world.Shop.Stock.Plus.Read(view, 0), world.Shop.OnOrder.Read(view, 0)));
+        Assert.Equal([1, 1], world.Shop.Lines.Select(line => world.Wholesalers[0].Cases.Read(trial.Of(line), 0)!.Value));
         Assert.Equal(before, Transport.SaveLocals(world.Engines));
-        Assert.Equal((4, 0, 0, 0, 0), trial.Floor);
-        Assert.Equal([1, 1], trial.Warehouses);
+        Assert.False(trial.Commit());
 
         world.Settle();
         Assert.Equal([0, 2], world.Warehouses);

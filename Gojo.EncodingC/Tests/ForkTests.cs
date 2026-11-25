@@ -254,4 +254,48 @@ public sealed class ForkTests
         Assert.Contains((site, 0), fork.Held);
         Assert.Equal(2, value.Read(fork.Of(site), 0));
     }
+
+    /// <summary>A move between two stores of one structure runs in a fork: the
+    /// fork's workspaces are one supposition, so one law may write both. The
+    /// parent's stores are untouched.</summary>
+    [Fact]
+    public void AForkRunsAMoveBetweenTwoOfItsParentsStores()
+    {
+        var (from, count) = Make.Counts(1, 3);
+        var (to, _) = Make.Counts(1, 3);
+        count.Write(from, 0, 2);
+        var parent = new Engine().Add(Make.Wire(Flows.Move(3, 3), from, to));
+
+        var fork = parent.Fork();
+        fork.Engine.Settle(8);
+
+        Assert.Equal((0, 2), (count.Read(fork.Of(from), 0), count.Read(fork.Of(to), 0)));
+        Assert.Equal((2, 0), (count.Read(from, 0), count.Read(to, 0)));
+    }
+
+    /// <summary>A structure that changes itself forks with its self-changes: a
+    /// latch that recruits a spare row writes whether that row is in use, and
+    /// in the fork it writes the fork's own copy of the row. The fork recruits
+    /// and runs the row; the parent's stays spare.</summary>
+    [Fact]
+    public void AForkOfASelfRecruitingStructureRecruitsItsOwnRow()
+    {
+        var store = new Store(5, 1);
+        var (from, to) = (new Field(Shape.Unary(2), 1, 2), new Field(Shape.Unary(2), 3, 4));
+        store.Write(0, 0, true);
+        from.Write(store, 0, 2);
+        var spare = new Wiring(Flows.Move(2, 2), from.On(store), to.On(store));
+        spare.AddSpare(0, 0);
+        var recruit = new Wiring(Settling.Latch(true), new Binding(store, 0), new Binding(spare.Rows.Life, 0));
+        recruit.Add(0, 0);
+        var parent = new Engine().Add(recruit).Add(spare);
+
+        var fork = parent.Fork();
+        fork.Engine.Settle(8);
+
+        Assert.True(fork.Of(spare).Live[0]);
+        Assert.Equal(2, to.Read(fork.Of(store), 0));
+        Assert.False(spare.Live[0]);
+        Assert.Equal(2, from.Read(store, 0));
+    }
 }
