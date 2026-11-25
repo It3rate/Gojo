@@ -53,14 +53,14 @@ public static class Counts
         }
     }
 
-    /// <summary>How many of <paramref name="bits"/> bits are set, as a count.
+    /// <summary>How many of <paramref name="bits"/> bits, one to seven, are set, as a count.
     /// Roles: the bits (read), the count (written). Over a value's support
     /// planes it is how many values are still possible: its thermometer bit 0
     /// is "any possible", bit 1 "more than one", so settled is bit 0 without
     /// bit 1 and contradicted is no bit 0.</summary>
     public static TransitionLaw Tally(int bits)
     {
-        if (bits is < 1 or > 8) throw new ArgumentOutOfRangeException(nameof(bits), "A tally reads one to eight bits.");
+        if (bits is < 1 or > 7) throw new ArgumentOutOfRangeException(nameof(bits), "A tally reads one to seven bits; eight would exceed Law.MaxBits.");
         lock (Tallies)
         {
             if (Tallies.TryGetValue(bits, out var cached)) return cached;

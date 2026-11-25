@@ -172,6 +172,8 @@ public sealed class CountsTests
         Assert.Throws<ArgumentOutOfRangeException>(() => RelationLaw.FromPredicate([wide, wide, wide, wide, wide], _ => true));
         Assert.Throws<ArgumentOutOfRangeException>(() => Flows.When(Counts.Sum(6, 6), gates: 3));
         Assert.Throws<ArgumentOutOfRangeException>(() => Settling.Justify(11));
+        Assert.Equal(8, Counts.Tally(7).Roles.Count);
+        Assert.Throws<ArgumentOutOfRangeException>(() => Counts.Tally(8));
         Assert.Equal(2, Flows.When(Flows.Move(2, 2), gates: 2).Roles.Count - 2);
     }
 

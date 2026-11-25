@@ -175,4 +175,18 @@ public sealed class TensionTests
         Assert.Equal((1, 0, 0), (site.Value.Read(fork.Of(site.Store), 0), site.Plus.Read(fork.Of(site.Store), 0), site.Minus.Read(fork.Of(site.Store), 0)));
         Assert.Equal((2, 0, 1), Read(site));
     }
+
+    /// <summary>A value that is not a count of this store is refused before
+    /// any plane is added, so a refused site leaves the store as it was.</summary>
+    [Fact]
+    public void ABadValueIsRefusedBeforeTheStoreChanges()
+    {
+        var store = new Store(2, 1);
+        var constant = store.AddConstantPlane(false);
+
+        Assert.Throws<ArgumentException>(() => new Tension(store, new Field(Shape.Unary(2), 0, 5), 2));
+        Assert.Throws<ArgumentException>(() => new Tension(store, new Field(Shape.Unary(2), 0, constant), 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Tension(store, new Field(Shape.Unary(2), 0, 1), 0));
+        Assert.Equal(3, store.PlaneCount);
+    }
 }

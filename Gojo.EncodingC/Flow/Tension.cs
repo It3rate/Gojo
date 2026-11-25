@@ -38,6 +38,9 @@ public sealed class Tension
         ArgumentNullException.ThrowIfNull(store);
         ArgumentNullException.ThrowIfNull(value);
         if (!value.Shape.IsUnary) throw new ArgumentException("Material is a unary count.", nameof(value));
+        if (value.Planes.Any(p => (uint)p >= (uint)store.PlaneCount || store.IsConstantPlane(p)))
+            throw new ArgumentException("The value's planes are planes of this store that differ by position.", nameof(value));
+        if (capacity is < 1 or > 63) throw new ArgumentOutOfRangeException(nameof(capacity));
         Store = store;
         Value = value;
         Plus = new Field(Shape.Unary(capacity), [.. Enumerable.Range(0, capacity).Select(_ => store.AddPlane())]);
