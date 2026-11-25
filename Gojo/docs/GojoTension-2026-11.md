@@ -1,7 +1,11 @@
 # Tension: what is unaccounted, and what lowers it
 
-Status: **proposal**, 23 November 2026. Nothing here is built in EncodingC
-yet except where marked. It gathers what the canonical prompt (Axioms 5 to 7,
+Status: **proposal, partly built**, 25 November 2026. Sections 1 to 7 and 10
+are the account of tension. Sections 8, 11 and 13 say what is built in
+EncodingC. The field tests in sections 9 and 12 are experiments, kept on
+branch `tension_synthesis` and not part of the EncodingC core. The axiom
+questions in section 10 stay open: nothing here amends the canonical prompt.
+It gathers what the canonical prompt (Axioms 5 to 7,
 §2.7, §5.2, §5.4), the consolidation note (§5.9, §5.10) and the EncodingC
 pieces already say. It then proposes one account of tension down to the bit,
 as the motivator for the structural actions that come next: splitting,
@@ -199,8 +203,7 @@ Jefferson, 1974).
 So the missing piece is explicit route choice: the taker as an open value.
 It belongs with the tension work, not as a separate case.
 
-**Built on branch `claude_tension`** (`Supports.Possible`, gated moves in
-`Tension`, `RouteChoiceTests`). A route is a move gated by one bit:
+**Built** (`Supports.Possible`, gated moves in `Tension`, `RouteChoiceTests`). A route is a move gated by one bit:
 - **Gates from an open choice:** a choice with one support plane per route
   gates each route by "still possible". While several remain possible, their
   rows are contested, so the contested rows are exactly the open options.
@@ -213,8 +216,7 @@ It belongs with the tension work, not as a separate case.
 A turn bit that toggles every step never goes quiet: it is a driven
 controller (consolidation class C4) and needs its own stop.
 
-**Re-deciding a choice: justified possibility** (`Settling.Justify`, branch
-`claude_tension`). Narrowing only rules out, which is right for what was
+**Re-deciding a choice: justified possibility** (`Settling.Justify`). Narrowing only rules out, which is right for what was
 learned about the past, and wrong for a possibility about now that holds for
 a reason that can stop holding. Reopening every step and narrowing again
 writes the same bits both ways each step: taken together they contend, in
@@ -405,7 +407,7 @@ The user's three motivators for structural action, as tension:
 Splitting has a numeric cue from the closure work: where `Closure.Common`'s
 scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
 
-## 8. What is built, on branch `tension_synthesis`
+## 8. What is built in EncodingC
 
 1. **Material tension** (`Tension`, `Field.Room`). Change from outside enters
    as `T+` or `T−`, never into the value. Absorbing, paying and cancelling are
@@ -441,8 +443,17 @@ scores fall off, the uses of a unit stop sharing it, which is a candidate cut.
    `Justify`, the retirement by `Latch`), and a gated `Forget` reopens the
    value so the remaining premises narrow it again. No host call reopens it.
 
-**Not built yet:** the tension tuple and its admissibility check (§5) as
-structure, and structural reads (idle, duplicate, joined rows) as laws.
+**Built since:** ranking tiers as a law (`Counts.Rank`, §13), so strict
+domination between two tiers is structure.
+
+**Not built yet:**
+- wiring a whole structure's tiers into one tension tuple, and checking each
+  step's admissibility against it (§5);
+- structural reads (idle, duplicate, joined rows) as laws;
+- the exact numeric gap between open values. `Settling.ValueGap` says whether
+  two open values can agree, and `Counts.Shortfall` measures how far apart two
+  concrete counts are; how far apart two open values are is deferred to
+  numeric support.
 
 ## 9. Field test: the corner shop
 
@@ -459,7 +470,7 @@ are conserved across all four.
 | 3. Two wholesalers | A is closed; a law reading A's status makes A impossible | Narrowed, A never reopens and the shop ends owing two while A has stock. Justified, A reopens and everything is delivered |
 | 4. The slow clock | B is wired but not in use; backorders that last three steps recruit it | A single request served at once does not recruit B; backorders that persist do, and everything owed is delivered |
 | 5. The books | Batches' suppliers are open values narrowed by delivery notes; invoices are paid when the batch is settled | One note: paid. Conflicting notes of unequal firmness: the weaker is retired, the batch reopened and paid. Equal firmness: stays contradicted. No note: stays open |
-| 6. A trial | "Buy only from B" on a saved and loaded copy of all four structures | A fork is refused while the shop takes through its lines; the copy runs the trial and leaves everything unchanged |
+| 6. A trial | "Buy only from B" in a fork with isolated ports | A plain fork is refused while the shop takes through its lines. With ports isolated, the fork takes from snapshots of them, runs the trial and never commits; everything live is unchanged |
 
 **Taken from the other branches.** Three branches built tension in parallel.
 This one took, from `sol_tension`, the conserving delivery move, the customer
@@ -472,10 +483,6 @@ as a special-purpose law.
 
 **Findings left open:**
 
-- **Trials while taking.** A structure that takes through a port cannot fork,
-  so a trial is a full copy and sees copies of its peers. `tension_neon`
-  snapshots taken ports into a fork instead, refusing commit; that is cheaper
-  and worth adopting.
 - **One dock, two uses.** Receiving into the dock and shelving from it write
   the same count. The shop runs in declared order; taken together it would
   need a turn at the dock (`Flows.Turn` now exists for that).
@@ -527,7 +534,7 @@ stop growing with capacity, and every wiring that reads them stays as it is.
 
 ## 12. Field test: a short dialogue
 
-`DialogueTests` (branch `claude_tension`) builds the mechanics of a short
+`DialogueTests` (an experiment on branch `tension_synthesis`) builds the mechanics of a short
 exchange: asking, answering, asking which one, declining and grounding. What a
 car or an owner is does not matter; only the structure of the exchange does.
 
@@ -598,8 +605,10 @@ of law tables in memory, and settles in four rounds (about 2.6 ms).
   ("which car?" and "when?"), the narrowest question is the one whose answer
   settles the most. That is a ranking over candidate questions, the first
   place ranking is needed as structure here.
-- **Contradiction stays unresolved.** Firmness (as in the shop's books) could
-  retire the weaker answer; the dialogue leaves it visible instead.
+- **Contradiction between equally firm answers.** Answers of different
+  firmness are resolved: the weaker is retired and never grounded. Equally firm
+  answers stay contradicted, which is a result, but nothing yet asks a third
+  party.
 - **One question at a time.** A speaker's ledger holds one question; several
   open questions at once need slots allocated as they are asked.
 
@@ -654,7 +663,19 @@ accumulate, streak); `Flows.When`, `Flows.Fulfill`, `Flows.Turn`;
   kinds and scopes are C# enums, meaning carried in code tags, and fixtures
   belong in tests.
 
-**Still to do:** `tension_neon`'s small-law trees (`SupportFold`,
+**Fixed in review, before the merge:**
+- A fork's workspaces are committed and reverted only together, through the
+  fork; committing or reverting one alone could leave a moved unit in both
+  places.
+- Two open values are one value read twice only when every plane matches;
+  sharing a first plane could rule out a valid disagreement in `ValueGap`.
+- An isolated fork snapshots a port reached through a view, such as a room.
+- A workspace's gate sees through views of it, so a fork runs a draw through
+  a room; it was silently skipped.
+- `Tension` validates its value before adding planes, and `Counts.Tally`
+  accepts one to seven bits, since eight exceeds the table limit.
+
+**Still to do:** the exact numeric gap between open values (§8); `tension_neon`'s small-law trees (`SupportFold`,
 `MismatchFold`) as the way to replace the shop's one large counting table
 before numeric support; and holding a law that is a plain function as a list
 of next states in memory, as saving already does, which would cut that table
