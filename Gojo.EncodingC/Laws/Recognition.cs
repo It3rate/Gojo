@@ -27,8 +27,23 @@ public static class Recognition
 
     /// <summary>A table set beside an equation run through the same binding:
     /// whether the tables are the same, how many before-states differ, and the
-    /// bits of the table against the bits of the equation with its exceptions.</summary>
-    public sealed record Comparison(bool Same, int Differences, long TableBits, long EquationBits);
+    /// bits of the table against the bits of the equation with its exceptions,
+    /// and whether the equation's table keeps the law's own accounting. Matching
+    /// bits is not the whole law: a move rebuilt without its preserved sum
+    /// cannot take through a port the original could (from ops_sol's review).</summary>
+    public sealed record Comparison(bool Same, int Differences, long TableBits, long EquationBits, bool KeepsAccounting);
+
+    /// <summary>A system of equations found from tuples, and how exactly it
+    /// describes them: the tuples of the roles' domain the system admits that
+    /// were never witnessed. Empty is exact. A system that admits more is
+    /// weaker than the data, and those tuples say where (from ops_sol's review:
+    /// the lowest-degree equation alone can admit a forbidden tuple). Checked
+    /// is false where the domain was too large to enumerate.</summary>
+    public sealed record Found(IReadOnlyList<Polynomial> System, IReadOnlyList<int[]> Unexplained, bool Checked);
+
+    /// <summary>An equation with a residue role it found: the law's observed
+    /// roles, then one free role that the binding keeps as small as it can.</summary>
+    public sealed record WithResidue(Polynomial Equation, int[] Reads, int[] Writes, int[] Cost);
 
     /// <summary>The distinct tuples a functional law witnesses, read through a
     /// binding as <see cref="Operations.Bind"/> reads it: relation role r is law
@@ -56,36 +71,59 @@ public static class Recognition
     /// <summary>The tuples a learned table has admitted so far, read through a
     /// binding: each before-state with exactly one admitted after-state gives
     /// one. The table need not be complete: what is still unknown is simply
-    /// not a witness yet, so fitting can start from the first few runs.</summary>
+    /// not a witness yet, so fitting can start from the first few runs. States
+    /// are decoded directly, so nothing the size of the table is built.</summary>
     public static IReadOnlyList<int[]> Witnesses(LearnedTable table, int[] reads, int[] writes)
     {
         ArgumentNullException.ThrowIfNull(table);
-        var states = TransitionLaw.FromPairs(table.Roles, [], Accounting.None);
-        var pairs = Enumerable.Range(0, table.StateCount)
-            .Select(b => (Before: b, Admitted: table.Predict(b).Admitted))
-            .Where(p => p.Admitted.Count == 1)
-            .Select(p => (p.Before, After: p.Admitted[0]));
-        return Witnesses(TransitionLaw.FromPairs(table.Roles, pairs, Accounting.None), reads, writes);
+        ArgumentNullException.ThrowIfNull(reads);
+        ArgumentNullException.ThrowIfNull(writes);
+        var tuples = new List<int[]>();
+        for (var before = 0; before < table.StateCount; before++)
+        {
+            var admitted = table.Predict(before).Admitted;
+            if (admitted.Count != 1) continue;
+            int[] b = Decode(table.Roles, before), a = Decode(table.Roles, admitted[0]);
+            tuples.Add([.. Enumerable.Range(0, reads.Length).Select(r => reads[r] >= 0 ? b[reads[r]] : a[writes[r]])]);
+        }
+        return [.. tuples.Distinct(TupleEquality.Instance)];
     }
 
-    /// <summary>Every polynomial relation of the lowest degree, up to
-    /// <paramref name="maxDegree"/>, that all the tuples satisfy, as a basis.
-    /// Empty when none exists that low. A role with two values is never squared,
-    /// since its square is itself.</summary>
-    public static IReadOnlyList<Polynomial> Relations(IReadOnlyList<Shape> roles, IEnumerable<IReadOnlyList<int>> tuples, int maxDegree = 2)
+    /// <summary>A system of polynomial relations, degree by degree up to
+    /// <paramref name="maxDegree"/>, that all the tuples satisfy. It starts from
+    /// the lowest degree where any relation exists, and adds a higher-degree one
+    /// only where it rules out a tuple the system still admits but nobody
+    /// witnessed, so the system ends as tight as the degrees allow and says
+    /// what it still fails to exclude. Over a domain too large to enumerate the
+    /// check is skipped and the lowest-degree basis returned. A role with two
+    /// values is never squared, since its square is itself.</summary>
+    public static Found Relations(IReadOnlyList<Shape> roles, IEnumerable<IReadOnlyList<int>> tuples, int maxDegree = 2)
     {
         ArgumentNullException.ThrowIfNull(roles);
         ArgumentNullException.ThrowIfNull(tuples);
-        var points = tuples.Select(t => t.ToArray()).ToArray();
+        var points = tuples.Select(t => t.ToArray()).Distinct(TupleEquality.Instance).ToArray();
+        var domain = roles.Aggregate(1L, (n, r) => n * r.Size);
+        var check = domain <= 1 << 20;
+        var witnessed = points.ToHashSet(TupleEquality.Instance);
+        var extra = check ? Enumerable.Range(0, (int)domain).Select(i => Decode(roles, i)).Where(t => !witnessed.Contains(t)).ToList() : [];
+        var system = new List<Polynomial>();
+        var lowest = 0;
         for (var degree = 1; degree <= maxDegree; degree++)
         {
             var monomials = Monomials(roles, Enumerable.Range(0, roles.Count).ToArray(), degree, constant: true);
             var rows = points.Select(p => monomials.Select(m => Evaluate(m, p)).ToArray()).ToArray();
-            var basis = Nullspace(rows, monomials.Length);
-            if (basis.Count > 0)
-                return [.. basis.Select(v => new Polynomial(roles, [.. v.Select((w, k) => ((int)w, monomials[k])).Where(t => t.Item1 != 0)]))];
+            foreach (var v in Nullspace(rows, monomials.Length))
+            {
+                var equation = new Polynomial(roles, [.. v.Select((w, k) => (w, monomials[k])).Where(t => t.w != 0)]);
+                var keep = check ? system.Count == 0 && lowest == 0 || extra.Any(t => !equation.Holds(t)) : lowest == 0 || lowest == degree;
+                if (!keep) continue;
+                system.Add(equation);
+                extra.RemoveAll(t => !equation.Holds(t));
+            }
+            if (system.Count > 0 && lowest == 0) lowest = degree;
+            if (system.Count > 0 && (!check || extra.Count == 0)) break;
         }
-        return [];
+        return new Found(system, extra, check);
     }
 
     /// <summary>Every way to write role <paramref name="target"/> as at most
@@ -151,6 +189,71 @@ public static class Recognition
         return [.. fits.OrderBy(f => f.Fit.Exceptions.Count).ThenBy(f => f.Terms).ThenBy(f => f.Degree).ThenBy(f => f.Weight).Select(f => f.Fit)];
     }
 
+    /// <summary>The candidates that agree with the witnesses except at no more
+    /// than <paramref name="maxExceptions"/> of them: a wall where a law held,
+    /// or an observation nobody can explain yet, is counted, not fatal. A
+    /// candidate that cannot complete a witness disagrees with it.</summary>
+    public static IReadOnlyList<Polynomial> Survivors(IReadOnlyList<Polynomial> candidates, int target, IEnumerable<IReadOnlyList<int>> witnesses, int maxExceptions = 0)
+    {
+        ArgumentNullException.ThrowIfNull(candidates);
+        ArgumentNullException.ThrowIfNull(witnesses);
+        var points = witnesses.ToArray();
+        return [.. candidates.Where(c => points.Count(w => Predict(c, target, w) != w[target]) <= maxExceptions)];
+    }
+
+    /// <summary>A balance over the law's observed roles plus one hidden residue
+    /// role that the binding keeps as small as it can, for a law no balance of
+    /// its observed roles reproduces (adapted from ops_neon's residue
+    /// discovery). Shortfall is the gap with its excess restored; accumulate is
+    /// a sum with its overflow restored. Weights run within
+    /// ±<paramref name="maxWeight"/> and the residue's capacity up to
+    /// <paramref name="maxCapacity"/>; each candidate is checked cheaply on the
+    /// witnesses, then exactly, by rebuilding the law. Null when none is found.</summary>
+    public static WithResidue? Residue(TransitionLaw law, int[] reads, int[] writes, int maxWeight = 2, int maxCapacity = 8)
+    {
+        ArgumentNullException.ThrowIfNull(law);
+        var witnesses = Witnesses(law, reads, writes);
+        var observed = reads.Length;
+        int[] allReads = [.. reads, -1], allWrites = [.. writes, -1], cost = [.. Enumerable.Repeat(0, observed), 1];
+        var weights = new int[observed];
+        WithResidue? found = null;
+
+        bool Search(int r)
+        {
+            if (r == observed)
+            {
+                for (var wf = 1; wf <= maxWeight; wf++)
+                    for (var capacity = 1; capacity <= maxCapacity; capacity++)
+                        foreach (var sign in new[] { -1, 1 })
+                        {
+                            var fits = witnesses.All(t =>
+                            {
+                                var rest = Enumerable.Range(0, observed).Sum(k => (long)weights[k] * t[k]);
+                                var f = -sign * rest;
+                                return f % wf == 0 && f / wf >= 0 && f / wf <= capacity;
+                            });
+                            if (!fits) continue;
+                            Shape[] roles = [.. Enumerable.Range(0, observed).Select(k => law.Roles[reads[k] >= 0 ? reads[k] : writes[k]]), Shape.Unary(capacity)];
+                            var equation = Polynomial.Balance(roles, [.. weights, sign * wf]);
+                            if (!Compare(law, equation, allReads, allWrites, cost).Same) continue;
+                            found = new WithResidue(equation, allReads, allWrites, cost);
+                            return true;
+                        }
+                return false;
+            }
+            for (var w = 1; w <= maxWeight; w++)
+                foreach (var sign in new[] { 1, -1 })
+                {
+                    weights[r] = sign * w;
+                    if (Search(r + 1)) return true;
+                }
+            return false;
+        }
+
+        Search(0);
+        return found;
+    }
+
     /// <summary>What a candidate says the target is for the other roles'
     /// values: null where it gives no whole value inside the target's shape.</summary>
     public static int? Predict(Polynomial equation, int target, IReadOnlyList<int> values)
@@ -210,7 +313,44 @@ public static class Recognition
         var differences = Enumerable.Range(0, law.StateCount).Count(b => !law.Afters(b).SequenceEqual(bound.Afters(b)));
         var stateBits = 0;
         while (1L << stateBits < law.StateCount) stateBits++;
-        return new Comparison(law.SameTable(bound), differences, law.BitCount, equation.Bits + 2L * stateBits * differences);
+        return new Comparison(law.SameTable(bound), differences, law.BitCount, equation.Bits + 2L * stateBits * differences, Keeps(bound, law.Accounting));
+    }
+
+    /// <summary>The law an equation compresses, rebuilt from the equation with
+    /// the original law's accounting attached, so the rebuilt law makes the
+    /// same promises: a move stays a move at a port. Throws when the
+    /// equation's table breaks them.</summary>
+    public static TransitionLaw Restore(TransitionLaw law, Polynomial equation, int[] reads, int[] writes, int[]? cost = null)
+    {
+        ArgumentNullException.ThrowIfNull(law);
+        ArgumentNullException.ThrowIfNull(equation);
+        var bound = Operations.Bind(equation.Relation, law.Roles, reads, writes, cost: cost);
+        return new TransitionLaw(bound.Roles, bound.Bytes(), law.Accounting);
+    }
+
+    private static bool Keeps(TransitionLaw table, Accounting accounting)
+    {
+        try
+        {
+            _ = new TransitionLaw(table.Roles, table.Bytes(), accounting);
+            return true;
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
+    }
+
+    /// <summary>The role values of a state index, the first role varying fastest.</summary>
+    private static int[] Decode(IReadOnlyList<Shape> roles, long index)
+    {
+        var values = new int[roles.Count];
+        for (var r = 0; r < roles.Count; r++)
+        {
+            values[r] = (int)(index % roles[r].Size);
+            index /= roles[r].Size;
+        }
+        return values;
     }
 
     /// <summary>Exponent vectors over the given roles, total degree at most
@@ -248,50 +388,53 @@ public static class Recognition
     }
 
     /// <summary>A basis of the integer vectors x with rows · x = 0, each
-    /// reduced by its common factor, by fraction-free Gauss–Jordan elimination.</summary>
-    private static List<long[]> Nullspace(long[][] rows, int columns)
+    /// reduced by its common factor, by fraction-free Gauss–Jordan elimination
+    /// in unbounded integers, so a large or high-degree table cannot overflow.</summary>
+    private static List<int[]> Nullspace(long[][] rows, int columns)
     {
-        var m = rows.Select(r => (long[])r.Clone()).ToList();
+        var m = rows.Select(r => r.Select(x => (System.Numerics.BigInteger)x).ToArray()).ToList();
         var pivots = new List<(int Row, int Column)>();
         var row = 0;
         for (var c = 0; c < columns && row < m.Count; c++)
         {
             var p = row;
-            while (p < m.Count && m[p][c] == 0) p++;
+            while (p < m.Count && m[p][c].IsZero) p++;
             if (p == m.Count) continue;
             (m[row], m[p]) = (m[p], m[row]);
             for (var i = 0; i < m.Count; i++)
             {
-                if (i == row || m[i][c] == 0) continue;
-                long f = m[i][c], g = m[row][c];
-                for (var k = 0; k < columns; k++) m[i][k] = checked(m[i][k] * g - m[row][k] * f);
+                if (i == row || m[i][c].IsZero) continue;
+                System.Numerics.BigInteger f = m[i][c], g = m[row][c];
+                for (var k = 0; k < columns; k++) m[i][k] = m[i][k] * g - m[row][k] * f;
                 Reduce(m[i]);
             }
             pivots.Add((row, c));
             row++;
         }
         var pivotColumns = pivots.Select(p => p.Column).ToHashSet();
-        var common = pivots.Aggregate(1L, (l, p) => Lcm(l, Magnitude(m[p.Row][p.Column])));
-        var basis = new List<long[]>();
+        var common = pivots.Aggregate(System.Numerics.BigInteger.One, (l, p) =>
+        {
+            var x = System.Numerics.BigInteger.Abs(m[p.Row][p.Column]);
+            return l / System.Numerics.BigInteger.GreatestCommonDivisor(l, x) * x;
+        });
+        var basis = new List<int[]>();
         for (var free = 0; free < columns; free++)
         {
             if (pivotColumns.Contains(free)) continue;
-            var v = new long[columns];
+            var v = new System.Numerics.BigInteger[columns];
             v[free] = common;
-            foreach (var (r, c) in pivots) v[c] = checked(-m[r][free] * common / m[r][c]);
+            foreach (var (r, c) in pivots) v[c] = -m[r][free] * common / m[r][c];
             Reduce(v);
-            basis.Add(v);
+            basis.Add([.. v.Select(x => checked((int)x))]);
         }
         return basis;
     }
 
-    private static void Reduce(long[] v)
+    private static void Reduce(System.Numerics.BigInteger[] v)
     {
-        var g = v.Aggregate(0L, (a, x) => Gcd(a, Magnitude(x)));
+        var g = v.Aggregate(System.Numerics.BigInteger.Zero, System.Numerics.BigInteger.GreatestCommonDivisor);
         if (g > 1) for (var k = 0; k < v.Length; k++) v[k] /= g;
     }
-
-    private static long Magnitude(long x) => x < 0 ? -x : x;
 
     private sealed class TupleEquality : IEqualityComparer<int[]>
     {

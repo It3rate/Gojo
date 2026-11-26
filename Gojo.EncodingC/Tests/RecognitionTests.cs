@@ -50,23 +50,24 @@ public sealed class RecognitionTests
     public void FullTablesGiveTheirRelationsBack()
     {
         var sum = Recognition.Relations([Three, Three, Six], Recognition.Witnesses(Counts.Sum(3, 3), [0, 1, -1], [-1, -1, 2]));
-        Assert.True(Assert.Single(sum).Same(Polynomial.Balance([Three, Three, Six], 1, 1, -1)));
+        Assert.True(Assert.Single(sum.System).Same(Polynomial.Balance([Three, Three, Six], 1, 1, -1)));
+        Assert.True(sum.Checked && sum.Unexplained.Count == 0);
 
         var two = Shape.Unary(2);
         var weighted = Recognition.Relations([Three, two, Shape.Unary(7)], Recognition.Witnesses(Counts.Sum(3, 2, 2), [0, 1, -1], [-1, -1, 2]));
-        Assert.Equal([1, 2, -1], Assert.Single(weighted).Terms.Select(t => t.Weight));
+        Assert.Equal([1, 2, -1], Assert.Single(weighted.System).Terms.Select(t => t.Weight));
 
         var bits = from a in new[] { 0, 1 } from b in new[] { 0, 1 } select new[] { a, b, a & b, a ^ b };
-        Assert.Equal([1, 1, -2, -1], Assert.Single(Recognition.Relations([Bit, Bit, Bit, Bit], bits)).Terms.Select(t => t.Weight));
+        Assert.Equal([1, 1, -2, -1], Assert.Single(Recognition.Relations([Bit, Bit, Bit, Bit], bits).System).Terms.Select(t => t.Weight));
 
         Shape digit = Numbers.Digit(10), carry = Numbers.Carry;
         var column = from a in Enumerable.Range(0, 10) from b in Enumerable.Range(0, 10) from c in new[] { 0, 1 }
                      select new[] { a, b, c, (a + b + c) / 10, (a + b + c) % 10 };
-        Assert.True(Assert.Single(Recognition.Relations([digit, digit, carry, carry, digit], column)).Same(Numbers.DigitSum(10)));
+        Assert.True(Assert.Single(Recognition.Relations([digit, digit, carry, carry, digit], column).System).Same(Numbers.DigitSum(10)));
 
         var times = Grid(3, 3, (a, b) => a * b).ToArray();
-        Assert.Empty(Recognition.Relations([Three, Three, Nine], times, maxDegree: 1));
-        Assert.True(Assert.Single(Recognition.Relations([Three, Three, Nine], times)).Same(Polynomial.Product(3, 3)));
+        Assert.Empty(Recognition.Relations([Three, Three, Nine], times, maxDegree: 1).System);
+        Assert.True(Assert.Single(Recognition.Relations([Three, Three, Nine], times).System).Same(Polynomial.Product(3, 3)));
     }
 
     /// <summary>Where a law holds at a wall, the equation is what it does
@@ -98,7 +99,7 @@ public sealed class RecognitionTests
     {
         int[] noise = [3, 0, 5, 1, 6, 2, 4, 0, 1, 6, 0, 3, 2, 5, 6, 1];
         var table = Grid(3, 3, (a, b) => noise[4 * a + b]).ToArray();
-        Assert.Empty(Recognition.Relations([Three, Three, Six], table));
+        Assert.Empty(Recognition.Relations([Three, Three, Six], table).System);
         Assert.Empty(Recognition.Fits([Three, Three, Six], 2, table, maxTerms: 2, maxWeight: 3));
     }
 
@@ -266,5 +267,88 @@ public sealed class RecognitionTests
         Assert.True(law.Same(Polynomial.Balance(roles, 1, 1, -1)));
         Assert.True(Recognition.Compare(book, law, reads, writes).Same);
         Assert.True(table.UnknownCount > table.StateCount * table.StateCount / 2);
+    }
+
+    /// <summary>The lowest-degree equation can be weaker than the data (from
+    /// ops_sol's review). Four bit tuples keep d = a and c = a·b. At degree 1
+    /// only d − a = 0 holds, and it admits the forbidden (1, 1, 0, 1). The
+    /// system adds the degree-2 equation that rules that out, and then
+    /// describes the tuples exactly: nothing it admits went unwitnessed.</summary>
+    [Fact]
+    public void ASystemIsAsTightAsTheDataAndSaysWhereItIsNot()
+    {
+        int[][] tuples = [[0, 0, 0, 0], [0, 1, 0, 0], [1, 0, 0, 1], [1, 1, 1, 1]];
+        var lowest = Recognition.Relations([Bit, Bit, Bit, Bit], tuples, maxDegree: 1);
+        Assert.True(Assert.Single(lowest.System).Holds([1, 1, 0, 1]));
+        Assert.Contains(lowest.Unexplained, t => t.SequenceEqual([1, 1, 0, 1]));
+
+        var found = Recognition.Relations([Bit, Bit, Bit, Bit], tuples);
+        Assert.True(found.Checked);
+        Assert.Empty(found.Unexplained);
+        Assert.True(found.System.Count >= 2);
+        Assert.False(found.System.All(e => e.Holds([1, 1, 0, 1])));
+    }
+
+    /// <summary>Some laws are a balance only with a role they do not show (the
+    /// hidden residue, adapted from ops_neon). Shortfall is have − want + short
+    /// − excess = 0 with the excess kept as small as it can be; accumulate is
+    /// count + signal − count' − overflow = 0; a clamped OR is a + b − or −
+    /// overflow = 0. Each is found, and rebuilds its law exactly.</summary>
+    [Fact]
+    public void AHiddenResidueRoleIsFound()
+    {
+        var shortfall = Recognition.Residue(Counts.Shortfall(3, 3), [0, 1, -1], [-1, -1, 2]);
+        Assert.NotNull(shortfall);
+        Assert.True(shortfall!.Equation.Same(Polynomial.Balance([Three, Three, Three, Three], 1, -1, 1, -1)));
+
+        var accumulate = Recognition.Residue(Counts.Accumulate(3), [1, 0, -1], [-1, -1, 1]);
+        Assert.NotNull(accumulate);
+        Assert.True(accumulate!.Equation.Same(Polynomial.Balance([Three, Bit, Three, Shape.Unary(1)], 1, 1, -1, -1)));
+
+        var or = Operations.Bind(Operations.Balance([Bit, Bit, Bit, Bit], 1, 1, -1, -1), [Bit, Bit, Bit], [0, 1, -1, -1], [-1, -1, 2, -1], cost: [0, 0, 0, 1]);
+        var clamped = Recognition.Residue(or, [0, 1, -1], [-1, -1, 2]);
+        Assert.NotNull(clamped);
+        Assert.True(Recognition.Compare(or, clamped!.Equation, clamped.Reads, clamped.Writes, clamped.Cost).Same);
+
+        Assert.Null(Recognition.Residue(TransitionLaw.FromFunction([Three, Three, Six], v => [v[0], v[1], (v[0] * 5 + v[1] * 3) % 7],
+            new Accounting(true, new Unchanged(0), new Unchanged(1))), [0, 1, -1], [-1, -1, 2], maxCapacity: 3));
+    }
+
+    /// <summary>Bits alone are not the law (from ops_sol's review). The sum's
+    /// equation rebuilds a table that keeps the sum's own accounting, and
+    /// Restore attaches it, so the rebuilt law makes the same promises. Bound
+    /// to copy a move's source into its target, an equation breaks the move's
+    /// preserved sum: the comparison says so, and Restore refuses.</summary>
+    [Fact]
+    public void ARestoredLawKeepsTheOriginalsPromises()
+    {
+        var sum = Counts.Sum(3, 3);
+        var heap = Polynomial.Balance([Three, Three, Six], 1, 1, -1);
+        Assert.True(Recognition.Compare(sum, heap, [0, 1, -1], [-1, -1, 2]).KeepsAccounting);
+        var restored = Recognition.Restore(sum, heap, [0, 1, -1], [-1, -1, 2]);
+        Assert.Same(sum.Accounting, restored.Accounting);
+        Assert.True(restored.SameTable(sum));
+
+        var move = Flows.Move(3, 3);
+        var copy = Polynomial.Balance([Three, Three], 1, -1);
+        var compared = Recognition.Compare(move, copy, [0, -1], [-1, 1]);
+        Assert.False(compared.Same);
+        Assert.False(compared.KeepsAccounting);
+        Assert.Throws<ArgumentException>(() => Recognition.Restore(move, copy, [0, -1], [-1, 1]));
+    }
+
+    /// <summary>A wall is not evidence against a law. A booking at a full debt
+    /// holds, so the witness (rate 3, debt 8) → 8 disagrees with debt' = debt +
+    /// rate. With no exception allowed the true law would be ruled out; with
+    /// the wall counted as one exception it survives, and a law that is wrong
+    /// elsewhere still does not.</summary>
+    [Fact]
+    public void AWallInTheWitnessesDoesNotRuleOutTheLaw()
+    {
+        Shape[] roles = [Three, Nine, Nine];
+        Polynomial law = Polynomial.Balance(roles, 1, 1, -1), wrong = new(roles, (1, [0, 1, 0]), (1, [0, 0, 0]), (-1, [0, 0, 1]));
+        int[][] witnesses = [[1, 0, 1], [2, 2, 4], [3, 4, 7], [3, 8, 8]];
+        Assert.Empty(Recognition.Survivors([law, wrong], 2, witnesses));
+        Assert.True(Assert.Single(Recognition.Survivors([law, wrong], 2, witnesses, maxExceptions: 1)).Same(law));
     }
 }
