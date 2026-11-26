@@ -556,3 +556,14 @@ dotnet test Gojo.EncodingC/Gojo.EncodingC.csproj
 ```
 
 Result: 259 passed, 0 failed.
+
+`dotnet test Gojo.slnx` on the same commit:
+- **EncodingC:** 259 passed.
+- **QualitativeExecution:** 3,509 passed, in about 11 minutes.
+- **Gojo:** 1,072 passed.
+- **Every other test project:** all passed.
+- **GojoCAD:** one failure, `GojoCadSkiaAdapterTests`. The container lacks
+  the native `libSkiaSharp` library. GojoCAD does not depend on EncodingC, and
+  nothing else in the solution does either.
+
+Use this as the baseline for passes 2 and 3.
