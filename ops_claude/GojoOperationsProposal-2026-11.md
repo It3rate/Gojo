@@ -356,7 +356,11 @@ recognizable as one balance family.
   an equation. Proposal: when description length says it pays and the
   stiffness ladder says it has stopped changing.
 
-## 10. Round A, as built
+## 10. Round A (round 13), as built
+
+Round numbers across all rounds are in
+[GojoOperationsRound14-2026-11.md](GojoOperationsRound14-2026-11.md), which
+also compares this work with the other branches' round 13.
 
 Built on this branch after the proposal, taking in the latest feedback from
 `ops_sol` (`fe5d473d`) and `ops_neon` (`97123b1f`). All 264 EncodingC tests
