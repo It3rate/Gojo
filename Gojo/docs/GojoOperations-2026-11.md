@@ -17,6 +17,10 @@ observational `Flows.Sweep`). It follows
 [GojoTension-2026-11.md](GojoTension-2026-11.md),
 [GojoOrientationDefinitionAndUse-2026-11.md](GojoOrientationDefinitionAndUse-2026-11.md),
 and [GojoEncodingConsolidation-2026-11.md](GojoEncodingConsolidation-2026-11.md).
+For the **Round 2 Review** (cross-branch comparison of `ops_sol` `9e5f8444`,
+`claude/youthful-newton-wh29co` `a26f5b80`, and `ops_neon` `059f5c45`, plus the
+variable-partition / five-star review design and Round 3 convergence plan), see
+[GojoOperationsRound2Review-2026-11.md](GojoOperationsRound2Review-2026-11.md).
 
 ---
 
@@ -1215,6 +1219,17 @@ All five workstreams of §11 now have working, tested implementations in
    **8.1×** speedup on restored 3-digit base-10 adders (1,024 lanes) and
    **17.9×** speedup on unsigned live-landmark oscillators (1,000 steps) on top
    of the **338×–2,815×** 65K-lane SIMD/AVX2 speedups from §8.2.
+
+### 11.2 Round 2 Review & Variable-Partition Numbers (Pre-Round 3)
+
+The Round 2 cross-branch review comparing `ops_sol` (`9e5f8444`, 248/248 tests),
+`claude/youthful-newton-wh29co` (`a26f5b80`, 264/264 tests), and `ops_neon`
+(`059f5c45`, 257/257 tests), our take/leave/adapt verdict, the full
+variable-partition / five-star review design (mixed-partition ladders
+`[p₀, p₁, …]` with unit anchors, soft live-denominator `(n, d)` pairs, and
+exact non-power-of-two native CPU lowering), and the Round 3 convergence plan
+are recorded in
+[GojoOperationsRound2Review-2026-11.md](GojoOperationsRound2Review-2026-11.md).
 
 ---
 
