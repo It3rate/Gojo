@@ -118,14 +118,16 @@ public sealed class OperationPartitionPoolingTests
         Assert.True(observer.Whole.Open[0]);
     }
 
-    [Fact]
-    public void PortionsOnOneAuthoredWholeKeepThatWholeWhenAdded()
+    [Theory]
+    [InlineData(3, 2, 5)]
+    [InlineData(5, 5, 10)]
+    public void PortionsOnOneAuthoredWholeKeepThatWholeWhenAdded(int left, int right, int sum)
     {
         var law = PartitionReads.SumOnCommonWhole(Parts);
         var commonScope = new Store(0, 2);
         var portions = Allocate(commonScope, law.Roles[0]);
-        portions.Write(commonScope, 0, 3);
-        portions.Write(commonScope, 1, 2);
+        portions.Write(commonScope, 0, left);
+        portions.Write(commonScope, 1, right);
         var whole = Allocate(commonScope, law.Roles[3]);
         whole.Write(commonScope, 0, Parts);
         var total = Supports.On(commonScope, Allocate(commonScope, law.Roles[2]));
@@ -133,7 +135,7 @@ public sealed class OperationPartitionPoolingTests
         read.Add(0, 1, 0, 0);
 
         Assert.True(read.Apply().Unadmitted.None);
-        Assert.Equal((3, 2, 5, 5), CountsIn(read));
+        Assert.Equal((left, right, sum, Parts), CountsIn(read));
         Assert.Equal(Parts, whole.Read(commonScope, 0));
     }
 
