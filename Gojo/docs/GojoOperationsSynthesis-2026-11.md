@@ -967,7 +967,9 @@ registered path. Each of its 48 seeds builds one store from random parts:
 - random tables over shared fields;
 - laws that recruit and retire positions within a step;
 - reads and moves through ports and sockets;
-- a move that rewrites another wiring's row through a port.
+- a move that rewrites another wiring's row through a port;
+- random relations over open values, some reading one value in two roles (a
+  diagonal). This part was added in pass 4, for the general relation kernel.
 
 Each network runs in both step modes for eight rounds. Between rounds, both
 copies are disturbed alike: re-observed, corrupted, rebound or retired.

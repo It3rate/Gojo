@@ -14,7 +14,8 @@ namespace Gojo.EncodingC.Tests;
 /// - small random tables over shared fields;
 /// - laws that recruit and retire positions within a step;
 /// - reads and moves through ports and sockets;
-/// - a move that rewrites another wiring's row through a port.
+/// - a move that rewrites another wiring's row through a port;
+/// - random relations over open values, some reading one value in two roles.
 /// One copy steps on the engine and the other on the path, in declared order
 /// and taken together. Between rounds both are disturbed alike: re-observed,
 /// corrupted, rebound or retired. Every step must match in state and in
@@ -171,7 +172,7 @@ public sealed class ExecutionParityFuzzTests
             var added = new List<Wiring>();
             try
             {
-                switch (rng.Next(7))
+                switch (rng.Next(8))
                 {
                     case 0:
                     {
@@ -293,6 +294,36 @@ public sealed class ExecutionParityFuzzTests
                         var rewire = new Wiring(Flows.Convert(1, 1, 1, 1), source.On(sites), new Binding(port, 0));
                         rewire.Add(Positions(1, spares: false)[0], 0);
                         added.Add(rewire);
+                        break;
+                    }
+                    case 7:
+                    {
+                        // A random relation over open values; one value may fill two roles (a diagonal).
+                        var values = Enumerable.Range(0, rng.Next(1, 4)).Select(_ =>
+                        {
+                            var shape = rng.Next(2) == 0 ? Shape.Unary(rng.Next(1, 5)) : Shape.Binary(rng.Next(2, 9));
+                            return Supports.On(sites, new Field(shape, [.. Enumerable.Range(0, shape.Bits).Select(_ => sites.AddPlane())]));
+                        }).ToArray();
+                        var roles = Enumerable.Range(0, rng.Next(2, 5)).Select(_ => values[rng.Next(values.Length)]).ToArray();
+                        var table = rng.Next();
+                        var density = rng.Next(1, 4);
+                        var relation = RelationLaw.FromPredicate([.. roles.Select(v => v.Field.Shape)],
+                            t => new Random(t.Aggregate(table, (acc, v) => unchecked(acc * 31 + v))).Next(4) < density);
+                        var wiring = new Wiring(relation, [.. roles.Select(v => v.Variable)]);
+                        foreach (var p in live.Indexes()) wiring.Add([.. Enumerable.Repeat(p, roles.Length)]);
+                        void Narrow(Random r, bool again)
+                        {
+                            foreach (var value in values)
+                                foreach (var p in live.Indexes())
+                                {
+                                    if (!sites.IsLive(p) || r.Next(again ? 4 : 2) != 0) continue;
+                                    if (again && r.Next(2) == 0) value.Forget(p);
+                                    else value.Restrict(p, (ulong)r.NextInt64() & (value.Field.Shape.Size == 64 ? ulong.MaxValue : (1UL << value.Field.Shape.Size) - 1));
+                                }
+                        }
+                        Narrow(rng, again: false);
+                        disturbances.Add(r => Narrow(r, again: true));
+                        added.Add(wiring);
                         break;
                     }
                 }
