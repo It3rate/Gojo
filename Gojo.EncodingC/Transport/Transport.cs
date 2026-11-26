@@ -131,7 +131,6 @@ public static class Transport
         {
             foreach (var wiring in wirings) engine.Add(wiring);
         }
-        engine.Together = bits.Bit();
         return (engine, stores);
     }
 
@@ -227,7 +226,6 @@ public static class Transport
             bits.Number(engine.Wirings.Count);
             foreach (var wiring in engine.Wirings) bits.Number(wiringPlace[wiring]);
         }
-        bits.Bit(engine.Together);
         return new Written(new MachineSize(afterStores, afterLaws - afterStores, bits.Length - start - afterLaws), place, sockets);
     }
 
@@ -350,7 +348,6 @@ public static class Transport
         else WriteTable(bits, law);
 
         bits.Bit(transition.Accounting.Functional);
-        bits.Bit(transition.Accounting.Reversible);
         bits.Number(transition.Accounting.Invariants.Count);
         foreach (var invariant in transition.Accounting.Invariants)
             switch (invariant)
@@ -430,7 +427,6 @@ public static class Transport
         }
         if (!transition) return new RelationLaw(roles, table);
         var functional = bits.Bit();
-        var reversible = bits.Bit();
         var invariants = new Invariant[bits.Count(MaxCount)];
         for (var i = 0; i < invariants.Length; i++)
         {
@@ -443,7 +439,7 @@ public static class Transport
                 _ => new NeverDecreases(bits.Count(roles.Length - 1)),
             };
         }
-        return new TransitionLaw(roles, table, new Accounting(functional, reversible, invariants));
+        return new TransitionLaw(roles, table, new Accounting(functional, invariants));
     }
 
     private static PreservedSum ReadSum(BitReader bits, int roleCount)

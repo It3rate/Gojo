@@ -1,139 +1,154 @@
 namespace Gojo.EncodingC;
 
-/// <summary>How <see cref="Operations.Bind"/> selects among admitted relation
-/// tuples when one or more relation roles are left free (residue).</summary>
-public enum FreeRolePolicy
-{
-    /// <summary>Keep only completions minimizing the sum of free roles (canonical
-    /// residue fold: shortfall drops minimal excess, accumulate drops minimal
-    /// overflow).</summary>
-    LeastTotal,
-
-    /// <summary>Keep every admitted completion across free roles, leaving the
-    /// choice explicitly open for a structure or fork to settle.</summary>
-    AllAdmitted,
-}
-
-/// <summary>Operations as relations, and their directional runs as bindings
-/// (combining ops_claude's <c>Balance</c>/<c>Bind</c> with ops_sol's explicit
-/// free-role policy and blocked-step visibility). A relation states what holds
-/// among roles and moves nothing; a binding turns it into a directional
-/// <see cref="TransitionLaw"/> where each relation role reads a law role before
-/// the step, writes one after it, or is left free as explicit residue.</summary>
+/// <summary>Operations as relations, and their runs as bindings.
+/// A relation says what holds among roles and moves nothing. A transition law
+/// that runs it is a binding: each relation role reads a law role before the
+/// step, writes one after it, or is left free (residue).
+/// <para>Completion over free roles is stated numerically, never assumed by an
+/// enum: pass a <c>cost</c> per relation role to keep completions that minimize
+/// <c>Σ cost[r] · tuple[r]</c> over free roles, or leave <c>cost</c> null to
+/// keep every admitted completion open. Where no completion fits, the step
+/// holds; an optional <c>blocked</c> bit role records 1 on hold and 0 on a
+/// written completion so quiet-because-met stays distinct from
+/// quiet-because-blocked.</para></summary>
 public static class Operations
 {
-    /// <summary>A linear balance: <c>Σ weights[r] · values[r] = 0</c> over the
-    /// roles, positive weights on one pan and negative on the other.</summary>
-    public static RelationLaw Balance(IReadOnlyList<Shape> roles, params int[] weights)
-    {
-        ArgumentNullException.ThrowIfNull(roles);
-        ArgumentNullException.ThrowIfNull(weights);
-        if (weights.Length != roles.Count) throw new ArgumentException("One weight per role.", nameof(weights));
-        if (weights.Any(w => w == 0)) throw new ArgumentException("A role of weight zero is on neither pan.", nameof(weights));
-        return RelationLaw.FromPredicate(roles, values =>
-        {
-            long total = 0;
-            for (var r = 0; r < weights.Length; r++) total += (long)weights[r] * values[r];
-            return total == 0;
-        });
-    }
+    /// <summary>Linear balance relation <c>Σ weights[r] · value[r] = 0</c>.</summary>
+    public static RelationLaw Balance(IReadOnlyList<Shape> roles, params int[] weights) =>
+        Polynomial.Balance(roles, weights).Relation;
 
-    /// <summary>A unary product relation: <c>a · b = c</c> with <c>c</c> of
-    /// capacity <c>capacityA · capacityB</c>. Roles: a, b, c.</summary>
+    /// <summary>Product relation <c>a · b = c</c> over unary counts of
+    /// capacities <paramref name="capacityA"/>, <paramref name="capacityB"/>,
+    /// and <c>capacityA · capacityB</c>.</summary>
     public static RelationLaw Product(int capacityA, int capacityB) =>
-        Product(Shape.Unary(capacityA), Shape.Unary(capacityB), Shape.Unary(checked(capacityA * capacityB)));
+        Polynomial.Product(capacityA, capacityB).Relation;
 
-    /// <summary>A bounded product relation <c>a · b = c</c> over declared finite
-    /// shapes (unary or binary).</summary>
+    /// <summary>Product relation <c>a · b = c</c> over explicit shapes.</summary>
     public static RelationLaw Product(Shape left, Shape right, Shape product) =>
-        RelationLaw.FromPredicate([left, right, product], values => (long)values[0] * values[1] == values[2]);
+        Polynomial.Product(left, right, product).Relation;
 
-    /// <summary>Runs <paramref name="relation"/> as a directional transition law
-    /// over <paramref name="roles"/>. Relation role <c>r</c> reads law role
-    /// <c>reads[r]</c> before the step, writes law role <c>writes[r]</c> after
-    /// it, or stays free as residue (<c>-1</c> in both). Where no completion
-    /// fits, the step holds (keeping written roles unchanged) and sets the
-    /// optional <paramref name="blocked"/> bit role to 1 (0 when a completion
-    /// wrote), so quiet-because-met and quiet-because-blocked stay structurally
-    /// distinct.</summary>
+    /// <summary>Binds a <paramref name="relation"/> into a <see cref="TransitionLaw"/>
+    /// over <paramref name="roles"/>. For each relation role <c>r</c>:
+    /// <list type="bullet">
+    /// <item><c>reads[r] &gt;= 0</c>: reads law role <c>reads[r]</c> before the step;</item>
+    /// <item><c>writes[r] &gt;= 0</c>: writes law role <c>writes[r]</c> after the step;</item>
+    /// <item>both <c>-1</c>: free residue role.</item>
+    /// </list>
+    /// When <paramref name="cost"/> is null, every admitted completion is kept
+    /// open; when supplied, completions minimizing <c>Σ cost[r] · tuple[r]</c>
+    /// over free roles are kept. When nothing fits, the law holds (and sets
+    /// <paramref name="blocked"/> to 1 if present).</summary>
     public static TransitionLaw Bind(
         RelationLaw relation,
         IReadOnlyList<Shape> roles,
         int[] reads,
         int[] writes,
         int blocked = -1,
-        FreeRolePolicy policy = FreeRolePolicy.LeastTotal)
+        int[]? cost = null)
     {
         ArgumentNullException.ThrowIfNull(relation);
         ArgumentNullException.ThrowIfNull(roles);
         ArgumentNullException.ThrowIfNull(reads);
         ArgumentNullException.ThrowIfNull(writes);
         var count = relation.Roles.Count;
-        if (reads.Length != count || writes.Length != count) throw new ArgumentException("Bind every relation role.", nameof(reads));
+        if (reads.Length != count || writes.Length != count)
+            throw new ArgumentException("Bind every relation role.", nameof(reads));
+        if (cost is not null && cost.Length != count)
+            throw new ArgumentException("Supply one cost per relation role.", nameof(cost));
+        if (blocked >= roles.Count || (blocked >= 0 && roles[blocked] != Shape.Bit))
+            throw new ArgumentException("Blocked must be a Shape.Bit role of the law.", nameof(blocked));
+
+        var written = new List<int>();
         for (var r = 0; r < count; r++)
         {
-            if (reads[r] >= 0 && writes[r] >= 0) throw new ArgumentException($"Relation role {r} reads or writes, not both.", nameof(writes));
+            if (reads[r] >= 0 && writes[r] >= 0)
+                throw new ArgumentException($"Relation role {r} reads or writes, not both.", nameof(writes));
             var bound = reads[r] >= 0 ? reads[r] : writes[r];
-            if (bound >= roles.Count) throw new ArgumentOutOfRangeException(nameof(roles), $"Relation role {r} names law role {bound}.");
-            if (bound >= 0 && roles[bound] != relation.Roles[r]) throw new ArgumentException($"Relation role {r} and law role {bound} differ in shape.", nameof(roles));
+            if (bound >= roles.Count)
+                throw new ArgumentOutOfRangeException(nameof(roles), $"Relation role {r} references law role {bound}.");
+            if (bound >= 0 && roles[bound] != relation.Roles[r])
+                throw new ArgumentException($"Relation role {r} shape {relation.Roles[r]} differs from law role {bound} shape {roles[bound]}.", nameof(roles));
+            if (writes[r] >= 0) written.Add(writes[r]);
         }
-        int[] written = [.. writes.Where(w => w >= 0), .. blocked >= 0 ? [blocked] : Array.Empty<int>()];
-        if (written.Distinct().Count() != written.Length) throw new ArgumentException("Each law role has one writer.", nameof(writes));
-        if (blocked >= roles.Count || (blocked >= 0 && roles[blocked] != Shape.Bit))
-            throw new ArgumentException("Blocked is a bit role of the law.", nameof(blocked));
+        if (blocked >= 0) written.Add(blocked);
+        if (written.Distinct().Count() != written.Count)
+            throw new ArgumentException("Each written law role can have at most one writer.", nameof(writes));
 
         var readRoles = Enumerable.Range(0, count).Where(r => reads[r] >= 0).ToArray();
-        var freeRoles = Enumerable.Range(0, count).Where(r => reads[r] < 0 && writes[r] < 0).ToArray();
-        long Key(Func<int, int> value) => readRoles.Aggregate(0L, (key, r) => key * relation.Roles[r].Size + value(r));
-        var byReads = relation.AdmittedTuples().GroupBy(t => Key(r => t[r])).ToDictionary(g => g.Key, g => g.ToArray());
+        long ReadKey(Func<int, int> val)
+        {
+            long key = 0;
+            for (var i = 0; i < readRoles.Length; i++)
+            {
+                var r = readRoles[i];
+                key = key * relation.Roles[r].Size + val(r);
+            }
+            return key;
+        }
+
+        var byReads = new Dictionary<long, List<IReadOnlyList<int>>>();
+        foreach (var tuple in relation.AdmittedTuples())
+        {
+            var key = ReadKey(r => tuple[r]);
+            if (!byReads.TryGetValue(key, out var list)) byReads[key] = list = [];
+            list.Add(tuple);
+        }
 
         var probe = TransitionLaw.FromPairs(roles, [], Accounting.None);
         var pairs = new List<(int Before, int After)>();
-        var afterCounts = new int[probe.StateCount];
+        var functional = true;
+        var nextState = new int[roles.Count];
+
         for (var before = 0; before < probe.StateCount; before++)
         {
             var state = probe.Tuple(before);
-            if (!byReads.TryGetValue(Key(r => state[reads[r]]), out var fits))
+            var key = ReadKey(r => state[reads[r]]);
+            if (!byReads.TryGetValue(key, out var fits))
             {
-                var held = (int[])state.Clone();
-                if (blocked >= 0) held[blocked] = 1;
-                pairs.Add((before, probe.TupleIndex(held)));
-                afterCounts[before]++;
+                Array.Copy(state, nextState, roles.Count);
+                if (blocked >= 0) nextState[blocked] = 1;
+                pairs.Add((before, probe.TupleIndex(nextState)));
                 continue;
             }
 
-            IEnumerable<IReadOnlyList<int>> chosen = fits;
-            if (policy == FreeRolePolicy.LeastTotal && freeRoles.Length > 0)
+            long bestCost = long.MaxValue;
+            if (cost is not null)
             {
-                var least = int.MaxValue;
-                foreach (var t in fits)
+                foreach (var tuple in fits)
                 {
-                    var s = FreeTotal(t);
-                    if (s < least) least = s;
+                    var c = FreeCost(tuple);
+                    if (c < bestCost) bestCost = c;
                 }
-                chosen = fits.Where(t => FreeTotal(t) == least);
             }
 
-            foreach (var after in chosen.Select(t =>
+            var seenAfter = new HashSet<int>();
+            foreach (var tuple in fits)
             {
-                var next = (int[])state.Clone();
-                for (var r = 0; r < count; r++) if (writes[r] >= 0) next[writes[r]] = t[r];
-                if (blocked >= 0) next[blocked] = 0;
-                return probe.TupleIndex(next);
-            }).Distinct())
-            {
-                pairs.Add((before, after));
-                afterCounts[before]++;
+                if (cost is not null && FreeCost(tuple) != bestCost) continue;
+                Array.Copy(state, nextState, roles.Count);
+                for (var r = 0; r < count; r++)
+                    if (writes[r] >= 0) nextState[writes[r]] = tuple[r];
+                if (blocked >= 0) nextState[blocked] = 0;
+                seenAfter.Add(probe.TupleIndex(nextState));
             }
+
+            if (seenAfter.Count != 1) functional = false;
+            foreach (var after in seenAfter) pairs.Add((before, after));
         }
-        var unchanged = Enumerable.Range(0, roles.Count).Where(r => !written.Contains(r)).Select(r => (Invariant)new Unchanged(r)).ToArray();
-        return TransitionLaw.FromPairs(roles, pairs, new Accounting(afterCounts.All(n => n == 1), unchanged));
 
-        int FreeTotal(IReadOnlyList<int> tuple)
+        var writtenSet = written.ToHashSet();
+        var unchanged = Enumerable.Range(0, roles.Count)
+            .Where(r => !writtenSet.Contains(r))
+            .Select(r => (Invariant)new Unchanged(r))
+            .ToArray();
+        return TransitionLaw.FromPairs(roles, pairs, new Accounting(functional, unchanged));
+
+        long FreeCost(IReadOnlyList<int> tuple)
         {
-            var s = 0;
-            for (var i = 0; i < freeRoles.Length; i++) s += tuple[freeRoles[i]];
-            return s;
+            long sum = 0;
+            for (var r = 0; r < count; r++)
+                if (reads[r] < 0 && writes[r] < 0) sum += (long)cost![r] * tuple[r];
+            return sum;
         }
     }
 }

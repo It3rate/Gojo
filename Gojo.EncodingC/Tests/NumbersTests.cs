@@ -13,26 +13,26 @@ public sealed class NumbersTests
     private static readonly Plane Here = Plane.Of(1, 0);
 
     [Fact]
-    public void OperationsBalanceAndBindReproduceCountsWithExplicitFreeRolePolicyAndBlockedBit()
+    public void OperationsBalanceAndBindReproduceCountsWithNumericCostAndBlockedBit()
     {
         // Master's Counts laws match Operations.Bind(Operations.Balance(...)) bit-for-bit!
-        Shape s3 = Shape.Unary(3), s6 = Shape.Unary(6), s9 = Shape.Unary(9);
+        Shape s3 = Shape.Unary(3), s9 = Shape.Unary(9);
         Assert.True(Counts.Sum(3, 3, weight: 2).SameTable(
             Operations.Bind(Operations.Balance([s3, s3, s9], 1, 2, -1), [s3, s3, s9], [0, 1, -1], [-1, -1, 2])));
 
         Assert.True(Counts.Shortfall(3, 3).SameTable(
-            Operations.Bind(Operations.Balance([s3, s3, s3, s3], 1, -1, 1, -1), [s3, s3, s3], [0, 1, -1, -1], [-1, -1, 2, -1])));
+            Operations.Bind(Operations.Balance([s3, s3, s3, s3], 1, -1, 1, -1), [s3, s3, s3], [0, 1, -1, -1], [-1, -1, 2, -1], cost: [0, 0, 0, 1])));
 
         Assert.True(Counts.Accumulate(3).SameTable(
-            Operations.Bind(Operations.Balance([s3, Shape.Bit, s3, Shape.Bit], 1, 1, -1, -1), [Shape.Bit, s3], [1, 0, -1, -1], [-1, -1, 1, -1])));
+            Operations.Bind(Operations.Balance([s3, Shape.Bit, s3], 1, 1, -1), [Shape.Bit, s3], [1, 0, -1], [-1, -1, 1])));
 
-        // Explicit FreeRolePolicy (ops_sol catch): LeastTotal settles shortfall functionally;
-        // AllAdmitted leaves the extra free-role choices open!
+        // Numeric cost per free role (no enum!): cost: null leaves every admitted completion open (ops_sol default);
+        // explicit cost: [0, 0, 0, 1] minimizes excess and settles shortfall functionally.
         var gap = Operations.Balance([s3, s3, s3, s3], 1, -1, 1, -1);
-        var settled = Operations.Bind(gap, [s3, s3, s3], [0, 1, -1, -1], [-1, -1, 2, -1], policy: FreeRolePolicy.LeastTotal);
-        var open = Operations.Bind(gap, [s3, s3, s3], [0, 1, -1, -1], [-1, -1, 2, -1], policy: FreeRolePolicy.AllAdmitted);
-        Assert.True(settled.IsFunctional);
+        var open = Operations.Bind(gap, [s3, s3, s3], [0, 1, -1, -1], [-1, -1, 2, -1]);
+        var settled = Operations.Bind(gap, [s3, s3, s3], [0, 1, -1, -1], [-1, -1, 2, -1], cost: [0, 0, 0, 1]);
         Assert.False(open.IsFunctional);
+        Assert.True(settled.IsFunctional);
 
         // Optional blocked bit tells quiet-because-met (0 -> 0) from quiet-because-blocked (5 -> 40 -> held)!
         var c40 = Shape.Unary(40);
@@ -53,32 +53,55 @@ public sealed class NumbersTests
     [Fact]
     public void ThreeDigitBase10AdderAndSubtractorReuseOneBalanceRelationAndCompile()
     {
-        // One single DigitAddRelation(10) (4,000 bits = 500 bytes!) powers BOTH 3-digit
-        // base-10 addition (0..999 + 0..999) AND 3-digit base-10 subtraction!
-        Assert.Equal(4000, Numbers.DigitAddRelation(10).BitCount);
+        // One single DigitSum(10) relation (4,000 bits = 500 bytes!) powers BOTH relational
+        // bidirectional open arithmetic AND compiled 64-lane SWAR base-10 addition/subtraction!
+        Assert.Equal(4000, Numbers.DigitSum(10, unary: false).Relation.BitCount);
 
+        // 1. Relational 3-digit base-10: forward (487+356=843), backward (843-487=356), and coupled open middle digit!
+        var relStore = new Store(0, 1);
+        Ladder ra = new(relStore, 10, 3), rb = new(relStore, 10, 3), rs = new(relStore, 10, 3);
+        var (relWirings, relCarries) = Ladder.Add(ra, rb, rs, Here);
+        var relEng = new Engine();
+        foreach (var w in relWirings) relEng.Add(w);
+        ra.Restrict(0, 0, 1UL << 7);
+        ra.Restrict(0, 2, 1UL << 4);
+        rb.Restrict(0, 356);
+        relCarries[3].Restrict(0, 1UL << 0);
+        Assert.NotNull(relEng.Settle(10));
+        Assert.Null(ra.Read(0)); // middle digit stays genuinely open and coupled!
+        rs.Restrict(0, 843);
+        Assert.NotNull(relEng.Settle(10));
+        Assert.Equal(487L, ra.Read(0));
+
+        // 2. Concrete 64-lane SWAR compiled 3-digit base-10 adder restored via Transport!
         const int Lanes = 4;
         (int A, int B)[] addCases = [(378, 465), (750, 480), (999, 1), (0, 0)];
 
-        static (Engine Engine, Store Store, RungNumber A, RungNumber B, RungNumber Sum, int Cout) BuildBase10Adder((int A, int B)[] cases)
+        static (Engine Engine, Store Store, Ladder A, Ladder B, Ladder Sum, int Cout) BuildBase10Adder((int A, int B)[] cases)
         {
             var st = new Store(0, cases.Length);
-            var a = new RungNumber(st, 10, 3);
-            var b = new RungNumber(st, 10, 3);
-            var sum = new RungNumber(st, 10, 3);
+            var a = new Ladder(st, 10, 3, unary: false);
+            var b = new Ladder(st, 10, 3, unary: false);
+            var sum = new Ladder(st, 10, 3, unary: false);
             var cin = st.AddPlane();
             var cout = st.AddPlane();
             for (var i = 0; i < cases.Length; i++)
             {
-                a.Write(i, cases[i].A);
-                b.Write(i, cases[i].B);
+                a.WriteConcrete(i, cases[i].A);
+                b.WriteConcrete(i, cases[i].B);
             }
             var eng = new Engine();
             Numbers.WireAdder(eng, a, b, sum, cin, cout, Plane.Ones(cases.Length));
             return (eng, st, a, b, sum, cout);
         }
 
-        // Save via Transport and restore so compilation proves content-based recognition of split base-10 adders!
+        // Atomic write check (ops_sol catch): out-of-range WriteConcrete must throw WITHOUT mutating lower digits!
+        var atomicStore = new Store(0, 1);
+        var atomicNum = new Ladder(atomicStore, 10, 2, unary: false);
+        atomicNum.WriteConcrete(0, 42);
+        Assert.Throws<ArgumentOutOfRangeException>(() => atomicNum.WriteConcrete(0, 105));
+        Assert.Equal(42L, atomicNum.ReadConcrete(0));
+
         var built = BuildBase10Adder(addCases);
         var saved = Transport.Save(built.Engine, built.Store);
         var (canonEng, canonStores) = Transport.Load(saved);
@@ -96,47 +119,45 @@ public sealed class NumbersTests
         for (var i = 0; i < Lanes; i++)
         {
             var total = addCases[i].A + addCases[i].B;
-            Assert.Equal((long)(total % 1000), built.Sum.Read(fastStores[0], i));
+            Assert.Equal((long)(total % 1000), built.Sum.ReadConcrete(fastStores[0], i));
             Assert.Equal(total >= 1000, fastStores[0].Read(built.Cout, i));
         }
         for (var p = 0; p < canonStores[0].PlaneCount; p++)
             Assert.Equal(canonStores[0].Read(p), fastStores[0].Read(p));
 
-        // Reverse direction of the EXACT SAME DigitAddRelation(10): 3-digit base-10 subtraction!
+        // 3. Reverse direction of the EXACT SAME DigitSum(10): 3-digit base-10 subtraction!
         var subStore = new Store(0, 3);
-        var min = new RungNumber(subStore, 10, 3);
-        var sub = new RungNumber(subStore, 10, 3);
-        var diff = new RungNumber(subStore, 10, 3);
+        var min = new Ladder(subStore, 10, 3, unary: false);
+        var sub = new Ladder(subStore, 10, 3, unary: false);
+        var diff = new Ladder(subStore, 10, 3, unary: false);
         var bin = subStore.AddPlane();
         var bout = subStore.AddPlane();
-        min.Write(0, 843); sub.Write(0, 465); // 378, borrow 0
-        min.Write(1, 500); sub.Write(1, 1);   // 499, borrow 0
-        min.Write(2, 120); sub.Write(2, 350); // 770 (mod 1000), borrow 1 (negative!)
+        min.WriteConcrete(0, 843); sub.WriteConcrete(0, 465); // 378, borrow 0
+        min.WriteConcrete(1, 500); sub.WriteConcrete(1, 1);   // 499, borrow 0
+        min.WriteConcrete(2, 120); sub.WriteConcrete(2, 350); // 770 (mod 1000), borrow 1 (negative!)
 
         var subEng = new Engine();
         Numbers.WireSubtractor(subEng, min, sub, diff, bin, bout, Plane.Ones(3));
         subEng.Step();
 
-        Assert.Equal((378L, false), (diff.Read(0), subStore.Read(bout, 0)));
-        Assert.Equal((499L, false), (diff.Read(1), subStore.Read(bout, 1)));
-        Assert.Equal((770L, true), (diff.Read(2), subStore.Read(bout, 2)));
+        Assert.Equal((378L, false), (diff.ReadConcrete(0), subStore.Read(bout, 0)));
+        Assert.Equal((499L, false), (diff.ReadConcrete(1), subStore.Read(bout, 1)));
+        Assert.Equal((770L, true), (diff.ReadConcrete(2), subStore.Read(bout, 2)));
     }
 
     [Fact]
-    public void MultiDigitBase10MultiplierComputesProductsFarBeyondDenseLawMaxBits()
+    public void MultiDigitBase10MultiplierWorksBothConcretelyAndRelationally()
     {
-        // 2-digit base-10 × 2-digit base-10 -> 4-digit base-10 (0..9,801)
-        // A dense table for 0..99 × 0..99 -> 0..9801 would need 98,020,000 bits (> 23× Law.MaxBits);
-        // the rung lattice uses tiny shared DigitMulLo/Hi + DigitSum/Carry tables!
+        // 1. Concrete 2-digit base-10 × 2-digit base-10 -> 4-digit base-10 (0..9,801)
         (int A, int B)[] pairs = [(27, 36), (17, 28), (99, 99), (0, 73), (12, 10)];
         var st = new Store(0, pairs.Length);
-        var a = new RungNumber(st, 10, 2);
-        var b = new RungNumber(st, 10, 2);
-        var prod = new RungNumber(st, 10, 4);
+        var a = new Ladder(st, 10, 2, unary: false);
+        var b = new Ladder(st, 10, 2, unary: false);
+        var prod = new Ladder(st, 10, 4, unary: false);
         for (var i = 0; i < pairs.Length; i++)
         {
-            a.Write(i, pairs[i].A);
-            b.Write(i, pairs[i].B);
+            a.WriteConcrete(i, pairs[i].A);
+            b.WriteConcrete(i, pairs[i].B);
         }
 
         var eng = new Engine();
@@ -144,20 +165,41 @@ public sealed class NumbersTests
         eng.Step();
 
         for (var i = 0; i < pairs.Length; i++)
-            Assert.Equal((long)pairs[i].A * pairs[i].B, prod.Read(i));
+            Assert.Equal((long)pairs[i].A * pairs[i].B, prod.ReadConcrete(i));
+
+        // 2. Relational multi-rung multiplication via Polynomial DigitProduct (a·b + c_in = r·c_out + lo):
+        // forward 23 × 19 = 437 AND backward factoring 19 × ? = 437 recovers 23 in base 5!
+        var rSt = new Store(0, 1);
+        Ladder ma = new(rSt, 5, 2, unary: false), mb = new(rSt, 5, 2, unary: false), mp = new(rSt, 5, 4, unary: false);
+        var mEng = new Engine();
+        foreach (var w in Ladder.Multiply(ma, mb, mp, Here)) mEng.Add(w);
+        ma.Restrict(0, 23);
+        mb.Restrict(0, 19);
+        Assert.NotNull(mEng.Settle(32));
+        Assert.Equal(437L, mp.Read(0));
+
+        // Backward factoring from the exact same DigitProduct relation: 19 × ? = 437 -> 23!
+        var fSt = new Store(0, 1);
+        Ladder fa = new(fSt, 5, 2, unary: false), fb = new(fSt, 5, 2, unary: false), fp = new(fSt, 5, 4, unary: false);
+        var fEng = new Engine();
+        foreach (var w in Ladder.Multiply(fa, fb, fp, Here)) fEng.Add(w);
+        fb.Restrict(0, 19);
+        fp.Restrict(0, 437);
+        Assert.NotNull(fEng.Settle(32));
+        Assert.Equal(23L, fa.Read(0));
     }
 
     [Fact]
     public void PreNumericRung0WorksUnchangedBesideMultiRungNumbersAndTwoRungCoasting()
     {
-        // 1. Pre-numeric Rung 0: a 1-rung unary RungNumber IS an ordinary unary Field compatible with Tension & Flows!
+        // 1. Pre-numeric Rung 0: a 1-rung unary Ladder IS an ordinary unary Field compatible with Tension & Flows!
         var preStore = new Store(0, 1);
-        var preNum = new RungNumber(preStore, radix: 5, rungs: 1, unary: true);
+        var preNum = new Ladder(preStore, radix: 5, rungs: 1, unary: true);
         var site = new Tension(preStore, preNum.Digits[0], 4);
         var preEng = new Engine().Add(site.Absorb(Here));
         for (var i = 0; i < 3; i++) Assert.True(site.Receive(Here).Blocked.None);
         Assert.NotNull(preEng.Settle(6));
-        Assert.Equal(3L, preNum.Read(0));
+        Assert.Equal(3L, preNum.ReadConcrete(0));
 
         // 2. Two-rung coasting (ops_claude B13): rate=3, ticks=4 => 12 delivered via radix-4 rungs (ones + fours).
         // Each tick books 3 into ones-rung; conserving Flows.Convert(4, 1) carries groups of 4 into the high rung

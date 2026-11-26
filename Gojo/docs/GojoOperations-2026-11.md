@@ -861,7 +861,7 @@ Opt-in `CompiledPlan` strictly outside canonical `Transport`, guarded by
 
 Building Phases 0–5 in `Gojo.EncodingC` (`Accounting.cs`, `TransitionLaw.cs`,
 `Engine.cs`, `Transport.cs`, [`Booleans.cs`](../../Gojo.EncodingC/Laws/Booleans.cs),
-[`Rungs.cs`](../../Gojo.EncodingC/Laws/Rungs.cs),
+[`Numbers.cs`](../../Gojo.EncodingC/Laws/Numbers.cs) *(consolidated from Round-1 `Rungs.cs`)*,
 [`Multiplication.cs`](../../Gojo.EncodingC/Laws/Multiplication.cs),
 [`Dynamics.cs`](../../Gojo.EncodingC/Laws/Dynamics.cs),
 [`CompiledPlan.cs`](../../Gojo.EncodingC/Compilation/CompiledPlan.cs), and
@@ -1140,7 +1140,7 @@ three branches into one lean, regression-friendly, rung-capable stack:
      remain loadable), and keep `J` derived from `Odv`.
    - Separate provenance recording from move admission everywhere (Sol's catch).
 2. **Workstream 2 — Minimal multi-rung numeric layer on `Balance`:**
-   - Rebuild [`Rungs`](../../Gojo.EncodingC/Laws/Rungs.cs) / `Ladder` /
+   - Rebuild [`Numbers.cs`](../../Gojo.EncodingC/Laws/Numbers.cs) / `Ladder` /
      `OpenGap` cleanly on `Balance` + conserving `Convert(B, 1)` carries, with
      per-rung `Supports[]` (coarse-first narrowing + `Fork` splitting for
      coupled constraints like Sol's `a·b = 5` and Claude's `B2` `x+y=5, xy=6`).
@@ -1168,30 +1168,31 @@ three branches into one lean, regression-friendly, rung-capable stack:
      and multipliers, and benchmark both single-rung 65K-lane SIMD and
      multi-rung arithmetic parity.
 
-### 11.1 Round 2 implemented on `ops_neon` (`257/257` passing)
+### 11.1 Round 2 implemented on `ops_neon` (`257/257` passing; unified in Round 3 to `263/263`)
 
 All five workstreams of §11 now have working, tested implementations in
 `Gojo.EncodingC` (zero strings, zero floats/doubles, zero `System.Math`):
 
 1. **Unified relational operations core ([`Operations.cs`](../../Gojo.EncodingC/Laws/Operations.cs), [`Flows.cs`](../../Gojo.EncodingC/Flow/Flows.cs)):**
    `Operations.Balance`, `Operations.Product`, and `Operations.Bind` with
-   explicit `FreeRolePolicy` (`LeastTotal` vs. `AllAdmitted`) and optional
-   `blocked` bit, plus decoupled observational `Flows.Sweep` (a full receipt
-   saturates cleanly and never holds material).
-2. **Minimal multi-rung numbers above pre-numeric Rung 0 ([`Numbers.cs`](../../Gojo.EncodingC/Numbers/Numbers.cs), [`NumbersTests.cs`](../../Gojo.EncodingC/Tests/NumbersTests.cs)):**
-   `RungNumber` + `Numbers` built strictly from `Operations.Balance` / `Bind`:
-   one 4,000-bit (500 B) `DigitAddRelation(10)` powers BOTH 3-digit base-10
+   explicit free-role completion policy (replaced in Round 3 by numeric
+   `cost[]` and `Polynomial`) and optional `blocked` bit, plus decoupled
+   observational `Flows.Sweep` (a full receipt saturates cleanly and never
+   holds material).
+2. **Minimal multi-rung numbers above pre-numeric Rung 0 ([`Numbers.cs`](../../Gojo.EncodingC/Laws/Numbers.cs), [`NumbersTests.cs`](../../Gojo.EncodingC/Tests/NumbersTests.cs)):**
+   `Ladder` + `Numbers` built strictly from `Polynomial` / `Operations.Balance` / `Bind`:
+   one 4,000-bit (500 B) `DigitSum(10)` powers BOTH 3-digit base-10
    addition (`0..999 + 0..999`) AND reverse subtraction (`0..999 − 0..999`) via
-   split `DigitSum`/`DigitCarry` bindings (`<= 4.0M` bits, inside `Law.MaxBits`);
+   split `DigitSumStep`/`DigitCarryStep` bindings (`<= 4.0M` bits, inside `Law.MaxBits`);
    `WireMultiplier` computes multi-digit base-10 products (`0..99 × 0..99 →
-   0..9,801`) far beyond dense table capacity; 1-rung unary `RungNumber` works
+   0..9,801`) far beyond dense table capacity; 1-rung unary `Ladder` works
    directly with pre-numeric `Tension`/`Flows`; two-rung radix-4 coasting (`B13`)
    settles 12 units in ≤ 6 steps; coupled `x+y=5, x·y=6` (`B2`) narrows
    marginals to `{2,3}` and recovers `(2,3)` and `(3,2)` via `Fork`s; unsigned
    live-`Landmark` shears deduplicate `kick.SameTable(drift) == true`, pack to
    **940 B** (`2,038 B` with `blocked` bits — **104× smaller** than non-functional
    signed Minsky!), and re-center mid-flight (`B5`).
-3. **Sparse `WitnessStore` + Gojo discrete symbolic regressor ([`StructuralCompression.cs`](../../Gojo.EncodingC/Learning/StructuralCompression.cs), [`SymbolicRegressionTests.cs`](../../Gojo.EncodingC/Tests/SymbolicRegressionTests.cs)):**
+3. **Gojo discrete symbolic regressor (consolidated in Round 3 into [`Recognition.cs`](../../Gojo.EncodingC/Laws/Recognition.cs), [`RecognitionTests.cs`](../../Gojo.EncodingC/Tests/RecognitionTests.cs)):**
    - Pure-numeric hints (`ReadHints`) and exact `Bind`-inverse recovery
      (`TryRecognizeBalance`, `TryRecognizeProduct`, `TryRecognizePacketTrade`)
      recover `Counts.Sum`, `Tally`, `Shortfall` (auto-discovering free excess

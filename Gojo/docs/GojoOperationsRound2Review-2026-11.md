@@ -288,6 +288,67 @@ Rather than continuing to diverge across three branches, Round 3 should converge
 
 ---
 
+## Part 4 — Round 3 Implemented on `ops_neon` (`263/263` Release Tests) & Merge-to-`master` Recommendation
+
+### 4.1 What Was Implemented in Round 3
+
+Incorporating peer reviews from `ops_sol` (`ba0746cf`, `GojoOperationsRound3.md`) and `ops_claude` (`27f8e483`, `GojoOperationsRound14-2026-11.md`), Round 3 brings `ops_neon` to a unified, **100% `master`-`Transport`-compatible** checkpoint (**263 / 263** Release tests passing, zero new warnings, zero `string` / `float` / `double` / `System.Math` references in `Gojo.EncodingC.dll`):
+
+1. **100% `master` `Transport` wire compatibility restored:**
+   - Reverted all unversioned format bits in [`Transport.cs`](../../Gojo.EncodingC/Transport/Transport.cs) (zero diff vs. `master` `9b805964`; `TransportTests.cs`, `LearningAndLensTests.cs`, and `SelfRunningTests.cs` are untouched from `master`).
+   - [`TransitionLaw.IsReversible`](../../Gojo.EncodingC/Laws/TransitionLaw.cs) is calculated directly from loaded table bits (0 wire bits), while `Accounting.Reversible` still checks bijection promises at construction time.
+2. **Unified algebraic core ([`Polynomial.cs`](../../Gojo.EncodingC/Laws/Polynomial.cs), [`Operations.cs`](../../Gojo.EncodingC/Laws/Operations.cs), [`Counts.cs`](../../Gojo.EncodingC/Laws/Counts.cs), [`Lens.cs`](../../Gojo.EncodingC/Lens/Lens.cs)):**
+   - Adopted Claude's canonical integer `Polynomial` (`Σ weight · Π value^exponent = 0`) with `Lens.Describe(Polynomial)` strictly outside the core.
+   - Retired the `FreeRolePolicy` enum completely in favor of Claude's numeric `Operations.Bind(..., int blocked = -1, int[]? cost = null)` (default `cost: null` keeps all admitted completions open per Sol's contract).
+   - Refactored `Counts.Sum`, `Shortfall`, `Tally`, and `Accumulate` directly onto `Operations.Balance` + `Operations.Bind` (exact `master` bit parity verified).
+3. **Unified `Recognition` ([`Recognition.cs`](../../Gojo.EncodingC/Laws/Recognition.cs), [`RecognitionTests.cs`](../../Gojo.EncodingC/Tests/RecognitionTests.cs)):**
+   - Retired the 1,000-line family-by-family `StructuralCompression.cs` and `WitnessStore`.
+   - Combined Claude's `Relations` (upgraded to **`BigInteger`** fraction-free Gauss–Jordan nullspace — zero 64-bit overflow, verified recovering base `5`, `10`, and **`60`** directly as linear balance weights!), sparse `Fits`, `Compare`, and closed-loop active learning on `LearnedTable` (fixed `Witnesses(LearnedTable)` so it reads `Predict(b)` sparsely without allocating `StateCount²`!) with Neon's `ReadHints`, **hidden free-residue auto-discovery (`DiscoverBoundBalance`)** (`Shortfall`, separate clamped `OR`, tighter 0-residue in-place `Accumulate`, blocked `LandmarkShear`), **`FitsFold` (`min`/`max`)**, and **wall-aware minimax `Probe`** (`isWall` filter so boundary holds never falsely refute true interior equations).
+4. **Unified variable-partition `Numbers`, `Ladder`, and `Portions` ([`Numbers.cs`](../../Gojo.EncodingC/Laws/Numbers.cs), [`NumbersTests.cs`](../../Gojo.EncodingC/Tests/NumbersTests.cs), [`VariablePartitionAndUncertaintyTests.cs`](../../Gojo.EncodingC/Tests/VariablePartitionAndUncertaintyTests.cs)):**
+   - Retired duplicate `Laws/Rungs.cs` and `Numbers/Numbers.cs`.
+   - Mixed-partition `Ladder` accepts **`int[] Partitions`** + **`UnitRung` anchor** (`[5]`, half-stars `[2, 5]`, stars+fifths `[5, 6]`, clock `[10, 6, 10, 6]`, decimal `[10, 10, 10]`, radix `60`), with lazy `Supports`, atomic pre-validated `WriteConcrete` (Sol's catch), explicit `Reopen` (Sol's monotone-narrowing contract), relational `Ladder.Add`, AND relational **`Ladder.Multiply`** (via fused `Polynomial` `DigitProduct`: `a·b + c_in = r·c_out + lo`, verified forward `23 × 19 = 437` and backward factoring `19 × ? = 437 → 23` in base 5!).
+   - Generalized Sol's atomic no-overshoot carry to any partition **`Numbers.Admit(partition, ...)`**, verified at partition `5` (`pressure + 5·coarse + fine` preserved, 15th waits as pressure, 16th blocked, mid-carry `Transport.SaveLocals` byte-identical).
+5. **Uncertainty, resolution, pooling, and mechanism dependence (`Portions` & [`VariablePartitionAndUncertaintyTests.cs`](../../Gojo.EncodingC/Tests/VariablePartitionAndUncertaintyTests.cs)):**
+   - **Five-star scale discipline:** Exact `Shape.Unary(5)` (5 planes + free `Room`), `Shape.Binary(6)` (`Size = 6`, codes `6, 7 → null`), ordinal `1..5` (silence = open `{1..5}`, `0` = empty contradiction), interval `(3−1)/(5−1) = 2/4` vs. ratio `3/5`.
+   - **Evidence pooling vs. same-whole addition:** `Portions.WirePool` settles `(3, 5) ⊕ (2, 5) → (5, 10)` and `(3, 5) ⊕ (7, 10) → (10, 15)` (preserving accumulated certainty and denominator without reducing `5/10` to `1/2`), whereas `Portions.AddSameWhole` settles `3/5 + 2/5 → 1 whole + 0/5` and **refuses incompatible `3/5 + 2/3` via empty support contradiction** (never silently fabricates `/15`).
+   - **Coarse precision & marginal-vs-joint widening:** Coarse `3/5` through an unplugged half-star `Socket` (`[2, 5]`) leaves `Skipped` set and `PossibleValues = {6, 7}` (`3.0, 3.5`), never inventing `3.000`. Summing two independent coarse values (`3/5 + 2/5`) leaves marginal per-rung supports conservatively open across `{0, 1} × {0, 1}`, while `Fork` probing over the coupled carry cleanly isolates the exact joint set `{5.0, 5.5, 6.0}` and contradicts the spurious corner `6.5`!
+   - **Mechanism changes uncertainty:** Stretching ONE coarse `3/5` sample `x ∈ {6, 7}` by `2` (`2·x` via shared-site binding) produces **`{12, 14}`** (skips `13`), whereas summing TWO independent `3/5` samples `x₁ + x₂` produces **`{12, 13, 14}`**. Similarly, shared-site `x − x` settles exact `0`, while independent `x₁ − x₂` stays open across `{−0.5, 0.0, +0.5}` (Axiom 9).
+   - **Observational residue vs. material conservation:** `Portions.Project(10)` maps `3/5 → 6/10` (`r = 0`), `3/5 → 4/8` (`r = 4`, exact `4/8 + 4/40 = 3/5`), `4/5 → 2/3` (`r = 2`), and `d₁ = 0 → empty`, whereas material `Flows.Convert(5, 8)` moves `0` eighths and holds all `3` fifths as stock, and conserving common refinement turns `2/5 + 1/3` into exact `11/15`.
+6. **64-lane bit-sliced SWAR mixed-partition `CompiledPlan` ([`CompiledPlan.cs`](../../Gojo.EncodingC/Compilation/CompiledPlan.cs)):**
+   - Directly addressing Claude's Round 14 benchmark (`68 µs/lane` relational vs. `114 µs/lane` Neon canonical vs. `54 µs/lane` old Neon compiled on 3-digit base-10 over 4,096 lanes), `RecognizedLadderAdder` now verifies arbitrary mixed-partition chains against `Numbers.DigitSum` via `Recognition.Compare` and lowers identity-mapped binary-packed ladders to **64-lane bit-sliced SWAR** directly over `Store.RawPlane` words (using exact 5-bit bit-sliced `s + (32 − p)` threshold-and-subtract for ANY partition `p ∈ 2..16` — zero divisions, zero multiplies, bitwise code validation across 64 lanes before writing!):
+
+| Release Benchmark (100% plane & tick parity verified) | Canonical | Relational `Ladder.Add` | Round 3 64-lane SWAR `CompiledPlan` | Speedup |
+| --- | ---: | ---: | ---: | ---: |
+| **3-digit base-10 × 4,096 lanes (`Settle(4)`, 2 steps)** | `650.31 ms` (`158.8 µs/lane`) | `401.96 ms` (`98.1 µs/lane`) | **`0.1365 ms`** (`0.033 µs/lane` = **`33.3 ns/lane`**, avg 200 active runs) | **4,764×** vs. canonical (**2,945×** vs. relational) |
+| **Mixed `[2, 5]` half-stars × 65,536 lanes (1 step)** | `2,743.86 ms` (`41.9 µs/lane`) | — | **`0.773 ms`** (`0.0118 µs/lane` = **`11.8 ns/lane`**) | **3,551×** vs. canonical |
+
+### 4.2 Explicitly Deferred / Out of Scope for This Round
+
+To keep `EncodingC` honest and extensible without premature complexity, we deliberately did **not** implement:
+- **Probabilistic / Gaussian / floating-point error propagation:** `EncodingC` remains strictly bit/integer exact (`SubstrateTests`). Structural uncertainty (open supports, unplugged `Socket`s, pooling denominators, same-site vs. independent identity, Axiom-8 projection residue) leaves clean extension room for statistical/evidence-weighting layers above it.
+- **Automatic cross-denominator rational algebra:** Incommensurate denominators never auto-multiply on `+`; combining them requires explicit pooling (`WirePool`), explicit conserving common refinement (`Flows.Convert`), or explicit Axiom-8 projection (`Portions.Project`) with visible residue.
+- **Persisting `Polynomial` equations or `Engine.Together` inside `Transport`:** Kept `Transport.cs` 100% `master`-identical until all three branches agree on an explicit v2 version header.
+- **Unequal-width multi-region partitions inside `EncodingC`:** Left to native `CoarseReadSurface` for now; `EncodingC` supports ordered membership scopes + `Supports` cleanly as the foothold.
+- **Autonomous open-ended symbolic search scheduling:** `Recognition` provides deterministic, inspectable building blocks (`Relations`, `Fits`, `FitsFold`, `DiscoverBoundBalance`, `Probe`, `Compare`), leaving outer search policies separate.
+
+### 4.3 Honest Recommendation: Who Should Write the Merge into `master`?
+
+Looking objectively at `master`'s actual `Gojo.EncodingC` history (`git log origin/master -- Gojo.EncodingC`), all three branches' code, and what makes `EncodingC` maintainable and extensible long-term:
+
+1. **Primary merge author for canonical `Gojo.EncodingC` → `master`: `ops_claude` (`claude/youthful-newton-wh29co`).**
+   - **Style fit:** Every single commit of `Gojo.EncodingC` on `master` (`9b805964` and its ancestors) was written in Claude's exact voice — terse, cohesive 100–300-line files, crisp prose doc-comments, zero enums, zero redundant wrappers, zero accidental format drift.
+   - **Canonical backbone:** Claude's `Polynomial` + `Operations.Bind(cost)` + relational `Ladder` + `Recognition` (`Relations`, `Fits`, `Probe`, `Compare`) is the cleanest, smallest, most extensible foundation (`+751` prod LOC in Round 2).
+2. **Conformance & epistemic gate co-reviewer: `ops_sol`.**
+   - Sol consistently caught the subtlest correctness and Gojo-axiom bugs across both peers (two-toggle quiet settle, `BoundedMultiply` double-clip, `Sweep` holding material, `Bind` hidden least-sum bias, `RungNumber.Write` partial write before throw, optional-`Socket` `Skipped` refinement, monotone narrowing / `Reopen`, `SamePosition` identity, `SaveLocals` mid-carry). Sol's evidence/scope/read/material test contracts should be mandatory gates on the `master` merge.
+3. **Targeted feature & backend contributions from `ops_neon` (this branch):**
+   - Fold these self-contained pieces cleanly into Claude's lean core (in order):
+     1. **`BigInteger` overflow-safe `Nullspace`, sparse `Witnesses(LearnedTable)`, wall-aware `Probe`, `DiscoverBoundBalance` (hidden free-residue auto-discovery), and `FitsFold` (`min`/`max`)** inside `Recognition.cs`.
+     2. **Mixed-partition `Ladder` (`int[] Partitions` + `UnitRung` + atomic pre-validated writes + `Reopen`), relational `Ladder.Multiply` (`DigitProduct`), generalized `Numbers.Admit(p)`, and `Portions` (`Bound`, `WirePool`, `AddSameWhole`, `Project`, `Compare`)** — plus the mechanism-dependent uncertainty & five-star test suite (`VariablePartitionAndUncertaintyTests`).
+     3. **`CompiledPlan` as an optional, strictly derived companion commit/folder** (`Gojo.EncodingC/Compilation/`): kept cleanly isolated behind Sol's parity/tick/quiet/epoch gates and never touching `Transport`, delivering **338×–4,764×** verified native speedups (including arbitrary mixed-partition 64-lane SWAR!) without cluttering the canonical core.
+   - **Honest self-assessment:** Even after Round 3's cleanup, `ops_neon` still carries Round-1 exploratory classes (`Booleans.cs`, `Dynamics.cs`, `Multiplication.cs`) plus the 2,100-line `CompiledPlan.cs` (`+4,876` prod LOC total above `master`), which is far heavier than `master`'s minimalist core style. Having **Claude author the lean canonical merge into `master`**, gated by **Sol's conformance tests**, and cherry-picking **Neon's `Recognition` extensions, mixed-partition/`Portions` uncertainty layer, and optional `Compilation/CompiledPlan.cs` backend** produces the single best `master` possible.
+
+---
+
 ## Appendix — Reproducible Verification Checks (Python)
 
 Run with `python3` to verify every table size, projection, and exact `/5` multiply-shift claim in Part 2:

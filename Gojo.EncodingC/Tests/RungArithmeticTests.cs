@@ -27,7 +27,7 @@ public sealed class RungArithmeticTests
         var fours = new Tension(store, UnaryField(store, 3), capacity: 4);
         var engine = new Engine()
             .Add(ones.Absorb(Here))
-            .Add(Tension.Route(Rungs.CarryUp(4, 4, 4), ones.Value.On(store), fours.Plus.On(store), Here))
+            .Add(Tension.Route(Numbers.Group(4, 4, 4), ones.Value.On(store), fours.Plus.On(store), Here))
             .Add(fours.Absorb(Here));
 
         for (var i = 0; i < 19; i++) Assert.True(ones.Receive(Here).Blocked.None);
@@ -46,7 +46,7 @@ public sealed class RungArithmeticTests
         var coarse = UnaryField(refStore, 3);
         var fine = UnaryField(refStore, 12);
         coarse.Write(refStore, 0, 3);
-        var refine = Rungs.RefineDown(4, 3, 12);
+        var refine = Numbers.Refine(4, 3, 12);
         Assert.True(refine.Accounting.Conserves(0));
         Assert.True(refine.Accounting.Conserves(1));
         var refEngine = new Engine().Add(Tension.Route(refine, coarse.On(refStore), fine.On(refStore), Here));
@@ -67,40 +67,37 @@ public sealed class RungArithmeticTests
         const int Radix = 4;
         const int RungCount = 3; // values 0..63
 
-        static (Engine Engine, Store Store, Supports[] A, Supports[] B, Supports[] Sum, Supports Cin, Supports Cout) Build()
+        static (Engine Engine, Store Store, Ladder A, Ladder B, Ladder Sum, IReadOnlyList<Supports> Carries) Build()
         {
             var store = new Store(0, 1);
-            var a = Ladder.Open(store, Radix, RungCount);
-            var b = Ladder.Open(store, Radix, RungCount);
-            var sum = Ladder.Open(store, Radix, RungCount);
-            var cin = Supports.On(store, new Field(Shape.Bit, store.AddPlane()));
-            var cout = Supports.On(store, new Field(Shape.Bit, store.AddPlane()));
+            var a = new Ladder(store, Radix, RungCount, unary: true);
+            var b = new Ladder(store, Radix, RungCount, unary: true);
+            var sum = new Ladder(store, Radix, RungCount, unary: true);
+            var (wirings, carries) = Ladder.Add(a, b, sum, Here);
             var engine = new Engine();
-            foreach (var w in Ladder.WireRelationalAdd(store, Radix, a, b, sum, cin, cout, Here)) engine.Add(w);
-            return (engine, store, a, b, sum, cin, cout);
+            foreach (var w in wirings) engine.Add(w);
+            return (engine, store, a, b, sum, carries);
         }
 
         // Forward addition: 27 + 19 = 46 (with carry across rungs 0 -> 1 -> 2), cin = 0.
         var fwd = Build();
-        Ladder.RestrictExact(fwd.A, Radix, 0, 27);
-        Ladder.RestrictExact(fwd.B, Radix, 0, 19);
-        fwd.Cin.Restrict(0, 1UL << 0);
+        fwd.A.Restrict(0, 27);
+        fwd.B.Restrict(0, 19);
         Assert.NotNull(fwd.Engine.Settle(16));
-        Assert.Equal(46L, Ladder.ReadSettled(fwd.Sum, Radix, 0));
-        Assert.Equal(1UL << 0, fwd.Cout.Values(0));
+        Assert.Equal(46L, fwd.Sum.Read(0));
+        Assert.Equal(1UL << 0, fwd.Carries[^1].Values(0));
 
         // Backward subtraction: ? + 19 = 46 recovers 27 across all three rungs!
         var bwd = Build();
-        Ladder.RestrictExact(bwd.B, Radix, 0, 19);
-        Ladder.RestrictExact(bwd.Sum, Radix, 0, 46);
-        bwd.Cin.Restrict(0, 1UL << 0);
-        bwd.Cout.Restrict(0, 1UL << 0);
+        bwd.B.Restrict(0, 19);
+        bwd.Sum.Restrict(0, 46);
+        bwd.Carries[^1].Restrict(0, 1UL << 0);
         // Save BEFORE settling to prove restored machine narrows identically backwards.
         var saved = Transport.Save(bwd.Engine, bwd.Store);
         var (restored, copies) = Transport.Load(saved);
         Assert.NotNull(bwd.Engine.Settle(16));
         Assert.NotNull(restored.Settle(16));
-        Assert.Equal(27L, Ladder.ReadSettled(bwd.A, Radix, 0));
+        Assert.Equal(27L, bwd.A.Read(0));
         for (var p = 0; p < bwd.Store.PlaneCount; p++)
             Assert.Equal(bwd.Store.Read(p), copies[0].Read(p));
     }
@@ -112,7 +109,7 @@ public sealed class RungArithmeticTests
     [Fact]
     public void OpenNumericGapNarrowsExactDistancesBetweenOpenValues()
     {
-        var gapLaw = Rungs.OpenGap(7);
+        var gapLaw = Numbers.OpenGap(7);
         static (Engine Engine, Supports Have, Supports Want, Supports Deficit, Supports Excess) Build(RelationLaw law)
         {
             var store = new Store(0, 1);
@@ -170,7 +167,7 @@ public sealed class RungArithmeticTests
         var stock = UnaryField(qStore, 11);
         var quotient = UnaryField(qStore, 4);
         stock.Write(qStore, 0, 11);
-        var takeGroup = Rungs.CarryUp(3, 11, 4); // takes 3 from stock, gives 1 to quotient (PreservedSum([1, 3]))
+        var takeGroup = Numbers.Group(3, 11, 4); // takes 3 from stock, gives 1 to quotient (PreservedSum([1, 3]))
         var qEngine = new Engine().Add(Tension.Route(takeGroup, stock.On(qStore), quotient.On(qStore), Here));
         Assert.NotNull(qEngine.Settle(16));
         Assert.Equal((3, 2), (quotient.Read(qStore, 0), stock.Read(qStore, 0)));
@@ -202,19 +199,17 @@ public sealed class RungArithmeticTests
     {
         // 1. Base-10 (semantic radix!) add-then-observe vs observe-then-add for 17 + 28 = 45.
         var store = new Store(0, 1);
-        var a = Ladder.Open(store, 10, 2, unary: false);
-        var b = Ladder.Open(store, 10, 2, unary: false);
-        var sum = Ladder.Open(store, 10, 2, unary: false);
-        var cin = Supports.On(store, new Field(Shape.Bit, store.AddPlane()));
-        var cout = Supports.On(store, new Field(Shape.Bit, store.AddPlane()));
+        var a = new Ladder(store, 10, 2, unary: false);
+        var b = new Ladder(store, 10, 2, unary: false);
+        var sum = new Ladder(store, 10, 2, unary: false);
+        var (wirings, _) = Ladder.Add(a, b, sum, Here);
         var engine = new Engine();
-        foreach (var w in Ladder.WireRelationalAdd(store, 10, a, b, sum, cin, cout, Here, unary: false)) engine.Add(w);
+        foreach (var w in wirings) engine.Add(w);
 
-        Ladder.RestrictExact(a, 10, 0, 17);
-        Ladder.RestrictExact(b, 10, 0, 28);
-        cin.Restrict(0, 1UL << 0);
+        a.Restrict(0, 17);
+        b.Restrict(0, 28);
         Assert.NotNull(engine.Settle(8));
-        Assert.Equal(45L, Ladder.ReadSettled(sum, 10, 0)); // 4 tens + 5 ones
+        Assert.Equal(45L, sum.Read(0)); // 4 tens + 5 ones
 
         // Observe coarse tens first: 1 + 2 = 3 tens, while raw residues 7 + 8 = 15 cross another ten.
         var coarseTens = 1 + 2;
@@ -222,8 +217,8 @@ public sealed class RungArithmeticTests
         Assert.Equal((3, 15), (coarseTens, rawResidue));
         Assert.Equal((4, 5), (coarseTens + rawResidue / 10, rawResidue % 10));
 
-        // 2. Cross-rung partial products of (10 + 7)(20 + 8) = 200 + 80 + 140 + 56 = 476 using DigitMultiply(10).
-        var mul10 = Rungs.DigitMultiply(10, unary: false);
+        // 2. Cross-rung partial products of (10 + 7)(20 + 8) = 200 + 80 + 140 + 56 = 476 using DigitMulPair(10).
+        var mul10 = Numbers.DigitMulPair(10, unary: false).Relation;
         int Cell(int x, int y)
         {
             var lo = System.Numerics.BitOperations.TrailingZeroCount(mul10.Project(2, [1UL << x, 1UL << y, (1UL << 10) - 1, (1UL << 10) - 1]));

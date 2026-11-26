@@ -22,9 +22,9 @@ public sealed class MultiplicationTests
     public void FactoredMultipliersBeatFlatTableAndReadBothDirections()
     {
         // 1. Two-rung radix-4 lattice (0..15 × 0..15 -> 0..225):
-        // Shared law tables: DigitMultiply(4) [256 bits] + DigitAdd(4) [256 bits] = 512 bits total,
+        // Shared law tables: DigitMulPair(4) [256 bits] + DigitSum(4) [256 bits] = 512 bits total,
         // vs 57,856 bits for a single flat (0..15 × 0..15 -> 0..225) relation (>113× smaller)!
-        Assert.Equal(512, Rungs.DigitMultiply(4, unary: false).BitCount + Rungs.DigitAdd(4, unary: false).BitCount);
+        Assert.Equal(512, Numbers.DigitMulPair(4, unary: false).Relation.BitCount + Numbers.DigitSum(4, unary: false).Relation.BitCount);
 
         var lat = Multiplication.BuildTwoRungLattice(radix: 4, unary: false);
         var latSize = Transport.Measure(lat.Engine, lat.Store);
@@ -34,32 +34,32 @@ public sealed class MultiplicationTests
         foreach (var (aVal, bVal) in new[] { (3, 4), (13, 11), (15, 15), (0, 9) })
         {
             var f = Multiplication.BuildTwoRungLattice(radix: 4, unary: false);
-            Ladder.RestrictExact(f.A, 4, 0, aVal);
-            Ladder.RestrictExact(f.B, 4, 0, bVal);
+            f.A.Restrict(0, aVal);
+            f.B.Restrict(0, bVal);
             Assert.NotNull(f.Engine.Settle(32));
-            Assert.Equal((long)(aVal * bVal), Ladder.ReadSettled(f.Product, 4, 0));
+            Assert.Equal((long)(aVal * bVal), f.Product.Read(0));
         }
 
         // Backward division on lattice: 13 × ? = 143 recovers 11 across both rungs!
         var divLat = Multiplication.BuildTwoRungLattice(radix: 4, unary: false);
-        Ladder.RestrictExact(divLat.A, 4, 0, 13);
-        Ladder.RestrictExact(divLat.Product, 4, 0, 143);
+        divLat.A.Restrict(0, 13);
+        divLat.Product.Restrict(0, 143);
         Assert.NotNull(divLat.Engine.Settle(32));
-        Assert.Equal(11L, Ladder.ReadSettled(divLat.B, 4, 0));
+        Assert.Equal(11L, divLat.B.Read(0));
 
         // Open zero factor on lattice: 0 × ? = 0 leaves all 16 values of B open; 0 × ? = 12 contradicts.
         var zeroLat = Multiplication.BuildTwoRungLattice(radix: 4, unary: false);
-        Ladder.RestrictExact(zeroLat.A, 4, 0, 0);
-        Ladder.RestrictExact(zeroLat.Product, 4, 0, 0);
+        zeroLat.A.Restrict(0, 0);
+        zeroLat.Product.Restrict(0, 0);
         Assert.NotNull(zeroLat.Engine.Settle(32));
-        Assert.Equal(0b1111UL, zeroLat.B[0].Values(0));
-        Assert.Equal(0b1111UL, zeroLat.B[1].Values(0));
+        Assert.Equal(0b1111UL, zeroLat.B.Possible[0].Values(0));
+        Assert.Equal(0b1111UL, zeroLat.B.Possible[1].Values(0));
 
         var contraLat = Multiplication.BuildTwoRungLattice(radix: 4, unary: false);
-        Ladder.RestrictExact(contraLat.A, 4, 0, 0);
-        Ladder.RestrictExact(contraLat.Product, 4, 0, 12);
+        contraLat.A.Restrict(0, 0);
+        contraLat.Product.Restrict(0, 12);
         Assert.NotNull(contraLat.Engine.Settle(32));
-        Assert.Equal(0UL, contraLat.B[0].Values(0));
+        Assert.Equal(0UL, contraLat.B.Possible[0].Values(0));
 
         // 2. 4-bit Egyptian doubling (0..15 × 0..15 -> 0..225): ZERO multiplication tables!
         // Shared laws are ONLY Booleans.And (8 bits) + Booleans.FullAdder (32 bits) = 40 bits!
@@ -67,18 +67,18 @@ public sealed class MultiplicationTests
         foreach (var (aVal, bVal) in new[] { (3, 4), (13, 11), (15, 15) })
         {
             var e = Multiplication.BuildEgyptianDoubling(4);
-            Ladder.RestrictExact(e.A, 2, 0, aVal);
-            Ladder.RestrictExact(e.B, 2, 0, bVal);
+            e.A.Restrict(0, aVal);
+            e.B.Restrict(0, bVal);
             Assert.NotNull(e.Engine.Settle(64));
-            Assert.Equal((long)(aVal * bVal), Ladder.ReadSettled(e.Product, 2, 0));
+            Assert.Equal((long)(aVal * bVal), e.Product.Read(0));
         }
 
         // Backward division on Egyptian doubling: 3 × ? = 12 recovers 4; 13 × ? = 143 recovers 11!
         var divEg = Multiplication.BuildEgyptianDoubling(4);
-        Ladder.RestrictExact(divEg.A, 2, 0, 13);
-        Ladder.RestrictExact(divEg.Product, 2, 0, 143);
+        divEg.A.Restrict(0, 13);
+        divEg.Product.Restrict(0, 143);
         Assert.NotNull(divEg.Engine.Settle(64));
-        Assert.Equal(11L, Ladder.ReadSettled(divEg.B, 2, 0));
+        Assert.Equal(11L, divEg.B.Read(0));
         var egSize = Transport.Measure(divEg.Engine, divEg.Store);
         Assert.True(egSize.LawBits < latSize.LawBits); // tiny 5-byte laws, more wiring rows!
 

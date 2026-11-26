@@ -34,8 +34,8 @@ public static class Counts
         {
             var key = (capacityA, capacityB, weight);
             if (Sums.TryGetValue(key, out var cached)) return cached;
-            return Sums[key] = Reading([Shape.Unary(capacityA), Shape.Unary(capacityB)], Shape.Unary(capacityA + weight * capacityB),
-                s => s[0] + weight * s[1]);
+            Shape[] roles = [Shape.Unary(capacityA), Shape.Unary(capacityB), Shape.Unary(capacityA + weight * capacityB)];
+            return Sums[key] = Operations.Bind(Operations.Balance(roles, 1, weight, -1), roles, [0, 1, -1], [-1, -1, 2]);
         }
     }
 
@@ -48,8 +48,9 @@ public static class Counts
         {
             var key = (haveCapacity, wantCapacity);
             if (Shortfalls.TryGetValue(key, out var cached)) return cached;
-            return Shortfalls[key] = Reading([Shape.Unary(haveCapacity), Shape.Unary(wantCapacity)], Shape.Unary(wantCapacity),
-                s => s[1] > s[0] ? s[1] - s[0] : 0);
+            Shape have = Shape.Unary(haveCapacity), want = Shape.Unary(wantCapacity);
+            var gap = Operations.Balance([have, want, want, have], 1, 1, -1, -1);
+            return Shortfalls[key] = Operations.Bind(gap, [have, want, want], [0, -1, 1, -1], [-1, 2, -1, -1], cost: [0, 0, 0, 1]);
         }
     }
 
@@ -64,7 +65,11 @@ public static class Counts
         lock (Tallies)
         {
             if (Tallies.TryGetValue(bits, out var cached)) return cached;
-            return Tallies[bits] = Reading([.. Enumerable.Repeat(Shape.Bit, bits)], Shape.Unary(bits), s => s.Sum());
+            Shape[] roles = [.. Enumerable.Repeat(Shape.Bit, bits), Shape.Unary(bits)];
+            int[] weights = [.. Enumerable.Repeat(1, bits), -1];
+            int[] reads = [.. Enumerable.Range(0, bits), -1];
+            int[] writes = [.. Enumerable.Repeat(-1, bits), bits];
+            return Tallies[bits] = Operations.Bind(Operations.Balance(roles, weights), roles, reads, writes);
         }
     }
 
@@ -85,7 +90,16 @@ public static class Counts
     /// <summary>Accumulation: one more each step a signal bit is 1, up to
     /// capacity, and otherwise held. A shop placing an order each step it is
     /// short of its reorder point is this. Roles: signal (read), count (written).</summary>
-    public static TransitionLaw Accumulate(int capacity) => Counting(capacity, reset: false);
+    public static TransitionLaw Accumulate(int capacity)
+    {
+        lock (Streaks)
+        {
+            if (Streaks.TryGetValue((capacity, false), out var cached)) return cached;
+            var count = Shape.Unary(capacity);
+            var balance = Operations.Balance([Shape.Bit, count, count], 1, 1, -1);
+            return Streaks[(capacity, false)] = Operations.Bind(balance, [Shape.Bit, count], [0, 1, -1], [-1, -1, 1]);
+        }
+    }
 
     /// <summary>Accumulation that resets: one more each step a signal bit is 1,
     /// up to capacity, and back to 0 the first step it is 0. Read through a

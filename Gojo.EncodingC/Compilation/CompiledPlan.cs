@@ -191,7 +191,7 @@ public sealed class CompiledPlan
 
     /// <summary>True iff an unsigned live-landmark kick-drift oscillator was
     /// recognized strictly from its two balance tables via
-    /// <see cref="StructuralCompression.TryRecognizeBalance"/>.</summary>
+    /// <see cref="Recognition.DiscoverBoundBalance"/>.</summary>
     public bool RecognizedUnsignedLandmarkOscillator => landmarkOscillator is not null;
 
     /// <summary>False after any structural edit to the engine: adding a wiring,
@@ -230,38 +230,55 @@ public sealed class CompiledPlan
 
     /// <summary>Mechanically verifies whether <paramref name="law"/> is an
     /// exact packet conversion <c>Convert(take, give)</c> via
-    /// <see cref="StructuralCompression.TryRecognizePacketTrade"/>.</summary>
+    /// <see cref="Recognition.ReadHints"/> and table verification.</summary>
     public static bool TryRecognizePacketConvert(TransitionLaw law, out int take, out int give)
     {
-        if (StructuralCompression.TryRecognizePacketTrade(law) is { ExactTableMatch: true } fit)
-        {
-            take = fit.Take;
-            give = fit.Give;
-            return true;
-        }
         take = give = 0;
-        return false;
+        if (law.Roles.Count != 2 || !law.Roles[0].IsUnary || !law.Roles[1].IsUnary || !law.IsFunctional) return false;
+        var hints = Recognition.ReadHints(law);
+        if (hints.Trades.Length != 1) return false;
+        var (from, to, t, g) = hints.Trades[0];
+        if (from != 0 || to != 1 || t < 1 || g < 1) return false;
+        var srcCap = law.Roles[0].Size - 1;
+        var dstCap = law.Roles[1].Size - 1;
+        for (var s = 0; s <= srcCap; s++)
+            for (var d = 0; d <= dstCap; d++)
+            {
+                var can = s >= t && d + g <= dstCap;
+                var after = law.Tuple(law.Afters(law.TupleIndex([s, d]))[0]);
+                if (after[0] != (can ? s - t : s) || after[1] != (can ? d + g : d)) return false;
+            }
+        take = t;
+        give = g;
+        return true;
     }
 
     /// <summary>Mechanically verifies whether <paramref name="law"/> is a
     /// functional lossless bounded multiplier <c>(a [Unchanged], b [Unchanged],
-    /// value, overflow/T+)</c> where <c>prodCap + overflowCap ≥ maxA · maxB</c>
-    /// via <see cref="StructuralCompression.TryRecognizeProduct"/>.</summary>
+    /// value, overflow/T+)</c> where <c>prodCap + overflowCap ≥ maxA · maxB</c>.</summary>
     public static bool TryRecognizeBoundedMultiply(TransitionLaw law, out int prodCap, out int overflowCap)
     {
-        if (law.Roles.Count == 4 && !law.Writes(0) && !law.Writes(1)
-            && StructuralCompression.TryRecognizeProduct(law, maxExceptions: 0) is { ExactTableMatch: true, LeftRole: 0, RightRole: 1, ProductRole: 2, OverflowRole: 3, Scale: 1 })
-        {
-            prodCap = law.Roles[2].Size - 1;
-            overflowCap = law.Roles[3].Size - 1;
-            return true;
-        }
         prodCap = overflowCap = 0;
-        return false;
+        if (law.Roles.Count != 4 || !law.IsFunctional || law.Writes(0) || law.Writes(1)) return false;
+        int maxA = law.Roles[0].Size - 1, maxB = law.Roles[1].Size - 1;
+        int cap = law.Roles[2].Size - 1, ovfCap = law.Roles[3].Size - 1;
+        if (cap < 1 || ovfCap < 1 || (long)cap + ovfCap < (long)maxA * maxB) return false;
+        for (var state = 0; state < law.StateCount; state++)
+        {
+            var t = law.Tuple(state);
+            var p = t[0] * t[1];
+            var expVal = p <= cap ? p : cap;
+            var expOvf = p <= cap ? 0 : p - cap;
+            var after = law.Tuple(law.Afters(state)[0]);
+            if (after[0] != t[0] || after[1] != t[1] || after[2] != expVal || after[3] != expOvf) return false;
+        }
+        prodCap = cap;
+        overflowCap = ovfCap;
+        return true;
     }
 
     /// <summary>Mechanically verifies whether <paramref name="law"/> is a
-    /// justified functional radix-B ripple adder (a, b, cin [Unchanged] ->
+    /// justified functional partition-p ripple adder (a, b, cin [Unchanged] ->
     /// sum, cout) strictly from every cell of its table bits.</summary>
     public static bool TryRecognizeDigitAddStep(TransitionLaw law, out int radix)
     {
@@ -269,7 +286,7 @@ public sealed class CompiledPlan
         if (law.Roles.Count != 5 || !law.IsFunctional) return false;
         var digit = law.Roles[0];
         var b = digit.Size;
-        if (b < 2 || law.Roles[1] != digit || law.Roles[2] != Shape.Bit || law.Roles[3] != digit || law.Roles[4] != Shape.Bit)
+        if (b < 2 || law.Roles[1] != digit || law.Roles[2].Size != 2 || law.Roles[3] != digit || law.Roles[4].Size != 2)
             return false;
         if (law.Writes(0) || law.Writes(1) || law.Writes(2)) return false;
         for (var x = 0; x < b; x++)
@@ -1532,16 +1549,19 @@ public sealed class CompiledPlan
         if (t0.Roles[1] != shape || t0.Roles[2] != shape || t1.Roles[0] != shape || t1.Roles[1] != shape || t1.Roles[2] != shape)
             return null;
 
-        // Recognize both shear balances strictly from table bits via StructuralCompression.TryRecognizeBalance!
-        var fit0 = StructuralCompression.TryRecognizeBalance(t0, maxWeight: 6, maxExceptions: 0);
-        var fit1 = StructuralCompression.TryRecognizeBalance(t1, maxWeight: 6, maxExceptions: 0);
+        // Recognize both shear balances strictly from table bits via Recognition.DiscoverBoundBalance!
+        var fit0 = Recognition.DiscoverBoundBalance(t0, maxWeight: 6, maxExceptions: 0);
+        var fit1 = Recognition.DiscoverBoundBalance(t1, maxWeight: 6, maxExceptions: 0);
         if (fit0 is null || fit1 is null || !fit0.ExactTableMatch || !fit1.ExactTableMatch) return null;
-        if (fit0.FreeResidueCapacity != 0 || fit1.FreeResidueCapacity != 0) return null;
-        if (fit0.Weights.Length != 4 || fit1.Weights.Length != 4) return null;
+        if (fit0.FreeRole >= 0 || fit1.FreeRole >= 0) return null;
+        if (!TryExtractLinearWeights(fit0.Equation, out var wts0) || !TryExtractLinearWeights(fit1.Equation, out var wts1)) return null;
+        if (wts0.Length != 4 || wts1.Length != 4) return null;
+        if (wts0[3] > 0) for (var i = 0; i < 4; i++) wts0[i] = -wts0[i];
+        if (wts1[3] > 0) for (var i = 0; i < 4; i++) wts1[i] = -wts1[i];
         // Expected kick: weights (1, k, -k, -1), reads (0, 1, 2, -1), writes (-1, -1, -1, 0)
         // Expected drift: weights (1, 1, -1, -1), reads (0, 1, 2, -1), writes (-1, -1, -1, 0)
-        if (fit0.Weights[0] != 1 || fit0.Weights[3] != -1 || fit0.Weights[1] < 1 || fit0.Weights[2] != -fit0.Weights[1]) return null;
-        if (fit1.Weights[0] != 1 || fit1.Weights[1] != 1 || fit1.Weights[2] != -1 || fit1.Weights[3] != -1) return null;
+        if (wts0[0] != 1 || wts0[3] != -1 || wts0[1] < 1 || wts0[2] != -wts0[1]) return null;
+        if (wts1[0] != 1 || wts1[1] != 1 || wts1[2] != -1 || wts1[3] != -1) return null;
         if (!fit0.Reads.SequenceEqual([0, 1, 2, -1]) || !fit0.Writes.SequenceEqual([-1, -1, -1, 0])) return null;
         if (!fit1.Reads.SequenceEqual([0, 1, 2, -1]) || !fit1.Writes.SequenceEqual([-1, -1, -1, 0])) return null;
 
@@ -1570,28 +1590,164 @@ public sealed class CompiledPlan
             new Field(shape, [.. flPlanes]),
             new Field(shape, [.. frPlanes]),
             shape.Size - 1,
-            fit0.Weights[1],
+            wts0[1],
             kbPlane,
             dbPlane);
     }
 
-    /// <summary>Recognized sealed multi-rung radix-B ripple-carry adder chain
-    /// (either combined 5-role DigitAddStep or split 4-role DigitSum +
-    /// DigitCarry up to base 10) lowered to native widening ulong integer
-    /// addition with exact carry-out.</summary>
-    private sealed class RecognizedLadderAdder(
-        Wiring[] wirings,
-        Store store,
-        int radix,
-        Field[] a,
-        Field[] b,
-        Field[] sum,
-        int cinPlane,
-        int coutPlane,
-        int[] carryPlanes)
+    private static bool TryExtractLinearWeights(Polynomial poly, out int[] weights)
     {
+        weights = new int[poly.Roles.Count];
+        if (poly.Degree != 1) return false;
+        foreach (var (weight, exp) in poly.Terms)
+        {
+            var deg = 0;
+            var role = -1;
+            for (var r = 0; r < exp.Count; r++)
+            {
+                deg += exp[r];
+                if (exp[r] == 1) role = r;
+            }
+            if (deg != 1 || role < 0) return false;
+            weights[role] = weight;
+        }
+        return true;
+    }
+
+    /// <summary>Recognized sealed multi-rung mixed-partition ripple-carry adder
+    /// chain (any combination of combined <c>p ≤ 4</c> or split <c>p ∈ 5..10</c>
+    /// rungs verified against <see cref="Numbers.DigitSum"/>). Identity-mapped
+    /// binary-packed ladders execute 64 lanes simultaneously via pure bit-sliced
+    /// SWAR directly over <see cref="Store.RawPlane"/> words.</summary>
+    private sealed class RecognizedLadderAdder
+    {
+        private readonly Wiring[] wirings;
+        private readonly Store store;
+        private readonly int[] partitions;
+        private readonly Field[] a;
+        private readonly Field[] b;
+        private readonly Field[] sum;
+        private readonly int cinPlane;
+        private readonly int coutPlane;
+        private readonly int[] carryPlanes;
+        private readonly Plane staticRunnable;
+        private readonly bool canBitSliceSwar;
+        private readonly ulong[]?[] aRaw;
+        private readonly bool[] aConst;
+        private readonly ulong[]?[] bRaw;
+        private readonly bool[] bConst;
+        private readonly ulong[]?[] sumRaw;
+        private readonly Plane[] sumPlanes;
+        private readonly ulong[]? cinRaw;
+        private readonly bool cinConst;
+        private readonly ulong[]? coutRaw;
+        private readonly Plane? coutPlaneObj;
+        private readonly ulong[]?[] carryRaw;
+        private readonly Plane?[] carryPlaneObjs;
+        private readonly int[] rungBits;
+        private readonly int[] rungOffset;
+
+        public RecognizedLadderAdder(
+            Wiring[] wirings,
+            Store store,
+            int[] partitions,
+            Field[] a,
+            Field[] b,
+            Field[] sum,
+            int cinPlane,
+            int coutPlane,
+            int[] carryPlanes)
+        {
+            this.wirings = wirings;
+            this.store = store;
+            this.partitions = partitions;
+            this.a = a;
+            this.b = b;
+            this.sum = sum;
+            this.cinPlane = cinPlane;
+            this.coutPlane = coutPlane;
+            this.carryPlanes = carryPlanes;
+
+            staticRunnable = wirings[0].Runnable();
+            var k = a.Length;
+            rungBits = new int[k];
+            rungOffset = new int[k];
+            var totalBits = 0;
+            for (var i = 0; i < k; i++)
+            {
+                rungOffset[i] = totalBits;
+                rungBits[i] = a[i].Planes.Count;
+                totalBits += rungBits[i];
+            }
+
+            aRaw = new ulong[]?[totalBits];
+            aConst = new bool[totalBits];
+            bRaw = new ulong[]?[totalBits];
+            bConst = new bool[totalBits];
+            sumRaw = new ulong[]?[totalBits];
+            sumPlanes = new Plane[totalBits];
+
+            var ident = staticRunnable.Any
+                && store.Count >= wirings[0].Count
+                && !a[0].Shape.IsUnary
+                && partitions.All(p => p <= 16);
+            if (ident)
+            {
+                for (var wi = 0; wi < wirings.Length && ident; wi++)
+                    if (wirings[wi].Recorded is not null || !wirings[wi].Runnable().Equals(staticRunnable)) ident = false;
+            }
+            if (ident)
+            {
+                foreach (var row in staticRunnable.Indexes())
+                {
+                    for (var wi = 0; wi < wirings.Length && ident; wi++)
+                        for (var r = 0; r < wirings[wi].Bindings.Count && ident; r++)
+                            if (wirings[wi].Reference(row, r) != row) ident = false;
+                    if (!ident) break;
+                }
+            }
+
+            // Capture raw plane arrays for zero-copy 64-lane SWAR (written planes must never be constant).
+            if (ident)
+            {
+                for (var i = 0; i < k && ident; i++)
+                {
+                    var off = rungOffset[i];
+                    for (var bit = 0; bit < rungBits[i]; bit++)
+                    {
+                        var ap = a[i].Planes[bit];
+                        aRaw[off + bit] = store.RawPlane(ap)?.RawWords;
+                        aConst[off + bit] = store.IsConstantPlane(ap) && store.Read(ap, 0);
+                        var bp = b[i].Planes[bit];
+                        bRaw[off + bit] = store.RawPlane(bp)?.RawWords;
+                        bConst[off + bit] = store.IsConstantPlane(bp) && store.Read(bp, 0);
+                        var sp = sum[i].Planes[bit];
+                        if (store.RawPlane(sp) is not { } spObj) { ident = false; break; }
+                        sumPlanes[off + bit] = spObj;
+                        sumRaw[off + bit] = spObj.RawWords;
+                    }
+                }
+            }
+
+            cinRaw = store.RawPlane(cinPlane)?.RawWords;
+            cinConst = store.IsConstantPlane(cinPlane) && store.Read(cinPlane, 0);
+            coutPlaneObj = store.RawPlane(coutPlane);
+            coutRaw = coutPlaneObj?.RawWords;
+            carryPlaneObjs = new Plane?[carryPlanes.Length];
+            carryRaw = new ulong[]?[carryPlanes.Length];
+            for (var i = 0; i < carryPlanes.Length; i++)
+            {
+                carryPlaneObjs[i] = store.RawPlane(carryPlanes[i]);
+                carryRaw[i] = carryPlaneObjs[i]?.RawWords;
+                if (carryRaw[i] is null) ident = false;
+            }
+            if (coutRaw is null) ident = false;
+            canBitSliceSwar = ident;
+        }
+
         public bool CanRunFast()
         {
+            if (canBitSliceSwar) return true;
             var r0 = wirings[0].Runnable();
             if (r0.None) return false;
             for (var i = 0; i < wirings.Length; i++)
@@ -1601,11 +1757,10 @@ public sealed class CompiledPlan
 
         public (int Fast, int Deopt, bool Changed) StepFast()
         {
+            if (canBitSliceSwar) return StepBitSlicedSwar();
+
             var runnable = wirings[0].Runnable();
             var k = a.Length;
-            ulong modulus = 1;
-            for (var i = 0; i < k; i++) modulus *= (ulong)radix;
-
             var seenPos = new HashSet<int>();
             foreach (var row in runnable.Indexes())
             {
@@ -1623,34 +1778,167 @@ public sealed class CompiledPlan
             foreach (var row in runnable.Indexes())
             {
                 var pos = wirings[0].Reference(row, 0);
-                ulong va = 0, vb = 0, w = 1;
+                var carry = store.Read(cinPlane, pos) ? 1 : 0;
                 for (var i = 0; i < k; i++)
                 {
-                    va += (ulong)a[i].Read(store, pos)!.Value * w;
-                    vb += (ulong)b[i].Read(store, pos)!.Value * w;
-                    w *= (ulong)radix;
-                }
-                ulong cin = store.Read(cinPlane, pos) ? 1UL : 0UL;
-                var total = va + vb + cin;
-                ulong carry = cin;
-                for (var i = 0; i < k; i++)
-                {
-                    var da = (ulong)a[i].Read(store, pos)!.Value;
-                    var db = (ulong)b[i].Read(store, pos)!.Value;
-                    var rungTotal = da + db + carry;
-                    var nextDigit = (int)(rungTotal % (ulong)radix);
+                    var p = partitions[i];
+                    var rungTotal = a[i].Read(store, pos)!.Value + b[i].Read(store, pos)!.Value + carry;
+                    var nextCarry = rungTotal >= p ? 1 : 0;
+                    var nextDigit = nextCarry != 0 ? rungTotal - p : rungTotal;
                     if (sum[i].Read(store, pos)!.Value != nextDigit) { sum[i].Write(store, pos, nextDigit); changed = true; }
-                    carry = rungTotal / (ulong)radix;
+                    carry = nextCarry;
                     if (i < carryPlanes.Length)
                     {
-                        var nextCarry = carry != 0;
-                        if (store.Read(carryPlanes[i], pos) != nextCarry) { store.Write(carryPlanes[i], pos, nextCarry); changed = true; }
+                        var cb = carry != 0;
+                        if (store.Read(carryPlanes[i], pos) != cb) { store.Write(carryPlanes[i], pos, cb); changed = true; }
                     }
                 }
-                var nextCout = total >= modulus;
+                var nextCout = carry != 0;
                 if (store.Read(coutPlane, pos) != nextCout) { store.Write(coutPlane, pos, nextCout); changed = true; }
             }
             return (runnable.Count, 0, changed);
+        }
+
+        private (int Fast, int Deopt, bool Changed) StepBitSlicedSwar()
+        {
+            var runWords = staticRunnable.RawWords;
+            var liveWords = store.RawLive.RawWords;
+            var wordCount = runWords.Length;
+            var k = partitions.Length;
+
+            // Pass 1: validate live coverage and binary digit code validity across all 64-lane words before writing.
+            for (var w = 0; w < wordCount; w++)
+            {
+                var active = runWords[w];
+                if (active == 0) continue;
+                if ((active & ~liveWords[w]) != 0) return (0, staticRunnable.Count, false);
+
+                for (var i = 0; i < k; i++)
+                {
+                    var p = partitions[i];
+                    var bits = rungBits[i];
+                    if (p == (1 << bits)) continue; // power-of-two partition: every bit pattern is a valid code
+                    var off = rungOffset[i];
+                    ulong a0 = ReadWord(aRaw, aConst, off, w), a1 = bits > 1 ? ReadWord(aRaw, aConst, off + 1, w) : 0UL;
+                    ulong a2 = bits > 2 ? ReadWord(aRaw, aConst, off + 2, w) : 0UL, a3 = bits > 3 ? ReadWord(aRaw, aConst, off + 3, w) : 0UL;
+                    if ((Ge4(a0, a1, a2, a3, p) & active) != 0) return (0, staticRunnable.Count, false);
+
+                    ulong b0 = ReadWord(bRaw, bConst, off, w), b1 = bits > 1 ? ReadWord(bRaw, bConst, off + 1, w) : 0UL;
+                    ulong b2 = bits > 2 ? ReadWord(bRaw, bConst, off + 2, w) : 0UL, b3 = bits > 3 ? ReadWord(bRaw, bConst, off + 3, w) : 0UL;
+                    if ((Ge4(b0, b1, b2, b3, p) & active) != 0) return (0, staticRunnable.Count, false);
+
+                    ulong s0 = sumRaw[off]![w], s1 = bits > 1 ? sumRaw[off + 1]![w] : 0UL;
+                    ulong s2 = bits > 2 ? sumRaw[off + 2]![w] : 0UL, s3 = bits > 3 ? sumRaw[off + 3]![w] : 0UL;
+                    if ((Ge4(s0, s1, s2, s3, p) & active) != 0) return (0, staticRunnable.Count, false);
+                }
+            }
+
+            // Pass 2: 64-lane bit-sliced mixed-partition ripple addition directly over plane words.
+            var changed = false;
+            var cinFallback = cinConst ? ~0UL : 0UL;
+            for (var w = 0; w < wordCount; w++)
+            {
+                var active = runWords[w];
+                if (active == 0) continue;
+                var invActive = ~active;
+                var carry = cinRaw is not null ? cinRaw[w] : cinFallback;
+
+                for (var i = 0; i < k; i++)
+                {
+                    var p = partitions[i];
+                    var bits = rungBits[i];
+                    var off = rungOffset[i];
+
+                    ulong a0 = ReadWord(aRaw, aConst, off, w);
+                    ulong a1 = bits > 1 ? ReadWord(aRaw, aConst, off + 1, w) : 0UL;
+                    ulong a2 = bits > 2 ? ReadWord(aRaw, aConst, off + 2, w) : 0UL;
+                    ulong a3 = bits > 3 ? ReadWord(aRaw, aConst, off + 3, w) : 0UL;
+
+                    ulong b0 = ReadWord(bRaw, bConst, off, w);
+                    ulong b1 = bits > 1 ? ReadWord(bRaw, bConst, off + 1, w) : 0UL;
+                    ulong b2 = bits > 2 ? ReadWord(bRaw, bConst, off + 2, w) : 0UL;
+                    ulong b3 = bits > 3 ? ReadWord(bRaw, bConst, off + 3, w) : 0UL;
+
+                    // 5-bit bit-sliced binary sum s = a + b + carry (s in 0..2p-1 <= 31).
+                    ulong s0 = a0 ^ b0 ^ carry;
+                    ulong c0 = (a0 & b0) | (carry & (a0 ^ b0));
+                    ulong s1 = a1 ^ b1 ^ c0;
+                    ulong c1 = (a1 & b1) | (c0 & (a1 ^ b1));
+                    ulong s2 = a2 ^ b2 ^ c1;
+                    ulong c2 = (a2 & b2) | (c1 & (a2 ^ b2));
+                    ulong s3 = a3 ^ b3 ^ c2;
+                    ulong s4 = (a3 & b3) | (c2 & (a3 ^ b3));
+
+                    ulong cout;
+                    ulong r0, r1, r2, r3;
+                    if (p == (1 << bits))
+                    {
+                        cout = bits == 1 ? c0 : bits == 2 ? c1 : bits == 3 ? c2 : s4;
+                        r0 = s0; r1 = s1; r2 = s2; r3 = s3;
+                    }
+                    else
+                    {
+                        // Exact 5-bit bit-sliced threshold + subtraction: t = s + (32 - p).
+                        // Carry out of bit 4 is 1 iff s >= p, and lower 4 bits of t equal s - p!
+                        var addK = 32 - p;
+                        ulong k0 = (addK & 1) != 0 ? ~0UL : 0UL;
+                        ulong k1 = (addK & 2) != 0 ? ~0UL : 0UL;
+                        ulong k2 = (addK & 4) != 0 ? ~0UL : 0UL;
+                        ulong k3 = (addK & 8) != 0 ? ~0UL : 0UL;
+                        ulong k4 = (addK & 16) != 0 ? ~0UL : 0UL;
+
+                        ulong t0 = s0 ^ k0;
+                        ulong tc0 = s0 & k0;
+                        ulong t1 = s1 ^ k1 ^ tc0;
+                        ulong tc1 = (s1 & k1) | (tc0 & (s1 ^ k1));
+                        ulong t2 = s2 ^ k2 ^ tc1;
+                        ulong tc2 = (s2 & k2) | (tc1 & (s2 ^ k2));
+                        ulong t3 = s3 ^ k3 ^ tc2;
+                        ulong tc3 = (s3 & k3) | (tc2 & (s3 ^ k3));
+                        cout = (s4 & k4) | (tc3 & (s4 ^ k4));
+
+                        var invCout = ~cout;
+                        r0 = (cout & t0) | (invCout & s0);
+                        r1 = (cout & t1) | (invCout & s1);
+                        r2 = (cout & t2) | (invCout & s2);
+                        r3 = (cout & t3) | (invCout & s3);
+                    }
+
+                    // Write sum digit planes (only touching active lanes, tracking exact changed flag).
+                    WriteWord(sumRaw[off]!, w, r0, active, invActive, ref changed);
+                    if (bits > 1) WriteWord(sumRaw[off + 1]!, w, r1, active, invActive, ref changed);
+                    if (bits > 2) WriteWord(sumRaw[off + 2]!, w, r2, active, invActive, ref changed);
+                    if (bits > 3) WriteWord(sumRaw[off + 3]!, w, r3, active, invActive, ref changed);
+
+                    carry = cout;
+                    if (i < carryRaw.Length) WriteWord(carryRaw[i]!, w, carry, active, invActive, ref changed);
+                }
+                WriteWord(coutRaw!, w, carry, active, invActive, ref changed);
+            }
+            return (staticRunnable.Count, 0, changed);
+        }
+
+        private static ulong ReadWord(ulong[]?[] raw, bool[] constVal, int idx, int w) =>
+            raw[idx] is { } arr ? arr[w] : (constVal[idx] ? ~0UL : 0UL);
+
+        private static void WriteWord(ulong[] dst, int w, ulong value, ulong active, ulong invActive, ref bool changed)
+        {
+            var old = dst[w];
+            var next = (old & invActive) | (value & active);
+            if (next != old) { dst[w] = next; changed = true; }
+        }
+
+        private static ulong Ge4(ulong v0, ulong v1, ulong v2, ulong v3, int p)
+        {
+            var k = 16 - p;
+            ulong k0 = (k & 1) != 0 ? ~0UL : 0UL;
+            ulong k1 = (k & 2) != 0 ? ~0UL : 0UL;
+            ulong k2 = (k & 4) != 0 ? ~0UL : 0UL;
+            ulong k3 = (k & 8) != 0 ? ~0UL : 0UL;
+            ulong c0 = v0 & k0;
+            ulong c1 = (v1 & k1) | (c0 & (v1 ^ k1));
+            ulong c2 = (v2 & k2) | (c1 & (v2 ^ k2));
+            return (v3 & k3) | (c2 & (v3 ^ k3));
         }
     }
 
@@ -1658,115 +1946,111 @@ public sealed class CompiledPlan
     {
         if (engine.Together || engine.Wirings.Count < 2) return null;
 
-        // Mode A: combined 5-role DigitAddStep per rung (radix 2..4)
-        var combined = TryRecognizeCombinedLadderAdder(engine);
-        if (combined is not null) return combined;
-
-        // Mode B: split 4-role (DigitSum + DigitCarry) pair per rung (radix 2..10, e.g. 3-digit base-10 0..999!)
-        return TryRecognizeSplitLadderAdder(engine);
-    }
-
-    private static RecognizedLadderAdder? TryRecognizeCombinedLadderAdder(Engine engine)
-    {
-        var k = engine.Wirings.Count;
-        var wirings = new Wiring[k];
-        int radix = 0;
+        var wirings = new List<Wiring>(engine.Wirings.Count);
+        var partitions = new List<int>();
+        var aList = new List<Field>();
+        var bList = new List<Field>();
+        var sumList = new List<Field>();
+        var carries = new List<int>();
         Store? store = null;
-        var a = new Field[k];
-        var b = new Field[k];
-        var sum = new Field[k];
-        var carries = new int[k - 1];
-        for (var i = 0; i < k; i++)
-        {
-            var w = engine.Wirings[i];
-            if (w.Law is not TransitionLaw t || !TryRecognizeDigitAddStep(t, out var r)) return null;
-            if (i == 0) radix = r; else if (r != radix) return null;
-            if (w.Bindings.Any(bind => bind.IsOpen || bind.Surface is not Store)) return null;
-            var s0 = (Store)w.Bindings[0].Surface;
-            if (store is null) store = s0; else if (!ReferenceEquals(store, s0)) return null;
-            if (w.Bindings.Any(bind => !ReferenceEquals(bind.Surface, store))) return null;
-            if (i > 0)
-            {
-                var prevCout = wirings[i - 1].Bindings[4].Plane(0);
-                if (w.Bindings[2].Plane(0) != prevCout) return null;
-                carries[i - 1] = prevCout;
-            }
-            wirings[i] = w;
-            a[i] = new Field(t.Roles[0], [.. w.Bindings[0].Planes]);
-            b[i] = new Field(t.Roles[1], [.. w.Bindings[1].Planes]);
-            sum[i] = new Field(t.Roles[3], [.. w.Bindings[3].Planes]);
-        }
-        return BuildVerifiedLadderAdder(wirings, store!, radix, a, b, sum, wirings[0].Bindings[2].Plane(0), wirings[k - 1].Bindings[4].Plane(0), carries);
-    }
-
-    private static RecognizedLadderAdder? TryRecognizeSplitLadderAdder(Engine engine)
-    {
-        if ((engine.Wirings.Count & 1) != 0 || engine.Wirings.Count < 4) return null;
-        var k = engine.Wirings.Count / 2;
-        var wirings = new Wiring[engine.Wirings.Count];
-        int radix = 0;
-        Store? store = null;
-        var a = new Field[k];
-        var b = new Field[k];
-        var sum = new Field[k];
-        var carries = new int[k - 1];
         var cinPlane = -1;
-        var coutPlane = -1;
+        var lastCoutPlane = -1;
 
-        for (var i = 0; i < k; i++)
+        var idx = 0;
+        while (idx < engine.Wirings.Count)
         {
-            var wSum = engine.Wirings[2 * i];
-            var wCar = engine.Wirings[2 * i + 1];
-            if (wSum.Law is not TransitionLaw tSum || wCar.Law is not TransitionLaw tCar) return null;
-            if (tSum.Roles.Count != 4 || tCar.Roles.Count != 4) return null;
-            if (wSum.Bindings.Any(bind => bind.IsOpen || bind.Surface is not Store)
-                || wCar.Bindings.Any(bind => bind.IsOpen || bind.Surface is not Store)) return null;
-
-            var s0 = (Store)wSum.Bindings[0].Surface;
+            var w0 = engine.Wirings[idx];
+            if (w0.Law is not TransitionLaw t0 || w0.Bindings.Any(bind => bind.IsOpen || bind.Surface is not Store))
+                return null;
+            var s0 = (Store)w0.Bindings[0].Surface;
             if (store is null) store = s0; else if (!ReferenceEquals(store, s0)) return null;
-            if (wSum.Bindings.Any(bind => !ReferenceEquals(bind.Surface, store))
-                || wCar.Bindings.Any(bind => !ReferenceEquals(bind.Surface, store))) return null;
+            if (w0.Bindings.Any(bind => !ReferenceEquals(bind.Surface, store))) return null;
 
-            // Verify both split laws via StructuralCompression.TryRecognizeBalance!
-            var fitSum = StructuralCompression.TryRecognizeBalance(tSum, maxWeight: 10, maxExceptions: 0);
-            var fitCar = StructuralCompression.TryRecognizeBalance(tCar, maxWeight: 10, maxExceptions: 0);
-            if (fitSum is null || fitCar is null || !fitSum.ExactTableMatch || !fitCar.ExactTableMatch) return null;
-            var r = tSum.Roles[0].Size;
-            if (r < 2 || tSum.Roles[1] != tSum.Roles[0] || tSum.Roles[2] != Shape.Bit || tSum.Roles[3] != tSum.Roles[0]) return null;
-            if (tCar.Roles[0] != tSum.Roles[0] || tCar.Roles[1] != tSum.Roles[0] || tCar.Roles[2] != Shape.Bit || tCar.Roles[3] != Shape.Bit) return null;
-            if (!fitSum.Weights.SequenceEqual([1, 1, 1, -1, -r]) || fitSum.FreeResidueCapacity != 1) return null;
-            if (!fitCar.Weights.SequenceEqual([1, 1, 1, -r, -1]) || fitCar.FreeResidueCapacity != r - 1) return null;
-            if (i == 0) radix = r; else if (r != radix) return null;
+            int p, rungCin, rungCout;
+            Field fa, fb, fs;
 
-            // Sum and Carry wirings of rung i must read the exact same (a[i], b[i], cin[i]).
-            if (!wSum.Bindings[0].Planes.SequenceEqual(wCar.Bindings[0].Planes)
-                || !wSum.Bindings[1].Planes.SequenceEqual(wCar.Bindings[1].Planes)
-                || wSum.Bindings[2].Plane(0) != wCar.Bindings[2].Plane(0)) return null;
-
-            var rungCin = wSum.Bindings[2].Plane(0);
-            var rungCout = wCar.Bindings[3].Plane(0);
-            if (i == 0) cinPlane = rungCin;
+            if (TryRecognizeDigitAddStep(t0, out var combP))
+            {
+                p = combP;
+                rungCin = w0.Bindings[2].Plane(0);
+                rungCout = w0.Bindings[4].Plane(0);
+                fa = new Field(t0.Roles[0], [.. w0.Bindings[0].Planes]);
+                fb = new Field(t0.Roles[1], [.. w0.Bindings[1].Planes]);
+                fs = new Field(t0.Roles[3], [.. w0.Bindings[3].Planes]);
+                wirings.Add(w0);
+                idx++;
+            }
+            else if (idx + 1 < engine.Wirings.Count
+                && engine.Wirings[idx + 1] is var w1
+                && w1.Law is TransitionLaw t1
+                && t0.Roles.Count == 4 && t1.Roles.Count == 4
+                && !w1.Bindings.Any(bind => bind.IsOpen || !ReferenceEquals(bind.Surface, store))
+                && TryRecognizeSplitDigitPair(t0, t1, out var splitP))
+            {
+                if (!w0.Bindings[0].Planes.SequenceEqual(w1.Bindings[0].Planes)
+                    || !w0.Bindings[1].Planes.SequenceEqual(w1.Bindings[1].Planes)
+                    || w0.Bindings[2].Plane(0) != w1.Bindings[2].Plane(0))
+                    return null;
+                p = splitP;
+                rungCin = w0.Bindings[2].Plane(0);
+                rungCout = w1.Bindings[3].Plane(0);
+                fa = new Field(t0.Roles[0], [.. w0.Bindings[0].Planes]);
+                fb = new Field(t0.Roles[1], [.. w0.Bindings[1].Planes]);
+                fs = new Field(t0.Roles[3], [.. w0.Bindings[3].Planes]);
+                wirings.Add(w0);
+                wirings.Add(w1);
+                idx += 2;
+            }
             else
             {
-                if (rungCin != carries[i - 1]) return null;
+                return null;
             }
-            if (i < k - 1) carries[i] = rungCout;
-            else coutPlane = rungCout;
 
-            wirings[2 * i] = wSum;
-            wirings[2 * i + 1] = wCar;
-            a[i] = new Field(tSum.Roles[0], [.. wSum.Bindings[0].Planes]);
-            b[i] = new Field(tSum.Roles[1], [.. wSum.Bindings[1].Planes]);
-            sum[i] = new Field(tSum.Roles[3], [.. wSum.Bindings[3].Planes]);
+            if (partitions.Count == 0) cinPlane = rungCin;
+            else
+            {
+                if (rungCin != lastCoutPlane) return null;
+                carries.Add(rungCin);
+            }
+            lastCoutPlane = rungCout;
+            partitions.Add(p);
+            aList.Add(fa);
+            bList.Add(fb);
+            sumList.Add(fs);
         }
 
-        return BuildVerifiedLadderAdder(wirings, store!, radix, a, b, sum, cinPlane, coutPlane, carries);
+        if (partitions.Count < 2) return null;
+        // All rungs must share unary vs binary digit shape for clean uniform handling.
+        if (aList.Any(f => f.Shape.IsUnary != aList[0].Shape.IsUnary)) return null;
+
+        return BuildVerifiedLadderAdder(
+            [.. wirings], store!, [.. partitions], [.. aList], [.. bList], [.. sumList],
+            cinPlane, lastCoutPlane, [.. carries]);
+    }
+
+    /// <summary>Verifies a split (DigitSumStep, DigitCarryStep) pair directly
+    /// against the canonical <see cref="Numbers.DigitSum"/> polynomial via
+    /// <see cref="Recognition.Compare"/>.</summary>
+    private static bool TryRecognizeSplitDigitPair(TransitionLaw tSum, TransitionLaw tCar, out int partition)
+    {
+        partition = 0;
+        var d = tSum.Roles[0];
+        var p = d.Size;
+        if (p is < 2 or > 10 || !tSum.IsFunctional || !tCar.IsFunctional) return false;
+        var c = tSum.Roles[2];
+        if (c.Size != 2 || tSum.Roles[1] != d || tSum.Roles[3] != d) return false;
+        if (tCar.Roles[0] != d || tCar.Roles[1] != d || tCar.Roles[2] != c || tCar.Roles[3] != c) return false;
+        var col = Polynomial.Balance([d, d, c, c, d], 1, 1, 1, -p, -1);
+        if (!Recognition.Compare(tSum, col, [0, 1, 2, -1, -1], [-1, -1, -1, -1, 3]).Same) return false;
+        if (!Recognition.Compare(tCar, col, [0, 1, 2, -1, -1], [-1, -1, -1, 3, -1]).Same) return false;
+        partition = p;
+        return true;
     }
 
     private static RecognizedLadderAdder? BuildVerifiedLadderAdder(
         Wiring[] wirings,
         Store store,
-        int radix,
+        int[] partitions,
         Field[] a,
         Field[] b,
         Field[] sum,
@@ -1775,13 +2059,6 @@ public sealed class CompiledPlan
         int[] carries)
     {
         var k = a.Length;
-        ulong modulus = 1;
-        for (var i = 0; i < k; i++)
-        {
-            if (modulus > (ulong.MaxValue / 2) / (ulong)radix) return null;
-            modulus *= (ulong)radix;
-        }
-
         var readPlanes = new HashSet<int> { cinPlane };
         for (var i = 0; i < k; i++)
         {
@@ -1796,7 +2073,7 @@ public sealed class CompiledPlan
             if (!writtenPlanes.Add(p) || readPlanes.Contains(p)) return null;
         if (!writtenPlanes.Add(coutPlane) || readPlanes.Contains(coutPlane)) return null;
 
-        return new RecognizedLadderAdder(wirings, store, radix, a, b, sum, cinPlane, coutPlane, carries);
+        return new RecognizedLadderAdder(wirings, store, partitions, a, b, sum, cinPlane, coutPlane, carries);
     }
 
     private sealed class WiringSnapshot

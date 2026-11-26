@@ -162,10 +162,10 @@ public sealed class CompiledPlanTests
                 for (var y = 0; y < 16; y++)
                 {
                     var lane = x * 16 + y;
-                    a.Write(lane, x);
-                    b.Write(lane, y);
+                    a.WriteConcrete(lane, x);
+                    b.WriteConcrete(lane, y);
                 }
-            var law = Rungs.DigitAddStep(Radix, unary: false);
+            var law = Numbers.DigitAddStep(Radix, unary: false);
             var all = Plane.Ones(Lanes);
             var w0 = Tension.Wire(law, [a.Digits[0].On(store), b.Digits[0].On(store), new Binding(store, cin), sum.Digits[0].On(store), new Binding(store, cMid)], all);
             var w1 = Tension.Wire(law, [a.Digits[1].On(store), b.Digits[1].On(store), new Binding(store, cMid), sum.Digits[1].On(store), new Binding(store, cout)], all);
@@ -188,7 +188,7 @@ public sealed class CompiledPlanTests
             {
                 var lane = x * 16 + y;
                 var total = x + y;
-                Assert.Equal((long)(total % 16), fast.Sum.Read(fast.Store, lane));
+                Assert.Equal((long)(total % 16), fast.Sum.ReadConcrete(fast.Store, lane));
                 Assert.Equal(total >= 16, fast.Store.Read(fast.Cout, lane)); // overflow visible, never wrapped!
             }
         for (var p = 0; p < canon.Store.PlaneCount; p++)

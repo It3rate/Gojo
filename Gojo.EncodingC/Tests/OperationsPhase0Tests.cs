@@ -70,17 +70,18 @@ public sealed class OperationsPhase0Tests
         var (restored, stores) = Transport.Load(saved);
 
         var restoredLaw = Assert.IsType<TransitionLaw>(restored.Wirings[0].Law);
-        Assert.True(restoredLaw.Accounting.Reversible);
+        // Reversible is calculated directly from the loaded table bits (0 extra wire bits: 100% master Transport compatible!).
         Assert.True(restoredLaw.IsReversible);
+        Assert.True(restoredLaw.Inverse().IsReversible);
         restored.Advance();
         Assert.Equal((3, 1), (fx.Read(stores[0], 0), fy.Read(stores[0], 0)));
     }
 
-    /// <summary>An engine's declared step kind (in-order vs together) is saved
-    /// in Transport, propagated onto forks, enforced on Fuse, and used by
-    /// Advance() / Run() / Settle(limit).</summary>
+    /// <summary>An engine's declared step kind (in-order vs together) is
+    /// propagated onto forks, enforced on Fuse, and used by Advance() / Run() /
+    /// Settle(limit), while Transport stays 100% wire-compatible with master.</summary>
     [Fact]
-    public void SavedStepKindRoundTripsThroughTransportAndFork()
+    public void StepKindPropagatesThroughForkAndFuseWhileTransportStaysMasterCompatible()
     {
         static (Engine Engine, Store Store) Chain(bool together)
         {
@@ -93,22 +94,24 @@ public sealed class OperationsPhase0Tests
             return (new Engine { Together = together }.Add(w1).Add(w2), store);
         }
 
-        var (ordered, _) = Chain(together: false);
-        var (together, _) = Chain(together: true);
+        var (ordered, ordStore) = Chain(together: false);
+        var (together, togStore) = Chain(together: true);
 
         Assert.Throws<ArgumentException>(() => ordered.Fuse(together));
+        Assert.False(ordered.Fork().Engine.Together);
+        Assert.True(together.Fork().Engine.Together);
 
+        // Transport saves and loads cleanly in master's exact wire format.
         var (restoredOrdered, ordStores) = Transport.Load(Transport.Save(ordered));
-        var (restoredTogether, togStores) = Transport.Load(Transport.Save(together));
         Assert.False(restoredOrdered.Together);
-        Assert.True(restoredTogether.Together);
-        Assert.True(restoredTogether.Fork().Engine.Together);
+        restoredOrdered.Advance();
+        Assert.Equal((false, false, true), (ordStores[0].Read(0, 0), ordStores[0].Read(1, 0), ordStores[0].Read(2, 0)));
 
         // One Advance(): in-order chains bit 0 -> 1 -> 2 in one step; together moves only 0 -> 1.
-        restoredOrdered.Advance();
-        restoredTogether.Advance();
-        Assert.Equal((false, false, true), (ordStores[0].Read(0, 0), ordStores[0].Read(1, 0), ordStores[0].Read(2, 0)));
-        Assert.Equal((false, true, false), (togStores[0].Read(0, 0), togStores[0].Read(1, 0), togStores[0].Read(2, 0)));
+        ordered.Advance();
+        together.Advance();
+        Assert.Equal((false, false, true), (ordStore.Read(0, 0), ordStore.Read(1, 0), ordStore.Read(2, 0)));
+        Assert.Equal((false, true, false), (togStore.Read(0, 0), togStore.Read(1, 0), togStore.Read(2, 0)));
     }
 
     /// <summary>X1 (3 × 4 common comparison): one numeral pair exposes three

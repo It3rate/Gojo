@@ -2,7 +2,7 @@ namespace Gojo.EncodingC;
 
 /// <summary>Factored multiplication networks and arrival-pairing provenance
 /// built strictly from small EncodingC laws: two-rung place-value lattice
-/// (<see cref="Rungs.DigitMultiply"/> + <see cref="Rungs.DigitAdd"/>),
+/// (<see cref="Numbers.DigitMulPair"/> + <see cref="Numbers.DigitSum"/>),
 /// Egyptian doubling (<see cref="Booleans.And"/> + <see cref="Booleans.FullAdder"/>),
 /// quarter-square 1D lookup, and discrete Leibniz arrival pairing
 /// <c>Δ(ab) = b·Δa + a·Δb + Δa·Δb</c>.</summary>
@@ -13,24 +13,28 @@ public static class Multiplication
 
     /// <summary>Two-rung bidirectional place-value lattice multiplier:
     /// (a0 + B·a1) × (b0 + B·b1) = p0 + B·p1 + B²·p2 + B³·p3, using only
-    /// <see cref="Rungs.DigitMultiply"/> and <see cref="Rungs.DigitAdd"/>.</summary>
-    public sealed record TwoRungLattice(Engine Engine, Store Store, int Radix, Supports[] A, Supports[] B, Supports[] Product);
+    /// <see cref="Numbers.DigitMulPair"/> and <see cref="Numbers.DigitSum"/>.</summary>
+    public sealed record TwoRungLattice(Engine Engine, Store Store, int Radix, Ladder A, Ladder B, Ladder Product);
 
     public static TwoRungLattice BuildTwoRungLattice(int radix, bool unary = false)
     {
         var store = new Store(0, 1);
-        var here = Plane.Of(1, 0);
-        var a = Ladder.Open(store, radix, 2, unary);
-        var b = Ladder.Open(store, radix, 2, unary);
-        var p = Ladder.Open(store, radix, 4, unary);
+        var a = new Ladder(store, radix, 2, unary);
+        var b = new Ladder(store, radix, 2, unary);
+        var p = new Ladder(store, radix, 4, unary);
+        var aSup = a.Possible;
+        var bSup = b.Possible;
+        var pSup = p.Possible;
 
-        Supports OpenDigit() => Ladder.Open(store, radix, 1, unary)[0];
-        Supports OpenBit() => Supports.On(store, new Field(Shape.Bit, store.AddPlane()));
+        var digitShape = Numbers.Digit(radix, unary);
+        var carryShape = Numbers.Carry(unary);
+        Supports OpenDigit() => Supports.On(store, new Field(digitShape, [.. Enumerable.Range(0, digitShape.Bits).Select(_ => store.AddPlane())]));
+        Supports OpenCarry() => Supports.On(store, new Field(carryShape, store.AddPlane()));
         Supports ZeroDigit() { var s = OpenDigit(); s.Restrict(0, 1UL << 0); return s; }
-        Supports ZeroBit() { var s = OpenBit(); s.Restrict(0, 1UL << 0); return s; }
+        Supports ZeroCarry() { var s = OpenCarry(); s.Restrict(0, 1UL << 0); return s; }
 
-        var mul = Rungs.DigitMultiply(radix, unary);
-        var add = Rungs.DigitAdd(radix, unary);
+        var mul = Numbers.DigitMulPair(radix, unary).Relation;
+        var add = Numbers.DigitSum(radix, unary).Relation;
         var engine = new Engine();
 
         void WireMul(Supports x, Supports y, Supports lo, Supports hi)
@@ -42,38 +46,31 @@ public static class Multiplication
 
         void WireAdd(Supports x, Supports y, Supports cin, Supports sum, Supports cout)
         {
-            var w = new Wiring(add, x.Variable, y.Variable, cin.Variable, sum.Variable, cout.Variable);
+            // Numbers.DigitSum roles: (a=0, b=1, cin=2, cout=3, sum=4)
+            var w = new Wiring(add, x.Variable, y.Variable, cin.Variable, cout.Variable, sum.Variable);
             w.Add(0, 0, 0, 0, 0);
             engine.Add(w);
         }
 
-        // Four digit products:
-        // c00 = a0 * b0 (place 0, 1)
-        // c01 = a0 * b1 (place 1, 2)
-        // c10 = a1 * b0 (place 1, 2)
-        // c11 = a1 * b1 (place 2, 3)
         var (c00Hi, c01Lo, c01Hi) = (OpenDigit(), OpenDigit(), OpenDigit());
         var (c10Lo, c10Hi, c11Lo, c11Hi) = (OpenDigit(), OpenDigit(), OpenDigit(), OpenDigit());
 
-        WireMul(a[0], b[0], p[0], c00Hi);
-        WireMul(a[0], b[1], c01Lo, c01Hi);
-        WireMul(a[1], b[0], c10Lo, c10Hi);
-        WireMul(a[1], b[1], c11Lo, c11Hi);
+        WireMul(aSup[0], bSup[0], pSup[0], c00Hi);
+        WireMul(aSup[0], bSup[1], c01Lo, c01Hi);
+        WireMul(aSup[1], bSup[0], c10Lo, c10Hi);
+        WireMul(aSup[1], bSup[1], c11Lo, c11Hi);
 
-        // Diagonal place 1: c00Hi + c01Lo + c10Lo -> p[1] with carries k1a, k1b
-        var (t1, k1a, k1b) = (OpenDigit(), OpenBit(), OpenBit());
-        WireAdd(c00Hi, c01Lo, ZeroBit(), t1, k1a);
-        WireAdd(t1, c10Lo, ZeroBit(), p[1], k1b);
+        var (t1, k1a, k1b) = (OpenDigit(), OpenCarry(), OpenCarry());
+        WireAdd(c00Hi, c01Lo, ZeroCarry(), t1, k1a);
+        WireAdd(t1, c10Lo, ZeroCarry(), pSup[1], k1b);
 
-        // Diagonal place 2: c01Hi + c10Hi + c11Lo + k1a + k1b -> p[2] with carries k2a, k2b
-        var (t2, k2a, k2b) = (OpenDigit(), OpenBit(), OpenBit());
+        var (t2, k2a, k2b) = (OpenDigit(), OpenCarry(), OpenCarry());
         WireAdd(c01Hi, c10Hi, k1a, t2, k2a);
-        WireAdd(t2, c11Lo, k1b, p[2], k2b);
+        WireAdd(t2, c11Lo, k1b, pSup[2], k2b);
 
-        // Diagonal place 3: c11Hi + k2a + k2b -> p[3] (never overflows place 3)
         var t3 = OpenDigit();
-        WireAdd(c11Hi, ZeroDigit(), k2a, t3, ZeroBit());
-        WireAdd(t3, ZeroDigit(), k2b, p[3], ZeroBit());
+        WireAdd(c11Hi, ZeroDigit(), k2a, t3, ZeroCarry());
+        WireAdd(t3, ZeroDigit(), k2b, pSup[3], ZeroCarry());
 
         return new TwoRungLattice(engine, store, radix, a, b, p);
     }
@@ -82,14 +79,16 @@ public static class Multiplication
     /// only <see cref="Booleans.And"/> (selecting doubled copies of A by the
     /// bits of B) and <see cref="Booleans.FullAdder"/> ripple chains. Total
     /// shared law tables: 40 bits (5 bytes) for any bit width.</summary>
-    public sealed record EgyptianMultiplier(Engine Engine, Store Store, int Bits, Supports[] A, Supports[] B, Supports[] Product);
+    public sealed record EgyptianMultiplier(Engine Engine, Store Store, int Bits, Ladder A, Ladder B, Ladder Product);
 
     public static EgyptianMultiplier BuildEgyptianDoubling(int bits)
     {
         if (bits is < 1 or > 8) throw new ArgumentOutOfRangeException(nameof(bits));
         var store = new Store(0, 1);
-        var a = Ladder.Open(store, 2, bits, unary: false);
-        var b = Ladder.Open(store, 2, bits, unary: false);
+        var a = new Ladder(store, 2, bits, unary: false);
+        var b = new Ladder(store, 2, bits, unary: false);
+        var aSup = a.Possible;
+        var bSup = b.Possible;
         var engine = new Engine();
 
         Supports OpenBit() => Supports.On(store, new Field(Shape.Bit, store.AddPlane()));
@@ -104,11 +103,10 @@ public static class Multiplication
             return r;
         }
 
-        // Accumulate partial shifted rows: acc starts at row 0 (a & b[0]) padded to 2*bits.
         var width = bits * 2;
         var acc = new Supports[width];
         for (var k = 0; k < width; k++)
-            acc[k] = k < bits ? AndBit(a[k], b[0]) : ZeroBit();
+            acc[k] = k < bits ? AndBit(aSup[k], bSup[0]) : ZeroBit();
 
         for (var shift = 1; shift < bits; shift++)
         {
@@ -121,7 +119,7 @@ public static class Multiplication
                     next[k] = acc[k];
                     continue;
                 }
-                var term = k - shift < bits ? AndBit(a[k - shift], b[shift]) : ZeroBit();
+                var term = k - shift < bits ? AndBit(aSup[k - shift], bSup[shift]) : ZeroBit();
                 var sum = OpenBit();
                 var cout = k == width - 1 ? ZeroBit() : OpenBit();
                 var w = new Wiring(Booleans.FullAdder, acc[k].Variable, term.Variable, cin.Variable, sum.Variable, cout.Variable);
@@ -133,7 +131,18 @@ public static class Multiplication
             acc = next;
         }
 
-        return new EgyptianMultiplier(engine, store, bits, a, b, acc);
+        // Bind final accumulator supports into a clean product Ladder.
+        var prod = new Ladder(store, 2, width, unary: false);
+        var prodSup = prod.Possible;
+        var sameBit = Settling.Same(Shape.Bit);
+        for (var k = 0; k < width; k++)
+        {
+            var w = new Wiring(sameBit, acc[k].Variable, prodSup[k].Variable);
+            w.Add(0, 0);
+            engine.Add(w);
+        }
+
+        return new EgyptianMultiplier(engine, store, bits, a, b, prod);
     }
 
     /// <summary>Bidirectional quarter-square multiplier over a, b in 0..maxFactor:
@@ -145,19 +154,17 @@ public static class Multiplication
     {
         if (maxFactor is < 1 or > 5) throw new ArgumentOutOfRangeException(nameof(maxFactor), "Keep single-role support <= 64 values for compact comparison.");
         var maxSum = 2 * maxFactor;
-        var maxSq = maxSum * maxSum;
         var maxProd = maxFactor * maxFactor;
 
         var fShape = Shape.Binary(maxFactor + 1);
         var sShape = Shape.Binary(maxSum + 1);
         var pShape = Shape.Binary(maxProd + 1);
-        // Represent squares in radix (maxSum + 1) so each square digit stays <= maxSum <= 10 (tiny table!).
         var sqRadix = maxSum + 1;
         var sqDigit = Shape.Binary(sqRadix);
 
         var addRel = RelationLaw.FromPredicate([fShape, fShape, sShape], t => t[0] + t[1] == t[2]);
         var absDiffRel = RelationLaw.FromPredicate([fShape, fShape, fShape], t => (t[0] >= t[1] ? t[0] - t[1] : t[1] - t[0]) == t[2]);
-        var sqRel = Rungs.SquareDigits(maxSum, sqRadix, unary: false);
+        var sqRel = Numbers.SquareDigits(maxSum, sqRadix, unary: false);
         var sqDiffToProd = RelationLaw.FromPredicate(
             [sqDigit, sqDigit, sqDigit, sqDigit, pShape],
             t => (t[0] + sqRadix * t[1]) - (t[2] + sqRadix * t[3]) == 4 * t[4]);

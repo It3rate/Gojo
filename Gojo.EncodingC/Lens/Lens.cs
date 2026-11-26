@@ -68,6 +68,38 @@ public sealed class Lens
 
     /// <summary>"[…] -> […]" for one transition.</summary>
     public string Describe(TransitionLaw law, int before, int after) => $"{Describe((Law)law, before)} -> {Describe((Law)law, after)}";
+
+    /// <summary>"a + b − c = 0" — a polynomial rendered with role names from this
+    /// lens, defaulting to a, b, c, … when unnamed.</summary>
+    public string Describe(Polynomial equation)
+    {
+        ArgumentNullException.ThrowIfNull(equation);
+        var text = new StringBuilder();
+        for (var i = 0; i < equation.Terms.Count; i++)
+        {
+            var (weight, exponents) = equation.Terms[i];
+            var negative = weight < 0;
+            var mag = negative ? -weight : weight;
+            if (i == 0) { if (negative) text.Append('−'); }
+            else text.Append(negative ? " − " : " + ");
+
+            var body = new StringBuilder();
+            for (var r = 0; r < exponents.Count; r++)
+            {
+                if (exponents[r] == 0) continue;
+                var name = parts.TryGetValue((equation, r), out var given)
+                    ? given
+                    : r < 26 ? ((char)('a' + r)).ToString() : $"r{r}";
+                if (body.Length > 0 && name.Length > 1) body.Append('·');
+                body.Append(name);
+                if (exponents[r] > 1) body.Append('^').Append(exponents[r]);
+            }
+            if (body.Length == 0) text.Append(mag);
+            else if (mag == 1) text.Append(body);
+            else text.Append(mag).Append(body);
+        }
+        return text.Append(" = 0").ToString();
+    }
 }
 
 /// <summary>Notation for ODV words, for people: R/L for the orientation, +/−
