@@ -162,8 +162,9 @@ Contracts:
 
    Two equations are the same when their numbers are the same
    (`APolynomialIsCanonicalNumbers`).
-2. **The table is the only thing that runs.** A polynomial builds its table
-   once, and nothing in the engine reads the polynomial.
+2. **The interpreter runs the table.** A polynomial builds its table once.
+   A derived execution form must qualify against the table and retain a
+   route back to it (§9, item 1).
 3. **`Bits` estimates the description length** that recognition compares with
    a table's bits. It is not a transport size.
 4. **Text is a lens read.** `Lens.Describe` writes "a + b + c − 10d − e = 0",
@@ -561,9 +562,10 @@ would test it.
    value set exactly but lose "more is more planes". Master's `Shape`
    already allows both layouts. Pass 1 uses unary by default, and binary only
    where range needs it.
-6. **Physically interpretable needs units.** A rung's partition is numeric,
-   but its unit is implicit (§4, limit 1). This is a gap in the
-   representation, not a choice. It is Sol's item 3.
+6. **Physically interpretable needs units.** Pass 2 makes the selected unit
+   a rung in the number's existing structure. This makes relative scale
+   explicit within an agreed local standard. Calibration between distinct
+   standards still needs its own connected relation.
 
 ## 10. Provenance
 
@@ -639,7 +641,9 @@ would test it.
   genuinely coarse acquisition stays open. Reframing keeps the exact
   coupled integer remainder in the original basis. The native qualified
   read now rounds interval bounds outward for fractional as well as whole
-  residues, including with reversed target order.
+  residues, including with reversed target order. Receiver narrowing leaves
+  the supplier's original support available to compare or reobserve. The
+  selected row, source ports and retained residue explain that narrower use.
 - **Accounting.** A binding can derive functionality from distinct after
   states and `Unchanged` from unwritten roles. An authored homogeneous
   balance can also supply a positive invariant when the same weighted
@@ -647,7 +651,9 @@ would test it.
   bare tables and kept-input reads do not establish this permission.
   Binding a blocked bit is part of replaying a law, and marked holds are
   excluded from witnesses when the caller supplies that role. Existing
-  counting laws use the same tables and the old codec.
+  counting laws use the same tables and the old codec. The binding accepts
+  explicit integer costs. Connecting those costs to live tension remains
+  an experiment under §9.
 - **Corrected pass-1 defects.** Reopening a mapped row now follows its
   references and cannot reopen a read-only supplier. Opening only part of
   the affected network still leaves constraints in the rest. `Measure`
