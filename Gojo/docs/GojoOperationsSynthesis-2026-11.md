@@ -1139,5 +1139,21 @@ Pass 4 (Claude `20c89682` permanent fuzz gate + Neon general-kernel reduction on
   five `.Browser` hosts and `QualitativeExecution.Tests` (3,509 tests; zero
   dependency on `Gojo.EncodingC`).
 
-
-
+Pass 4 review (Claude, Linux, `.NET 10.0.404`, head `ba5ccf2b`):
+- **`dotnet test Gojo.slnx`:** all 20 test projects passed, 7,643 tests
+  with 0 failures.
+  - Gojo.EncodingC: 345.
+  - Gojo: 1,074.
+  - QualitativeExecution: 3,509.
+  - GojoCAD: 155.
+  - The other 16 projects: 2,560.
+- **The parity fuzz,** with random relations and shared-site diagonals
+  added, ran in a 400-seed sweep per path, in both step modes. It found 0
+  mismatches in 1,600 runs per path.
+  - **With every part:** the relation kernel ran in 280 of 800 networks and
+    the transition kernel in 246. 40 runs ended on the engine's own refusal
+    (§12.5).
+  - **Without the parts that make a whole plan fall back:** the relation
+    kernel ran in 738 of 800 networks and the transition kernel in 604.
+- **The merge.** Master is still `9b805964`, the branch's base, so the merge
+  is a fast-forward.
