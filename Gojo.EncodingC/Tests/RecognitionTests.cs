@@ -359,6 +359,55 @@ public sealed class RecognitionTests
         Assert.Null(Recognition.Residues(noise, [0, 1, -1], [-1, -1, 2], hiddenRoles: 2, maxWeight: 1, maxCapacity: 4));
     }
 
+    /// <summary>Residue search honours a law's blocked bit just as
+    /// <see cref="Recognition.Compare"/> and <see cref="Recognition.Restore"/>
+    /// do, and residue capacities past unary's 63-plane limit fall back cleanly
+    /// to binary residue shapes rather than throwing (from Sol's assessment).</summary>
+    [Fact]
+    public void ResiduesHandleBlockedBitsAndCapacitiesAboveSixtyThree()
+    {
+        var two = Shape.Unary(2);
+        var eShape = Shape.Unary(2);
+        var fShape = Shape.Unary(2);
+        // Constrained min(a, b) with target cap 1 and blocked bit: (2, 2) holds with blocked = 1.
+        var capOne = Shape.Unary(1);
+        Shape[] sysRoles = [two, two, capOne, eShape, fShape];
+        var eqA = new Polynomial(sysRoles, (1, [1, 0, 0, 0, 0]), (-1, [0, 0, 1, 0, 0]), (-1, [0, 0, 0, 1, 0]));
+        var eqB = new Polynomial(sysRoles, (1, [0, 1, 0, 0, 0]), (-1, [0, 0, 1, 0, 0]), (-1, [0, 0, 0, 0, 1]));
+        var markedMin = Operations.Bind(
+            Operations.System([eqA, eqB]),
+            [two, two, capOne, Bit],
+            [0, 1, -1, -1, -1],
+            [-1, -1, 2, -1, -1],
+            blocked: 3,
+            cost: [0, 0, 0, 1, 1]);
+
+        Assert.Null(Recognition.Residues(markedMin, [0, 1, -1], [-1, -1, 2], hiddenRoles: 2, maxWeight: 1, maxCapacity: 3));
+        var foundMarked = Recognition.Residues(markedMin, [0, 1, -1], [-1, -1, 2], hiddenRoles: 2, maxWeight: 1, maxCapacity: 3, blocked: 3);
+        Assert.NotNull(foundMarked);
+        var compared = Recognition.Compare(markedMin, foundMarked!.System, foundMarked.Reads, foundMarked.Writes, foundMarked.Cost, blocked: 3);
+        Assert.True(compared.Same && compared.KeepsAccounting);
+        Assert.True(Recognition.Restore(markedMin, foundMarked.System, foundMarked.Reads, foundMarked.Writes, foundMarked.Cost, blocked: 3).SameTable(markedMin));
+
+        // Capacity 64 uses Shape.Binary(65) rather than throwing in Shape.Unary(64).
+        var wide = Shape.Binary(66);
+        var clampToBit = TransitionLaw.FromFunction(
+            [wide, Bit],
+            v => [v[0], v[0] >= 1 ? 1 : 0],
+            new Accounting(true, new Unchanged(0)));
+        var wideResidue = Recognition.Residue(clampToBit, [0, -1], [-1, 1], maxWeight: 1, maxCapacity: 64);
+        Assert.NotNull(wideResidue);
+        Assert.Equal(Shape.Binary(65), wideResidue!.Equation.Roles[^1]);
+        Assert.True(Recognition.Compare(clampToBit, wideResidue.Equation, wideResidue.Reads, wideResidue.Writes, wideResidue.Cost).Same);
+
+        // Two-residue search with maxCapacity: 64 on a small law also never throws.
+        var capTwo = Shape.Unary(2);
+        var smallMin = TransitionLaw.FromFunction([capTwo, capTwo, capTwo],
+            v => [v[0], v[1], v[0] < v[1] ? v[0] : v[1]],
+            new Accounting(true, new Unchanged(0), new Unchanged(1)));
+        Assert.NotNull(Recognition.Residues(smallMin, [0, 1, -1], [-1, -1, 2], hiddenRoles: 2, maxWeight: 1, maxCapacity: 64));
+    }
+
     /// <summary>Bits alone are not the law, and promises alone are not either
     /// (from ops_sol's reviews). The sum's equation rebuilds the sum's table,
     /// and Restore attaches the sum's accounting, so the rebuilt law makes the

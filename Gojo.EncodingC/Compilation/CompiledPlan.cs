@@ -47,7 +47,7 @@ public sealed class CompiledPlan
     private static readonly Dictionary<(int ASize, bool AUnary, int BSize, bool BUnary, int Radix, bool SUnary), RelationLaw> ColumnCache = [];
 
     private readonly Engine engine;
-    private readonly bool selfRewiring;
+    private readonly bool dynamicTopology;
     private readonly WiringSnapshot[] snapshots;
     private readonly CompiledWiring[] compiled;
     private readonly FusedConcreteLadderAdder? concreteLadder;
@@ -56,14 +56,14 @@ public sealed class CompiledPlan
 
     private CompiledPlan(
         Engine engine,
-        bool selfRewiring,
+        bool dynamicTopology,
         WiringSnapshot[] snapshots,
         CompiledWiring[] compiled,
         FusedConcreteLadderAdder? concreteLadder,
         FusedRelationalLadderAdder? relationalLadder)
     {
         this.engine = engine;
-        this.selfRewiring = selfRewiring;
+        this.dynamicTopology = dynamicTopology;
         this.snapshots = snapshots;
         this.compiled = compiled;
         this.concreteLadder = concreteLadder;
@@ -74,35 +74,37 @@ public sealed class CompiledPlan
 
     /// <summary>True iff a packet-exact unary <see cref="Flows.Convert"/> law
     /// was qualified strictly from its table bits and accounting.</summary>
-    public bool RecognizedPacketConvert => compiled.Any(c => c.Kernel is PacketConvertKernel);
+    internal bool RecognizedPacketConvert => compiled.Any(c => c.Kernel is PacketConvertKernel);
 
     /// <summary>True iff a functional lossless bounded multiplier was qualified
     /// strictly from its table bits and unchanged-input accounting.</summary>
-    public bool RecognizedBoundedMultiply => compiled.Any(c => c.Kernel is BoundedMultiplyKernel);
+    internal bool RecognizedBoundedMultiply => compiled.Any(c => c.Kernel is BoundedMultiplyKernel);
 
     /// <summary>True iff a general small-table functional transition was lowered
     /// to an L1-resident SIMD bit-sliced XOR-flip kernel.</summary>
-    public bool RecognizedSimdTransition => compiled.Any(c => c.Kernel is SimdTransitionKernel);
+    internal bool RecognizedSimdTransition => compiled.Any(c => c.Kernel is SimdTransitionKernel);
 
     /// <summary>True iff a relational column matching <see cref="Numbers.Column"/>
     /// was qualified strictly via <see cref="Law.SameTable"/>.</summary>
-    public bool RecognizedRelationalColumn => compiled.Any(c => c.Kernel is RelationalColumnKernel);
+    internal bool RecognizedRelationalColumn => compiled.Any(c => c.Kernel is RelationalColumnKernel);
 
     /// <summary>True iff a multi-rung concrete ripple-carry ladder adder was
     /// qualified from verified <see cref="Numbers.DigitSum"/> tables.</summary>
-    public bool RecognizedConcreteLadderAdder => concreteLadder is not null;
+    internal bool RecognizedConcreteLadderAdder => concreteLadder is not null;
 
     /// <summary>True iff a multi-rung Pass-1 relational <see cref="Ladder.Add"/>
     /// chain was qualified from verified <see cref="Numbers.Column"/> tables.</summary>
-    public bool RecognizedRelationalLadderAdder => relationalLadder is not null;
+    internal bool RecognizedRelationalLadderAdder => relationalLadder is not null;
 
     /// <summary>True iff at least one compiled kernel is available on this plan.</summary>
     public bool HasAnyCompiledKernel =>
-        !selfRewiring && (concreteLadder is not null || relationalLadder is not null || compiled.Any(c => c.CanAccelerate));
+        !dynamicTopology && (concreteLadder is not null || relationalLadder is not null || compiled.Any(c => c.CanAccelerate));
 
     /// <summary>False after any structural edit to the engine: adding a wiring,
     /// adding or retiring rows, rewiring references, toggling attention, enabling
-    /// recording, plugging or unplugging a socket, or growing a bound store.</summary>
+    /// recording, plugging or unplugging a socket, rebinding or extending a port
+    /// lane, changing workspace candidates, or growing/recruiting/retiring a bound
+    /// store.</summary>
     public bool IsCurrent
     {
         get
@@ -119,19 +121,19 @@ public sealed class CompiledPlan
     public static CompiledPlan Compile(Engine engine)
     {
         ArgumentNullException.ThrowIfNull(engine);
-        var selfRewiring = DetectsSelfRewiring(engine);
+        var dynamicTopology = DetectsDynamicTopology(engine);
         var snapshots = new WiringSnapshot[engine.Wirings.Count];
         var compiled = new CompiledWiring[engine.Wirings.Count];
         for (var i = 0; i < engine.Wirings.Count; i++)
         {
             var w = engine.Wirings[i];
             snapshots[i] = WiringSnapshot.Capture(w);
-            compiled[i] = selfRewiring ? CompiledWiring.FallbackOnly(w) : CompileWiring(w);
+            compiled[i] = dynamicTopology ? CompiledWiring.FallbackOnly(w) : CompileWiring(w);
         }
 
-        var concrete = selfRewiring ? null : TryRecognizeConcreteLadder(engine, compiled);
-        var relational = selfRewiring || concrete is not null ? null : TryRecognizeRelationalLadder(engine, compiled);
-        return new CompiledPlan(engine, selfRewiring, snapshots, compiled, concrete, relational);
+        var concrete = dynamicTopology ? null : TryRecognizeConcreteLadder(engine, compiled);
+        var relational = dynamicTopology || concrete is not null ? null : TryRecognizeRelationalLadder(engine, compiled);
+        return new CompiledPlan(engine, dynamicTopology, snapshots, compiled, concrete, relational);
     }
 
     /// <summary>Workspace preview always falls back cleanly to
@@ -290,7 +292,7 @@ public sealed class CompiledPlan
             report = new CompiledStepReport(UsedFastPath: false, Stale: true, FastLanes: 0, DeoptLanes: TotalLiveRows());
             return together ? engine.StepTogether() : engine.Step();
         }
-        if (selfRewiring)
+        if (dynamicTopology)
         {
             report = new CompiledStepReport(UsedFastPath: false, Stale: false, FastLanes: 0, DeoptLanes: TotalLiveRows());
             return together ? engine.StepTogether() : engine.Step();
@@ -389,7 +391,7 @@ public sealed class CompiledPlan
             report = new CompiledStepReport(UsedFastPath: false, Stale: false, FastLanes: 0, DeoptLanes: 0);
             return null;
         }
-        if (selfRewiring)
+        if (dynamicTopology)
         {
             var settled = engine.Settle(limit, together);
             report = new CompiledStepReport(UsedFastPath: false, Stale: false, FastLanes: 0, DeoptLanes: TotalLiveRows());
@@ -434,7 +436,7 @@ public sealed class CompiledPlan
             if (together) engine.StepTogether(); else engine.Step();
             return new CompiledStepReport(UsedFastPath: false, Stale: true, FastLanes: 0, DeoptLanes: TotalLiveRows());
         }
-        if (selfRewiring)
+        if (dynamicTopology)
         {
             if (together) engine.StepTogether(); else engine.Step();
             return new CompiledStepReport(UsedFastPath: false, Stale: false, FastLanes: 0, DeoptLanes: TotalLiveRows());
@@ -526,7 +528,7 @@ public sealed class CompiledPlan
 
     private int TotalLiveRows() => engine.Wirings.Sum(w => w.Live.Count);
 
-    private static bool DetectsSelfRewiring(Engine engine)
+    private static bool DetectsDynamicTopology(Engine engine)
     {
         if (engine.Wirings.Count == 0) return false;
         var rowStores = new HashSet<Store>(ReferenceEqualityComparer.Instance);
@@ -535,11 +537,24 @@ public sealed class CompiledPlan
         {
             var w = engine.Wirings[i];
             for (var r = 0; r < w.Bindings.Count; r++)
-                if (w.Writes(r) && w.Bindings[r].Surface.Home is { } home && rowStores.Contains(home))
+            {
+                if (!w.Writes(r)) continue;
+                var (target, writesLife) = WriteTarget(w.Bindings[r].Surface);
+                if (writesLife || (target is not null && rowStores.Contains(target)))
                     return true;
+            }
         }
         return false;
     }
+
+    private static (Store? Store, bool WritesLife) WriteTarget(Surface surface) => surface.Underlying switch
+    {
+        Store st => (st, false),
+        Life life => (life.Of, true),
+        Port port => (port.Owner, false),
+        Socket sock => (sock.Plugged?.Owner, false),
+        _ => (null, false),
+    };
 
     // ---- Reference-table caches for O(1) SameTable qualification ----
 
@@ -871,29 +886,41 @@ public sealed class CompiledPlan
             else
             {
                 var runnableAll = wiring.Runnable();
+                var aliasedAll = wiring.Aliased();
                 staticRunnable = activeMask.And(runnableAll);
-                staticSkipped = activeMask.AndNot(runnableAll);
-                var writtenBits = new HashSet<(Surface, int, int)>();
-                var rowBits = new HashSet<(Surface, int, int)>();
-                foreach (var row in staticRunnable.Indexes())
+                staticSkipped = activeMask.AndNot(runnableAll).AndNot(aliasedAll);
+                if (!activeMask.And(aliasedAll).None)
                 {
-                    rowBits.Clear();
-                    for (var r = 0; r < wiring.Bindings.Count && clean; r++)
+                    clean = false;
+                }
+                else if (staticRunnable.Any && wiring.Waves(staticRunnable).Count > 1)
+                {
+                    clean = false;
+                }
+                else
+                {
+                    var writtenBits = new HashSet<(Surface, int, int)>();
+                    var rowBits = new HashSet<(Surface, int, int)>();
+                    foreach (var row in staticRunnable.Indexes())
                     {
-                        var b = wiring.Bindings[r];
-                        var pos = wiring.Reference(row, r);
-                        for (var p = 0; p < b.Planes.Count; p++)
-                            if (!rowBits.Add(b.Surface.Bit(pos, b.Plane(p)))) { clean = false; break; }
+                        rowBits.Clear();
+                        for (var r = 0; r < wiring.Bindings.Count && clean; r++)
+                        {
+                            var b = wiring.Bindings[r];
+                            var pos = wiring.Reference(row, r);
+                            for (var p = 0; p < b.Planes.Count; p++)
+                                if (!rowBits.Add(b.Surface.Bit(pos, b.Plane(p)))) { clean = false; break; }
+                        }
+                        for (var r = 0; r < wiring.Bindings.Count && clean; r++)
+                        {
+                            if (!wiring.Writes(r)) continue;
+                            var b = wiring.Bindings[r];
+                            var pos = wiring.Reference(row, r);
+                            for (var p = 0; p < b.Planes.Count; p++)
+                                if (!writtenBits.Add(b.Surface.Bit(pos, b.Plane(p)))) { clean = false; break; }
+                        }
+                        if (!clean) break;
                     }
-                    for (var r = 0; r < wiring.Bindings.Count && clean; r++)
-                    {
-                        if (!wiring.Writes(r)) continue;
-                        var b = wiring.Bindings[r];
-                        var pos = wiring.Reference(row, r);
-                        for (var p = 0; p < b.Planes.Count; p++)
-                            if (!writtenBits.Add(b.Surface.Bit(pos, b.Plane(p)))) { clean = false; break; }
-                    }
-                    if (!clean) break;
                 }
             }
 
@@ -997,8 +1024,8 @@ public sealed class CompiledPlan
 
         public (int Fast, int Deopt, bool Quiet) StepFastOnly()
         {
-            if (staticRunnableCount == 0) return (0, 0, true);
             if (!CanAccelerate) return (0, staticRunnableCount, false);
+            if (staticRunnableCount == 0) return (0, 0, true);
 
             if (columnPlan is not null)
             {
@@ -1031,6 +1058,7 @@ public sealed class CompiledPlan
 
         public (WiringStep Step, int Fast, int Deopt) StepWithResult(bool forTogether)
         {
+            if (!CanAccelerate) return (null!, 0, staticRunnableCount);
             if (staticRunnableCount == 0)
             {
                 var empty = new Plane(Wiring.Count);
@@ -1040,7 +1068,6 @@ public sealed class CompiledPlan
                 if (forTogether) step = step with { Contested = empty.Clone() };
                 return (step, 0, 0);
             }
-            if (!CanAccelerate) return (null!, 0, staticRunnableCount);
 
             if (columnPlan is not null)
             {
@@ -1805,7 +1832,7 @@ public sealed class CompiledPlan
                 empty.Clone(),
                 none,
                 (int[])none.Clone(),
-                [staticRunnable.Clone()]);
+                staticRunnable.Any ? [staticRunnable.Clone()] : []);
             if (forTogether) result = result with { Contested = new Plane(count) };
             step = result;
             return true;
@@ -2620,10 +2647,12 @@ public sealed class CompiledPlan
                     changedPlanes[wIdx + 1].TrimTail();
                     var es = new Plane(ws.Count);
                     var ec = new Plane(wc.Count);
+                    var runWaves = staticRunnableCount > 0 ? new[] { staticRunnable.Clone() } : Array.Empty<Plane>();
                     steps[wIdx] = new WiringStep(changedPlanes[wIdx], es, es.Clone(), es.Clone(),
-                        staticSkipped[wIdx].Clone(), es.Clone(), bSum, aSum, [staticRunnable.Clone()]);
+                        staticSkipped[wIdx].Clone(), es.Clone(), bSum, aSum, runWaves);
                     steps[wIdx + 1] = new WiringStep(changedPlanes[wIdx + 1], ec, ec.Clone(), ec.Clone(),
-                        staticSkipped[wIdx + 1].Clone(), ec.Clone(), bCar, aCar, [staticRunnable.Clone()]);
+                        staticSkipped[wIdx + 1].Clone(), ec.Clone(), bCar, aCar,
+                        staticRunnableCount > 0 ? [staticRunnable.Clone()] : []);
                 }
                 else
                 {
@@ -2645,7 +2674,8 @@ public sealed class CompiledPlan
                     changedPlanes[wIdx].TrimTail();
                     var empty = new Plane(w.Count);
                     steps[wIdx] = new WiringStep(changedPlanes[wIdx], empty, empty.Clone(), empty.Clone(),
-                        staticSkipped[wIdx].Clone(), empty.Clone(), before, after, [staticRunnable.Clone()]);
+                        staticSkipped[wIdx].Clone(), empty.Clone(), before, after,
+                        staticRunnableCount > 0 ? [staticRunnable.Clone()] : []);
                 }
             }
             return steps;
@@ -3014,13 +3044,22 @@ public sealed class CompiledPlan
 
     private sealed class WiringSnapshot
     {
+        private readonly record struct BindingSnapshot(
+            Surface Surface,
+            Port? Plugged,
+            int[]? PortLanes,
+            Store? TargetStore,
+            Plane? TargetLive,
+            int WorkspaceCount,
+            Plane? WorkspaceIntroduced);
+
         private readonly Wiring wiring;
         private readonly Law law;
         private readonly int count;
         private readonly Plane live;
         private readonly Plane? attention;
         private readonly bool recorded;
-        private readonly (Surface Surface, int[] Planes, Port? Plugged, Plane? StoreLive)[] bindings;
+        private readonly BindingSnapshot[] bindings;
         private readonly Plane[][] refPlanes;
 
         private WiringSnapshot(Wiring wiring)
@@ -3031,11 +3070,7 @@ public sealed class CompiledPlan
             live = wiring.Live.Clone();
             attention = wiring.Attention is int att ? wiring.Rows.Read(att).Clone() : null;
             recorded = wiring.Recorded is not null;
-            bindings = [.. wiring.Bindings.Select(b => (
-                b.Surface,
-                b.Planes.ToArray(),
-                (b.Surface as Socket)?.Plugged,
-                b.Surface is Store st ? st.RawLive.Clone() : null))];
+            bindings = [.. wiring.Bindings.Select(CaptureBinding)];
             refPlanes = [.. Enumerable.Range(0, wiring.Bindings.Count)
                 .Select(r => wiring.ReferencePlanes(r).Select(p => wiring.Rows.Read(p).Clone()).ToArray())];
         }
@@ -3050,15 +3085,57 @@ public sealed class CompiledPlan
             if (attention is not null && !PlaneMatchesStore(attention, other.Rows, other.Attention!.Value)) return false;
             for (var r = 0; r < bindings.Length; r++)
             {
-                if (!ReferenceEquals(bindings[r].Surface, other.Bindings[r].Surface)) return false;
-                if (bindings[r].Surface is Socket sock && !ReferenceEquals(bindings[r].Plugged, sock.Plugged)) return false;
-                if (bindings[r].Surface is Store st && !bindings[r].StoreLive!.Equals(st.RawLive)) return false;
+                var snap = bindings[r];
+                var curSurface = other.Bindings[r].Surface;
+                if (!ReferenceEquals(snap.Surface, curSurface)) return false;
+                var underlying = curSurface.Underlying;
+                if (underlying is Socket sock && !ReferenceEquals(snap.Plugged, sock.Plugged)) return false;
+                var port = underlying switch { Port p => p, Socket s => s.Plugged, _ => null };
+                if (port is not null)
+                {
+                    if (snap.PortLanes is null || snap.PortLanes.Length != port.Count) return false;
+                    for (var lane = 0; lane < port.Count; lane++)
+                        if (snap.PortLanes[lane] != port.Lane(lane)) return false;
+                }
+                else if (snap.PortLanes is not null)
+                {
+                    return false;
+                }
+                if (snap.TargetStore is not null && !snap.TargetLive!.Equals(snap.TargetStore.RawLive)) return false;
+                if (underlying is Workspace ws && (ws.Count != snap.WorkspaceCount || !snap.WorkspaceIntroduced!.Equals(ws.Introduced)))
+                    return false;
                 var rp = other.ReferencePlanes(r);
                 if (rp.Count != refPlanes[r].Length) return false;
                 for (var k = 0; k < rp.Count; k++)
                     if (!PlaneMatchesStore(refPlanes[r][k], other.Rows, rp[k])) return false;
             }
             return true;
+        }
+
+        private static BindingSnapshot CaptureBinding(Binding binding)
+        {
+            var underlying = binding.Surface.Underlying;
+            var plugged = underlying is Socket s ? s.Plugged : null;
+            var port = underlying switch { Port p => p, Socket sock => sock.Plugged, _ => null };
+            int[]? portLanes = null;
+            if (port is not null)
+            {
+                portLanes = new int[port.Count];
+                for (var lane = 0; lane < port.Count; lane++) portLanes[lane] = port.Lane(lane);
+            }
+            var targetStore = underlying switch
+            {
+                Store st => st,
+                Life life => life.Of,
+                Port p => p.Owner,
+                Socket sock => sock.Plugged?.Owner,
+                Workspace ws => ws.Home,
+                _ => null,
+            };
+            var targetLive = targetStore?.RawLive.Clone();
+            var wsCount = underlying is Workspace w ? w.Count : -1;
+            var wsIntroduced = underlying is Workspace w2 ? w2.Introduced : null;
+            return new BindingSnapshot(binding.Surface, plugged, portLanes, targetStore, targetLive, wsCount, wsIntroduced);
         }
 
         private static bool PlaneMatchesStore(Plane snapshot, Store store, int planeIndex)

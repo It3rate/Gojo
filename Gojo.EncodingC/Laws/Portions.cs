@@ -12,21 +12,28 @@ namespace Gojo.EncodingC;
 /// <item><b>Pooling (<see cref="WirePool"/>):</b>
 /// <c>(n₁, d₁) ⊕ (n₂, d₂) = (n₁ + n₂, d₁ + d₂)</c> over valid portions,
 /// preserving accumulated sample count without reducing <c>5/10</c> to
-/// <c>1/2</c>.</item>
+/// <c>1/2</c>. Because each balance narrows its own roles locally, separate
+/// open supports are conservative (use a <see cref="Fork"/> to rule out
+/// jointly impossible combinations).</item>
 /// <item><b>Same-whole addition (<see cref="AddSameWhole"/>):</b>
 /// <c>n₁ + n₂ = whole · d + rem</c> with <c>whole ∈ {0, 1, 2}</c>, so two full
 /// portions (<c>5/5 + 5/5</c>) keep both wholes (<c>whole = 2, rem = 0</c>)
 /// while incompatible denominators contradict.</item>
 /// <item><b>Live re-partition projection (<see cref="Project"/>):</b>
-/// <c>n · d₂ = q · d₁ + r</c> (<c>0 ≤ r &lt; d₁</c>), keeping exact source-basis
-/// residue visible instead of rounding.</item>
+/// <c>n · d₂ = q · d₁ + r</c> (<c>0 ≤ r &lt; d₁</c>), keeping exact residue
+/// <c>r</c> (<c>r / d₂</c> source ticks, or <c>r / (d₁ · d₂)</c> of the whole)
+/// visible instead of rounding.</item>
 /// <item><b>Cross-multiplication comparison (<see cref="Compare"/>):</b>
 /// compares <c>(n₁, d₁)</c> against <c>(n₂, d₂)</c> without floats or binary
 /// approximation.</item>
-/// </list></summary>
+/// </list>
+/// Because the five-role tables grow as <c>(maxDenominator + 1)⁵</c>,
+/// <see cref="Project"/>, <see cref="AddSameWhole"/>, and <see cref="Compare"/>
+/// stay within <see cref="Law.MaxBits"/> only for small denominators (up to
+/// about 20).</summary>
 public static class Portions
 {
-    private static readonly Dictionary<(int, int, bool), RelationLaw> Valids = [];
+    private static readonly Dictionary<(Shape, Shape), RelationLaw> Valids = [];
     private static readonly Dictionary<(int, bool), RelationLaw> SameWholeAdds = [];
     private static readonly Dictionary<(int, bool), RelationLaw> Projections = [];
     private static readonly Dictionary<(int, bool), RelationLaw> Comparisons = [];
@@ -43,12 +50,10 @@ public static class Portions
     private static RelationLaw Valid(Shape numerator, Shape denominator)
     {
         if (denominator.Size < 2) throw new ArgumentOutOfRangeException(nameof(denominator), "A denominator needs room for at least 1.");
-        var key = (numerator.Size, denominator.Size, !numerator.IsUnary || !denominator.IsUnary);
+        var key = (numerator, denominator);
         lock (Valids)
         {
-            if (Valids.TryGetValue(key, out var cached)
-                && cached.Roles[0] == numerator && cached.Roles[1] == denominator)
-                return cached;
+            if (Valids.TryGetValue(key, out var cached)) return cached;
             var law = RelationLaw.FromPredicate([numerator, denominator], t => t[1] >= 1 && t[0] <= t[1]);
             Valids[key] = law;
             return law;
@@ -77,7 +82,8 @@ public static class Portions
     /// <summary>Live-denominator re-partition projection:
     /// <c>n · d₂ = q · d₁ + r</c> with <c>d₁ ≥ 1</c>, <c>d₂ ≥ 1</c>,
     /// <c>n ≤ d₁</c>, <c>q ≤ d₂</c>, <c>0 ≤ r &lt; d₁</c>. Roles: n, d1, d2, q, r.
-    /// Keeps exact source-basis residue <c>r</c> and rejects zero denominators.</summary>
+    /// The stored integer remainder <c>r</c> is <c>r / d₂</c> source ticks
+    /// (<c>r / (d₁ · d₂)</c> of the whole), rejecting zero denominators.</summary>
     public static RelationLaw Project(int maxDenominator, bool binary = false)
     {
         if (maxDenominator < 1) throw new ArgumentOutOfRangeException(nameof(maxDenominator));
@@ -121,7 +127,9 @@ public static class Portions
     /// <paramref name="positions"/>: two <see cref="Valid"/> relations guard
     /// both input portions (refusing <c>d = 0</c> or <c>n &gt; d</c>, such as
     /// <c>(1, 0)</c>), and two linear balances sum the numerators and
-    /// denominators without reducing the pooled share.</summary>
+    /// denominators without reducing the pooled share. Scope disjointness and
+    /// basis alignment come from the caller, and separate open supports remain
+    /// conservative under local settlement.</summary>
     public static IReadOnlyList<Wiring> WirePool(
         Supports n1, Supports d1, Supports n2, Supports d2, Supports nOut, Supports dOut, Plane positions)
     {

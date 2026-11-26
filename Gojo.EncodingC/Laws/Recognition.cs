@@ -232,12 +232,20 @@ public static class Recognition
     /// a sum with its overflow restored. Weights run within
     /// ±<paramref name="maxWeight"/> and the residue's capacity up to
     /// <paramref name="maxCapacity"/>; each candidate is checked cheaply on the
-    /// witnesses, then exactly, by rebuilding the law. Null when none is found.</summary>
-    public static WithResidue? Residue(TransitionLaw law, int[] reads, int[] writes, int maxWeight = 2, int maxCapacity = 8)
+    /// witnesses, then exactly, by rebuilding the law. Pass
+    /// <paramref name="blocked"/> when the law records holds in a blocked bit.
+    /// Null when none is found.</summary>
+    public static WithResidue? Residue(TransitionLaw law, int[] reads, int[] writes,
+        int maxWeight = 2, int maxCapacity = 8, int blocked = -1)
     {
         ArgumentNullException.ThrowIfNull(law);
-        var witnesses = Witnesses(law, reads, writes);
+        if (maxWeight < 1) throw new ArgumentOutOfRangeException(nameof(maxWeight));
+        if (maxCapacity is < 1 or >= 1 << 16) throw new ArgumentOutOfRangeException(nameof(maxCapacity));
+        var witnesses = Witnesses(law, reads, writes, blocked);
         var observed = reads.Length;
+        Shape[] observedRoles = [.. Enumerable.Range(0, observed).Select(k => law.Roles[reads[k] >= 0 ? reads[k] : writes[k]])];
+        var observedProduct = DomainUpTo(observedRoles.Select(s => s.Size), Law.MaxBits);
+        if (observedProduct > Law.MaxBits) return null;
         int[] allReads = [.. reads, -1], allWrites = [.. writes, -1], cost = [.. Enumerable.Repeat(0, observed), 1];
         var weights = new int[observed];
         WithResidue? found = null;
@@ -248,6 +256,8 @@ public static class Recognition
             {
                 for (var wf = 1; wf <= maxWeight; wf++)
                     for (var capacity = 1; capacity <= maxCapacity; capacity++)
+                    {
+                        if (capacity + 1 > Law.MaxBits / observedProduct) break;
                         foreach (var sign in new[] { -1, 1 })
                         {
                             var fits = witnesses.All(t =>
@@ -257,12 +267,13 @@ public static class Recognition
                                 return f % wf == 0 && f / wf >= 0 && f / wf <= capacity;
                             });
                             if (!fits) continue;
-                            Shape[] roles = [.. Enumerable.Range(0, observed).Select(k => law.Roles[reads[k] >= 0 ? reads[k] : writes[k]]), Shape.Unary(capacity)];
+                            Shape[] roles = [.. observedRoles, ResidueShape(capacity)];
                             var equation = Polynomial.Balance(roles, [.. weights, sign * wf]);
-                            if (!Compare(law, equation, allReads, allWrites, cost).Same) continue;
+                            if (!Compare(law, equation, allReads, allWrites, cost, blocked).Same) continue;
                             found = new WithResidue(equation, allReads, allWrites, cost);
                             return true;
                         }
+                    }
                 return false;
             }
             for (var w = 1; w <= maxWeight; w++)
@@ -285,23 +296,28 @@ public static class Recognition
     /// <c>min(a, b) = c</c> is <c>a = c + e</c> and <c>b = c + f</c> minimizing
     /// <c>e + f</c>; <c>max(a, b) = c</c> is <c>c = a + e</c> and <c>c = b + f</c>;
     /// <c>|a − b| = c</c> is <c>c = a − b + e</c> and <c>c = b − a + f</c>.
-    /// Null when no exact system is found within the given bounds.</summary>
+    /// Pass <paramref name="blocked"/> when the law records holds in a blocked
+    /// bit. Capacities up to 63 use unary shapes; wider capacities use binary
+    /// shapes. Null when no exact system is found within the given bounds.</summary>
     public static WithResidues? Residues(TransitionLaw law, int[] reads, int[] writes,
-        int hiddenRoles = 2, int maxWeight = 2, int maxCapacity = 8)
+        int hiddenRoles = 2, int maxWeight = 2, int maxCapacity = 8, int blocked = -1)
     {
         ArgumentNullException.ThrowIfNull(law);
         if (hiddenRoles < 1) throw new ArgumentOutOfRangeException(nameof(hiddenRoles));
+        if (maxWeight < 1) throw new ArgumentOutOfRangeException(nameof(maxWeight));
+        if (maxCapacity is < 1 or >= 1 << 16) throw new ArgumentOutOfRangeException(nameof(maxCapacity));
         if (hiddenRoles == 1)
         {
-            return Residue(law, reads, writes, maxWeight, maxCapacity) is { } single
+            return Residue(law, reads, writes, maxWeight, maxCapacity, blocked) is { } single
                 ? new WithResidues([single.Equation], single.Reads, single.Writes, single.Cost)
                 : null;
         }
-        var witnesses = Witnesses(law, reads, writes);
+        var witnesses = Witnesses(law, reads, writes, blocked);
         if (witnesses.Count == 0) return null;
         var observed = reads.Length;
         Shape[] observedRoles = [.. Enumerable.Range(0, observed).Select(k => law.Roles[reads[k] >= 0 ? reads[k] : writes[k]])];
-        var observedProduct = observedRoles.Aggregate(1L, (p, s) => checked(p * s.Size));
+        var observedProduct = DomainUpTo(observedRoles.Select(s => s.Size), Law.MaxBits);
+        if (observedProduct > Law.MaxBits) return null;
         int[] writtenSlots = [.. Enumerable.Range(0, observed).Where(k => writes[k] >= 0)];
 
         var faces = new List<(int[] W, int Wf, int Cap, int NonZero, int WeightNorm)>();
@@ -377,7 +393,7 @@ public static class Recognition
                 if (writtenSlots.Length == 1 && !WitnessesStrictlyCheapest(chosen, writtenSlots[0])) return false;
                 var roles = new Shape[observed + hiddenRoles];
                 for (var k = 0; k < observed; k++) roles[k] = observedRoles[k];
-                for (var h = 0; h < hiddenRoles; h++) roles[observed + h] = Shape.Unary(faces[chosen[h]].Cap);
+                for (var h = 0; h < hiddenRoles; h++) roles[observed + h] = ResidueShape(faces[chosen[h]].Cap);
 
                 var system = new Polynomial[hiddenRoles];
                 for (var h = 0; h < hiddenRoles; h++)
@@ -397,14 +413,15 @@ public static class Recognition
                     system[h] = new Polynomial(roles, [.. terms]);
                 }
 
-                if (!Compare(law, system, allReads, allWrites, cost).Same) return false;
+                if (!Compare(law, system, allReads, allWrites, cost, blocked).Same) return false;
                 found = new WithResidues(system, allReads, allWrites, cost);
                 return true;
             }
             for (var i = from; i < faces.Count; i++)
             {
-                var nextDomain = domain * (faces[i].Cap + 1);
-                if (nextDomain > Law.MaxBits) continue;
+                var factor = faces[i].Cap + 1L;
+                if (factor > Law.MaxBits / domain) continue;
+                var nextDomain = domain * factor;
                 chosen[depth] = i;
                 if (Pick(depth + 1, i + 1, nextDomain)) return true;
             }
@@ -448,6 +465,9 @@ public static class Recognition
         Pick(0, 0, observedProduct);
         return found;
     }
+
+    private static Shape ResidueShape(int capacity) =>
+        capacity <= 63 ? Shape.Unary(capacity) : Shape.Binary(capacity + 1);
 
     /// <summary>What a candidate says the target is for the other roles'
     /// values: null where it gives no whole value inside the target's shape.</summary>

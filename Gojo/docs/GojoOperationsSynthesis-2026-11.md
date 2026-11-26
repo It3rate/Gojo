@@ -701,7 +701,7 @@ are now runnable through [the conformance tests](../../Gojo.EncodingC/Tests/Oper
 ### Pass 3 (Neon)
 
 - **Deltas only, zero core duplication.** Pass 1's `Polynomial`, `Numbers`,
-  `Ladder`, `Counts`, `Flows`, and `Transport` stayed untouched. Only five
+  `Ladder`, `Counts`, `Flows`, and `Transport` stayed untouched. Only six
   internal accessors were added for the derived backend (`Plane.RawWords`,
   `Plane.TrimTail`, `Store.RawPlane`, `Store.RawLive`, `Wiring.Reference`,
   `Engine.AdvanceTick`). Exploratory files (`Booleans.cs`, `Dynamics.cs`,
@@ -730,16 +730,17 @@ are now runnable through [the conformance tests](../../Gojo.EncodingC/Tests/Oper
       `Operations.Bind` + `SameTable`, including mixed combined/split chains):
       64-lane bit-sliced SWAR across arbitrary mixed radices `<= 16`.
     - *Unary `Flows.Convert(take, give)`* (verified via positive
-      `PreservedSum` accounting + `SameTable`): AVX2/SIMD unary plane shift,
-      exact bounded multi-step `SettlePacketConvertExact`, and guarded
+      `PreservedSum` accounting + `SameTable`): portable
+      `System.Numerics.Vector<ulong>` SIMD unary plane shift, exact bounded
+      multi-step `SettlePacketConvertExact`, and guarded single-wave
       non-identity stepping (e.g., the `100 → 001` chain under declared order).
     - *Bounded lossless multiply* (`a·b = val + ovf`, verified via `SameTable`
       and unchanged inputs).
     - *General small-table functional transitions* (`totalRoleBits <= 64`,
-      `StateCount <= 512`, `<= 256` changing states): L1-resident SIMD XOR-flip
-      kernel lowered from the table's own bits (covers `Counts.Shortfall`,
-      `Counts.Sum`, `Flows.Fulfill`, `Settling.Justify`, `Numbers.Admit`, and
-      B15's gated moves).
+      `StateCount <= 512`, `<= 256` changing states): L1-resident portable
+      SIMD XOR-flip kernel lowered from the table's own bits (covers
+      `Counts.Shortfall`, `Counts.Sum`, `Flows.Fulfill`, `Settling.Justify`,
+      `Numbers.Admit`, and B15's gated moves).
   - **What falls back cleanly to `Engine`:**
     - Any recorded wiring (`Wiring.Recorded is not null`, preserving all 7
       evidence planes and `Noted`);
@@ -750,8 +751,11 @@ are now runnable through [the conformance tests](../../Gojo.EncodingC/Tests/Oper
       `Ladder.Add(x, x, doubled)` or B16's `sameOperand: true` product);
     - Non-column `RelationLaw`s (B16's factored product inverse, `Portions`
       live-denominator relations, `Operations.Product`);
-    - Self-rewiring topology (any wiring writing another wiring's `Rows`
-      store);
+    - Dynamic-topology engines: any wiring writing any wiring's `Rows` store
+      (directly or through `Port`, `Socket`, or `Flipped`) or writing any
+      `Store.Life` surface (recruitment or retirement);
+    - Non-identity wirings with active `Aliased` rows or multiple canonical row
+      waves (`Wiring.Waves(staticRunnable).Count > 1`);
     - Multi-wiring simultaneous steps (`together: true`), so `100 → 010` and
       simultaneous ripple-carry schedules match `Engine.StepTogether` tick for
       tick (only a single identity-mapped contention-free wiring compiles under
@@ -760,17 +764,29 @@ are now runnable through [the conformance tests](../../Gojo.EncodingC/Tests/Oper
       constants) deopt before mutating any bit;
     - Stale plans (`!IsCurrent`) after adding wirings, adding/retiring/rewiring
       rows, toggling `Attention`, enabling `Record`, plugging/unplugging a
-      `Socket`, or adding/recruiting/retiring `Store` positions.
-  - **Defects caught and fixed during Pass-3 review:**
-    - Removed `ops_neon`'s `private enum KernelKind`;
-    - Fixed `Store.Recruit`/`Retire` staleness (`WiringSnapshot` now snapshots
-      each direct `Store.RawLive`), `Wiring.Attention` gating inside compiled
-      runnable masks, broken multi-bit constant-plane deopt on relational
-      columns, self-rewiring detection, and exact per-rung `Before`/`After`
-      tuple reconstruction across multi-rung concrete ripple adders;
+      `Socket`, rebinding or extending a `Port` lane, mutating `Workspace`
+      candidates, or adding/recruiting/retiring `Store` positions.
+  - **Defects caught and fixed during Pass-3 review and final assessments:**
+    - Removed `ops_neon`'s `private enum KernelKind` and made the six
+      `Recognized*` kernel-family booleans `internal` (Claude's assessment);
+    - Fixed `Store.Recruit`/`Retire` staleness, `Wiring.Attention` gating
+      inside compiled runnable masks, broken multi-bit constant-plane deopt on
+      relational columns, and exact per-rung `Before`/`After` tuple
+      reconstruction across multi-rung concrete ripple adders;
     - Replaced `ops_neon`'s scalar per-row `Reference()`/`Runnable()` compile
       scans with 64-lane bitwise identity-reference verification so
-      `Compile()` stays sub-millisecond even at 65,536 lanes.
+      `Compile()` stays sub-millisecond even at 65,536 lanes;
+    - Fixed all five Sol final-assessment `CompiledPlan` blockers (same-tick
+      `Port`/`Socket` writes to `Rows`, same-tick `Store.Life`
+      recruitment/retirement, `Port`/`Socket` lane rebinds in `WiringSnapshot`,
+      non-identity `Aliased` vs. `Skipped` classification, and shared-position
+      multi-wave non-identity packet rows) plus empty-runnable ladder wave
+      parity, pinned as regressions on `ExecutionConformancePath.All` asserting
+      full `EngineStep` and `WiringStep` evidence;
+    - Extended `Recognition.Residue`/`Residues` with optional `blocked` role
+      support and binary residue shapes above capacity 63 (`maxCapacity: 64`
+      no longer throws), and keyed `Portions.Valids` directly on
+      `(Shape, Shape)`.
 - **Whole-path vs. kernel-only Release benchmarks (idle CPU, plane-for-plane
   and tick-for-tick verified against `Engine.Settle`):**
 
@@ -883,4 +899,16 @@ Pass 3 (Linux, `.NET 10.0.404`, no `wasm-tools` workload installed so the five
   `OrnamentTension.Tests`: 49, `OrnamentFollowup.Tests`: 4), for **4,118
   passed, 0 failed** total across 19 test projects (`QualitativeExecution.Tests`
   was untouched and has no dependency on `Gojo.EncodingC`).
+
+Post-assessment fixes (Claude `2e876211` + Neon follow-up on `ops_synthesize`,
+Linux, `.NET 10.0.404`):
+- **EncodingC (`Release` and `Debug`):** **343 passed, 0 failed** (including
+  Claude's `ADomainTooLargeToEnumerateIsNeverCheckedOverNothing`, all five Sol
+  `CompiledPlan` topology/evidence regressions + empty-runnable wave parity on
+  `ExecutionConformancePath.All`, and
+  `ResiduesHandleBlockedBitsAndCapacitiesAboveSixtyThree`).
+- **19 non-WASM, non-`QualitativeExecution` test projects in `Gojo.slnx`
+  (`Release`):** **4,132 passed, 0 failed** (`Gojo.EncodingC`: 343,
+  `Gojo.Tests`: 1,074, `GojoCAD.Tests`: 155, plus all 16 remaining projects).
+
 

@@ -132,6 +132,255 @@ public sealed class ExecutionScheduleConformanceTests
         Assert.Equal(0, read.Value(0, 1));
     }
 
+    [Theory]
+    [MemberData(nameof(ExecutionConformancePath.All), MemberType = typeof(ExecutionConformancePath), DisableDiscoveryEnumeration = true)]
+    public void ASameTickPortWriteRetargetingARowMatchesCanonicalExecution(ExecutionConformancePath path)
+    {
+        foreach (var throughSocket in new[] { false, true })
+        {
+            static (Engine Engine, Store Sites, Wiring Toggle) Build(bool useSocket)
+            {
+                var sites = new Store(1, 2);
+                var toggleLaw = TransitionLaw.FromFunction([Shape.Bit], v => [1 - v[0]], new Accounting(true));
+                var toggle = new Wiring(toggleLaw, new Binding(sites, 0));
+                toggle.Add(0);
+                var refPort = toggle.Rows.Publish([0], [toggle.ReferencePlanes(0)[0]]);
+                Surface target = refPort;
+                if (useSocket)
+                {
+                    var sock = Socket.For(refPort);
+                    sock.Plug(refPort);
+                    target = sock;
+                }
+                var source = new Store(1, 1);
+                source.Write(0, 0, true);
+                var move = new Wiring(Flows.Convert(1, 1, 1, 1), new Binding(source, 0), new Binding(target, 0));
+                move.Add(0, 0);
+                return (new Engine().Add(move).Add(toggle), sites, toggle);
+            }
+
+            var reference = Build(throughSocket);
+            var actual = Build(throughSocket);
+            var expectedStep = reference.Engine.Step();
+            var actualStep = path.Step(actual.Engine);
+            AssertStepParity(expectedStep, actualStep);
+            Assert.Equal([1], actual.Toggle.Row(0));
+            Assert.False(actual.Sites.Read(0, 0));
+            Assert.True(actual.Sites.Read(0, 1));
+            Assert.Equal(Transport.Save(reference.Engine), Transport.Save(actual.Engine));
+
+            var refSettle = Build(throughSocket);
+            var actSettle = Build(throughSocket);
+            Assert.Equal(refSettle.Engine.Settle(1), path.Settle(actSettle.Engine, 1));
+            Assert.Equal(refSettle.Engine.Tick, actSettle.Engine.Tick);
+            Assert.Equal(Transport.Save(refSettle.Engine), Transport.Save(actSettle.Engine));
+        }
+    }
+
+    [Theory]
+    [MemberData(nameof(ExecutionConformancePath.All), MemberType = typeof(ExecutionConformancePath), DisableDiscoveryEnumeration = true)]
+    public void RecruitingASparePositionInTheSameTickRunsALaterCompiledFollower(ExecutionConformancePath path)
+    {
+        static (Engine Engine, Store Sites) Build()
+        {
+            var sites = new Store(2, 1);
+            var spare = sites.AddSpare(1);
+            sites.Write(0, 0, true);
+            sites.Write(0, spare, true);
+            var recruitLaw = TransitionLaw.FromFunction([Shape.Bit], _ => [1], new Accounting(true));
+            var recruit = new Wiring(recruitLaw, new Binding(sites.Life, 0));
+            recruit.Add(spare);
+            var convert = new Wiring(Flows.Convert(1, 1, 1, 1), new Binding(sites, 0), new Binding(sites, 1));
+            convert.Add(0, 0);
+            convert.Add(spare, spare);
+            return (new Engine().Add(recruit).Add(convert), sites);
+        }
+
+        var refStep = Build();
+        var actStep = Build();
+        AssertStepParity(refStep.Engine.Step(), path.Step(actStep.Engine));
+        Assert.True(actStep.Sites.IsLive(1));
+        Assert.True(actStep.Sites.Read(1, 0));
+        Assert.True(actStep.Sites.Read(1, 1));
+        Assert.Equal(Transport.Save(refStep.Engine), Transport.Save(actStep.Engine));
+
+        var refSettle = Build();
+        var actSettle = Build();
+        Assert.Equal(refSettle.Engine.Settle(4), path.Settle(actSettle.Engine, 4));
+        Assert.Equal(refSettle.Engine.Tick, actSettle.Engine.Tick);
+        Assert.True(actSettle.Sites.Read(1, 1));
+        Assert.Equal(Transport.Save(refSettle.Engine), Transport.Save(actSettle.Engine));
+
+        static (Engine Engine, Store Sites) BuildRetire()
+        {
+            var sites = new Store(2, 2);
+            sites.Write(0, 0, true);
+            sites.Write(0, 1, true);
+            var retireLaw = TransitionLaw.FromFunction([Shape.Bit], _ => [0], new Accounting(true));
+            var retire = new Wiring(retireLaw, new Binding(sites.Life, 0));
+            retire.Add(1);
+            var convert = new Wiring(Flows.Convert(1, 1, 1, 1), new Binding(sites, 0), new Binding(sites, 1));
+            convert.Add(0, 0);
+            convert.Add(1, 1);
+            return (new Engine().Add(retire).Add(convert), sites);
+        }
+
+        var refRetire = BuildRetire();
+        var actRetire = BuildRetire();
+        AssertStepParity(refRetire.Engine.Step(), path.Step(actRetire.Engine));
+        Assert.False(actRetire.Sites.IsLive(1));
+        Assert.True(actRetire.Sites.Read(1, 0));
+        Assert.False(actRetire.Sites.Read(1, 1));
+        Assert.Equal(Transport.Save(refRetire.Engine), Transport.Save(actRetire.Engine));
+    }
+
+    [Theory]
+    [MemberData(nameof(ExecutionConformancePath.All), MemberType = typeof(ExecutionConformancePath), DisableDiscoveryEnumeration = true)]
+    public void RebindingAPortLaneBetweenStepsUpdatesEngineWavesAndEvidence(ExecutionConformancePath path)
+    {
+        foreach (var throughSocket in new[] { false, true })
+        {
+            static (Engine Engine, Store Sites, Port Port) Build(bool useSocket)
+            {
+                var sites = new Store(2, 2);
+                var toggle = TransitionLaw.FromFunction([Shape.Bit], v => [1 - v[0]], new Accounting(true));
+                var writer = new Wiring(toggle, new Binding(sites, 0));
+                writer.Add(0);
+                var port = sites.Publish([1], [0]);
+                Surface readerSource = port;
+                if (useSocket)
+                {
+                    var sock = Socket.For(port);
+                    sock.Plug(port);
+                    readerSource = sock;
+                }
+                var copy = TransitionLaw.FromFunction([Shape.Bit, Shape.Bit], v => [v[0], v[0]],
+                    new Accounting(true, new Unchanged(0)));
+                var reader = new Wiring(copy, new Binding(readerSource, 0), new Binding(sites, 1));
+                reader.Add(0, 1);
+                return (new Engine().Add(writer).Add(reader), sites, port);
+            }
+
+            var reference = Build(throughSocket);
+            var actual = Build(throughSocket);
+            var firstRef = reference.Engine.Step();
+            var firstAct = path.Step(actual.Engine);
+            Assert.Single(firstRef.Waves);
+            AssertStepParity(firstRef, firstAct);
+            Assert.Equal(Transport.Save(reference.Engine), Transport.Save(actual.Engine));
+
+            reference.Sites.Rebind(reference.Port, 0, 0);
+            actual.Sites.Rebind(actual.Port, 0, 0);
+            var secondRef = reference.Engine.Step();
+            var secondAct = path.Step(actual.Engine);
+            Assert.Equal(2, secondRef.Waves.Count);
+            AssertStepParity(secondRef, secondAct);
+            Assert.Equal(Transport.Save(reference.Engine), Transport.Save(actual.Engine));
+        }
+    }
+
+    [Theory]
+    [MemberData(nameof(ExecutionConformancePath.All), MemberType = typeof(ExecutionConformancePath), DisableDiscoveryEnumeration = true)]
+    public void AnAliasedNonIdentityPacketRowReportsAliasedRatherThanSkipped(ExecutionConformancePath path)
+    {
+        static Engine Build()
+        {
+            var sites = new Store(1, 3);
+            sites.Write(0, 0, true);
+            sites.Write(0, 1, true);
+            var convert = new Wiring(Flows.Convert(1, 1, 1, 1), new Binding(sites, 0), new Binding(sites, 0));
+            convert.Add(0, 2);
+            convert.Add(1, 2);
+            // Mutate saved row 0 destination reference so row 0 becomes (0, 0) while row 1 remains runnable (1, 2).
+            foreach (var p in convert.ReferencePlanes(1)) convert.Rows.Write(p, 0, false);
+            return new Engine().Add(convert);
+        }
+
+        var reference = Build();
+        var actual = Build();
+        var expectedStep = reference.Step();
+        var actualStep = path.Step(actual);
+        Assert.True(expectedStep.Steps[0].Aliased[0]);
+        Assert.False(expectedStep.Steps[0].Skipped[0]);
+        Assert.True(expectedStep.Steps[0].Changed[1]);
+        AssertStepParity(expectedStep, actualStep);
+        Assert.Equal(Transport.Save(reference), Transport.Save(actual));
+    }
+
+    [Theory]
+    [MemberData(nameof(ExecutionConformancePath.All), MemberType = typeof(ExecutionConformancePath), DisableDiscoveryEnumeration = true)]
+    public void NonIdentityPacketRowsSharingAPositionAcrossDifferentPlanesSplitRowWaves(ExecutionConformancePath path)
+    {
+        static Engine Build()
+        {
+            var sites = new Store(2, 3);
+            sites.Write(0, 0, true);
+            sites.Write(0, 1, true);
+            var convert = new Wiring(Flows.Convert(1, 1, 1, 1), new Binding(sites, 0), new Binding(sites, 1));
+            convert.Add(0, 1);
+            convert.Add(1, 2);
+            return new Engine().Add(convert);
+        }
+
+        var reference = Build();
+        var actual = Build();
+        var expectedStep = reference.Step();
+        var actualStep = path.Step(actual);
+        Assert.Equal(2, expectedStep.Steps[0].Waves.Count);
+        AssertStepParity(expectedStep, actualStep);
+        Assert.Equal(Transport.Save(reference), Transport.Save(actual));
+    }
+
+    [Theory]
+    [MemberData(nameof(ExecutionConformancePath.All), MemberType = typeof(ExecutionConformancePath), DisableDiscoveryEnumeration = true)]
+    public void AnEmptyRunnableLadderEmitsNoRowWaves(ExecutionConformancePath path)
+    {
+        static Engine Build()
+        {
+            var store = new Store(0, 1);
+            Ladder a = new(store, [2, 5], binary: true), b = new(store, [2, 5], binary: true), sum = new(store, [2, 5], binary: true);
+            var (wirings, _) = Ladder.Add(a, b, sum, Plane.Ones(1));
+            store.Retire(0);
+            var engine = new Engine();
+            foreach (var w in wirings) engine.Add(w);
+            return engine;
+        }
+
+        var reference = Build();
+        var actual = Build();
+        var expectedStep = reference.Step();
+        var actualStep = path.Step(actual);
+        Assert.All(expectedStep.Steps, s => Assert.Empty(s.Waves));
+        AssertStepParity(expectedStep, actualStep);
+        Assert.Equal(Transport.Save(reference), Transport.Save(actual));
+    }
+
+    private static void AssertStepParity(EngineStep expected, EngineStep actual)
+    {
+        Assert.Equal(expected.Tick, actual.Tick);
+        Assert.Equal(expected.Waves.Count, actual.Waves.Count);
+        for (var i = 0; i < expected.Waves.Count; i++)
+            Assert.Equal(expected.Waves[i], actual.Waves[i]);
+        Assert.Equal(expected.Steps.Count, actual.Steps.Count);
+        for (var i = 0; i < expected.Steps.Count; i++)
+        {
+            var e = expected.Steps[i];
+            var a = actual.Steps[i];
+            Assert.Equal(e.Changed, a.Changed);
+            Assert.Equal(e.Unread, a.Unread);
+            Assert.Equal(e.Unadmitted, a.Unadmitted);
+            Assert.Equal(e.Ambiguous, a.Ambiguous);
+            Assert.Equal(e.Skipped, a.Skipped);
+            Assert.Equal(e.Aliased, a.Aliased);
+            Assert.Equal(e.Contested, a.Contested);
+            Assert.Equal(e.Noted, a.Noted);
+            Assert.Equal(e.Quiet, a.Quiet);
+            Assert.Equal(e.Before, a.Before);
+            Assert.Equal(e.After, a.After);
+            Assert.Equal(e.Waves, a.Waves);
+        }
+    }
+
     private static (Engine Engine, Store Sites, Field Bit) Chain()
     {
         var sites = new Store(0, 3);
