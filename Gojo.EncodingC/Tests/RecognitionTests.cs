@@ -347,6 +347,41 @@ public sealed class RecognitionTests
         Assert.Throws<ArgumentException>(() => Recognition.Restore(move, copy, [0, -1], [-1, 1]));
     }
 
+    [Fact]
+    public void ABlockedBitSurvivesExactRebuildingAndSeparatesHoldsFromWitnesses()
+    {
+        var amount = Shape.Unary(2);
+        var doubleAmount = Polynomial.Balance([amount, amount], 2, -1);
+        int[] reads = [0, -1], writes = [-1, 0];
+        var law = Operations.Bind(doubleAmount, [amount, Bit], reads, writes, blocked: 1);
+
+        Assert.Equal([2, 1], Next(law, 2, 0));
+        Assert.Equal([2, 0], Next(law, 1, 1));
+        var withoutBlocked = Recognition.Compare(law, doubleAmount, reads, writes);
+        Assert.False(withoutBlocked.Same);
+        Assert.True(withoutBlocked.KeepsAccounting);
+        Assert.Throws<ArgumentException>(() => Recognition.Restore(law, doubleAmount, reads, writes));
+        var comparison = Recognition.Compare(law, doubleAmount, reads, writes, blocked: 1);
+        Assert.True(comparison.Same);
+        Assert.Equal(0, comparison.Differences);
+        Assert.True(comparison.KeepsAccounting);
+        var restored = Recognition.Restore(law, doubleAmount, reads, writes, blocked: 1);
+        Assert.True(law.SameTable(restored));
+        Assert.Same(law.Accounting, restored.Accounting);
+
+        var learned = new LearnedTable(law.Roles);
+        for (var before = 0; before < law.StateCount; before++)
+            learned.Witness(before, Assert.Single(law.Afters(before)));
+        Assert.Contains(Recognition.Witnesses(law, reads, writes), row => row.SequenceEqual([2, 2]));
+        var authored = Recognition.Witnesses(law, reads, writes, blocked: 1);
+        Assert.Equal(new int[][] { [0, 0], [1, 2] }, authored);
+        Assert.Equal(authored, Recognition.Witnesses(learned, reads, writes, blocked: 1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Recognition.Witnesses(law, [0, -2], writes));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Recognition.Witnesses(learned, [0, -2], writes));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Recognition.Witnesses(law, reads, [-1, 2]));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Recognition.Witnesses(learned, reads, [-1, 2]));
+    }
+
     /// <summary>A wall is not evidence against a law. A booking at a full debt
     /// holds, so the witness (rate 3, debt 8) → 8 disagrees with debt' = debt +
     /// rate. With no exception allowed the true law would be ruled out; with

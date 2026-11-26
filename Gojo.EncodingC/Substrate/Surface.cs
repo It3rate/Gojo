@@ -8,7 +8,7 @@ namespace Gojo.EncodingC;
 /// store and copies a bit only when it writes it.
 /// <para>Every read and write a law makes goes through its surface, so the same
 /// law runs unchanged on any of them.</para></summary>
-public abstract class Surface
+public abstract partial class Surface
 {
     private protected Surface()
     {

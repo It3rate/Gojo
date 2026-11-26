@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace Gojo.EncodingC;
 
 /// <summary>Finding the equation a table or a handful of witnesses keep
@@ -49,20 +51,20 @@ public static class Recognition
     /// binding as <see cref="Operations.Bind"/> reads it: relation role r is law
     /// role <paramref name="reads"/>[r] before the step, or law role
     /// <paramref name="writes"/>[r] after it. A relation is a set, so a tuple
-    /// two before-states share is witnessed once.</summary>
-    public static IReadOnlyList<int[]> Witnesses(TransitionLaw law, int[] reads, int[] writes)
+    /// two before-states share is witnessed once. When a blocked role is
+    /// supplied, its set after-bit identifies a hold, not a relation witness.</summary>
+    public static IReadOnlyList<int[]> Witnesses(TransitionLaw law, int[] reads, int[] writes, int blocked = -1)
     {
         ArgumentNullException.ThrowIfNull(law);
-        ArgumentNullException.ThrowIfNull(reads);
-        ArgumentNullException.ThrowIfNull(writes);
-        if (reads.Length != writes.Length || Enumerable.Range(0, reads.Length).Any(r => (reads[r] < 0) == (writes[r] < 0)))
-            throw new ArgumentException("Each relation role reads a law role before the step or writes one after it.", nameof(writes));
+        CheckWitnessRoles(law.Roles, reads, writes, blocked);
         var tuples = new List<int[]>();
         for (var before = 0; before < law.StateCount; before++)
         {
             var afters = law.Afters(before);
             if (afters.Count != 1) continue;
-            int[] b = law.Tuple(before), a = law.Tuple(afters[0]);
+            var a = law.Tuple(afters[0]);
+            if (blocked >= 0 && a[blocked] != 0) continue;
+            var b = law.Tuple(before);
             tuples.Add([.. Enumerable.Range(0, reads.Length).Select(r => reads[r] >= 0 ? b[reads[r]] : a[writes[r]])]);
         }
         return [.. tuples.Distinct(TupleEquality.Instance)];
@@ -72,21 +74,38 @@ public static class Recognition
     /// binding: each before-state with exactly one admitted after-state gives
     /// one. The table need not be complete: what is still unknown is simply
     /// not a witness yet, so fitting can start from the first few runs. States
-    /// are decoded directly, so nothing the size of the table is built.</summary>
-    public static IReadOnlyList<int[]> Witnesses(LearnedTable table, int[] reads, int[] writes)
+    /// are decoded directly, so nothing the size of the table is built. If a
+    /// blocked role is supplied, its set after-bit excludes the held sample.</summary>
+    public static IReadOnlyList<int[]> Witnesses(LearnedTable table, int[] reads, int[] writes, int blocked = -1)
     {
         ArgumentNullException.ThrowIfNull(table);
-        ArgumentNullException.ThrowIfNull(reads);
-        ArgumentNullException.ThrowIfNull(writes);
+        CheckWitnessRoles(table.Roles, reads, writes, blocked);
         var tuples = new List<int[]>();
         for (var before = 0; before < table.StateCount; before++)
         {
             var admitted = table.Predict(before).Admitted;
             if (admitted.Count != 1) continue;
-            int[] b = Decode(table.Roles, before), a = Decode(table.Roles, admitted[0]);
+            var a = Decode(table.Roles, admitted[0]);
+            if (blocked >= 0 && a[blocked] != 0) continue;
+            var b = Decode(table.Roles, before);
             tuples.Add([.. Enumerable.Range(0, reads.Length).Select(r => reads[r] >= 0 ? b[reads[r]] : a[writes[r]])]);
         }
         return [.. tuples.Distinct(TupleEquality.Instance)];
+    }
+
+    private static void CheckWitnessRoles(IReadOnlyList<Shape> roles, int[] reads, int[] writes, int blocked)
+    {
+        ArgumentNullException.ThrowIfNull(reads);
+        ArgumentNullException.ThrowIfNull(writes);
+        Operations.CheckBlockedRole(roles, blocked);
+        if (reads.Length != writes.Length) throw new ArgumentException("Name each relation role in both bindings.", nameof(writes));
+        for (var r = 0; r < reads.Length; r++)
+        {
+            if (reads[r] < -1 || reads[r] >= roles.Count) throw new ArgumentOutOfRangeException(nameof(reads));
+            if (writes[r] < -1 || writes[r] >= roles.Count) throw new ArgumentOutOfRangeException(nameof(writes));
+            if ((reads[r] == -1) == (writes[r] == -1))
+                throw new ArgumentException("Each witnessed role reads a law role before the step or writes one after it.", nameof(writes));
+        }
     }
 
     /// <summary>A system of polynomial relations, degree by degree up to
@@ -111,7 +130,7 @@ public static class Recognition
         for (var degree = 1; degree <= maxDegree; degree++)
         {
             var monomials = Monomials(roles, Enumerable.Range(0, roles.Count).ToArray(), degree, constant: true);
-            var rows = points.Select(p => monomials.Select(m => Evaluate(m, p)).ToArray()).ToArray();
+            var rows = points.Select(p => monomials.Select(m => Polynomial.EvaluateMonomial(p, m)).ToArray()).ToArray();
             foreach (var v in Nullspace(rows, monomials.Length))
             {
                 var equation = new Polynomial(roles, [.. v.Select((w, k) => (w, monomials[k])).Where(t => t.w != 0)]);
@@ -141,7 +160,7 @@ public static class Recognition
         var points = witnesses.Select(t => t.ToArray()).ToArray();
         var inputs = Enumerable.Range(0, roles.Count).Where(r => r != target).ToArray();
         var monomials = Monomials(roles, inputs, maxDegree, constant: true);
-        var values = points.Select(p => monomials.Select(m => Evaluate(m, p)).ToArray()).ToArray();
+        var values = points.Select(p => monomials.Select(m => Polynomial.EvaluateMonomial(p, m)).ToArray()).ToArray();
         var targetExponents = Enumerable.Range(0, roles.Count).Select(r => r == target ? 1 : 0).ToArray();
         var fits = new List<(Fit Fit, int Terms, int Degree, int Weight)>();
         var chosen = new List<int>();
@@ -166,7 +185,7 @@ public static class Recognition
                 var exceptions = new List<int>();
                 for (var p = 0; p < points.Length && exceptions.Count <= maxExceptions; p++)
                 {
-                    long predicted = 0;
+                    var predicted = BigInteger.Zero;
                     for (var j = 0; j < chosen.Count; j++) predicted += weights[j] * values[p][chosen[j]];
                     if (predicted != points[p][target]) exceptions.Add(p);
                 }
@@ -260,15 +279,12 @@ public static class Recognition
     {
         ArgumentNullException.ThrowIfNull(equation);
         ArgumentNullException.ThrowIfNull(values);
-        long rest = 0, slope = 0;
+        BigInteger rest = 0, slope = 0;
         foreach (var (weight, exponents) in equation.Terms)
         {
             if (exponents[target] > 1 || (exponents[target] == 1 && exponents.Where((e, r) => r != target && e > 0).Any())) return null;
             if (exponents[target] == 1) { slope += weight; continue; }
-            long term = weight;
-            for (var r = 0; r < exponents.Count; r++)
-                for (var e = 0; e < exponents[r]; e++) term *= values[r];
-            rest += term;
+            rest += weight * Polynomial.EvaluateMonomial(values, exponents);
         }
         if (slope == 0 || rest % slope != 0) return null;
         var value = -rest / slope;
@@ -305,11 +321,11 @@ public static class Recognition
     /// table or not, the before-states that differ, and description lengths.
     /// The equation's bits count each exception as a before-state and an
     /// after-state written out.</summary>
-    public static Comparison Compare(TransitionLaw law, Polynomial equation, int[] reads, int[] writes, int[]? cost = null)
+    public static Comparison Compare(TransitionLaw law, Polynomial equation, int[] reads, int[] writes, int[]? cost = null, int blocked = -1)
     {
         ArgumentNullException.ThrowIfNull(law);
         ArgumentNullException.ThrowIfNull(equation);
-        var bound = Operations.Bind(equation.Relation, law.Roles, reads, writes, cost: cost);
+        var bound = Operations.Bind(equation.Relation, law.Roles, reads, writes, blocked, cost);
         var differences = Enumerable.Range(0, law.StateCount).Count(b => !law.Afters(b).SequenceEqual(bound.Afters(b)));
         var stateBits = 0;
         while (1L << stateBits < law.StateCount) stateBits++;
@@ -323,11 +339,11 @@ public static class Recognition
     /// keeps the accounting (from ops_sol's review), and so is one whose table
     /// breaks the accounting. A fit with exceptions is not a restoration; the
     /// original table stays the law.</summary>
-    public static TransitionLaw Restore(TransitionLaw law, Polynomial equation, int[] reads, int[] writes, int[]? cost = null)
+    public static TransitionLaw Restore(TransitionLaw law, Polynomial equation, int[] reads, int[] writes, int[]? cost = null, int blocked = -1)
     {
         ArgumentNullException.ThrowIfNull(law);
         ArgumentNullException.ThrowIfNull(equation);
-        var bound = Operations.Bind(equation.Relation, law.Roles, reads, writes, cost: cost);
+        var bound = Operations.Bind(equation.Relation, law.Roles, reads, writes, blocked, cost);
         if (!law.SameTable(bound))
             throw new ArgumentException("The equation does not reproduce the law: a restored law must behave as the original, not only keep its promises.", nameof(equation));
         return new TransitionLaw(bound.Roles, bound.Bytes(), law.Accounting);
@@ -384,20 +400,12 @@ public static class Recognition
         return [.. found];
     }
 
-    private static long Evaluate(int[] exponents, int[] values)
-    {
-        long product = 1;
-        for (var r = 0; r < exponents.Length; r++)
-            for (var e = 0; e < exponents[r]; e++) product *= values[r];
-        return product;
-    }
-
     /// <summary>A basis of the integer vectors x with rows · x = 0, each
     /// reduced by its common factor, by fraction-free Gauss–Jordan elimination
     /// in unbounded integers, so a large or high-degree table cannot overflow.</summary>
-    private static List<int[]> Nullspace(long[][] rows, int columns)
+    private static List<int[]> Nullspace(BigInteger[][] rows, int columns)
     {
-        var m = rows.Select(r => r.Select(x => (System.Numerics.BigInteger)x).ToArray()).ToList();
+        var m = rows.ToList();
         var pivots = new List<(int Row, int Column)>();
         var row = 0;
         for (var c = 0; c < columns && row < m.Count; c++)

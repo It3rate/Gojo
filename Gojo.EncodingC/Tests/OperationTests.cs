@@ -126,6 +126,96 @@ public sealed class OperationTests
         Assert.Throws<ArgumentException>(() => Operations.Bind(times, times.Roles, [0, 1, 2], [-1, -1, 2]));
         Assert.Throws<ArgumentException>(() => Operations.Bind(times, [Shape.Unary(3), Shape.Unary(2), Shape.Unary(4)], [0, 1, -1], [-1, -1, 2]));
         Assert.Throws<ArgumentException>(() => Operations.Bind(times, times.Roles, [-1, -1, -1], [2, -1, 2]));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Operations.Bind(times, times.Roles, [0, 1, -2], [-1, -1, 2]));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Operations.Bind(times, times.Roles, [0, 1, -1], [-2, -1, 2]));
+        Assert.Throws<ArgumentException>(() => Operations.Bind(times, times.Roles, [0, 1, -1], [-1, -1, 2], blocked: -2));
         Assert.Throws<ArgumentException>(() => Operations.Balance([Shape.Bit, Shape.Bit], 1, 0));
+    }
+
+    [Theory]
+    [MemberData(nameof(ExecutionConformancePath.All), MemberType = typeof(ExecutionConformancePath), DisableDiscoveryEnumeration = true)]
+    public void AWeightedInPlaceBalanceCanMoveThroughAPortAndRetainsItsPromiseAfterLoading(ExecutionConformancePath path)
+    {
+        var amount = Shape.Unary(2);
+        var equation = Polynomial.Balance([amount, amount, amount, amount], 2, 1, -2, -1);
+        int[] reads = [0, 1, -1, -1], writes = [-1, -1, 0, 1];
+        var balance = Operations.Bind(equation, [amount, amount], reads, writes);
+        Assert.True(balance.SameTable(Operations.Bind(equation.Relation, [amount, amount], reads, writes)));
+        Assert.False(balance.Accounting.Functional);
+        var promise = Assert.IsType<PreservedSum>(Assert.Single(balance.Accounting.Invariants));
+        Assert.Equal(new[] { 0, 1 }, promise.Roles);
+        Assert.Equal(new[] { 2, 1 }, promise.Weights);
+
+        var (source, sourceCount) = Make.Counts(1, 2);
+        var (target, targetCount) = Make.Counts(1, 2);
+        var choice = new Store(1, 1);
+        sourceCount.Write(source, 0, 1);
+        choice.Write(0, 0, true);
+        var sent = source.Publish([0], [.. sourceCount.Planes]);
+        var movement = new Wiring(balance.WithChoice(), sourceCount.On(sent), targetCount.On(target), new Binding(choice, 0));
+        movement.Add(0, 0, 0);
+        var engine = new Engine().Add(movement);
+
+        var bytes = Transport.Save(engine, source, target, choice);
+        var (restored, stores) = Transport.Load(bytes);
+        Assert.Equal(bytes, Transport.Save(restored, stores.ToArray()));
+        var law = Assert.IsType<TransitionLaw>(restored.Wirings[0].Law);
+        Assert.True(movement.Law.SameTable(law));
+        Assert.True(law.Accounting.Conserves(0));
+        Assert.True(law.Accounting.Conserves(1));
+        Assert.False(law.Accounting.Conserves(2));
+        var restoredPromise = Assert.Single(law.Accounting.Invariants.OfType<PreservedSum>());
+        Assert.Equal(promise.Weights.ToArray(), restoredPromise.Weights.ToArray());
+        Assert.True(path.Step(restored).Steps[0].Changed[0]);
+        Assert.Equal(0, sourceCount.Read(stores[0], 0));
+        Assert.Equal(2, targetCount.Read(stores[1], 0));
+    }
+
+    [Fact]
+    public void FreeAndKeptParticipationDoNotPromiseConservation()
+    {
+        var amount = Shape.Unary(2);
+        var sum = Polynomial.Balance([amount, amount, Shape.Unary(4)], 1, 1, -1);
+        var read = Operations.Bind(sum, sum.Roles, [0, 1, -1], [-1, -1, 2]);
+        Assert.Equal([1, 2, 3], Next(read, 1, 2, 0));
+        Assert.Equal(new Invariant[] { new Unchanged(0), new Unchanged(1) }, read.Accounting.Invariants);
+        Assert.False(read.Accounting.Conserves(2));
+        var (inputs, inputCount) = Make.Counts(2, 2);
+        var (target, outputCount) = Make.Counts(1, 4);
+        var published = target.Publish([0], [.. outputCount.Planes]);
+        Assert.Throws<ArgumentException>(() => new Wiring(read, inputCount.On(inputs), inputCount.On(inputs), outputCount.On(published)));
+
+        var budget = Polynomial.Balance([amount, amount, amount, amount, Shape.Bit], 1, 1, -1, -1, -1);
+        var leaveFree = Operations.Bind(budget, [amount, amount], [0, 1, -1, -1, -1], [-1, -1, 0, 1, -1],
+            cost: [0, 0, 0, 0, 1]);
+        Assert.Empty(leaveFree.Accounting.Invariants);
+        Assert.True(leaveFree.Admits(leaveFree.TupleIndex([1, 0]), leaveFree.TupleIndex([0, 1])));
+
+        var difference = Polynomial.Balance([amount, amount, amount, amount], 1, -1, -1, 1);
+        var keepGap = Operations.Bind(difference, [amount, amount], [0, 1, -1, -1], [-1, -1, 0, 1]);
+        Assert.Empty(keepGap.Accounting.Invariants);
+        Assert.True(keepGap.Admits(keepGap.TupleIndex([0, 0]), keepGap.TupleIndex([1, 1])));
+    }
+
+    [Fact]
+    public void FreeCompletionsCollapseOnlyWhenTheirWrittenValuesAgree()
+    {
+        var bit = Shape.Bit;
+        var equation = Polynomial.Balance([bit, bit, bit, bit], 1, 1, -1, -1);
+        var open = Operations.Bind(equation, [bit, bit], [0, -1, -1, -1], [-1, -1, 1, -1]);
+        Assert.False(open.Accounting.Functional);
+        Assert.Equal(2, open.Afters(open.TupleIndex([1, 0])).Count);
+
+        var sameAnswer = new Polynomial([bit, bit, bit], (1, [1, 0, 0]), (-1, [0, 1, 0]));
+        var collapsed = Operations.Bind(sameAnswer, [bit, bit], [0, -1, -1], [-1, 1, -1]);
+        Assert.Equal(4, sameAnswer.Relation.AdmittedCount);
+        Assert.True(collapsed.Accounting.Functional);
+        Assert.Equal([1, 1], Next(collapsed, 1, 0));
+
+        var weighted = Operations.Bind(equation, [bit, bit], [0, -1, -1, -1], [-1, -1, 1, -1],
+            cost: [0, int.MinValue, 0, int.MinValue]);
+        Assert.True(weighted.Accounting.Functional);
+        Assert.Equal([0, 0], Next(weighted, 0, 1));
+        Assert.Equal([1, 1], Next(weighted, 1, 0));
     }
 }

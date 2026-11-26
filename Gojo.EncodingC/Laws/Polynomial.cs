@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace Gojo.EncodingC;
 
 /// <summary>A relation written as numbers: Σ weight · Π value^exponent = 0 over
@@ -27,16 +29,18 @@ public sealed class Polynomial
         if (terms.Any(t => t.Exponents is null || t.Exponents.Length != roles.Count || t.Exponents.Any(e => e < 0)))
             throw new ArgumentException("Each term has one non-negative exponent per role.", nameof(terms));
         Roles = Array.AsReadOnly(roles.ToArray());
-        var merged = terms
-            .GroupBy(t => Key(t.Exponents))
-            .Select(g => (Weight: g.Sum(t => t.Weight), Exponents: g.First().Exponents.ToArray()))
-            .Where(t => t.Weight != 0)
-            .OrderByDescending(t => t.Exponents, Comparer<int[]>.Create(Lexical))
-            .ToArray();
-        if (merged.Length == 0) throw new ArgumentException("Every term cancelled: nothing is related.", nameof(terms));
-        var common = merged.Aggregate(0, (g, t) => Gcd(g, t.Weight < 0 ? -t.Weight : t.Weight));
-        var sign = merged[0].Weight < 0 ? -1 : 1;
-        this.terms = [.. merged.Select(t => (sign * t.Weight / common, t.Exponents))];
+        var merged = new List<(BigInteger Weight, int[] Exponents)>();
+        foreach (var (weight, exponents) in terms.OrderByDescending(t => t.Exponents, Comparer<int[]>.Create(Lexical)))
+        {
+            if (merged.Count > 0 && merged[^1].Exponents.AsSpan().SequenceEqual(exponents))
+                merged[^1] = (merged[^1].Weight + weight, exponents);
+            else merged.Add((weight, exponents));
+        }
+        merged.RemoveAll(t => t.Weight.IsZero);
+        if (merged.Count == 0) throw new ArgumentException("Every term cancelled: nothing is related.", nameof(terms));
+        var common = merged.Aggregate(BigInteger.Zero, (g, t) => BigInteger.GreatestCommonDivisor(g, t.Weight));
+        if (merged[0].Weight.Sign < 0) common = -common;
+        this.terms = [.. merged.Select(t => (checked((int)(t.Weight / common)), t.Exponents.ToArray()))];
     }
 
     public IReadOnlyList<Shape> Roles { get; }
@@ -62,22 +66,32 @@ public sealed class Polynomial
     /// <summary>The highest total exponent of any term.</summary>
     public int Degree => terms.Max(t => t.Exponents.Sum());
 
-    /// <summary>The left side at these role values; the relation holds where it is 0.</summary>
-    public long Value(IReadOnlyList<int> values)
+    /// <summary>The exact left side when it fits in a signed 64-bit integer.
+    /// Throws on an unrepresentable result.</summary>
+    public long Value(IReadOnlyList<int> values) => checked((long)ExactValue(values));
+
+    private BigInteger ExactValue(IReadOnlyList<int> values)
     {
         ArgumentNullException.ThrowIfNull(values);
-        long sum = 0;
+        var sum = BigInteger.Zero;
         foreach (var (weight, exponents) in terms)
-        {
-            long term = weight;
-            for (var r = 0; r < exponents.Length; r++)
-                for (var e = 0; e < exponents[r]; e++) term *= values[r];
-            sum += term;
-        }
+            sum += weight * EvaluateMonomial(values, exponents);
         return sum;
     }
 
-    public bool Holds(IReadOnlyList<int> values) => Value(values) == 0;
+    internal static BigInteger EvaluateMonomial(IReadOnlyList<int> values, IReadOnlyList<int> exponents)
+    {
+        var term = BigInteger.One;
+        for (var r = 0; r < exponents.Count && !term.IsZero; r++)
+        {
+            var exponent = exponents[r];
+            if (exponent == 1) term *= values[r];
+            else if (exponent > 1) term *= BigInteger.Pow(values[r], exponent);
+        }
+        return term;
+    }
+
+    public bool Holds(IReadOnlyList<int> values) => ExactValue(values).IsZero;
 
     /// <summary>The table of every tuple of role values that satisfies it.</summary>
     public RelationLaw Relation => relation ??= RelationLaw.FromPredicate(Roles, values => Holds(values));
@@ -85,7 +99,7 @@ public sealed class Polynomial
     /// <summary>A size for comparing descriptions: per term, a sign, the
     /// weight's bits, and two bits of exponent per role. An estimate, used to
     /// ask whether an equation is shorter than the table it rebuilds.</summary>
-    public int Bits => terms.Sum(t => 1 + BitLength(t.Weight < 0 ? -t.Weight : t.Weight) + 2 * t.Exponents.Length);
+    public int Bits => terms.Sum(t => 1 + BitLength(t.Weight < 0 ? -(long)t.Weight : t.Weight) + 2 * t.Exponents.Length);
 
     /// <summary>The same equation over the same role shapes.</summary>
     public bool Same(Polynomial other)
@@ -95,8 +109,6 @@ public sealed class Polynomial
             terms.Zip(other.terms).All(p => p.First.Weight == p.Second.Weight && p.First.Exponents.SequenceEqual(p.Second.Exponents));
     }
 
-    private static long Key(int[] exponents) => exponents.Aggregate(0L, (k, e) => k * 64 + e);
-
     private static int Lexical(int[] x, int[] y)
     {
         for (var i = 0; i < x.Length; i++)
@@ -104,9 +116,7 @@ public sealed class Polynomial
         return 0;
     }
 
-    private static int Gcd(int a, int b) => b == 0 ? a : Gcd(b, a % b);
-
-    private static int BitLength(int value)
+    private static int BitLength(long value)
     {
         var bits = 0;
         while (value > 0) { bits++; value >>= 1; }

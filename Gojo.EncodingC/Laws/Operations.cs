@@ -4,10 +4,10 @@ namespace Gojo.EncodingC;
 /// (Gojo/docs/GojoOperationsSynthesis-2026-11.md, §3.1). A relation says what holds
 /// among some amounts and moves nothing. A law that runs it is a binding: each
 /// relation role reads a law role before the step, writes one after it, or is
-/// left free. A free role is residue: what the step had nowhere to put. Which
-/// completion a binding keeps is stated, not assumed: a cost per free role
+/// left free. A free role can account for residue outside the written result. Which
+/// completion a binding keeps is stated: a cost per free role
 /// says what leaving residue there costs, and the cheapest completions are
-/// kept; with no cost every completion stays open (from ops_sol's review).
+/// kept. With no cost every completion contributes its written values.
 /// <para>So one relation gives several operations that differ only in binding.
 /// Heap, the balance a + w·b = total, is a sum written into a new count, the
 /// same sum written over the count it read (accumulate, with what overflows
@@ -46,10 +46,24 @@ public static class Operations
     /// role writes a result over the count it was read from.
     /// <para>A <paramref name="blocked"/> law role, a bit, says which kind of
     /// step it was: 1 where nothing fit and the step held, 0 where a completion
-    /// was written. A structure settles quietly either way; this bit tells
-    /// quiet because met from quiet because blocked, where structure can read
-    /// it.</para></summary>
+    /// was written. A structure can distinguish those cases by reading the bit.
+    /// If several completions have the same written values, the transition
+    /// keeps one after-state. Bind a residue to a written role to retain its
+    /// value in the running structure.</para></summary>
     public static TransitionLaw Bind(RelationLaw relation, IReadOnlyList<Shape> roles, int[] reads, int[] writes, int blocked = -1, int[]? cost = null)
+        => Bind(relation, roles, reads, writes, blocked, cost, equation: null);
+
+    /// <summary>Runs an authored equation by the same binding. A homogeneous
+    /// balance whose reads and writes account for the same positive weighted
+    /// roles derives a checked preserved sum in the resulting transition.</summary>
+    public static TransitionLaw Bind(Polynomial equation, IReadOnlyList<Shape> roles, int[] reads, int[] writes, int blocked = -1, int[]? cost = null)
+    {
+        ArgumentNullException.ThrowIfNull(equation);
+        return Bind(equation.Relation, roles, reads, writes, blocked, cost, equation);
+    }
+
+    private static TransitionLaw Bind(RelationLaw relation, IReadOnlyList<Shape> roles, int[] reads, int[] writes,
+        int blocked, int[]? cost, Polynomial? equation)
     {
         ArgumentNullException.ThrowIfNull(relation);
         ArgumentNullException.ThrowIfNull(roles);
@@ -60,14 +74,16 @@ public static class Operations
         if (cost is not null && cost.Length != count) throw new ArgumentException("One cost per relation role.", nameof(cost));
         for (var r = 0; r < count; r++)
         {
+            if (reads[r] < -1) throw new ArgumentOutOfRangeException(nameof(reads), "An unbound role is −1.");
+            if (writes[r] < -1) throw new ArgumentOutOfRangeException(nameof(writes), "An unbound role is −1.");
             if (reads[r] >= 0 && writes[r] >= 0) throw new ArgumentException($"Relation role {r} reads or writes, not both.", nameof(writes));
             var bound = reads[r] >= 0 ? reads[r] : writes[r];
             if (bound >= roles.Count) throw new ArgumentOutOfRangeException(nameof(roles), $"Relation role {r} names law role {bound}.");
             if (bound >= 0 && roles[bound] != relation.Roles[r]) throw new ArgumentException($"Relation role {r} and law role {bound} differ in shape.", nameof(roles));
         }
+        CheckBlockedRole(roles, blocked);
         int[] written = [.. writes.Where(w => w >= 0), .. blocked >= 0 ? [blocked] : Array.Empty<int>()];
         if (written.Distinct().Count() != written.Length) throw new ArgumentException("Each law role has one writer.", nameof(writes));
-        if (blocked >= roles.Count || (blocked >= 0 && roles[blocked] != Shape.Bit)) throw new ArgumentException("Blocked is a bit role of the law.", nameof(blocked));
 
         // The admitted tuples, grouped by the values their read roles see.
         var readRoles = Enumerable.Range(0, count).Where(r => reads[r] >= 0).ToArray();
@@ -100,9 +116,47 @@ public static class Operations
                 afterCounts[before]++;
             }
         }
-        var unchanged = Enumerable.Range(0, roles.Count).Where(r => !written.Contains(r)).Select(r => (Invariant)new Unchanged(r)).ToArray();
-        return TransitionLaw.FromPairs(roles, pairs, new Accounting(afterCounts.All(n => n == 1), unchanged));
+        Invariant[] invariants = [.. Enumerable.Range(0, roles.Count).Where(r => !written.Contains(r)).Select(r => new Unchanged(r))];
+        if (equation is not null && ConservedBalance(equation, reads, writes, roles.Count) is { } sum)
+            invariants = [.. invariants, sum];
+        return TransitionLaw.FromPairs(roles, pairs, new Accounting(afterCounts.All(n => n == 1), invariants));
 
         long Free(IReadOnlyList<int> tuple) => cost is null ? 0 : Enumerable.Range(0, count).Where(r => reads[r] < 0 && writes[r] < 0).Sum(r => (long)cost[r] * tuple[r]);
+    }
+
+    internal static void CheckBlockedRole(IReadOnlyList<Shape> roles, int blocked)
+    {
+        if (blocked < -1 || blocked >= roles.Count || (blocked >= 0 && roles[blocked] != Shape.Bit))
+            throw new ArgumentException("Blocked is a bit role of the law or −1.", nameof(blocked));
+    }
+
+    private static PreservedSum? ConservedBalance(Polynomial equation, int[] reads, int[] writes, int roleCount)
+    {
+        var before = new long[roleCount];
+        var after = new long[roleCount];
+        foreach (var (weight, exponents) in equation.Terms)
+        {
+            var r = -1;
+            for (var i = 0; i < exponents.Count; i++)
+            {
+                if (exponents[i] == 0) continue;
+                if (exponents[i] != 1 || r >= 0) return null;
+                r = i;
+            }
+            if (r < 0) return null;
+            if (reads[r] >= 0) before[reads[r]] += weight;
+            else if (writes[r] >= 0) after[writes[r]] -= (long)weight;
+            else return null;
+        }
+
+        // The same accounts must appear on both sides once the distinct
+        // relation roles have been collected at their bound law roles.
+        if (!before.SequenceEqual(after)) return null;
+        int[] conserved = [.. Enumerable.Range(0, roleCount).Where(r => before[r] != 0)];
+        if (conserved.Length < 2) return null;
+        var orientation = before[conserved[0]] < 0 ? -1 : 1;
+        long[] weights = [.. conserved.Select(r => orientation * before[r])];
+        if (weights.Any(weight => weight <= 0 || weight > int.MaxValue)) return null;
+        return new PreservedSum(conserved, [.. weights.Select(weight => (int)weight)]);
     }
 }

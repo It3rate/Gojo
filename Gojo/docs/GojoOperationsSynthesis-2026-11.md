@@ -1,6 +1,6 @@
 # Gojo operations synthesis
 
-Status: **round 16, pass 1 of 3**, 26 November 2026. Branch `ops_synthesize`,
+Status: **round 16, pass 2 of 3**. Branch `ops_synthesize`,
 started from master `9b805964`.
 
 This is the shared specification for operations, numbers and recognition in
@@ -113,10 +113,12 @@ from a name:**
 
 Contracts:
 
-1. **A free role is residue, and its cost is stated.** The completions with
-   the least Σ cost · value over the free roles are kept. With no cost, every
-   completion stays open, and the law is not functional
-   (`HeapNarrowedBackwardSubtractsAndTheGapKeepsOneFace`).
+1. **A free role can account for residue, and its cost is stated.** The
+   completions with the least Σ cost · value over the free roles are kept.
+   With no cost all completions qualify. A transition with several different
+   written results stays open. Completions with the same written result share
+   one after-state. Retain an unresolved residue by binding it to a role that
+   is written or read as support.
 2. **Where nothing fits, the step holds.** The written roles keep their
    values and the relation is left unmet. An optional blocked bit is 1 where
    the step held and 0 where it wrote
@@ -125,8 +127,13 @@ Contracts:
 3. **Each law role has one writer.** A relation role reads or writes, never
    both. Shapes must match (`ABindingNamesEachRoleOnceAndMatchesShapes`).
 4. **A binding's accounting says whether it is functional, and promises
-   `Unchanged` for every role it does not write.** It does not yet derive a
-   preserved sum: see §4 and §6, item 5.
+   `Unchanged` for every role it does not write.** `Bind(Polynomial, …)` also
+   derives a positive `PreservedSum` when a homogeneous linear balance names
+   the same weighted accounts before and after. Every nonzero term must be
+   bound. The transition checks the promise on all admitted pairs, holds
+   included. A read into a new count can leave both inputs unchanged without
+   promising conservation. A conserved transition still needs an explicitly
+   wired taking port, any gate, and room at the destination.
 5. **Rebuilt counting laws keep their bits.** `Counts.Sum`, `Shortfall`,
    `Tally` and `Accumulate` are bit-identical to the step functions they
    replace (`CountingLawsAreBindingsOfABalanceAndKeepTheirBits`).
@@ -157,8 +164,8 @@ Contracts:
    (`APolynomialIsCanonicalNumbers`).
 2. **The table is the only thing that runs.** A polynomial builds its table
    once, and nothing in the engine reads the polynomial.
-3. **`Bits` is the description length** that recognition compares with a
-   table's bits.
+3. **`Bits` estimates the description length** that recognition compares with
+   a table's bits. It is not a transport size.
 4. **Text is a lens read.** `Lens.Describe` writes "a + b + c − 10d − e = 0",
    and the encoding holds no strings.
 5. **Equations are not saved.** Transport saves tables, exactly as on master.
@@ -186,10 +193,16 @@ Contracts:
    The finest carry in is a constant 0. Overflow, and a borrow below zero,
    are visible on the last carry. Forbidding them gives a contradiction, not
    a clip (`WhatDoesNotFitIsTheLastCarry`).
-5. **Partitions add under a sum.** Below the top rung, the operands share
-   radices. The top rungs may differ, so three of five plus two of five is
-   five of ten. The sum's top rung, out of ten, comes from the shapes, with
-   no rule (`ThreeOfFivePlusTwoOfFiveIsFiveOfTen`).
+5. **Add aligns rungs and the selected unit.** Below the top rung, the
+   operands share radices. The top rungs may differ and hold different
+   maximum counts. `AtUnitRung` selects a reference from the existing rungs.
+   `TicksPerUnit` reads its subdivision factor from the intervening radices.
+   `TryAdd` leaves an incompatible selection unbound. Common refinement
+   uses an explicit weighted relation. An agreed physical standard is a
+   premise of this local use. Matching ladder shapes cannot establish it.
+   Two whole portions can sum to two whole units
+   (`TwoPortionsAddOnOneSelectedWhole`,
+   `DifferentUnitsNeedAnExplicitCommonRefinement`).
 6. **Partitions multiply under a product.** `Scale` (a · k) and `Multiply`
    (a · b, as a lattice of digit products) are relations, so they also
    narrow backward. Both work at one radix, and the product has exactly
@@ -201,8 +214,10 @@ Contracts:
 8. **Narrowing is monotone within one observation.**
    - Reopening one ladder leaves what was derived from it narrowed, so a new
      reading contradicts it visibly.
-   - `Ladder.Reopen(network, position)` reopens every open binding of a
-     network.
+   - `Ladder.Reopen(network, position)` reopens writable supports at a common
+     position in an aligned network. `ReopenRows` follows the actual role
+     references of explicitly selected live rows when indexes differ. Read
+     ports keep their supplier's evidence.
    - What is known by structure stays: constant carries, padding, and the
      fact that a product fits. A caller's restriction on an open carry is
      reopened, and must be stated again
@@ -210,7 +225,18 @@ Contracts:
      `AReobservationReopensWhatWasDerivedFromIt`,
      `AProductNetworkReobservesAfterReopening`).
 9. **A reading validates first.** `Measure`, and `Restrict` of a whole
-   value, check the rung and the range before any bit changes.
+   value, check the rung and the range before any bit changes. A signed
+   host range check does not depend on multiplying an unchecked place
+   value (`MeasurementRangeChecksDoNotWrapOrNarrowOnFailure`).
+10. **A pool reads selected members.** A bounded tally can connect to
+    published scopes whose actual sites are disjoint in a common part basis.
+    Its result keeps the occupied count and full member capacity. A second
+    publication of the same sites fails qualification, even when presented
+    in reverse order. `DisjointPositions` inspects currently exposed live
+    positions. A missing publication leaves the row skipped. Known zero and
+    empty support follow the ordinary count and contradiction contracts.
+    The caller requalifies after a scope is retargeted. That check is a local
+    read and has no saved automatic disjointness policy.
 
 ### 3.4 Uncertainty, resolution and residue
 
@@ -278,6 +304,9 @@ Contracts:
      the accounting. It also refuses one whose table breaks the accounting.
      Otherwise it attaches the original's promises
      (`ARestoredLawKeepsTheOriginalsPromises`).
+   - A blocked bit is part of the binding when reproducing its table. When
+     supplied to `Witnesses`, it keeps marked holds out of a proposed law's
+     relation samples.
 6. **An equation holds over its declared domain and witnesses.** A finite fit
    says nothing beyond the roles' sizes.
 
@@ -290,7 +319,8 @@ Contracts:
 
 ## 4. Known limits of pass 1
 
-These are true of the code now. Each has an owner in §6 or §7.
+These were the pass-1 limits. §6 records the pass-2 outcomes and §7 assigns
+the remaining work.
 
 1. **A ladder knows partitions, not units.** Adding two ladders adds counts
    of their finest rungs. Sol found the same issue in Neon's anchors
@@ -385,16 +415,16 @@ Start from the head of `ops_synthesize` after pass 1. Commit on
    own critique. It goes into `Operations` or `Numbers` as numbers, not as
    new types.
 
-Your acceptance checks from round 4, with where pass 1 stands:
+The round-4 acceptance checks and their current evidence:
 
-| Check | Pass 1 | Owner |
+| Check | Pass 1 | Pass 2 and what remains |
 | --- | --- | --- |
-| Two actual scopes give exactly 5/10; a replicated view is not a second scope | The arithmetic is pinned; scope is not represented | Sol, item 4 |
-| Two pending outcomes keep {5, 6, 7}/10 across save and load; a later observation narrows the same graph; missing scope, zero and contradiction differ | Supports are planes, so they save, but this is untested for ladders. Zero and contradiction differ; missing scope is not represented | Sol, items 2 and 4 |
-| The whole and the calibration tell 5/10, 5/5 and common refinement apart; two whole portions keep two whole units | Top rungs may differ, so two wholes fit. Calibration is missing (§4, limit 1) | Sol, item 3 |
-| A reframe keeps source-relative loss and rounds away nothing; a reader rechecks value and residue after load; a finer display does not raise acquisition resolution | `Rescale` has a residue role, and `Measure` keeps finer rungs open. After-load rechecking is untested | Sol, items 2 and 7 |
-| Pre-numeric stays usable; every admitted action has its own accounting and permission | Master's tests pass unchanged. The accounting at bindings is weak (§4, limit 3) | Sol, item 5 |
-| A fit, compiler or codec qualifies against these reads and keeps old saves before replacing a path | `Restore` requires the same table and the same promises. Transport is unchanged | Sol writes the gates, Neon meets them |
+| Two scopes pool to `5/10`. A replica of one scope does not qualify as a second. | Ladder arithmetic with supplied counts. | `SynthesisScopeTests` connects actual member lanes to a ladder tally, with an open socket for a rejected scope. Site identity is qualified when the fixture connects or rechecks that scope. |
+| Two pending outcomes retain `{5,6,7}/10` through load and later narrow on the same graph. Missing scope, exact zero and contradiction differ. | Open supports already save as planes. | `SynthesisScopeTests` persists the linked suppliers and receiver, compares round-trip bytes, and narrows both graphs to `6/10`. Separate rows expose `Skipped`, the observed count and `Unadmitted`. |
+| The selected whole and calibration distinguish `5/10`, `5/5` and common refinement. Two full portions keep two whole units. | Different top rungs could hold a larger result. The unit was implicit. | `SynthesisUnitTests` exercises the selected unit, `10/5`, and `2/5 + 1/3 = 11/15` through authored common refinement. A mismatched selection leaves the candidate unbound. |
+| Reframing retains source-relative loss and bounds. Finer display cannot raise acquisition resolution. | `Rescale` and `Measure` retained residue and open finer rungs. | `SynthesisPublicationTests` rechecks connected residue after load, rejects crossed possibilities, and distinguishes unavailable publication from coarse acquisition. `FractionalProjectionRoundsBoundsOutwardAndRetainsSourceEvidence` verifies both signed native target frames. |
+| Pre-numeric operations still run. A material action supplies accounting and permission. | Master behavior and law tables were retained. `Bind` described functionality and kept roles. | Original tests still exercise qualitative laws. A checked positive balance can allow an explicitly wired move, including after load. A kept-input read cannot take on that basis. |
+| A replacement qualifies against the same observations, accounting, and old saves. | `Restore` required matching tables and preserved promises. Transport used the master grammar. | An explicit blocked role participates in exact recognition and restoration. The path-parameterized gates cover observations, recorded evidence, step budgets, quiet, re-observation and old-master replay. Pass 3 registers and qualifies its backend. |
 
 **Done when:**
 - every item above is pinned by a test or recorded in §11 as refused, with
@@ -578,7 +608,65 @@ would test it.
 
 ### Pass 2 (Sol)
 
-*To be written.*
+- **Conformance.** [`ExecutionConformancePath.All`](../../Gojo.EncodingC/Tests/ExecutionConformancePath.cs)
+  is the registration point for the reference interpreter and any derived backend. A path supplies
+  single-step, settle and workspace preview behavior. The tests build the
+  same open supports, ports, rows and schedules for each path. Expectations
+  cover planes and supports, admitted and skipped rows, scope identity,
+  held participation, quiet tick, revised observations and save/load. The
+  compiled path can use the interpreter on ineligible surfaces, including
+  workspace preview if the backend cannot qualify it.
+- **Replay.** A fixed byte image generated on master `9b805964` loads and
+  re-saves byte-for-byte. From the same `100` chain, a step taken together
+  yields `010` and a declared-order step yields `001`. After a save mid-run
+  both machines stay in parity when the caller reuses the same mode. The
+  saved machine carries wiring order, state and recorded evidence. The
+  caller supplies the mode again after loading. The elapsed host tick
+  counter restarts at zero. Replay compares step deltas.
+- **Units and scope.** The numeric unit is a selected existing rung on a
+  locally agreed standard. Place-value columns determine its subdivision.
+  This mirrors the native scale direction of `UnitShape.SubdivisionOf`.
+  Selecting a different rung changes the interpretation without reobserving
+  a value. Where an exported read needs the selection after load, publish
+  the selected rung as a port, or bind the calibration as weighted relations.
+  No transport rule assigns a physical standard to arbitrary equal shapes.
+  Disjointness is read from live published positions. The finite scope
+  fixture keeps the contributing membership, whole and result connected.
+  A port retarget requires a fresh qualification. A generic dynamic scope
+  allocator and a dimensional unit algebra remain outside this pass.
+- **Uncertainty.** A receiver reads only published rungs. A finer publication
+  of the same acquisition can refine an earlier read when available, and a
+  genuinely coarse acquisition stays open. Reframing keeps the exact
+  coupled integer remainder in the original basis. The native qualified
+  read now rounds interval bounds outward for fractional as well as whole
+  residues, including with reversed target order.
+- **Accounting.** A binding can derive functionality from distinct after
+  states and `Unchanged` from unwritten roles. An authored homogeneous
+  balance can also supply a positive invariant when the same weighted
+  accounts appear on both sides. Signed differences, hidden nonzero terms,
+  bare tables and kept-input reads do not establish this permission.
+  Binding a blocked bit is part of replaying a law, and marked holds are
+  excluded from witnesses when the caller supplies that role. Existing
+  counting laws use the same tables and the old codec.
+- **Corrected pass-1 defects.** Reopening a mapped row now follows its
+  references and cannot reopen a read-only supplier. Opening only part of
+  the affected network still leaves constraints in the rest. `Measure`
+  validates without multiplying a host value that can wrap. Polynomial
+  canonicalization compares full exponent vectors. Evaluation and prediction
+  use exact arithmetic so overflow cannot admit an unsupported tuple. Very
+  large authored powers can still make table construction or search costly.
+
+The experiments from the
+[Claude experiment log](https://github.com/It3rate/Gojo/blob/7d14db45/ops_claude/GojoOperationsExperiments-2026-11.md)
+are now runnable through [the conformance tests](../../Gojo.EncodingC/Tests/OperationsEvidenceConformanceTests.cs):
+
+| Experiment | Pass-2 gate |
+| --- | --- |
+| B14 | Named pair formation distinguishes equal aggregate counts, and a removal and later formation update only the affected receipt after reload. |
+| B15 | Opportunity, stock, receiving room and a booked demand explain four held deliveries and each has a distinct way to release it. |
+| B16 | Dense inverse narrows products 1 and 9 and rejects 5. Shared sample identity constrains both roles. A quiet factored network can keep false alternatives, so it cannot stand in for the exact read. |
+| B17 | A tick admits one packet, keeps held stock and debt visible, and continues after save in either selected schedule. |
+| B18 | A selected calibration guards an atomic edit at overlapping positions. A stale or split patch leaves the source unchanged. |
 
 ### Pass 3 (Neon)
 
@@ -609,3 +697,6 @@ Result: 259 passed, 0 failed.
     does either.
 
 Use this as the baseline for passes 2 and 3.
+
+Pass 2: the final EncodingC run passed 289 tests. The native
+qualified-read regression run passed all 12 tests in its test class.

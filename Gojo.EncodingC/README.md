@@ -593,10 +593,11 @@ several operations:
 
 What a binding must say, and what happens when nothing fits:
 
-- **A free role is residue:** what the step had nowhere to put. A cost per
-  free role states which completion is kept: the one with the least
-  Σ cost · value. With no cost, every completion stays open and the law is
-  not functional, so a structure has to choose.
+- **A free role can account for residue.** The completion with the least
+  Σ cost · value is kept, including ties. With no cost every completion
+  qualifies. Distinct written outcomes stay open, while completions that
+  agree on the written roles yield the same after-state. Connect a residue
+  role explicitly to retain it in the machine.
 - **Where nothing fits, the step holds,** as a move holds when its target is
   full. The written roles keep their values, and the relation is left unmet
   where anything can read it. An optional blocked bit says which kind of
@@ -611,6 +612,11 @@ accounting, never from a name:
   role (a move) or by nothing (a read).
 - **Along or across:** whether units trade one for one, or meet at a rate or
   a corner.
+
+`Bind(Polynomial, …)` can derive conservation when the same positive
+weighted accounts appear on both sides of an authored balance. `Wiring`
+checks the resulting material permission at the port. A read into a fresh
+count can keep its inputs without a preserved sum.
 
 Polarity, where the result goes, read direction and folding are bindings,
 open to every law. `Sum`, `Shortfall`, `Tally` and `Accumulate` in `Counts`
@@ -650,10 +656,16 @@ read over the planes of material counts.
     bits.
   - `Scale` and `Multiply` do the same for a · k and a · b, as a lattice of
     digit products.
-- **Partitions add and multiply.**
-  - Three of five plus two of five is five of ten. The sum's top rung has
-    ten partitions because the column's shapes give it ten, with no rule
-    saying so.
+- **Units and scopes.** `AtUnitRung` selects an existing rung as a local
+  unit and `TicksPerUnit` reads its scale through the columns. `TryAdd`
+  leaves unequal selections unbound. A change of calibration uses an
+  explicit relation. Published member ports can support a tally of disjoint
+  scopes. `DisjointPositions` checks current live site identity, even when
+  two ports look alike. Recheck that qualification when a member port moves.
+- **The chosen whole determines the sum.** Three of five and two of five
+  pool to five of ten across disjoint scopes. Compatible portions on one
+  whole give five fifths. Keep the original whole when displaying a reduced
+  share.
   - `SameShare` says two shares are equal, by a balance whose weights are
     the denominators.
   - `Rescale` reads a count out of one partition as a count out of another.
@@ -675,8 +687,9 @@ read over the planes of material counts.
 - **Re-observing.** Narrowing is monotone within one observation.
   - Reopening one ladder leaves what was derived from it narrowed, so a new
     reading contradicts it visibly.
-  - `Ladder.Reopen(network, position)` opens the whole network. The
-    constants stay.
+  - `Ladder.Reopen(network, position)` reopens shared positions on writable
+    supports in an aligned network. `ReopenRows` follows the references of
+    selected rows in a mapped network. Constants and supplier ports stay.
 - **Material.** Each of these conserves the place-value sum:
   - `Admit` takes one unit of pressure into a two-rung number atomically,
     carrying when the fine digit is full.

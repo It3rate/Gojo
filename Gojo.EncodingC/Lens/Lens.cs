@@ -67,7 +67,7 @@ public sealed class Lens
         var first = true;
         foreach (var (weight, exponents) in equation.Terms)
         {
-            var magnitude = weight < 0 ? -weight : weight;
+            var magnitude = weight < 0 ? -(long)weight : weight;
             text.Append(first ? (weight < 0 ? "−" : "") : weight < 0 ? " − " : " + ");
             var monomial = new System.Text.StringBuilder();
             for (var r = 0; r < exponents.Count; r++)

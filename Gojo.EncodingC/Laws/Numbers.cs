@@ -112,6 +112,7 @@ public sealed class Ladder
 {
     private readonly Supports[] possible;
     private readonly int[] radices;
+    private readonly int unitRung;
 
     /// <summary>A ladder of fresh digits, one per radix, every digit open.</summary>
     public Ladder(Store store, IReadOnlyList<int> radices, bool binary = false)
@@ -154,6 +155,15 @@ public sealed class Ladder
         possible = supports is null ? [.. digits.Select(d => Supports.On(store, d))] : [.. supports];
     }
 
+    private Ladder(Ladder source, int unitRung)
+    {
+        Store = source.Store;
+        radices = source.radices;
+        Digits = source.Digits;
+        possible = source.possible;
+        this.unitRung = unitRung;
+    }
+
     public Store Store { get; }
 
     /// <summary>Each rung's radix, finest first.</summary>
@@ -167,11 +177,33 @@ public sealed class Ladder
     /// <summary>The digits each rung still allows.</summary>
     public IReadOnlyList<Supports> Possible => Array.AsReadOnly(possible);
 
+    /// <summary>The digit selected as one tick of the local standard. By
+    /// default the finest digit is the standard. Each finer digit divides
+    /// the standard by the intervening column radices.</summary>
+    public Supports Unit => possible[unitRung];
+
+    /// <summary>Selects which existing rung reads as one unit in this view.
+    /// State and open supports are shared. Selecting a basis does not
+    /// reobserve the number, convert it, or alter its digits.</summary>
+    public Ladder AtUnitRung(int rung)
+    {
+        if ((uint)rung >= (uint)radices.Length) throw new ArgumentOutOfRangeException(nameof(rung));
+        return rung == unitRung ? this : new Ladder(this, rung);
+    }
+
+    /// <summary>The number of finest ticks in the selected unit. This is a
+    /// ratio within a locally agreed standard, with no claim about other units.</summary>
+    public long TicksPerUnit => PlaceValue(unitRung);
+
     /// <summary>What one unit of a rung is worth in units of the finest rung.</summary>
-    public long PlaceValue(int rung) => radices.Take(rung).Aggregate(1L, (p, r) => p * r);
+    public long PlaceValue(int rung)
+    {
+        if ((uint)rung > (uint)radices.Length) throw new ArgumentOutOfRangeException(nameof(rung));
+        return radices.Take(rung).Aggregate(1L, (p, r) => checked(p * r));
+    }
 
     /// <summary>The largest value the rungs hold, in units of the finest rung.</summary>
-    public long Capacity => PlaceValue(radices.Length) - 1;
+    public long Capacity => radices.Reverse().Aggregate(0L, (p, r) => checked(p * r + (r - 1)));
 
     /// <summary>Narrows every rung to the digits of a value, in units of the
     /// finest rung: an exact observation, a count.</summary>
@@ -187,7 +219,10 @@ public sealed class Ladder
     public void Measure(int position, long value, int rung)
     {
         if ((uint)rung >= (uint)radices.Length) throw new ArgumentOutOfRangeException(nameof(rung));
-        if (value < 0 || value * PlaceValue(rung) > Capacity) throw new ArgumentOutOfRangeException(nameof(value));
+        if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));
+        var remaining = value;
+        for (var r = rung; r < radices.Length; r++) remaining /= radices[r];
+        if (remaining != 0) throw new ArgumentOutOfRangeException(nameof(value));
         for (var r = rung; r < radices.Length; r++, value /= radices[r - 1])
             possible[r].Restrict(position, 1UL << (int)(value % radices[r]));
     }
@@ -207,11 +242,12 @@ public sealed class Ladder
         foreach (var rung in possible) rung.Forget(position);
     }
 
-    /// <summary>Opens again, at a position, everything a network of relation
-    /// wirings narrows: every open binding of every wiring, operands, carries
-    /// and results alike. A new observation of an input is then read through
-    /// the whole network, and no output keeps what the old one implied (from
-    /// ops_sol's review: stale output after a re-observation). What the network
+    /// <summary>Opens the writable supports at a common position in an
+    /// aligned ladder network. A new observation can then narrow the same
+    /// operands, carries and results instead of retaining the old result.
+    /// For rows with different indexes across roles, select the rows with
+    /// <see cref="ReopenRows"/>. A supplier's read ports stay as they were.
+    /// What the network
     /// knows by structure, such as the finest carry in or a product that fits,
     /// is on constant planes and stays; a restriction a caller placed on an
     /// open carry, such as no borrow, is opened with the rest and is stated
@@ -220,8 +256,30 @@ public sealed class Ladder
     {
         ArgumentNullException.ThrowIfNull(network);
         foreach (var wiring in network)
-            foreach (var binding in wiring.Bindings.Where(b => b.IsOpen))
-                foreach (var plane in binding.Planes) binding.Surface.Set(plane, position, true);
+            for (var role = 0; role < wiring.Bindings.Count; role++)
+                ReopenBinding(wiring, role, position);
+    }
+
+    /// <summary>Opens the local supports on the selected live rows at each
+    /// role's actual reference. Selection of the affected rows belongs to
+    /// the new observation; constants and read-only bindings are retained.</summary>
+    public static void ReopenRows(IEnumerable<(Wiring Wiring, int Row)> rows)
+    {
+        ArgumentNullException.ThrowIfNull(rows);
+        foreach (var (wiring, row) in rows)
+        {
+            if (!wiring.Rows.IsLive(row)) continue;
+            var references = wiring.Row(row);
+            for (var role = 0; role < references.Length; role++)
+                ReopenBinding(wiring, role, references[role]);
+        }
+    }
+
+    private static void ReopenBinding(Wiring wiring, int role, int position)
+    {
+        var binding = wiring.Bindings[role];
+        if (!binding.IsOpen || !wiring.Writes(role) || !binding.Surface.IsLive(position)) return;
+        foreach (var plane in binding.Planes) binding.Surface.Set(plane, position, true);
     }
 
     /// <summary>Per rung, finest first, the digits still possible.</summary>
@@ -241,12 +299,12 @@ public sealed class Ladder
     public (long Low, long High)? Interval(int position)
     {
         long low = 0, high = 0;
-        for (var r = 0; r < possible.Length; r++)
+        for (var r = possible.Length - 1; r >= 0; r--)
         {
             var digits = possible[r].Values(position);
             if (digits == 0) return null;
-            low += System.Numerics.BitOperations.TrailingZeroCount(digits) * PlaceValue(r);
-            high += (63 - System.Numerics.BitOperations.LeadingZeroCount(digits)) * PlaceValue(r);
+            low = checked(low * radices[r] + System.Numerics.BitOperations.TrailingZeroCount(digits));
+            high = checked(high * radices[r] + (63 - System.Numerics.BitOperations.LeadingZeroCount(digits)));
         }
         return (low, high);
     }
@@ -276,6 +334,13 @@ public sealed class Ladder
     /// and the carry out of each rung, finest first; the last is the overflow,
     /// left open unless the caller narrows it.</summary>
     public static (IReadOnlyList<Wiring> Wirings, IReadOnlyList<Supports> Carries) Add(Ladder a, Ladder b, Ladder sum, Plane positions)
+        => TryAdd(a, b, sum, positions) ?? throw new ArgumentException("The sum needs aligned rungs and the same selected unit.", nameof(sum));
+
+    /// <summary>Builds an addition on already aligned rungs and selected units.
+    /// Different selections or partitions leave the sum unbound so the caller
+    /// can connect an explicit calibration first. The shared standard belongs
+    /// to this local use, independent of matching digit shapes.</summary>
+    public static (IReadOnlyList<Wiring> Wirings, IReadOnlyList<Supports> Carries)? TryAdd(Ladder a, Ladder b, Ladder sum, Plane positions)
     {
         ArgumentNullException.ThrowIfNull(a);
         ArgumentNullException.ThrowIfNull(b);
@@ -283,10 +348,9 @@ public sealed class Ladder
         ArgumentNullException.ThrowIfNull(positions);
         if (a.Store != b.Store || a.Store != sum.Store) throw new ArgumentException("A sum is wired within one store.", nameof(sum));
         var rungs = sum.radices.Length;
-        if (a.radices.Length != rungs || b.radices.Length != rungs) throw new ArgumentException("The ladders have the same number of rungs.", nameof(sum));
+        if (a.radices.Length != rungs || b.radices.Length != rungs || a.unitRung != sum.unitRung || b.unitRung != sum.unitRung) return null;
         for (var r = 0; r < rungs - 1; r++)
-            if (a.radices[r] != sum.radices[r] || b.radices[r] != sum.radices[r])
-                throw new ArgumentException($"Below the top, every rung shares a radix; rung {r} does not.", nameof(sum));
+            if (a.radices[r] != sum.radices[r] || b.radices[r] != sum.radices[r]) return null;
         return Columns(r => (a.possible[r].Variable, a.Digits[r].Shape), r => (b.possible[r].Variable, b.Digits[r].Shape), sum, positions);
     }
 
