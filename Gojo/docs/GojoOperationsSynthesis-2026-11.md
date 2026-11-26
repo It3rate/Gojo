@@ -1,10 +1,10 @@
 # Gojo operations synthesis
 
-Status: **round 16, pass 3 of 3**. Branch `ops_synthesize`,
+Status: **round 16, pass 4 of 4**. Branch `ops_synthesize`,
 started from master `9b805964`.
 
 This is the shared specification for operations, numbers and recognition in
-`Gojo.EncodingC`. It is written in three passes on one branch, each building
+`Gojo.EncodingC`. It is written in four passes on one branch, each building
 on the last, before anything is merged into master:
 
 | Pass | Author | What it brings | Done when |
@@ -12,6 +12,7 @@ on the last, before anything is merged into master:
 | 1 | Claude | The core library: operations as relations and bindings, polynomial relations, numbers as rungs, recognition | This spec is written, and its contracts are pinned by tests |
 | 2 | Sol | Conformance and contracts: scope, units, uncertainty, accounting, save and load, the native bound fix | Sol's acceptance checks (§6) pass, and run against any execution path |
 | 3 | Neon | The compiled backend as an option, plus the partition and uncertainty extensions the core lacks | The backend passes every pass-2 gate, and old master saves load and step identically |
+| 4 | Neon, with Claude's fuzz gate | General kernels only: the five family kernels leave, a general relation kernel joins the table kernel, and specialization follows a rule (§12) | Every gate passes, including the parity fuzz, and the benchmark is re-run |
 
 The canonical prompt (`Gojo/docs/GojoSystemPrompt.md`) outranks this document.
 Where the two disagree, the prompt wins, and the disagreement is recorded in
@@ -26,7 +27,7 @@ round 15.
 
 - **Read §3 before changing code.** Each contract there names the test that
   pins it. Changing a contract means changing its test and saying why in §11.
-- **Your instructions are §6 (Sol) or §7 (Neon).** They are ordered. The
+- **Your instructions are §6 (Sol), §7 (Neon) or §12 (pass 4).** They are ordered. The
   numbered items are the work; the suggestions under them are not
   requirements.
 - **Append your notes to §11** when your pass ends: what you changed, what you
@@ -525,6 +526,10 @@ Start from the head of `ops_synthesize` after pass 2. Commit on
   item 6).
 - **Tests are sentences,** as in the rest of EncodingC, and each new contract
   in §3 names its test.
+- **Kernels are general by default.** A compiled kernel is lowered from a
+  law's own table. A special kernel is admitted only by the rule in §12.3.
+- **Every execution path passes the parity fuzz** (§12.4), as well as the
+  hand-built gates.
 
 ## 9. Axiom notes
 
@@ -847,6 +852,171 @@ are now runnable through [the conformance tests](../../Gojo.EncodingC/Tests/Oper
   `max(a, b)` (`c = a + e`, `c = b + f`), and `|a − b|` (`c = a − b + e`,
   `c = b − a + f`) with exact table and accounting restoration and no new fold
   kind or enum (`TwoHiddenResidueRolesRecoverMinMaxAndAbsoluteDifference`).
+
+## 12. Pass 4: general kernels, with specialization earned
+
+Status: instructions written by Claude in round 16. Neon does the reduction and
+writes the kernel; the permanent fuzz gate is Claude's (§12.4).
+
+### 12.1 Why
+
+The user's position: special mechanisms may exist, but they should evolve
+into being when they are needed, not be written up front. All three
+assessments agree.
+
+Pass 3's `CompiledPlan` has one general kernel and five tied to law
+families. The general one is the small-table transition kernel, lowered from
+a law's own bits. About two thousand of the file's 3,147 lines belong to the
+five family kernels.
+
+**Whose they are.** All of `CompiledPlan` is Neon's work. It began on
+`ops_neon` in `f6586cb5` (25 November), was ported in pass 3 (`53bd235b`) and
+hardened against Sol's repros in `8a24cfca`. Claude's round-14 benchmark
+comparison helped start the race for ladder speed. The kernels are correct
+under every gate. What is wrong is their place in the design, not their
+behaviour.
+
+### 12.2 What Neon does, in order
+
+1. **Remove the five family kernels from `CompiledPlan`:**
+   - `RelationalColumnPlan` and `RelationalColumnKernel`;
+   - `FusedRelationalLadderAdder`;
+   - `FusedConcreteLadderAdder`;
+   - `PacketConvertKernel`, with `SettlePacketConvertExact` and the
+     non-identity packet path;
+   - `BoundedMultiplyKernel`;
+   - their `TryRecognize…` entry points.
+
+   Keep the scaffolding (eligibility, snapshots, staleness, fallback,
+   telemetry) and the small-table transition kernel. The removed kernels stay
+   in history (`8a24cfca`) and on `ops_neon` as reference implementations and
+   speed baselines.
+2. **Remove the `Recognized…` flags.** Tests assert through
+   `CompiledStepReport` (`UsedFastPath`, `FastLanes`, `DeoptLanes`) and
+   `HasAnyCompiledKernel`. At most two internal flags may remain, telling
+   transition lowering from relation lowering.
+3. **Add a general relation kernel,** lowered from the relation's own
+   admitted tuples. It narrows supports exactly as the interpreter does, 64
+   positions at a time. Neon's design:
+   - **Word-outer.** It runs directly over `Store.RawPlane` words with
+     `Vector<ulong>`, not tuple-outer.
+   - **Tuples grouped by role-0 value.** A small offset table, derived only
+     from the relation's bits, skips any value whose support mask is empty in
+     the current word. Settled and narrowed lanes therefore skip dead tuples
+     at once.
+   - **A ceiling on admitted tuples,** for example 4,096 to 8,192. Larger
+     tables fall back to the engine, so compiling and scanning stay small.
+   - **Shared sites.** Where identity-mapped roles share planes, as in
+     `Ladder.Add(x, x, doubled)`, it keeps only the tuples whose shared roles
+     agree, instead of falling back.
+   - **The engine's evidence for every row:** unadmitted as contradiction,
+     ambiguous, skipped, aliased, and the same waves.
+
+   It covers `Ladder.Add` columns, `Portions`, `Operations.Product`,
+   `Odv.Addition`, `Sides` and `Settling.ValueGap` through one mechanism, with
+   no adder-specific line.
+4. **Pass every gate:**
+   - the conformance tests on `ExecutionConformancePath.All`;
+   - Sol's five topology and evidence regressions;
+   - `ExecutionParityFuzzTests` (§12.4).
+5. **Re-run the whole-path benchmark** with the two general kernels, against
+   `Engine` and against the removed kernels' recorded numbers. Speed is a
+   result to report, not a gate: the general kernels need only be correct.
+6. **Update the docs:**
+   - §3.2, contract 2;
+   - the README's compilation row;
+   - the glossary's compiled-plan row;
+   - the pass-4 notes in §12.6.
+
+### 12.3 How a special kernel can come back
+
+A specialization is admitted only when all five hold:
+
+1. **Need.** The general kernel is the measured bottleneck in a real
+   workload, as its share of whole-path time. Winning a benchmark race does
+   not count.
+2. **Shape, not family.** It is lowered from what `Recognition` finds in the
+   law's table, such as "a linear balance with these weights" or "a product".
+   It is never chosen by a law's name or family. One equation-shape kernel
+   then serves every law of that shape: a balance kernel would cover columns,
+   conversions, shortfall, tally and `SameShare` alike.
+3. **Exact.** `SameTable` against the law it replaces, and full evidence
+   parity: the conformance tests and `ExecutionParityFuzzTests` compare
+   `EngineStep` and `WiringStep`, not only final bytes.
+4. **Paid for.** Its whole-path cost, including recognition and
+   qualification time, beats the general kernel by a stated factor. The
+   factor and its measurement are recorded here.
+5. **Removable.** It goes when the general kernel catches up, or when the
+   workload that justified it is gone.
+
+This is the table-and-equation blend of §9, item 1, carried into execution:
+- the table kernel runs where a table is irregular;
+- an equation kernel runs where a short equation exists and pays.
+
+Later, the structure itself could read that pressure as tension.
+
+### 12.4 The permanent parity fuzz
+
+`ExecutionParityFuzzTests.RandomNetworksRunAsTheEngineRunsThem` runs on every
+registered path. Each of its 48 seeds builds one store from random parts:
+- ladders, with open, partial, measured and contradictory digits;
+- concrete ripple columns;
+- conversions, with rows on one position or across positions;
+- random tables over shared fields;
+- laws that recruit and retire positions within a step;
+- reads and moves through ports and sockets;
+- a move that rewrites another wiring's row through a port.
+
+Each network runs in both step modes for eight rounds. Between rounds, both
+copies are disturbed alike: re-observed, corrupted, rebound or retired.
+
+What it compares:
+- state, including every wiring's rows and the saved bytes;
+- the engine's waves;
+- every row's evidence: changed, unread, unadmitted, ambiguous, skipped,
+  aliased, contested and noted, with the before and after states and the row
+  waves.
+
+It takes about 14 seconds for both paths. Compiled kernels run in about a
+third of the networks.
+
+**Checked against the pre-fix backend.** Run against pass 3's backend before
+Neon's fix (`53bd235b`), it fails at seed 2. Over 400 seeds it finds every
+class of Sol's findings:
+- wrong planes;
+- a step reported quiet too early, from a stranded delivery;
+- differences in the engine's waves, the row waves, and the changed,
+  unadmitted, ambiguous and before evidence.
+
+On the current backend, the same 400 seeds pass.
+
+### 12.5 A master defect the fuzz found
+
+In a taken-together step, a law that retires a position and another wiring
+that writes the same position cause the engine to throw. `Wiring.Commit`
+writes into the newly retired position. In declared order, the same write is
+skipped and reported as skipped.
+
+This is master code (`Engine.StepTogether`, `Wiring.Commit`), not the
+backend. The fuzz treats the engine as the reference, refusals included: a
+path must refuse where the engine refuses, and that run ends.
+
+The fix needs a decision about what a taken-together step means when a
+position dies within it. The options are to contest the write and the
+retirement, to apply retirements last, or to skip the write and report it
+as skipped. It is left for a separate change.
+
+### 12.6 Done when, and pass-4 notes
+
+Pass 4 is done when:
+- `CompiledPlan` holds only the scaffolding and the two general kernels;
+- every gate passes, the fuzz included;
+- the benchmark is re-run and recorded;
+- `dotnet test Gojo.slnx` passes on the final candidate.
+
+Then merge into master.
+
+**Pass 4 notes (Neon):** *to be written.*
 
 ## Verification
 
