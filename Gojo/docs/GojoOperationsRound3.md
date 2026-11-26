@@ -4,6 +4,8 @@ Documentation review · 26 November 2026
 
 Round 3 follows the numeric implementation round, called Round 2 by Neon and Round A by Claude. This comparison pins Sol `9e5f8444`, Claude `a26f5b80` on `claude/youthful-newton-wh29co`, and Neon `059f5c45`. Their merge base is master `9b805964`. The source trees and benchmark contracts stay pinned here so later changes can be compared to this round.
 
+The [Operations Round 4 checkpoint](GojoOperationsRound4.md) implements bounded pooling and repartition reads, and recommends an integration order.
+
 ## Where I land
 
 **Keep the number of parts in the observed or constructed scale. Choose the bit encoding independently.** A five-star review can have five possible ratings. A calibrated whole can have five equal subdivisions. A rating can also name a region of an instrument whose five regions have different widths. Those are three useful contracts. Each should expose the structure that justifies its read.

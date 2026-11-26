@@ -240,8 +240,8 @@ public static class QualifiedReadSurface
         alignment.TryProject(endpoint, t0.Carrier, out var projected);
         proof.Add(projected);
         var value = projected.LeftLocation;
-        if (projected.Right is not CarrierLocation residue || residue.Ticks == 0) return value;
-        var direction = Math.Sign(residue.Ticks) * Math.Sign(s1.Ticks - s0.Ticks) * Math.Sign(t1.Ticks - t0.Ticks);
+        if (!ProjectionResidue.TryRead(projected.Right, out _, out var numerator, out _) || numerator == 0) return value;
+        var direction = Math.Sign(numerator) * s1.Ticks.CompareTo(s0.Ticks) * t1.Ticks.CompareTo(t0.Ticks);
         if ((lower && direction < 0) || (!lower && direction > 0))
         {
             var step = Equation.Predict(Equation.Sum(value.Carrier, Equation.UnitPort(value.Carrier), Equation.UnitPort(value.Carrier)),
