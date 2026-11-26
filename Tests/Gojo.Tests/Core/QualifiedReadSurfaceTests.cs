@@ -96,6 +96,38 @@ public sealed class QualifiedReadSurfaceTests
         Assert.Equal(-1, low.Ticks); Assert.Equal(1, high.Ticks);
     }
 
+    [Theory]
+    [InlineData(8, 4, 3, 5)]
+    [InlineData(-8, -4, -5, -3)]
+    public void FractionalProjectionRoundsBoundsOutwardAndRetainsSourceEvidence(
+        long targetSpan, long expectedValue, long expectedLow, long expectedHigh)
+    {
+        var sourceAxis = new Carrier();
+        var target = new Carrier();
+        var scope = Relation.Segment(sourceAxis, 0, 5);
+        var coverage = new Relation(scope, Relation.Segment(sourceAxis, 0, 4));
+        var source = Observe(sourceAxis, 3, 5, 2, 3, coverage, scope);
+        var targetFrame = Relation.Segment(target, 0, targetSpan);
+        var read = QualifiedReadSurface.Reframe(new Carrier(), source, new Relation(scope, targetFrame));
+
+        Assert.True(QualifiedReadSurface.TryReadBounds(read, out var low, out var high));
+        Assert.Equal(new CarrierLocation(target, expectedLow), low);
+        Assert.Equal(new CarrierLocation(target, expectedHigh), high);
+        Assert.True(QualifiedReadSurface.TryRead(read, out var selected, out var basis, out var value,
+            out _, out var retainedCoverage, out var retainedScope, out var excluded, out _));
+        Assert.Same(source, selected);
+        Assert.Same(targetFrame, basis);
+        Assert.Equal(new CarrierLocation(target, expectedValue), Assert.IsType<CarrierLocation>(value));
+        Assert.Same(coverage, retainedCoverage);
+        Assert.Same(scope, retainedScope);
+        Assert.True(Assert.IsType<Relation>(excluded).TryReadOrderedGroup(out var exclusions));
+        Assert.IsType<Placeholder>(exclusions[0]);
+        Assert.True(ProjectionResidue.TryRead(exclusions[1], out var residueBasis, out var numerator, out var denominator));
+        Assert.Same(sourceAxis, residueBasis);
+        Assert.Equal(1, numerator);
+        Assert.Equal(2, denominator);
+    }
+
     [Fact]
     public void CoverageIsIndependentOfAmountAndSurvivesArithmetic()
     {
