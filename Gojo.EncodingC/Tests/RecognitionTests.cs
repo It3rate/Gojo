@@ -441,4 +441,23 @@ public sealed class RecognitionTests
         Assert.Empty(Recognition.Survivors([law, wrong], 2, witnesses));
         Assert.True(Assert.Single(Recognition.Survivors([law, wrong], 2, witnesses, maxExceptions: 1)).Same(law));
     }
+
+    /// <summary>A domain too large to enumerate is never mistaken for a small
+    /// one (from Sol's and Neon's final assessments). Four roles of 65,536
+    /// values make 2^64 tuples, a product that wraps to zero in 64 bits:
+    /// the system is returned unchecked rather than checked over nothing, and a
+    /// question over that domain is refused rather than answered with none.</summary>
+    [Fact]
+    public void ADomainTooLargeToEnumerateIsNeverCheckedOverNothing()
+    {
+        var wide = Shape.Binary(65536);
+        Shape[] roles = [wide, wide, wide, wide];
+        var found = Recognition.Relations(roles, [[1, 2, 3, 6], [2, 3, 4, 9]], maxDegree: 1);
+        Assert.False(found.Checked);
+        Assert.NotEmpty(found.System);
+
+        Shape[] question = [wide, wide, wide, wide, Shape.Bit];
+        Polynomial same = new(question, (1, [1, 0, 0, 0, 0]), (-1, [0, 0, 0, 0, 1])), zero = new(question, (1, [0, 0, 0, 0, 1]));
+        Assert.Throws<ArgumentException>(() => Recognition.Probe([same, zero], 4));
+    }
 }

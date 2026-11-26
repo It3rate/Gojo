@@ -126,7 +126,7 @@ public static class Recognition
         ArgumentNullException.ThrowIfNull(roles);
         ArgumentNullException.ThrowIfNull(tuples);
         var points = tuples.Select(t => t.ToArray()).Distinct(TupleEquality.Instance).ToArray();
-        var domain = roles.Aggregate(1L, (n, r) => n * r.Size);
+        var domain = DomainUpTo(roles.Select(r => r.Size), 1 << 20);
         var check = domain <= 1 << 20;
         var witnessed = points.ToHashSet(TupleEquality.Instance);
         var extra = check ? Enumerable.Range(0, (int)domain).Select(i => Decode(roles, i)).Where(t => !witnessed.Contains(t)).ToList() : [];
@@ -477,7 +477,7 @@ public static class Recognition
         if (candidates.Count < 2) return null;
         var roles = candidates[0].Roles;
         var inputs = Enumerable.Range(0, roles.Count).Where(r => r != target).ToArray();
-        var count = inputs.Aggregate(1L, (n, r) => n * roles[r].Size);
+        var count = DomainUpTo(inputs.Select(r => roles[r].Size), 1 << 20);
         if (count > 1 << 20) throw new ArgumentException("The input domain is too large to ask about exhaustively.", nameof(candidates));
         int[]? best = null;
         var bestLargest = candidates.Count;
@@ -654,5 +654,14 @@ public static class Recognition
 
     private static long Gcd(long a, long b) => b == 0 ? a : Gcd(b, a % b);
 
-    private static long Lcm(long a, long b) => a / Gcd(a, b) * b;
+    /// <summary>The product of the sizes, or one more than <paramref name="limit"/>
+    /// once it passes it, so a domain too large to enumerate is never read as a
+    /// small one by wrapping (from Sol's and Neon's final assessments).</summary>
+    private static long DomainUpTo(IEnumerable<int> sizes, long limit)
+    {
+        long product = 1;
+        foreach (var size in sizes)
+            if ((product *= size) > limit) return limit + 1;
+        return product;
+    }
 }
