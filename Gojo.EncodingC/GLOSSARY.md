@@ -90,6 +90,33 @@ The stock laws:
 | `Forget` | an open value's planes, as plain bits | Clear them: the value is open again |
 | `Enact` | an open value's planes, then a field | Write the one value left into the field. Otherwise leave the field alone |
 
+## Operations and numbers
+
+| Term | What it means | How it is in bits |
+| --- | --- | --- |
+| Operation | A relation and a binding: what holds, and how one step uses it. One relation gives several operations that differ only in binding | A relation law, and the transition law `Operations.Bind` makes from it |
+| Binding (of an operation) | For each relation role: read a law role before the step, write one after it, or neither | Two lists of law role numbers, −1 for none. Only the table it makes is saved |
+| Free role, residue | A relation role a binding neither reads nor writes: what the step had nowhere to put, such as the excess of a shortfall or the overflow of an accumulation | A relation role with no law role |
+| Cost | What leaving residue in each free role costs. The completions with the least cost are kept; with no cost, every completion stays open | One integer per relation role, read as Σ cost · value over the free roles |
+| Holding, blocked bit | Where no completion fits, the step leaves the written roles as they were and the relation unmet. The blocked bit tells quiet because met from quiet because held | An optional bit role of the law: 1 where it held, 0 where it wrote |
+| Balance | Σ weight · value = 0. A weight's sign says which pan, its size the rate. *Along*: units trade one for one at weight 1 | A polynomial whose terms are single roles at exponent 1 |
+| Product | a · b = c. *Across*: a unit of c is there only where a unit of a and a unit of b are, a corner at every cell | The polynomial ab − c |
+| Used up, kept | Whether a written role's gain is paid for by another role (a move) or by nothing (a read) | Not stored: read from the table and its accounting |
+| Polynomial *(host)* | A relation as integers: Σ weight · Π value^exponent = 0, in canonical form, so equations compare and are searched as numbers | Per term, a weight and one exponent per role. `Bits` is its description length. The table is built from it once and is the only part saved |
+| Digit | A count with as many values as its rung's radix | A field of `Numbers.Digit(radix)`: unary (radix − 1 planes) or binary-coded |
+| Rung, radix, partition | One place of a number, and how many parts it has. Each rung has its own radix, so fifths can sit under whole stars | A digit field. The radix is the field's shape size |
+| Ladder *(host)* | A number as rungs, finest first, each worth the product of the radices below it. The helper that wires a ladder and reads it | `Ladder`: digit fields and their supports, all in one store |
+| Column | a + b + carry in = radix · carry out + sum: one rung of a sum. For a digit times a digit: a · k + carry in = radix · carry out + digit | A balance relation, wired once per rung |
+| Carry, overflow, borrow | What one rung passes to the next. The last carry is what the number cannot hold: overflow in a sum, borrow in a difference | Supports of a count of 0 or 1 (in a sum) or of a digit (in a scaling). The finest carry in is a constant 0 |
+| Count, measurement (resolution) | Below the rung that was read, the finer rungs are closed (zero) for a count, which is exact, and open for a measurement, which is not | Supports narrowed to 0, or left open |
+| Interval | The least and greatest values the rungs still allow, read rung by rung. Every jointly allowed value lies inside it | Read from the supports; not stored |
+| Same share, rescale | Two shares are equal when the numerators balance, with the denominators as weights. Rescaling reads a count out of one partition as a count out of another, and keeps what does not divide | `Numbers.SameShare`, a balance; `Numbers.Rescale`, a balance with a residue role |
+| Reopen *(host)* | Open a ladder again, or every open binding of a network, before a new observation. Constants stay | Sets the supports' planes back to 1 |
+| Recognition *(host)* | Finding the equations a table or a few witnesses keep | `Recognition`. It returns polynomials, tuples and witness indexes, never a kind |
+| Unexplained | Tuples that a found system admits and nothing witnessed. Empty means the system is exact | A list of tuples |
+| Exception | A witness that a fit does not explain | Its index |
+| Restore *(host)* | Rebuild a law from an equation and a binding, only where the table is the same, and attach the original's accounting | A new transition law |
+
 ## Running
 
 | Term | What it means | How it is in bits |
@@ -141,7 +168,7 @@ The stock laws:
 | Judge *(pattern)* | A law that compares a prediction with what happened and moves trust | A row |
 | Trust *(pattern)* | How well a predictor has done | A small unary count |
 | Attention, focus *(pattern)* | What a row is looking at | A reference in the rows' planes, which a law can move |
-| Ladder, rung, carry *(pattern)* | Counts of one thing at several resolutions. Each level is a rung. A carry turns several fine units into one coarse unit | Two unary counts and a `Convert` law. The weights of its preserved sum are the place values |
+| Ladder, rung, carry | Counts of one thing at several resolutions. Each level is a rung. A carry turns several fine units into one coarse unit (see [Operations and numbers](#operations-and-numbers)) | In material, unary counts and a `Convert` law (`Numbers.Group`, `Refine`, `Admit`), the weights of the preserved sum being the place values; as a number, a `Ladder` of column relations |
 | Pair value *(pattern)* | Two values that vary together, held as one value | One open value with a·b values, and a relation from it to each part |
 | Plant *(pattern)* | In the tests, the small structure being steered: a source, a gate and a target | Three positions: two planes for a count, one for the gate |
 
@@ -198,7 +225,9 @@ the same job is done by ordinary structure, such as a plan or a probe.
   unary counts beside a value. Information and structural tension are reads
   proposed in the tension note.
 - **Residue** has no type. What a move could not take stays where it was, and
-  what a coarse read drops is bounded by the relation that did the read.
+  what a coarse read drops is bounded by the relation that did the read. In an
+  operation, residue is a free role with a stated cost. In a number, it is the
+  last carry, or the residue role of a rescaling.
 - **Carrier, location, relation, unit shape** belong to the kernel. This
   project does not depend on the kernel, and "relation" here means a relation
   law.
@@ -249,11 +278,14 @@ reduce tables this way; it walks the states.
 
 **Not built.**
 
-- Saving a regular table by the rule that makes it, or as smaller laws wired
-  together. The saved form stores the bits, except that a transition with one
-  next state per state is saved as that list.
+- Saving a regular table by the rule that makes it. A `Polynomial` is that
+  rule in memory, and `Recognition` finds it, but the saved form stores the
+  bits, except that a transition with one next state per state is saved as
+  that list.
 - A table held in planes, so that a machine can change its own rules.
-- Building a ladder for a wide operation without wiring it by hand.
+
+A wide operation as smaller laws wired together is built: `Ladder.Add`,
+`Scale` and `Multiply` wire one column per rung.
 
 A Boolean table is not what an operation means. It relates bits, and what
 those bits stand for comes from what is wired to them: presence, a selection,

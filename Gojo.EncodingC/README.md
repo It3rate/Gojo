@@ -100,8 +100,11 @@ how it is held in bits.
 | Workspace | [`Workspace`](Workspaces/Workspace.cs), [`Gap`](Workspaces/Gap.cs), [`Selections`](Workspaces/Selections.cs) | A fragment of an existing structure, held apart from it and refined there: a live view with copy on write, selection by layers and by use, validated partial commits. Its gap is where it and its source disagree |
 | Closure | [`Closure`](Workspaces/Closure.cs), [`Question`](Workspaces/Question.cs) | A selection built from a seed: whole rows, what they bind, grown by reach, sealed at ports and settled values unless opened, or the positions every use of a referent shares, and only the planes selected rows read. A question is an open value whose settling is the goal, its cone the closure from it |
 | Tension | [`Tension`](Flow/Tension.cs), `Field.Room` | Material tension beside a unary value: pressure (units arrived, not absorbed) and debt (draws not paid), two counts never netted by default. Change enters as tension; absorbing, paying and cancelling are each the one-unit move, into the value or into a count's room. Each move can be gated by any number of bits (`Flows.When`, `Tension.Route`, `Tension.Wire`): an open choice's `Supports.Possible`, so contention is the choice left open, or a turn (`Flows.Turn`) that alternates while both sides have work. A choice about now is justified (`Settling.Justify`): one law holds each possibility from its reasons, so it reopens when they return. `Tension.Deliver` sends a unit on to an outlet against a debt (`Flows.Fulfill`), closing the order in the same move |
-| Counting | [`Counts`](Laws/Counts.cs) | Arithmetic as small law tables, emulating numeric support: `Sum` (accumulation), `Shortfall` (one face of a gap), `Tally` (bits set, over supports: information tension), `AtLeast` (a threshold held as data), `Accumulate` and `Streak` (accumulation held or reset). Each writes one result only when it changes, so its meaning is a saved table. `Rank` combines tiers so a higher one decides whenever it changed (strict domination as a law) |
+| Counting | [`Counts`](Laws/Counts.cs) | Arithmetic as small law tables, emulating numeric support (`Sum`, `Shortfall`, `Tally` and `Accumulate` are bindings of a balance): `Sum` (accumulation), `Shortfall` (one face of a gap), `Tally` (bits set, over supports: information tension), `AtLeast` (a threshold held as data), `Accumulate` and `Streak` (accumulation held or reset). Each writes one result only when it changes, so its meaning is a saved table. `Rank` combines tiers so a higher one decides whenever it changed (strict domination as a law) |
 | Settling, further | [`Settling`](Laws/Settling.cs) | `Justify` holds a possibility from its reasons, so it reopens; `Latch` sets or clears a bit while a trigger holds, recruiting or retiring rows; `SameWhen` narrows only once words have arrived; `ValueGap` relates two open values and whether they disagree, the gap for values that are not counts |
+| Operation | [`Operations`](Laws/Operations.cs), [`Polynomial`](Laws/Polynomial.cs) | A relation and a binding. The relation, often a polynomial written as integers, says what holds; the binding says which roles a step reads, which it writes and which are free residue, at what cost, and whether a blocked bit records a step that held. See [Operations and numbers](#operations-and-numbers) |
+| Numbers | [`Numbers`, `Ladder`](Laws/Numbers.cs) | Place value over counts: a digit per rung, each rung its own partition, joined by column balances that narrow in every direction. A measurement leaves finer rungs open, and what does not fit is the last carry or a residue role |
+| Recognition | [`Recognition`](Laws/Recognition.cs) | Finding the polynomial relations a table or a few witnesses keep, with what they leave unexplained, and comparing or restoring a law from one only where its table is the same |
 | Supports | [`Supports`](Workspaces/Supports.cs) | A value not settled yet: one plane per value in the store, set where the value is still possible |
 | Learning | [`LearnedTable`](Learning/LearnedTable.cs) | Small counts of what happened, held in a store, crystallized into a law |
 | Measure | [`OdvWord`, `Odv`](Measure/Odv.cs) | The three-bit ODV word, its planes and its arithmetic as laws |
@@ -567,6 +570,121 @@ structure, saved with the machine. It costs a second plan, 226 bytes against
 116, so how much can be tried at once is bounded by room. Which choices
 deserve a probe is not decided by anything yet.
 
+## Operations and numbers
+
+An operation is a relation and a binding ([`Operations`](Laws/Operations.cs)).
+The relation says what holds among some amounts and moves nothing. The
+binding says how one step uses it: each relation role reads a law role before
+the step, writes one after it, or is left free. One relation therefore gives
+several operations:
+
+- **Heap.** The balance a + b − total = 0 is three operations:
+  - a sum written into a new count;
+  - the same sum written over the count it read (accumulate);
+  - read backward, subtraction.
+- **The gap.** have + short = want + over is shortfall with the excess left
+  free, and excess with the roles swapped.
+- **The product.** a · b = c pairs two counts forward. Narrowed, it divides,
+  and with both inputs bound to one sample it squares.
+- **The bit rung.** a + b = 2 · carry + sum is the half adder: its carry is
+  AND and its sum XOR. Polarity is also a binding: a role is bound to a bit
+  or to its flipped view. Those two laws, a wire and the two constants then
+  make all sixteen two-input functions.
+
+What a binding must say, and what happens when nothing fits:
+
+- **A free role is residue:** what the step had nowhere to put. A cost per
+  free role states which completion is kept: the one with the least
+  Σ cost · value. With no cost, every completion stays open and the law is
+  not functional, so a structure has to choose.
+- **Where nothing fits, the step holds,** as a move holds when its target is
+  full. The written roles keep their values, and the relation is left unmet
+  where anything can read it. An optional blocked bit says which kind of
+  quiet a step was: 1 where it held, 0 where it wrote a completion.
+- **Settling is not time.** A result written over its own input changes once
+  a step; given its own count, it settles at once. So feedback has to state
+  its time boundary: a step, a captured before-state or a new count.
+
+Where an operation sits among the others is read from its table and its
+accounting, never from a name:
+- **Used up or kept:** whether a written role's gain is paid for by another
+  role (a move) or by nothing (a read).
+- **Along or across:** whether units trade one for one, or meet at a rate or
+  a corner.
+
+Polarity, where the result goes, read direction and folding are bindings,
+open to every law. `Sum`, `Shortfall`, `Tally` and `Accumulate` in `Counts`
+are now bindings of a balance, with exactly the bits of the tables they
+replace.
+
+### Equations as numbers
+
+A relation written as numbers is a [`Polynomial`](Laws/Polynomial.cs):
+Σ weight · Π value^exponent = 0. Each term has an integer weight and one
+exponent per role.
+- A balance is the polynomial whose terms are single roles.
+- A product is the term ab against the term c.
+- A column between rungs is a balance whose weight is the radix.
+
+It is kept in canonical form: equal monomials merged, weights divided by
+their common factor, the first one positive. So two equations compare as
+numbers, and an equation can be perturbed and searched without a name. Only
+the table it builds runs. `Bits` is its description length, and
+`Lens.Describe` writes it for people, as in "a + b + c − 10d − e = 0".
+
+### Numbers as rungs
+
+[`Numbers`](Laws/Numbers.cs) and `Ladder` are a place-value layer over counts.
+They add range and erase nothing: a digit is a count, and a ladder can be
+read over the planes of material counts.
+
+- **A rung is a partition.** A digit is a count with as many values as its
+  rung's radix, held unary or binary-coded. The shape's size says exactly
+  which values exist. Each rung has its own radix: fifths under whole stars
+  (radices 5 and 6), or minutes under hours (60 and 24).
+- **Rungs are joined by columns.** a + b + carry in = radix · carry out + sum
+  is a balance, so a ladder of columns narrows forward, backward, and with
+  digits left open.
+  - Three decimal rungs add 487 + 356 and subtract 843 − 487 with the same
+    wiring. One sum table over those values would need about two billion
+    bits.
+  - `Scale` and `Multiply` do the same for a · k and a · b, as a lattice of
+    digit products.
+- **Partitions add and multiply.**
+  - Three of five plus two of five is five of ten. The sum's top rung has
+    ten partitions because the column's shapes give it ten, with no rule
+    saying so.
+  - `SameShare` says two shares are equal, by a balance whose weights are
+    the denominators.
+  - `Rescale` reads a count out of one partition as a count out of another.
+    The part that does not divide is a residue role.
+  - Reducing 5/10 to 1/2 is a read the caller asks for, never automatic.
+- **Resolution is structure.**
+  - A count of fifths has its finer rungs closed. A measurement read only to
+    the fifth (`Measure`) leaves them open.
+  - Adding two measurements carries that openness into the sum, so its
+    fifths may carry.
+  - `Interval` is a sound bound, read rung by rung. A supposition in a
+    workspace can tighten it.
+- **Nothing is dropped.**
+  - A sum that does not fit is the last carry.
+  - A difference below zero is a borrow, and with borrow forbidden, a
+    contradiction.
+  - The finest carry in, and the fact that a product fits, are constant
+    planes: structure, not observation.
+- **Re-observing.** Narrowing is monotone within one observation.
+  - Reopening one ladder leaves what was derived from it narrowed, so a new
+    reading contradicts it visibly.
+  - `Ladder.Reopen(network, position)` opens the whole network. The
+    constants stay.
+- **Material.** Each of these conserves the place-value sum:
+  - `Admit` takes one unit of pressure into a two-rung number atomically,
+    carrying when the fine digit is full.
+  - `Group` and `Refine` move whole packets.
+
+The design and its limits are in the
+[operations synthesis](../Gojo/docs/GojoOperationsSynthesis-2026-11.md).
+
 ## Learning
 
 `LearnedTable` counts witnessed (before, after) pairs and reads each pair one of
@@ -599,6 +717,41 @@ Counting is the first step, not the aim. A law that fits predicts its own
 history, so only what it gets wrong is worth storing. The direction is
 prediction by structure: a simple rule, such as one that stretches a value by
 two, compared with what happens next, with trust kept as a small count.
+
+### From tables to equations
+
+When a table keeps a short equation, [`Recognition`](Laws/Recognition.cs)
+finds it. It is `Bind` read backward, and everything it returns is numbers:
+weights, exponents and the indexes of exceptions.
+
+- **From a full table,** `Relations` finds every polynomial relation of the
+  lowest degree the tuples keep, as a system. The method is the vanishing
+  ideal of a finite point set, computed in unbounded integers.
+  `Found.Unexplained` lists the tuples the system admits that nothing
+  witnessed. Empty means exact; otherwise the system is weaker than its data,
+  and the list says where.
+- **From a few witnesses,** `Fits` writes one role as a short integer
+  combination of monomials of the others, simplest first, allowing a stated
+  number of exceptions.
+  - A wall, where a count has no room, is an exception, not another law.
+  - `Survivors` keeps the candidates the witnesses allow.
+  - `Probe` chooses the input whose answer splits the survivors most.
+- **Witnesses** are read through a binding, from a functional law or
+  directly from a `LearnedTable`'s counts. No second dense table is built, so
+  an equation can be found before the table is complete.
+- **A hidden residue role** is found by `Residue`: shortfall's excess, for
+  example, or accumulate's overflow.
+- **Nothing is accepted automatically.**
+  - `Compare` sets the table beside the equation run through the same
+    binding. It reports whether the two are the same, how many before-states
+    differ, both sizes in bits, and whether the equation keeps the law's
+    accounting.
+  - `Restore` rebuilds a law from its equation only where the table is the
+    same, then attaches the original's promises.
+  - Keeping the promises is not enough: an equation that keeps the
+    accounting but behaves differently is refused.
+
+Transport still saves tables. An equation is not part of the saved form.
 
 ## Non-signal parts
 
@@ -861,6 +1014,20 @@ smaller laws wired together (see the glossary,
 - **A parallel backend.** Wave assignment uses host dictionaries, linear in rows
   × roles; `Plane` words are where a SIMD or GPU backend would attach.
 - **A bridge to the kernel.** Consolidation §5.2 proposes one; it is not built.
+- **Operations and numbers, further.** These are not built:
+  - saving an equation, or a step's kind, in the transport;
+  - a compiled backend driven by `Polynomial`;
+  - rounding to nearest, which needs a joint window over coarse and fine
+    digits;
+  - intervals read jointly across rungs;
+  - weighted uncertainty;
+  - unequal regions;
+  - nonlinear propagation in general;
+  - a faster `Fits`;
+  - accepting a learned equation automatically.
+
+  The order in which they are taken up is in the
+  [operations synthesis](../Gojo/docs/GojoOperationsSynthesis-2026-11.md).
 
 ## Status against the consolidation roadmap
 
@@ -875,7 +1042,7 @@ smaller laws wired together (see the glossary,
 | R7 witnesses by replay | Not built |
 | R8 learned law tables | Implemented with counts in a store, without eligibility traces |
 | R9 SIMD / GPU | Out of scope; `Plane` words are the seam |
-| R10 crystallization by description length | Not done |
+| R10 crystallization by description length | `Recognition.Compare` sets a table's bits beside an equation's; nothing is crystallized automatically |
 
 ## Boundary
 
@@ -915,4 +1082,11 @@ limits and tests.
 | `TransportTests` | A machine restored from bits running step for step with the same unresolved parts; 22 bytes for the passage chain, by part; workspaces refused; trailing bits refused; any damaged bit either loads or is refused as malformed |
 | `SelfRunningTests` | Machines that only step: a law rewiring a row to the more trusted supplier; a dormant row recruited when flow is blocked; a watcher moving its own attention; a row's activity left in planes and counted by a law; predictors judged and trusted by the structure itself, and one retired when its trust runs out; a goal two steps away opening a valve now, saved and restored; a goal that gives way; what narrowing cannot settle, and a probe that settles it by being wrong; an ambiguous law leaving its next moment open; overflow carried up a workspace; knowledge read through a port and never narrowed there; linked values as a pair with two relations |
 | `UncertaintyTests` | Open values in the planes, read by a law and saved; a supposition narrowed in a workspace and dropped on contradiction; a goal settling the open choice that reaches it; ambiguity given a choice role; a miss read by a law as trust; flow steered to a goal that changes, with an unasked unit sent on |
+| `OperationTests` | The counting laws as bindings of a balance, keeping their bits; one product answering in every role, narrowed or run; division that holds or leaves the choice open; heap read backward subtracting; the gap keeping one face by cost; bindings checked role by role |
+| `OperationPrimitiveTests` | Used up or kept, along or across, read from tables and accounting; join, tear out and cancel as one move on different faces; compare, threshold and accumulate as heap read backward, folded or bound in place |
+| `BitRungTests` | The half adder as one balance and the Booleans as its reads; sixteen functions as four acts under polarity; a ripple adder settling in the steps its carries need; a lattice of bit products as the wide product |
+| `SettlingVersusTimeTests` | Double as a relation on one position, once a tick written over itself, quiet but unmet under settling with a blocked bit telling the two apart, and met at once in a new count |
+| `NumberTests` | A column as a balance with the radix as its weight; two rungs adding as the wide balance does; decimal rungs adding, subtracting and keeping open digits open; what does not fit as the last carry; a count grouped into rungs and refined back |
+| `NumberResolutionTests` | Each rung its own partition, fifths under stars and minutes under hours; three of five plus two of five as five of ten; a measurement carrying its uncertainty through a sum; the same share as different knowledge; a change of partition keeping what does not fit; partitions multiplying; ladders multiplying across rungs; units admitted and carried atomically; reopening a ladder, and a sum or product network, before a new observation |
+| `RecognitionTests` | Polynomials as canonical numbers; full tables giving their relations back; a wall as an exception; an irregular table staying a table; one wrong entry as an exception; a question telling a sum from a product, and a captured repeat from a sampled one; traces telling coasting from stretching; a learned table becoming an equation before it is complete; a system as tight as the data and saying where not; a hidden residue role; a restored law keeping the original's promises and behaviour, or refused |
 | `LearningAndLensTests` | Learning the passage law into counts that are saved and restored; evidence read around each wave; a learned exclusion undone by a later witness; a learner counting what it could not read; refusing a learned table that makes units; unknown pairs staying open; a lens that the encoding never reads |
