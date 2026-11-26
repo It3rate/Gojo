@@ -1250,6 +1250,13 @@ Built on `claude/youthful-newton-wh29co` in `Gojo.EncodingC` (implemented):
     and a receipt without room fills to capacity and stays there, so a full
     receipt says the record may be short.
 
+20. **Relations are polynomials, numbers are rungs, and equations can be
+    found** (proposal §10). `Polynomial` makes every relation a few integers;
+    `Bind` states its completion cost; `Numbers` and `Ladder` add place value
+    over counts, narrowed relationally; `Recognition` runs `Bind` backward,
+    from tuples to equations with their exceptions and the question that
+    tells candidates apart.
+
 The three branches are compared in
 [GojoOperationsComparison-2026-11.md](GojoOperationsComparison-2026-11.md), and
 where this note goes next is in

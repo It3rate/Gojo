@@ -54,6 +54,10 @@ Run each with `dotnet test Gojo.EncodingC/Gojo.EncodingC.csproj --filter <Tests>
 | A10 | Double `B` four ways | the relation admits only 0; once a step gives 5, 10, 20, 40; under `Settle` it is quiet but blocked; into a new count it settles met | `SettlingVersusTimeTests` |
 | A11 | Bit rung | half adder; all 16 functions from AND, XOR and a wire under polarity; ripple adder delay is step order; a lattice equals the wide product; wide transitions are refused | `BitRungTests` |
 | A12 | Stiffness | a rate as a count, as constant planes and as a table weight, each refusing or allowing change as its position says | `StiffnessTests` |
+| A13 | Polynomials and completion cost | every relation as canonical integer terms; `Bind` keeps only the completions a stated cost prefers, or all of them | `RecognitionTests`, `OperationTests` |
+| A14 | Rung numbers | radix-4 rungs match the wide balance on 256 lanes; decimal rungs add, subtract, keep open digits open, and show overflow and borrow; a count groups into rungs and back | `NumberTests` |
+| A15 | Recognition | exact relations from full tables; walls as exceptions; one wrong entry as an exception; irregular tables stay tables; probes isolate a product in two questions | `RecognitionTests` |
+| A16 | Settling to an equation | a learned table, never complete, plus probes run on the machine, gives the machine's own law exactly | `RecognitionTests` |
 
 ## Part B: experiments to exercise it all
 

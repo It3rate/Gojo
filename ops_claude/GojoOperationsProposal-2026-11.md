@@ -356,6 +356,66 @@ recognizable as one balance family.
   an equation. Proposal: when description length says it pays and the
   stiffness ladder says it has stopped changing.
 
+## 10. Round A, as built
+
+Built on this branch after the proposal, taking in the latest feedback from
+`ops_sol` (`fe5d473d`) and `ops_neon` (`97123b1f`). All 264 EncodingC tests
+pass, every pre-numeric test among them.
+
+| Piece | Code | Tests |
+| --- | --- | --- |
+| Relations as numbers | `Polynomial`: canonical integer terms; `Balance` and `Product` are its cases; text through `Lens.Describe` | `RecognitionTests` |
+| Completion stated, not assumed | `Operations.Bind(…, cost)`: a cost per free role; with none, every completion stays open (Sol's critique) | `OperationTests` |
+| Minimal numbers | `Numbers` and `Ladder`: a digit is a count, a column is `a + b + c_in = r·c_out + s`, ladders narrow in any direction; grouping and refining by conserving moves | `NumberTests` |
+| Recognition | `Recognition`: `Relations` (exact, from full tables), `Fits` (sparse, with exceptions), `Probe` and `Predict` (the question that teaches most), `Compare` (exceptions and bits), `Witnesses` (from a law or a partly learned table) | `RecognitionTests` |
+
+What it showed:
+1. **Numbers had to be relations, not transitions.** A decimal column is 4,000
+   tuples as a relation, but would be about 16 million bits as a transition,
+   past `Law.MaxBits`. So a ladder narrows supports. That turned out better
+   for the hopes in §0: subtraction is the same columns read backward, and an
+   unknown digit stays open, coupled to the digits it touches, until something
+   settles it. Three decimal rungs reach 0..999, where one wide table would
+   need about two billion bits.
+2. **Pre-numeric is untouched.** A digit is a unary count, and a ladder can be
+   read over the first planes of material counts. A count of 11 groups into 3
+   ones and 2 fours by conserving moves and refines back. Overflow and borrow
+   are the last carry: residue, visible.
+3. **Exact recognition works on every table we have.** Master's sum, a
+   weighted sum, AND and XOR beside their inputs, a decimal column and a times
+   table all come back as their polynomials. The radix comes back as a weight.
+   An irregular table has no short equation and stays a table.
+4. **A wall is an exception, not another law.** Accumulate and the kick fit
+   their balances except exactly where they hold.
+5. **Description length is decisive.** `Counts.Sum(3, 3)` is 12,544 table bits
+   against a 24-bit equation. A times table with one wrong corner is 25,600
+   bits against 176 for `ab − c = 0` plus its exceptions.
+6. **Asking beats watching.** Two witnesses of a times table leave 18 short
+   candidates. Two probes leave `ab − c = 0`. A captured repeat and a sampled
+   one fit alike until the probe asks where they differ.
+7. **The loop closes on an incomplete table** (Neon's critique of
+   `LearnedTable`). A booking machine runs at one rate, the learned table fits
+   several equations, the probes propose untried states, and running the
+   machine there settles the machine's own law exactly, while more than half
+   the table is unknown.
+8. **Traces carry mechanism.** Coasting's steps fit `debt' = debt + rate`;
+   stretching's fit `out = gain · source`; neither fits the other's form.
+
+Not built yet, in order:
+1. **Hidden residue roles.** Shortfall fits a balance only once its excess is
+   restored as a role, and `Fits` does not search for such a role yet.
+2. **Walls inside the probe loop.** A probe can propose a state at a wall,
+   whose hold would rule out the true law. Holds should be counted as
+   exceptions inside the loop.
+3. **A digit product and multiplication across rungs:**
+   `a·b + c_in = r·c_out + d` as a polynomial, and a lattice of them.
+4. **Round B: crystallizing a recognized equation into words.** Neon's
+   compiled plan now measures 338 to 2,815 times faster on its kernels; the
+   step that remains is to drive it from recognized polynomials instead of
+   hand-written recognizers.
+5. **Sol's evidence suite (B14 to B18)** as conformance gates for compressed
+   forms.
+
 ## Sources
 
 From this repository:
