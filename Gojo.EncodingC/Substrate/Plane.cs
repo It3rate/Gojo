@@ -126,6 +126,8 @@ public sealed class Plane : IEquatable<Plane>
 
     internal int WordCount => words.Length;
 
+    internal ulong[] RawWords => words;
+
     internal ulong Word(int w) => words[w];
 
     internal void OrWord(int w, ulong bits)
@@ -133,6 +135,8 @@ public sealed class Plane : IEquatable<Plane>
         words[w] |= bits;
         if (w == words.Length - 1) Trim();
     }
+
+    internal void TrimTail() => Trim();
 
     public bool Equals(Plane? other) =>
         other is not null && other.Length == Length && words.AsSpan().SequenceEqual(other.words);

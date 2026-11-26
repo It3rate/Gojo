@@ -68,6 +68,10 @@ public sealed class Store : Surface
     /// or binds it directly. A store belongs to at most one.</summary>
     internal Engine? Local { get; set; }
 
+    internal Plane? RawPlane(int plane) => constant[plane] ? null : planes[plane];
+
+    internal Plane RawLive => live;
+
     /// <summary>Adds a plane with one bit per position. Returns its number.
     /// A plane that <paramref name="fills"/> starts at 1 at every position, and
     /// at every position added later: its empty reading is presence, as for

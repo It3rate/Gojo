@@ -1,6 +1,6 @@
 # Gojo operations synthesis
 
-Status: **round 16, pass 2 of 3**. Branch `ops_synthesize`,
+Status: **round 16, pass 3 of 3**. Branch `ops_synthesize`,
 started from master `9b805964`.
 
 This is the shared specification for operations, numbers and recognition in
@@ -163,8 +163,13 @@ Contracts:
    Two equations are the same when their numbers are the same
    (`APolynomialIsCanonicalNumbers`).
 2. **The interpreter runs the table.** A polynomial builds its table once.
-   A derived execution form must qualify against the table and retain a
-   route back to it (§9, item 1).
+   A derived execution form (`CompiledPlan`) qualifies strictly against the
+   table, accounting, bindings and schedule, retains a route back to `Engine`
+   wherever ineligible or stale, and changes no transport bits
+   (`PassOneRelationalLaddersTakeTheCompiledFastPathAcrossMixedRadicesAndReobservation`,
+   `ConcreteMixedPartitionAndDecimalRippleAddersTakeTheCompiledSwarPath`,
+   `PacketConvertBoundedMultiplyAndSmallTablesTakeCompiledFastPaths`,
+   `IneligibleBrokenRecordedSharedSiteAndStaleCasesFallBackCleanlyWithExactParity`).
 3. **`Bits` estimates the description length** that recognition compares with
    a table's bits. It is not a transport size.
 4. **Text is a lens read.** `Lens.Describe` writes "a + b + c − 10d − e = 0",
@@ -238,6 +243,15 @@ Contracts:
     empty support follow the ordinary count and contradiction contracts.
     The caller requalifies after a scope is retargeted. That check is a local
     read and has no saved automatic disjointness policy.
+11. **Live-denominator portions validate operands and retain whole capacity.**
+    Where a denominator itself sits in open supports rather than a fixed-radix
+    ladder, `Portions.Valid` and `Portions.WirePool` reject zero-denominator
+    and over-full operands such as `(1, 0)` as contradictions,
+    `Portions.AddSameWhole` carries `whole ∈ {0, 1, 2}` so two full portions
+    (`5/5 + 5/5`) keep both wholes, and `Portions.Project` and `Compare` keep
+    exact source-basis residue and float-free cross-multiplication
+    (`LiveDenominatorPortionsRejectZeroDenominatorAndKeepTwoWholesForFullPortions`,
+    `OrdinalIntervalAndRatioReadsStayDistinctOnFiveStarScales`).
 
 ### 3.4 Uncertainty, resolution and residue
 
@@ -248,10 +262,10 @@ Nothing is silently dropped. Every loss has a place in the structure:
 | A sum that does not fit | The last carry, as overflow | `WhatDoesNotFitIsTheLastCarry` |
 | A difference below zero | The last carry, as borrow; forbidden, an empty support | `WhatDoesNotFitIsTheLastCarry` |
 | A value read only coarsely | The open finer rungs (`Measure`) | `AMeasurementCarriesItsUncertaintyThroughASum` |
-| A change of partition that does not divide | The residue role of `Rescale` | `ChangingPartitionKeepsWhatDoesNotFit` |
+| A change of partition that does not divide | The residue role of `Rescale` or `Portions.Project` | `ChangingPartitionKeepsWhatDoesNotFit` |
 | The same share known differently | Two ladders with different resolution, related by `SameShare` | `TheSameShareIsNotTheSameKnowledge` |
 | A product read from measurements | A set of products, never a rounded one | `PartitionsMultiplyAndMeasurementsKeepTheirSets` |
-| A bound looser than the truth | `Interval`, a sound bound read rung by rung, which a supposition can tighten | `AMeasurementCarriesItsUncertaintyThroughASum` |
+| A bound looser than the truth | `Interval`, a sound bound read rung by rung, which a `Fork` supposition can tighten | `AMeasurementCarriesItsUncertaintyThroughASum`, `MixedPartitionHalfStarsAddSubtractAndNarrowJointlyInAFork` |
 | A step that could not complete | The blocked bit of `Bind` | `UnderSettleItGoesQuietOnlyWhereItIsBlocked` |
 | An equation weaker than its data | `Found.Unexplained` | `ASystemIsAsTightAsTheDataAndSaysWhereItIsNot` |
 | Data an equation does not explain | A fit's exceptions | `OneWrongEntryIsAnExceptionNotANewLaw` |
@@ -266,6 +280,13 @@ Contracts:
    five of ten until something reads it as one of two.
 3. **Supports say what is possible, not how likely.** No uniform
    distribution is assumed anywhere.
+4. **Uncertainty depends on mechanism and site identity.** Doubling one shared
+   coarse sample (`2·x` via shared site on `Ladder.Add` or a balance) skips
+   odd half-steps (`{12, 14}`), while summing two independent coarse samples
+   keeps them (`{12, 13, 14}`). Shared-site difference (`x − x`) cancels to
+   zero while independent difference (`x₁ − x₂`) stays open
+   (`DoublingOneCoarseSampleDiffersFromSummingTwoIndependentSamples`,
+   `SharedSiteDifferenceCancelsToZeroWhileIndependentDifferenceStaysOpen`).
 
 ### 3.5 Recognition
 
@@ -294,9 +315,12 @@ Contracts:
 3. **Witnesses are read sparsely.** They come from a functional law or from a
    `LearnedTable`'s counts, without building a second dense table
    (`ALearnedTableBecomesAnEquationBeforeItIsComplete`).
-4. **`Residue` finds a hidden free role and its cost:** shortfall's excess,
-   accumulate's overflow, a clamped OR's overflow
-   (`AHiddenResidueRoleIsFound`).
+4. **`Residue` and `Residues` find hidden free roles and their cost:**
+   one residue role for shortfall's excess, accumulate's overflow and clamped
+   OR (`AHiddenResidueRoleIsFound`), and two-residue balance systems
+   (`Operations.System` + `Recognition.Residues`) for piecewise linear bounds
+   `min(a, b)`, `max(a, b)` and `|a − b|` with no new fold kind or enum
+   (`TwoHiddenResidueRolesRecoverMinMaxAndAbsoluteDifference`).
 5. **Nothing is accepted automatically.**
    - `Compare` reports whether the tables are the same, how many
      before-states differ, both sizes in bits, and whether the equation keeps
@@ -676,7 +700,137 @@ are now runnable through [the conformance tests](../../Gojo.EncodingC/Tests/Oper
 
 ### Pass 3 (Neon)
 
-*To be written.*
+- **Deltas only, zero core duplication.** Pass 1's `Polynomial`, `Numbers`,
+  `Ladder`, `Counts`, `Flows`, and `Transport` stayed untouched. Only five
+  internal accessors were added for the derived backend (`Plane.RawWords`,
+  `Plane.TrimTail`, `Store.RawPlane`, `Store.RawLive`, `Wiring.Reference`,
+  `Engine.AdvanceTick`). Exploratory files (`Booleans.cs`, `Dynamics.cs`,
+  `Multiplication.cs`) and speculative approximate oscillator lowering
+  (`FiniteReadContract`, `ApproximateWaveformRead`) stayed on `ops_neon` and
+  were refused here.
+- **Optional, derived compiled backend ([`CompiledPlan`](../../Gojo.EncodingC/Compilation/CompiledPlan.cs)).**
+  Registered in [`ExecutionConformancePath.All`](../../Gojo.EncodingC/Tests/ExecutionConformancePath.cs).
+  Adds zero enums (replacing `ops_neon`'s `KernelKind` enum with polymorphic
+  internal kernel types; verified by `PassThreeAddsNoEnumsToEncodingC`), zero
+  string fields, zero real numbers, zero `System.Math` calls, and zero
+  `Transport` changes. Dropping a `CompiledPlan` returns directly to `Engine`
+  with identical bits and transport bytes (§9, item 1).
+  - **What compiles (strictly via `SameTable`, `Recognition.Compare`,
+    accounting, bindings, and schedule — never by name):**
+    - *Pass-1 relational `Ladder.Add` chains and single columns*
+      (`Numbers.Column` verified via `SameTable`, pairwise-disjoint direct
+      `Store` bindings, identity-mapped): 64-lane bit-sliced SWAR on settled
+      words (`Size <= 16`) with exact 64-lane bitwise factorized narrowing
+      (`AB[a+b] → ValidT[a+b+cin == p·cout + s]`) on open, backward,
+      contradictory, or wider (`17..64`, e.g., `[60, 24]` clocks) words —
+      accelerating Pass-1's relational `Ladder.Add` directly in place with zero
+      layout conversion.
+    - *Concrete multi-rung mixed-partition ripple adders* (combined 5-role or
+      split 4-role `(Sum, Carry)` pairs verified against `Numbers.DigitSum` via
+      `Operations.Bind` + `SameTable`, including mixed combined/split chains):
+      64-lane bit-sliced SWAR across arbitrary mixed radices `<= 16`.
+    - *Unary `Flows.Convert(take, give)`* (verified via positive
+      `PreservedSum` accounting + `SameTable`): AVX2/SIMD unary plane shift,
+      exact bounded multi-step `SettlePacketConvertExact`, and guarded
+      non-identity stepping (e.g., the `100 → 001` chain under declared order).
+    - *Bounded lossless multiply* (`a·b = val + ovf`, verified via `SameTable`
+      and unchanged inputs).
+    - *General small-table functional transitions* (`totalRoleBits <= 64`,
+      `StateCount <= 512`, `<= 256` changing states): L1-resident SIMD XOR-flip
+      kernel lowered from the table's own bits (covers `Counts.Shortfall`,
+      `Counts.Sum`, `Flows.Fulfill`, `Settling.Justify`, `Numbers.Admit`, and
+      B15's gated moves).
+  - **What falls back cleanly to `Engine`:**
+    - Any recorded wiring (`Wiring.Recorded is not null`, preserving all 7
+      evidence planes and `Noted`);
+    - Any non-`Store` binding (`Port`, `Socket`, `Workspace`, `Flipped`,
+      `Life`, `Gap`, `Room`); `CompiledPlan.Preview` delegates to
+      `Workspace.Apply`;
+    - Relational wirings with shared planes / `SameReference` (such as
+      `Ladder.Add(x, x, doubled)` or B16's `sameOperand: true` product);
+    - Non-column `RelationLaw`s (B16's factored product inverse, `Portions`
+      live-denominator relations, `Operations.Product`);
+    - Self-rewiring topology (any wiring writing another wiring's `Rows`
+      store);
+    - Multi-wiring simultaneous steps (`together: true`), so `100 → 010` and
+      simultaneous ripple-carry schedules match `Engine.StepTogether` tick for
+      tick (only a single identity-mapped contention-free wiring compiles under
+      `together: true`);
+    - Runtime broken codes (`010` unary, `>= Size` binary, broken multi-bit
+      constants) deopt before mutating any bit;
+    - Stale plans (`!IsCurrent`) after adding wirings, adding/retiring/rewiring
+      rows, toggling `Attention`, enabling `Record`, plugging/unplugging a
+      `Socket`, or adding/recruiting/retiring `Store` positions.
+  - **Defects caught and fixed during Pass-3 review:**
+    - Removed `ops_neon`'s `private enum KernelKind`;
+    - Fixed `Store.Recruit`/`Retire` staleness (`WiringSnapshot` now snapshots
+      each direct `Store.RawLive`), `Wiring.Attention` gating inside compiled
+      runnable masks, broken multi-bit constant-plane deopt on relational
+      columns, self-rewiring detection, and exact per-rung `Before`/`After`
+      tuple reconstruction across multi-rung concrete ripple adders;
+    - Replaced `ops_neon`'s scalar per-row `Reference()`/`Runnable()` compile
+      scans with 64-lane bitwise identity-reference verification so
+      `Compile()` stays sub-millisecond even at 65,536 lanes.
+- **Whole-path vs. kernel-only Release benchmarks (idle CPU, plane-for-plane
+  and tick-for-tick verified against `Engine.Settle`):**
+
+| Workload | Lanes | `Engine.Settle` | `Compile` only | Whole-path (`Compile + Settle`) | Steady kernel (`Settle`) | Whole-path speedup | Steady speedup |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Pass-1 `Ladder.Add [10,10,10]` settled (relational) | 4,096 | 376.859 ms | 0.251 ms | 1.388 ms | 0.965 ms (235.7 ns/lane) | 271.5× | 390.4× |
+| Pass-1 `Ladder.Add [2,5]` settled (relational) | 65,536 | 4,777.069 ms | 2.555 ms | 3.167 ms | 1.071 ms (16.3 ns/lane) | 1,508.4× | 4,460.4× |
+| Pass-1 `Ladder.Add [2,5]` 50% open coarse (relational) | 65,536 | 4,526.657 ms | 1.024 ms | 2.549 ms | 1.490 ms (22.7 ns/lane) | 1,775.7× | 3,037.2× |
+| Concrete split `[10,10,10]` ripple (`TransitionLaw`) | 4,096 | 679.750 ms | 0.930 ms | 1.272 ms | 0.179 ms (43.7 ns/lane) | 534.4× | 3,795.4× |
+| Concrete combined `[2,5]` ripple (`TransitionLaw`) | 65,536 | 4,446.100 ms | 1.526 ms | 2.105 ms | 0.441 ms (6.7 ns/lane) | 2,112.5× | 10,075.0× |
+| `Flows.Convert(2, 3, 9, 9)` AVX2 / exact-settle | 65,536 | 11,363.129 ms | 0.289 ms | 2.948 ms | 2.655 ms (40.5 ns/lane) | 3,854.1× | 4,280.4× |
+| `Counts.Shortfall(3, 3)` SIMD XOR-flip | 65,536 | 1,847.867 ms | 0.393 ms | 1.037 ms | 0.680 ms (10.4 ns/lane) | 1,782.3× | 2,718.7× |
+| *Layout conversion check:* Pass-1 `Ladder` ↔ concrete `Store` (`[10,10,10]`) | 4,096 | 376.859 ms | — | 14.568 ms (extract + concrete + write-back) | — | 25.9× | — |
+| *Ineligible fallback:* B16 `FactoredInverse` (`UsedFastPath=false`) | 1 | 0.1058 ms | — | 0.0915 ms | 0.0680 ms | — | — |
+| *Ineligible fallback:* Shared-site `Ladder.Add(x, x, doubled)` (`UsedFastPath=false`) | 4,096 | 254.257 ms | — | 153.892 ms | 155.530 ms | — | — |
+
+  Two findings stand out from the whole-path numbers:
+  1. **In-place relational lowering beats layout conversion by 10.5×** on
+     4,096-lane `[10, 10, 10]` (1.388 ms whole-path in place vs. 14.568 ms to
+     extract Pass-1 `Ladder` digits into a concrete `Store`, run the 0.179 ms
+     concrete SWAR kernel, and write back). Layout conversion only pays if a
+     structure stays concrete across many repeated steps without re-entering
+     open supports.
+  2. **Ineligible fallback has zero penalty under `Settle`** (in fact it is
+     slightly faster than `Engine.Settle` — 153.9 ms vs. 254.3 ms on 4,096-lane
+     shared-site `Ladder.Add` — because `CompiledPlan.Settle` steps each
+     fallback wiring in declared order directly without recomputing unused
+     `EngineStep.Waves` dictionaries on every tick; `CompiledPlan.Step` still
+     produces exact `EngineStep.Waves`).
+- **Partitions, live-denominator portions, and mechanism-dependent uncertainty
+  (§7, item 5).**
+  - Ported onto Pass-1/2 `Ladder`, `AtUnitRung`, and `ExecutionConformancePath.All`
+    in [`VariablePartitionAndUncertaintyTests`](../../Gojo.EncodingC/Tests/VariablePartitionAndUncertaintyTests.cs):
+    mixed `[2, 5]` half-stars with forward/backward settling and `Fork` joint
+    corner elimination; shared-site `2·x` (`{12, 14}`) versus independent
+    `x₁ + x₂` (`{12, 13, 14}`) directly on Pass-1 `Ladder.Add` and single-rung
+    balances; shared-site cancellation (`x − x == 0`) versus independent
+    difference (`x₁ − x₂` open); ordinal vs. interval vs. ratio five-star
+    reads; material non-splitting (`Flows.Convert(5, 8, 5, 8)`) vs. conserving
+    common refinement (`2/5 + 1/3 → 11/15`); and cross-structure partition-5
+    atomic admission surviving `SaveLocals` mid-carry.
+  - Added minimal [`Portions`](../../Gojo.EncodingC/Laws/Portions.cs) only for
+    live-denominator relations a fixed-radix `Ladder` cannot express, fixing
+    both of Sol's defects first:
+    1. `Portions.Valid` and `Portions.WirePool` now enforce `d >= 1 && n <= d`,
+       so `(1, 0)` and `(6, 5)` contradict immediately instead of pooling;
+    2. `Portions.AddSameWhole` gives its `whole` role capacity 2 (`{0, 1, 2}`),
+       so `5/5 + 5/5` settles cleanly to `(whole: 2, rem: 0)`.
+- **Transport (§7, item 6).** No version marker or codec change was needed;
+  `Transport.cs` is byte-for-byte identical to master `9b805964`, and the
+  captured master save loads, steps, and re-saves identically on both `Engine`
+  and `CompiledPlan`.
+- **`FitsFold` (`min` / `max`, §7, item 7).** Confirmed Pass 1's proposal:
+  adding [`Operations.System`](../../Gojo.EncodingC/Laws/Operations.cs) and
+  [`Recognition.Residues`](../../Gojo.EncodingC/Laws/Recognition.cs) (plus
+  system `Compare`/`Restore` overloads) over two hidden residue roles with
+  unit numeric cost recovers `min(a, b)` (`a = c + e`, `b = c + f`),
+  `max(a, b)` (`c = a + e`, `c = b + f`), and `|a − b|` (`c = a − b + e`,
+  `c = b − a + f`) with exact table and accounting restoration and no new fold
+  kind or enum (`TwoHiddenResidueRolesRecoverMinMaxAndAbsoluteDifference`).
 
 ## Verification
 
@@ -708,3 +862,25 @@ Pass 2: `dotnet test Gojo.slnx` passed on Windows, including 1,074 native
 Gojo tests and 3,509 QualitativeExecution tests. The final EncodingC run
 passed 289 tests after the last conformance cases, and GojoCAD passed 155
 with the added native-assets dependency.
+
+Pass 3 (Linux, `.NET 10.0.404`, no `wasm-tools` workload installed so the five
+`.Browser` hosts in `Gojo.slnx` do not build on this VM):
+- **EncodingC (`Release` and `Debug`):** **329 passed, 0 failed** (all 20
+  Pass-2 `[Theory]` conformance gates + 7 new `VariablePartitionAndUncertaintyTests`
+  `[Theory]` tests executed across both `Engine` and `CompiledPlan`, plus 5
+  `CompiledPlanTests` and 1 new `RecognitionTests` two-residue test; all
+  `SubstrateTests` reflection guards and `PassThreeAddsNoEnumsToEncodingC`
+  pass).
+- **All 18 other non-WASM, non-`QualitativeExecution` test projects in
+  `Gojo.slnx` (`Release`):** **3,789 passed, 0 failed** (`Gojo.Tests`: 1,074,
+  `GojoCAD.Tests`: 155, `Gojo.Encoding.Tests`: 725,
+  `Gojo.Encoding.Core.Tests`: 353, `PrimitiveExplorer.Tests`: 69,
+  `Gojo.GearShapeLadder.Tests`: 21, `Minds.Tests`: 49, `Phototaxis.Tests`: 129,
+  `PrimitiveForager.Tests`: 6, `PrimitiveLearning.Tests`: 67,
+  `CompositeEmergence.Tests`: 66, `AdaptiveLifecycle.Tests`: 25,
+  `UtilityEcology.Tests`: 119, `PrimitiveMeasure.Tests`: 717,
+  `ConstructionMachines.Tests`: 149, `OrnamentPathCampaign.Tests`: 12,
+  `OrnamentTension.Tests`: 49, `OrnamentFollowup.Tests`: 4), for **4,118
+  passed, 0 failed** total across 19 test projects (`QualitativeExecution.Tests`
+  was untouched and has no dependency on `Gojo.EncodingC`).
+

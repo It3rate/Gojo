@@ -314,6 +314,51 @@ public sealed class RecognitionTests
             new Accounting(true, new Unchanged(0), new Unchanged(1))), [0, 1, -1], [-1, -1, 2], maxCapacity: 3));
     }
 
+    /// <summary>Piecewise linear bounds need no fold kind or enum
+    /// (GojoOperationsSynthesis-2026-11.md §7, item 7). Two hidden residue
+    /// roles with unit cost recover <c>min(a, b)</c> as <c>a = c + e</c> and
+    /// <c>b = c + f</c>, <c>max(a, b)</c> as <c>c = a + e</c> and
+    /// <c>c = b + f</c>, and <c>|a − b|</c> as <c>c = a − b + e</c> and
+    /// <c>c = b − a + f</c>, restoring each law's table and accounting exactly.
+    /// An irregular table still returns null.</summary>
+    [Fact]
+    public void TwoHiddenResidueRolesRecoverMinMaxAndAbsoluteDifference()
+    {
+        var keepInputs = new Accounting(true, new Unchanged(0), new Unchanged(1));
+        var minLaw = TransitionLaw.FromFunction([Three, Three, Three], v => [v[0], v[1], v[0] < v[1] ? v[0] : v[1]], keepInputs);
+        var maxLaw = TransitionLaw.FromFunction([Three, Three, Three], v => [v[0], v[1], v[0] > v[1] ? v[0] : v[1]], keepInputs);
+        var distLaw = TransitionLaw.FromFunction([Three, Three, Three], v => [v[0], v[1], v[0] >= v[1] ? v[0] - v[1] : v[1] - v[0]], keepInputs);
+
+        // None of these is a single hidden residue balance, yet all three are exact two-residue balance systems.
+        Assert.Null(Recognition.Residue(minLaw, [0, 1, -1], [-1, -1, 2], maxWeight: 1, maxCapacity: 3));
+        Assert.Null(Recognition.Residue(maxLaw, [0, 1, -1], [-1, -1, 2], maxWeight: 1, maxCapacity: 3));
+
+        var foundMin = Recognition.Residues(minLaw, [0, 1, -1], [-1, -1, 2], hiddenRoles: 2, maxWeight: 1, maxCapacity: 3);
+        Assert.NotNull(foundMin);
+        Assert.Equal(2, foundMin!.System.Count);
+        Assert.Equal([0, 0, 0, 1, 1], foundMin.Cost);
+        var minCompare = Recognition.Compare(minLaw, foundMin.System, foundMin.Reads, foundMin.Writes, foundMin.Cost);
+        Assert.True(minCompare.Same && minCompare.KeepsAccounting && minCompare.EquationBits * 10 < minCompare.TableBits);
+        Assert.True(Recognition.Restore(minLaw, foundMin.System, foundMin.Reads, foundMin.Writes, foundMin.Cost).SameTable(minLaw));
+
+        var foundMax = Recognition.Residues(maxLaw, [0, 1, -1], [-1, -1, 2], hiddenRoles: 2, maxWeight: 1, maxCapacity: 3);
+        Assert.NotNull(foundMax);
+        Assert.Equal(2, foundMax!.System.Count);
+        var maxCompare = Recognition.Compare(maxLaw, foundMax.System, foundMax.Reads, foundMax.Writes, foundMax.Cost);
+        Assert.True(maxCompare.Same && maxCompare.KeepsAccounting);
+        Assert.True(Recognition.Restore(maxLaw, foundMax.System, foundMax.Reads, foundMax.Writes, foundMax.Cost).SameTable(maxLaw));
+
+        var foundDist = Recognition.Residues(distLaw, [0, 1, -1], [-1, -1, 2], hiddenRoles: 2, maxWeight: 1, maxCapacity: 6);
+        Assert.NotNull(foundDist);
+        Assert.Equal(2, foundDist!.System.Count);
+        var distCompare = Recognition.Compare(distLaw, foundDist.System, foundDist.Reads, foundDist.Writes, foundDist.Cost);
+        Assert.True(distCompare.Same && distCompare.KeepsAccounting);
+        Assert.True(Recognition.Restore(distLaw, foundDist.System, foundDist.Reads, foundDist.Writes, foundDist.Cost).SameTable(distLaw));
+
+        var noise = TransitionLaw.FromFunction([Three, Three, Three], v => [v[0], v[1], (v[0] * 3 + v[1] * 2 + 1) % 4], keepInputs);
+        Assert.Null(Recognition.Residues(noise, [0, 1, -1], [-1, -1, 2], hiddenRoles: 2, maxWeight: 1, maxCapacity: 4));
+    }
+
     /// <summary>Bits alone are not the law, and promises alone are not either
     /// (from ops_sol's reviews). The sum's equation rebuilds the sum's table,
     /// and Restore attaches the sum's accounting, so the rebuilt law makes the

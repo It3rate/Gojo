@@ -665,7 +665,7 @@ public sealed class Wiring
             if (!Rows.IsRetired(row)) yield return (Rows, row);
     }
 
-    private int Reference(int row, int role)
+    internal int Reference(int row, int role)
     {
         var index = 0;
         var planes = references[role];

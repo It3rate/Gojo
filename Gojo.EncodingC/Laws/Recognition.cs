@@ -47,6 +47,11 @@ public static class Recognition
     /// roles, then one free role that the binding keeps as small as it can.</summary>
     public sealed record WithResidue(Polynomial Equation, int[] Reads, int[] Writes, int[] Cost);
 
+    /// <summary>A system of balances over the law's observed roles plus
+    /// explicit hidden residue roles kept least by numeric cost (for example
+    /// two residue faces a = c + e and b = c + f for min, max, or |a − b|).</summary>
+    public sealed record WithResidues(IReadOnlyList<Polynomial> System, int[] Reads, int[] Writes, int[] Cost);
+
     /// <summary>The distinct tuples a functional law witnesses, read through a
     /// binding as <see cref="Operations.Bind"/> reads it: relation role r is law
     /// role <paramref name="reads"/>[r] before the step, or law role
@@ -273,6 +278,177 @@ public static class Recognition
         return found;
     }
 
+    /// <summary>A system of balances over the law's observed roles plus
+    /// <paramref name="hiddenRoles"/> free residue roles kept least by numeric
+    /// cost (GojoOperationsSynthesis-2026-11.md §7, item 7). Two residue faces
+    /// recover piecewise linear bounds without adding a fold kind or enum:
+    /// <c>min(a, b) = c</c> is <c>a = c + e</c> and <c>b = c + f</c> minimizing
+    /// <c>e + f</c>; <c>max(a, b) = c</c> is <c>c = a + e</c> and <c>c = b + f</c>;
+    /// <c>|a − b| = c</c> is <c>c = a − b + e</c> and <c>c = b − a + f</c>.
+    /// Null when no exact system is found within the given bounds.</summary>
+    public static WithResidues? Residues(TransitionLaw law, int[] reads, int[] writes,
+        int hiddenRoles = 2, int maxWeight = 2, int maxCapacity = 8)
+    {
+        ArgumentNullException.ThrowIfNull(law);
+        if (hiddenRoles < 1) throw new ArgumentOutOfRangeException(nameof(hiddenRoles));
+        if (hiddenRoles == 1)
+        {
+            return Residue(law, reads, writes, maxWeight, maxCapacity) is { } single
+                ? new WithResidues([single.Equation], single.Reads, single.Writes, single.Cost)
+                : null;
+        }
+        var witnesses = Witnesses(law, reads, writes);
+        if (witnesses.Count == 0) return null;
+        var observed = reads.Length;
+        Shape[] observedRoles = [.. Enumerable.Range(0, observed).Select(k => law.Roles[reads[k] >= 0 ? reads[k] : writes[k]])];
+        var observedProduct = observedRoles.Aggregate(1L, (p, s) => checked(p * s.Size));
+        int[] writtenSlots = [.. Enumerable.Range(0, observed).Where(k => writes[k] >= 0)];
+
+        var faces = new List<(int[] W, int Wf, int Cap, int NonZero, int WeightNorm)>();
+        var current = new int[observed];
+
+        void CollectFaces(int slot)
+        {
+            if (slot == observed)
+            {
+                bool hasRead = false, hasWrite = false;
+                var nonZero = 0;
+                var norm = 0;
+                long g = 0;
+                for (var k = 0; k < observed; k++)
+                {
+                    var w = current[k];
+                    if (w == 0) continue;
+                    nonZero++;
+                    var abs = w < 0 ? -w : w;
+                    norm += abs;
+                    g = Gcd(g, abs);
+                    if (reads[k] >= 0) hasRead = true;
+                    if (writes[k] >= 0) hasWrite = true;
+                }
+                if (!hasRead || !hasWrite) return;
+                for (var wf = 1; wf <= maxWeight; wf++)
+                {
+                    if (Gcd(g, wf) != 1) continue;
+                    long minR = long.MaxValue, maxR = 0;
+                    var ok = true;
+                    for (var i = 0; i < witnesses.Count; i++)
+                    {
+                        var t = witnesses[i];
+                        long sum = 0;
+                        for (var k = 0; k < observed; k++) sum += (long)current[k] * t[k];
+                        if (sum < 0 || sum % wf != 0) { ok = false; break; }
+                        var r = sum / wf;
+                        if (r > maxCapacity) { ok = false; break; }
+                        if (r < minR) minR = r;
+                        if (r > maxR) maxR = r;
+                    }
+                    if (!ok || minR != 0 || maxR < 1) continue;
+                    faces.Add(([.. current], wf, (int)maxR, nonZero, norm + wf));
+                }
+                return;
+            }
+            for (var w = -maxWeight; w <= maxWeight; w++)
+            {
+                current[slot] = w;
+                CollectFaces(slot + 1);
+            }
+        }
+
+        CollectFaces(0);
+        faces.Sort((a, b) =>
+        {
+            var c = a.NonZero.CompareTo(b.NonZero);
+            if (c != 0) return c;
+            c = a.WeightNorm.CompareTo(b.WeightNorm);
+            return c != 0 ? c : a.Cap.CompareTo(b.Cap);
+        });
+
+        int[] allReads = [.. reads, .. Enumerable.Repeat(-1, hiddenRoles)];
+        int[] allWrites = [.. writes, .. Enumerable.Repeat(-1, hiddenRoles)];
+        int[] cost = [.. Enumerable.Repeat(0, observed), .. Enumerable.Repeat(1, hiddenRoles)];
+        var chosen = new int[hiddenRoles];
+        WithResidues? found = null;
+
+        bool Pick(int depth, int from, long domain)
+        {
+            if (depth == hiddenRoles)
+            {
+                if (writtenSlots.Length == 1 && !WitnessesStrictlyCheapest(chosen, writtenSlots[0])) return false;
+                var roles = new Shape[observed + hiddenRoles];
+                for (var k = 0; k < observed; k++) roles[k] = observedRoles[k];
+                for (var h = 0; h < hiddenRoles; h++) roles[observed + h] = Shape.Unary(faces[chosen[h]].Cap);
+
+                var system = new Polynomial[hiddenRoles];
+                for (var h = 0; h < hiddenRoles; h++)
+                {
+                    var face = faces[chosen[h]];
+                    var terms = new List<(int Weight, int[] Exponents)>();
+                    for (var k = 0; k < observed; k++)
+                    {
+                        if (face.W[k] == 0) continue;
+                        var exp = new int[roles.Length];
+                        exp[k] = 1;
+                        terms.Add((face.W[k], exp));
+                    }
+                    var rExp = new int[roles.Length];
+                    rExp[observed + h] = 1;
+                    terms.Add((-face.Wf, rExp));
+                    system[h] = new Polynomial(roles, [.. terms]);
+                }
+
+                if (!Compare(law, system, allReads, allWrites, cost).Same) return false;
+                found = new WithResidues(system, allReads, allWrites, cost);
+                return true;
+            }
+            for (var i = from; i < faces.Count; i++)
+            {
+                var nextDomain = domain * (faces[i].Cap + 1);
+                if (nextDomain > Law.MaxBits) continue;
+                chosen[depth] = i;
+                if (Pick(depth + 1, i + 1, nextDomain)) return true;
+            }
+            return false;
+        }
+
+        bool WitnessesStrictlyCheapest(int[] selected, int writeSlot)
+        {
+            var size = observedRoles[writeSlot].Size;
+            for (var i = 0; i < witnesses.Count; i++)
+            {
+                var t = witnesses[i];
+                var actual = t[writeSlot];
+                long targetCost = 0;
+                for (var h = 0; h < selected.Length; h++)
+                {
+                    var f = faces[selected[h]];
+                    long s = 0;
+                    for (var k = 0; k < observed; k++) s += (long)f.W[k] * t[k];
+                    targetCost += s / f.Wf;
+                }
+                for (var cand = 0; cand < size; cand++)
+                {
+                    if (cand == actual) continue;
+                    long candCost = 0;
+                    var feasible = true;
+                    for (var h = 0; h < selected.Length; h++)
+                    {
+                        var f = faces[selected[h]];
+                        long s = 0;
+                        for (var k = 0; k < observed; k++) s += (long)f.W[k] * (k == writeSlot ? cand : t[k]);
+                        if (s < 0 || s % f.Wf != 0 || s / f.Wf > f.Cap) { feasible = false; break; }
+                        candCost += s / f.Wf;
+                    }
+                    if (feasible && candCost <= targetCost) return false;
+                }
+            }
+            return true;
+        }
+
+        Pick(0, 0, observedProduct);
+        return found;
+    }
+
     /// <summary>What a candidate says the target is for the other roles'
     /// values: null where it gives no whole value inside the target's shape.</summary>
     public static int? Predict(Polynomial equation, int target, IReadOnlyList<int> values)
@@ -325,11 +501,20 @@ public static class Recognition
     {
         ArgumentNullException.ThrowIfNull(law);
         ArgumentNullException.ThrowIfNull(equation);
-        var bound = Operations.Bind(equation.Relation, law.Roles, reads, writes, blocked, cost);
+        return Compare(law, [equation], reads, writes, cost, blocked);
+    }
+
+    /// <summary>A law set beside a system of equations bound the same way.</summary>
+    public static Comparison Compare(TransitionLaw law, IReadOnlyList<Polynomial> system, int[] reads, int[] writes, int[]? cost = null, int blocked = -1)
+    {
+        ArgumentNullException.ThrowIfNull(law);
+        ArgumentNullException.ThrowIfNull(system);
+        var bound = Operations.Bind(Operations.System(system), law.Roles, reads, writes, blocked, cost);
         var differences = Enumerable.Range(0, law.StateCount).Count(b => !law.Afters(b).SequenceEqual(bound.Afters(b)));
         var stateBits = 0;
         while (1L << stateBits < law.StateCount) stateBits++;
-        return new Comparison(law.SameTable(bound), differences, law.BitCount, equation.Bits + 2L * stateBits * differences, Keeps(bound, law.Accounting));
+        var equationBits = system.Sum(e => (long)e.Bits);
+        return new Comparison(law.SameTable(bound), differences, law.BitCount, equationBits + 2L * stateBits * differences, Keeps(bound, law.Accounting));
     }
 
     /// <summary>The law an equation compresses, rebuilt from the equation with
@@ -343,9 +528,18 @@ public static class Recognition
     {
         ArgumentNullException.ThrowIfNull(law);
         ArgumentNullException.ThrowIfNull(equation);
-        var bound = Operations.Bind(equation.Relation, law.Roles, reads, writes, blocked, cost);
+        return Restore(law, [equation], reads, writes, cost, blocked);
+    }
+
+    /// <summary>Rebuilds a law from a system of equations, requiring exact
+    /// table parity and preserving the original accounting.</summary>
+    public static TransitionLaw Restore(TransitionLaw law, IReadOnlyList<Polynomial> system, int[] reads, int[] writes, int[]? cost = null, int blocked = -1)
+    {
+        ArgumentNullException.ThrowIfNull(law);
+        ArgumentNullException.ThrowIfNull(system);
+        var bound = Operations.Bind(Operations.System(system), law.Roles, reads, writes, blocked, cost);
         if (!law.SameTable(bound))
-            throw new ArgumentException("The equation does not reproduce the law: a restored law must behave as the original, not only keep its promises.", nameof(equation));
+            throw new ArgumentException("The system does not reproduce the law: a restored law must behave as the original, not only keep its promises.", nameof(system));
         return new TransitionLaw(bound.Roles, bound.Bytes(), law.Accounting);
     }
 

@@ -31,6 +31,28 @@ public static class Operations
     /// <summary>A product: a · b = c, with c of capacity a · b. Roles: a, b, c.</summary>
     public static RelationLaw Product(int capacityA, int capacityB) => Polynomial.Product(capacityA, capacityB).Relation;
 
+    /// <summary>The tuples that satisfy every equation in <paramref name="equations"/>
+    /// over their shared roles: a system of polynomial relations read as one table.</summary>
+    public static RelationLaw System(IReadOnlyList<Polynomial> equations)
+    {
+        ArgumentNullException.ThrowIfNull(equations);
+        if (equations.Count == 0) throw new ArgumentException("A system has at least one equation.", nameof(equations));
+        if (equations.Count == 1) return equations[0].Relation;
+        var roles = equations[0].Roles;
+        for (var i = 1; i < equations.Count; i++)
+        {
+            ArgumentNullException.ThrowIfNull(equations[i]);
+            if (!equations[i].Roles.SequenceEqual(roles))
+                throw new ArgumentException("Every equation in a system must share the same role shapes.", nameof(equations));
+        }
+        return RelationLaw.FromPredicate(roles, values =>
+        {
+            for (var i = 0; i < equations.Count; i++)
+                if (!equations[i].Holds(values)) return false;
+            return true;
+        });
+    }
+
     /// <summary>Runs a relation as a law over <paramref name="roles"/>. Relation
     /// role r reads law role <paramref name="reads"/>[r] before the step, or
     /// writes law role <paramref name="writes"/>[r] after it; −1 for neither

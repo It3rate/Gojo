@@ -44,6 +44,8 @@ public sealed class Engine
     /// <summary>Steps run so far.</summary>
     public long Tick { get; private set; }
 
+    internal void AdvanceTick(long delta = 1) => Tick += delta;
+
     /// <summary>The structure this one is a fork of, or null. A fork is the
     /// same local intelligence supposing: it reads its parent's stores through
     /// workspaces and never binds them directly.</summary>
