@@ -6,6 +6,8 @@ The three checkpoints share master `9b805964`. This review pins Sol at `29df5335
 
 The design follow-up reviews the later Claude comparison and proposal. Claude `6a7d3f17` also changes sweep receipts to saturate without blocking material. The follow-up proposes a small test for turning settled observations into reusable equations. [From settlement to reusable equations](GojoOperationsDiscoveryProposal.md)
 
+The [Operations Round 3 review](GojoOperationsRound3.md) compares the later implementations and examines variable partitions with a five-star scale.
+
 ## What I would carry forward
 
 | Branch | Strength | Cost or limit | What to carry forward |

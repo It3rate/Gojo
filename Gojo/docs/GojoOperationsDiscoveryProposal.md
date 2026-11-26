@@ -4,6 +4,8 @@ Design proposal · 26 November 2026
 
 This proposal reviews Sol `37bf0a57`, Neon `6f655fc2`, and Claude `6a7d3f17` against master `9b805964`. It follows the [measured branch comparison](GojoOperationsBranchComparison.md). The implementation checkpoint below records the first numeric and discovery fixtures. The proposal retains the reasoning and later experiments.
 
+The [Operations Round 3 review](GojoOperationsRound3.md) compares the later implementations and examines variable partitions with a five-star scale.
+
 ## First bounded numeric implementation
 
 EncodingC now has a selected radix-4 read over two digits. An ordered relation accounts for `amount = 4 × coarse + fine` in fine units, from 0 through 15. Binding either digit as an open role keeps its possible values available. Binding an exact amount can settle both digits. The role shapes say how the values are held. The weighted relation supplies the four-to-one interpretation.
