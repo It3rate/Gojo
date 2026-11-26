@@ -150,6 +150,7 @@ public sealed class CompiledPlan
     private readonly WiringSnapshot[] wiringSnapshots;
     private readonly CompiledWiring[] compiled;
     private readonly RecognizedOscillator? oscillator;
+    private readonly RecognizedLandmarkOscillator? landmarkOscillator;
     private readonly RecognizedLadderAdder? ladderAdder;
 
     private CompiledPlan(
@@ -157,6 +158,7 @@ public sealed class CompiledPlan
         WiringSnapshot[] snapshots,
         CompiledWiring[] compiled,
         RecognizedOscillator? oscillator,
+        RecognizedLandmarkOscillator? landmarkOscillator,
         RecognizedLadderAdder? ladderAdder)
     {
         this.engine = engine;
@@ -164,6 +166,7 @@ public sealed class CompiledPlan
         wiringSnapshots = snapshots;
         this.compiled = compiled;
         this.oscillator = oscillator;
+        this.landmarkOscillator = landmarkOscillator;
         this.ladderAdder = ladderAdder;
     }
 
@@ -177,13 +180,19 @@ public sealed class CompiledPlan
     /// T+ overflow was recognized strictly from its table bits.</summary>
     public bool RecognizedBoundedMultiply => compiled.Any(c => c.Kind == KernelKind.BoundedMultiply);
 
-    /// <summary>True iff a sealed multi-rung radix-B ripple adder was recognized
-    /// strictly from verified DigitAddStep tables and carry wiring.</summary>
+    /// <summary>True iff a sealed multi-rung radix-B ripple adder (combined or
+    /// split DigitSum+DigitCarry up to base 10) was recognized strictly from
+    /// verified balance tables and carry wiring.</summary>
     public bool RecognizedRadixAdder => ladderAdder is not null;
 
     /// <summary>True iff a declared-order symplectic kick-drift oscillator was
     /// recognized strictly from its two signed-shear tables.</summary>
     public bool RecognizedKickDriftOscillator => oscillator is not null;
+
+    /// <summary>True iff an unsigned live-landmark kick-drift oscillator was
+    /// recognized strictly from its two balance tables via
+    /// <see cref="StructuralCompression.TryRecognizeBalance"/>.</summary>
+    public bool RecognizedUnsignedLandmarkOscillator => landmarkOscillator is not null;
 
     /// <summary>False after any structural edit to the engine: adding a wiring,
     /// changing Together, adding/retiring rows, flipping Attention, turning on
@@ -214,73 +223,41 @@ public sealed class CompiledPlan
         }
 
         var osc = TryRecognizeKickDrift(engine);
+        var lmOsc = osc is null ? TryRecognizeLandmarkOscillator(engine) : null;
         var adder = TryRecognizeLadderAdder(engine);
-        return new CompiledPlan(engine, snapshots, compiled, osc, adder);
+        return new CompiledPlan(engine, snapshots, compiled, osc, lmOsc, adder);
     }
 
     /// <summary>Mechanically verifies whether <paramref name="law"/> is an
-    /// exact packet conversion <c>Convert(take, give)</c> strictly from its
-    /// role shapes, <see cref="PreservedSum"/> weights, and table bits (works
-    /// identically on restored or learned laws).</summary>
+    /// exact packet conversion <c>Convert(take, give)</c> via
+    /// <see cref="StructuralCompression.TryRecognizePacketTrade"/>.</summary>
     public static bool TryRecognizePacketConvert(TransitionLaw law, out int take, out int give)
     {
+        if (StructuralCompression.TryRecognizePacketTrade(law) is { ExactTableMatch: true } fit)
+        {
+            take = fit.Take;
+            give = fit.Give;
+            return true;
+        }
         take = give = 0;
-        if (law.Roles.Count != 2 || !law.Roles[0].IsUnary || !law.Roles[1].IsUnary || !law.IsFunctional) return false;
-        var sum = law.Accounting.Invariants.OfType<PreservedSum>().FirstOrDefault(s => s.Conserves && s.Roles.Count == 2 && s.Roles[0] == 0 && s.Roles[1] == 1);
-        if (sum is null) return false;
-        var candGive = sum.Weights[0];
-        var candTake = sum.Weights[1];
-        if (candTake < 1 || candGive < 1) return false;
-
-        var srcCap = law.Roles[0].Size - 1;
-        var dstCap = law.Roles[1].Size - 1;
-        for (var s = 0; s <= srcCap; s++)
-            for (var d = 0; d <= dstCap; d++)
-            {
-                var after = law.Tuple(law.Afters(law.TupleIndex([s, d]))[0]);
-                var canFire = s >= candTake && d + candGive <= dstCap;
-                var expS = canFire ? s - candTake : s;
-                var expD = canFire ? d + candGive : d;
-                if (after[0] != expS || after[1] != expD) return false;
-            }
-        take = candTake;
-        give = candGive;
-        return true;
+        return false;
     }
 
     /// <summary>Mechanically verifies whether <paramref name="law"/> is a
     /// functional lossless bounded multiplier <c>(a [Unchanged], b [Unchanged],
     /// value, overflow/T+)</c> where <c>prodCap + overflowCap ≥ maxA · maxB</c>
-    /// strictly from every cell of its table bits.</summary>
+    /// via <see cref="StructuralCompression.TryRecognizeProduct"/>.</summary>
     public static bool TryRecognizeBoundedMultiply(TransitionLaw law, out int prodCap, out int overflowCap)
     {
+        if (law.Roles.Count == 4 && !law.Writes(0) && !law.Writes(1)
+            && StructuralCompression.TryRecognizeProduct(law, maxExceptions: 0) is { ExactTableMatch: true, LeftRole: 0, RightRole: 1, ProductRole: 2, OverflowRole: 3, Scale: 1 })
+        {
+            prodCap = law.Roles[2].Size - 1;
+            overflowCap = law.Roles[3].Size - 1;
+            return true;
+        }
         prodCap = overflowCap = 0;
-        if (law.Roles.Count != 4 || !law.IsFunctional) return false;
-        if (law.Writes(0) || law.Writes(1)) return false;
-        var aSize = law.Roles[0].Size;
-        var bSize = law.Roles[1].Size;
-        var vSize = law.Roles[2].Size;
-        var oSize = law.Roles[3].Size;
-        if (aSize < 2 || bSize < 2 || vSize < 2 || oSize < 2) return false;
-        var candProdCap = vSize - 1;
-        var candOvfCap = oSize - 1;
-        if ((ulong)candProdCap + (ulong)candOvfCap < (ulong)(aSize - 1) * (ulong)(bSize - 1)) return false;
-        for (var a = 0; a < aSize; a++)
-            for (var b = 0; b < bSize; b++)
-            {
-                var prod = (ulong)a * (ulong)b;
-                var expVal = prod <= (ulong)candProdCap ? (int)prod : candProdCap;
-                var expOvf = prod > (ulong)candProdCap ? (int)(prod - (ulong)candProdCap) : 0;
-                for (var ov = 0; ov < vSize; ov++)
-                    for (var oo = 0; oo < oSize; oo++)
-                    {
-                        var after = law.Tuple(law.Afters(law.TupleIndex([a, b, ov, oo]))[0]);
-                        if (after[0] != a || after[1] != b || after[2] != expVal || after[3] != expOvf) return false;
-                    }
-            }
-        prodCap = candProdCap;
-        overflowCap = candOvfCap;
-        return true;
+        return false;
     }
 
     /// <summary>Mechanically verifies whether <paramref name="law"/> is a
@@ -390,6 +367,17 @@ public sealed class CompiledPlan
         if (oscillator is { } osc && osc.CanRunFast())
         {
             var (fast, deopt, changed) = osc.StepFast();
+            if (deopt == 0)
+            {
+                engine.AdvanceTick();
+                quiet = !changed;
+                return new CompiledStepReport(UsedFastPath: true, Stale: false, FastLanes: fast, DeoptLanes: 0);
+            }
+        }
+
+        if (landmarkOscillator is { } lmOsc && lmOsc.CanRunFast())
+        {
+            var (fast, deopt, changed) = lmOsc.StepFast();
             if (deopt == 0)
             {
                 engine.AdvanceTick();
@@ -1456,9 +1444,141 @@ public sealed class CompiledPlan
         return new RecognizedOscillator(w0, w1, st, fx, fv, max0, sh0, -sgn0, cl0);
     }
 
+    /// <summary>Recognized unsigned live-landmark kick-drift oscillator
+    /// (ops_claude's <c>LandmarkShear</c> balances: <c>v' = v + k·(L − x)</c>
+    /// then <c>x' = x + (v − R)</c>, holding when out of track range, with
+    /// optional blocked bits) lowered directly to integer register math.</summary>
+    private sealed class RecognizedLandmarkOscillator(
+        Wiring kickWiring,
+        Wiring driftWiring,
+        Store store,
+        Field fx,
+        Field fv,
+        Field fLandmark,
+        Field fRest,
+        int trackCap,
+        int kickWeight,
+        int kickBlockedPlane,
+        int driftBlockedPlane)
+    {
+        public bool CanRunFast() =>
+            kickWiring.Recorded is null && driftWiring.Recorded is null
+            && kickWiring.Runnable().Equals(driftWiring.Runnable())
+            && kickWiring.Runnable().Any;
+
+        public (int Fast, int Deopt, bool Changed) StepFast()
+        {
+            var runnable = kickWiring.Runnable();
+            var seen = new HashSet<int>();
+            foreach (var row in runnable.Indexes())
+            {
+                var pos = kickWiring.Reference(row, 0);
+                if (!store.IsLive(pos) || !seen.Add(pos)) return (0, runnable.Count, false);
+                for (var r = 0; r < kickWiring.Bindings.Count; r++)
+                    if (kickWiring.Reference(row, r) != pos) return (0, runnable.Count, false);
+                for (var r = 0; r < driftWiring.Bindings.Count; r++)
+                    if (driftWiring.Reference(row, r) != pos) return (0, runnable.Count, false);
+                if (fx.Read(store, pos) is null || fv.Read(store, pos) is null
+                    || fLandmark.Read(store, pos) is null || fRest.Read(store, pos) is null)
+                    return (0, runnable.Count, false);
+            }
+
+            var changed = false;
+            foreach (var row in runnable.Indexes())
+            {
+                var pos = kickWiring.Reference(row, 0);
+                var x = fx.Read(store, pos)!.Value;
+                var v = fv.Read(store, pos)!.Value;
+                var lm = fLandmark.Read(store, pos)!.Value;
+                var rest = fRest.Read(store, pos)!.Value;
+
+                var candV = v + kickWeight * (lm - x);
+                var kickBlocked = candV < 0 || candV > trackCap;
+                var nextV = kickBlocked ? v : candV;
+                if (nextV != v) { fv.Write(store, pos, nextV); changed = true; }
+                if (kickBlockedPlane >= 0 && store.Read(kickBlockedPlane, pos) != kickBlocked)
+                {
+                    store.Write(kickBlockedPlane, pos, kickBlocked);
+                    changed = true;
+                }
+
+                var candX = x + nextV - rest;
+                var driftBlocked = candX < 0 || candX > trackCap;
+                var nextX = driftBlocked ? x : candX;
+                if (nextX != x) { fx.Write(store, pos, nextX); changed = true; }
+                if (driftBlockedPlane >= 0 && store.Read(driftBlockedPlane, pos) != driftBlocked)
+                {
+                    store.Write(driftBlockedPlane, pos, driftBlocked);
+                    changed = true;
+                }
+            }
+            return (runnable.Count, 0, changed);
+        }
+    }
+
+    private static RecognizedLandmarkOscillator? TryRecognizeLandmarkOscillator(Engine engine)
+    {
+        if (engine.Together || engine.Wirings.Count != 2) return null;
+        var (w0, w1) = (engine.Wirings[0], engine.Wirings[1]);
+        if (w0.Law is not TransitionLaw t0 || w1.Law is not TransitionLaw t1) return null;
+        if (t0.Roles.Count is not (3 or 4) || t1.Roles.Count is not (3 or 4)) return null;
+        if (w0.Bindings.Any(b => b.IsOpen || b.Surface is not Store) || w1.Bindings.Any(b => b.IsOpen || b.Surface is not Store))
+            return null;
+        var st = (Store)w0.Bindings[0].Surface;
+        if (w0.Bindings.Any(b => !ReferenceEquals(b.Surface, st)) || w1.Bindings.Any(b => !ReferenceEquals(b.Surface, st)))
+            return null;
+
+        var shape = t0.Roles[0];
+        if (t0.Roles[1] != shape || t0.Roles[2] != shape || t1.Roles[0] != shape || t1.Roles[1] != shape || t1.Roles[2] != shape)
+            return null;
+
+        // Recognize both shear balances strictly from table bits via StructuralCompression.TryRecognizeBalance!
+        var fit0 = StructuralCompression.TryRecognizeBalance(t0, maxWeight: 6, maxExceptions: 0);
+        var fit1 = StructuralCompression.TryRecognizeBalance(t1, maxWeight: 6, maxExceptions: 0);
+        if (fit0 is null || fit1 is null || !fit0.ExactTableMatch || !fit1.ExactTableMatch) return null;
+        if (fit0.FreeResidueCapacity != 0 || fit1.FreeResidueCapacity != 0) return null;
+        if (fit0.Weights.Length != 4 || fit1.Weights.Length != 4) return null;
+        // Expected kick: weights (1, k, -k, -1), reads (0, 1, 2, -1), writes (-1, -1, -1, 0)
+        // Expected drift: weights (1, 1, -1, -1), reads (0, 1, 2, -1), writes (-1, -1, -1, 0)
+        if (fit0.Weights[0] != 1 || fit0.Weights[3] != -1 || fit0.Weights[1] < 1 || fit0.Weights[2] != -fit0.Weights[1]) return null;
+        if (fit1.Weights[0] != 1 || fit1.Weights[1] != 1 || fit1.Weights[2] != -1 || fit1.Weights[3] != -1) return null;
+        if (!fit0.Reads.SequenceEqual([0, 1, 2, -1]) || !fit0.Writes.SequenceEqual([-1, -1, -1, 0])) return null;
+        if (!fit1.Reads.SequenceEqual([0, 1, 2, -1]) || !fit1.Writes.SequenceEqual([-1, -1, -1, 0])) return null;
+
+        // Wiring coupling: w0=(v, L, x[, b0]), w1=(x, v, R[, b1])
+        if (!w0.Bindings[0].Planes.SequenceEqual(w1.Bindings[1].Planes)
+            || !w0.Bindings[2].Planes.SequenceEqual(w1.Bindings[0].Planes)) return null;
+
+        // Disjointness of written planes (v, x, optional blocked bits) from each other and from L, R.
+        var fvPlanes = w0.Bindings[0].Planes;
+        var flPlanes = w0.Bindings[1].Planes;
+        var fxPlanes = w0.Bindings[2].Planes;
+        var frPlanes = w1.Bindings[2].Planes;
+        var kbPlane = fit0.BlockedRole >= 0 ? w0.Bindings[fit0.BlockedRole].Plane(0) : -1;
+        var dbPlane = fit1.BlockedRole >= 0 ? w1.Bindings[fit1.BlockedRole].Plane(0) : -1;
+        var readSet = new HashSet<int>(flPlanes.Concat(frPlanes));
+        var writeSet = new HashSet<int>();
+        foreach (var p in fvPlanes.Concat(fxPlanes))
+            if (!writeSet.Add(p) || readSet.Contains(p)) return null;
+        if (kbPlane >= 0 && (!writeSet.Add(kbPlane) || readSet.Contains(kbPlane))) return null;
+        if (dbPlane >= 0 && (!writeSet.Add(dbPlane) || readSet.Contains(dbPlane))) return null;
+
+        return new RecognizedLandmarkOscillator(
+            w0, w1, st,
+            new Field(shape, [.. fxPlanes]),
+            new Field(shape, [.. fvPlanes]),
+            new Field(shape, [.. flPlanes]),
+            new Field(shape, [.. frPlanes]),
+            shape.Size - 1,
+            fit0.Weights[1],
+            kbPlane,
+            dbPlane);
+    }
+
     /// <summary>Recognized sealed multi-rung radix-B ripple-carry adder chain
-    /// (N wirings of DigitAddStep chaining cout[i] -> cin[i+1]) lowered to
-    /// native widening ulong integer addition with exact carry-out.</summary>
+    /// (either combined 5-role DigitAddStep or split 4-role DigitSum +
+    /// DigitCarry up to base 10) lowered to native widening ulong integer
+    /// addition with exact carry-out.</summary>
     private sealed class RecognizedLadderAdder(
         Wiring[] wirings,
         Store store,
@@ -1482,7 +1602,7 @@ public sealed class CompiledPlan
         public (int Fast, int Deopt, bool Changed) StepFast()
         {
             var runnable = wirings[0].Runnable();
-            var k = wirings.Length;
+            var k = a.Length;
             ulong modulus = 1;
             for (var i = 0; i < k; i++) modulus *= (ulong)radix;
 
@@ -1491,13 +1611,12 @@ public sealed class CompiledPlan
             {
                 var pos = wirings[0].Reference(row, 0);
                 if (!store.IsLive(pos) || !seenPos.Add(pos)) return (0, runnable.Count, false);
+                for (var wi = 0; wi < wirings.Length; wi++)
+                    for (var r = 0; r < wirings[wi].Bindings.Count; r++)
+                        if (wirings[wi].Reference(row, r) != pos) return (0, runnable.Count, false);
                 for (var i = 0; i < k; i++)
-                {
-                    for (var r = 0; r < 5; r++)
-                        if (wirings[i].Reference(row, r) != pos) return (0, runnable.Count, false);
                     if (a[i].Read(store, pos) is null || b[i].Read(store, pos) is null || sum[i].Read(store, pos) is null)
                         return (0, runnable.Count, false);
-                }
             }
 
             var changed = false;
@@ -1538,6 +1657,17 @@ public sealed class CompiledPlan
     private static RecognizedLadderAdder? TryRecognizeLadderAdder(Engine engine)
     {
         if (engine.Together || engine.Wirings.Count < 2) return null;
+
+        // Mode A: combined 5-role DigitAddStep per rung (radix 2..4)
+        var combined = TryRecognizeCombinedLadderAdder(engine);
+        if (combined is not null) return combined;
+
+        // Mode B: split 4-role (DigitSum + DigitCarry) pair per rung (radix 2..10, e.g. 3-digit base-10 0..999!)
+        return TryRecognizeSplitLadderAdder(engine);
+    }
+
+    private static RecognizedLadderAdder? TryRecognizeCombinedLadderAdder(Engine engine)
+    {
         var k = engine.Wirings.Count;
         var wirings = new Wiring[k];
         int radix = 0;
@@ -1566,7 +1696,85 @@ public sealed class CompiledPlan
             b[i] = new Field(t.Roles[1], [.. w.Bindings[1].Planes]);
             sum[i] = new Field(t.Roles[3], [.. w.Bindings[3].Planes]);
         }
+        return BuildVerifiedLadderAdder(wirings, store!, radix, a, b, sum, wirings[0].Bindings[2].Plane(0), wirings[k - 1].Bindings[4].Plane(0), carries);
+    }
 
+    private static RecognizedLadderAdder? TryRecognizeSplitLadderAdder(Engine engine)
+    {
+        if ((engine.Wirings.Count & 1) != 0 || engine.Wirings.Count < 4) return null;
+        var k = engine.Wirings.Count / 2;
+        var wirings = new Wiring[engine.Wirings.Count];
+        int radix = 0;
+        Store? store = null;
+        var a = new Field[k];
+        var b = new Field[k];
+        var sum = new Field[k];
+        var carries = new int[k - 1];
+        var cinPlane = -1;
+        var coutPlane = -1;
+
+        for (var i = 0; i < k; i++)
+        {
+            var wSum = engine.Wirings[2 * i];
+            var wCar = engine.Wirings[2 * i + 1];
+            if (wSum.Law is not TransitionLaw tSum || wCar.Law is not TransitionLaw tCar) return null;
+            if (tSum.Roles.Count != 4 || tCar.Roles.Count != 4) return null;
+            if (wSum.Bindings.Any(bind => bind.IsOpen || bind.Surface is not Store)
+                || wCar.Bindings.Any(bind => bind.IsOpen || bind.Surface is not Store)) return null;
+
+            var s0 = (Store)wSum.Bindings[0].Surface;
+            if (store is null) store = s0; else if (!ReferenceEquals(store, s0)) return null;
+            if (wSum.Bindings.Any(bind => !ReferenceEquals(bind.Surface, store))
+                || wCar.Bindings.Any(bind => !ReferenceEquals(bind.Surface, store))) return null;
+
+            // Verify both split laws via StructuralCompression.TryRecognizeBalance!
+            var fitSum = StructuralCompression.TryRecognizeBalance(tSum, maxWeight: 10, maxExceptions: 0);
+            var fitCar = StructuralCompression.TryRecognizeBalance(tCar, maxWeight: 10, maxExceptions: 0);
+            if (fitSum is null || fitCar is null || !fitSum.ExactTableMatch || !fitCar.ExactTableMatch) return null;
+            var r = tSum.Roles[0].Size;
+            if (r < 2 || tSum.Roles[1] != tSum.Roles[0] || tSum.Roles[2] != Shape.Bit || tSum.Roles[3] != tSum.Roles[0]) return null;
+            if (tCar.Roles[0] != tSum.Roles[0] || tCar.Roles[1] != tSum.Roles[0] || tCar.Roles[2] != Shape.Bit || tCar.Roles[3] != Shape.Bit) return null;
+            if (!fitSum.Weights.SequenceEqual([1, 1, 1, -1, -r]) || fitSum.FreeResidueCapacity != 1) return null;
+            if (!fitCar.Weights.SequenceEqual([1, 1, 1, -r, -1]) || fitCar.FreeResidueCapacity != r - 1) return null;
+            if (i == 0) radix = r; else if (r != radix) return null;
+
+            // Sum and Carry wirings of rung i must read the exact same (a[i], b[i], cin[i]).
+            if (!wSum.Bindings[0].Planes.SequenceEqual(wCar.Bindings[0].Planes)
+                || !wSum.Bindings[1].Planes.SequenceEqual(wCar.Bindings[1].Planes)
+                || wSum.Bindings[2].Plane(0) != wCar.Bindings[2].Plane(0)) return null;
+
+            var rungCin = wSum.Bindings[2].Plane(0);
+            var rungCout = wCar.Bindings[3].Plane(0);
+            if (i == 0) cinPlane = rungCin;
+            else
+            {
+                if (rungCin != carries[i - 1]) return null;
+            }
+            if (i < k - 1) carries[i] = rungCout;
+            else coutPlane = rungCout;
+
+            wirings[2 * i] = wSum;
+            wirings[2 * i + 1] = wCar;
+            a[i] = new Field(tSum.Roles[0], [.. wSum.Bindings[0].Planes]);
+            b[i] = new Field(tSum.Roles[1], [.. wSum.Bindings[1].Planes]);
+            sum[i] = new Field(tSum.Roles[3], [.. wSum.Bindings[3].Planes]);
+        }
+
+        return BuildVerifiedLadderAdder(wirings, store!, radix, a, b, sum, cinPlane, coutPlane, carries);
+    }
+
+    private static RecognizedLadderAdder? BuildVerifiedLadderAdder(
+        Wiring[] wirings,
+        Store store,
+        int radix,
+        Field[] a,
+        Field[] b,
+        Field[] sum,
+        int cinPlane,
+        int coutPlane,
+        int[] carries)
+    {
+        var k = a.Length;
         ulong modulus = 1;
         for (var i = 0; i < k; i++)
         {
@@ -1574,8 +1782,6 @@ public sealed class CompiledPlan
             modulus *= (ulong)radix;
         }
 
-        var cinPlane = wirings[0].Bindings[2].Plane(0);
-        var coutPlane = wirings[k - 1].Bindings[4].Plane(0);
         var readPlanes = new HashSet<int> { cinPlane };
         for (var i = 0; i < k; i++)
         {
@@ -1590,7 +1796,7 @@ public sealed class CompiledPlan
             if (!writtenPlanes.Add(p) || readPlanes.Contains(p)) return null;
         if (!writtenPlanes.Add(coutPlane) || readPlanes.Contains(coutPlane)) return null;
 
-        return new RecognizedLadderAdder(wirings, store!, radix, a, b, sum, cinPlane, coutPlane, carries);
+        return new RecognizedLadderAdder(wirings, store, radix, a, b, sum, cinPlane, coutPlane, carries);
     }
 
     private sealed class WiringSnapshot

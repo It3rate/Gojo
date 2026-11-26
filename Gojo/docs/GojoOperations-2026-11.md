@@ -1,16 +1,17 @@
 # Operations: from physical relations to compiled hardware
 
-Status: **exploratory, post-comparison revision on branch `ops_neon`** (25
-November 2026, synced to `master` `9b805964`). Phases 0–5 of §8 are built and
-verified in [`Gojo.EncodingC`](../../Gojo.EncodingC/README.md) (243/243 tests
-passing, zero strings, zero floats/doubles, zero `System.Math` references in
-the encoding assembly). This revision incorporates peer benchmarks and critiques
-from `ops_sol` (`37bf0a57`, `GojoOperationsBranchComparison.md`) and
-`ops_claude` (`2d9b6bb6`, `GojoOperationsComparison-2026-11.md` and
-`ConfigurationPotentialTests.cs`), fixes the verified `ops_neon` bugs they
-caught (§8.1–§8.2), and adds the deep analysis and next-round proposal for
-**Gojo-friendly symbolic regression / structural compression** (§9) and
-**pre-numeric vs. multi-rung numbers** (§10). It follows
+Status: **exploratory, Round-2 implementation on branch `ops_neon`** (25
+November 2026, synced to `master` `9b805964`). Phases 0–5 plus Round 2
+(`Operations.Balance`/`Bind`, minimal multi-rung `Numbers` up to base-10
+`0..999` & `0..9,801` layered cleanly above pre-numeric Rung 0, sparse
+`WitnessStore` + `StructuralCompression` discrete symbolic regression,
+analyzer-driven `CompiledPlan`, and equifinal-potential tests) are built and
+verified in [`Gojo.EncodingC`](../../Gojo.EncodingC/README.md) (**257/257**
+tests passing, zero strings, zero floats/doubles, zero `System.Math` references
+in the encoding assembly). This revision incorporates peer proposals and code
+from `ops_sol` (`fe5d473d`, `GojoOperationsDiscoveryProposal.md`) and
+`ops_claude` (`6a7d3f17`, `GojoOperationsProposal-2026-11.md` and `928ef76f`
+observational `Flows.Sweep`). It follows
 [GojoSystemPrompt.md](GojoSystemPrompt.md) (§1) and builds on
 [GojoStructureClosure-2026-11.md](GojoStructureClosure-2026-11.md),
 [GojoTension-2026-11.md](GojoTension-2026-11.md),
@@ -1163,14 +1164,66 @@ three branches into one lean, regression-friendly, rung-capable stack:
      and multipliers, and benchmark both single-rung 65K-lane SIMD and
      multi-rung arithmetic parity.
 
+### 11.1 Round 2 implemented on `ops_neon` (`257/257` passing)
+
+All five workstreams of §11 now have working, tested implementations in
+`Gojo.EncodingC` (zero strings, zero floats/doubles, zero `System.Math`):
+
+1. **Unified relational operations core ([`Operations.cs`](../../Gojo.EncodingC/Laws/Operations.cs), [`Flows.cs`](../../Gojo.EncodingC/Flow/Flows.cs)):**
+   `Operations.Balance`, `Operations.Product`, and `Operations.Bind` with
+   explicit `FreeRolePolicy` (`LeastTotal` vs. `AllAdmitted`) and optional
+   `blocked` bit, plus decoupled observational `Flows.Sweep` (a full receipt
+   saturates cleanly and never holds material).
+2. **Minimal multi-rung numbers above pre-numeric Rung 0 ([`Numbers.cs`](../../Gojo.EncodingC/Numbers/Numbers.cs), [`NumbersTests.cs`](../../Gojo.EncodingC/Tests/NumbersTests.cs)):**
+   `RungNumber` + `Numbers` built strictly from `Operations.Balance` / `Bind`:
+   one 4,000-bit (500 B) `DigitAddRelation(10)` powers BOTH 3-digit base-10
+   addition (`0..999 + 0..999`) AND reverse subtraction (`0..999 − 0..999`) via
+   split `DigitSum`/`DigitCarry` bindings (`<= 4.0M` bits, inside `Law.MaxBits`);
+   `WireMultiplier` computes multi-digit base-10 products (`0..99 × 0..99 →
+   0..9,801`) far beyond dense table capacity; 1-rung unary `RungNumber` works
+   directly with pre-numeric `Tension`/`Flows`; two-rung radix-4 coasting (`B13`)
+   settles 12 units in ≤ 6 steps; coupled `x+y=5, x·y=6` (`B2`) narrows
+   marginals to `{2,3}` and recovers `(2,3)` and `(3,2)` via `Fork`s; unsigned
+   live-`Landmark` shears deduplicate `kick.SameTable(drift) == true`, pack to
+   **940 B** (`2,038 B` with `blocked` bits — **104× smaller** than non-functional
+   signed Minsky!), and re-center mid-flight (`B5`).
+3. **Sparse `WitnessStore` + Gojo discrete symbolic regressor ([`StructuralCompression.cs`](../../Gojo.EncodingC/Learning/StructuralCompression.cs), [`SymbolicRegressionTests.cs`](../../Gojo.EncodingC/Tests/SymbolicRegressionTests.cs)):**
+   - Pure-numeric hints (`ReadHints`) and exact `Bind`-inverse recovery
+     (`TryRecognizeBalance`, `TryRecognizeProduct`, `TryRecognizePacketTrade`)
+     recover `Counts.Sum`, `Tally`, `Shortfall` (auto-discovering free excess
+     residue), `Accumulate` (discovering tighter 3-weight in-place `[1, 1, -1]`
+     where hold-at-cap == clamp!), separate-output clamped `OR` (auto-discovering
+     free overflow bit), combined radix-4 & split base-10 adders (saving > 3.9M
+     bits by MDL!), `LandmarkShear`, `Convert(3,2)`, `BoundedMultiply`, and
+     crystallized `LearnedTable` (`B7`).
+   - Mutated corner `(3,2) → 5` rejects exact product (`ExactTableMatch ==
+     false`), compresses to `Product` + explicit exceptions with MDL savings,
+     and rejects irregular/random tables.
+   - Sparse discovery from just `(0,0)→0, (2,2)→4` retains both `Sum` and
+     `Product`, finds a separating discriminator probe (`FindDiscriminator`),
+     narrows to `Product` on `(0,3)→0` & `(2,3)→6`, rebinds onto fresh sites via
+     `ToRelation()` through `Transport.Save/Load`, and classifies live stretch
+     (`15`), captured-sample repeat (`4, 8, 12`), and live-reading coasting
+     (`4, 9, 14`) under a mid-flight source edit `4 → 5`.
+4. **Equifinal potentials & scope contracts ([`EquifinalPotentialsTests.cs`](../../Gojo.EncodingC/Tests/EquifinalPotentialsTests.cs)):**
+   Verifies Claude's 3-configuration square (`Lines` / `Path` / `Circle`
+   barely-overlapping 1-edit neighbourhoods) alongside Sol's `Workspace.Fix`
+   grouped commit, split-commit refusal, and stale-gain invalidation.
+5. **Analyzer-driven [`CompiledPlan`](../../Gojo.EncodingC/Compilation/CompiledPlan.cs):**
+   Delegates packet, product, split base-10 adder, and unsigned live-landmark
+   oscillator recognition directly to `StructuralCompression`, delivering
+   **8.1×** speedup on restored 3-digit base-10 adders (1,024 lanes) and
+   **17.9×** speedup on unsigned live-landmark oscillators (1,000 steps) on top
+   of the **338×–2,815×** 65K-lane SIMD/AVX2 speedups from §8.2.
+
 ---
 
 ## 12. Sources
 
 Checked during preparation of this note (marked `*`) and recalled from reading:
 
-- *Repository sources (`master` `9b805964` + `ops_sol` `37bf0a57` + `ops_claude`
-  `2d9b6bb6`): [GojoSystemPrompt.md](GojoSystemPrompt.md),
+- *Repository sources (`master` `9b805964` + `ops_sol` `fe5d473d` + `ops_claude`
+  `6a7d3f17`): [GojoSystemPrompt.md](GojoSystemPrompt.md),
   [GojoTension-2026-11.md](GojoTension-2026-11.md),
   [GojoOrientationDefinitionAndUse-2026-11.md](GojoOrientationDefinitionAndUse-2026-11.md),
   [GojoStructureClosure-2026-11.md](GojoStructureClosure-2026-11.md),

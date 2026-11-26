@@ -7,6 +7,7 @@ public static class Flows
     private static readonly Dictionary<(int, int, int, int), TransitionLaw> Converts = [];
     private static readonly Dictionary<(int, int), TransitionLaw> GatedMoves = [];
     private static readonly Dictionary<(int, int, int, int, int, int), TransitionLaw> Fulfills = [];
+    private static readonly Dictionary<(int, int, int, int), TransitionLaw> Sweeps = [];
 
     /// <summary>The smallest move: source S, gate C, target T, one bit each;
     /// state <c>S + 2C + 4T</c>. A whole unit hands off when S is set, the gate
@@ -86,6 +87,26 @@ public static class Flows
                     ? (tallied ? [s[0] - take, s[1] - 1, s[2] + give, s[3] + 1] : [s[0] - take, s[1] - 1, s[2] + give])
                     : s,
                 new Accounting(true, sums));
+        }
+    }
+
+    /// <summary>Observational one-unit move keeping an area receipt: moves one
+    /// unit from source to target and adds the opposite count to the receipt.
+    /// Admission depends solely on material (a full receipt saturates cleanly
+    /// and never blocks the material move, per ops_sol's review). Roles:
+    /// source, target, other (read), receipt.</summary>
+    public static TransitionLaw Sweep(int sourceCapacity, int targetCapacity, int otherCapacity, int receiptCapacity)
+    {
+        lock (Sweeps)
+        {
+            var key = (sourceCapacity, targetCapacity, otherCapacity, receiptCapacity);
+            if (Sweeps.TryGetValue(key, out var cached)) return cached;
+            return Sweeps[key] = TransitionLaw.FromFunction(
+                [Shape.Unary(sourceCapacity), Shape.Unary(targetCapacity), Shape.Unary(otherCapacity), Shape.Unary(receiptCapacity)],
+                s => s[0] >= 1 && s[1] < targetCapacity
+                    ? [s[0] - 1, s[1] + 1, s[2], s[3] + s[2] > receiptCapacity ? receiptCapacity : s[3] + s[2]]
+                    : s,
+                new Accounting(true, new PreservedSum([0, 1]), new Unchanged(2), new NeverDecreases(3)));
         }
     }
 
