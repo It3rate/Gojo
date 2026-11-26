@@ -704,5 +704,7 @@ Result: 259 passed, 0 failed.
 
 Use this as the baseline for passes 2 and 3.
 
-Pass 2: the final EncodingC run passed 289 tests. The native
-qualified-read regression run passed all 12 tests in its test class.
+Pass 2: `dotnet test Gojo.slnx` passed on Windows, including 1,074 native
+Gojo tests and 3,509 QualitativeExecution tests. The final EncodingC run
+passed 289 tests after the last conformance cases, and GojoCAD passed 155
+with the added native-assets dependency.
