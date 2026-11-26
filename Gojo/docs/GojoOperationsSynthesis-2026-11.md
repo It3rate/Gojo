@@ -380,6 +380,7 @@ Start from the head of `ops_synthesize` after pass 1. Commit on
 7. **Partial publication, skipped observations and exact qualification.**
    These are reads with stated provenance. Keep the basis a value was read on
    (count or measurement, which rung, which source), not only its supports.
+   A read that narrows says what it ignored (§9, item 2).
 8. **Promote fixture binding policy only where it is general.** This was your
    own critique. It goes into `Operations` or `Numbers` as numbers, not as
    new types.
@@ -418,6 +419,7 @@ Start from the head of `ops_synthesize` after pass 2. Commit on
      shows that its kernel is the same table as the relational law it
      replaces. Never by a name.
    - It falls back to `Engine` wherever it is not eligible.
+   - Lowering is chosen where it pays, and can be undone (§9, item 1).
    - It changes no transport bits and adds no enums. The reflection guards
      pass: no `System.Math`, strings or real numbers.
 3. **Meet every pass-2 gate** with the compiled plan as the execution path,
@@ -471,32 +473,67 @@ Start from the head of `ops_synthesize` after pass 2. Commit on
 
 ## 9. Axiom notes
 
-These are conflicts or gaps between the user's axioms and what the code can
-do. They are for the user to settle, not for a pass to decide alone.
+After pass 1, the user answered the open questions below in round 16. They
+are working positions, not fixed rules, and most will be settled by
+experiment. Each says what it asks of the passes now, and the experiment that
+would test it.
 
-1. **Calculated or stored.** The axioms prefer calculated values. A
-   polynomial is calculated, but what runs and what is saved is its table.
-   The axioms do not say when a compressed form may replace the stored one.
-   Pass 1 holds that it may not until a version marker and a parity gate
-   exist.
-2. **Larger is larger.** Binary-coded digits, as in the clock test, keep the
-   value set exactly, but lose "more is more planes". Master's `Shape`
-   already allows both layouts. Pass 1 uses unary by default and binary only
+1. **Equations and tables are always a blend.** A law can move back and
+   forth between a table and an equation. There is no threshold of time or
+   structure count for the change. It follows pressure: what holding the
+   table costs against what calculating it costs, plus obvious
+   optimizations.
+   - **For the passes:** `Compare` reports both sizes in bits. Treat that as
+     one input to a pressure, not as a test that replaces the table once it
+     is passed. A compiled kernel (§7) is the same kind of choice: made
+     where it pays, and reversible.
+   - **The saved form still changes only behind a version marker.** That is
+     a compatibility rule, not a claim about which form is the real one.
+   - **Experiment:** a structure that holds one law both ways and moves
+     toward the cheaper form as its load changes, with its behaviour
+     unchanged.
+2. **A read may widen what is possible, and sometimes narrow it.** Every
+   part is working out the best structure for its situation, so a read is not
+   only passive.
+   - **Widening helps, and is allowed.** `Interval`'s widening stands as it
+     is.
+   - **Narrowing is an obvious or instant optimization, taken with a grain
+     of salt.** For example, a read can ignore a table of zeros, or a table
+     that the read itself rules out.
+   - **For the passes:** a narrowing read says what it ignored, so that part
+     can be brought back. It never removes a possibility silently.
+   - **Experiment:** which narrowing shortcuts pay, and how often they have to
+     be undone.
+3. **Costs ideally come from tension.** Whoever sets up an operation is also
+   acting on tension or on goals that do not match, and nothing decides from
+   above. Some choices will still look arbitrary: guesses, attempts, and
+   models made from many small machines. The aim is to find an equation and
+   then solve it, so the engine has to adapt.
+   - **For the passes:** keep a cost a number a structure can write, so that
+     a law or a tension reading can set it later. Do not hard-code a policy.
+   - **Experiment:** free-role costs read from a tension count. The same
+     binding should then keep a different completion as pressure moves.
+4. **Structures will run their own equation search, with hints from many
+   histories.** A metaphor carries a choke point or an alternate route from
+   one domain into another. In the same way, a structure should reuse the
+   forms it has found rather than discover them afresh each time. The
+   mechanism is not known yet. It may be weak links to calculation, or a
+   structure trained to think of the form.
+   - **For the passes:** recognition stays host code for now. Keep what it
+     finds as numbers that compare across domains: polynomials, bindings and
+     costs. `Survivors` already takes a list of candidates, so earlier finds
+     can be offered there today. They order the search; they do not replace
+     it.
+   - **Experiment:** offer equations found in one domain, such as a sum of
+     counts, as first candidates in another, such as a sum of rungs or of
+     sides. Count how many witnesses the hint saves.
+5. **Larger is larger.** Binary-coded digits, as in the clock test, keep the
+   value set exactly but lose "more is more planes". Master's `Shape`
+   already allows both layouts. Pass 1 uses unary by default, and binary only
    where range needs it.
-3. **Physically interpretable needs units.** A rung's partition is numeric,
+6. **Physically interpretable needs units.** A rung's partition is numeric,
    but its unit is implicit (§4, limit 1). This is a gap in the
-   representation, not a choice.
-4. **Widening against discarding.** `Interval` widens what is possible and
-   never narrows it. The axioms say uncertainty must not be discarded, but
-   not whether a read may loosen it. Suggested wording: a read may widen what
-   is possible, and never narrow it without evidence.
-5. **Where costs come from.** A free role's cost is a stored integer chosen
-   by whoever binds. It could later be calculated from tension. The axioms do
-   not say which.
-6. **Discovered by structure, or by the host?** Recognition returns numbers,
-   so concepts are discoverable numerically, but the search itself is host
-   code. Whether a structure must eventually run its own search is not
-   stated.
+   representation, not a choice. It is Sol's item 3.
 
 ## 10. Provenance
 
@@ -562,8 +599,13 @@ Result: 259 passed, 0 failed.
 - **QualitativeExecution:** 3,509 passed, in about 11 minutes.
 - **Gojo:** 1,072 passed.
 - **Every other test project:** all passed.
-- **GojoCAD:** one failure, `GojoCadSkiaAdapterTests`. The container lacks
-  the native `libSkiaSharp` library. GojoCAD does not depend on EncodingC, and
-  nothing else in the solution does either.
+- **GojoCAD:** at first one failure, `GojoCadSkiaAdapterTests`, because the
+  test project had no native SkiaSharp library for Linux.
+  - The fix adds `SkiaSharp.NativeAssets.Linux.NoDependencies` 2.88.9, the
+    same version as `SkiaSharp`, to `Tests/GojoCAD.Tests`.
+  - GojoCAD now passes 155 tests. The 24 tests the missing library had kept
+    from running are among them.
+  - GojoCAD does not depend on EncodingC, and nothing else in the solution
+    does either.
 
 Use this as the baseline for passes 2 and 3.
