@@ -1260,7 +1260,9 @@ Built on `claude/youthful-newton-wh29co` in `Gojo.EncodingC` (implemented):
 The three branches are compared in
 [GojoOperationsComparison-2026-11.md](GojoOperationsComparison-2026-11.md) (round
 11) and [GojoOperationsRound14-2026-11.md](GojoOperationsRound14-2026-11.md)
-(round 14, with numbers of any partition), and
+(round 14, with numbers of any partition), with round 15 (resolution and
+uncertainty through operations, and the merge) in
+[GojoOperationsRound15-2026-11.md](GojoOperationsRound15-2026-11.md), and
 where this note goes next is in
 [GojoOperationsProposal-2026-11.md](GojoOperationsProposal-2026-11.md).
 
