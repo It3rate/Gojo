@@ -112,6 +112,12 @@ The stock laws:
 | Interval | The least and greatest values the rungs still allow, read rung by rung. Every jointly allowed value lies inside it | Read from the supports; not stored |
 | Same share, rescale | Two shares are equal when the numerators balance, with the denominators as weights. Rescaling reads a count out of one partition as a count out of another, and keeps what does not divide | `Numbers.SameShare`, a balance; `Numbers.Rescale`, a balance with a residue role |
 | Reopen *(host)* | Open a ladder again, or every open binding of a network, before a new observation. Constants stay | Sets the supports' planes back to 1 |
+| Unit rung, ticks per unit | Which existing rung of a ladder reads as one unit of a locally agreed standard, and how many finest ticks it holds. Sums need the same selection; a different standard needs an explicit weighted relation | `Ladder.AtUnitRung`, a view over the same supports; `TicksPerUnit` is the product of the radices below it |
+| Scope, disjoint positions | The members a count is read from. Two scopes pool only if their live published positions are different sites | `Surface.DisjointPositions`, read from the ports as they are now; not stored |
+| Portion *(live denominator)* | A count out of a denominator that is itself open, such as a pooled review count | `Portions`: relations for validity (d ≥ 1, n ≤ d), pooling, same-whole addition, projection with remainder and comparison |
+| System (of equations) | Several polynomials over the same roles, read as one table | `Operations.System` |
+| Residues | Hidden free roles found together, such as the two faces that make min, max or \|a − b\| | `Recognition.Residues` |
+| Compiled plan *(host)* | A faster way to run an engine, used only where its kernels have the same tables as the laws, and falling back to the engine elsewhere | `CompiledPlan`. Never saved; dropping it changes nothing |
 | Recognition *(host)* | Finding the equations a table or a few witnesses keep | `Recognition`. It returns polynomials, tuples and witness indexes, never a kind |
 | Unexplained | Tuples that a found system admits and nothing witnessed. Empty means the system is exact | A list of tuples |
 | Exception | A witness that a fit does not explain | Its index |

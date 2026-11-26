@@ -119,6 +119,7 @@
     <File Path="Gojo/docs/GojoEncodingConsolidation-2026-11.md" />
     <File Path="Gojo/docs/GojoEncodingPodcast-2026-11.md" />
     <File Path="Gojo/docs/GojoOperationsSynthesis-2026-11.md" />
+    <File Path="Gojo/docs/GojoOperationsSynthesisFinalAssessment-Claude-2026-11.md" />
     <File Path="Visualizations/Gojo.Demos.Web/syntax/README.md" />
   </Folder>
   <Project Path="Gojo/Gojo.csproj" />
