@@ -53,6 +53,21 @@ public static class Recognition
         return [.. tuples.Distinct(TupleEquality.Instance)];
     }
 
+    /// <summary>The tuples a learned table has admitted so far, read through a
+    /// binding: each before-state with exactly one admitted after-state gives
+    /// one. The table need not be complete: what is still unknown is simply
+    /// not a witness yet, so fitting can start from the first few runs.</summary>
+    public static IReadOnlyList<int[]> Witnesses(LearnedTable table, int[] reads, int[] writes)
+    {
+        ArgumentNullException.ThrowIfNull(table);
+        var states = TransitionLaw.FromPairs(table.Roles, [], Accounting.None);
+        var pairs = Enumerable.Range(0, table.StateCount)
+            .Select(b => (Before: b, Admitted: table.Predict(b).Admitted))
+            .Where(p => p.Admitted.Count == 1)
+            .Select(p => (p.Before, After: p.Admitted[0]));
+        return Witnesses(TransitionLaw.FromPairs(table.Roles, pairs, Accounting.None), reads, writes);
+    }
+
     /// <summary>Every polynomial relation of the lowest degree, up to
     /// <paramref name="maxDegree"/>, that all the tuples satisfy, as a basis.
     /// Empty when none exists that low. A role with two values is never squared,

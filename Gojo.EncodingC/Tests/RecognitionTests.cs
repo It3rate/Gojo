@@ -222,4 +222,49 @@ public sealed class RecognitionTests
         var left = candidates.Where(c => Recognition.Predict(c, 3, input) == answer).ToList();
         Assert.True(Assert.Single(left).Same(source));
     }
+
+    /// <summary>The loop from settling to an equation, on a table that is
+    /// never complete. A booking machine runs at a rate of 1, and a learned
+    /// table counts what it saw. Those witnesses fit several equations, debt'
+    /// = debt + 1 among them. The probe proposes a state the machine has not
+    /// been in; running it there is the experiment, and the table counts that
+    /// too. When no question is left, the one equation standing is the
+    /// machine's own law, exactly, while most of the table is still unknown.</summary>
+    [Fact]
+    public void ALearnedTableBecomesAnEquationBeforeItIsComplete()
+    {
+        var here = Plane.Of(1, 0);
+        var book = Operations.Bind(Operations.Balance([Nine, Three, Nine], 1, 1, -1), [Three, Nine], [1, 0, -1], [-1, -1, 1]);
+        var table = new LearnedTable(book.Roles);
+        void Run(int rate, int debt, int ticks)
+        {
+            var store = new Store(0, 1);
+            Field r = new(Three, store.AddPlane(), store.AddPlane(), store.AddPlane()), d = new(Nine, [.. Enumerable.Range(0, 9).Select(_ => store.AddPlane())]);
+            r.Write(store, 0, rate);
+            d.Write(store, 0, debt);
+            var engine = new Engine().Add(Tension.Wire(book, [r.On(store), d.On(store)], here));
+            for (var tick = 0; tick < ticks; tick++) table.Witness(engine.Step().Steps[0], here);
+        }
+
+        Shape[] roles = [Three, Nine, Nine];
+        int[] reads = [0, 1, -1], writes = [-1, -1, 1];
+        Run(rate: 1, debt: 0, ticks: 3);
+        var candidates = Recognition.Fits(roles, 2, Recognition.Witnesses(table, reads, writes), maxTerms: 2, maxWeight: 2).Select(f => f.Equation).ToList();
+        Assert.True(candidates.Count > 1);
+        Assert.Contains(candidates, c => c.Same(new Polynomial(roles, (1, [0, 1, 0]), (1, [0, 0, 0]), (-1, [0, 0, 1]))));
+
+        var experiments = 0;
+        while (Recognition.Probe(candidates, 2) is { } input)
+        {
+            Run(input[0], input[1], ticks: 1);
+            var witnesses = Recognition.Witnesses(table, reads, writes);
+            candidates = [.. candidates.Where(c => witnesses.All(w => c.Holds(w)))];
+            experiments++;
+        }
+        Assert.InRange(experiments, 1, 3);
+        var law = Assert.Single(candidates);
+        Assert.True(law.Same(Polynomial.Balance(roles, 1, 1, -1)));
+        Assert.True(Recognition.Compare(book, law, reads, writes).Same);
+        Assert.True(table.UnknownCount > table.StateCount * table.StateCount / 2);
+    }
 }
