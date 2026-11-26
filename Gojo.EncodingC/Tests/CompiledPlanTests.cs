@@ -3,14 +3,20 @@ using Xunit;
 namespace Gojo.EncodingC.Tests;
 
 /// <summary>Optional, derived <see cref="CompiledPlan"/> verification
-/// (Gojo/docs/GojoOperationsSynthesis-2026-11.md, §7 items 2–3): proves
-/// eligible graphs genuinely execute compiled kernels with exact bit, tick,
-/// quiet, and transport parity, while every ineligible or stale case falls
-/// back cleanly to <see cref="Engine"/>.</summary>
+/// (Gojo/docs/GojoOperationsSynthesis-2026-11.md, §12): proves that the two
+/// family-independent table kernels — general small-table transitions and
+/// general word-outer bit-sliced relations — accelerate ladders, portions,
+/// products, ODV, sides, value gaps, shared-site diagonals, conversions, and
+/// counting laws with exact bit, evidence, tick, and transport parity, while
+/// oversized, ineligible, broken, recorded, dynamic-topology, and stale cases
+/// fall back cleanly to <see cref="Engine"/>.</summary>
 public sealed class CompiledPlanTests
 {
     private static Field Allocate(Store store, Shape shape) =>
         new(shape, [.. Enumerable.Range(0, shape.Bits).Select(_ => store.AddPlane())]);
+
+    private static Supports Open(Store store, Shape shape) =>
+        Supports.On(store, Allocate(store, shape));
 
     private static Engine Wired(IEnumerable<Wiring> wirings)
     {
@@ -20,7 +26,7 @@ public sealed class CompiledPlanTests
     }
 
     [Fact]
-    public void PassOneRelationalLaddersTakeTheCompiledFastPathAcrossMixedRadicesAndReobservation()
+    public void GeneralRelationKernelAcceleratesLaddersClocksAndSharedSiteDiagonals()
     {
         // 1. Mixed-partition [2, 5] half-stars across all 100 exact pairs + open/backward/contradictory lanes.
         const int lanes = 104;
@@ -38,26 +44,23 @@ public sealed class CompiledPlanTests
                     a.Restrict(lane, x);
                     b.Restrict(lane, y);
                 }
-            // Lane 100: coarse measurement (open fine half-star)
             a.Measure(100, 3, rung: 1);
             b.Measure(100, 2, rung: 1);
-            // Lane 101: backward subtraction 8 - 3 = 5
             b.Restrict(101, 3);
             sum.Restrict(101, 8);
             c[^1].Restrict(101, 1UL << 0);
-            // Lane 102: impossible sum (contradiction)
             a.Restrict(102, 4);
             b.Restrict(102, 4);
             sum.Restrict(102, 1);
-            // Lane 103: completely open
             return (Wired(w), a, b, sum, c, w);
         }
 
         var canon = Build(canonStore);
         var fast = Build(fastStore);
         var plan = CompiledPlan.Compile(fast.Eng);
-        Assert.True(plan.RecognizedRelationalLadderAdder);
         Assert.True(plan.HasAnyCompiledKernel);
+        Assert.True(plan.HasRelationKernel);
+        Assert.False(plan.HasTransitionKernel);
 
         var canonTicks = canon.Eng.Settle(10);
         var fastTicks = plan.Settle(10, out var report);
@@ -83,7 +86,7 @@ public sealed class CompiledPlanTests
         Assert.Equal(1UL << 1, fast.Carries[^1].Values(0));
         Assert.Equal(Transport.Save(canon.Eng), Transport.Save(fast.Eng));
 
-        // 2. Wide non-SWAR4 clock ladder [60, 24]: still takes the compiled exact factorized relational path!
+        // 2. Wide clock ladder [60, 24] (7,200 admitted tuples on minute rung <= 8,192 ceiling) accelerates in place.
         var clkCanon = new Store(0, 2);
         var clkFast = new Store(0, 2);
         Ladder ca1 = new(clkCanon, [60, 24], binary: true), cb1 = new(clkCanon, [60, 24], binary: true), cs1 = new(clkCanon, [60, 24], binary: true);
@@ -94,146 +97,167 @@ public sealed class CompiledPlanTests
         ca2.Restrict(0, 23 * 60 + 59); cb2.Restrict(0, 1); ca2.Restrict(1, 10 * 60 + 45); cb2.Restrict(1, 20);
 
         var clkPlan = CompiledPlan.Compile(clkEng2);
-        Assert.True(clkPlan.RecognizedRelationalLadderAdder);
+        Assert.True(clkPlan.HasRelationKernel);
         Assert.Equal(clkEng1.Settle(8), clkPlan.Settle(8, out var clkRep));
         Assert.True(clkRep.UsedFastPath);
         Assert.Equal(0L, cs2.Read(0));
         Assert.Equal(11 * 60 + 5L, cs2.Read(1));
         Assert.Equal(Transport.Save(clkEng1), Transport.Save(clkEng2));
 
-        // 3. Differing top-rung shapes: 1-rung [6] + [6] -> [11] (3/5 + 2/5 = 5/10) and 2-rung [5, 2] + [5, 2] -> [5, 3].
-        var topStore = new Store(0, 1);
-        Ladder tA = new(topStore, [6]), tB = new(topStore, [6]), tSum = new(topStore, [11]);
-        var tEng = Wired(Ladder.Add(tA, tB, tSum, Plane.Ones(1)).Wirings);
-        tA.Restrict(0, 3); tB.Restrict(0, 2);
-        var tPlan = CompiledPlan.Compile(tEng);
-        Assert.True(tPlan.RecognizedRelationalColumn);
-        Assert.NotNull(tPlan.Settle(6, out var tRep));
-        Assert.True(tRep.UsedFastPath);
-        Assert.Equal(5L, tSum.Read(0));
-
-        var uStore = new Store(0, 2);
-        Ladder uA = new Ladder(uStore, [5, 2]).AtUnitRung(1), uB = new Ladder(uStore, [5, 2]).AtUnitRung(1), uS = new Ladder(uStore, [5, 3]).AtUnitRung(1);
-        var uEng = Wired(Ladder.Add(uA, uB, uS, Plane.Ones(2)).Wirings);
-        uA.Restrict(0, 3); uB.Restrict(0, 2);
-        uA.Restrict(1, 5); uB.Restrict(1, 5);
-        var uPlan = CompiledPlan.Compile(uEng);
-        Assert.True(uPlan.RecognizedRelationalLadderAdder);
-        Assert.NotNull(uPlan.Settle(8, out var uRep));
-        Assert.True(uRep.UsedFastPath);
-        Assert.Equal(5L, uS.Read(0));
-        Assert.Equal(10L, uS.Read(1));
+        // 3. Shared-site diagonal Ladder.Add(x, x, doubled): general relation kernel filters SameReference tuples and accelerates!
+        var diagCanonStore = new Store(0, 4);
+        var diagFastStore = new Store(0, 4);
+        static (Engine Eng, Ladder X, Ladder Doubled) BuildDiag(Store st)
+        {
+            var x = new Ladder(st, [2, 8]).AtUnitRung(1);
+            var d = new Ladder(st, [2, 8]).AtUnitRung(1);
+            var (wirings, carries) = Ladder.Add(x, x, d, Plane.Ones(4));
+            var eng = Wired(wirings);
+            x.Measure(0, 3, rung: 1);
+            d.Restrict(1, 12); // backward halving with no overflow: 2x = 12 -> x = 6
+            carries[^1].Restrict(1, 1UL << 0);
+            d.Restrict(2, 5);  // odd doubled -> impossible (contradiction)
+            return (eng, x, d);
+        }
+        var dCanon = BuildDiag(diagCanonStore);
+        var dFast = BuildDiag(diagFastStore);
+        var diagPlan = CompiledPlan.Compile(dFast.Eng);
+        Assert.True(diagPlan.HasRelationKernel);
+        var dcStep = dCanon.Eng.Step();
+        var dfStep = diagPlan.Step(out var diagRep);
+        Assert.True(diagRep.UsedFastPath);
+        Assert.Equal(0, diagRep.DeoptLanes);
+        for (var i = 0; i < dcStep.Steps.Count; i++)
+        {
+            Assert.Equal(dcStep.Steps[i].Changed, dfStep.Steps[i].Changed);
+            Assert.Equal(dcStep.Steps[i].Unadmitted, dfStep.Steps[i].Unadmitted);
+            Assert.Equal(dcStep.Steps[i].Ambiguous, dfStep.Steps[i].Ambiguous);
+            Assert.Equal(dcStep.Steps[i].Waves, dfStep.Steps[i].Waves);
+        }
+        Assert.Equal(dCanon.Eng.Settle(8), diagPlan.Settle(8, out var diagSettleRep));
+        Assert.True(diagSettleRep.UsedFastPath);
+        Assert.Equal([1UL << 0, (1UL << 6) | (1UL << 7)], dFast.Doubled.Open(0));
+        Assert.Equal(6L, dFast.X.Read(1));
+        Assert.Null(dFast.X.Interval(2));
+        Assert.Equal(Transport.Save(dCanon.Eng), Transport.Save(dFast.Eng));
     }
 
     [Fact]
-    public void ConcreteMixedPartitionAndDecimalRippleAddersTakeTheCompiledSwarPath()
+    public void GeneralRelationKernelCoversPortionsProductsOdvSidesAndValueGap()
     {
-        // Build both a combined [2, 5] adder and a split [10, 10, 10] adder directly from Pass-1 Numbers.DigitSum.
-        static (Engine Engine, Store Store, Field[] A, Field[] B, Field[] Sum, int Cout) BuildAdder(int[] radices, int lanes, bool split)
+        // 1. Portions.AddSameWhole(5) — non-ladder 5-role relation, including single-wiring together: true.
+        var pCanon = new Store(0, 6);
+        var pFast = new Store(0, 6);
+        static Engine BuildPortion(Store st)
         {
-            var store = new Store(0, lanes);
-            var a = radices.Select(r => Allocate(store, Numbers.Digit(r, binary: true))).ToArray();
-            var b = radices.Select(r => Allocate(store, Numbers.Digit(r, binary: true))).ToArray();
-            var sum = radices.Select(r => Allocate(store, Numbers.Digit(r, binary: true))).ToArray();
-            var cin = store.AddPlane();
-            var carries = new int[radices.Length];
-            for (var i = 0; i < radices.Length; i++) carries[i] = store.AddPlane();
-
-            var engine = new Engine();
-            for (var i = 0; i < radices.Length; i++)
-            {
-                var p = radices[i];
-                var d = Numbers.Digit(p, binary: true);
-                var col = Numbers.DigitSum(p, binary: true);
-                var cIn = i == 0 ? cin : carries[i - 1];
-                var cOut = carries[i];
-                if (!split)
-                {
-                    var addLaw = Operations.Bind(col.Relation, [d, d, Numbers.Carry, Numbers.Carry, d],
-                        [0, 1, 2, -1, -1], [-1, -1, -1, 3, 4]);
-                    var w = new Wiring(addLaw, a[i].On(store), b[i].On(store),
-                        new Binding(store, cIn), new Binding(store, cOut), sum[i].On(store));
-                    for (var lane = 0; lane < lanes; lane++) w.Add(lane, lane, lane, lane, lane);
-                    engine.Add(w);
-                }
-                else
-                {
-                    var sumLaw = Operations.Bind(col.Relation, [d, d, Numbers.Carry, d],
-                        [0, 1, 2, -1, -1], [-1, -1, -1, -1, 3]);
-                    var carLaw = Operations.Bind(col.Relation, [d, d, Numbers.Carry, Numbers.Carry],
-                        [0, 1, 2, -1, -1], [-1, -1, -1, 3, -1]);
-                    var ws = new Wiring(sumLaw, a[i].On(store), b[i].On(store), new Binding(store, cIn), sum[i].On(store));
-                    var wc = new Wiring(carLaw, a[i].On(store), b[i].On(store), new Binding(store, cIn), new Binding(store, cOut));
-                    for (var lane = 0; lane < lanes; lane++) { ws.Add(lane, lane, lane, lane); wc.Add(lane, lane, lane, lane); }
-                    engine.Add(ws).Add(wc);
-                }
-            }
-            return (engine, store, a, b, sum, carries[^1]);
+            var s = Shape.Unary(5);
+            var wShape = Shape.Unary(2);
+            Supports n1 = Open(st, s), n2 = Open(st, s), d = Open(st, s), whole = Open(st, wShape), rem = Open(st, s);
+            n1.Restrict(0, 1UL << 5); n2.Restrict(0, 1UL << 5); d.Restrict(0, 1UL << 5); // 5/5 + 5/5 = 2 + 0/5
+            n1.Restrict(1, 1UL << 3); n2.Restrict(1, 1UL << 4); d.Restrict(1, 1UL << 5); // 3/5 + 4/5 = 1 + 2/5
+            n1.Restrict(2, (1UL << 2) | (1UL << 3)); n2.Restrict(2, 1UL << 2); d.Restrict(2, 1UL << 5); // open
+            n1.Restrict(3, 1UL << 1); d.Restrict(3, 1UL << 0); // zero denominator -> contradiction
+            var wiring = new Wiring(Portions.AddSameWhole(5), n1.Variable, n2.Variable, d.Variable, whole.Variable, rem.Variable);
+            for (var i = 0; i < 6; i++) wiring.Add(i, i, i, i, i);
+            return new Engine().Add(wiring);
         }
+        var pe1 = BuildPortion(pCanon);
+        var pe2 = BuildPortion(pFast);
+        var pPlan = CompiledPlan.Compile(pe2);
+        Assert.True(pPlan.HasRelationKernel);
+        var ps1 = pe1.StepTogether();
+        var ps2 = pPlan.Step(out var pRep, together: true);
+        Assert.True(pRep.UsedFastPath);
+        Assert.Equal(6, pRep.FastLanes);
+        Assert.Equal(ps1.Steps[0].Changed, ps2.Steps[0].Changed);
+        Assert.Equal(ps1.Steps[0].Unadmitted, ps2.Steps[0].Unadmitted);
+        Assert.Equal(ps1.Steps[0].Ambiguous, ps2.Steps[0].Ambiguous);
+        Assert.Equal(ps1.Steps[0].Contested, ps2.Steps[0].Contested);
+        Assert.Equal(Transport.Save(pe1), Transport.Save(pe2));
 
-        // 1. Mixed [2, 5] combined adder: all 100 pairs survive Transport.Load and take compiled SWAR path.
-        var mixed = BuildAdder([2, 5], 100, split: false);
-        for (var x = 0; x < 10; x++)
-            for (var y = 0; y < 10; y++)
-            {
-                var lane = x * 10 + y;
-                mixed.A[0].Write(mixed.Store, lane, x % 2); mixed.A[1].Write(mixed.Store, lane, x / 2);
-                mixed.B[0].Write(mixed.Store, lane, y % 2); mixed.B[1].Write(mixed.Store, lane, y / 2);
-            }
-        var saved = Transport.Save(mixed.Engine);
-        var (canonEng, _) = Transport.Load(saved);
-        var (fastEng, _) = Transport.Load(saved);
-
-        var plan = CompiledPlan.Compile(fastEng);
-        Assert.True(plan.RecognizedConcreteLadderAdder);
-        var step = plan.Step(out var rep);
-        var canonStep = canonEng.Step();
-        Assert.True(rep.UsedFastPath);
-        Assert.Equal(100, rep.FastLanes);
-        Assert.Equal(0, rep.DeoptLanes);
-        for (var i = 0; i < canonStep.Steps.Count; i++)
+        // 2. Operations.Product with shared-site diagonal (squaring / square root).
+        var sqCanon = new Store(0, 4);
+        var sqFast = new Store(0, 4);
+        static Engine BuildSquare(Store st)
         {
-            Assert.Equal(canonStep.Steps[i].Changed, step.Steps[i].Changed);
-            Assert.Equal(canonStep.Steps[i].Before, step.Steps[i].Before);
-            Assert.Equal(canonStep.Steps[i].After, step.Steps[i].After);
+            var factor = Shape.Unary(4);
+            var prod = Shape.Unary(16);
+            Supports a = Open(st, factor), p = Open(st, prod);
+            p.Restrict(0, 1UL << 9); // x^2 = 9 -> x = 3
+            p.Restrict(1, 1UL << 6); // x^2 = 6 -> contradiction
+            a.Restrict(2, (1UL << 2) | (1UL << 3)); // x in {2,3} -> p in {4,9}
+            var w = new Wiring(Operations.Product(4, 4), a.Variable, a.Variable, p.Variable);
+            for (var i = 0; i < 4; i++) w.Add(i, i, i);
+            return new Engine().Add(w);
         }
-        Assert.Equal(Transport.Save(canonEng), Transport.Save(fastEng));
+        var sq1 = BuildSquare(sqCanon);
+        var sq2 = BuildSquare(sqFast);
+        var sqPlan = CompiledPlan.Compile(sq2);
+        Assert.True(sqPlan.HasRelationKernel);
+        var sqs1 = sq1.Step();
+        var sqs2 = sqPlan.Step(out var sqRep);
+        Assert.True(sqRep.UsedFastPath);
+        Assert.Equal(sqs1.Steps[0].Unadmitted, sqs2.Steps[0].Unadmitted);
+        Assert.Equal(sqs1.Steps[0].Ambiguous, sqs2.Steps[0].Ambiguous);
+        Assert.Equal(Transport.Save(sq1), Transport.Save(sq2));
 
-        // Under together: true, multi-wiring ripple must NOT fuse across rungs — falls back cleanly to exact 1-rung-per-tick!
-        var (tCanon, _) = Transport.Load(saved);
-        var (tFast, _) = Transport.Load(saved);
-        var tPlan = CompiledPlan.Compile(tFast);
-        Assert.Equal(tCanon.Settle(8, together: true), tPlan.Settle(8, out var tRep, together: true));
-        Assert.False(tRep.UsedFastPath);
-        Assert.Equal(Transport.Save(tCanon), Transport.Save(tFast));
-
-        // 2. Split 3-digit base-10 [10, 10, 10] adder across 256 lanes.
-        var decCanon = BuildAdder([10, 10, 10], 256, split: true);
-        var decFast = BuildAdder([10, 10, 10], 256, split: true);
-        uint rng = 123456789;
-        for (var lane = 0; lane < 256; lane++)
+        // 3. Odv.Addition with mixed plain (constant O + variable V, D) and open roles.
+        var odvCanon = new Store(0, 4);
+        var odvFast = new Store(0, 4);
+        static Engine BuildOdv(Store st)
         {
-            rng ^= rng << 13; rng ^= rng >> 17; rng ^= rng << 5;
-            var x = (int)(rng % 1000);
-            var y = (int)((rng >> 10) % 1000);
-            for (var r = 0; r < 3; r++)
-            {
-                decCanon.A[r].Write(decCanon.Store, lane, x % 10); decCanon.B[r].Write(decCanon.Store, lane, y % 10);
-                decFast.A[r].Write(decFast.Store, lane, x % 10); decFast.B[r].Write(decFast.Store, lane, y % 10);
-                x /= 10; y /= 10;
-            }
+            var oPlane = st.AddConstantPlane(true); // forward face O = 1
+            var vPlane = st.AddPlane();
+            var dPlane = st.AddPlane();
+            // Position 0: R+? (111); Position 1: R+0 (110); Position 2: R-? (101); Position 3: R-0 (100)
+            st.Write(vPlane, 0, true); st.Write(dPlane, 0, true);
+            st.Write(vPlane, 1, false); st.Write(dPlane, 1, true);
+            st.Write(vPlane, 2, true); st.Write(dPlane, 2, false);
+            st.Write(vPlane, 3, false); st.Write(dPlane, 3, false);
+            var bSup = Open(st, Odv.Word);
+            var cSup = Open(st, Odv.Word);
+            bSup.Restrict(0, 1UL << 7); // R+?
+            bSup.Restrict(2, 1UL << 7); // R+?
+            var w = new Wiring(Odv.Addition(), new Binding(st, vPlane, dPlane, oPlane), bSup.Variable, cSup.Variable);
+            for (var i = 0; i < 4; i++) w.Add(i, i, i);
+            return new Engine().Add(w);
         }
-        var decPlan = CompiledPlan.Compile(decFast.Engine);
-        Assert.True(decPlan.RecognizedConcreteLadderAdder);
-        Assert.Equal(decCanon.Engine.Settle(8), decPlan.Settle(8, out var decRep));
-        Assert.True(decRep.UsedFastPath);
-        Assert.Equal(Transport.Save(decCanon.Engine), Transport.Save(decFast.Engine));
+        var od1 = BuildOdv(odvCanon);
+        var od2 = BuildOdv(odvFast);
+        var odPlan = CompiledPlan.Compile(od2);
+        Assert.True(odPlan.HasRelationKernel);
+        var ods1 = od1.Step();
+        var ods2 = odPlan.Step(out var odRep);
+        Assert.True(odRep.UsedFastPath);
+        Assert.Equal(ods1.Steps[0].Changed, ods2.Steps[0].Changed);
+        Assert.Equal(ods1.Steps[0].Ambiguous, ods2.Steps[0].Ambiguous);
+        Assert.Equal(Transport.Save(od1), Transport.Save(od2));
+
+        // 4. Sides.Agree and Settling.ValueGap also accelerate through the same general relation kernel.
+        var gCanon = new Store(0, 4);
+        var gFast = new Store(0, 4);
+        static Engine BuildGap(Store st)
+        {
+            Supports left = Open(st, Shape.Binary(4)), right = Open(st, Shape.Binary(4)), dis = Open(st, Shape.Bit);
+            left.Restrict(0, 1UL << 1); right.Restrict(0, 1UL << 2); // disjoint -> dis = 1
+            left.Restrict(1, (1UL << 1) | (1UL << 2)); right.Restrict(1, (1UL << 2) | (1UL << 3)); dis.Restrict(1, 1UL << 0); // dis=0 -> intersect to {2}
+            var w = new Wiring(Settling.ValueGap(Shape.Binary(4)), left.Variable, right.Variable, dis.Variable);
+            for (var i = 0; i < 4; i++) w.Add(i, i, i);
+            return new Engine().Add(w);
+        }
+        var ge1 = BuildGap(gCanon);
+        var ge2 = BuildGap(gFast);
+        var gPlan = CompiledPlan.Compile(ge2);
+        Assert.True(gPlan.HasRelationKernel);
+        Assert.Equal(ge1.Settle(4), gPlan.Settle(4, out var gRep));
+        Assert.True(gRep.UsedFastPath);
+        Assert.Equal(Transport.Save(ge1), Transport.Save(ge2));
     }
 
     [Fact]
-    public void PacketConvertBoundedMultiplyAndSmallTablesTakeCompiledFastPaths()
+    public void GeneralTransitionKernelAcceleratesSmallConvertShortfallRippleAndMultiplyTables()
     {
-        // 1. PacketConvert: identity AVX2 shift + exact bounded multi-step settle.
+        // 1. Small Flows.Convert(2, 3, 9, 9) (100 states <= 512) accelerates via the general transition kernel!
         const int lanes = 300;
         var cStore1 = new Store(0, lanes);
         var cStore2 = new Store(0, lanes);
@@ -247,26 +271,20 @@ public sealed class CompiledPlanTests
             src2.Write(cStore2, i, s); dst2.Write(cStore2, i, d);
         }
         var convert = Flows.Convert(2, 3, 9, 9);
-        var w1 = Tension.Route(convert, src1.On(cStore1), dst1.On(cStore1), Plane.Ones(lanes));
-        var w2 = Tension.Route(convert, src2.On(cStore2), dst2.On(cStore2), Plane.Ones(lanes));
-        var e1 = new Engine().Add(w1);
-        var e2 = new Engine().Add(w2);
+        var e1 = new Engine().Add(Tension.Route(convert, src1.On(cStore1), dst1.On(cStore1), Plane.Ones(lanes)));
+        var e2 = new Engine().Add(Tension.Route(convert, src2.On(cStore2), dst2.On(cStore2), Plane.Ones(lanes)));
         var plan = CompiledPlan.Compile(e2);
-        Assert.True(plan.RecognizedPacketConvert);
-
-        // Partial budget limit = 2 (does not finish settling -> null, tick = 2).
+        Assert.True(plan.HasTransitionKernel);
+        Assert.False(plan.HasRelationKernel);
         Assert.Equal(e1.Settle(2), plan.Settle(2, out var repPartial));
         Assert.True(repPartial.UsedFastPath);
         Assert.Equal(e1.Tick, e2.Tick);
         Assert.Equal(Transport.Save(e1), Transport.Save(e2));
-
-        // Remaining settle finishes identically.
         Assert.Equal(e1.Settle(10), plan.Settle(10, out var repFull));
         Assert.True(repFull.UsedFastPath);
-        Assert.Equal(e1.Tick, e2.Tick);
         Assert.Equal(Transport.Save(e1), Transport.Save(e2));
 
-        // 2. Small functional transition (Counts.Shortfall) takes SimdTransitionKernel (including together: true!).
+        // 2. Counts.Shortfall(3, 3) accelerates in both ordered and taken-together modes.
         var sStore1 = new Store(0, 128);
         var sStore2 = new Store(0, 128);
         Field h1 = Allocate(sStore1, Shape.Unary(3)), wt1 = Allocate(sStore1, Shape.Unary(3)), sh1 = Allocate(sStore1, Shape.Unary(3));
@@ -276,12 +294,10 @@ public sealed class CompiledPlanTests
             h1.Write(sStore1, i, i % 4); wt1.Write(sStore1, i, (i / 4) % 4);
             h2.Write(sStore2, i, i % 4); wt2.Write(sStore2, i, (i / 4) % 4);
         }
-        var sw1 = Tension.Wire(Counts.Shortfall(3, 3), [h1.On(sStore1), wt1.On(sStore1), sh1.On(sStore1)], Plane.Ones(128));
-        var sw2 = Tension.Wire(Counts.Shortfall(3, 3), [h2.On(sStore2), wt2.On(sStore2), sh2.On(sStore2)], Plane.Ones(128));
-        var se1 = new Engine().Add(sw1);
-        var se2 = new Engine().Add(sw2);
+        var se1 = new Engine().Add(Tension.Wire(Counts.Shortfall(3, 3), [h1.On(sStore1), wt1.On(sStore1), sh1.On(sStore1)], Plane.Ones(128)));
+        var se2 = new Engine().Add(Tension.Wire(Counts.Shortfall(3, 3), [h2.On(sStore2), wt2.On(sStore2), sh2.On(sStore2)], Plane.Ones(128)));
         var sPlan = CompiledPlan.Compile(se2);
-        Assert.True(sPlan.RecognizedSimdTransition);
+        Assert.True(sPlan.HasTransitionKernel);
         var st1 = se1.StepTogether();
         var st2 = sPlan.Step(out var sRep, together: true);
         Assert.True(sRep.UsedFastPath);
@@ -290,7 +306,54 @@ public sealed class CompiledPlanTests
         Assert.Equal(st1.Steps[0].Contested, st2.Steps[0].Contested);
         Assert.Equal(Transport.Save(se1), Transport.Save(se2));
 
-        // 3. Bounded lossless multiplier takes BoundedMultiplyKernel.
+        // 3. Concrete [2, 5] ripple adder (rung 0 has 32 states, rung 1 has 500 states <= 512) runs through the same general transition kernel!
+        static Engine BuildRipple(Store store, int count)
+        {
+            var radices = new[] { 2, 5 };
+            var a = radices.Select(r => Allocate(store, Numbers.Digit(r, binary: true))).ToArray();
+            var b = radices.Select(r => Allocate(store, Numbers.Digit(r, binary: true))).ToArray();
+            var sum = radices.Select(r => Allocate(store, Numbers.Digit(r, binary: true))).ToArray();
+            var cin = store.AddPlane();
+            var c0 = store.AddPlane();
+            var c1 = store.AddPlane();
+            for (var x = 0; x < 10; x++)
+                for (var y = 0; y < 10; y++)
+                {
+                    var lane = x * 10 + y;
+                    if (lane >= count) break;
+                    a[0].Write(store, lane, x % 2); a[1].Write(store, lane, x / 2);
+                    b[0].Write(store, lane, y % 2); b[1].Write(store, lane, y / 2);
+                }
+            var eng = new Engine();
+            for (var i = 0; i < 2; i++)
+            {
+                var d = Numbers.Digit(radices[i], binary: true);
+                var law = Operations.Bind(Numbers.DigitSum(radices[i], binary: true).Relation,
+                    [d, d, Numbers.Carry, Numbers.Carry, d], [0, 1, 2, -1, -1], [-1, -1, -1, 3, 4]);
+                var w = new Wiring(law, a[i].On(store), b[i].On(store),
+                    new Binding(store, i == 0 ? cin : c0), new Binding(store, i == 0 ? c0 : c1), sum[i].On(store));
+                for (var lane = 0; lane < count; lane++) w.Add(lane, lane, lane, lane, lane);
+                eng.Add(w);
+            }
+            return eng;
+        }
+        var rCanon = BuildRipple(new Store(0, 100), 100);
+        var rFast = BuildRipple(new Store(0, 100), 100);
+        var rPlan = CompiledPlan.Compile(rFast);
+        Assert.True(rPlan.HasTransitionKernel);
+        Assert.Equal(rCanon.Settle(8), rPlan.Settle(8, out var rRep));
+        Assert.True(rRep.UsedFastPath);
+        Assert.Equal(Transport.Save(rCanon), Transport.Save(rFast));
+
+        // Multi-wiring taken-together falls back cleanly to exact 1-rung-per-tick Engine.StepTogether.
+        var rtCanon = BuildRipple(new Store(0, 100), 100);
+        var rtFast = BuildRipple(new Store(0, 100), 100);
+        var rtPlan = CompiledPlan.Compile(rtFast);
+        Assert.Equal(rtCanon.Settle(8, together: true), rtPlan.Settle(8, out var rtRep, together: true));
+        Assert.False(rtRep.UsedFastPath);
+        Assert.Equal(Transport.Save(rtCanon), Transport.Save(rtFast));
+
+        // 4. Bounded lossless multiplier (480 states <= 512) also runs through the same general transition kernel!
         var mulLaw = TransitionLaw.FromFunction(
             [Shape.Binary(4), Shape.Binary(4), Shape.Binary(6), Shape.Binary(5)],
             t => { var p = t[0] * t[1]; return [t[0], t[1], p <= 5 ? p : 5, p <= 5 ? 0 : p - 5]; },
@@ -311,26 +374,38 @@ public sealed class CompiledPlanTests
         var me1 = new Engine().Add(Tension.Wire(mulLaw, [ma1.On(mStore1), mb1.On(mStore1), mv1.On(mStore1), mo1.On(mStore1)], Plane.Ones(16)));
         var me2 = new Engine().Add(Tension.Wire(mulLaw, [ma2.On(mStore2), mb2.On(mStore2), mv2.On(mStore2), mo2.On(mStore2)], Plane.Ones(16)));
         var mPlan = CompiledPlan.Compile(me2);
-        Assert.True(mPlan.RecognizedBoundedMultiply);
+        Assert.True(mPlan.HasTransitionKernel);
         Assert.Equal(me1.Settle(4), mPlan.Settle(4, out var mRep));
         Assert.True(mRep.UsedFastPath);
         Assert.Equal(Transport.Save(me1), Transport.Save(me2));
     }
 
     [Fact]
-    public void IneligibleBrokenRecordedSharedSiteAndStaleCasesFallBackCleanlyWithExactParity()
+    public void OversizedRecordedBrokenDynamicAndStaleCasesFallBackCleanlyWithExactParity()
     {
-        // 1. Shared-site relational Ladder.Add(x, x, doubled): must NOT use independent-role kernel, preserves diagonal!
-        var shareStore = new Store(0, 1);
-        var x = new Ladder(shareStore, [2, 8]).AtUnitRung(1);
-        var doubled = new Ladder(shareStore, [2, 8]).AtUnitRung(1);
-        var shareEng = Wired(Ladder.Add(x, x, doubled, Plane.Ones(1)).Wirings);
-        x.Measure(0, 3, rung: 1);
-        var sharePlan = CompiledPlan.Compile(shareEng);
-        Assert.False(sharePlan.RecognizedRelationalLadderAdder);
-        Assert.NotNull(sharePlan.Settle(8, out var shareRep));
-        Assert.False(shareRep.UsedFastPath);
-        Assert.Equal([1UL << 0, (1UL << 6) | (1UL << 7)], doubled.Open(0));
+        // 1. Relation exceeding the admitted-tuple ceiling (> 8,192 admitted tuples) falls back cleanly to Engine.
+        var bigRel = RelationLaw.FromPredicate(
+            [Shape.Binary(16), Shape.Binary(16), Shape.Binary(16), Shape.Binary(4)],
+            t => t[3] < 3); // 16 * 16 * 16 * 3 = 12,288 > 8,192 admitted tuples
+        var bigStore1 = new Store(0, 2);
+        var bigStore2 = new Store(0, 2);
+        static Engine BuildBig(Store st, RelationLaw rel)
+        {
+            Supports a = Open(st, Shape.Binary(16)), b = Open(st, Shape.Binary(16)),
+                c = Open(st, Shape.Binary(16)), d = Open(st, Shape.Binary(4));
+            a.Restrict(0, 1UL << 5); b.Restrict(0, 1UL << 7); c.Restrict(0, 1UL << 2);
+            var w = new Wiring(rel, a.Variable, b.Variable, c.Variable, d.Variable);
+            w.Add(0, 0, 0, 0);
+            w.Add(1, 1, 1, 1);
+            return new Engine().Add(w);
+        }
+        var big1 = BuildBig(bigStore1, bigRel);
+        var big2 = BuildBig(bigStore2, bigRel);
+        var bigPlan = CompiledPlan.Compile(big2);
+        Assert.False(bigPlan.HasAnyCompiledKernel);
+        Assert.Equal(big1.Settle(4), bigPlan.Settle(4, out var bigRep));
+        Assert.False(bigRep.UsedFastPath);
+        Assert.Equal(Transport.Save(big1), Transport.Save(big2));
 
         // 2. Recorded wiring falls back cleanly and populates all 7 evidence planes identically.
         var recStore1 = new Store(0, 2);
@@ -349,7 +424,7 @@ public sealed class CompiledPlanTests
         Assert.False(recRep.UsedFastPath);
         Assert.Equal(Transport.Save(re1), Transport.Save(re2));
 
-        // 3. Broken unary code (010) triggers runtime deopt and reports Unread identically without corrupting bits.
+        // 3. Broken unary code (010) on transition AND on plain relation sample triggers runtime deopt reporting Unread identically.
         var brkStore1 = new Store(0, 2);
         var brkStore2 = new Store(0, 2);
         Field ba1 = Allocate(brkStore1, Shape.Unary(3)), bb1 = Allocate(brkStore1, Shape.Unary(3));
@@ -360,7 +435,7 @@ public sealed class CompiledPlanTests
         var be1 = new Engine().Add(Tension.Route(Flows.Convert(1, 1, 3, 3), ba1.On(brkStore1), bb1.On(brkStore1), Plane.Ones(2)));
         var be2 = new Engine().Add(Tension.Route(Flows.Convert(1, 1, 3, 3), ba2.On(brkStore2), bb2.On(brkStore2), Plane.Ones(2)));
         var brkPlan = CompiledPlan.Compile(be2);
-        Assert.True(brkPlan.RecognizedPacketConvert);
+        Assert.True(brkPlan.HasTransitionKernel);
         var bs1 = be1.Step();
         var bs2 = brkPlan.Step(out var brkRep);
         Assert.False(brkRep.UsedFastPath);
@@ -369,7 +444,31 @@ public sealed class CompiledPlanTests
         Assert.Equal(bs1.Steps[0].Changed, bs2.Steps[0].Changed);
         Assert.Equal(Transport.Save(be1), Transport.Save(be2));
 
-        // 4. Stale invalidation across structural edits: adding a row, toggling attention, enabling record, adding store positions.
+        var relBrk1 = new Store(0, 2);
+        var relBrk2 = new Store(0, 2);
+        static Engine BuildRelBroken(Store st)
+        {
+            var plain = Allocate(st, Shape.Unary(3));
+            st.Write(plain.Planes[1], 0, true); // broken 010
+            plain.Write(st, 1, 2);
+            var open = Open(st, Shape.Unary(3));
+            var w = new Wiring(Settling.Same(Shape.Unary(3)), plain.On(st), open.Variable);
+            w.Add(0, 0); w.Add(1, 1);
+            return new Engine().Add(w);
+        }
+        var rbe1 = BuildRelBroken(relBrk1);
+        var rbe2 = BuildRelBroken(relBrk2);
+        var rbePlan = CompiledPlan.Compile(rbe2);
+        Assert.True(rbePlan.HasRelationKernel);
+        var rbs1 = rbe1.Step();
+        var rbs2 = rbePlan.Step(out var rbeRep);
+        Assert.False(rbeRep.UsedFastPath);
+        Assert.True(rbs2.Steps[0].Unread[0]);
+        Assert.Equal(rbs1.Steps[0].Unread, rbs2.Steps[0].Unread);
+        Assert.Equal(rbs1.Steps[0].Changed, rbs2.Steps[0].Changed);
+        Assert.Equal(Transport.Save(rbe1), Transport.Save(rbe2));
+
+        // 4. Stale invalidation across structural edits: toggling attention, adding/recruiting store positions.
         var st = new Store(0, 2);
         Field fa = Allocate(st, Shape.Unary(3)), fb = Allocate(st, Shape.Unary(3));
         fa.Write(st, 0, 2);
@@ -384,17 +483,15 @@ public sealed class CompiledPlanTests
         Assert.True(staleRep.Stale);
         Assert.False(staleRep.UsedFastPath);
 
-        // Recompiling after Attention recognizes the attended mask and accelerates again.
         st.Write(fa.Planes[0], 1, true);
-        w.Rows.Write(att, 1, false); // suppress row 1 via Attention
+        w.Rows.Write(att, 1, false);
         plan = CompiledPlan.Compile(eng);
         Assert.True(plan.IsCurrent);
         plan.Step(out var attRep);
         Assert.True(attRep.UsedFastPath);
         Assert.Equal(1, attRep.FastLanes);
-        Assert.Equal(1, fa.Read(st, 1)); // unattended row 1 did NOT fire!
+        Assert.Equal(1, fa.Read(st, 1));
 
-        // Growing or recruiting/retiring on a bound store invalidates the plan cleanly.
         var sparePos = st.AddSpare(1);
         Assert.False(plan.IsCurrent);
         plan = CompiledPlan.Compile(eng);
@@ -402,7 +499,7 @@ public sealed class CompiledPlanTests
         st.Recruit(sparePos);
         Assert.False(plan.IsCurrent);
 
-        // 5. Self-rewiring engine (a wiring writing another wiring's Rows store) never compiles and falls back cleanly.
+        // 5. Dynamic-topology engine (writing another wiring's Rows) never compiles and falls back cleanly.
         var rwSt = new Store(0, 2);
         var rwA = Allocate(rwSt, Shape.Unary(1));
         var rwB = Allocate(rwSt, Shape.Unary(1));
@@ -417,19 +514,19 @@ public sealed class CompiledPlanTests
         Assert.False(selfPlan.HasAnyCompiledKernel);
         selfPlan.Step(out var selfRep);
         Assert.False(selfRep.UsedFastPath);
-        Assert.Equal(1, rwA.Read(rwSt, 0)); // mutator cleared attention mid-step, so targetW did NOT move the unit!
+        Assert.Equal(1, rwA.Read(rwSt, 0));
         Assert.Equal(0, rwB.Read(rwSt, 0));
     }
 
     [Fact]
-    public void PassThreeAddsNoEnumsToEncodingC()
+    public void PassThreeAndFourAddNoEnumsToEncodingC()
     {
         var enums = typeof(Store).Assembly.GetTypes()
             .Where(t => t.Namespace == typeof(Store).Namespace && t.IsEnum)
             .Select(t => t.FullName!)
             .ToArray();
 
-        // Only master's LearnedRead exists; CompiledPlan, Portions, and Pass 1–3 add zero enums.
+        // Only master's LearnedRead exists; CompiledPlan, Portions, and Pass 1–4 add zero enums.
         Assert.Equal([typeof(LearnedRead).FullName!], enums);
     }
 }

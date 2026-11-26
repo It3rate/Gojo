@@ -1,14 +1,16 @@
 # Gojo Operations Synthesis — Final Assessment (Neon)
 
 **Author:** Neon
-**Date:** 2026-11-26 (revised after Sol's and Claude's final assessments)
-**Branch reviewed:** `ops_synthesize` (originally `53bd235b`, revised on top of `2e876211`, relative to `master` `9b805964`)
+**Date:** 2026-11-26 (revised after Sol's and Claude's final assessments and Pass-4 reduction)
+**Branch reviewed:** `ops_synthesize` (originally `53bd235b`, revised through `20c89682` + Pass-4 reduction, relative to `master` `9b805964`)
 
 ---
 
 ## 1. Verdict
 
 **Ready to merge into `master`** once one final `dotnet test Gojo.slnx` runs on a machine with `wasm-tools` (for the five `.Browser` hosts) and `QualitativeExecution.Tests`.
+
+**Pass-4 update (§12 of `GojoOperationsSynthesis-2026-11.md`):** Following Claude's Pass-4 instructions (`20c89682`), `Gojo.EncodingC/Compilation/CompiledPlan.cs` was reduced from **3,147 to 1,572 lines (−50.0%)**: all five law-family kernels (`RelationalColumnPlan`/`RelationalColumnKernel`, `FusedRelationalLadderAdder`, `FusedConcreteLadderAdder`, `PacketConvertKernel` with `SettlePacketConvertExact` and the non-identity packet path, and `BoundedMultiplyKernel`), their `TryRecognize…` helpers, and all six per-family `Recognized…` flags were removed (historical baselines remain in `8a24cfca` and `ops_neon`). `CompiledPlan` now contains only the hardened scaffolding, two internal flags (`HasTransitionKernel`, `HasRelationKernel`), the general small-table transition kernel (`SimdTransitionPlan`), and a new general word-outer role-0-grouped `Vector<ulong>` relation kernel (`SimdRelationPlan`, ceiling 8,192 admitted tuples, full `SameReference` diagonal support). All 345 `Gojo.EncodingC` tests — including Claude's permanent `ExecutionParityFuzzTests` plus a 400-seed extended sweep — pass with zero mismatches; see §12.6 of the synthesis spec for the updated Release benchmarks.
 
 **Revision note after Sol's and Claude's final assessments:** Sol was right to hold the merge on `53bd235b`. All five `CompiledPlan` dynamic-topology and execution-evidence counterexamples in Sol's assessment reproduced cleanly against `53bd235b`, and Claude's Pass-1 domain-wrap fix landed in `2e876211`. Every Pass-3 defect identified by Sol and Claude is now fixed and pinned by regression tests in this revision:
 
@@ -93,9 +95,9 @@ Nothing on `ops_synthesize` blocks integration architecturally. Across all three
 
 ## 4. Verification Status & Remaining Gate Before Merging to `master`
 
-- **Verified after post-assessment fixes (Linux, `.NET 10.0.404`):**
-  - `Gojo.EncodingC` (`Debug` and `Release`): **343 passed, 0 failed, 0 skipped** (all 5 Sol `CompiledPlan` repros confirmed failing before the fix and passing after on `ExecutionConformancePath.All`, plus empty-runnable wave parity and `ResiduesHandleBlockedBitsAndCapacitiesAboveSixtyThree`).
-  - 18 other non-WASM, non-`QualitativeExecution` test projects in `Gojo.slnx` (`Release`), including `Gojo.Tests` (1,074) and `GojoCAD.Tests` (155): **3,789 passed, 0 failed** (**4,132 passed, 0 failed** total across 19 test projects).
+- **Verified after Pass-4 reduction (Linux, `.NET 10.0.404`):**
+  - `Gojo.EncodingC` (`Debug` and `Release`): **345 passed, 0 failed, 0 skipped** (0 new warnings; includes all `ExecutionConformancePath.All` gates, all 5 Sol topology/evidence repros, Claude's permanent 48-seed `ExecutionParityFuzzTests`, and the Pass-4 general-kernel `CompiledPlanTests`), plus a **400-seed** extended differential fuzz sweep (`ordered` + `together`, 20.6 s, 0 mismatches).
+  - 18 other non-WASM, non-`QualitativeExecution` test projects in `Gojo.slnx` (`Release`), including `Gojo.Tests` (1,074) and `GojoCAD.Tests` (155): **3,789 passed, 0 failed** (**4,134 passed, 0 failed** total across 19 test projects).
 - **Remaining final gate before merging to `master`:**
   - Run one full `dotnet test Gojo.slnx` on a host with `wasm-tools` installed (for the five `.Browser` projects) plus `QualitativeExecution.Tests` (3,509 tests; has zero project dependency on `Gojo.EncodingC`).
 

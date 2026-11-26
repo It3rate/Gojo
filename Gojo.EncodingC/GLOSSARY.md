@@ -117,7 +117,7 @@ The stock laws:
 | Portion *(live denominator)* | A count out of a denominator that is itself open, such as a pooled review count | `Portions`: relations for validity (d ≥ 1, n ≤ d), pooling, same-whole addition, projection with remainder and comparison |
 | System (of equations) | Several polynomials over the same roles, read as one table | `Operations.System` |
 | Residues | Hidden free roles found together, such as the two faces that make min, max or \|a − b\| | `Recognition.Residues` |
-| Compiled plan *(host)* | A faster way to run an engine, used only where its kernels have the same tables as the laws, and falling back to the engine elsewhere | `CompiledPlan`. Never saved; dropping it changes nothing |
+| Compiled plan *(host)* | A faster way to run an engine using two general table kernels (small-table transitions and word-outer bit-sliced relations, lowered strictly from a law's own bits), falling back to the engine everywhere else | `CompiledPlan`. Never saved; dropping it changes nothing |
 | Recognition *(host)* | Finding the equations a table or a few witnesses keep | `Recognition`. It returns polynomials, tuples and witness indexes, never a kind |
 | Unexplained | Tuples that a found system admits and nothing witnessed. Empty means the system is exact | A list of tuples |
 | Exception | A witness that a fit does not explain | Its index |

@@ -164,13 +164,15 @@ Contracts:
    Two equations are the same when their numbers are the same
    (`APolynomialIsCanonicalNumbers`).
 2. **The interpreter runs the table.** A polynomial builds its table once.
-   A derived execution form (`CompiledPlan`) qualifies strictly against the
-   table, accounting, bindings and schedule, retains a route back to `Engine`
-   wherever ineligible or stale, and changes no transport bits
-   (`PassOneRelationalLaddersTakeTheCompiledFastPathAcrossMixedRadicesAndReobservation`,
-   `ConcreteMixedPartitionAndDecimalRippleAddersTakeTheCompiledSwarPath`,
-   `PacketConvertBoundedMultiplyAndSmallTablesTakeCompiledFastPaths`,
-   `IneligibleBrokenRecordedSharedSiteAndStaleCasesFallBackCleanlyWithExactParity`).
+   A derived execution form (`CompiledPlan`) lowers strictly from the table's
+   own bits and bindings through two family-independent kernels (small-table
+   transitions and word-outer bit-sliced relations), retains a route back to
+   `Engine` wherever ineligible, oversized, dynamic-topology, or stale, and
+   changes no transport bits
+   (`GeneralRelationKernelAcceleratesLaddersClocksAndSharedSiteDiagonals`,
+   `GeneralRelationKernelCoversPortionsProductsOdvSidesAndValueGap`,
+   `GeneralTransitionKernelAcceleratesSmallConvertShortfallRippleAndMultiplyTables`,
+   `OversizedRecordedBrokenDynamicAndStaleCasesFallBackCleanlyWithExactParity`).
 3. **`Bits` estimates the description length** that recognition compares with
    a table's bits. It is not a transport size.
 4. **Text is a lens read.** `Lens.Describe` writes "a + b + c − 10d − e = 0",
@@ -1016,7 +1018,37 @@ Pass 4 is done when:
 
 Then merge into master.
 
-**Pass 4 notes (Neon):** *to be written.*
+**Pass 4 notes (Neon):**
+- **Reduction & cleanup (`Gojo.EncodingC/Compilation/CompiledPlan.cs`, 3,147 → 1,572 lines, −50.0%):**
+  - Removed all five law-family kernels (`RelationalColumnPlan`/`RelationalColumnKernel`, `FusedRelationalLadderAdder`, `FusedConcreteLadderAdder`, `PacketConvertKernel` with `SettlePacketConvertExact` and the non-identity packet path, and `BoundedMultiplyKernel`), all `TryRecognize…` helpers, all static reference-law caches, and all six per-family `Recognized…` flags.
+  - Retained all hardened Pass-3 scaffolding (eligibility, `WiringSnapshot` including `Port`/`Socket`/`Flipped`/`Workspace`/`Store.RawLive` invalidation, `DetectsDynamicTopology`, fallback to `Engine`, `CompiledStepReport`, `HasAnyCompiledKernel`), two internal flags distinguishing transition vs. relation lowering (`HasTransitionKernel`, `HasRelationKernel`), and the general small-table transition kernel (`SimdTransitionPlan`, `totalRoleBits <= 64`, `StateCount <= 512`).
+  - Zero new enums (`PassThreeAndFourAddNoEnumsToEncodingC`), zero strings/floats/doubles/decimals/`System.Math`, zero new internal accessors on `RelationLaw`, and zero diff in `Transport/` against `origin/master`.
+- **General bit-sliced relation kernel (`SimdRelationPlan`):**
+  - Lowered strictly from `relation.Bytes()` (`BitOperations.TrailingZeroCount`) with no law-family checks, up to `MaxRelationAdmittedTuples = 8192` and `role.Size <= 64` (covering `[60, 24]` clock columns at 7,200 admitted tuples, `[10, 10, 10]` at 200, `[2, 5]` at 50, `Portions`, `Operations.Product`, `Odv.Addition`, `Sides`, and `Settling.ValueGap`; larger tables fall back cleanly to `Engine`).
+  - Packs admitted tuples into a flat CSR table grouped by role-0 value (`groupStart` + `flatOthers`) and executes word-outer with portable `Vector<ulong>` SIMD + 64-lane scalar tail directly over `Store.RawPlane` words, skipping any role-0 value whose support mask is zero in the current word.
+  - Supports identity-mapped `SameReference` diagonals (e.g., `Ladder.Add(x, x, doubled)` and squaring `Operations.Product`) by pre-filtering admitted tuples where full-plane-shared open roles agree and writing back once on the canonical role; partial or plain/open plane overlap falls back to `Engine`.
+  - Decodes plain, constant, unary, and binary-doubling roles with pre-mutation `Unread` validation/deopt and emits full canonical `WiringStep` evidence (`Changed`, `Unread`, `Unadmitted`, `Ambiguous`, `Skipped`, `Aliased`, `Contested`, `Before`, `After`, `Waves`), including single-wiring `together: true`.
+- **Whole-path vs. steady-kernel Release benchmarks (Linux `.NET 10.0.404`, idle CPU, GC-isolated median trials, plane-for-plane and tick-for-tick verified against `Engine.Settle`):**
+
+| Workload | Lanes | Fast | `Engine.Settle` | `Compile` | Pass-4 Whole (`Compile+Settle`) | Pass-4 Steady (`Settle`) | Pass-4 Whole speedup | Pass-4 Steady speedup | Pass-3 Specialized baseline (Whole / Steady) |
+| --- | ---: | :---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| Pass-1 `Ladder.Add [10,10,10]` settled | 4,096 | True | 337.986 ms | 0.544 ms | 1.090 ms | 0.546 ms (133.3 ns/lane) | 310.1× | 619.0× | 1.388 ms / 0.965 ms (271.5× / 390.4×) |
+| Pass-1 `Ladder.Add [2,5]` settled | 65,536 | True | 4,031.924 ms | 1.252 ms | 2.070 ms | 0.819 ms (12.5 ns/lane) | 1,947.8× | 4,923.0× | 3.167 ms / 1.071 ms (1,508.4× / 4,460.4×) |
+| Pass-1 `Ladder.Add [2,5]` 50% open coarse | 65,536 | True | 3,968.191 ms | 0.989 ms | 1.745 ms | 0.756 ms (11.5 ns/lane) | 2,274.6× | 5,251.0× | 2.549 ms / 1.490 ms (1,775.7× / 3,037.2×) |
+| Shared-site `Ladder.Add(x, x, 2x)` | 4,096 | True | 212.316 ms | 0.219 ms | 0.261 ms | 0.046 ms (11.3 ns/lane) | 814.4× | 4,595.6× | *fell back:* 153.892 ms / 155.530 ms |
+| Concrete split `[10,10,10]` ripple *(carry compiled, sum > 512 falls back)* | 4,096 | True | 587.864 ms | 0.282 ms | 240.623 ms | 229.808 ms | 2.4× | 2.6× | 1.272 ms / 0.179 ms (534.4× / 3,795.4×) |
+| Concrete combined `[2,5]` ripple | 65,536 | True | 3,866.235 ms | 1.116 ms | 5.185 ms | 4.221 ms (64.4 ns/lane) | 745.6× | 915.9× | 2.105 ms / 0.441 ms (2,112.5× / 10,075.0×) |
+| `Flows.Convert(2, 3, 9, 9)` *(100 states ≤ 512)* | 65,536 | True | 4,969.059 ms | 0.248 ms | 1.454 ms | 1.206 ms (18.4 ns/lane) | 3,416.3× | 4,118.6× | 2.948 ms / 2.655 ms (3,854.1× / 4,280.4×) |
+| `Counts.Shortfall(3, 3)` | 65,536 | True | 1,383.824 ms | 0.276 ms | 0.799 ms | 0.523 ms (8.0 ns/lane) | 1,731.9× | 2,644.9× | 1.037 ms / 0.680 ms (1,782.3× / 2,718.7×) |
+| `Portions.AddSameWhole(5)` | 4,096 | True | 110.400 ms | 0.069 ms | 0.113 ms | 0.044 ms (10.6 ns/lane) | 975.3× | 2,532.1× | *fell back in Pass 3* |
+| `Odv.Addition()` | 65,536 | True | 1,253.559 ms | 0.251 ms | 0.640 ms | 0.388 ms (5.9 ns/lane) | 1,959.6× | 3,227.5× | *fell back in Pass 3* |
+| B16 `FactoredInverse` *(1 lane)* | 1 | True | 0.371 ms | 0.126 ms | 0.177 ms | 0.052 ms | 2.1× | 7.1× | *fell back:* 0.0915 ms / 0.0680 ms |
+
+  Three benchmark takeaways:
+  1. **The general relation kernel beat Pass 3's removed relational ladder kernel on all three relational ladder workloads** (1.090 ms vs. 1.388 ms on `[10,10,10]`, 2.070 ms vs. 3.167 ms on `[2,5]` settled, and 1.745 ms vs. 2.549 ms on `[2,5]` 50% open) because it runs `Vector<ulong>` across every word — open and settled alike — with role-0 dead-value skipping.
+  2. **It unlocked 814×–4,596× speedups on workloads Pass 3 could not accelerate at all:** shared-site `Ladder.Add(x, x, 2x)`, `Portions.AddSameWhole(5)`, `Odv.Addition()`, and 1-lane B16 `FactoredInverse`.
+  3. **Honest regressions where the removed Pass-3 specialized kernels remain faster speed targets:** concrete split `[10,10,10]` ripple (the 400-state carry wirings accelerate while the 2,000-state sum wirings exceed `MaxTransitionStates = 512` and fall back: 2.4× vs. Pass 3's 534×), concrete combined `[2,5]` ripple (746× whole / 916× steady vs. Pass 3's 2,113× / 10,075×), and transitions whose state space exceeds 512 (`Flows.Convert` at larger capacities, wider bounded multiplies, or non-identity packet chains). Any future specialization returns only under §12.3.
+- **Extended fuzz verification:** In addition to the permanent 48-seed `ExecutionParityFuzzTests` gate, a 400-seed sweep (`ordered` + `together`, 6,400 randomized steps/settles against `ExecutionParityFuzzTests.Compare`) passed on Pass 4's `CompiledPlan` in 20.6 s with zero mismatches.
 
 ## Verification
 
@@ -1080,5 +1112,30 @@ Linux, `.NET 10.0.404`):
 - **19 non-WASM, non-`QualitativeExecution` test projects in `Gojo.slnx`
   (`Release`):** **4,132 passed, 0 failed** (`Gojo.EncodingC`: 343,
   `Gojo.Tests`: 1,074, `GojoCAD.Tests`: 155, plus all 16 remaining projects).
+
+Pass 4 (Claude `20c89682` permanent fuzz gate + Neon general-kernel reduction on
+`ops_synthesize`, Linux, `.NET 10.0.404`, no `wasm-tools` workload installed):
+- **EncodingC (`Release` and `Debug`):** **345 passed, 0 failed, 0 skipped**
+  (Release: 10 s, Debug: 26 s; 0 new warnings; includes all
+  `ExecutionConformancePath.All` gates, Sol's five dynamic-topology/evidence
+  regressions, Claude's permanent 48-seed `ExecutionParityFuzzTests`, and the
+  rewritten Pass-4 `CompiledPlanTests` + `PassThreeAndFourAddNoEnumsToEncodingC`).
+- **Extended differential fuzz:** 400 seeds × (`ordered` + `together`) × 8 rounds
+  against `ExecutionParityFuzzTests.Compare` on `CompiledPlan` passed in 20.6 s
+  with zero mismatches.
+- **19 non-WASM, non-`QualitativeExecution` test projects in `Gojo.slnx`
+  (`Release`):** **4,134 passed, 0 failed, 0 skipped** (`Gojo.EncodingC`: 345,
+  `Gojo.Tests`: 1,074, `GojoCAD.Tests`: 155, `Gojo.Encoding.Tests`: 725,
+  `Gojo.Encoding.Core.Tests`: 353, `PrimitiveExplorer.Tests`: 69,
+  `Gojo.GearShapeLadder.Tests`: 21, `Minds.Tests`: 49, `Phototaxis.Tests`: 129,
+  `PrimitiveForager.Tests`: 6, `PrimitiveLearning.Tests`: 67,
+  `CompositeEmergence.Tests`: 66, `AdaptiveLifecycle.Tests`: 25,
+  `UtilityEcology.Tests`: 119, `PrimitiveMeasure.Tests`: 717,
+  `ConstructionMachines.Tests`: 149, `OrnamentPathCampaign.Tests`: 12,
+  `OrnamentTension.Tests`: 49, `OrnamentFollowup.Tests`: 4). Remaining pre-merge
+  gate on a host with `wasm-tools`: full `dotnet test Gojo.slnx` covering the
+  five `.Browser` hosts and `QualitativeExecution.Tests` (3,509 tests; zero
+  dependency on `Gojo.EncodingC`).
+
 
 
