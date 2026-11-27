@@ -922,6 +922,59 @@ promoted core keep their historical polarity and will not be changed:
 EncodingC does not reference them, and an idea needed from them is rewritten
 in EncodingC rather than backported.
 
+## Errors Are Evidence, November 2026
+
+Section 9.3 used to allow exceptions for "programmer errors … such as
+impossible host overflow or violated API preconditions". A survey of EncodingC
+found 365 throw sites outside tests:
+- 150 null checks;
+- about 200 construction checks;
+- 11 refusals of unreadable saved bits;
+- 15 overflow checks;
+- a few states our own code says cannot occur.
+
+While a machine runs, the engine already turns failures into evidence (unread,
+unadmitted, ambiguous, skipped, aliased, contested). The parity fuzz found
+where that leaked. A position retired within a step could still be written,
+by another row taken together or by a later wave of the same wiring, and the
+engine threw.
+
+The user set the rule now in §9.3. Their reasons:
+- **Null.** In Gojo, null is unselected: someone claims a thing exists, and
+  there is no evidence yet. One can look for evidence, give the claim up, or
+  create an empty piece of structure.
+- **Errors.** An error is an expectation that is not met, so check the
+  expectation or the error. That was the original intention of exceptions,
+  but in practice they are runtime checks that stop everything, or are
+  ignored, because precise systems are brittle.
+- **Something that disappears** while being read or written is a true null,
+  and the code should handle it throughout. To create something, one has to
+  know it does not exist.
+- **Gojo is a rule set for our concepts about the world, not a simulator of
+  the world.** A simulation for our own inspection, such as continuous charge
+  in floating point, need not follow Gojo's rules. What crosses into a
+  structure must.
+
+Claude first argued that an exception is honest when the instrument is
+broken, as with a voltmeter. The user answered that a structure cannot know
+an instrument is broken without evidence, and input carries no "I am broken"
+flag. A structure should learn that values can be bad and sources can fail,
+not be cut off from them. The two agreed on a narrower exception: a fault in
+our own code differs from a fault in what is modelled, and an exception is a
+reasonable way to learn about our own faults.
+
+The removal is gradual. The first changes:
+- **Positions retired within a step.** A retirement or recruitment taken
+  together claims the whole position and contests any other row writing
+  there. Within a row, a change to a position's existence is written last. A
+  row that reaches a position an earlier wave retired is skipped. The parity
+  fuzz now requires that neither the engine nor any path throws.
+- **To follow:**
+  - transport loading returns a refusal as data;
+  - overflow saturates into residue;
+  - capacity limits refuse with the size they would need;
+  - the construction checks that remain are marked as host-only debt.
+
 ## Prompt Shape
 
 The final prompt deliberately has four scales:

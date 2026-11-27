@@ -1203,16 +1203,60 @@ historical snapshot are different contracts. Dynamic structure is primary;
 memory and derived caches are optional optimizations or explicitly chosen
 evidence, not a mandatory succession of immutable worlds.
 
-### 9.3 Preserve Incomplete States
+### 9.3 Preserve Incomplete States: Errors Are Evidence
 
 Incomplete, incompatible, blocked, ambiguous, stale, and low-resolution states
 are information. Prefer open slots, failed local reads, residue, tension,
 partial replay, or explicit unresolved structure over exceptions and
 guard-heavy invalid-value policies.
 
-Exceptions remain appropriate for programmer errors that would corrupt the
-structural contract, such as impossible host overflow or violated API
-preconditions. They are not a substitute for modeling an unsettled Gojo state.
+**An error is an expectation and an observation that disagree.** Keep both.
+A structure can then:
+- revise the expectation;
+- look for evidence;
+- give the expectation up;
+- create what is missing. To create something, it first has to learn that it
+  does not exist.
+
+An exception discards the pair and stops. Nothing can learn from it.
+
+The world is full of bad readings, wrong assumptions and broken values,
+sometimes slightly and sometimes badly. They are what a structure is trying to
+work out, not something to cut off. That a source is broken is a pattern
+learned from evidence, such as repeated bad values. It is not a flag the input
+carries.
+
+Therefore:
+
+- **A running structure never throws.** A write to a position that has gone, a
+  read through a lane that reaches nowhere, or a step that cannot complete
+  each becomes evidence: skipped, unread, unadmitted, contested, blocked.
+- **Input never throws.** Bits, observations and witnesses that cannot be read
+  are refused as data, saying which part, where and why, as numbers.
+- **Size never throws.** A number that does not fit is the last carry or
+  residue. A table or domain too large to hold is refused with how large it
+  would be. The request is left standing, so a coarser read or a ladder can be
+  chosen.
+- **Null means unselected:** something may or may not exist, and there is no
+  evidence yet. Where a signature accepts null, it says what unselected means
+  there.
+
+Exceptions remain only for faults in the implementation itself:
+- **A state our own code says cannot occur.**
+- **An incoherent construction by the host,** such as a shape laid in the
+  wrong number of planes, while only the host builds structures.
+
+These report a fault in the instrument, not a fact about what it models, and
+a loud stop is a reasonable way to learn about them. Each host construction
+check becomes a refusal result as soon as a structure can make the same
+request. An exception must never be reachable from data or from a structure's
+own behaviour, and tests that run random structures check this.
+
+A simulation of the world outside Gojo, such as continuous charge in floating
+point, follows its own rules. Gojo is a rule set for concepts about the world,
+not a simulator of it. The boundary that reads a simulation or a measurement
+into a structure turns whatever is strange into observations, unread values
+or residue.
 
 ### 9.4 Use One Shared Mechanism
 

@@ -179,4 +179,73 @@ public sealed class RuntimeTests
         Assert.NotNull(engine.Settle(8, together: true));
         Assert.True(flag.Read(0, 0));
     }
+
+    /// <summary>A position that stops existing within a step is evidence,
+    /// never a crash. Taken together, a row retiring a position and another
+    /// row writing there contest: neither runs, the position stays, and the
+    /// step says so. In declared order the earlier row decides: retired
+    /// first, the write is skipped; written first, the write lands and the
+    /// position is then retired. A row that both writes a position and
+    /// retires it writes first, in either order. Two rows of one wiring on one
+    /// position: in order, the row after the retirement reaches a retired
+    /// position and is skipped; taken together, both write the same bit and
+    /// contest.</summary>
+    [Fact]
+    public void APositionRetiredWithinAStepIsEvidenceNeverACrash()
+    {
+        var retireLaw = TransitionLaw.FromFunction([Shape.Bit], _ => [0], new Accounting(true));
+        var toggleLaw = TransitionLaw.FromFunction([Shape.Bit], v => [1 - v[0]], new Accounting(true));
+        (Engine Engine, Store Sites, Wiring Retire, Wiring Toggle) Build(bool retireFirst)
+        {
+            var sites = new Store(1, 2);
+            var retire = new Wiring(retireLaw, new Binding(sites.Life, 0));
+            retire.Add(1);
+            var toggle = new Wiring(toggleLaw, new Binding(sites, 0));
+            toggle.Add(1);
+            var engine = retireFirst ? new Engine().Add(retire).Add(toggle) : new Engine().Add(toggle).Add(retire);
+            return (engine, sites, retire, toggle);
+        }
+
+        var together = Build(retireFirst: true);
+        var step = together.Engine.StepTogether();
+        Assert.True(together.Sites.IsLive(1));
+        Assert.False(together.Sites.Read(0, 1));
+        Assert.True(step.Steps[0].Contested![0]);
+        Assert.True(step.Steps[1].Contested![0]);
+
+        var retiredFirst = Build(retireFirst: true);
+        step = retiredFirst.Engine.Step();
+        Assert.False(retiredFirst.Sites.IsLive(1));
+        Assert.True(step.Steps[1].Skipped[0]);
+
+        var writtenFirst = Build(retireFirst: false);
+        step = writtenFirst.Engine.Step();
+        Assert.True(step.Steps[0].Changed[0]);
+        Assert.False(writtenFirst.Sites.IsLive(1));
+
+        foreach (var inOrder in new[] { true, false })
+        {
+            var sites = new Store(1, 2);
+            var both = new Wiring(TransitionLaw.FromFunction([Shape.Bit, Shape.Bit], _ => [0, 1], new Accounting(true)),
+                new Binding(sites.Life, 0), new Binding(sites, 0));
+            both.Add(1, 1);
+            var engine = new Engine().Add(both);
+            var own = inOrder ? engine.Step() : engine.StepTogether();
+            Assert.True(own.Steps[0].Changed[0]);
+            Assert.False(sites.IsLive(1));
+        }
+
+        foreach (var inOrder in new[] { true, false })
+        {
+            var sites = new Store(1, 2);
+            var twice = new Wiring(TransitionLaw.FromFunction([Shape.Bit], v => [1 - v[0]], new Accounting(true)), new Binding(sites.Life, 0));
+            twice.Add(1);
+            twice.Add(1);
+            var engine = new Engine().Add(twice);
+            var rows = inOrder ? engine.Step().Steps[0] : engine.StepTogether().Steps[0];
+            Assert.Equal(!inOrder, sites.IsLive(1));
+            Assert.Equal(inOrder, rows.Skipped[1]);
+            Assert.Equal(!inOrder, rows.Contested is { } contested && contested[0] && contested[1]);
+        }
+    }
 }

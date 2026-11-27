@@ -187,8 +187,10 @@ public sealed class Engine
     /// different rows would write the same bit, unless both only rule the same
     /// value out, both are contested: neither runs, and the step says so. A
     /// transition row writes codes whole, so it claims every bit of each code
-    /// it writes, and two rows writing different bits of one count contest. A
-    /// wiring listed twice plans once.</summary>
+    /// it writes, and two rows writing different bits of one count contest.
+    /// Recruiting or retiring a position claims the whole position, so a row
+    /// that changes whether a position exists contests any other row writing
+    /// there. A wiring listed twice plans once.</summary>
     public EngineStep StepTogether()
     {
         var once = wirings.Distinct().ToArray();
@@ -211,6 +213,23 @@ public sealed class Engine
             if (list.Count < 2 || list.All(x => x.Rules && !x.Value)) continue;
             foreach (var (w, row, _, _) in list) contested[w][row] = true;
         }
+        // Recruiting or retiring a position claims the whole position, as
+        // writing a code claims all its bits: any other row writing there in
+        // the same step contests it, and neither runs. Order still decides
+        // nothing, and no row writes into a position that has just gone.
+        var atPosition = new Dictionary<(Surface, int), List<(int Wiring, int Row, bool Life)>>();
+        for (var w = 0; w < once.Length; w++)
+            foreach (var (row, writes) in plans[w].Writes)
+                foreach (var write in writes)
+                {
+                    var key = write.Surface.WriteKey(write.Index);
+                    if (!atPosition.TryGetValue(key, out var here)) atPosition[key] = here = [];
+                    var life = write.Surface.Underlying is Life;
+                    if (!here.Any(x => x.Wiring == w && x.Row == row && x.Life == life)) here.Add((w, row, life));
+                }
+        foreach (var here in atPosition.Values)
+            if (here.Any(x => x.Life) && here.Select(x => (x.Wiring, x.Row)).Distinct().Count() > 1)
+                foreach (var (w, row, _) in here) contested[w][row] = true;
         var stepped = once.Select((w, i) => (w, step: w.Commit(plans[i], contested[i]))).ToDictionary(x => x.w, x => x.step, ReferenceEqualityComparer.Instance);
         Tick++;
         return new EngineStep(Tick, [.. wirings.Select(w => stepped[w])], [once.Length == 0 ? [] : Enumerable.Range(0, wirings.Count).ToArray()]);

@@ -20,7 +20,8 @@ namespace Gojo.EncodingC.Tests;
 /// and taken together. Between rounds both are disturbed alike: re-observed,
 /// corrupted, rebound or retired. Every step must match in state and in
 /// evidence: the waves, and each row's changed, unread, unadmitted,
-/// ambiguous, skipped, aliased, contested and noted bits.</summary>
+/// ambiguous, skipped, aliased, contested and noted bits. Neither ever
+/// throws: a running structure turns what cannot happen into evidence.</summary>
 public sealed class ExecutionParityFuzzTests
 {
     private const int Seeds = 48;
@@ -47,32 +48,22 @@ public sealed class ExecutionParityFuzzTests
             var where = $"seed {seed}, round {round}, {(together ? "together" : "in order")}";
             var stepping = choices.Next(2) == 0;
             var limit = choices.Next(1, 6);
-            EngineStep? step = null;
-            int? settled = null;
-            try
-            {
-                if (stepping) step = together ? expected.Engine.StepTogether() : expected.Engine.Step();
-                else settled = expected.Engine.Settle(limit, together);
-            }
-            catch (Exception refused)
-            {
-                // Where the engine refuses a step, the path refuses it too, and
-                // the run ends: the engine is the reference, refusals included.
-                var followed = Record.Exception(() => { if (stepping) path.Step(actual.Engine, together); else path.Settle(actual.Engine, limit, together); });
-                Assert.True(followed?.GetType() == refused.GetType(), $"{where}: the engine refused with {refused.GetType().Name}, the path with {followed?.GetType().Name ?? "nothing"}");
-                return;
-            }
+            // A running structure never throws (GojoSystemPrompt §9.3): what
+            // cannot happen is evidence, on the engine and on every path.
+            EngineStep? step = null, followedStep = null;
+            int? settled = null, followed = null;
+            var refused = Record.Exception(() => { if (stepping) step = together ? expected.Engine.StepTogether() : expected.Engine.Step(); else settled = expected.Engine.Settle(limit, together); });
+            Assert.True(refused is null, $"{where}: the engine threw {refused?.GetType().Name}: {refused?.Message}");
+            refused = Record.Exception(() => { if (stepping) followedStep = path.Step(actual.Engine, together); else followed = path.Settle(actual.Engine, limit, together); });
+            Assert.True(refused is null, $"{where}: the path threw {refused?.GetType().Name}: {refused?.Message}");
             if (stepping)
             {
-                var difference = StepDifference(step!, path.Step(actual.Engine, together));
+                var difference = StepDifference(step!, followedStep!);
                 Assert.True(difference is null, $"{where}: {difference}");
             }
             else
-            {
-                var followed = path.Settle(actual.Engine, limit, together);
                 Assert.True(settled == followed && expected.Engine.Tick == actual.Engine.Tick,
                     $"{where}: settled in {settled} and {followed}, at ticks {expected.Engine.Tick} and {actual.Engine.Tick}");
-            }
             var state = StateDifference(expected, actual);
             Assert.True(state is null, $"{where}: {state}");
             var disturbance = choices.Next();

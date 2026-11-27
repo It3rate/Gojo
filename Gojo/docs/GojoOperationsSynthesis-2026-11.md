@@ -1005,10 +1005,20 @@ This is master code (`Engine.StepTogether`, `Wiring.Commit`), not the
 backend. The fuzz treats the engine as the reference, refusals included: a
 path must refuse where the engine refuses, and that run ends.
 
-The fix needs a decision about what a taken-together step means when a
-position dies within it. The options are to contest the write and the
-retirement, to apply retirements last, or to skip the write and report it
-as skipped. It is left for a separate change.
+The fix needed a decision about what a taken-together step means when a
+position dies within it. The options were to contest the write and the
+retirement, to apply retirements last, or to skip the write and report it as
+skipped.
+
+**Fixed after the merge, under the user's no-throw rule (canonical prompt
+§9.3):**
+- Taken together, a change to a position's existence contests any other row
+  writing there.
+- Within a row, that change is written last.
+- In order, a row reaching a position retired by an earlier wave is skipped.
+
+The fuzz now requires that neither the engine nor a path ever throws
+(`APositionRetiredWithinAStepIsEvidenceNeverACrash`).
 
 ### 12.6 Done when, and pass-4 notes
 

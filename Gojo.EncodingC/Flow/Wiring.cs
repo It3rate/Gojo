@@ -510,15 +510,29 @@ public sealed class Wiring
         var unadmitted = new Plane(Count);
         var ambiguous = new Plane(Count);
         var waves = Waves(lanes);
-        foreach (var wave in waves)
+        int[] lifeLast = [.. Enumerable.Range(0, bindings.Length).OrderBy(r => bindings[r].Surface.Underlying is Life ? 1 : 0)];
+        var changesLife = planned is null && Enumerable.Range(0, bindings.Length).Any(r => writes[r] && bindings[r].Surface.Underlying is Life);
+        foreach (var scheduled in waves)
         {
+            // A row whose position an earlier wave retired reaches a retired
+            // position now: it is skipped, as any such row is, not run into nothing.
+            var wave = scheduled;
+            if (changesLife)
+            {
+                var gone = wave.AndNot(Classify().Runnable);
+                skipped = skipped.Or(gone);
+                wave = wave.AndNot(gone);
+            }
             foreach (var row in wave.Indexes()) before[row] = TupleOf(row) ?? -1;
             var step = transition.Step(Gather(wave), wave);
             unread = unread.Or(step.Unread);
             unadmitted = unadmitted.Or(step.Unadmitted);
             ambiguous = ambiguous.Or(step.Ambiguous);
+            // A row's change to whether a position exists is written after its
+            // other roles, so a row that retires a position it also writes
+            // writes first and then retires, rather than writing into nothing.
             foreach (var row in wave.Indexes())
-                for (var r = 0; r < bindings.Length; r++)
+                foreach (var r in lifeLast)
                 {
                     if (!writes[r]) continue;
                     var surface = bindings[r].Surface;
