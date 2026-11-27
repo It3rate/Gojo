@@ -149,6 +149,10 @@ public sealed class Ladder
         for (var r = 0; r < digits.Count; r++)
             if (radices[r] < 2 || digits[r].Shape.Size != radices[r])
                 throw new ArgumentException($"Rung {r} holds {digits[r].Shape.Size} values but its radix is {radices[r]}.", nameof(digits));
+        // Refused here, when the host builds it, rather than as an overflow
+        // in a later read: every value of a ladder fits a 64-bit count.
+        if (radices.Aggregate(System.Numerics.BigInteger.One, (p, r) => p * r) - 1 > long.MaxValue)
+            throw new ArgumentException("The rungs hold more values than a 64-bit count.", nameof(radices));
         Store = store;
         this.radices = [.. radices];
         Digits = Array.AsReadOnly(digits.ToArray());
@@ -206,8 +210,9 @@ public sealed class Ladder
     public long Capacity => radices.Reverse().Aggregate(0L, (p, r) => checked(p * r + (r - 1)));
 
     /// <summary>Narrows every rung to the digits of a value, in units of the
-    /// finest rung: an exact observation, a count.</summary>
-    public void Restrict(int position, long value) => Measure(position, value, 0);
+    /// finest rung: an exact observation, a count. A value the number cannot
+    /// hold is refused: false, and nothing narrowed (GojoSystemPrompt §9.3).</summary>
+    public bool Restrict(int position, long value) => Measure(position, value, 0);
 
     /// <summary>Narrows one rung to some digits, leaving the others as they are.</summary>
     public void Restrict(int position, int rung, ulong digits) => possible[rung].Restrict(position, digits);
@@ -215,16 +220,21 @@ public sealed class Ladder
     /// <summary>A reading known only to <paramref name="rung"/>: the value, in
     /// units of that rung, settles it and the rungs above; the finer rungs stay
     /// open, so the reading means at least the value and less than one more
-    /// unit of that rung. A measurement to the fifth is not a count of fifths.</summary>
-    public void Measure(int position, long value, int rung)
+    /// unit of that rung. A measurement to the fifth is not a count of fifths.
+    /// A reading the number cannot hold, below zero or past its top rung, is
+    /// refused: false, and nothing narrowed, so the caller learns it and the
+    /// number keeps what it knew. Naming a rung the ladder does not have is a
+    /// host error.</summary>
+    public bool Measure(int position, long value, int rung)
     {
         if ((uint)rung >= (uint)radices.Length) throw new ArgumentOutOfRangeException(nameof(rung));
-        if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));
+        if (value < 0) return false;
         var remaining = value;
         for (var r = rung; r < radices.Length; r++) remaining /= radices[r];
-        if (remaining != 0) throw new ArgumentOutOfRangeException(nameof(value));
+        if (remaining != 0) return false;
         for (var r = rung; r < radices.Length; r++, value /= radices[r - 1])
             possible[r].Restrict(position, 1UL << (int)(value % radices[r]));
+        return true;
     }
 
     /// <summary>Narrows every rung to the digit its field holds.</summary>
@@ -303,8 +313,8 @@ public sealed class Ladder
         {
             var digits = possible[r].Values(position);
             if (digits == 0) return null;
-            low = checked(low * radices[r] + System.Numerics.BitOperations.TrailingZeroCount(digits));
-            high = checked(high * radices[r] + (63 - System.Numerics.BitOperations.LeadingZeroCount(digits)));
+            low = low * radices[r] + System.Numerics.BitOperations.TrailingZeroCount(digits);
+            high = high * radices[r] + (63 - System.Numerics.BitOperations.LeadingZeroCount(digits));
         }
         return (low, high);
     }

@@ -490,15 +490,17 @@ public static class Recognition
     /// <summary>The question that teaches most: values for every role but the
     /// target where the candidates' answers split them most evenly (the
     /// largest group that agrees is smallest). Null when they agree on every
-    /// input, so no question can tell them apart. The target's slot is −1.</summary>
+    /// input asked about, so no question can tell them apart. The target's
+    /// slot is −1. A domain too large to search whole is searched on a grid of
+    /// it, never refused: a question found there is real, if not the best.</summary>
     public static int[]? Probe(IReadOnlyList<Polynomial> candidates, int target)
     {
         ArgumentNullException.ThrowIfNull(candidates);
         if (candidates.Count < 2) return null;
         var roles = candidates[0].Roles;
         var inputs = Enumerable.Range(0, roles.Count).Where(r => r != target).ToArray();
-        var count = DomainUpTo(inputs.Select(r => roles[r].Size), 1 << 20);
-        if (count > 1 << 20) throw new ArgumentException("The input domain is too large to ask about exhaustively.", nameof(candidates));
+        var grid = Grid([.. inputs.Select(r => roles[r].Size)], 1 << 20);
+        var count = grid.Aggregate(1L, (n, g) => n * g.Length);
         int[]? best = null;
         var bestLargest = candidates.Count;
         for (long index = 0; index < count; index++)
@@ -506,7 +508,7 @@ public static class Recognition
             var values = new int[roles.Count];
             values[target] = -1;
             var rest = index;
-            foreach (var r in inputs) { values[r] = (int)(rest % roles[r].Size); rest /= roles[r].Size; }
+            for (var k = 0; k < inputs.Length; k++) { values[inputs[k]] = grid[k][rest % grid[k].Length]; rest /= grid[k].Length; }
             var largest = candidates.GroupBy(c => Predict(c, target, values) ?? -1).Max(g => g.Count());
             if (largest < bestLargest) { bestLargest = largest; best = values; }
         }
@@ -652,7 +654,10 @@ public static class Recognition
             v[free] = common;
             foreach (var (r, c) in pivots) v[c] = -m[r][free] * common / m[r][c];
             Reduce(v);
-            basis.Add([.. v.Select(x => checked((int)x))]);
+            // A relation whose weights do not fit an int is left out: the
+            // system is weaker, and what it no longer excludes is unexplained.
+            if (v.Any(x => x > int.MaxValue || x < int.MinValue)) continue;
+            basis.Add([.. v.Select(x => (int)x)]);
         }
         return basis;
     }
@@ -673,6 +678,21 @@ public static class Recognition
     }
 
     private static long Gcd(long a, long b) => b == 0 ? a : Gcd(b, a % b);
+
+    /// <summary>The values to ask about for each role: all of them where the
+    /// whole domain fits <paramref name="limit"/>; otherwise, for each role
+    /// larger than the grid allows, 0, 1 and evenly spaced values up to its
+    /// largest, as many as keep the grid within the limit. Too large a domain
+    /// is searched more coarsely, never refused (GojoSystemPrompt §9.3).</summary>
+    private static int[][] Grid(int[] sizes, long limit)
+    {
+        var m = 1;
+        while (DomainUpTo(sizes.Select(s => s < m + 1 ? s : m + 1), limit) <= limit && sizes.Any(s => s > m)) m++;
+        return [.. sizes.Select(s => s <= m
+            ? Enumerable.Range(0, s).ToArray()
+            : m == 1 ? [0]
+            : [.. Enumerable.Range(0, m).Select(j => j == 1 ? 1 : (int)((long)j * (s - 1) / (m - 1))).Distinct()])];
+    }
 
     /// <summary>The product of the sizes, or one more than <paramref name="limit"/>
     /// once it passes it, so a domain too large to enumerate is never read as a

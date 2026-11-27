@@ -100,10 +100,13 @@ public sealed class SynthesisUnitTests
         var open = ladder.Open(0);
 
         Assert.Equal(long.MaxValue, ladder.Capacity);
-        Assert.Throws<ArgumentOutOfRangeException>(() => ladder.Measure(0, long.MaxValue, 1));
+        Assert.False(ladder.Measure(0, long.MaxValue, 1));
+        Assert.False(ladder.Restrict(0, -1));
         Assert.Equal(open, ladder.Open(0));
         ladder.Restrict(0, long.MaxValue);
         Assert.Equal(long.MaxValue, ladder.Read(0));
         Assert.Throws<OverflowException>(() => ladder.PlaceValue(63));
+        // A ladder too wide to count is a host construction check, made when it is built.
+        Assert.Throws<ArgumentException>(() => new Ladder(store, 2, 64));
     }
 }

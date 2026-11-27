@@ -16,7 +16,7 @@ public sealed class PolynomialExactnessTests
     }
 
     [Fact]
-    public void ExactAdmissibilityDoesNotWrapWhileValueChecksItsFinalRange()
+    public void ExactAdmissibilityAndValueNeverWrap()
     {
         var count = Shape.Unary(2);
         var power = new Polynomial([count], (1, [64]));
@@ -24,11 +24,11 @@ public sealed class PolynomialExactnessTests
         Assert.True(power.Relation.Admits(0));
         Assert.False(power.Relation.Admits(2));
         Assert.False(power.Holds([2]));
-        Assert.Throws<OverflowException>(() => power.Value([2]));
+        Assert.Equal(System.Numerics.BigInteger.Pow(2, 64), power.Value([2]));
 
         var difference = new Polynomial([count, count], (1, [64, 0]), (-1, [0, 64]));
         Assert.True(difference.Relation.Admits(2, 2));
-        Assert.Equal(0, difference.Value([2, 2]));
+        Assert.True(difference.Value([2, 2]).IsZero);
     }
 
     [Fact]

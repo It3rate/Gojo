@@ -66,9 +66,9 @@ public sealed class Polynomial
     /// <summary>The highest total exponent of any term.</summary>
     public int Degree => terms.Max(t => t.Exponents.Sum());
 
-    /// <summary>The exact left side when it fits in a signed 64-bit integer.
-    /// Throws on an unrepresentable result.</summary>
-    public long Value(IReadOnlyList<int> values) => checked((long)ExactValue(values));
+    /// <summary>The exact left side at these role values; the relation holds
+    /// where it is 0. Exact at any size, so a large power never wraps.</summary>
+    public BigInteger Value(IReadOnlyList<int> values) => ExactValue(values);
 
     private BigInteger ExactValue(IReadOnlyList<int> values)
     {

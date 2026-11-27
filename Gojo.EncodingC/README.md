@@ -1043,6 +1043,31 @@ smaller laws wired together (see the glossary,
   The order in which they are taken up is in the
   [operations synthesis](../Gojo/docs/GojoOperationsSynthesis-2026-11.md).
 
+## What still throws
+
+The rule is in the canonical prompt's §9.3. A running structure, its input
+and its sizes never throw: what cannot happen becomes evidence, residue or a
+refusal result. What is left:
+
+| Kind | Where | Why it stays, for now |
+| --- | --- | --- |
+| States our own code says cannot occur | A law that is neither a transition nor a relation; a surface a workspace cannot sit on | A fault in the implementation, and the stop is how we learn of it |
+| Host construction | Shapes, fields, wirings, ports, sockets and ladders built inconsistently. Tables the host asks to build too large (`Law.MaxBits`, `LearnedTable`, gated `Flows`, `Counts.Tally`, `Settling`). A ladder too wide for a 64-bit count. Equation weights past an int. A place value past the top rung | Only the host builds structures today. Each becomes a refusal result once a structure can ask for the same thing |
+| Null arguments | About 150 `ThrowIfNull` checks | A forgotten argument, not an unselected value. Where null means unselected, the signature says so, as `cost` does in `Operations.Bind` |
+| Contained at a boundary | `Transport`: builder and index checks reached from damaged bits are caught there and refused as data | Debt, until builders return refusals themselves |
+
+What was converted, and what pins it:
+
+| Was | Now | Test |
+| --- | --- | --- |
+| A position retired within a step, then written | Contested taken together, written last within a row, skipped in order | `APositionRetiredWithinAStepIsEvidenceNeverACrash` |
+| Any throw while random networks run | The parity fuzz requires none, on the engine and on every path | `RandomNetworksRunAsTheEngineRunsThem` |
+| Bits that describe no machine | An empty machine and a `Refusal`: the bit reached, the value found, the most allowed | `BitsThatDescribeNoMachineAreRefusedTheSameWay` |
+| A reading a ladder cannot hold | `Measure` and `Restrict` return false and narrow nothing | `MeasurementRangeChecksDoNotWrapOrNarrowOnFailure` |
+| A polynomial value past 64 bits | Exact, as a `BigInteger` | `ExactAdmissibilityAndValueNeverWrap` |
+| A relation found with weights past an int | Left out; the system says what it no longer excludes | `Relations`, by construction |
+| A probe over a domain too large to search | A grid of it, searched more coarsely | `ADomainTooLargeToEnumerateIsNeverCheckedOverNothing` |
+
 ## Status against the consolidation roadmap
 
 | Step | Here |

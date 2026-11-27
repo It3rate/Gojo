@@ -28,7 +28,7 @@ public sealed class RecognitionTests
         var heap = Polynomial.Balance([Three, Three, Six], 1, 1, -1);
         Assert.True(new Polynomial([Three, Three, Six], (2, [1, 0, 0]), (1, [0, 1, 0]), (1, [0, 1, 0]), (-2, [0, 0, 1]), (0, [1, 1, 0])).Same(heap));
         Assert.True(new Polynomial([Three, Three, Six], (-1, [1, 0, 0]), (-1, [0, 1, 0]), (1, [0, 0, 1])).Same(heap));
-        Assert.Equal((1, 0L), (heap.Degree, heap.Value([2, 3, 5])));
+        Assert.Equal((1, System.Numerics.BigInteger.Zero), (heap.Degree, heap.Value([2, 3, 5])));
 
         var product = Polynomial.Product(3, 3);
         Assert.Equal(2, product.Degree);
@@ -495,7 +495,8 @@ public sealed class RecognitionTests
     /// one (from Sol's and Neon's final assessments). Four roles of 65,536
     /// values make 2^64 tuples, a product that wraps to zero in 64 bits:
     /// the system is returned unchecked rather than checked over nothing, and a
-    /// question over that domain is refused rather than answered with none.</summary>
+    /// question over that domain is asked on a grid of it, never refused: the
+    /// grid holds a first input of 1, where the two candidates differ.</summary>
     [Fact]
     public void ADomainTooLargeToEnumerateIsNeverCheckedOverNothing()
     {
@@ -507,6 +508,8 @@ public sealed class RecognitionTests
 
         Shape[] question = [wide, wide, wide, wide, Shape.Bit];
         Polynomial same = new(question, (1, [1, 0, 0, 0, 0]), (-1, [0, 0, 0, 0, 1])), zero = new(question, (1, [0, 0, 0, 0, 1]));
-        Assert.Throws<ArgumentException>(() => Recognition.Probe([same, zero], 4));
+        var asked = Recognition.Probe([same, zero], 4);
+        Assert.NotNull(asked);
+        Assert.Equal(1, asked[0]);
     }
 }

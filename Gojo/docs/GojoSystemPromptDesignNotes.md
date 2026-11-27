@@ -969,11 +969,20 @@ The removal is gradual. The first changes:
   there. Within a row, a change to a position's existence is written last. A
   row that reaches a position an earlier wave retired is skipped. The parity
   fuzz now requires that neither the engine nor any path throws.
-- **To follow:**
-  - transport loading returns a refusal as data;
-  - overflow saturates into residue;
-  - capacity limits refuse with the size they would need;
-  - the construction checks that remain are marked as host-only debt.
+- **Transport.** Bits that describe no machine give an empty machine and a
+  refusal: the bit reached, the value found and the most allowed.
+- **Sizes and overflow reachable from data.**
+  - A ladder reading it cannot hold returns false and narrows nothing.
+  - Polynomial values are exact.
+  - Recognition leaves out relations whose weights pass an int.
+  - A probe over a domain too large to search whole searches a grid of it.
+- **Marked as remaining** in the EncodingC README ("What still throws"):
+  - states our code says cannot occur;
+  - host construction checks, including tables the host asks to build too
+    large;
+  - null arguments;
+  - the transport boundary's containment of builder checks reached from
+    damaged bits.
 
 ## Prompt Shape
 

@@ -1234,17 +1234,19 @@ Therefore:
 - **Input never throws.** Bits, observations and witnesses that cannot be read
   are refused as data, saying which part, where and why, as numbers.
 - **Size never throws.** A number that does not fit is the last carry or
-  residue. A table or domain too large to hold is refused with how large it
-  would be. The request is left standing, so a coarser read or a ladder can be
-  chosen.
+  residue. When data or a running structure asks for a table or domain too
+  large to hold, the request is refused with how large it would be, or
+  answered more coarsely. Either way it is left standing, so a coarser read or
+  a ladder can be chosen.
 - **Null means unselected:** something may or may not exist, and there is no
   evidence yet. Where a signature accepts null, it says what unselected means
   there.
 
 Exceptions remain only for faults in the implementation itself:
 - **A state our own code says cannot occur.**
-- **An incoherent construction by the host,** such as a shape laid in the
-  wrong number of planes, while only the host builds structures.
+- **An incoherent or oversized construction by the host,** such as a shape
+  laid in the wrong number of planes or a law table the host asks to build
+  too large to hold, while only the host builds structures.
 
 These report a fault in the instrument, not a fact about what it models, and
 a loud stop is a reasonable way to learn about them. Each host construction

@@ -484,7 +484,9 @@ public static class Transport
         for (var i = 0; i < count; i++)
         {
             roles[i] = bits.Count(roleCount - 1);
-            weights[i] = checked((int)bits.Signed());
+            var weight = bits.Signed();
+            if (weight is < int.MinValue or > int.MaxValue) bits.Refuse(weight < 0 ? -(weight + 1) : weight, int.MaxValue); // a weight past an int
+            weights[i] = (int)weight;
         }
         return new PreservedSum(roles, weights);
     }
