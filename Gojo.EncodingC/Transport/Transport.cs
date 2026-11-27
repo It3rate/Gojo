@@ -24,10 +24,19 @@ namespace Gojo.EncodingC;
 /// together (<see cref="SaveLocals"/>) also keep which port fills each socket,
 /// as a local structure, a store in its order and a port of that store. No
 /// foreign position is ever written. A socket plugged into a port of the
-/// structure's own stores, as after a fusion, is saved as that port.</para></summary>
+/// structure's own stores, as after a fusion, is saved as that port.</para>
+/// <para><b>Bits that describe no machine are refused as data, never thrown</b>
+/// (GojoSystemPrompt §9.3). Loading returns an empty machine and a
+/// <see cref="Refusal"/> saying where the reading stopped and what it found
+/// there, so a caller can look further, give up, or start from the empty
+/// structure.</para></summary>
 public static class Transport
 {
     private const int MaxCount = 1 << 24;
+
+    /// <summary>What a refused law reads as while the rest of a refused load
+    /// runs out: one bit, nothing admitted. It is never part of a result.</summary>
+    private static readonly RelationLaw Placeholder = RelationLaw.FromPredicate([Shape.Bit], _ => false);
 
     /// <summary>Saves the engine's wirings in order, every store they reach,
     /// and any further stores given. Stores given come first, in the
@@ -71,57 +80,73 @@ public static class Transport
 
     /// <summary>Restores a machine: an engine with its wirings in order, and the
     /// stores in the order they were saved. Ports of other local structures
-    /// come back as empty sockets, in <see cref="Engine.Sockets"/>.</summary>
-    public static (Engine Engine, IReadOnlyList<Store> Stores) Load(byte[] machine) => Parse(machine, bits =>
+    /// come back as empty sockets, in <see cref="Engine.Sockets"/>.
+    /// Bits that describe no machine give an empty engine, no stores, and the
+    /// refusal.</summary>
+    public static Loaded Load(byte[] machine) => Parse(machine, bits =>
     {
-        var local = ReadLocal(bits);
+        var (engine, stores) = ReadLocal(bits);
         bits.End();
-        return local;
-    });
+        return new Loaded(engine, stores, null);
+    }, refused => new Loaded(new Engine(), [], refused));
 
     /// <summary>Restores local structures saved together, with every socket
-    /// plugged into the port it was connected to.</summary>
-    public static IReadOnlyList<(Engine Engine, IReadOnlyList<Store> Stores)> LoadLocals(byte[] machines) => Parse(machines, bits =>
+    /// plugged into the port it was connected to. Bits that describe no
+    /// machines give none, and the refusal.</summary>
+    public static LoadedLocals LoadLocals(byte[] machines) => Parse(machines, bits =>
     {
         var locals = new (Engine Engine, IReadOnlyList<Store> Stores)[bits.Count(MaxCount)];
-        for (var i = 0; i < locals.Length; i++) locals[i] = ReadLocal(bits);
+        for (var i = 0; i < locals.Length && bits.Refused is null; i++) locals[i] = ReadLocal(bits);
+        if (bits.Refused is not null) return new LoadedLocals([], null);
         foreach (var (engine, _) in locals)
             foreach (var socket in engine.Sockets)
             {
                 var filled = bits.Count(locals.Length);
                 if (filled == 0) continue;
                 var owner = locals[filled - 1].Stores[bits.Count(locals[filled - 1].Stores.Count - 1)];
+                if (bits.Refused is not null) break;
                 socket.Plug(owner.Ports[bits.Count(owner.Ports.Count - 1)]);
             }
         bits.End();
-        return locals;
-    });
+        return new LoadedLocals([.. locals.Select(l => new Loaded(l.Engine, l.Stores, null))], null);
+    }, refused => new LoadedLocals([], refused));
 
-    private static T Parse<T>(byte[] machine, Func<BitReader, T> read)
+    private static T Parse<T>(byte[] machine, Func<BitReader, T> read, Func<Refusal, T> refuse)
     {
         ArgumentNullException.ThrowIfNull(machine);
+        var bits = new BitReader(machine);
         try
         {
-            return read(new BitReader(machine));
+            var result = read(bits);
+            return bits.Refused is { } refused ? refuse(refused) : result;
         }
-        catch (Exception refused) when (refused is ArgumentException or OverflowException)
+        catch (Exception built) when (built is ArgumentException or OverflowException or IndexOutOfRangeException or NullReferenceException)
         {
-            // Bits that parse but describe something no builder would accept: a
-            // law that breaks its accounting, a port naming a plane twice.
-            throw new FormatException("The bits do not describe a machine.", refused);
+            // Bits that parse but describe something no builder accepts, such
+            // as a law that breaks its accounting or a port naming a plane
+            // twice, or that name a part a refused reading never produced. The
+            // builders' and indexes' own checks are host construction checks
+            // (§9.3); reached from data, they are contained here and refused
+            // as data. This containment is debt, until the builders return
+            // refusals themselves.
+            bits.Refuse(1, 0);
+            return refuse(bits.Refused!);
         }
     }
 
     private static (Engine Engine, IReadOnlyList<Store> Stores) ReadLocal(BitReader bits)
     {
+        (Engine, IReadOnlyList<Store>) Nothing() => (new Engine(), []);
         var stores = new Store[bits.Count(MaxCount)];
-        for (var i = 0; i < stores.Length; i++) stores[i] = ReadStore(bits);
-        var laws = new Law[bits.Count(MaxCount)];
-        for (var i = 0; i < laws.Length; i++) laws[i] = ReadLaw(bits, laws, i);
+        for (var i = 0; i < stores.Length && bits.Refused is null; i++) stores[i] = ReadStore(bits);
+        var laws = new Law[bits.Refused is null ? bits.Count(MaxCount) : 0];
+        for (var i = 0; i < laws.Length && bits.Refused is null; i++) laws[i] = ReadLaw(bits, laws, i);
+        if (bits.Refused is not null) return Nothing();
         var engine = new Engine().Hold(stores);
         var sockets = new List<Socket>();
         var wirings = new Wiring[bits.Count(MaxCount)];
-        for (var i = 0; i < wirings.Length; i++) wirings[i] = ReadWiring(bits, laws, stores, sockets);
+        for (var i = 0; i < wirings.Length && bits.Refused is null; i++) wirings[i] = ReadWiring(bits, laws, stores, sockets);
+        if (bits.Refused is not null) return Nothing();
         if (bits.Bit())
         {
             var steps = bits.Count(MaxCount);
@@ -273,11 +298,11 @@ public static class Transport
         var constants = new Dictionary<int, bool>();
         var constantCount = bits.Count(planes);
         for (var i = 0; i < constantCount; i++)
-            if (!constants.TryAdd(bits.Count(planes - 1), bits.Bit())) throw new FormatException("A constant plane is named twice.");
+            if (!constants.TryAdd(bits.Count(planes - 1), bits.Bit())) bits.Refuse(2, 1); // a constant plane named twice, where once is allowed
         var fills = new HashSet<int>();
         var fillCount = bits.Count(planes);
         for (var i = 0; i < fillCount; i++)
-            if (!fills.Add(bits.Count(planes - 1)) ) throw new FormatException("A filling plane is named twice.");
+            if (!fills.Add(bits.Count(planes - 1))) bits.Refuse(2, 1); // a filling plane named twice
         for (var p = 0; p < planes; p++)
         {
             if (constants.TryGetValue(p, out var value)) store.AddConstantPlane(value);
@@ -287,7 +312,7 @@ public static class Transport
         var states = bits.Count(2);
         var live = states > 0 ? bits.Bits(count) : Plane.Ones(count);
         var spare = states > 1 ? bits.Bits(count) : new Plane(count);
-        if (live.Overlaps(spare)) throw new FormatException("A position is saved as both spare and in use.");
+        if (live.Overlaps(spare)) bits.Refuse(2, 1); // a position saved as both spare and in use, where one state is allowed
         for (var position = 0; position < count; position++)
         {
             if (spare[position]) store.AddSpare();
@@ -392,9 +417,12 @@ public static class Transport
     {
         var transition = bits.Bit();
         if (!transition && bits.Bit())
-            return earlier[bits.Count(place - 1)] is TransitionLaw from
-                ? from.AsRelation()
-                : throw new FormatException("A relation is saved as a reading of a law that is not a transition.");
+        {
+            // A relation saved as a reading of a law that is not a transition.
+            if (earlier[bits.Count(place - 1)] is TransitionLaw from) return from.AsRelation();
+            bits.Refuse(1, 0);
+            return Placeholder;
+        }
         var roles = new Shape[bits.Count(64)];
         for (var r = 0; r < roles.Length; r++)
         {
@@ -402,10 +430,16 @@ public static class Transport
             var size = bits.Count(1 << 16);
             roles[r] = unary ? Shape.Unary(size - 1) : Shape.Binary(size);
         }
+        // A table too large to hold is refused with the size it would need,
+        // counted only up to just past the limit so the count cannot wrap.
         long tuples = 1;
-        foreach (var role in roles) tuples = checked(tuples * role.Size);
-        var bitCount = transition ? checked(tuples * tuples) : tuples;
-        if (bitCount > Law.MaxBits) throw new FormatException("A saved law table is too large.");
+        foreach (var role in roles) tuples = tuples > Law.MaxBits ? tuples : tuples * role.Size;
+        var bitCount = !transition ? tuples : tuples > Law.MaxBits ? tuples : tuples * tuples;
+        if (bitCount > Law.MaxBits || bits.Refused is not null)
+        {
+            bits.Refuse(bitCount, Law.MaxBits);
+            return Placeholder;
+        }
         var table = new byte[(bitCount + 7) / 8];
         if (transition && bits.Bit())
         {
@@ -415,7 +449,7 @@ public static class Transport
                 long after = 0;
                 for (var k = 0; k < width; k++)
                     if (bits.Bit()) after |= 1L << k;
-                if (after >= tuples) throw new FormatException("A saved law names a state it does not have.");
+                if (after >= tuples) { bits.Refuse(after, tuples - 1); return Placeholder; } // a state the law does not have
                 var bit = before + tuples * after;
                 table[bit / 8] |= (byte)(1 << (int)(bit % 8));
             }
@@ -618,4 +652,34 @@ public sealed record MachineSize(long StoreBits, long LawBits, long WiringBits)
     public long Bits => StoreBits + LawBits + WiringBits;
 
     public long Bytes => (Bits + 7) / 8;
+}
+
+/// <summary>Where bits stopped describing a machine: the bit the reading had
+/// reached, and a value found there against the most that was allowed, so the
+/// found value is always the larger. A table that is too large gives its
+/// size against <see cref="Law.MaxBits"/>; a count out of range gives the
+/// count against its limit; bits that end early give the bit wanted against
+/// the last bit there is. A thing named twice, or in two states at once, gives
+/// 2 against 1; a part no builder accepts gives 1 against 0.</summary>
+public sealed record Refusal(long Bit, long Found, long Allowed);
+
+/// <summary>A machine restored from bits, or an empty machine and the
+/// refusal where the bits describe none.</summary>
+public sealed record Loaded(Engine Engine, IReadOnlyList<Store> Stores, Refusal? Refused)
+{
+    public void Deconstruct(out Engine engine, out IReadOnlyList<Store> stores) => (engine, stores) = (Engine, Stores);
+}
+
+/// <summary>Local structures restored together, or none and the refusal.</summary>
+public sealed class LoadedLocals(IReadOnlyList<Loaded> locals, Refusal? refused) : IReadOnlyList<Loaded>
+{
+    public Refusal? Refused => refused;
+
+    public int Count => locals.Count;
+
+    public Loaded this[int index] => locals[index];
+
+    public IEnumerator<Loaded> GetEnumerator() => locals.GetEnumerator();
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

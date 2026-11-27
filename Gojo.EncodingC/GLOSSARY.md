@@ -220,7 +220,7 @@ the same job is done by ordinary structure, such as a plan or a probe.
 
 | Term | What it means | How it is in bits |
 | --- | --- | --- |
-| Transport *(host)* | Saving a machine as bits, and restoring it without the code that built it. A machine is one local structure; a foreign port becomes a socket | One run of bits: stores, laws, wirings, then the order where needed. No names, headers or fixed widths. Several structures together: a count, each structure, then for each socket nothing or (structure, store, port) |
+| Transport *(host)* | Saving a machine as bits, and restoring it without the code that built it. Bits that describe no machine give an empty machine and a refusal (the bit reached, what was found, what was allowed), never an exception. A machine is one local structure; a foreign port becomes a socket | One run of bits: stores, laws, wirings, then the order where needed. No names, headers or fixed widths. Several structures together: a count, each structure, then for each socket nothing or (structure, store, port) |
 | Number | Any whole number in the saved form | The Elias gamma code of n + 1: 0 is `1`, 1 is `010`, 2 is `011`, 3 is `00100` |
 | Machine size | How many bits a saved machine takes, split into stores, laws and wirings | `Transport.Measure` |
 | Lens *(host)* | Names and notation for people. The encoding never reads it | Outside the encoding |

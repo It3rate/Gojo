@@ -130,35 +130,52 @@ public sealed class TransportTests
     [Fact]
     public void BitsLeftOverAfterAMachineAreRefused()
     {
-        Assert.Throws<FormatException>(() => Transport.Load([0xFF]));
-        Assert.Empty(Transport.Load([0x07]).Stores);
+        var refused = Transport.Load([0xFF]);
+        Assert.NotNull(refused.Refused);
+        Assert.True(refused.Refused.Found > refused.Refused.Allowed);
+        Assert.Empty(refused.Stores);
+        Assert.Empty(refused.Engine.Wirings);
+        var empty = Transport.Load([0x07]);
+        Assert.Null(empty.Refused);
+        Assert.Empty(empty.Stores);
     }
 
     /// <summary>Bits can parse and still describe something no builder would
     /// make, such as a passage table with one bit flipped, which breaks its
     /// accounting. Every single-bit change to a saved machine either still
-    /// loads or is refused as malformed; nothing else escapes.</summary>
+    /// loads or is refused as data, with an empty machine and where the
+    /// reading stopped. Nothing is thrown, and a machine that loads steps
+    /// without throwing (GojoSystemPrompt §9.3).</summary>
     [Fact]
     public void BitsThatDescribeNoMachineAreRefusedTheSameWay()
     {
         var chain = new Store(2, 5);
         var passages = new Wiring(Flows.Passage, new Binding(chain, 0), new Binding(chain, 1), new Binding(chain, 0));
         passages.Add(0, 1, 2);
-        var saved = Transport.Save(new Engine().Add(passages));
+        var numbers = new Store(0, 2);
+        Ladder a = new(numbers, [5, 2]), b = new(numbers, [5, 2]), sum = new(numbers, [5, 3]);
+        var ladder = new Engine();
+        foreach (var column in Ladder.Add(a, b, sum, numbers.Live).Wirings) ladder.Add(column);
+        a.Restrict(0, 7);
+        b.Measure(0, 1, 1);
 
         var refused = 0;
+        foreach (var saved in new[] { Transport.Save(new Engine().Add(passages)), Transport.Save(ladder) })
         for (var bit = 0; bit < saved.Length * 8; bit++)
         {
             var damaged = (byte[])saved.Clone();
             damaged[bit / 8] ^= (byte)(1 << (bit % 8));
-            try
-            {
-                Transport.Load(damaged);
-            }
-            catch (FormatException)
+            var loaded = Transport.Load(damaged);
+            if (loaded.Refused is { } refusal)
             {
                 refused++;
+                Assert.True(refusal.Found > refusal.Allowed);
+                Assert.InRange(refusal.Bit, 0, damaged.Length * 8L);
+                Assert.Empty(loaded.Stores);
+                continue;
             }
+            loaded.Engine.Settle(4);
+            loaded.Engine.Settle(4, together: true);
         }
 
         Assert.True(refused > 0);

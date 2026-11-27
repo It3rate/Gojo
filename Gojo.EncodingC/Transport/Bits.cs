@@ -40,13 +40,27 @@ internal sealed class BitWriter
     public byte[] ToArray() => bytes.ToArray();
 }
 
+/// <summary>Reads bits back. Where they stop describing a machine it records
+/// the first refusal, and every read after it returns zeros, so a parse runs
+/// out without inventing structure and without throwing.</summary>
 internal sealed class BitReader(byte[] bytes)
 {
     private long position;
 
+    /// <summary>The first place the bits stopped describing a machine, or null.</summary>
+    public Refusal? Refused { get; private set; }
+
+    /// <summary>Records a refusal here, unless one is already recorded.</summary>
+    public void Refuse(long found, long allowed) => Refused ??= new Refusal(position, found, allowed);
+
     public bool Bit()
     {
-        if (position >= bytes.LongLength * 8) throw new FormatException("The bits end early.");
+        if (Refused is not null) return false;
+        if (position >= bytes.LongLength * 8)
+        {
+            Refuse(position, bytes.LongLength * 8 - 1); // the bits end early
+            return false;
+        }
         var bit = ((bytes[position / 8] >> (int)(position % 8)) & 1) != 0;
         position++;
         return bit;
@@ -56,7 +70,10 @@ internal sealed class BitReader(byte[] bytes)
     {
         var top = 0;
         while (!Bit())
-            if (++top > 63) throw new FormatException("A number is longer than 64 bits.");
+        {
+            if (Refused is not null) return 0;
+            if (++top > 63) { Refuse(top, 63); return 0; } // a number longer than 64 bits
+        }
         ulong n = 1;
         for (var k = 0; k < top; k++) n = (n << 1) | (Bit() ? 1UL : 0UL);
         return (long)(n - 1);
@@ -65,7 +82,7 @@ internal sealed class BitReader(byte[] bytes)
     public int Count(int limit = int.MaxValue)
     {
         var value = Number();
-        if (value < 0 || value > limit) throw new FormatException("A count is out of range.");
+        if (value < 0 || value > limit) { Refuse(value < 0 ? long.MaxValue : value, limit); return 0; } // a count out of range; a code past long reads as the largest
         return (int)value;
     }
 
@@ -85,7 +102,7 @@ internal sealed class BitReader(byte[] bytes)
     /// <summary>Only zero padding may follow the last field.</summary>
     public void End()
     {
-        while (position < bytes.LongLength * 8)
-            if (Bit()) throw new FormatException("Bits follow the end of the machine.");
+        while (Refused is null && position < bytes.LongLength * 8)
+            if (Bit()) Refuse(1, 0); // a bit set after the end of the machine
     }
 }
